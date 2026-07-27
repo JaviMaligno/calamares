@@ -1,0 +1,32 @@
+# El problema de los calamares — Nested Ring Packing
+
+Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidamiento recursivo en una sartén circular: teoremas de superincrecencia, irrelevancia de colocación, instancias gemelas y umbrales (aditivo = 1, geométrico conjeturado = constante de Tribonacci). Variante circular y de selección del Recursive Circle Packing Problem.
+
+## Estructura
+
+- `paper/main.tex` — borrador del artículo (inglés, listo para arXiv; compilar con `pdflatex main.tex` dos veces).
+- `docs/resultados.md` — documento de trabajo completo en español: modelo, lemas y teoremas con demostraciones, contraejemplos, veredictos de novedad y estrategia de publicación.
+- `docs/generalizaciones.md` — todas las generalizaciones anotadas, con estado y primeras preguntas.
+- `figures/` — divergencia área/número, diagrama de fases, contraejemplo n = 4.
+- `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, matplotlib).
+
+## Mapa de verificación (qué script respalda cada afirmación)
+
+- `sim.py` — solver de factibilidad (relajación física) + enumerador exacto; instancia de divergencia {9.0, 4.2, 4.2, 4.2}.
+- `viz.py`, `franja.py` — figuras de divergencia y diagrama de fases (umbrales exactos de n círculos iguales).
+- `voraz.py` — contraejemplos al voraz general en ambas métricas; tasa de fallo ~1 %.
+- `superinc.py` — teorema de superincrecencia: 120 instancias sin fallo de área; contraejemplo de número bajo superincrecencia {9.95, 5.0, 4.3, 0.6}.
+- `test_oblivious.py` — irrelevancia de colocación: best/worst/aleatoria idénticas en 100 instancias superincrecientes.
+- `minima.py`, `frontera.py`, `frontera2.py` — búsqueda de condición mínima; contraejemplos aditivos ({8, 5.5, 3.5, 2.8, 2.8} y ρ = 1.234); gadget geométrico al filo rescatado.
+- `refuta.py`, `figrefuta.py` — contraejemplo n = 4 ({10, 5, 4.9, 4.8}, R = 15, w = 0.3) con prueba de confinamiento y figura.
+- `espejo.py`, `gemelas.py` — instancias gemelas I1/I2 con prefijo compartido (teorema de imposibilidad para reglas de estado).
+- `minrho.py` — minimización de ρ en la familia; corroboración del suelo de Tribonacci.
+- `umbral.py` — familia aditiva con ρ → 1 (umbral aditivo exacto) y búsqueda geométrica bajo T (0 fallos).
+
+## Hoja de ruta
+
+1. Conjetura del umbral de Tribonacci: lema universal de reinserción por bolsillos de Descartes para ρ < T; rigor pleno del suelo de la familia (límite tangente).
+2. Pregunta de complejidad para reglas con input completo (oráculo de hermanos, número de consultas).
+3. Afilados en cuadrado y en R³ (los teoremas de superincrecencia ya valen; la constante análoga a T es abierta).
+4. Grosor variable, flexibilidad δ, inventarios infinitos (ver `docs/generalizaciones.md`).
+5. Pulir `paper/main.tex` (nombres, agradecimientos, apéndice con verificaciones) y subir a arXiv; destino: Operations Research Letters o Discrete Applied Mathematics.

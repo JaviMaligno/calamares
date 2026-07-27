@@ -1,0 +1,644 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+\newcommand{\lexmax}{\mathrm{lexmax}}
+\newcommand{\R}{\mathbb{R}}
+
+\title{Greedy Packing of Nested Rings:\\ Superadditivity, Placement Rules, and a Tribonacci Threshold}
+\author{[Author names]\thanks{Draft. Computational verification scripts for every numerical claim are available in the accompanying repository.}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Motivated by the humble act of frying squid rings, we study the packing of
+annuli (``rings'') with common width $w$ into a disk, where a ring may be
+nested inside the hole of a strictly larger ring; this is a circular-container,
+selection-oriented variant of the Recursive Circle Packing Problem arising in
+tube logistics. Two natural objectives -- the number of placed rings and their
+total contact area -- genuinely diverge, and we locate the divergence exactly:
+contact area is a \emph{superadditive} function of the radius, cardinality is
+not. Our main results concern the descending greedy algorithm. If the radii are
+\emph{superincreasing} (each exceeds the sum of all smaller ones), then
+(i) the selection greedy maximizes $\sum v(r_i)$ for \emph{every} monotone
+superadditive value $v$, and (ii) the placement rule is irrelevant: any greedy
+that puts each ring into an arbitrary feasible container attains the
+lexicographically maximal feasible set. Both statements hold for containers of
+arbitrary shape and in every dimension. We then prove sharpness: placement
+irrelevance holds unconditionally for $n\le 3$ rings but fails at $n=4$, via an
+explicit counterexample with a rigorous non-packability proof; moreover, two
+\emph{twin instances} sharing an identical prefix show that no deterministic
+placement rule that is a function of the observable state succeeds on all
+instances, and every randomized rule fails some instance with probability at
+least $1/2$. Measuring the violation of superincreasingness by
+$\rho=\max_i \bigl(\sum_{j>i} r_j\bigr)/r_i$, we show that in the additive
+relaxation of the model the threshold is exactly $\rho=1$, whereas the
+geometric four-ring counterexample family has infimum exactly the Tribonacci
+constant $T\approx 1.83929$ (the real root of $x^3=x^2+x+1$), with the
+Descartes ``pocket'' circle -- whose size threshold involves the golden ratio --
+as the obstruction. We conjecture that the geometric threshold equals $T$.
+We complement these results with a phase diagram for the divergence of the two
+objectives and a decoupling of the problem's hardness into a geometric layer
+(circle packing) and a combinatorial layer (subset sum), of which
+superincreasingness eliminates exactly the latter.
+\end{abstract}
+
+\section{Introduction}
+
+Drop a batch of squid rings into a frying pan and a natural optimization
+problem appears: place as many rings as possible flat on the pan -- or, if one
+cares about searing, maximize the total ring--pan contact area -- exploiting the
+fact that a sufficiently small ring fits inside the hole of a larger one.
+Abstracted, this is the problem of packing annuli of common width into a disk
+with recursive nesting, a circular-container relative of the
+\emph{Recursive Circle Packing Problem} (RCPP) introduced by Pedroso, Cunha and
+Tavares~\cite{PedrosoCunhaTavares2016} to model the ``telescoping'' of tubes in
+shipping containers, and attacked exactly by Gleixner, Maher, M\"uller and
+Pedroso~\cite{Gleixner2020}. That literature is algorithmic: it packs a fixed
+set of rings into as few rectangular containers as possible. Here we ask
+structural questions instead: which objectives does the natural greedy
+algorithm optimize, when is the choice of \emph{where} to put each ring
+irrelevant, and what conditions on the radii govern the answers.
+
+Our starting point is a classical phenomenon in one dimension. For bin packing
+with \emph{divisible} item sizes, Coffman, Garey and
+Johnson~\cite{CoffmanGareyJohnson1987} proved that First Fit Decreasing is
+optimal. No analogue was known for geometric packing of disks, let alone with
+nesting. We prove one, with \emph{superincreasing} radii (each radius exceeding
+the sum of all smaller ones) playing the role of divisibility, and we determine
+exactly how far the hypothesis can be relaxed -- with a surprising answer: the
+additive relaxation of the model has threshold exactly $1$, while the geometric
+model resists up to (conjecturally, exactly) the Tribonacci constant.
+
+\paragraph{Contributions.}
+(1)~A \emph{superadditivity dichotomy}: under superincreasing radii the
+selection greedy is optimal for every monotone superadditive value function of
+the radius -- contact area is one -- while cardinality (not superadditive) admits
+counterexamples even under superincreasing radii
+(Section~\ref{sec:superadd}).
+(2)~A \emph{placement-obliviousness theorem}: under superincreasing radii,
+\emph{any} rule for choosing among feasible containers yields the
+lexicographically maximal feasible set; the proof is container-shape- and
+dimension-agnostic (Section~\ref{sec:oblivious}).
+(3)~\emph{Sharpness}: placement obliviousness holds unconditionally for
+$n\le3$ rings and fails at $n=4$; twin instances with an identical prefix rule
+out every state-based placement rule, deterministic or randomized
+(Section~\ref{sec:sharp}).
+(4)~\emph{Thresholds}: the additive model has threshold exactly $\rho=1$;
+the geometric four-ring family has infimum exactly the Tribonacci constant
+$T$, and we conjecture the geometric threshold equals $T$
+(Section~\ref{sec:threshold}).
+(5)~A phase diagram for the divergence of the two objectives, and a
+decoupling of hardness into a geometric and a combinatorial layer
+(Sections~\ref{sec:divergence}--\ref{sec:hardness}).
+
+\section{Model and preliminaries}\label{sec:model}
+
+\begin{definition}[Rings and placements]
+Fix a width $w>0$. A \emph{ring} of outer radius $r>0$ is an annulus with
+inner (hole) radius $\max(0,\,r-w)$; if $r\le w$ it is a solid disk with no
+hole. Let $K\subset\R^d$ be a compact \emph{container} (the \emph{pan}; our
+motivating case is a disk of radius $R$ in the plane, $d=2$, but
+Theorems~\ref{thm:selection} and~\ref{thm:oblivious} hold for arbitrary $K$ and
+$d$, with rings read as spherical shells). A \emph{placement} of a subset $S$
+of the rings is a forest: each placed ring has as parent either the pan or a
+placed ring with $r_{\mathrm{child}}\le r_{\mathrm{parent}}-w$ (it sits inside
+the parent's hole); the children of a common parent must be packable as
+pairwise-disjoint balls (by outer radius) inside the parent's region --- $K$
+itself, or the hole ball of radius $r-w$. Feasibility is a property of the
+assignment (siblings may be rearranged freely inside their container).
+\end{definition}
+
+\begin{definition}[Objectives; superincreasing radii]
+For radii $r_1>r_2>\dots>r_n$, the \emph{contact area} of a placed ring is
+$a(r)=\pi\bigl(r^2-\max(0,r-w)^2\bigr)$; the two objectives are
+$N=|S|$ and $A=\sum_{i\in S}a(r_i)$ over feasible $S$. The radii are
+\emph{superincreasing} if $r_i>\sum_{j>i}r_j$ for all $i$; the violation is
+measured by $\rho=\max_i\bigl(\sum_{j>i}r_j\bigr)/r_i$.
+The \emph{lex-max} set $L$ is defined greedily: scanning $i=1,\dots,n$,
+include $i$ whenever $(L\cap\{1,\dots,i-1\})\cup\{i\}$ is feasible.
+Since feasibility is downward closed, $L$ is the unique lexicographically
+maximal feasible set, and the \emph{selection greedy} (add ring $i$ if the
+resulting \emph{set} remains feasible) computes it.
+A \emph{descending greedy with placement rule} processes rings in decreasing
+radius and places each into \emph{some} feasible container (the pan or the hole
+of an already placed ring), skipping it only if no container admits it.
+\end{definition}
+
+\begin{lemma}[Row lemma]\label{lem:row}
+Balls with radii $\rho_1,\dots,\rho_k$ satisfying $\sum_j\rho_j\le C$ pack
+inside a ball of radius $C$: place them tangent in a row along a diameter.
+Consequently, if a ball of radius $m$ is removed from any packing, any
+collection of balls of total radius at most $m$ can be inserted into the
+vacated ball without disturbing the rest.
+\end{lemma}
+\begin{proof}
+With centers on a diameter at coordinates
+$x_j=-C+2\sum_{l<j}\rho_l+\rho_j$, each satisfies $|x_j|\le C-\rho_j$.
+\end{proof}
+
+\section{The superadditivity dichotomy}\label{sec:superadd}
+
+\begin{lemma}\label{lem:superadd}
+The contact area $a$ is increasing and superadditive on $(0,\infty)$:
+$a(x)+a(y)\le a(x+y)$.
+\end{lemma}
+\begin{proof}
+Monotonicity is clear. For $x,y\ge w$:
+$\pi w(2x-w)+\pi w(2y-w)=\pi w\bigl(2(x{+}y)-2w\bigr)\le\pi w\bigl(2(x{+}y)-w\bigr)$.
+For $x,y\le w$ with $x+y\le w$: $x^2+y^2\le(x+y)^2$.
+For $x,y\le w<x+y$: $x^2+y^2\le w(x+y)\le 2w(x+y)-w^2$, using
+$x^2\le wx$, $y^2\le wy$ and $x+y\ge w$.
+For $x\le w\le y$: $\pi x^2+\pi w(2y-w)\le\pi w(2x+2y-w)$ since $x^2\le 2wx$.
+\end{proof}
+
+\begin{lemma}[Lexicographic dominance]\label{lem:lexdom}
+Let the radii be superincreasing and let $v$ be any positive, increasing,
+superadditive function of the radius. If $S,T$ are feasible sets and the first
+index (in decreasing radius order) at which they differ belongs to $S$, then
+$\sum_S v(r_i)\ge\sum_T v(r_i)$, with equality only if $T\subseteq S$.
+\end{lemma}
+\begin{proof}
+Let $i$ be the first differing index and $P=S\cap\{1,\dots,i-1\}
+=T\cap\{1,\dots,i-1\}$. If $T\setminus P=\emptyset$ then $T\subseteq S$ and
+monotonicity of the sum under inclusion suffices. Otherwise
+$T\setminus P\subseteq\{i{+}1,\dots,n\}$, so
+$\sum_{T\setminus P}r_j<r_i$ by superincreasingness, and by iterated
+superadditivity and monotonicity
+$\sum_{T\setminus P}v(r_j)\le v\bigl(\sum_{T\setminus P}r_j\bigr)<v(r_i)$.
+Hence $\sum_T v=\sum_P v+\sum_{T\setminus P}v<\sum_P v+v(r_i)\le\sum_S v$.
+\end{proof}
+
+\begin{theorem}[Selection greedy; arbitrary container, any dimension]
+\label{thm:selection}
+With superincreasing radii, the selection greedy computes the lex-max feasible
+set and therefore maximizes $\sum_{i\in S}v(r_i)$ for every positive increasing
+superadditive $v$; in particular it maximizes the contact area $A$.
+\end{theorem}
+\begin{proof}
+Feasibility is downward closed, so the selection greedy computes $L$
+(if it could add $i\notin L$, any maximal feasible extension would
+lexicographically beat $L$). Lemma~\ref{lem:lexdom} shows $L$ dominates every
+feasible set.
+\end{proof}
+
+\begin{proposition}[Cardinality is not rescued]\label{prop:count}
+There are superincreasing instances on which every descending greedy is
+suboptimal for $N$. Example (verified): pan $R=10$, $w=4.8$, radii
+$\{9.95,\,5.0,\,4.3,\,0.6\}$. Greedy places $\{9.95,5.0\}$ ($N=2$, optimal
+area), while $\{5.0,4.3,0.6\}$ packs in a row in the pan ($N=3$).
+The obstruction is structural: $N$ corresponds to $v\equiv1$, which is not
+superadditive, and Lemma~\ref{lem:lexdom} fails for it.
+\end{proposition}
+
+\section{Placement obliviousness under superincreasing radii}
+\label{sec:oblivious}
+
+\begin{theorem}[Placement rule irrelevance]\label{thm:oblivious}
+Let the radii be superincreasing (weakly: $r_i\ge\sum_{j>i}r_j$ suffices) and
+let $K\subset\R^d$ be an arbitrary container. Every descending greedy, with an
+\emph{arbitrary} rule for choosing among feasible containers, places exactly
+the lex-max feasible set. In particular best fit, worst fit and random
+placement are all optimal for every monotone superadditive objective.
+\end{theorem}
+\begin{proof}
+Let $F$ denote the greedy's placement just before processing ring $i$, with
+placed set $G$, and suppose $G\cup\{i\}$ is feasible via a witness placement
+$P$; it suffices to show some container of $F$ admits $i$ (the converse
+direction is immediate, and then greedy's set equals $L$ by induction as in
+Theorem~\ref{thm:selection}). The available containers -- the pan plus one hole
+per ring of $G$ -- coincide in $F$ and $P$, and in $P$ the smallest ring $i$
+parents nobody.
+
+Let $m$ be the largest ring of $G$ assigned different containers by $F$ and
+$P$ (if none, $P$ restricted to $G$ equals $F$ and $i$'s container in $P$
+witnesses admission). Let $u$ be $F$'s container for $m$ and $v$ be $P$'s.
+Since the greedy processes rings in decreasing order, when $F$ placed $m$ the
+occupants of $u$ were exactly the rings larger than $m$ that $F$ assigns to
+$u$; by maximality of $m$ these coincide with the rings larger than $m$ that
+$P$ assigns to $u$, and $F$ certified that this set together with $m$ packs in
+$u$. Build $P'$ from $P$: (i) every ring smaller than $m$ that $P$ kept in $u$
+is moved into the ball of radius $r_m$ vacated by $m$ inside $v$ -- they fit in
+a row by Lemma~\ref{lem:row}, because their total radius is at most
+$\sum_{j:\,r_j<r_m}r_j\le r_m$, and they touch nothing else in $v$;
+(ii) $m$ moves to $u$, joining exactly the larger-than-$m$ rings whose
+compatibility $F$ certified. Nesting constraints persist: $u$ and $v$ are the
+pan or holes of rings larger than $m$, which do not move, and every ring moved
+into $v$ is smaller than $r_m$, which fitted in $v$. Thus $P'$ is a feasible
+witness agreeing with $F$ on all rings of radius $\ge r_m$: the first
+disagreement strictly shrinks. Iterating at most $|G|$ times yields a witness
+$P^{*}$ agreeing with $F$ on all of $G$ and placing $i$ in some container
+$c^{*}$; since the occupants of $c^{*}$ in $P^{*}$ are exactly those in $F$,
+the greedy admits $i$ there.
+\end{proof}
+
+\begin{remark}
+The proof uses only (a) downward closure of packings, (b) the row lemma
+applied \emph{inside the vacated ball}, and (c) the total-radius bound from
+superincreasingness. Nothing refers to the shape of $K$ or the dimension:
+the theorem covers rectangular pans (griddles) and spherical shells nested in
+arbitrary containers in $\R^d$ verbatim. Computational corroboration of the
+strongest consequence: on $100$ random superincreasing instances, best-fit,
+worst-fit and random placement produced identical, optimal outcomes without
+exception.
+\end{remark}
+
+\section{Sharpness: the $n=4$ transition and twin instances}\label{sec:sharp}
+
+\begin{proposition}[$n\le3$, disk pan]\label{prop:n3}
+For a disk pan and arbitrary radii, every descending greedy on at most three
+rings places the lex-max set.
+\end{proposition}
+\begin{proof}
+The only branching point is ring $r_2$, when both the pan
+($r_1+r_2\le R$; two circles fit in a disk iff their radii sum to at most its
+radius) and the hole of $r_1$ ($r_2\le r_1-w$) admit it. Let $G$ be the
+greedy's set after $r_2$ and suppose $G\cup\{r_3\}$ is feasible via a witness
+$P$; we check that the greedy's placement $F$ admits $r_3$ in each of the four
+combinations of choices.
+If $F$ nested $r_2$: should $P$ nest it too, the containers of $F$ and $P$
+have identical occupants and $P$'s home for $r_3$ works in $F$; should $P$
+keep $r_2$ in the pan, then $r_1+r_2\le R$, so $r_1+r_3<R$ and $F$'s pan
+(holding only $r_1$) admits $r_3$.
+If $F$ kept $r_2$ in the pan: should $P$ do likewise, the placements agree;
+should $P$ nest $r_2$, then $r_2\le r_1-w$, hence $r_3<r_2\le r_1-w$ and $F$'s
+\emph{empty} hole of $r_1$ admits $r_3$. In every case $r_3$ is admitted, and
+rings outside the lex-max set are never admissible, so the greedy's set is the
+lex-max set.
+\end{proof}
+
+\begin{lemma}[Cap confinement]\label{lem:cap}
+Circles of radii $10,\,4.9,\,4.8$ do not pack in a disk of radius $15$.
+\end{lemma}
+\begin{proof}
+Write $c_A,c_X,c_Y$ for the centers, measured from the pan center. Then
+$|c_A|\le5$, $|c_X|\le10.1$, $|c_Y|\le10.2$, $|c_A-c_X|\ge14.9$,
+$|c_A-c_Y|\ge14.8$, $|c_X-c_Y|\ge9.7$. From $|c_A|+|c_X|\ge14.9$,
+$a:=|c_A|\in[4.8,5]$. Let $u=-c_A/|c_A|$. Then
+$c_X\!\cdot\!u=\bigl(|c_X-c_A|^2-|c_X|^2-a^2\bigr)/(2a)
+\ge(120-a^2)/(2a)\ge9.5$ (decreasing in $a$), so the transverse part of
+$c_X$ has norm at most $\sqrt{10.1^2-9.5^2}\le3.43$; similarly
+$c_Y\!\cdot\!u\ge(115-a^2)/(2a)\ge9.0$ with transverse norm at most
+$\sqrt{10.2^2-9^2}=4.8$. Hence
+$|c_X-c_Y|^2\le10.1^2+10.2^2-2(9.5\cdot9.0-3.43\cdot4.8)\le67.98$,
+i.e.\ $|c_X-c_Y|\le8.25<9.7$, a contradiction.
+\end{proof}
+
+\begin{theorem}[Failure at $n=4$]\label{thm:n4}
+Placement obliviousness fails for four rings: with $R=15$, $w=0.3$ and radii
+$\{10,\,5,\,4.9,\,4.8\}$ (all four form the lex-max set, witnessed by the pan
+pair $\{10,5\}$ at exact tangency and the hole pair $\{4.9,4.8\}$ filling the
+hole $9.7$ exactly), best fit nests the $5$, forces the $4.9$ into the pan,
+and blocks the $4.8$ everywhere by Lemma~\ref{lem:cap} and the exact two-circle
+conditions; worst fit places all four.
+\end{theorem}
+
+\begin{theorem}[Twin instances; no state-based rule]\label{thm:twins}
+Let $R=15$, $r_1=10$, $r_2=5$, $w=0.505$ (hole $9.495$), and
+\[
+I_1=\{10,\,5,\,4.99,\,4.50\},\qquad I_2=\{10,\,5,\,4.76,\,4.74\}.
+\]
+In $I_1$ the correct placement of the $5$ is the pan (best fit fails, worst
+fit succeeds); in $I_2$ it is the hole (worst fit fails, best fit succeeds).
+At the decisive step the observable state -- containers, capacities, occupants,
+incoming ring, $R$ and $w$ -- is identical in $I_1$ and $I_2$. Consequently no
+deterministic placement rule that is a function of the state attains the
+lex-max set on all instances, and for every randomized rule some instance is
+failed with probability at least $1/2$.
+\end{theorem}
+\begin{proof}[Proof ingredients]
+Feasibilities are two-circle-exact except for two triples, both settled
+rigorously: $\{10,4.99,4.50\}$ does not pack in the disk of radius $15$ (cap
+confinement as in Lemma~\ref{lem:cap} yields $|c_X-c_Y|\le8.80<9.49$), and the
+pan pair $\{10,5\}$ is diametrically rigid, whence no third circle of radius
+$\ge4.7$ fits (confinement again: for $z=4.76$,
+$|c_z-c_B|\le\sqrt{204.86-20\cdot8.8}\le5.37<9.76$). Packability of
+$\{10,4.76,4.74\}$ in radius $15$ is exhibited by an explicit boundary
+configuration (angles $180^\circ$, $30.8^\circ$, $-32.0^\circ$; all pairwise
+constraints verified). The key phenomenon enabling the twins is that
+triple-packability is \emph{not monotone in the sum}: the unbalanced pair
+$\{4.99,4.50\}$ (sum $9.49$) fails beside the $10$ while the balanced pair
+$\{4.76,4.74\}$ (sum $9.50$) succeeds.
+\end{proof}
+
+\begin{remark}
+The obstruction is informational, not existential: following any witness of
+the lex-max set is itself a legal greedy execution (a ring outside the lex-max
+set is never admissible), so some execution always succeeds; what cannot exist
+is a state-based rule that finds it. For rules with access to the full input
+the question becomes one of computational complexity and remains open
+(Section~\ref{sec:open}).
+\end{remark}
+
+\section{Thresholds: additive sharpness and the Tribonacci floor}
+\label{sec:threshold}
+
+\begin{theorem}[Additive model: threshold exactly $1$]\label{thm:additive}
+Replace sibling feasibility by its additive surrogate (a set of siblings fits
+iff their radii sum to at most the container capacity; exact for at most two
+circles and sufficient in general by Lemma~\ref{lem:row}). Then placement
+obliviousness holds iff $\rho\le1$: the proof of Theorem~\ref{thm:oblivious}
+applies verbatim when $\rho\le1$, and for every $\varepsilon>0$ there is a
+failing instance with $\rho\le1+\varepsilon$. Indeed, with $r_1$ fixed,
+$s=R-r_1\in\bigl(\tfrac{2}{3}(r_1-w),\,r_1-w\bigr]$, $w>s/2$, take
+$r_2=s$ and a pair $r_3\approx r_4\approx s/2$ with $r_3+r_4=s+\varepsilon$:
+the witness fills the pan with $\{r_1,r_2\}$ and the hole with the pair, while
+best fit nests $r_2$, sends $r_3$ to the pan, and blocks $r_4$ additively
+($r_1+r_3+r_4>R$; $r_2+r_4>r_1-w$; $r_4>r_2-w$). All ratios tend to $1$;
+verified instances reach $\rho=1.03$ and $1.02$.
+\end{theorem}
+
+\begin{proposition}[Geometric four-ring family: Tribonacci floor]
+\label{prop:tribo}
+Normalize $r_1=1$, $t=r_2$, and consider the $n=4$ counterexample family of
+Theorem~\ref{thm:n4} in the tangent limit $R=1+t$, $r_3\to t$, $w\to0$. Its
+two defining pressures are: non-packability of the pan triple requires
+$r_4$ to exceed the Descartes pocket of the tangent pair, giving
+$\rho_2:=(r_3+r_4)/r_2\ \ge\ 1+\frac{1+t}{1+t+t^2}$,
+while the witness pair must fit the hole, giving $\rho_2\le1/t$. These are
+compatible iff $t^3+t^2+t\le1$, and the family infimum of $\rho$ is attained
+where the bounds meet:
+\[
+\inf\rho \;=\; \frac{1}{t^{*}} \;=\; T,\qquad
+t^{*3}+t^{*2}+t^{*}=1,\qquad T^3=T^2+T+1,
+\]
+the \emph{Tribonacci constant} $T\approx1.83929$. (The pocket radius of
+circles $A\ge B$ at $R=A+B$ is exactly $AB(A{+}B)/(A^2{+}AB{+}B^2)$ by the
+Descartes circle theorem, and satisfies the curious dichotomy
+$\text{pocket}\ge A/2\iff A\le\varphi B$ with $\varphi$ the golden ratio,
+which quantifies why comparable large rings always rescue small ones.)
+Margin-constrained numerical optimization over the family corroborates the
+floor (best verified failing instance with strict margins: $\rho=1.906$;
+best absolute concrete failures: the twins, $\rho=1.898$).
+\end{proposition}
+
+\begin{conjecture}[Tribonacci threshold]\label{conj:tribo}
+In the geometric model, placement obliviousness holds for all instances with
+$\rho<T$ and fails for suitable instances at every $\rho>T$; that is, the
+geometric threshold is exactly the Tribonacci constant, and $T-1$ measures the
+extra protection that disk geometry (Descartes pockets) grants the greedy over
+additive bookkeeping. Evidence: the additive $\rho\to1$ family is rescued
+geometrically (its small rings are half the pocket scale); structured searches
+restricted to $\rho<1.8$ ($120$ five-ring instances, best and worst fit versus
+the lex-max oracle) and more than $900$ further runs produced no failure below
+$T$; and a mechanism analysis: pair certificates are additively exact (hence
+pocket-rescued), triple certificates yield exactly $T$, quadruple certificates
+require pocket-scale rings that cannot share any hole as a triple, and deep
+nesting reproduces the same scale-invariant algebra with the width only
+raising the floor.
+\end{conjecture}
+
+\section{The two objectives diverge: a phase diagram}\label{sec:divergence}
+
+Contact area behaves like $2\pi w\sum r_i$ minus a per-ring penalty
+$\pi w^2$; cardinality counts rings. With uniform width the hole of a large
+ring is large, so nesting usually reconciles the two objectives, and the
+divergence survives only marginally: small rings that fit $k$ times in the pan
+but $k-1$ times in the large ring's hole. The minimal instance is
+$R=10$, $w=1$, radii $\{9.0,\,4.2,\,4.2,\,4.2\}$: the area optimum is the
+$9.0$ with one nested $4.2$ ($N=2$, $A\approx76.7$), the cardinality optimum
+the three $4.2$'s ($N=3$, $A\approx69.7$). Figure~\ref{fig:phase} maps the
+divergence region for the family ``one large ring $b$ plus unlimited equal
+small rings $\rho$'': a staircase governed by the proved optimal thresholds
+for $n$ equal circles in a disk~\cite{GLNO1998,Pirl1969,Melissen1994,%
+Fodor1999,EkanayakeLaFountain2024}; its upper edge is exactly the three-circle
+threshold $0.4641R$.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.72\textwidth]{../figures/divergencia_calamares.png}\\[1ex]
+\includegraphics[width=0.72\textwidth]{../figures/franja_divergencia.png}
+\caption{Top: the minimal divergence instance; area optimum (left) versus
+cardinality optimum (right). Bottom: phase diagram of the divergence band for
+uniform width.}
+\label{fig:phase}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{../figures/contraejemplo_n4.png}
+\caption{The $n=4$ counterexample of Theorem~\ref{thm:n4}: best fit (left)
+nests the $5$ and loses the $4.8$; the witness (right), realized by worst fit,
+places all four rings.}
+\label{fig:n4}
+\end{figure}
+
+\section{Hardness decouples into two layers}\label{sec:hardness}
+
+If all radii lie within a band of width less than $w$, no nesting is possible
+and the decision problem ``do all rings fit?'' is exactly circle packing of the
+outer radii into a disk; deciding whether given circles fit into a square
+container is NP-hard~\cite{DemaineFeketeLang2010}, membership in NP being open
+because tight packings may require coordinates without short descriptions, and
+the disk-container version inherits the same status in the packing literature.
+Independently, even the \emph{additive surrogate} is weakly NP-hard: with a
+no-nesting radius band and pan capacity $R$, maximizing
+$A\approx2\pi w\sum r_i$ subject to $\sum r_i\le R$ is subset sum.
+Superincreasing radii eliminate exactly this combinatorial layer -- precisely
+as in the superincreasing knapsack~\cite{Gupte2016} -- leaving only the
+geometric one: by Theorem~\ref{thm:selection}, the area optimum then reduces
+to $n$ calls to a sibling-packing feasibility oracle. Useful blackboxes for
+the remaining geometry include the critical-density theorem for disks in a
+disk (any family of total area at most half the container's packs, and $1/2$
+is tight)~\cite{FeketeKeldenichScheffer2019} and Split
+Packing~\cite{FeketeMorrScheffer2019}.
+
+\section{Generalizations}\label{sec:general}
+
+The model invites several generalizations, all of which we record here both as
+context for the theorems (two of them hold with no extra work) and as a
+research program.
+
+\emph{(a) Container shape and dimension.} Theorems~\ref{thm:selection}
+and~\ref{thm:oblivious} are stated and proved for arbitrary containers in
+$\R^d$: rectangular griddles, and tubes/spherical shells in three dimensions
+-- the original RCPP setting -- are covered verbatim, because the exchange
+argument acts inside the vacated ball of the moved ring only. The sharpness
+results (Section~\ref{sec:sharp}) are disk-specific; their analogues for
+squares and in $\R^3$ are open.
+
+\emph{(b) Variable width.} With per-ring widths $w_i$, a large ring may have a
+small hole, which destroys the ``nesting rescue'' and should widen the
+divergence band of Section~\ref{sec:divergence} dramatically; the
+superadditivity lemma must be re-examined since $a$ depends on both $r$ and
+$w$.
+
+\emph{(c) Flexible rings.} Real squid rings bend: a ring partially resting on
+another still touches the pan outside the overlap, up to a lifted ramp of
+width $\delta$ around each overlap. The idealization $\delta=0$ (contact area
+equals the annulus minus the overlapped region) defines a continuous
+relaxation in which partial placements trade contact for cardinality; $\delta>0$
+penalizes overlaps by a dead band proportional to the overlap perimeter.
+
+\emph{(d) Infinite inventories.} Unlimited supplies (already used in the
+phase diagram) suggest degenerate limits: maximal nested chains
+$r,\,r-w,\,r-2w,\dots$, density questions, and Apollonian-type limit
+configurations.
+
+\emph{(e) Objectives.} Theorem~\ref{thm:selection} covers every monotone
+superadditive value; weighted counts and concave values fall outside and, by
+Proposition~\ref{prop:count}, genuinely so.
+
+\section{Open problems}\label{sec:open}
+
+\begin{openproblem}
+Prove Conjecture~\ref{conj:tribo}, plausibly via a universal reinsertion lemma
+for $\rho<T$ built from the Descartes-pocket rescue, and give a fully rigorous
+(non-idealized) proof of the family floor in
+Proposition~\ref{prop:tribo}.
+\end{openproblem}
+
+\begin{openproblem}
+Can a placement rule with access to the full input attain the lex-max set with
+polynomially many calls to a sibling-packing oracle, or is there a
+complexity-theoretic obstruction?
+\end{openproblem}
+
+\begin{openproblem}
+Characterize the divergence band of Section~\ref{sec:divergence} exactly;
+determine the approximability of the cardinality objective; and decide whether
+the additive surrogate admits a pseudopolynomial algorithm for integer radii.
+\end{openproblem}
+
+\appendix
+\section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
+
+All feasibilities in the twin instances are two-circle-exact except three
+facts, proved here; every numerical claim is also reproduced by the scripts in
+the repository (\texttt{code/gemelas.py}).
+
+\paragraph{(V1) $\{10,\,4.99,\,4.50\}$ does not pack in a disk of radius 15.}
+As in Lemma~\ref{lem:cap}: $|c_A|\le5$, $|c_X|\le10.01$, $|c_Y|\le10.5$,
+$|c_A-c_X|\ge14.99$, $|c_A-c_Y|\ge14.5$, $|c_X-c_Y|\ge9.49$; the first two
+give $a:=|c_A|\ge4.98$. With $u=-c_A/|c_A|$,
+$c_X\!\cdot\!u\ge(124.5-a^2)/(2a)\ge9.95$ and
+$c_Y\!\cdot\!u\ge(100-a^2)/(2a)\ge7.5$ (both decreasing in $a$, evaluated at
+$a=5$), with transverse norms at most
+$\sqrt{10.01^2-9.95^2}\le1.095$ and $\sqrt{10.5^2-7.5^2}\le7.349$.
+Hence $|c_X-c_Y|^2\le10.01^2+10.5^2-2(9.95\cdot7.5-1.095\cdot7.349)
+\le77.30$, so $|c_X-c_Y|\le8.80<9.49$.
+
+\paragraph{(V2) With the pan pair $\{10,5\}$ placed, no third circle of radius
+$z\in\{4.74,4.76\}$ fits.}
+From $|c_A|\le5$, $|c_B|\le10$ and $|c_A-c_B|\ge15$ the triangle inequality
+forces equalities: the pair is diametrically rigid, $c_B=10u$ for a unit
+vector $u$ and $c_A=-5u$. For a third circle of radius $z$:
+$c_z\!\cdot\!u\ge\bigl((10{+}z)^2-(15{-}z)^2-25\bigr)/10$, which equals $8.8$
+for $z=4.76$ and $8.7$ for $z=4.74$; then
+$|c_z-c_B|^2=|c_z|^2-20\,c_z\!\cdot\!u+100\le(15-z)^2-20\,c_z\!\cdot\!u+100$,
+giving $|c_z-c_B|\le5.38<9.76$ and $\le5.60<9.74$ respectively.
+
+\paragraph{(V3) $\{10,\,4.76,\,4.74\}$ packs in a disk of radius 15.}
+Explicit boundary configuration:
+$c_A=(-5,0)$,
+$c_X=10.24(\cos30.77^\circ,\ \sin30.77^\circ)\approx(8.799,\,5.238)$,
+$c_Y=10.26(\cos32.02^\circ,\ -\sin32.02^\circ)\approx(8.700,\,-5.440)$.
+Then $|c_A|=5$, $|c_X|=10.24=15-4.76$, $|c_Y|=10.26=15-4.74$ (all inside);
+$|c_A-c_X|=14.76$ and $|c_A-c_Y|=14.74$ (exact tangencies, chosen via the
+boundary angles); and $|c_X-c_Y|\approx10.68\ge9.50$ with ample margin.
+
+\paragraph{(V4) Hole facts.} The hole of the $10$ has radius $9.495$;
+$4.99+4.50=9.49\le9.495$ (the pair fits, two-circle exact) while
+$4.76+4.74=9.50>9.495$ and $5+4.50=9.50>9.495$ (blocked, two-circle exact).
+
+\begin{thebibliography}{99}
+
+\bibitem{PedrosoCunhaTavares2016}
+J.~P. Pedroso, S.~Cunha, J.~N. Tavares.
+Recursive circle packing problems.
+\emph{International Transactions in Operational Research} 23(1--2):355--368,
+2016.
+
+\bibitem{Gleixner2020}
+A.~Gleixner, S.~J. Maher, B.~M\"uller, J.~P. Pedroso.
+Price-and-verify: a new algorithm for recursive circle packing using
+Dantzig--Wolfe decomposition.
+\emph{Annals of Operations Research} 284(2):527--555, 2020.
+
+\bibitem{CoffmanGareyJohnson1987}
+E.~G. Coffman~Jr., M.~R. Garey, D.~S. Johnson.
+Bin packing with divisible item sizes.
+\emph{Journal of Complexity} 3(4):406--428, 1987.
+
+\bibitem{DemaineFeketeLang2010}
+E.~D. Demaine, S.~P. Fekete, R.~J. Lang.
+Circle packing for origami design is hard.
+In \emph{Origami$^5$: Proc.\ 5th International Conference on Origami in
+Science, Mathematics and Education}, A K Peters, 2011, pp.\ 609--626.
+
+\bibitem{FeketeKeldenichScheffer2019}
+S.~P. Fekete, P.~Keldenich, C.~Scheffer.
+Packing disks into disks with optimal worst-case density.
+In \emph{Proc.\ 35th International Symposium on Computational Geometry (SoCG)},
+LIPIcs 129, 35:1--35:19, 2019.
+
+\bibitem{FeketeMorrScheffer2019}
+S.~P. Fekete, S.~Morr, C.~Scheffer.
+Split packing: algorithms for packing circles with optimal worst-case density.
+\emph{Discrete \& Computational Geometry} 61(3):562--594, 2019.
+
+\bibitem{GLNO1998}
+R.~L. Graham, B.~D. Lubachevsky, K.~J. Nurmela, P.~R.~J. \"Osterg\aa rd.
+Dense packings of congruent circles in a circle.
+\emph{Discrete Mathematics} 181:139--154, 1998.
+
+\bibitem{Pirl1969}
+U.~Pirl.
+Der Mindestabstand von $n$ in der Einheitskreisscheibe gelegenen Punkten.
+\emph{Mathematische Nachrichten} 40:111--124, 1969.
+
+\bibitem{Melissen1994}
+H.~Melissen.
+Densest packings of eleven congruent circles in a circle.
+\emph{Geometriae Dedicata} 50:15--25, 1994.
+
+\bibitem{Fodor1999}
+F.~Fodor.
+The densest packing of 19 congruent circles in a circle.
+\emph{Geometriae Dedicata} 74:139--145, 1999.
+
+\bibitem{EkanayakeLaFountain2024}
+D.~B. Ekanayake, D.~J. LaFountain.
+Tight partitions for packing circles in a circle.
+\emph{Italian Journal of Pure and Applied Mathematics} 51:115--136, 2024.
+
+\bibitem{Edmonds1971}
+J.~Edmonds.
+Matroids and the greedy algorithm.
+\emph{Mathematical Programming} 1:127--136, 1971.
+
+\bibitem{KorteHausmann1978}
+B.~Korte, D.~Hausmann.
+An analysis of the greedy heuristic for independence systems.
+\emph{Annals of Discrete Mathematics} 2:65--74, 1978.
+
+\bibitem{Gupte2016}
+A.~Gupte.
+Convex hulls of superincreasing knapsacks and lexicographic orderings.
+\emph{Discrete Applied Mathematics} 201:150--163, 2016.
+
+\bibitem{Litvinchev2014}
+I.~Litvinchev, L.~Infante, E.~L. Ozuna.
+Approximate circle packing in a rectangular container: integer programming
+formulations and valid inequalities.
+In \emph{Computational Logistics (ICCL 2014)}, LNCS 8760, Springer, 2014,
+pp.\ 47--60.
+
+\end{thebibliography}
+
+\end{document}
