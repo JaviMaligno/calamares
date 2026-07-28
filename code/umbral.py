@@ -24,17 +24,6 @@ def rho(radii):
     rs = sorted(radii, reverse=True)
     return max(sum(rs[i+1:])/rs[i] for i in range(len(rs)-1))
 
-print("FAMILIA ADITIVA (r1=10): fallos con rho -> 1")
-for s, w in ((6.0, 3.5), (5.1, 2.6), (5.02, 2.52), (5.004, 2.503)):
-    R = 10 + s
-    r3 = round(s/2 + 0.06, 3); r4 = round(s/2 + 0.04, 3)
-    radii = [10.0, s, r3, r4]
-    ok = (r4 > s - w and r3 + r4 <= 10 - w and s + r4 > 10 - w and s <= 10 - w
-          and 10 + r3 + r4 > R)
-    nb = greedy_add(radii, w, R, "best")
-    print(f"  s={s} w={w}: rho={rho(radii):.4f}  condiciones={ok}  "
-          f"best coloca {nb}/4  (testigo coloca 4)")
-
 # ---------- (2) geometrico: busqueda bajo Tribonacci ----------
 CACHE = {}
 def feas(rs, Rc):
@@ -77,22 +66,35 @@ def lexmax_geo(radii, w, R):
         if sf(L + [i]): L.append(i)
     return frozenset(L)
 
-print("\nBUSQUEDA GEOMETRICA rho < 1.80 (n=5, 120 instancias estructuradas):")
-rng = np.random.default_rng(17)
-fails = 0; tried = 0
-while tried < 120:
-    r1 = 10.0
-    r2 = float(rng.uniform(3.5, 6.5))
-    rest = sorted([float(rng.uniform(0.6, r2 - 0.05)) for _ in range(3)], reverse=True)
-    radii = [r1, round(r2,2)] + [round(x,2) for x in rest]
-    if rho(radii) >= 1.80: continue
-    w = round(float(rng.uniform(0.3, 3.0)), 2)
-    R = round(float(rng.uniform(10.4, r1 + r2 + 0.6)), 2)
-    tried += 1
-    L = lexmax_geo(radii, w, R)
-    for rule in ("best", "worst"):
-        S = greedy_geo(radii, w, R, rule)
-        if S != L:
-            fails += 1
-            print(f"  !! fallo rho={rho(radii):.3f} w={w} R={R} radios={radii} regla={rule}")
-print(f"  fallos con rho < 1.80: {fails} de {tried} instancias x2 reglas")
+
+if __name__ == "__main__":
+    print("FAMILIA ADITIVA (r1=10): fallos con rho -> 1")
+    for s, w in ((6.0, 3.5), (5.1, 2.6), (5.02, 2.52), (5.004, 2.503)):
+        R = 10 + s
+        r3 = round(s/2 + 0.06, 3); r4 = round(s/2 + 0.04, 3)
+        radii = [10.0, s, r3, r4]
+        ok = (r4 > s - w and r3 + r4 <= 10 - w and s + r4 > 10 - w and s <= 10 - w
+              and 10 + r3 + r4 > R)
+        nb = greedy_add(radii, w, R, "best")
+        print(f"  s={s} w={w}: rho={rho(radii):.4f}  condiciones={ok}  "
+              f"best coloca {nb}/4  (testigo coloca 4)")
+
+    print("\nBUSQUEDA GEOMETRICA rho < 1.80 (n=5, 120 instancias estructuradas):")
+    rng = np.random.default_rng(17)
+    fails = 0; tried = 0
+    while tried < 120:
+        r1 = 10.0
+        r2 = float(rng.uniform(3.5, 6.5))
+        rest = sorted([float(rng.uniform(0.6, r2 - 0.05)) for _ in range(3)], reverse=True)
+        radii = [r1, round(r2,2)] + [round(x,2) for x in rest]
+        if rho(radii) >= 1.80: continue
+        w = round(float(rng.uniform(0.3, 3.0)), 2)
+        R = round(float(rng.uniform(10.4, r1 + r2 + 0.6)), 2)
+        tried += 1
+        L = lexmax_geo(radii, w, R)
+        for rule in ("best", "worst"):
+            S = greedy_geo(radii, w, R, rule)
+            if S != L:
+                fails += 1
+                print(f"  !! fallo rho={rho(radii):.3f} w={w} R={R} radios={radii} regla={rule}")
+    print(f"  fallos con rho < 1.80: {fails} de {tried} instancias x2 reglas")

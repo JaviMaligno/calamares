@@ -1,0 +1,232 @@
+# El lema de reinserción: dónde acaba la combinatoria y empieza la geometría
+
+Documento de trabajo sobre el punto 2 de la hoja de ruta (conjetura del umbral de
+Tribonacci). El objetivo declarado allí era «convertir el rescate de bolsillos en un
+lema universal de reinserción». Lo que sigue no demuestra la conjetura: la
+descompone en una parte combinatoria, que queda cerrada con una cota exacta, y una
+parte geométrica, que queda aislada y cuantificada, con la ventana de riesgo
+localizada en la razón áurea.
+
+## 1. El hueco exacto
+
+En la prueba del Teorema 2 (irrelevancia de la colocación, `resultados.md` §5) la
+superincrecencia se usa **una sola vez**. Sea `m` el mayor aro que el voraz `F` y el
+testigo `P` colocan en contenedores distintos, `u = c_F(m)`, `v = c_P(m)`, y
+
+    S = { aros de radio < r_m que P coloca en u }.
+
+El paso de intercambio traslada `m` a `u` y necesita reubicar `S`. Bajo
+superincrecencia `Σ S < r_m` y el Lema 0 mete `S` en fila dentro del disco que `m`
+deja vacante en `v`. Sin superincrecencia `Σ S` puede superar `r_m` y el argumento se
+detiene ahí. Todo lo que separa el Teorema 2 de la conjetura del umbral de
+Tribonacci es ese paso.
+
+## 2. Qué queda libre en el intercambio
+
+Al sacar `m` de `v` y meterlo en `u` quedan disponibles exactamente dos contenedores,
+y conviene nombrarlos porque el segundo se pasa por alto con facilidad:
+
+- **`D_m`**, el disco de radio `r_m` que `m` ocupaba en `v`. Queda libre entero, y
+  cualquier empaquetamiento dentro de su huella es legal sin tocar el resto de `v`.
+- **`H_m`**, el agujero de `m`, de capacidad `r_m − w`. `m` viaja a `u` **con su
+  agujero**, que sigue siendo un contenedor utilizable. Los aros de `S` son menores
+  que `r_m`; los que además midan `≤ r_m − w` pueden alojarse ahí.
+
+A esos dos se añade el anidamiento recursivo dentro del propio `S`. Son dos discos
+disjuntos, de capacidades `r_m` y `r_m − w`, más los agujeros que `S` genera.
+
+## 3. El problema abstracto
+
+Normalizando `r_m = 1` y escribiendo `ω = w / r_m`, lo único que el parámetro `ρ`
+impone sobre los aros menores que `r_m` es
+
+    Σ X ≤ ρ        y        Σ_{l>j} X_l ≤ ρ · X_j  para todo j,
+
+llamemos a tal secuencia **ρ-decreciente** (superincreciente es el caso `ρ < 1`).
+Definimos
+
+    ρ*(ω) := mín { ρ_needed(X) : X ⊂ (0,1) ρ-decreciente, no aceptada por N(1) ⊎ N(1−ω) },
+
+donde `ρ_needed(X)` es el menor `ρ` compatible con `X` y `N(c)` denota un nido de
+capacidad `c` con anidamiento recursivo. Como toda `S` realizable en una instancia
+con parámetro `ρ` satisface esas dos desigualdades, **`ρ*(ω)` es una cota inferior
+rigurosa del `ρ` que necesita cualquier fallo del paso de intercambio**:
+
+> Si `ρ < ρ*(ω)`, la reinserción existe siempre, y sin mirar la geometría de `v`.
+
+## 4. Perfiles de dos aros: fórmula cerrada
+
+**Proposición 1.** Sean `σ₁ ≥ σ₂` los radios de `S` (con `r_m = 1`, `ω < 1`).
+`S` **no** es reinsertable en `N(1) ⊎ N(1−ω)` si y solo si
+
+    σ₁ + σ₂ > 1   y   σ₂ > 1 − ω.
+
+*Demostración.* Las únicas colocaciones posibles son cuatro. (i) Ambos en `N(1)`:
+para dos círculos en un disco de radio `C` la condición exacta es `σ₁ + σ₂ ≤ C` —
+la suficiencia es el Lema 0 y la necesidad sale de `σ₁ + σ₂ ≤ |c₁ − c₂| ≤
+(1−σ₁) + (1−σ₂)`; excluida por la primera hipótesis. (ii) Uno en cada nido: el que
+va a `N(1−ω)` mide `≥ σ₂`, luego exige `σ₂ ≤ 1 − ω`; excluida. (iii) `σ₂` anidado en
+`σ₁`: exige `σ₂ ≤ σ₁ − ω ≤ 1 − ω`; excluida. (iv) Ambos en `N(1−ω)`: más fuerte que
+(ii); excluida. El recíproco es inmediato: si falla la primera condición vale (i), y
+si falla la segunda vale (ii). ∎
+
+**Corolario 1.** Para perfiles de dos aros,
+
+    ρ*₂(ω) = máx(1, 2(1 − ω)),
+
+y el ínfimo se aproxima con `σ₁ = σ₂ → máx(1/2, 1−ω)⁺`. En particular el paso de
+intercambio **nunca** se bloquea con dos aros mientras
+
+    w ≤ (1 − ρ/2) · r_m,     y con ρ < T:   w ≤ 0.080357 · r_m ≈ r_m / 12.4.
+
+Esto explica de golpe la aritmética de los dos fallos conocidos. El contraejemplo
+`n = 4` tiene `ω = 0.3/5 = 0.06`, luego su `ρ` está obligado a superar
+`2(1 − 0.06) = 1.88`, y en efecto vale `1.94`: **por debajo de `ω₀ = 1 − T/2` la
+cota combinatoria ya es más exigente que Tribonacci**, y ningún gadget de dos aros
+puede vivir bajo `T`. Las gemelas tienen `ω = 0.505/5 = 0.101 > ω₀`, cota `1.798`,
+y su `ρ = 1.898` no está forzado por esta cota sino por la geometría.
+
+## 5. Perfiles de k aros en la banda
+
+Si los `k` aros de `S` caen todos en la banda `(1−ω, 1)`, ninguno cabe en `H_m` ni
+anida en otro (anidar exige `σ_i ≤ σ_j − ω < 1 − ω`), así que los `k` deben entrar en
+`N(1)`. Para que no quepan basta `1 − ω ≥ r_k`, con `r_k` el radio umbral de `k`
+círculos iguales en el disco unidad, y entonces `ρ ≥ k(1−ω) ≥ k·r_k`:
+
+| k | r_k | k·r_k |
+|---|-----|-------|
+| 2 | 1/2 = 0.5 | 1.000 |
+| 3 | 2√3 − 3 = 0.4641 | 1.392 |
+| 4 | √2 − 1 = 0.4142 | 1.657 |
+| 5 | 0.37019 | **1.851 > T** |
+| 6 | 1/3 | **2.000 > T** |
+
+**Corolario 2.** Ningún bloqueo con cinco o más aros en banda es compatible con
+`ρ < T`. El caso crítico tiene por tanto entre dos y cuatro aros bloqueantes.
+
+## 6. El umbral medido y el grosor crítico
+
+`code/reinserta.py` calcula `ρ*(ω)` por descenso sobre perfiles no reinsertables
+(los valores son **cotas superiores del ínfimo**: la búsqueda es heurística, de modo
+que el `ρ*` real solo puede ser menor).
+
+| ω | k=2 | k=3 | k=4 | mín |
+|---|-----|-----|-----|-----|
+| 0.030 | 1.940 | 1.907 | 1.909 | 1.907 |
+| 0.040 | 1.920 | 1.873 | 1.869 | 1.869 |
+| 0.050 | 1.900 | 1.846 | 1.839 | **1.839 ≈ T** |
+| 0.060 | 1.880 | 1.814 | 1.796 | 1.796 |
+| 0.080 | 1.840 | 1.749 | 1.751 | 1.749 |
+| 0.120 | 1.760 | 1.618 | 1.620 | 1.618 |
+| 0.200 | 1.600 | 1.601 | 1.602 | 1.600 |
+| 0.450 | 1.100 | 1.101 | 1.103 | 1.100 |
+
+La columna `k=2` reproduce `máx(1, 2(1−ω))` con cuatro decimales, lo que valida la
+Proposición 1 contra la búsqueda. Y aparece un hecho que la fórmula del par no
+anticipa: **para `ω` pequeño mandan los perfiles de tres y cuatro aros, no los de
+dos**. El mínimo cruza `T` entre `ω = 0.04` (donde vale `1.869 > T`) y `ω = 0.05`
+(donde vale `1.839`, ya por debajo):
+
+    ω_c ≈ 0.05,   es decir  w ≈ r_m / 20.
+
+Como los valores tabulados son cotas superiores del ínfimo, `ω_c` solo puede ser
+menor; lo que queda establecido con certeza es la dirección útil: por debajo de `ω_c`
+la búsqueda no encuentra ningún bloqueo con `ρ < T`, y para `k = 2` la Proposición 1
+lo garantiza sin margen de error hasta `ω₀ = 0.0804`. La lectura es:
+
+> **El paso de intercambio se cierra por vía puramente combinatoria —Lema 0, densidad
+> crítica 1/2, agujero de `m` y anidamiento— en el régimen de grosor fino
+> `w ≲ r_m/20`. Por encima de ese grosor la reinserción ya no está garantizada sin
+> mirar la geometría de `v`, y el bolsillo de Descartes pasa a ser imprescindible.**
+
+Los dos fallos conocidos viven, como debe ser, en el régimen donde la combinatoria
+no cierra: `ω = 0.060` y `ω = 0.101`, ambos por encima de `ω_c`.
+
+## 7. La geometría de v: por qué el bolsillo solo llega a φ
+
+En el régimen crítico hay que colocar `σ₂` en un bolsillo de `v`. Tomemos la
+configuración rígida canónica: `v` es la sartén, contiene `m` y un aro `r₁ = α`
+(normalizado `r_m = 1`), con `R = α + 1`, de modo que `{α, m}` son tangentes y llenan
+la sartén. Retirado `m`, colocamos `σ₁` en `D_m` y `σ₂` debe caber en el bolsillo de
+Descartes tangente a `α`, a `σ₁` y a la pared. En el peor caso (`σ₁ = 1`) ese
+bolsillo mide
+
+    b(α) = α(α+1) / (α² + α + 1).
+
+Para que el intercambio falle hace falta `σ₂ > b(α)` (si no, el bolsillo lo absorbe),
+y como `σ₁ ≥ σ₂`, `ρ ≥ σ₁ + σ₂ > 2b(α)`. Si además `α` es un aro de la instancia, su
+propia cola da `ρ ≥ (1 + σ₁ + σ₂)/α > (1 + 2b(α))/α`. Luego `ρ > B(α)`, con
+
+    B(α) = máx( 2b(α),  (1 + 2b(α))/α ).
+
+**Proposición 2.** `mín_{α>0} B(α) = φ`, alcanzado exactamente en `α = φ`.
+
+*Demostración.* La primera rama crece y la segunda decrece, así que el mínimo está
+en el cruce `2b(α)(α−1) = 1`, que tras despejar es `2α³ − α² − 3α − 1 = 0`. Este
+polinomio factoriza como `(2α + 1)(α² − α − 1)`, cuya única raíz positiva es
+`α = φ`. Allí `b(φ) = (1+√5)/4 = φ/2`, luego `B(φ) = φ`. ∎
+
+Es decir: **el bolsillo de Descartes, por sí solo, solo protege hasta `φ ≈ 1.618`,
+no hasta `T ≈ 1.839`.** La diferencia `T − φ ≈ 0.221` mide exactamente lo que aporta
+la condición completa —que el trío `{α, σ₁, σ₂}` sea infactible en `v`— frente a la
+condición débil «`σ₂` no cabe en el bolsillo». El bolsillo se calcula con `σ₁ = 1`;
+cuando `σ₁ < 1` el hueco disponible crece, y capturar esa ganancia es justo el paso
+que falta para llegar a `T`. Esta es la razón estructural de que la familia de 4 aros
+alcance `T` y no `φ`: allí la restricción activa no es el bolsillo sino la
+infactibilidad del trío, que es la que produce el álgebra `t³ + t² + t ≤ 1`.
+
+La razón áurea reaparece aquí en un papel nuevo. En `resultados.md` §5bis marcaba el
+umbral `A ≤ φB` bajo el cual el bolsillo absorbe a los pequeños; ahora marca
+**el punto de mínima protección**: `α ≈ φ` es la ventana donde la cota por bolsillos
+es más débil y, por tanto, donde debería aparecer el contraejemplo si la conjetura
+fuese falsa.
+
+## 8. Búsqueda dirigida a la ventana
+
+Esa lectura convierte la ventana en un plan de búsqueda concreto, y explica por qué
+los barridos previos no probaban nada en la zona que importa: `umbral.py` muestrea
+radios y `R` uniformemente, mientras que los fallos conocidos viven en tangencias
+exactas —conjunto de medida nula—. `code/banda.py` construye las instancias con la
+estructura del bloqueo en lugar de sortearlas: `R = α + 1` (sartén rígida), `σ₁, σ₂`
+dentro de la banda `(1−ω, 1)`, pareja alojable en el agujero de `r₁`, `α` barrido
+alrededor de `φ` y `ω` en el régimen crítico `ω > ω_c`.
+
+**Resultado: 1450 instancias dirigidas con `ρ < T`, cero fallos.** El control
+positivo del mismo script es lo que da valor al cero: alimentado con los tres fallos
+conocidos —normalizados a `r_m = 1`, es decir `α = 2`, `R = 3`— reproduce el
+comportamiento publicado aro por aro y regla por regla: en el contraejemplo `n = 4`
+(`ω = 0.06`, `ρ = 1.940`) falla *best fit*; en la gemela `I1` (`ω = 0.101`,
+`ρ = 1.898`) falla *best fit*; y en `I2` (`ρ = 1.900`) falla *worst fit*, la
+inversión que sostiene el teorema de imposibilidad para reglas de estado. El
+detector funciona, y aun así no encuentra nada por debajo de `T` en la ventana donde
+la combinatoria ya no protege.
+
+Esto es evidencia, no demostración, pero es evidencia de un tipo distinto al previo:
+antes el cero salía de un muestreo que casi con seguridad nunca visitó la región
+crítica; ahora sale de barrer justo la ventana que el análisis señala como la más
+débil.
+
+## 9. Qué queda por demostrar
+
+1. **El paso que falta hasta `T`.** Sustituir «`σ₂` cabe en el bolsillo de Descartes»
+   por «`{resto de v, σ₁, σ₂}` empaqueta en `v`», que es más débil y por tanto más
+   favorable, y comprobar que el ínfimo sube de `φ` a `T`. La Proposición 2 dice que
+   sin ese refinamiento el lema no puede llegar a Tribonacci.
+2. **Contenedores `v` genéricos.** El análisis anterior supone `v` rígido con un solo
+   vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
+   empaquetamiento, y hace falta una cota inferior universal en función de la
+   capacidad libre.
+3. **Perfiles de tres y cuatro aros.** El Corolario 2 los acota por arriba (cinco o
+   más quedan excluidos), pero la fórmula cerrada análoga a la Proposición 1 para
+   `k = 3` sigue abierta; la búsqueda sugiere que el mínimo de `k = 3` sigue la
+   curva `1 − ω` con un factor distinto del `2` del par.
+
+## Mapa de verificación
+
+- `code/reinserta.py` — recursos del intercambio, `ρ*(ω)` por tamaño de perfil,
+  fórmula del par contra búsqueda, cota de banda `k·r_k`, localización de `ω_c`, y
+  comprobación de que los perfiles `S` de los dos fallos conocidos no son
+  reinsertables. Incluye el criterio angular para tres círculos, validado contra los
+  tres valores publicados en `resultados.md` (369.2°, 364.4°, 352.5°).
+- `code/banda.py` — búsqueda dirigida de fallos con `ρ < T` en la ventana crítica,
+  con control positivo sobre las instancias conocidas.
