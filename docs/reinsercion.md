@@ -206,20 +206,67 @@ antes el cero salía de un muestreo que casi con seguridad nunca visitó la regi
 crítica; ahora sale de barrer justo la ventana que el análisis señala como la más
 débil.
 
-## 9. Qué queda por demostrar
+## 9. De φ a T: los tres ingredientes exactos
 
-1. **El paso que falta hasta `T`.** Sustituir «`σ₂` cabe en el bolsillo de Descartes»
-   por «`{resto de v, σ₁, σ₂}` empaqueta en `v`», que es más débil y por tanto más
-   favorable, y comprobar que el ínfimo sube de `φ` a `T`. La Proposición 2 dice que
-   sin ese refinamiento el lema no puede llegar a Tribonacci.
-2. **Contenedores `v` genéricos.** El análisis anterior supone `v` rígido con un solo
+El paso previsto era sustituir «`σ₂` cabe en el bolsillo» por la condición completa
+«el trío `{α, σ₁, σ₂}` empaqueta en `v`». `code/trio.py` lo hace con el criterio
+angular exacto, y el resultado enseña algo que la predicción no decía: **la condición
+del trío tampoco basta**. El ínfimo sin más restricciones es
+
+    ρ ≈ 1.79966   en   α* = raíz de 2α³ = α² + 2α + 2 ≈ 1.55585
+
+(la cúbica es el cruce `1 + b(α) = (2 + b(α))/α`; verificada en simbólico), todavía
+por debajo de `T`. Pero en ese óptimo `σ₁ + σ₂ ≈ 1.80 > α ≈ 1.556`: **S no cabría en
+`u`**, y el testigo colocó `S` precisamente en `u`. La colocación del testigo es una
+restricción activa que el análisis de bolsillos nunca usó: `Σ S ≤ cap(u)`, y en la
+plantilla canónica `u` es el agujero de `α`, de capacidad `α − w → α`.
+
+Con esa restricción el problema cambia de naturaleza. En la frontera de bloqueo
+(`σ₁ → 1`, `σ₂ → b(α)`) la condición «S cabe en u» es `1 + b(α) ≤ α`, y
+
+    b(α) − (α − 1) = −(α³ − α² − α − 1) / (α² + α + 1),
+
+luego para `α < T` todo bloqueo exige `Σ S > cap(u)` —irrealizable por ningún
+testigo— y para `α ≥ T` el ínfimo es `ρ = 1 + b(α)`, creciente, con mínimo en
+
+    α = T:   b(T) = T − 1   (identidad exacta módulo T³ = T² + T + 1),   ρ = T.
+
+**Proposición 3 (plantilla canónica).** En la configuración rígida `R = α + 1` con
+`w → 0`, el ínfimo de `ρ` sobre los bloqueos del paso de intercambio realizables por
+un testigo es exactamente `T`, alcanzado en `α = T`, `σ₁ → 1`, `σ₂ → T − 1`.
+
+La medición numérica lo reproduce: `ρ* = 1.83999` en `α* = 1.83999` (la diferencia
+`7·10⁻⁴` con `T` es la malla `σ₁ ≤ 0.999999`). La escalera queda así:
+
+| recursos usados | ínfimo de ρ |
+|---|---|
+| bolsillo de Descartes solo | `φ ≈ 1.6180` |
+| + infactibilidad del trío completo | `≈ 1.7997` (raíz de `2α³ = α²+2α+2`) |
+| + colocación del testigo (`S` cabe en `u`) | **`T ≈ 1.8393`** |
+
+Y la moraleja estructural: el álgebra `t³ + t² + t ≤ 1` del suelo de la familia no
+es un accidente de la familia de 4 aros — es exactamente lo que producen los tres
+ingredientes del intercambio en la plantilla canónica. El lema universal de
+reinserción necesita los tres; con dos de ellos el umbral demostrable se queda en
+`φ` o en `1.7997`.
+
+## 10. Qué queda por demostrar
+
+1. **Contenedores `v` genéricos.** El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
-   capacidad libre.
+   capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del
+   testigo no es una capacidad simple sino la empaquetabilidad de `S` junto a los
+   ocupantes mayores de `u`, y hay que comprobar que la misma álgebra sobrevive.
+2. **Grosor positivo.** La Proposición 3 está en el límite `w → 0`; con `w > 0` la
+   capacidad de `u` baja a `α − w` y el agujero `H_m` sube a `1 − ω`, dos efectos de
+   signo contrario cuya suma hay que controlar (la evidencia de §6 sugiere que el
+   grosor solo puede subir el umbral, como afirma `resultados.md` §5quater).
 3. **Perfiles de tres y cuatro aros.** El Corolario 2 los acota por arriba (cinco o
    más quedan excluidos), pero la fórmula cerrada análoga a la Proposición 1 para
    `k = 3` sigue abierta; la búsqueda sugiere que el mínimo de `k = 3` sigue la
-   curva `1 − ω` con un factor distinto del `2` del par.
+   curva `1 − ω` con un factor distinto del `2` del par. La Proposición 3 trata el
+   bloqueo de dos aros; el análogo con tres bloqueantes en banda queda abierto.
 
 ## Mapa de verificación
 
@@ -230,3 +277,6 @@ débil.
   tres valores publicados en `resultados.md` (369.2°, 364.4°, 352.5°).
 - `code/banda.py` — búsqueda dirigida de fallos con `ρ < T` en la ventana crítica,
   con control positivo sobre las instancias conocidas.
+- `code/trio.py` — la escalera φ → 1.7997 → T: ínfimo de ρ con la condición completa
+  del trío, sin y con la restricción del testigo; identidades `2α³ = α²+2α+2` y
+  `b(T) = T−1` verificadas en simbólico (sympy) y por barrido numérico.

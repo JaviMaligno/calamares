@@ -25,6 +25,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `umbral.py` — familia aditiva con ρ → 1 (umbral aditivo exacto) y búsqueda geométrica bajo T (0 fallos).
 - `reinserta.py` — lema de reinserción: umbral ρ*(ω) del paso de intercambio, fórmula cerrada del perfil de dos aros max(1, 2(1−ω)), cota de banda k·r_k y grosor crítico ω_c ≈ 0.05.
 - `banda.py` — búsqueda dirigida de fallos con ρ < T en la ventana crítica (α ≈ φ, ω > ω_c), con control positivo.
+- `trio.py` — Proposición 3: en la plantilla canónica el ínfimo del intercambio con los tres ingredientes (bolsillo → trío → testigo) es exactamente la constante de Tribonacci; escalera φ → 1.7997 → T.
 
 ## Hoja de ruta
 
