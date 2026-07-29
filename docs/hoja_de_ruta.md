@@ -4,7 +4,7 @@ Cada pendiente con su estado, el esqueleto técnico de ataque y el criterio de �
 
 ## 1. Rigor pleno del suelo de Tribonacci (Prop. del paper, idealización tangente)
 
-**Estado:** el ínfimo T de la familia de 4 aros está demostrado bajo la idealización "bolsillo tangente exacto". Falta el argumento sin idealizar.
+**Estado: RESUELTO para la subfamilia rígida (Teorema S, `docs/drafts/suelo_rigido.md`, verificado 10/10).** Toda instancia con R = r₁+r₂, pareja en el agujero y trío infactible cumple ρ > T estricto, para todo w > 0, sin idealización; el ínfimo es T y no se alcanza. La prueba reduce la suficiencia del trío a ψ(u)+ψ(v) ≥ τ vía la identidad sin²(θ/2) = f(a)f(b), y la configuración rígida emerge como extremo por concavidad (no se supone). Queda abierta la versión con holgura R > r₁ + r₂ (el esqueleto de abajo sigue siendo el plan para esa generalización).
 
 **Esqueleto de la prueba rigurosa (dirección ≥, la que importa):**
 1. *Lema del contrapositivo constructivo (fácil y riguroso):* si r₄ ≤ P(r₁, r₃, R), donde P es el radio del mayor tercer círculo insertable dada alguna colocación de {r₁, r₃} en el disco R, entonces el trío empaqueta (construcción explícita). Contrapositivo: todo contraejemplo de la familia (que exige el trío infactible) cumple r₄ > P(r₁, r₃, R).

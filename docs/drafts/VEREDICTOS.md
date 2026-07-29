@@ -33,7 +33,17 @@ argumento. Tratar esa cota universal como demostrada-solo-si-α ≥ 1. Nota meno
 peldaño 2 del disco en reinsercion.md §9 (≈1.79966) difiere ligeramente del cruce
 exacto de las ramas; revisar la cifra al consolidar.
 
-## suelo_rigido (pista A) — SIN ENTREGABLE
+## suelo_rigido.md + code/rigido.py — TODO CONFIRMADO (10/10 claims)
 
-El agente falló por el límite de 64k tokens de salida en un turno; relanzado con
-instrucciones de escritura incremental. Este veredicto se actualizará.
+Teorema S: toda instancia de la subfamilia rígida F (R = r₁+r₂, pareja en el
+agujero, trío infactible) cumple ρ > T estrictamente, para todo w > 0, sin
+idealización tangente; el ínfimo es exactamente T y no se alcanza (Prop. S6). El
+verificador rehízo las 13 identidades algebraicas en sympy antes de leer las
+derivaciones, atacó los pasos delicados (rama 2π−Δ del Lema S2, equivalencia por
+senos de S3, concavidad hasta (1+√13)/6 en S4) y ejecutó los 7 bloques de
+rigido.py; su búsqueda adversaria con semillas propias llegó a ρ = 1.839564 dentro
+de F sin bajar de T. Piezas nuevas: identidad sin²(θ/2) = f(a)f(b), reducción a
+ψ(u)+ψ(v) ≥ τ, la configuración rígida emerge como extremo (no se supone), y el
+bolsillo antipodal solo NO basta (óptimo relajado ρ = 1.73 con trío factible).
+Matices declarados por el autor: cierre por compacidad de S6 esbozado (afecta solo
+a la dirección ≤ del ínfimo) y escala √δ del umbral fuera de la esquina (numérica).
