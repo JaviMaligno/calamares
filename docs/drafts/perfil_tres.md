@@ -208,8 +208,14 @@ geométrica en la Proposición 2. Si es coincidencia o no, queda abierto.
 **Corrección a la tabla de `reinsercion.md` §6.** Los valores de la columna
 `k=3` para `ω ≤ 0.08` eran mínimos locales del descenso por coordenadas
 (quedaban ~0.02–0.03 por encima del ínfimo real; p. ej. `ω = 0.05`: tabla
-`1.846`, real `1.8182`; el perfil hallado `{0.645, 0.585, 0.585}` es un punto
-crítico de la esquina `Σ = cola`, no el óptimo `{0.55, 0.5, 0.5}`). Las columnas
+`1.846`, real `1.8182`). *(Nota tras la verificación adversaria: una versión
+anterior de este borrador atribuía el desajuste al perfil concreto
+`{0.645, 0.585, 0.585}` como "punto crítico no óptimo"; esa atribución era
+errónea — ese perfil ni siquiera está bloqueado, pues `s₃ ≤ s₁ − ω` y se
+reinserta anidando en `s₁`, y su `ρ_needed = 1.815` tampoco es el valor
+tabulado. Lo único establecido, verificado en `tresk.py` §§5–6, es que la
+búsqueda de `reinserta.py` convergía a mínimos locales de la región bloqueada,
+sin certificado de optimalidad.)* Las columnas
 con `ω ≥ 0.12` sí coinciden con la fórmula (`1.618 = φ`, `1.601 ≈ 2(1−ω)+δ`,
 `1.101 ≈ 2(1−ω)+δ`). La conclusión cualitativa de §6 no cambia (por debajo de
 `ω_c` la combinatoria cierra), pero `ω_c` pasa de `≈ 0.05` medido a `≤ 0.043689`

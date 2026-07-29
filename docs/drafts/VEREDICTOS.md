@@ -16,9 +16,11 @@ no estaba explicitada en el borrador, pero es cierta (verificada en 5 puntos).
 
 Proposición 4, Corolario 3 (fórmula de ρ*₃) y Corolario 4 (cruce exacto ω_T = 1/T − 1/2)
 sobreviven a rederivación independiente, oráculo computacional escrito desde cero y
-~6.5M de muestras sin contraejemplo. REFUTADO un detalle lateral: la afirmación de que
-el perfil tabulado {0.645, 0.585, 0.585} es "punto crítico no óptimo" — el error no
-afecta a la fórmula ni a los corolarios. Huecos declarados: exactitud de feas3 solo
+~6.5M de muestras sin contraejemplo. REFUTADO un detalle lateral, YA CORREGIDO en
+`perfil_tres.md` §4: el perfil {0.645, 0.585, 0.585} citado como "punto crítico" ni
+siquiera está bloqueado (s₃ ≤ s₁ − ω: se reinserta anidando, ρ_needed = 1.815); una
+segunda pasada del investigador lo verificó por ejecución directa y reemplazó la
+frase. El error no afectaba a la fórmula ni a los corolarios. Huecos declarados: exactitud de feas3 solo
 para el caso (ii) con ω > 1/2; ρ*₄ abierto (evidencia de ρ*₄ = ρ*₃).
 
 ## cuadrado.md + code/cuadrado.py — CONFIRMADO con UN HUECO NO DECLARADO
