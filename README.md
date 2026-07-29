@@ -26,6 +26,9 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `reinserta.py` — lema de reinserción: umbral ρ*(ω) del paso de intercambio, fórmula cerrada del perfil de dos aros max(1, 2(1−ω)), cota de banda k·r_k y grosor crítico ω_c ≈ 0.05.
 - `banda.py` — búsqueda dirigida de fallos con ρ < T en la ventana crítica (α ≈ φ, ω > ω_c), con control positivo.
 - `trio.py` — Proposición 3: en la plantilla canónica el ínfimo del intercambio con los tres ingredientes (bolsillo → trío → testigo) es exactamente la constante de Tribonacci; escalera φ → 1.7997 → T.
+- `grosor.py` — grosor positivo: Φ(ω) = T₍₁₊ω₎ − ω (Tribonacci deformado), cota uniforme T_can(ω) ≥ T + 0.00985, esquina racional (1/7, 2, 6/7, 13/7); ver `docs/drafts/grosor_positivo.md`.
+- `tresk.py` — perfil de 3 aros: Proposición 4 (cuatro casos) y fórmula cerrada ρ*₃(ω); el cruce con T es exacto: ω_T = 1/T − 1/2 ≈ 0.0437; ver `docs/drafts/perfil_tres.md`.
+- `cuadrado.py` — sartén cuadrada: bolsillo de esquina x = (√s−√a)², constante hermana X = 1.7110185903… (raíz de 17x⁴ − 4x³ − 62x² + 4x + 49 en su rama), escalera cuadrada; ver `docs/drafts/cuadrado.md`.
 
 ## Hoja de ruta
 
