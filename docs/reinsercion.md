@@ -142,6 +142,21 @@ lo garantiza sin margen de error hasta `ω₀ = 0.0804`. La lectura es:
 Los dos fallos conocidos viven, como debe ser, en el régimen donde la combinatoria
 no cierra: `ω = 0.060` y `ω = 0.101`, ambos por encima de `ω_c`.
 
+**Nota de consolidación.** La estimación `ω_c ≈ 0.05` quedó superada: el cruce
+exacto es
+
+    ω_T = 1/T − 1/2 ≈ 0.043689
+
+(Corolario 4 de `drafts/perfil_tres.md`, en forma cerrada). La discrepancia se
+explica porque los valores de la columna `k=3` de la tabla anterior para
+`ω ≤ 0.08` eran mínimos locales del descenso por coordenadas, ~0.02–0.03 por
+encima del ínfimo real: en `ω = 0.05` el valor tabulado `1.846` debe leerse
+`2/(1+2ω) = 20/11 ≈ 1.8182`, ya por debajo de `T`. Las columnas con `ω ≥ 0.12`
+sí coinciden con la fórmula exacta `ρ*₃(ω)`. La conclusión cualitativa de esta
+sección no cambia (por debajo del umbral la combinatoria cierra), pero el umbral
+pasa de `≈ 0.05` medido a `ω_T` demostrado, con `ω_c = ω_T` si `ρ*₄ = ρ*₃`
+(abierto).
+
 ## 7. La geometría de v: por qué el bolsillo solo llega a φ
 
 En el régimen crítico hay que colocar `σ₂` en un bolsillo de `v`. Tomemos la
@@ -213,9 +228,13 @@ El paso previsto era sustituir «`σ₂` cabe en el bolsillo» por la condición
 angular exacto, y el resultado enseña algo que la predicción no decía: **la condición
 del trío tampoco basta**. El ínfimo sin más restricciones es
 
-    ρ ≈ 1.79966   en   α* = raíz de 2α³ = α² + 2α + 2 ≈ 1.55585
+    ρ = 1 + b(α*) = 1.7990559…   en   α* = raíz de 2α³ = α² + 2α + 2 ≈ 1.5558471
 
-(la cúbica es el cruce `1 + b(α) = (2 + b(α))/α`; verificada en simbólico), todavía
+(la cúbica es el cruce `1 + b(α) = (2 + b(α))/α`, donde ambas ramas valen también
+`1/(α* − 1)`; verificada en simbólico. *Cifra corregida en la consolidación: una
+versión anterior daba `≈ 1.79966`, el valor de la malla numérica; el cruce
+exacto, recalculado en sympy, es `1.7990559`, que difiere ya en la cuarta cifra
+decimal*), todavía
 por debajo de `T`. Pero en ese óptimo `σ₁ + σ₂ ≈ 1.80 > α ≈ 1.556`: **S no cabría en
 `u`**, y el testigo colocó `S` precisamente en `u`. La colocación del testigo es una
 restricción activa que el análisis de bolsillos nunca usó: `Σ S ≤ cap(u)`, y en la
@@ -241,32 +260,46 @@ La medición numérica lo reproduce: `ρ* = 1.83999` en `α* = 1.83999` (la dife
 | recursos usados | ínfimo de ρ |
 |---|---|
 | bolsillo de Descartes solo | `φ ≈ 1.6180` |
-| + infactibilidad del trío completo | `≈ 1.7997` (raíz de `2α³ = α²+2α+2`) |
+| + infactibilidad del trío completo | `= 1.7990559…` (raíz de `2α³ = α²+2α+2`) |
 | + colocación del testigo (`S` cabe en `u`) | **`T ≈ 1.8393`** |
 
 Y la moraleja estructural: el álgebra `t³ + t² + t ≤ 1` del suelo de la familia no
 es un accidente de la familia de 4 aros — es exactamente lo que producen los tres
 ingredientes del intercambio en la plantilla canónica. El lema universal de
 reinserción necesita los tres; con dos de ellos el umbral demostrable se queda en
-`φ` o en `1.7997`.
+`φ` o en `1.7991`.
 
 ## 10. Qué queda por demostrar
 
-1. **Contenedores `v` genéricos.** El análisis anterior supone `v` rígido con un solo
+1. **Contenedores `v` genéricos. — SIGUE ABIERTO; es EL hueco principal de la
+   conjetura.** El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
    capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del
    testigo no es una capacidad simple sino la empaquetabilidad de `S` junto a los
    ocupantes mayores de `u`, y hay que comprobar que la misma álgebra sobrevive.
-2. **Grosor positivo.** La Proposición 3 está en el límite `w → 0`; con `w > 0` la
+   Tras la consolidación, ni el Teorema S de `drafts/suelo_rigido.md` (que exige
+   `R = r₁ + r₂` exacto) ni la plantilla canónica con grosor lo cubren: todo lo
+   demás del programa está cerrado o acotado, y la conjetura del umbral de
+   Tribonacci se reduce exactamente a este punto.
+2. **Grosor positivo. — RESUELTO (módulo H1) en `drafts/grosor_positivo.md`.**
+   La Proposición 3 está en el límite `w → 0`; con `w > 0` la
    capacidad de `u` baja a `α − w` y el agujero `H_m` sube a `1 − ω`, dos efectos de
-   signo contrario cuya suma hay que controlar (la evidencia de §6 sugiere que el
-   grosor solo puede subir el umbral, como afirma `resultados.md` §5quater).
-3. **Perfiles de tres y cuatro aros.** El Corolario 2 los acota por arriba (cinco o
-   más quedan excluidos), pero la fórmula cerrada análoga a la Proposición 1 para
-   `k = 3` sigue abierta; la búsqueda sugiere que el mínimo de `k = 3` sigue la
-   curva `1 − ω` con un factor distinto del `2` del par. La Proposición 3 trata el
-   bloqueo de dos aros; el análogo con tres bloqueantes en banda queda abierto.
+   signo contrario. El borrador los controla: la rama del testigo se gobierna por
+   el Tribonacci deformado `Φ(ω) = T₍₁₊ω₎ − ω` (creciente, exacta) y la rama `H_m`
+   por `2(1−ω)`, con cota uniforme `T_can(ω) ≥ T + 0.0098` para todo
+   `ω ∈ (0, 0.30]`: «el grosor solo lo sube», como afirma `resultados.md`
+   §5quater, con holgura uniforme (curva no monótona, mínimo medido en la esquina
+   racional `(1/7, 2, 6/7, 13/7)`). Verificación 8/8 en el acta.
+3. **Perfiles de tres y cuatro aros. — RESUELTO para `k = 3` en
+   `drafts/perfil_tres.md`.** La fórmula cerrada análoga a la Proposición 1 es
+   `ρ*₃(ω) = máx(1, mín(2(1−ω), máx(φ, 2/(1+2ω))))` (Proposición 4 y Corolario 3,
+   demostrados por vía puramente aditiva), con cruce exacto `ω_T = 1/T − 1/2` con
+   Tribonacci (Corolario 4; véase la nota de §6). La curva conjeturada `c·(1−ω)`
+   era falsa: el tramo dominante es la hipérbola `2/(1+2ω)` y hay una meseta en
+   `φ`. Queda abierto `k = 4` (el Corolario 2 excluye `k ≥ 5`; la evidencia
+   sugiere `ρ*₄ = ρ*₃`), y el análogo de la Proposición 3 con tres bloqueantes en
+   banda.
 
 ## Mapa de verificación
 
@@ -277,6 +310,6 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
   tres valores publicados en `resultados.md` (369.2°, 364.4°, 352.5°).
 - `code/banda.py` — búsqueda dirigida de fallos con `ρ < T` en la ventana crítica,
   con control positivo sobre las instancias conocidas.
-- `code/trio.py` — la escalera φ → 1.7997 → T: ínfimo de ρ con la condición completa
+- `code/trio.py` — la escalera φ → 1.7991 → T: ínfimo de ρ con la condición completa
   del trío, sin y con la restricción del testigo; identidades `2α³ = α²+2α+2` y
   `b(T) = T−1` verificadas en simbólico (sympy) y por barrido numérico.
