@@ -33,6 +33,27 @@ argumento. Tratar esa cota universal como demostrada-solo-si-α ≥ 1. Nota meno
 peldaño 2 del disco en reinsercion.md §9 (≈1.79966) difiere ligeramente del cruce
 exacto de las ramas; revisar la cifra al consolidar.
 
+## h1.md + code/h1.py — TODO CONFIRMADO (6/6 claims), con mejoras del verificador integradas
+
+H1 (κ = −∂h/∂σ₁ ≥ 1 en la frontera de bloqueo del trío) queda demostrado. El
+verificador rederivó la identidad κ = √(g(σ₂)/g(σ₁)) desde cero por una ruta
+distinta (reducción a t = √((1−s)/s) en vez de λ·tan), la validó en aritmética
+racional EXACTA (30/30 puntos, α ∈ [9/7, 24999.5]; la factorización simbólica
+muestra que el factor que anula κ² − g/g es exactamente la ecuación de frontera),
+en mpmath dps=50 contra diferencias finitas (err ≤ 1.25·10⁻²⁹, α hasta 10⁶) y en
+mallas adversarias de ~10M de puntos (α hasta 10¹⁵) sin contraejemplo. Cero
+refutaciones. Hallazgos del verificador, INTEGRADOS en la revisión de h1.md:
+(1) forma cerrada de la frontera t(σ₁) + t(σ₂) = t(b(α)) — h explícita; (2) la
+hipótesis α ≥ α₀ del borrador era un artefacto de coordenadas: κ ≥ 1 vale para
+todo α > 1 (en el caso restante κ² > 6); (3) el cierre áureo (φ) era subóptimo:
+con 1 + b(α) ≥ α el cierre llega exactamente a T (Tribonacci), coherente con la
+Proposición 3. Menores corregidos: no-op en h1.py (filtro muerto), cifra de la
+tasa Θ(√d) (~2·10⁻⁴, no 3·10⁻⁴), «alcanzado EN σ₁ = 1» (conjunto cerrado), (W)
+definida en el texto. Las piezas nuevas del verificador quedaron re-verificadas
+en simbólico en h1.py A8–A14 y en malla (C2, C4, E1–E2); 5/5 bloques.
+Consecuencia: los «módulo H1» de grosor_positivo.md, resultados.md §9,
+reinsercion.md §10 y hoja_de_ruta.md quedan retirados.
+
 ## suelo_rigido.md + code/rigido.py — TODO CONFIRMADO (10/10 claims)
 
 Teorema S: toda instancia de la subfamilia rígida F (R = r₁+r₂, pareja en el

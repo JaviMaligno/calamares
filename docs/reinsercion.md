@@ -282,7 +282,7 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    `R = r₁ + r₂` exacto) ni la plantilla canónica con grosor lo cubren: todo lo
    demás del programa está cerrado o acotado, y la conjetura del umbral de
    Tribonacci se reduce exactamente a este punto.
-2. **Grosor positivo. — RESUELTO (módulo H1) en `drafts/grosor_positivo.md`.**
+2. **Grosor positivo. — RESUELTO en `drafts/grosor_positivo.md` (H1 demostrado en `drafts/h1.md`).**
    La Proposición 3 está en el límite `w → 0`; con `w > 0` la
    capacidad de `u` baja a `α − w` y el agujero `H_m` sube a `1 − ω`, dos efectos de
    signo contrario. El borrador los controla: la rama del testigo se gobierna por

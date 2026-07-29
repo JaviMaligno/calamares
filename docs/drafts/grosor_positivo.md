@@ -73,11 +73,11 @@ signos de Descartes); T₁ = T es Tribonacci.
 
 alcanzado en el límite α = T₍₁₊ω₎, σ₁ → 1, σ₂ → b(α) = α − 1 − ω.
 
-*Demostración (con el hueco H1 señalado).* Para α fijo, el mínimo de σ₁ + σ₂
-sobre los tríos infactibles con σ₂ ≤ σ₁ ≤ 1 es 1 + b(α), alcanzado en σ₁ → 1,
-σ₂ → b(α) **[hueco H1: este paso es el mismo de la Proposición 3; equivale a que
-sobre la frontera de infactibilidad h(α, σ₁) del trío la pendiente cumple
-κ = −∂h/∂σ₁ ≥ 1; verificado en malla con κ_min ≈ 1.02, sin prueba analítica]**.
+*Demostración.* Para α fijo, el mínimo de σ₁ + σ₂ sobre los tríos infactibles
+con σ₂ ≤ σ₁ ≤ 1 es 1 + b(α), alcanzado en σ₁ = 1, σ₂ = b(α) **[antiguo hueco
+H1, HOY DEMOSTRADO en `drafts/h1.md`: sobre la frontera de infactibilidad
+h(α, σ₁) del trío vale la identidad cerrada κ = −∂h/∂σ₁ = √(g(σ₂)/g(σ₁)) con
+g(s) = s³(1−s), y κ ≥ 1 para todo α > 1 (Teorema H1 y Corolario 1)]**.
 Entonces todo bloqueo relajado en α cumple, por (W),
 
     1 + b(α) ≤ σ₁ + σ₂ ≤ α − ω ,
@@ -109,7 +109,7 @@ que 2/α), y α es creciente en ω. La cota superior es la tangente en 0; la
 inferior es la cuerda entre ω = 0 y ω = 1/7, cuyo extremo derecho es **exacto**:
 T₍₈⁄₇₎ = 2 (porque 2³ = 8 = (8/7)·7) y Φ(1/7) = 2 − 1/7 = 13/7. ∎
 
-Esto ya demuestra (módulo H1) la mitad de la afirmación de §5quater: **la rama
+Esto ya demuestra la mitad de la afirmación de §5quater: **la rama
 del testigo solo puede subir con el grosor**, a razón de ≈ 0.125–0.137 por
 unidad de ω, con la constante c en forma cerrada sobre la cúbica de Tribonacci.
 
@@ -129,7 +129,7 @@ sustituir en la cúbica da
 
 con raíz relevante ω_× ≈ 0.0754315 (α_× ≈ 1.9245685).
 
-**Teorema (grosor positivo, plantilla canónica; módulo H1).** Para todo
+**Teorema (grosor positivo, plantilla canónica).** Para todo
 ω ∈ (0, 0.30],
 
     T_can(ω) ≥ max( 2(1 − ω), Φ(ω) ) ≥ 2(1 − ω_×) = 2(α_× − 1) ≈ 1.8491370
@@ -225,7 +225,7 @@ Notas de coherencia, todas verificadas en `grosor.py`:
 
 1. **«El grosor solo lo sube» es cierto, con holgura uniforme.** Respecto del
    valor límite T de la Proposición 3, todo ω > 0 sube el ínfimo al menos hasta
-   2(α_× − 1) ≈ T + 0.0098 (demostrado módulo H1), y según la curva medida hasta
+   2(α_× − 1) ≈ T + 0.0098 (demostrado; H1 cerrado en `drafts/h1.md`), y según la curva medida hasta
    13/7 = T + 0.0179 (conjetura de la esquina). En la conjetura del umbral de
    Tribonacci el caso crítico es por tanto el límite de grosor fino: cualquier
    prueba que cierre w → 0 cierra automáticamente w > 0 **en la plantilla
@@ -252,17 +252,20 @@ Notas de coherencia, todas verificadas en `grosor.py`:
 
 ## 6. Huecos y alcance
 
-- **H1 (heredado de la Proposición 3).** Que el mínimo de σ₁ + σ₂ sobre los
-  tríos infactibles se alcanza en σ₁ → 1 (equivalentemente κ = −∂h/∂σ₁ ≥ 1 en
-  la frontera). Verificado en malla (κ_min ≈ 1.02 sobre α ∈ [1.6, 2.4],
-  σ₁ ∈ [0.6, 1)); sin prueba analítica. Todo lo etiquetado «demostrado» que
-  dependa de la Proposición 4 es módulo H1; la Proposición 6 y la cota
-  ρ ≥ 2(1−ω) no dependen de H1.
+- **H1 — RESUELTO en `drafts/h1.md` (acta en `VEREDICTOS.md`).** El mínimo de
+  σ₁ + σ₂ sobre los tríos infactibles se alcanza en σ₁ = 1 porque sobre la
+  frontera de infactibilidad vale la identidad cerrada κ = −∂h/∂σ₁ =
+  √(g(σ₂)/g(σ₁)), g(s) = s³(1−s), y κ ≥ 1 para todo α > 1. De propina, la
+  frontera tiene forma cerrada t(σ₁) + t(σ₂) = t(b(α)) con t(s) = √((1−s)/s),
+  que da expresión explícita a la rama mixta α_m(ω) de §4 (ver H2). Todo lo
+  etiquetado «demostrado» en este documento lo es ya sin condición.
 - **H2.** La estructura de tres regímenes de la sección 4 (igualdad por tramos,
   el valor de ω₁ y la conjetura 13/7 de la esquina) es evidencia numérica: las
   familias óptimas están exhibidas y medidas, pero la rama mixta α_m(ω) no
   tiene forma cerrada (es la frontera del criterio angular) y su optimalidad no
-  está demostrada. Lo demostrado (módulo H1) es la cota inferior del Teorema.
+  está demostrada. Lo demostrado es la cota inferior del Teorema. (Con la
+  forma cerrada de la frontera de `drafts/h1.md` §3, α_m(ω) deja de ser
+  inaccesible: reexaminar H2 es ahora fruta más madura.)
 - **H3 (alcance).** Todo esto es la plantilla canónica: v rígido con un solo
   vecino grande α, S un par, u el agujero de α. Los puntos 1 y 3 de
   `reinsercion.md` §10 (contenedores genéricos, tres bloqueantes) siguen
@@ -273,9 +276,11 @@ Notas de coherencia, todas verificadas en `grosor.py`:
 
 `code/grosor.py`, cuatro secciones: **[A]** álgebra exacta en sympy (Lema 1,
 fórmula de Φ′, reducción de c módulo la cúbica de T, cúbica del cruce, esquina
-1/7, cotas de cuerda y tangente, concavidad); **[B]** hueco H1 en malla
+1/7, cotas de cuerda y tangente, concavidad); **[B]** H1 en malla
 (κ_min, monotonía de σ₁ + h, y frontera h(α, 1⁻) = b(α) contra Descartes; la
-comparación en σ₁ → 1 tiene condicionamiento ~10⁻⁴ por la tangencia diametral);
+comparación en σ₁ → 1 tiene condicionamiento ~10⁻⁴ por la tangencia diametral —
+hoy se sabe que es la tasa Θ(√(1−σ₁)) del límite, `drafts/h1.md` §5; la prueba
+analítica de κ ≥ 1 y su verificación 5/5 viven en `code/h1.py`);
 **[C]** 60 000 muestras aleatorias filtradas a bloqueos realizables, todas con
 ρ ≥ max(2(1−ω), Φ(ω)); **[D]** ω₁ por bisección, curva medida contra las tres
 ramas (desviación ≤ 4·10⁻⁴) y los dos fallos conocidos contra sus cotas y

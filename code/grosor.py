@@ -101,7 +101,7 @@ def phi_prime(omega):
 
 
 def lower_bound(omega):
-    """Cota inferior demostrada (modulo H1) de T_can(omega)."""
+    """Cota inferior demostrada de T_can(omega) (H1 demostrado: code/h1.py)."""
     return max(2.0 * (1.0 - omega), Phi(omega))
 
 
