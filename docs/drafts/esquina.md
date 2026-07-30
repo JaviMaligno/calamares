@@ -65,8 +65,10 @@ caja truncada
 
     0 ≤ t₁ ≤ t₂ ≤ τ := t(c) ,   c := máx(c₂, c₄) ,   t₁ + t₂ ≤ Θ(α) ,
 
-sujeto a (W). Si c ≥ 1 —es decir α ≥ 2 + ω— no hay bloqueo alguno: (B4) y la
-banda dan S ≥ 2c₄ > α − ω, violando (W). Queda α − ω ∈ [1, 2].
+sujeto a (W). Si α > 2 + ω no hay bloqueo alguno: (B4) y la banda dan
+S ≥ 2c₄ = 2(α−ω−1) > α − ω, violando (W); en α = 2 + ω exacto el único
+candidato es σ₁ = σ₂ = 1, con S = 2 ≥ 2(1−ω), irrelevante para el ínfimo.
+Queda α − ω ∈ [1, 2].
 
 ## 2. El mínimo condicionado (Lema E1)
 
@@ -132,9 +134,11 @@ y la cúbica es estrictamente creciente en (0, 5/6) (su derivada es
 cúbica (1/25 < ω₁ < 1/14 por signos). Los demás casos no bajan de 2(1−ω)
 (E2 + continuidad en las junturas de caso), luego T_can = 2(1−ω) ahí.
 
-**Tramo mixto (ω₁ < ω ≤ 1/7).** El caso (c) queda vacío y el caso (a) exige
-b(α) ≥ 1−ω, imposible con α ≤ 2 (b(2) = 6/7 ≤ 1−ω). Queda (b) con c = c₂
-para α ≤ 2: S^b(α) = 1−ω + σ(Θ−t(1−ω)), creciente (E2), con (W) ⟺
+**Tramo mixto (ω₁ < ω ≤ 1/7).** Para α ≤ 2 el caso (c) queda vacío (exigiría
+1−ω ≥ s*(α) con α ≥ 2−ω por (W), y s*(α) ≥ s*(2−ω) > 1−ω para ω > ω₁, la
+cúbica) y el caso (a) exige b(α) ≥ 1−ω, imposible (b(2) = 6/7 ≤ 1−ω). Queda
+(b) con c = c₂ para α ≤ 2: S^b(α) = 1−ω + σ(Θ−t(1−ω)), creciente (E2), con
+(W) ⟺
 
     σ(Θ(α) − t(1−ω)) ≤ α − 1   ⟺   Ψ(α) := t(b(α)) − t(α−1) ≥ t(1−ω) .
 
@@ -145,19 +149,34 @@ admisibles son [α_m, 2]. Por E2 el mínimo es S^b(α_m) = α_m − ω ((W) con
 igualdad). Para α ∈ (2, 2+ω): si b(α) ≤ 1−ω, todo bloqueo cumple σ₂ ≥ c₄ ≥
 c₂ y por tanto S ≥ S^b(α) > S^b(2) ≥ S^b(α_m) (relajando (B4) a (B2), E2);
 si b(α) > 1−ω, S ≥ 1 + b(α) > 2 − ω > α_m − ω. Luego T_can = α_m(ω) − ω.
-Elevando al cuadrado dos veces la ecuación de α_m se obtiene el polinomio
+(En el paso «S ≥ S^b(α) para α ∈ (2, 2+ω)»: al relajar (B4) a (B2) el caso
+(c) con c₂ tampoco aparece, pues 1−ω ≥ s*(α) > s*(2) = 24/25 exigiría
+ω < 1/25 < ω₁.) Elevando al cuadrado dos veces la ecuación de α_m se obtiene
+el polinomio
 
     P(α, ω) = α⁶ + 2α⁵ω − 2α⁵ + 5α⁴ω² − 6α⁴ω − α⁴ − 4α³ω² + 4α³ω
               − 2α²ω² + 3α² + 4αω² − 6αω + 2α + ω² − 2ω + 1 = 0
 
 (condición necesaria: producto de las cuatro ramas (Z ± X ± Y); la rama
 correcta se identifica por α_m ∈ (1, 2] y verificación numérica, bloque B).
+P es **irreducible** sobre ℚ[α, ω] —luego sobre ℚ(ω)[α], por primitividad—:
+«algebraica de grado 6» es exacto, no solo una cota. Dos identidades útiles:
+P(2−ω, ω) = (ω−1)³·(4ω³−20ω²+25ω−1), que da α_m(ω₁) = 2−ω₁ en exacto, y la
+parametrización x := t(α−1), con la que la ecuación de la rama es
+x + √(ω/(1−ω)) = (1+x²)/√((2+x²)(3+2x²)) y el alcance de la rama es
+transparente: x ≥ 0 ⟺ ω ≤ 1/7, con x = 0 ⟺ α = 2 ⟺ ω = 1/7.
 
 **Tramo del testigo (ω ≥ 1/7).** Ahora b(T₍₁₊ω₎) = T₍₁₊ω₎ − 1 − ω ≥ 1 − ω
 ⟺ T₍₁₊ω₎ ≥ 2 ⟺ ω ≥ 1/7 (T₍₈⁄₇₎ = 2): el óptimo del caso (a) satisface
 (B2). El caso (a) con (W) exige α ≥ T₍₁₊ω₎ (Lema 1 de `grosor_positivo.md`)
 y su mínimo es 1 + b(T₍₁₊ω₎) = Φ(ω); los casos (b)/(c₄) con α > T₍₁₊ω₎ son
-crecientes (E2) y arrancan en Φ(ω); los α < T₍₁₊ω₎ no admiten bloqueo. ∎
+crecientes (E2) y arrancan en Φ(ω); y los α < T₍₁₊ω₎ no admiten bloqueo:
+para α ∈ (2, T₍₁₊ω₎) rige el caso (a) (c₄ ≤ b(α)) y su (W) exige
+α ≥ T₍₁₊ω₎; para α ≤ 2 (c = c₂ = 1−ω ≤ 6/7), el caso (a) —si b(α) ≥ 1−ω—
+tiene mínimo 1 + b(α) y (W) vuelve a exigir α ≥ T₍₁₊ω₎ > 2; el caso (b)
+exigiría bajo (W) Ψ(α) ≥ t(1−ω), pero Ψ(α) ≤ Ψ(2) = t(6/7) ≤ t(1−ω), con
+igualdad solo en la esquina (ω = 1/7, α = 2); y el caso (c) exigiría
+1−ω ≥ s*(α) ≥ s*(2−ω), imposible para ω > ω₁. ∎
 
 En la juntura ω₁: α_m(ω₁) = 2 − ω₁ y α_m(1/7) = 2 exacto (t(1) = 0 y
 t(b(2)) = t(6/7)), con V continua: V(ω₁) = 2(1−ω₁), V(1/7) = 13/7.
@@ -182,8 +201,16 @@ S ≥ 1 + b(α) ≥ 1 + b(2) = 13/7. Si α < 2: por la Proposición 7,
       Q₅(ω) = 33614ω⁵ + 235298ω⁴ + 620830ω³ + 766066ω² + 397831ω − 289 ,
 
   y Q₅ **no tiene raíces en [1/25, 1/7] ⊇ [ω₁, 1/7)** (aislamiento exacto de
-  raíces, bloque A2), así que la única raíz de q ahí es ω = 1/7. Como
-  V(ω₁) − 13/7 = 1/7 − 2ω₁ > 0 y V es continua, V > 13/7 en todo [ω₁, 1/7). ∎
+  raíces, bloque A2; la única raíz positiva de Q₅ es ≈ 0.000725 < 1/25), así
+  que la única raíz de q ahí es ω = 1/7. Como V(ω₁) − 13/7 = 1/7 − 2ω₁ > 0 y
+  V es continua, V > 13/7 en todo [ω₁, 1/7). ∎
+
+Dos observaciones de alcance. Primero, la cota inferior vale para **todo**
+ω > 0, no solo ω ≤ 0.30: las viñetas α ≥ 2 y ω ≥ 1/7 no usan esa cota, y las
+restantes viven en ω < 1/7. Segundo, la unicidad del ínfimo: la igualdad en
+la viñeta α ≥ 2 fuerza S = 1 + b(α) = 13/7, es decir α = 2, σ₁ = 1,
+σ₂ = 6/7; entonces (B2) da 1 − ω ≤ 6/7 (ω ≥ 1/7) y (W) da
+13/7 ≤ 2 − ω (ω ≤ 1/7): solo la esquina.
 
 *Demostración del alcance (la familia es genuina).* En α = 2, ω = 1/7
 exactos no hay familia: κ > 1 da σ₁ + h(2, σ₁) > 13/7 = α − ω para todo
@@ -194,13 +221,15 @@ familia correcta, con ω = 1/7 fijo y δ ↓ 0:
 
 Paredes: (B4) con holgura ε/2; (B2) porque α − ω − 1 ≥ 1 − ω ⟺ α ≥ 2; (W)
 porque σ₁ + σ₂ = α − ω − ε/2; banda porque σ₂ < σ₁. Genuinidad: como
-α > T₍₈⁄₇₎ = 2, el Lema 1 da σ₂ > b(α) estricto (margen ≈ 0.9δ), luego el
+α > T₍₈⁄₇₎ = 2, el Lema 1 da σ₂ > b(α) estricto (margen ≈ 0.898·δ), luego el
 trío {α, 1, σ₂} es genuinamente no empaquetable —no solo según el criterio
 angular— por la Proposición S5 de `suelo_rigido.md` (rigidez: el disco
 R = α + 1 está diametralmente lleno por α y 1; reescálese con t = 1/α), y la
-infactibilidad se propaga de σ₁ = 1 a σ₁ = 1 − ε por el Lema S6a(3)
-(monotonía + cierre); la elección ε = δ²/4 respeta la tasa √ε del umbral de
-la frontera, y el criterio angular lo confirma cuantitativamente (bloque E).
+infactibilidad se propaga de σ₁ = 1 a σ₁ = 1 − ε por el Lema S6a(3) para
+**cualquier ε ∈ (0, δ₀]** con el δ₀ = δ₀(δ) > 0 del lema — eso basta para el
+teorema, sin invocar el criterio angular. (La elección numérica concreta
+ε = δ²/4 del bloque E se valida además con el criterio angular: el umbral
+medido es ε_máx ≈ 2.24·δ², coherente con la tasa √ε de la frontera.)
 Entonces ρ = α − ω − ε/2 → 13/7. Que el ínfimo no se alcanza en ningún otro
 ω es la cota inferior estricta fuera de la esquina. ∎
 
@@ -249,7 +278,8 @@ debajo de la resolución declarada de aquella malla (4·10⁻⁴).
 - **ω₁**: raíz en (1/25, 1/14) de 4ω³ − 20ω² + 25ω − 1 = 0; equivalentemente
   √ω₁ = 1/(5 − 2ω₁). Antes solo numérica.
 - **α_m(ω)**: sextica P(α, ω) = 0 (bigrado (6,2)). Antes «sin forma cerrada».
-- **ω_peak**: raíz en (ω₁, 1/7) de R₈; con α_peak = α_m(ω_peak) ≈ 1.9614700.
+- **ω_peak**: raíz en (ω₁, 1/7) de R₈; con α_peak = α_m(ω_peak) =
+  1.9618665… (el resultante completo es −2¹⁸·(ω−1)¹⁰·R₈).
 - **Q₅**: la quíntica que separa la rama mixta de la recta V = 13/7.
 - La juntura ω_× ≈ 0.0754 del Teorema de `grosor_positivo.md` §3 pierde su
   papel de candidata a juntura real: era solo el cruce de las dos cotas del
@@ -265,22 +295,25 @@ debajo de la resolución declarada de aquella malla (4·10⁻⁴).
 - **Módulo exactitud del criterio angular** (el mismo módulo declarado en
   `perfil_tres.md` §5 y heredado por todo el repo): que T_can no exceda la
   fórmula en las ramas H_m y mixta — sus configuraciones óptimas tienen
-  σ₁ < 1 y su no-empaquetabilidad genuina más allá del criterio angular no
-  está demostrada (a diferencia de la esquina y de la rama del testigo, que
-  viven en σ₁ → 1 y quedan cubiertas por S5 + S6a). El barrido [C] de
-  `esquina.py` y el [D] de `grosor.py` la respaldan numéricamente.
+  σ₁ < 1 (salvo el extremo ω = 1/7 de la mixta, que tiene σ₁ = 1 y sí queda
+  cubierto por S5) y su no-empaquetabilidad genuina más allá del criterio
+  angular no está demostrada (a diferencia de la esquina y de la rama del
+  testigo, que viven en σ₁ → 1 y quedan cubiertas por S5 + S6a). El barrido
+  [C] de `esquina.py` y el [D] de `grosor.py` la respaldan numéricamente.
 - **Alcance**: plantilla canónica (H3 de `grosor_positivo.md`), como todo el
   bloque de grosor.
 
 ## Mapa de verificación
 
-`code/esquina.py`, cinco bloques: **[A]** álgebra exacta en sympy — P y sus
-grados, la factorización q = 4(7ω−1)Q₅/7⁶ con aislamiento de raíces de Q₅
-en [1/25, 1/7] (cero), la cúbica de ω₁ (numerador de (1−ω) − s*(2−ω),
-derivada (5−2ω)(5−6ω), unicidad de la raíz), b(2) = 6/7 y P(2, 1/7) = 0,
-la identidad del primer término de Ψ′ en la juntura (V′(ω₁⁺) > 0 exacto),
-el resultante y R₈ con exactamente una raíz (Sturm), el motor σ′ = −2√G, y
-la exclusión α > 2 + ω; **[B]** la raíz bisecada de la rama mixta anula P,
+`code/esquina.py`, cinco bloques: **[A]** álgebra exacta en sympy — P, sus
+grados y su irreducibilidad sobre ℚ[α,ω], la factorización q = 4(7ω−1)Q₅/7⁶
+con aislamiento de raíces de Q₅ en [1/25, 1/7] (cero), la cúbica de ω₁
+(numerador de (1−ω) − s*(2−ω), derivada (5−2ω)(5−6ω), unicidad de la raíz),
+la identidad de juntura P(2−ω, ω) = (ω−1)³·cúbica, b(2) = 6/7 y
+P(2, 1/7) = 0, la identidad del primer término de Ψ′ en la juntura
+(V′(ω₁⁺) > 0 exacto; su valor es +0.0721380…), el resultante y R₈ con
+exactamente una raíz (Sturm), el motor σ′ = −2√G, la positividad de Ψ′ en
+(1, 2] y la exclusión α > 2 + ω; **[B]** la raíz bisecada de la rama mixta anula P,
 reproduce los 5 valores medidos de `grosor_positivo.md` y da las junturas
 α_m(ω₁) = 2 − ω₁, α_m(1/7) = 2; **[C]** curva completa contra fuerza bruta
 con el criterio angular puro (sin coordenada t) en 14 valores de ω sobre los

@@ -54,6 +54,30 @@ en simbólico en h1.py A8–A14 y en malla (C2, C4, E1–E2); 5/5 bloques.
 Consecuencia: los «módulo H1» de grosor_positivo.md, resultados.md §9,
 reinsercion.md §10 y hoja_de_ruta.md quedan retirados.
 
+## esquina.md + code/esquina.py — TODO CONFIRMADO (6/6 claims), 1 error numérico corregido
+
+Curva exacta del grosor y Teorema de la esquina (inf T_can = 13/7). El verificador
+rederivó el mínimo condicionado desde cero y reconstruyó la curva con dos motores
+independientes (frontera cerrada y criterio angular puro): coincidencia en 22+14
+valores de ω (≤ 3·10⁻¹² y ≤ 4·10⁻⁴ unilateral). P(α,ω) rederivado por doble
+cuadratura (cociente exacto −1); añadió la IRREDUCIBILIDAD de P sobre ℚ[α,ω] (y
+ℚ(ω)[α]), la identidad de juntura P(2−ω,ω) = (ω−1)³·cúbica, y la parametrización
+x = t(α−1) que hace transparente el alcance de la rama mixta (x ≥ 0 ⟺ ω ≤ 1/7).
+Ataques: 30 000 valores de ω, ~4·10⁶ muestras con 206 866 bloqueos genuinos
+(mínimo 1.860387 > 13/7), extremos ω ∈ [10⁻⁹, 0.9], σ₁ = 1−10⁻¹²: cero
+violaciones. Estructura fina confirmada en exacto: V′(ω₁⁺) = +0.07213803 (signos
+por polinomio mínimo módulo la cúbica), resultante = −2¹⁸(ω−1)¹⁰R₈, ω_peak único
+(máximo, 2ª diferencia < 0), bump +1.10473·10⁻⁴; la monotonía de grosor_positivo
+§4 es efectivamente FALSA y quedó corregida allí. REFUTADO un dato lateral, YA
+CORREGIDO: α_peak es 1.9618665, no 1.9614700 (§6; ahora se verifica en D1d).
+Precisiones incorporadas: exclusión α > 2+ω estricta (en α = 2+ω hay un candidato
+con S = 2), caso (c) en (2, 2+ω), el descarte completo de α < T₍₁₊ω₎ en el tramo
+del testigo, unicidad de la esquina explícita, alcance ω > 0.30 de la cota
+inferior, y la salvedad de C6 (la genuinidad usa cualquier ε ≤ δ₀ del Lema S6a(3),
+existencial; la elección numérica δ²/4 se valida aparte). La separación de estatus
+de §7 (demostrado / módulo criterio angular en la cota superior de H_m y mixta)
+fue auditada y es honesta. 5/5 bloques.
+
 ## suelo_rigido.md + code/rigido.py — TODO CONFIRMADO (10/10 claims)
 
 Teorema S: toda instancia de la subfamilia rígida F (R = r₁+r₂, pareja en el

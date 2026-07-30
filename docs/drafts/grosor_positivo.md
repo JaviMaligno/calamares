@@ -161,15 +161,17 @@ que las dos cotas no capturan:
 
 donde h(α, σ₁) es la frontera de infactibilidad del trío y
 
-    ω₁ ≈ 0.041357   es la raíz de   h(2 − ω, 1 − ω) = 1 − ω ,
+    ω₁ = 0.0413570034…   es la raíz en (1/25, 1/14) de   4ω³ − 20ω² + 25ω − 1
 
-el grosor en que el trío de reparto igual {2−ω, 1−ω, 1−ω} toca la frontera
-(verificado: infactible en ω = 0.0414, factible en ω = 0.045). **La rama H_m
-muere en ω₁, no en ω_×**: como la pendiente de la frontera es κ > 1, al moverse
-sobre σ₁ + σ₂ = const desde (1, s−1) hacia el reparto igual la frontera sube más
-deprisa que σ₂, y el reparto igual cae del lado factible en cuanto ω > ω₁. Entre
-ω₁ y ω_× ninguna de las dos cotas del Teorema se alcanza (holgura máxima ≈ 0.06
-en ω_×). Valores medidos (desviación frente a la rama predicha ≤ 4·10⁻⁴, la
+(*forma cerrada hallada en la consolidación*: la condición h(2−ω, 1−ω) = 1−ω
+es s*(2−ω) = 1−ω, `drafts/esquina.md` §3), el grosor en que el trío de
+reparto igual {2−ω, 1−ω, 1−ω} toca la frontera (verificado: infactible en
+ω = 0.0414, factible en ω = 0.045). **La rama H_m muere en ω₁, no en ω_×**:
+como la pendiente de la frontera es κ > 1, al moverse sobre σ₁ + σ₂ = const
+desde (1, s−1) hacia el reparto igual la frontera sube más deprisa que σ₂, y
+el reparto igual cae del lado factible en cuanto ω > ω₁. Entre ω₁ y ω_×
+ninguna de las dos cotas del Teorema se alcanza (holgura máxima ≈ 0.06 en
+ω_×). Valores medidos (desviación frente a la rama predicha ≤ 4·10⁻⁴, la
 malla; la rama mixta se resuelve con bisección independiente en `alpha_mixta`):
 
 | ω | T_can medido | rama | predicción |
@@ -187,8 +189,14 @@ malla; la rama mixta se resuelve con bisección independiente en `alpha_mixta`):
 | 0.20 | 1.863800 | testigo | 1.863408 |
 | 0.25 | 1.868800 | testigo | 1.868538 |
 
-La curva decrece en todo (0, 1/7] —primero como 2(1−ω), luego suavemente como
-α_m(ω) − ω, con α_m creciendo de 2 − ω₁ hacia 2— y crece en [1/7, ∞) como Φ.
+**[Corregido en la consolidación, `drafts/esquina.md` §5]** La curva NO
+decrece en todo (0, 1/7]: decrece como 2(1−ω) hasta ω₁, que es un **mínimo
+local** (V′(ω₁⁺) = +0.0721 > 0, exacto), sube ~1.1·10⁻⁴ hasta un máximo
+local en ω_peak = 0.0444700 (raíz de un polinomio explícito de grado 8), y
+solo entonces baja como α_m(ω) − ω —con α_m creciendo hacia 2— hasta la
+esquina; crece en [1/7, ∞) como Φ. El bump quedaba por debajo de la
+resolución de la malla de este documento; los valores de la tabla eran
+correctos punto a punto y la monotonía era una interpolación indebida.
 
 **La esquina ω = 1/7 es una tangencia cuádruple racional.** En α = 2, ω = 1/7,
 σ₁ → 1, σ₂ = 6/7 se saturan a la vez las cuatro paredes del programa:
@@ -198,10 +206,11 @@ La curva decrece en todo (0, 1/7] —primero como 2(1−ω), luego suavemente co
     (B4)  σ₂ = α − ω − 1 = 6/7   (el agujero de α junto a m)
     (W)   σ₁ + σ₂ = 13/7 = α − ω (la capacidad del testigo)
 
-y el valor es ρ = 13/7 ≈ 1.8571 = T + 0.01786. **Conjetura:** el ínfimo global
-de T_can sobre ω > 0 es exactamente 13/7, alcanzado en esta esquina. (Medido:
-mínimo 1.85754 en ω = 1/7 con las mallas usadas; las identidades T₍₈⁄₇₎ = 2 y
-b(2) = 6/7 = 1 − 1/7 son exactas.)
+y el valor es ρ = 13/7 ≈ 1.8571 = T + 0.01786. **[DEMOSTRADO en la
+consolidación]**: el ínfimo global de T_can sobre ω > 0 es exactamente 13/7,
+alcanzado solo en esta esquina, y sin depender de la exactitud del criterio
+angular — Teorema de la esquina de `drafts/esquina.md` §4, con la curva
+completa de tres regímenes en forma cerrada (Proposición 7 de allí).
 
 Notas de coherencia, todas verificadas en `grosor.py`:
 
@@ -225,19 +234,23 @@ Notas de coherencia, todas verificadas en `grosor.py`:
 
 1. **«El grosor solo lo sube» es cierto, con holgura uniforme.** Respecto del
    valor límite T de la Proposición 3, todo ω > 0 sube el ínfimo al menos hasta
-   2(α_× − 1) ≈ T + 0.0098 (demostrado; H1 cerrado en `drafts/h1.md`), y según la curva medida hasta
-   13/7 = T + 0.0179 (conjetura de la esquina). En la conjetura del umbral de
+   2(α_× − 1) ≈ T + 0.0098 (demostrado; H1 cerrado en `drafts/h1.md`), y de
+   hecho hasta 13/7 = T + 0.0179 exacto (Teorema de la esquina,
+   `drafts/esquina.md`; la antigua conjetura de la esquina). En la conjetura del umbral de
    Tribonacci el caso crítico es por tanto el límite de grosor fino: cualquier
    prueba que cierre w → 0 cierra automáticamente w > 0 **en la plantilla
    canónica**.
-2. **Pero la curva no es monótona.** T_can(ω) decrece desde 2⁻ (en ω → 0⁺)
-   hasta la esquina ω = 1/7 y crece después: el grosor debilita H_m (capacidad
-   1 − ω) más deprisa de lo que estrecha al testigo (capacidad α − ω) hasta la
-   esquina, y a partir de ahí manda la deformación de la cúbica. La monotonía
-   genuina es la de la rama del testigo (Proposición 5, exacta), que es la que
-   responde a la pregunta de §10 punto 2: de los dos efectos de signo contrario,
-   **gana siempre el del testigo en el ínfimo global** (nunca se baja de T),
-   pero el efecto H_m domina la forma de la curva en ω < 1/7.
+2. **Pero la curva no es monótona — y menos de lo que aquí se decía.**
+   T_can(ω) decrece desde 2⁻ (en ω → 0⁺) hasta un primer mínimo local en ω₁,
+   sube un bump de +1.1·10⁻⁴ hasta ω_peak ≈ 0.04447, baja hasta la esquina
+   ω = 1/7 (mínimo global, 13/7 exacto) y crece después
+   (`drafts/esquina.md`): el grosor debilita H_m (capacidad 1 − ω) más
+   deprisa de lo que estrecha al testigo (capacidad α − ω) hasta ω₁, y a
+   partir de la esquina manda la deformación de la cúbica. La monotonía
+   genuina es la de la rama del testigo (Proposición 5, exacta), que es la
+   que responde a la pregunta de §10 punto 2: de los dos efectos de signo
+   contrario, **gana siempre el del testigo en el ínfimo global** (nunca se
+   baja de T), pero el efecto H_m domina la forma de la curva en ω < ω₁.
 3. **Constantes nuevas.** La deformación de Tribonacci T₍₁₊ω₎ con
    α³ = (1+ω)(α²+α+1); el suelo demostrado 2(α_× − 1) con 2α_×³ = 2α_×² +
    2α_× + 3; la juntura ω₁ (raíz de h(2−ω, 1−ω) = 1−ω, sin forma cerrada); y la
@@ -259,13 +272,16 @@ Notas de coherencia, todas verificadas en `grosor.py`:
   frontera tiene forma cerrada t(σ₁) + t(σ₂) = t(b(α)) con t(s) = √((1−s)/s),
   que da expresión explícita a la rama mixta α_m(ω) de §4 (ver H2). Todo lo
   etiquetado «demostrado» en este documento lo es ya sin condición.
-- **H2.** La estructura de tres regímenes de la sección 4 (igualdad por tramos,
-  el valor de ω₁ y la conjetura 13/7 de la esquina) es evidencia numérica: las
-  familias óptimas están exhibidas y medidas, pero la rama mixta α_m(ω) no
-  tiene forma cerrada (es la frontera del criterio angular) y su optimalidad no
-  está demostrada. Lo demostrado es la cota inferior del Teorema. (Con la
-  forma cerrada de la frontera de `drafts/h1.md` §3, α_m(ω) deja de ser
-  inaccesible: reexaminar H2 es ahora fruta más madura.)
+- **H2 — RESUELTO en `drafts/esquina.md` (acta en `VEREDICTOS.md`).** La
+  estructura de tres regímenes es ahora la Proposición 7 de allí (curva
+  exacta): ω₁ es la raíz de la cúbica 4ω³ − 20ω² + 25ω − 1, la rama mixta
+  α_m(ω) es algebraica de grado 6 (sextica P(α,ω) explícita, irreducible), y
+  el ínfimo global es el **Teorema de la esquina**: inf T_can = 13/7,
+  alcanzado solo en (1/7, 2, 6/7), sin módulo del criterio angular (familia
+  genuina vía Prop. S5 + Lema S6a). La cota superior exacta en las ramas H_m
+  y mixta conserva el módulo habitual del criterio angular (§7 de allí).
+  Corrección heredada: la monotonía en (0, 1/7] afirmada en §4 era falsa
+  (bump tras ω₁; ver la nota corregida).
 - **H3 (alcance).** Todo esto es la plantilla canónica: v rígido con un solo
   vecino grande α, S un par, u el agujero de α. Los puntos 1 y 3 de
   `reinsercion.md` §10 (contenedores genéricos, tres bloqueantes) siguen

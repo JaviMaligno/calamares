@@ -164,6 +164,20 @@ def bloque_A():
     Pp = sp.Poly(Pnum, a, w)
     ok &= check(f"A1 P(alpha, omega) tiene grados (6, 2): {Pp.degree(a)}, {Pp.degree(w)}",
                 Pp.degree(a) == 6 and Pp.degree(w) == 2)
+    # A1b: P es irreducible sobre Q[alpha, omega] y primitivo en alpha (su
+    #      contenido en Q[omega] es 1): por Gauss, irreducible sobre Q(omega)[alpha]
+    #      — "algebraica de grado 6" es exacto.
+    fl = sp.factor_list(Pnum)
+    cont = sp.gcd_list([c for c in sp.Poly(Pnum, a).all_coeffs() if c != 0])
+    ok &= check("A1b P irreducible sobre Q[alpha,omega] y primitivo en alpha",
+                len(fl[1]) == 1 and fl[1][0][1] == 1
+                and sp.Poly(fl[1][0][0], a).degree() == 6
+                and cont in (1, sp.Integer(1), -1))
+    # A1c: identidad de juntura P(2-w, w) = (w-1)^3 (4w^3-20w^2+25w-1):
+    #      alpha_m(w1) = 2 - w1 en exacto.
+    ok &= check("A1c P(2-w, w) = (w-1)^3 (4w^3-20w^2+25w-1)",
+                sp.expand(Pnum.subs(a, 2 - w)
+                          - (w - 1) ** 3 * (4 * w ** 3 - 20 * w ** 2 + 25 * w - 1)) == 0)
     # A2: q(w) = P(13/7 + w, w) = 4(7w - 1) Q5(w) / 7^6 y Q5 NO tiene raices en
     #     [1/25, 1/7]: la rama mixta no cruza V = 13/7 antes de la esquina.
     q = sp.factor(sp.expand(Pnum.subs(a, sp.Rational(13, 7) + w)))
@@ -181,9 +195,8 @@ def bloque_A():
     #     4w^3 - 20w^2 + 25w - 1 = 0; creciente en (0, 5/6); 1/25 < w1 < 1/14.
     cub = 4 * w ** 3 - 20 * w ** 2 + 25 * w - 1
     lhs = (1 - w) - 4 * (2 - w) * (3 - w) / (2 * (2 - w) + 1) ** 2
-    ok &= check("A3a s*(2-w) - (1-w) tiene numerador -(4w^3-20w^2+25w-1)",
-                sp.simplify(sp.numer(sp.together(lhs)) + cub * sp.sign(1)) == 0
-                or sp.simplify(sp.factor(sp.numer(sp.together(lhs))) + sp.factor(cub)) == 0)
+    ok &= check("A3a (1-w) - s*(2-w) = -(4w^3-20w^2+25w-1)/(5-2w)^2",
+                sp.simplify(lhs + cub / (5 - 2 * w) ** 2) == 0)
     dcub = sp.expand(sp.diff(cub, w) - (5 - 2 * w) * (5 - 6 * w))
     ok &= check("A3b d/dw = (5-2w)(5-6w) > 0 en (0, 5/6)", dcub == 0)
     cp = sp.Poly(cub, w)
@@ -340,6 +353,11 @@ def bloque_D():
     ok &= check(f"D1b bump: V(0.04447) - 2(1-w1) = "
                 f"{vals[0.04447] - 2 * (1 - W1):+.2e} ~ +1.1e-4",
                 1e-4 < vals[0.04447] - 2 * (1 - W1) < 1.2e-4)
+    wpk = 0.04446998651529517               # raiz de R8 (bloque A6)
+    apk = alpha_m(wpk)
+    ok &= check(f"D1d alpha_peak = alpha_m(omega_peak) = {apk:.10f} "
+                f"(= 1.9618664530, no 1.96147)",
+                abs(apk - 1.9618664529824673) < 1e-9)
     ok &= check("D1c V crece y luego decrece (w1, 0.0435, 0.04447, 0.0455, 0.048)",
                 vals[W1 + 1e-6] < vals[0.0435] < vals[0.04447]
                 and vals[0.04447] > vals[0.0455] > vals[0.048])
