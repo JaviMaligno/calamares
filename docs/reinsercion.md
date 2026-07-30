@@ -154,7 +154,7 @@ encima del ínfimo real: en `ω = 0.05` el valor tabulado `1.846` debe leerse
 `2/(1+2ω) = 20/11 ≈ 1.8182`, ya por debajo de `T`. Las columnas con `ω ≥ 0.12`
 sí coinciden con la fórmula exacta `ρ*₃(ω)`. La conclusión cualitativa de esta
 sección no cambia (por debajo del umbral la combinatoria cierra), pero el umbral
-pasa de `≈ 0.05` medido a `ω_T` demostrado, con `ω_c = ω_T` si `ρ*₄ = ρ*₃`
+pasa de `≈ 0.05` medido a `ω_c = ω_T` demostrado (`ρ*_k = ρ*₃` para todo `k ≥ 3`, `drafts/cuatro.md`)
 (abierto).
 
 ## 7. La geometría de v: por qué el bolsillo solo llega a φ
@@ -297,8 +297,10 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    demostrados por vía puramente aditiva), con cruce exacto `ω_T = 1/T − 1/2` con
    Tribonacci (Corolario 4; véase la nota de §6). La curva conjeturada `c·(1−ω)`
    era falsa: el tramo dominante es la hipérbola `2/(1+2ω)` y hay una meseta en
-   `φ`. Queda abierto `k = 4` (el Corolario 2 excluye `k ≥ 5`; la evidencia
-   sugiere `ρ*₄ = ρ*₃`), y el análogo de la Proposición 3 con tres bloqueantes en
+   `φ`. **`k` general RESUELTO en `drafts/cuatro.md`**: `ρ*_k = ρ*₃` para todo
+   `k ≥ 3` (Proposición 8) y `ω_c = ω_T` exacto (Corolario 5; el Corolario 2
+   solo cubría perfiles en banda y no bastaba). Queda el análogo de la
+   Proposición 3 con tres bloqueantes en
    banda.
 
 ## Mapa de verificación

@@ -226,7 +226,7 @@ trío {α, 1, σ₂} es genuinamente no empaquetable —no solo según el criter
 angular— por la Proposición S5 de `suelo_rigido.md` (rigidez: el disco
 R = α + 1 está diametralmente lleno por α y 1; reescálese con t = 1/α), y la
 infactibilidad se propaga de σ₁ = 1 a σ₁ = 1 − ε por el Lema S6a(3) para
-**cualquier ε ∈ (0, δ₀]** con el δ₀ = δ₀(δ) > 0 del lema — eso basta para el
+**cualquier ε ∈ (0, δ₀)** con el δ₀ = δ₀(δ) > 0 del lema — eso basta para el
 teorema, sin invocar el criterio angular. (La elección numérica concreta
 ε = δ²/4 del bloque E se valida además con el criterio angular: el umbral
 medido es ε_máx ≈ 2.24·δ², coherente con la tasa √ε de la frontera.)

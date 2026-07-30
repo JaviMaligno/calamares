@@ -49,10 +49,10 @@ Los teoremas de superincrecencia ya cubren cualquier contenedor y dimensión (pa
 **Bloqueantes de la conjetura principal:**
 1. **Contenedores v/u genéricos** — EL hueco. Todo lo demostrado vive en la plantilla canónica (v rígido con un vecino grande, S un par, u el agujero de α). Hace falta: cota inferior universal del mayor hueco de un empaquetamiento en función de la capacidad libre, y la restricción del testigo cuando u es la sartén (empaquetabilidad junto a ocupantes mayores, no capacidad simple). Pista útil ya medida: el umbral bloqueante crece como b(t) + Θ(√δ) fuera de la esquina rígida (rigido.py V7b).
 2. **H1 — RESUELTO en `drafts/h1.md` (acta en `VEREDICTOS.md`; `code/h1.py` 5/5).** La corazonada Schur era una identidad cerrada: κ = √(g(σ₂)/g(σ₁)) con g(s) = s³(1−s), independiente de α, y κ ≥ 1 para todo α > 1. De propina: la frontera de bloqueo del trío tiene forma cerrada t(σ₁) + t(σ₂) = t(b(α)) con t(s) = √((1−s)/s), y el cierre por abajo del programa es exactamente α ≤ T (Tribonacci), no la cota áurea. Los "módulo H1" del bloque de grosor quedan retirados.
-3. **ρ*₄ = ρ*₃** — conjeturado; k ≥ 5 excluido (Corolario 2), así que k = 4 es lo único que podría rebajar ω_T. Cerrarlo fija ω_c = ω_T exacto.
+3. **ρ*₄ = ρ*₃ — RESUELTO en `drafts/cuatro.md` (acta en `VEREDICTOS.md`; `code/cuatrok.py` 5/5).** Más fuerte: ρ*_k = ρ*₃ para todo k ≥ 3 (árbol aditivo general, aportado por la verificación adversaria tras refutar el cierre vía Corolario 2, que solo cubre perfiles en banda). ω_c = ω_T = 1/T − 1/2 exacto.
 
 **De rigor menor:**
-4. ~~Compacidad en la Prop. S6~~ — RESUELTO: Lema S6a de `drafts/suelo_rigido.md` §8 (monotonía + cierre + apertura cuantificada, δ₀ = t − u_máx explícito).
+4. ~~Compacidad en la Prop. S6~~ — RESUELTO: Lema S6a de `drafts/suelo_rigido.md` §8 (monotonía + cierre + apertura de la infactibilidad en [0, δ₀), δ₀ = t − u_máx el extremo óptimo).
 5. Cota ρ > √2 del cuadrado: válida solo para α ≥ 1; falta el caso α < 1 o restringir el enunciado.
 6. Exactitud del criterio angular feas3: usada como exacta, sin prueba en el repo; afecta al caso (ii) de la Proposición 4 (ω > 1/2). El Teorema S la esquiva usando solo direcciones constructivas — mismo truco aplicable donde reaparezca.
 

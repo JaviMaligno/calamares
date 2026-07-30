@@ -185,10 +185,11 @@ en
 `ρ*₃ ≤ ρ*₂` en todo punto, la garantía combinatoria de reinserción con `ρ < T`
 para perfiles de hasta 3 aros vale exactamente hasta `ω_T`, que sustituye (y
 rebaja) la estimación `ω_c ≈ 0.05` de `reinsercion.md` §6. Por el Corolario 2 el
-único tamaño de perfil que podría rebajar aún más el umbral es `k = 4`: queda
-`ω_c ∈ [algo ≤ ω_T que fije k=4, ω_T]`, con la evidencia numérica de §6
-(columna `k=4` ≈ columna `k=3` tras corregir el mínimo local) sugiriendo
-`ρ*₄ = ρ*₃`, es decir `ω_c = ω_T`. Abierto.
+único tamaño de perfil que podría rebajar aún más el umbral es `k = 4`.
+**[RESUELTO en la consolidación, `drafts/cuatro.md`]**: la Proposición 8 de
+allí demuestra `ρ*_k = ρ*₃` para **todo** `k ≥ 3` (árbol aditivo general,
+sin pasar por el Corolario 2, que solo cubre perfiles en banda), luego
+`ω_c = ω_T` exacto (Corolario 5).
 
 **La conjetura de la curva era falsa.** Ni `c·(1−ω)` con `c < 2` ni `2/√3 − 1`:
 el tramo dominante es la hipérbola `2/(1+2ω)`, que sobre el rango muestreado
@@ -219,7 +220,7 @@ sin certificado de optimalidad.)* Las columnas
 con `ω ≥ 0.12` sí coinciden con la fórmula (`1.618 = φ`, `1.601 ≈ 2(1−ω)+δ`,
 `1.101 ≈ 2(1−ω)+δ`). La conclusión cualitativa de §6 no cambia (por debajo de
 `ω_c` la combinatoria cierra), pero `ω_c` pasa de `≈ 0.05` medido a `≤ 0.043689`
-demostrado (con igualdad si `ρ*₄ = ρ*₃`).
+demostrado (con igualdad, pues `ρ*₄ = ρ*₃`: `drafts/cuatro.md`).
 
 ## 5. Huecos declarados
 
@@ -227,9 +228,12 @@ demostrado (con igualdad si `ρ*₄ = ρ*₃`).
    en un disco se usa tal cual la usa el repo (validada numéricamente, no
    demostrada aquí). Afecta solo a la caracterización en `ω > 1/2`, no a la
    fórmula de ρ*₃.
-2. **`ρ*₄`.** La fórmula cerrada para perfiles de cuatro aros sigue abierta; el
-   argumento del polvo da `ρ*₄ ≤ ρ*₃` y el Corolario 2 excluye `k ≥ 5` bajo `T`,
-   pero no hay prueba de `ρ*₄ = ρ*₃` (solo la evidencia numérica de §6).
+2. **`ρ*₄` — RESUELTO en `drafts/cuatro.md` (acta en `VEREDICTOS.md`).**
+   `ρ*_k = ρ*₃` para todo `k ≥ 3` (Proposición 8, árbol aditivo general), y
+   `ω_c = ω_T` exacto (Corolario 5). Aviso heredado de esa acta: el
+   Corolario 2 solo cubre perfiles con todos los aros en banda y NO basta
+   por sí solo para excluir `k ≥ 5` (la sucesión `ρ*_k` es no creciente);
+   el cierre correcto es el árbol general.
 3. **Infimo vs. mínimo.** ρ*₃ es un ínfimo no alcanzado; las instancias reales
    con `ρ` cerca del ínfimo requieren tangencias casi exactas, como en todo el
    resto del programa.

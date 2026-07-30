@@ -304,13 +304,16 @@ empaquetan.
 1. **(monotonía)** Si `(t, u, v) ∈ E`, `u′ ≤ u`, `v′ ≤ v` y
    `(t, u′, v′) ∈ D`, entonces `(t, u′, v′) ∈ E`.
 2. **(cierre)** `E` es cerrado en `D`.
-3. **(apertura cuantificada de la infactibilidad)** Para `t, v` fijos, el
-   conjunto `U := {u ∈ [v, t] : (t, u, v) ∈ E}` es vacío o un intervalo
-   cerrado `[v, u_máx]` con el máximo **alcanzado**. En particular, si
-   `(t, t, v) ∉ E`, entonces `(t, u, v) ∉ E` para todo `u ∈ (u_máx, t]`:
-   la infactibilidad de la esquina rígida se propaga a un intervalo
-   explícito `δ ∈ (0, δ₀]`, `δ₀ := t − u_máx > 0` (y a todo `[v, t]` si
-   `U = ∅`).
+3. **(apertura de la infactibilidad, con extremo determinado)** Para `t, v`
+   fijos, el conjunto `U := {u ∈ [v, t] : (t, u, v) ∈ E}` es vacío o un
+   intervalo cerrado `[v, u_máx]` con el máximo **alcanzado**. En particular,
+   si `(t, t, v) ∉ E`, entonces `(t, u, v) ∉ E` para todo `u ∈ (u_máx, t]`:
+   la infactibilidad de la esquina rígida se propaga al intervalo
+   `δ ∈ [0, δ₀)`, `δ₀ := t − u_máx > 0` (abierto por la derecha: en
+   `δ = δ₀` se tiene `u = u_máx ∈ U`, que empaqueta; y a todo `[v, t]` si
+   `U = ∅`). El `δ₀` queda determinado, no dado por una fórmula: `u_máx` es
+   el máximo de un conjunto cerrado (`rigido.py` V7b lo localiza por
+   bisección).
 
 *Demostración.* (1) Los mismos centros son testigo: cada cota de contención
 se relaja (`1 + t − u ≤ 1 + t − u′`) y cada cota de separación también
@@ -332,7 +335,8 @@ Nada aquí usa geometría fina: es el argumento estándar de que un sistema de
 desigualdades **no estrictas** con testigos en un compacto define un conjunto
 cerrado, más la observación de que encoger radios nunca rompe un
 empaquetamiento. El punto (3) es la única forma en que la Proposición S6 lo
-usa; de propina, hace **explícito** el `δ₀` que antes era existencial.
+usa; de propina, identifica el `δ₀` óptimo (el mayor posible) que antes era
+existencial.
 
 ### Proposición S6 (el ínfimo es T y no se alcanza)
 
@@ -343,7 +347,7 @@ familia en `F` con `ρ → T`. Dos ingredientes:
 
 *Cierre de la factibilidad.* Lema S6a(3): si `(t, t, v)` es infactible,
 existe `δ₀ > 0` (a saber, `t − u_máx`) tal que `(t, t−δ, v)` es infactible
-para todo `δ ≤ δ₀`.
+para todo `δ < δ₀`.
 
 *La familia.* Fijo `t < t*`, sea `ε_t := (1 − t − b(t))/2 > 0` y
 `v_t := b(t) + mín(ε_t, (t − b(t))/2)`. Por la Proposición S5, `(t, t, v_t)`
@@ -401,7 +405,8 @@ delegadas a sympy están todas en `rigido.py` V5, 10/10). Matices de estatus:
 
 1. **Cierre de la factibilidad** (Proposición S6) — **RESUELTO**: el antiguo
    esbozo de compacidad es ahora el Lema S6a (monotonía + cierre + apertura
-   cuantificada de la infactibilidad, con `δ₀ = t − u_máx` explícito). Solo
+   de la infactibilidad, con el extremo óptimo `δ₀ = t − u_máx`, intervalo
+   `[0, δ₀)`). Solo
    afectaba a la dirección `≤` del ínfimo.
 2. **`feas3` no interviene en ninguna prueba.** Se usa únicamente como
    oráculo numérico en las verificaciones (V7, V8) y para elegir parámetros

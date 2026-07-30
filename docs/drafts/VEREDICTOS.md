@@ -73,10 +73,39 @@ CORREGIDO: α_peak es 1.9618665, no 1.9614700 (§6; ahora se verifica en D1d).
 Precisiones incorporadas: exclusión α > 2+ω estricta (en α = 2+ω hay un candidato
 con S = 2), caso (c) en (2, 2+ω), el descarte completo de α < T₍₁₊ω₎ en el tramo
 del testigo, unicidad de la esquina explícita, alcance ω > 0.30 de la cota
-inferior, y la salvedad de C6 (la genuinidad usa cualquier ε ≤ δ₀ del Lema S6a(3),
+inferior, y la salvedad de C6 (la genuinidad usa cualquier ε < δ₀ del Lema S6a(3),
 existencial; la elección numérica δ²/4 se valida aparte). La separación de estatus
 de §7 (demostrado / módulo criterio angular en la cota superior de H_m y mixta)
 fue auditada y es honesta. 5/5 bloques.
+
+## cuatro.md + code/cuatrok.py — PROPOSICIÓN CONFIRMADA, PRUEBA DEL COROLARIO REFUTADA Y REPARADA
+
+ρ*₄ = ρ*₃ (Proposición 8) CONFIRMADO: oráculo independiente (calibrado contra la
+Prop. 4 de perfil_tres con 0 desacuerdos en 16 800 perfiles y contra
+reinserta.accepts en 11 200), malla exhaustiva de ~900 000 candidatos y búsqueda
+dirigida con descenso: el mínimo sobre bloqueados coincide con ρ*₃ por arriba a
++3·10⁻⁷…+1·10⁻⁶ en 13 valores de ω, y el árbol A/B1/B2/B3 fue auditado rama a
+rama (12 000 muestras × 4 ramas × 11 ω, cero violaciones; B2 es la única rama que
+muerde; el certificado de B3 verificado en positivo con 340 000 perfiles).
+REFUTADA la prueba del Corolario 5 tal como estaba: el cierre de k ≥ 5 invocaba
+el Corolario 2 de reinsercion.md, que SOLO cubre perfiles con todos los aros en
+banda — y como ρ*_{k+1} ≤ ρ*_k (polvo), k ≥ 5 podía en principio bajar el umbral.
+El verificador aportó el parche, INTEGRADO como prueba principal en cuatro.md §2:
+un árbol general que demuestra ρ*_k = ρ*₃ para TODO k ≥ 3 (p := #{i: s_i > s₁−ω}
+≤ 3; p ≥ 3 bloquea el prefijo; p = 2 reproduce el caso (iv); p = 1 fuerza ρ ≥ 2),
+con lo que el Corolario 5 (ω_c = ω_T exacto) queda demostrado y uniforme en k.
+Otros arreglos: el oráculo de cuatrok.py es conservador (no «generoso») en grupos
+de ≥ 4 hermanos — el sesgo correcto para [B], con la justificación reescrita — y
+las familias de [D] no dependen de él (confirmado con oráculo permisivo
+independiente); el bloque [C] tenía punto ciego en las ramas de contradicción
+(ahora clasifica por geometría y las ejercita); aside de I₃ corregido (1/(1−ω)
+para ω > 1−1/φ); el testigo con ρ = 2/(1+2ω) solo vale hasta (√5−2)/2; añadido
+ω_T = T²−T−3/2 módulo la cúbica (A4b) y el mínimo de p=1 (A4c); barrido k = 5, 6
+añadido ([E]). DE PROPINA auditó el Lema S6a: argumento correcto, con UN error de
+extremo real, YA CORREGIDO en los tres sitios: el intervalo de propagación es
+δ ∈ [0, δ₀) — en δ = δ₀ se tiene u = u_máx, que empaqueta — no (0, δ₀]; y
+«δ₀ explícito» rebajado a «extremo óptimo determinado» (u_máx es un máximo, no
+una fórmula). 5/5 bloques.
 
 ## suelo_rigido.md + code/rigido.py — TODO CONFIRMADO (10/10 claims)
 
