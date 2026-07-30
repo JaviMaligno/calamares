@@ -52,7 +52,7 @@ Los teoremas de superincrecencia ya cubren cualquier contenedor y dimensión (pa
 3. **ρ*₄ = ρ*₃** — conjeturado; k ≥ 5 excluido (Corolario 2), así que k = 4 es lo único que podría rebajar ω_T. Cerrarlo fija ω_c = ω_T exacto.
 
 **De rigor menor:**
-4. Compacidad en la Prop. S6 (esbozada; solo afecta a la dirección ≤ del ínfimo).
+4. ~~Compacidad en la Prop. S6~~ — RESUELTO: Lema S6a de `drafts/suelo_rigido.md` §8 (monotonía + cierre + apertura cuantificada, δ₀ = t − u_máx explícito).
 5. Cota ρ > √2 del cuadrado: válida solo para α ≥ 1; falta el caso α < 1 o restringir el enunciado.
 6. Exactitud del criterio angular feas3: usada como exacta, sin prueba en el repo; afecta al caso (ii) de la Proposición 4 (ω > 1/2). El Teorema S la esquiva usando solo direcciones constructivas — mismo truco aplicable donde reaparezca.
 

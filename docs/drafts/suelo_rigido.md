@@ -286,6 +286,54 @@ Obsérvese que esta es la única pieza de la prueba donde la configuración
 rígida se usa como tal, y su papel es solo la **exactitud** del suelo (la
 dirección `≤` del ínfimo); el Teorema S no la necesita.
 
+### Lema S6a (cierre y monotonía de la factibilidad)
+
+Formalizamos el ingrediente topológico que la Proposición S6 necesita. Sea
+`D := {(t, u, v) : 0 < v ≤ u ≤ t < 1}` y, para `p = (t, u, v) ∈ D`, dígase
+que `p` **empaqueta** si existen centros `c₁, c₂, c₃ ∈ ℝ²` con
+
+    |c₁| ≤ t ,   |c₂| ≤ 1 + t − u ,   |c₃| ≤ 1 + t − v ,
+    |c₁ − c₂| ≥ 1 + u ,   |c₁ − c₃| ≥ 1 + v ,   |c₂ − c₃| ≥ u + v
+
+(contención en el disco `R = 1 + t` y disyunción de interiores; es la misma
+noción usada en todo el documento). Sea `E ⊆ D` el conjunto de los `p` que
+empaquetan.
+
+**Lema S6a.**
+
+1. **(monotonía)** Si `(t, u, v) ∈ E`, `u′ ≤ u`, `v′ ≤ v` y
+   `(t, u′, v′) ∈ D`, entonces `(t, u′, v′) ∈ E`.
+2. **(cierre)** `E` es cerrado en `D`.
+3. **(apertura cuantificada de la infactibilidad)** Para `t, v` fijos, el
+   conjunto `U := {u ∈ [v, t] : (t, u, v) ∈ E}` es vacío o un intervalo
+   cerrado `[v, u_máx]` con el máximo **alcanzado**. En particular, si
+   `(t, t, v) ∉ E`, entonces `(t, u, v) ∉ E` para todo `u ∈ (u_máx, t]`:
+   la infactibilidad de la esquina rígida se propaga a un intervalo
+   explícito `δ ∈ (0, δ₀]`, `δ₀ := t − u_máx > 0` (y a todo `[v, t]` si
+   `U = ∅`).
+
+*Demostración.* (1) Los mismos centros son testigo: cada cota de contención
+se relaja (`1 + t − u ≤ 1 + t − u′`) y cada cota de separación también
+(`1 + u ≥ 1 + u′`, `u + v ≥ u′ + v′`).
+
+(2) Sean `p_k = (t_k, u_k, v_k) ∈ E` con `p_k → p ∈ D`, y `(c₁ᵏ, c₂ᵏ, c₃ᵏ)`
+testigos. Todos los centros viven en la bola `|c| ≤ 1 + t_k ≤ 2`, luego la
+sucesión de testigos vive en un compacto de `(ℝ²)³ ≅ ℝ⁶` y una subsucesión
+converge a `(c₁, c₂, c₃)`. Las seis restricciones son de la forma
+`g(c₁, c₂, c₃; t, u, v) ≥ 0` con `g` continua, y valen a lo largo de la
+subsucesión; pasando al límite valen en `(c₁, c₂, c₃; p)`. Luego `p ∈ E`.
+
+(3) Por (1), `U` es decreciente-cerrado (si contiene `u`, contiene
+`[v, u]`); por (2) es cerrado en `[v, t]`; luego es `∅` o `[v, u_máx]` con
+`u_máx ∈ U`. Si `(t, t, v) ∉ E` entonces `u_máx < t`, y todo
+`u ∈ (u_máx, t]` queda fuera de `E`. ∎
+
+Nada aquí usa geometría fina: es el argumento estándar de que un sistema de
+desigualdades **no estrictas** con testigos en un compacto define un conjunto
+cerrado, más la observación de que encoger radios nunca rompe un
+empaquetamiento. El punto (3) es la única forma en que la Proposición S6 lo
+usa; de propina, hace **explícito** el `δ₀` que antes era existencial.
+
 ### Proposición S6 (el ínfimo es T y no se alcanza)
 
 **Proposición S6.** `ínf { ρ(I) : I ∈ F } = T`, y el ínfimo no se alcanza.
@@ -293,13 +341,9 @@ dirección `≤` del ínfimo); el Teorema S no la necesita.
 *Demostración.* `≥` y no-alcance: Teorema S (estricto). `≤`: hace falta una
 familia en `F` con `ρ → T`. Dos ingredientes:
 
-*Cierre de la factibilidad.* El conjunto de parámetros `(t, u, v)` cuyo trío
-empaqueta en `1 + t` es cerrado: los centros viven en un compacto, y si
-`(t, u_k, v) → (t, t, v)` con empaquetamientos válidos, una subsucesión de
-centros converge y las desigualdades (distancias ≥ sumas de radios,
-contención) pasan al límite. En consecuencia la **infactibilidad es abierta**:
-si `(t, t, v)` es infactible, existe `δ₀ > 0` tal que `(t, t−δ, v)` es
-infactible para todo `δ ≤ δ₀`.
+*Cierre de la factibilidad.* Lema S6a(3): si `(t, t, v)` es infactible,
+existe `δ₀ > 0` (a saber, `t − u_máx`) tal que `(t, t−δ, v)` es infactible
+para todo `δ ≤ δ₀`.
 
 *La familia.* Fijo `t < t*`, sea `ε_t := (1 − t − b(t))/2 > 0` y
 `v_t := b(t) + mín(ε_t, (t − b(t))/2)`. Por la Proposición S5, `(t, t, v_t)`
@@ -351,15 +395,14 @@ del bolsillo mejora en raíz cuadrada, no linealmente, al ganar holgura
 
 ## 10. Huecos declarados
 
-Ninguno en la cadena principal: los Lemas S1–S4, el Teorema S y la
-Proposición S5 son demostraciones completas (las identidades algebraicas
-delegadas a sympy están todas en `rigido.py` V5, 10/10). Dos matices de
-estatus:
+Ninguno en la cadena principal: los Lemas S1–S4, el Teorema S y las
+Proposiciones S5–S6 son demostraciones completas (las identidades algebraicas
+delegadas a sympy están todas en `rigido.py` V5, 10/10). Matices de estatus:
 
-1. **Cierre de la factibilidad** (Proposición S6): el argumento de
-   compacidad está esbozado en tres líneas; es estándar y elemental, pero no
-   está formalizado con la misma granularidad que el resto. Afecta solo a la
-   dirección `≤` del ínfimo.
+1. **Cierre de la factibilidad** (Proposición S6) — **RESUELTO**: el antiguo
+   esbozo de compacidad es ahora el Lema S6a (monotonía + cierre + apertura
+   cuantificada de la infactibilidad, con `δ₀ = t − u_máx` explícito). Solo
+   afectaba a la dirección `≤` del ínfimo.
 2. **`feas3` no interviene en ninguna prueba.** Se usa únicamente como
    oráculo numérico en las verificaciones (V7, V8) y para elegir parámetros
    concretos en la familia aproximante. El estatus de exactitud de `feas3`
