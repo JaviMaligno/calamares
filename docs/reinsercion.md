@@ -272,7 +272,12 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
 ## 10. Qué queda por demostrar
 
 1. **Contenedores `v` genéricos. — SIGUE ABIERTO; es EL hueco principal de la
-   conjetura.** El análisis anterior supone `v` rígido con un solo
+   conjetura.** *Avance parcial (`drafts/universal.md`):* el toolkit geométrico ya
+   es uniforme en R — frontera lineal del trío para disco arbitrario (Lema U, con
+   su hipótesis A ≥ mín(x,y)), bolsillo general b_R(A) creciente en R, Teorema S
+   con holgura (Corolario U1), cota de existencia R < 2.1547·A — y las dos
+   batallas restantes (ocupantes interiores; u = sartén) están formuladas con
+   exploración numérica a favor. El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
    capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del

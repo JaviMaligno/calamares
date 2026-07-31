@@ -25,20 +25,27 @@ verificación adversaria completada y consolidados. **El programa queda con un
 - Actas de TODO en `VEREDICTOS.md` (7 borradores). Teorema S, grosor,
   perfil_tres, cuadrado: como antes.
 
-## Lo que queda (hoja_de_ruta.md §7)
+## El asalto (§7.1): fase 1 CERRADA, batallas 2 y 3 abiertas
 
-1. **EL ASALTO GRANDE: contenedores v/u genéricos** (§7.1) — el único hueco
-   bloqueante de la conjetura del umbral de Tribonacci. Piezas disponibles
-   ahora que no existían al escribir el plan: frontera de bloqueo en forma
-   cerrada y lineal en coordenada t (h1.md §3), el G-lema como motor de
-   monotonía, la curva exacta del grosor, el Lema S6a para propagar
-   infactibilidades, y ρ*_k cerrado para todo k. Pista medida: umbral
-   b(t) + Θ(√δ) al abrir holgura δ (rigido.py V7b) — la generalización
-   R > r₁ + r₂ del Teorema S pide una versión cuantitativa de S5 (rigidez
-   aproximada), y la coordenada t podría linealizarla.
-2. Rigor menor pendiente: cota ρ > √2 del cuadrado solo α ≥ 1 (hoja §7.5);
-   exactitud de feas3 (§7.6, esquivable con direcciones constructivas).
-3. Consolidar `paper/main.tex` con todo lo nuevo (§6 de la hoja de ruta).
+- **Fase 1 hecha** (`drafts/universal.md` + `code/universal.py` 5/5, acta en
+  VEREDICTOS con refutación del enunciado original REPARADA): **Lema U**
+  (frontera lineal del trío en disco R arbitrario, CON la hipótesis
+  A ≥ mín(x,y) — sin ella es falso, contraejemplo en el acta), bolsillo
+  general b_R(A) = ARc/(AR+c²) creciente en R, κ uniforme en R con umbral
+  afilado 3c² ≤ 4AR, G_c-identidad G_c = (c²/4)U′² (h1 §4 ≡ S4(3)), cota de
+  existencia R < 2.1547·A, y **Teorema S con holgura** (Corolario U1) —
+  cierra la extensión de hoja_de_ruta §1.
+- **Batalla 1 (v con ocupantes interiores)**: formulada en universal.md §3;
+  exploración a favor (3 ocupantes, proxy angular: mejor bloqueo ρ = 2.56 >>
+  13/7, la cola del ocupante extra γ es la dominante en 321/321). Falta el
+  «lema del hueco» (cota inferior del mayor hueco en función de la capacidad
+  libre) para ocupantes interiores; para coronas de tangentes a pared el
+  Lema U ya da la aditividad en T_c.
+- **Batalla 2 (u = sartén)**: formulada, sin explorar. El análogo de (W) es
+  una condición de corona, lineal en T_c por el Lema U.
+- Rigor menor pendiente: cota ρ > √2 del cuadrado solo α ≥ 1 (hoja §7.5);
+  exactitud de feas3 (§7.6, esquivable con direcciones constructivas).
+- Consolidar `paper/main.tex` con todo lo nuevo (§6 de la hoja de ruta).
 
 ## Notas de entorno
 

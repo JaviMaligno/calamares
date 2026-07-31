@@ -16,49 +16,85 @@ en el dominio interior A + x, A + y, x + y < R. Sea c := R − A y
 
     T_c(x) := √((c − x)/x) ,      τ_R := c/√(AR) .
 
-**Lema U.** En el dominio interior, la suma angular cumple
+**Lema U.** En el dominio interior y **con la hipótesis A ≥ mín(x, y)** (A
+no es el mínimo estricto del trío), la suma angular cumple
 
     F = θ(A,x) + θ(A,y) + θ(x,y) ≥ 2π   ⟺   T_c(x) + T_c(y) ≤ τ_R .
 
-*Demostración.* Idéntica a la del Lema F de `h1.md` §3 con una sola
-generalización: el término cruzado. Con sin²(θ_{Az}/2) = f(A)f(z),
-f(z) = z/(R−z), la identidad general (bloque A1 de `universal.py`)
+La dirección ⟹ es incondicional; la ⟸ **exige la hipótesis** (versión
+afilada, necesaria y suficiente: θ(A,x) + θ(A,y) > θ(x,y)). Sin ella el
+lema es FALSO: con R = 1, A = 0.01, x = y = 0.45 (dominio interior) se
+tiene T_c(x) + T_c(y) = 2.19 ≤ τ_R = 9.9 y sin embargo F = 2.28 < 2π: el
+trío empaqueta de sobra. [Contraejemplo y caracterización exacta del fallo
+—100 % de discrepancia en la región s ≤ w, 0 % en s > w, con
+s = (θ(A,x)+θ(A,y))/2, w = θ(x,y)/2— debidos a la verificación adversaria.]
+
+*Demostración.* El término cruzado factoriza para R arbitrario: con
+sin²(θ_{Az}/2) = f(A)f(z), f(z) = z/(R−z), la identidad general (bloque A1
+de `universal.py`)
 
     f(A) f(x) · (1 − f(A) f(y)) = [AR/(R−A)²] · [(c−y)/y] · f(x) f(y)
 
 —que en `h1.md` requería R = α + 1 solo porque allí se evaluaba f(α) = α—
 da sin(θ_{Ax}/2)cos(θ_{Ay}/2) = [√(AR)/(R−A)]·T_c(y)·√(f(x)f(y)), y sumando
-el término simétrico, la ecuación F = 2π se convierte en
-√(AR)(T_c(x)+T_c(y))/(R−A) = 1. La equivalencia (dirección ⟸, unicidad,
-extremo diagonal) es el mismo argumento de monotonía de allí. ∎
+el término simétrico: sin(s) = [√(AR)/c]·(T_c(x)+T_c(y))·√(f(x)f(y)) con
+s = (θ_{Ax}+θ_{Ay})/2. Como sin(w) = √(f(x)f(y)) con w = θ_{xy}/2, la forma
+lineal equivale a **sin s ≤ sin w**, mientras que F ≥ 2π equivale a
+s + w ≥ π. Con w ≤ π/2, «s + w ≥ π ⟹ sin s ≤ sin w» siempre; el recíproco
+necesita **s > w**, y eso es lo que da la hipótesis: si A ≥ y (el mínimo),
+θ(A,x) ≥ θ(y,x) por monotonía (Lema S1) y s > w. Aquí está la diferencia
+con `h1.md` §3: allí la existencia de la frontera venía gratis de la banda
+σ₂ ≤ σ₁ ≤ 1 < α — que es exactamente «A es el máximo» —, y al generalizar
+hay que pedirla. ∎
 
 El Lema U **unifica** las dos coordenadas del repo: con A = 1, c = t es el
 ψ(x) = √((t−x)/x) y τ = t/√(1+t) del Lema S3 (que era la dirección ⟸,
 suficiente); con A = α, c = 1 es la t(s) = √((1−s)/s) de `h1.md`. Y todos
 los acompañantes son uniformes en R:
 
-- **Bolsillo general.** En x = c (el compañero llena el hueco junto a A):
+- **Bolsillo general.** En x = c —el punto vive en la clausura del dominio,
+  A + x = R, coherente por continuidad (θ(A,c) = π)—:
 
       b_R(A) = ARc/(AR + c²) ,
 
   que en R = A + B es exactamente la fórmula de Descartes
   AB(A+B)/(A² + AB + B²) de `resultados.md` §5bis — ahora válida con
-  holgura. b_R(A) es creciente en R: **la holgura solo agranda el bolsillo**.
+  holgura. b_R(A) es creciente en R (**la holgura solo agranda el
+  bolsillo**) y b_R(A) ≤ A siempre (A − b_R = A³/(A²−AR+R²) > 0): el punto
+  del bolsillo respeta automáticamente la hipótesis del Lema U.
 - **Pendiente.** κ = −dy/dx sobre la frontera = √(g_c(y)/g_c(x)) con
   g_c(s) = s³(c−s): la identidad de `h1.md`, uniforme en R (T_c es
   primitiva de −c/(2√g_c) y el factor c se cancela en el cociente).
-- **G_c-lema.** Sobre el segmento T_c(x) + T_c(y) = τ_R el mínimo de x + y
-  se alcanza empujando x al máximo permitido, con el mismo análisis de dos
-  casos de `h1.md` §4; la condición del caso fácil τ_R ≤ 1/√3 es
-  3c² ≤ AR, que en A = 1, R = 1 + t es t ≤ (1+√13)/6 — **la constante de
-  concavidad del Lema S4**, que resulta ser el mismo umbral.
+- **G_c-identidad y G_c-lema.** Con U(z) := c/(1+z²) (la inversa de T_c),
+
+      G_c(z) := g_c(U(z)) = c⁴z²/(1+z²)⁴ = (c²/4)·U′(z)²    [exacto] :
+
+  «G_c creciente» ⟺ «U cóncava» — el κ ≥ 1 de `h1.md` §4 y la concavidad
+  del Lema S4(3) son **literalmente el mismo hecho en dos coordenadas** (de
+  ahí que compartan constante: τ_R ≤ 1/√3 ⟺ 3c² ≤ AR, que en A = 1,
+  R = 1 + t es t ≤ (1+√13)/6, y en A = α, R = α+1 es α ≥ α₀). El G_c-lema
+  (mínimo de x + y sobre el segmento en la esquina x → máx) NO hereda «el
+  mismo análisis de dos casos» sin más: el umbral exacto es
+
+      κ ≥ 1 en toda la frontera  ⟺  τ_R ≤ 2/√3  ⟺  3c² ≤ 4AR
+
+  (con A = 1: R ≤ 3; justo por encima, κ_min = 0.9785 con A < mín(x,y)).
+  En la banda de uso x, y ≤ A el bloqueo solo existe si R < (1+2/√3)A
+  (véase abajo), donde τ_R ≤ 0.7866 < 2/√3 y el caso 2 de `h1.md` §4 rehecho
+  da margen κ² ≥ 2.442 (en `h1.md` era 6.27). [Umbral 3c² ≤ 4AR y margen
+  debidos a la verificación adversaria.]
 - **Invariancia de escala**: T_c y τ_R son homogéneos de grado 0: basta
   normalizar A = 1 (o m = 1) en todo lo que sigue.
-- **Aviso de dominio.** Con holgura grande la frontera de infactibilidad
-  puede cruzar por la rama del **par** (x + y > R, θ(x,y) = π) antes que por
-  la angular; la forma lineal describe solo la rama angular. En los usos del
-  programa (x, y ≤ 1 < A, R ≥ A + 1) la rama del par no aparece; con
-  contenedores genéricos hay que comprobarlo caso a caso.
+- **Cota de existencia del bloqueo.** Para x, y ≤ A el supremo de F es
+  3θ(A,A), luego hay tríos bloqueados con cabeza A solo si θ(A,A) > 2π/3,
+  es decir f(A) > √3/2:
+
+      R < (1 + 2/√3)·A = 2.1547005…·A .
+
+  (Esto sustituye al «aviso de la rama del par» de una versión anterior: con
+  la hipótesis del Lema U, x + y ≤ x + A < R sale gratis y la rama del par
+  es inalcanzable.) Corolario práctico: la familia del Corolario U1 es vacía
+  si R ≥ 2.1547·r₁ — la holgura extrema mata el bloqueo por sí sola.
 
 Como siempre, la dirección que los teoremas usan es la constructiva
 (F ≤ 2π ⟹ empaqueta, Lema S2, válido para todo R): genuinamente
@@ -122,30 +158,41 @@ angular de 4 círculos** (suma de arcos consecutivos ≥ 2π en el mejor orden;
 para 4 círculos la tangencia a pared es solo un proxy — se declara como tal,
 igual que las partes numéricas de `grosor_positivo.md` §4). Resultado del
 muestreo (60 000 configuraciones, 321 bloqueos-proxy): el mejor bloqueo tiene
-ρ = 2.5617, muy por encima de 13/7 = 1.8571 — el ocupante extra γ paga en la
-cola de α ((γ + 1 + u + v)/α) más de lo que aporta estorbando. Es evidencia
-(no prueba) a favor de la conjetura fina de la Batalla 1.
+ρ = 2.5617, muy por encima de 13/7 = 1.8571 — y en los 321 bloqueos la cola
+dominante es la de γ, (1 + u + v)/γ: **el ocupante extra paga en su propia
+cola** más de lo que aporta estorbando (con γ pequeño, todo lo que γ ayuda a
+bloquear queda por debajo de él en la instancia). Matiz: el muestreo fuerza
+u, v ∈ [1−ω, 1] con ω ≤ 0.25, así que la holgura sobre 13/7 está
+condicionada por esa caja, no solo por la geometría. Es evidencia (no
+prueba) a favor de la conjetura fina de la Batalla 1.
 
 ## 5. Huecos declarados
 
 1. Este borrador **no** cierra el punto 1 de `reinsercion.md` §10; cierra el
-   Lema U, sus corolarios y el Teorema S con holgura. Las Batallas 1 y 2
-   quedan formuladas con evidencia exploratoria.
+   Lema U (con su hipótesis A ≥ mín(x,y), imprescindible), sus corolarios y
+   el Teorema S con holgura. Las Batallas 1 y 2 quedan formuladas con
+   evidencia exploratoria.
 2. El proxy angular de 4 círculos de §4 no es un criterio exacto ni en
    dirección suficiente ni necesaria para ocupantes interiores; solo mapea
    el paisaje de bloqueos de corona.
-3. La rama del par en holgura grande (aviso de dominio de §1) debe
-   comprobarse en cada aplicación del Lema U fuera de la banda del programa.
+3. Fuera de la hipótesis A ≥ mín(x,y) la forma lineal solo vale en la
+   dirección ⟹ (la que usan los teoremas); toda aplicación futura del lema
+   con A pequeño debe usar solo esa dirección o verificar s > w.
 
 ## Mapa de verificación
 
 `code/universal.py`, cinco bloques: **[A]** identidades en sympy exacto (el
-término cruzado general A1 — la única pieza nueva respecto de `h1.py` —, el
-bolsillo b_R(A) y su reducción a Descartes en R = A + B, la primitiva
-T_c′ = −c/(2√g_c), κ uniforme en R, la condición 3c² ≤ AR con su reducción a
-(1+√13)/6, y la invariancia de escala); **[B]** frontera lineal y κ contra
-bisección angular en malla sobre (A, R) con holguras de 0 a 0.8 (≥ 300
-puntos, rama del par excluida por dominio); **[C]** bolsillo general contra
-bisección y crecimiento en R; **[D]** la cadena del Teorema S con holgura
-(monotonía de F en R + instancias de F_hol: infactible en R ⟹ infactible en
-1 + t ⟹ ρ > T); **[E]** la exploración de tres ocupantes (proxy declarado).
+término cruzado general A1, el bolsillo b_R(A) con su reducción a Descartes
+y la cota b_R ≤ A, la primitiva T_c′ = −c/(2√g_c), κ uniforme en R, la
+condición 3c² ≤ AR con su reducción a (1+√13)/6, la invariancia de escala,
+la G_c-identidad G_c = (c²/4)U′², el umbral afilado del κ ≥ 1
+(signo de G_c′(τ/2) = signo de (4−3τ²), es decir 3c² ≤ 4AR) y la cota de
+existencia R < (1+2/√3)A); **[B]** frontera lineal y κ contra bisección
+angular en malla sobre (A, R) (≥ 300 puntos) **más el test inverso**: la
+solución lineal cae en la frontera genuina bajo la hipótesis A ≥ mín(x,y)
+(desvío ~10⁻¹⁵) y produce refutaciones fuera de ella (necesidad de la
+hipótesis); **[C]** bolsillo general contra bisección (en x = c exacto) y
+crecimiento en R; **[D]** la cadena del Teorema S con holgura (monotonía de
+F en R + instancias de F_hol con ω > 0 estricto: infactible en R ⟹
+infactible en 1 + t ⟹ ρ > T); **[E]** la exploración de tres ocupantes
+(proxy declarado; la cola dominante es la de γ en 321/321 bloqueos).

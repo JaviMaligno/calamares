@@ -122,6 +122,37 @@ def bloque_A():
                             - sp.sqrt((c - x) / x)) == 0
                 and sp.simplify((lam * R - lam * A) / sp.sqrt(lam * A * lam * R)
                                 - (R - A) / sp.sqrt(A * R)) == 0)
+    # A7: G_c-IDENTIDAD (verificacion adversaria): con U(z) = c/(1+z^2),
+    #     G_c(z) := g_c(U(z)) = c^4 z^2/(1+z^2)^4 = (c^2/4) U'(z)^2:
+    #     "G_c creciente" <=> "U concava" — h1 par. 4 y S4(3) son el mismo hecho.
+    z = sp.symbols('z', positive=True)
+    U = c / (1 + z ** 2)
+    Gc = (U ** 3 * (c - U))
+    ok &= check("A7 G_c(z) = c^4 z^2/(1+z^2)^4 = (c^2/4) U'(z)^2",
+                sp.simplify(Gc - c ** 4 * z ** 2 / (1 + z ** 2) ** 4) == 0
+                and sp.simplify(Gc - (c ** 2 / 4) * sp.diff(U, z) ** 2) == 0)
+    # A8: umbral AFILADO del kappa >= 1 (verificacion adversaria): el signo de
+    #     G_c'(tau/2) es el de (4 - 3 tau^2): kappa >= 1 en toda la frontera
+    #     <=> tau_R <= 2/sqrt(3) <=> 3 c^2 <= 4 A R.
+    tau_s = sp.symbols('tau', positive=True)
+    Gp = sp.diff(c ** 4 * z ** 2 / (1 + z ** 2) ** 4, z)
+    num = sp.simplify(Gp.subs(z, tau_s / 2)
+                      * (1 + tau_s ** 2 / 4) ** 5 / (c ** 4 * tau_s))
+    ok &= check("A8a signo de G_c'(tau/2) = signo de (4 - 3 tau^2)",
+                sp.simplify(num - (1 - 3 * tau_s ** 2 / 4)) == 0)
+    ok &= check("A8b tau_R <= 2/sqrt3 <=> 3 c^2 <= 4 A R  (A=1: R <= 3)",
+                sp.simplify((c / sp.sqrt(A * R)) ** 2 - sp.Rational(4, 3)
+                            - (3 * c ** 2 - 4 * A * R) / (3 * A * R)) == 0)
+    # A9: cota de existencia del bloqueo con x, y <= A: sup F = 3 theta(A, A) y
+    #     theta(A,A) > 2pi/3 <=> f(A) > sqrt(3)/2 <=> R < (1 + 2/sqrt3) A.
+    ok &= check("A9 f(A) > sqrt3/2 <=> R < (1 + 2/sqrt3) A",
+                sp.simplify(sp.solve(sp.Eq(A / (R - A), sp.sqrt(3) / 2), R)[0]
+                            - A * (1 + 2 / sp.sqrt(3))) == 0)
+    # A2c: b_R(A) <= A siempre: A - b_R = A^3/(A^2 - A R + R^2) > 0 (el punto
+    #     del bolsillo respeta automaticamente la hipotesis del Lema U).
+    ok &= check("A2c A - b_R(A) = A^3/(A^2 - AR + R^2) > 0",
+                sp.simplify(A - A * R * c / (A * R + c ** 2)
+                            - A ** 3 / (A ** 2 - A * R + R ** 2)) == 0)
     return ok
 
 
@@ -159,6 +190,41 @@ def bloque_B():
                 worst_f < 1e-9 and npts > 300)
     ok &= check(f"B2 kappa = sqrt(g_c(y)/g_c(x)) (err rel max {worst_k:.1e})",
                 worst_k < 1e-5)
+    # B3/B4: test INVERSO (aportado por la verificacion adversaria): la
+    # solucion de la forma lineal y_lin = U(tau - T(x)) debe caer en la
+    # frontera genuina CUANDO A >= min(x, y) — y fuera de la hipotesis
+    # aparecen refutaciones (el Lema U sin hipotesis es falso).
+    worst_inv, n_inv, n_fuera, refut_fuera = 0.0, 0, 0, 0
+    for A in (0.01, 0.3, 0.6, 1.0, 1.4, 1.7, 2.2, 3.0):
+        for factor in (0.45, 0.5, 0.65, 0.8, 1.0, 1.6, 3.0):
+            for slack in (0.0, 0.1, 0.2, 0.8):
+                R = A + factor * A + slack
+                c = R - A
+                tau = tau_R(A, R)
+                for i in range(1, 30):
+                    x = c * (0.4 + 0.59 * i / 30)
+                    if x >= c:
+                        continue
+                    zz = tau - T_c(x, c)
+                    if zz <= 1e-12:
+                        continue
+                    y_lin = c / (1 + zz * zz)
+                    if y_lin > x or A + x >= R or x + y_lin >= R:
+                        continue
+                    dev = abs(Fsum3(A, x, y_lin, R) - TWO_PI)
+                    if A >= min(x, y_lin) - 1e-12:
+                        n_inv += 1
+                        worst_inv = max(worst_inv, dev)
+                    else:
+                        n_fuera += 1
+                        if dev > 1e-6:
+                            refut_fuera += 1
+    print(f"     inverso: {n_inv} pts bajo la hipotesis, {n_fuera} fuera "
+          f"({refut_fuera} refutaciones fuera)")
+    ok &= check(f"B3 inverso bajo la hipotesis A >= min(x,y): F(y_lin) = 2pi "
+                f"(desvio max {worst_inv:.1e})", worst_inv < 1e-9 and n_inv > 150)
+    ok &= check("B4 fuera de la hipotesis hay refutaciones (necesidad)",
+                n_fuera > 0 and refut_fuera > 0)
     return ok
 
 
@@ -227,7 +293,7 @@ def bloque_D():
                 v = min(v * 1.0001 + 1e-9, u)       # estrictamente infactible en R
                 if Fsum3(1.0, u, v, R) < TWO_PI:
                     continue
-                if u + v > 1.0:                      # (F2) imposible: no instancia
+                if u + v >= 1.0:                     # (F2) exige omega > 0
                     continue
                 n += 1
                 # cadena: infactible en R => infactible en 1 + t

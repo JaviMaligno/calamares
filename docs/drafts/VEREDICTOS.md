@@ -107,6 +107,35 @@ extremo real, YA CORREGIDO en los tres sitios: el intervalo de propagación es
 «δ₀ explícito» rebajado a «extremo óptimo determinado» (u_máx es un máximo, no
 una fórmula). 5/5 bloques.
 
+## universal.md + code/universal.py — NÚCLEO CONFIRMADO, ENUNCIADO DEL LEMA REFUTADO Y REPARADO
+
+Frontera universal del trío en disco R arbitrario. El verificador rederivó la
+factorización desde cero (exacta, 40/40 casos racionales) y confirmó T_c, τ_R, el
+bolsillo b_R(A) (también por geometría directa de tangencias, residuo 6.2·10⁻¹¹),
+κ = √(g_c/g_c) (contra diferencias finitas a 40 dígitos: 8.5·10⁻⁴⁰) y el Corolario
+U1 (Teorema S con holgura): leyó la prueba del Teorema S con lupa sin hallar usos
+ocultos de R = r₁+r₂, verificó la monotonía en R (500 000 casos) y barrió 2·10⁶
+sorteos de la familia con holgura: ρ_min = 1.8553 > T, cero contraejemplos.
+REFUTADO el ENUNCIADO del Lema U tal como estaba: la equivalencia ⟸ es FALSA sin
+la hipótesis A ≥ mín(x,y) (contraejemplo R = 1, A = 0.01, x = y = 0.45: la forma
+lineal predice bloqueo y el trío empaqueta con F = 2.28 << 2π; caracterización
+exacta: falla exactamente en la región s ≤ w). La existencia de la frontera venía
+gratis de la banda en h1.md y se soltó al generalizar; h1 y suelo_rigido quedan a
+salvo (allí A es el máximo), y el Corolario U1 también (solo usa la dirección ⟹,
+incondicional). YA REPARADO: hipótesis añadida al enunciado, prueba reescrita
+(sin s ≤ sin w y s > w desde la hipótesis), contraejemplo citado. Más hallazgos
+del verificador, INTEGRADOS: la G_c-IDENTIDAD G_c = (c²/4)U′² (κ ≥ 1 de h1 y la
+concavidad de S4(3) son el mismo hecho en dos coordenadas — la «coincidencia» de
+(1+√13)/6 es una identidad); el umbral AFILADO del κ ≥ 1 en R general
+(τ_R ≤ 2/√3 ⟺ 3c² ≤ 4AR; justo encima κ_min = 0.9785, fuera de la hipótesis);
+la cota de existencia del bloqueo R < (1+2/√3)A = 2.1547A (que sustituye al
+«aviso de la rama del par», vacío bajo la hipótesis: x+y < R sale gratis), con
+margen κ² ≥ 2.442 en la banda de uso; y b_R(A) ≤ A. Errores menores corregidos:
+la cola dominante de la exploración [E] es la de γ en 321/321 (no la de α); (F2)
+estricta en D2; test INVERSO añadido al bloque B (el original solo comprobaba ⟹
+y era ciego a la refutación: 55/2991 fallos en su propia malla fuera de la
+hipótesis). 5/5 bloques tras las correcciones.
+
 ## suelo_rigido.md + code/rigido.py — TODO CONFIRMADO (10/10 claims)
 
 Teorema S: toda instancia de la subfamilia rígida F (R = r₁+r₂, pareja en el
