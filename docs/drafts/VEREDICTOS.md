@@ -179,3 +179,32 @@ pentagrama, prueba constructiva alternativa de C4, contraejemplo global k=5
 propio con margen −0.099, y la dirección de polígonos estrella {m/q} para el
 censo k ≥ 6. Sesgo de muestreo del código corregido (radios > R/2 y pares
 tangentes ahora cubiertos). 5/5 bloques tras las correcciones.
+
+## ocupantes.md + code/ocupantes.py — TODO CONFIRMADO (V1–V4), con cota fina del verificador integrada
+
+El precio del ocupante (pasos 2 y 4 de la Batalla 1 en la plantilla libre). El
+verificador rederivó a ciegas las seis paredes y el argumento de cola y llegó
+EXACTAMENTE al mismo resultado antes de leer el borrador, incluida la pared
+nueva (Bo) de los agujeros de los ocupantes. Auditó la legalidad de cada
+colocación desbloqueante contra el marco de reinsercion.md §2 (D_m, recursos
+disjuntos, solo se mueven aros menores que m), los empates (o₁ = 1 = m
+exactos), la partición de monotonía y las identidades (todas reproducidas en
+sympy independiente: 8/13, ω₄ = 3/T−1 = 3T²−3T−4, la identidad del 2 que da
+Φ < 2 para todo ω, la esquina genuina como ancla de la comparación V4).
+Ejecutó ocupantes.py (5/5 a la primera) y atacó con SLSQP multi-arranque y
+barridos de 60k por ω sin hallar ningún bloqueo bajo la cota (~10⁶ instancias).
+NINGÚN CLAIM REFUTADO. Hallazgos del verificador INTEGRADOS: (1) **cota fina**
+en la rama j = 1, ω ≥ 1/2 — usando además la pared (D), ρ > 4/(1+2ω), ínfimo
+exacto del programa de paredes (alcanzado en σ₁ = σ₂ → 1/2, o₁ → 1/2+ω), que
+extiende ρ > T hasta ω₅ = 2/T − 1/2 = 2T²−2T−5/2 = 0.587378 y ρ ≥ 13/7 hasta
+15/26; (2) caracterización de exactitud: (j+2)/(1+ω) es el ínfimo exacto del
+programa de paredes sii ω ≥ 1/(j+1), y si no la cola de o₂ fuerza ≥ j+1 (esto
+explica los excesos del bloque [E]); (3) σ₁ < 1 estricto en todo bloqueo (por
+(B4)+(W)); (4) evidencia de cierre del hueco de ω grande: en ω ∈ [0.5, 0.63]
+las 2000 instancias bloqueadas-por-paredes de menor ρ admiten TODAS corona en
+R̄ = α+o₁ (estaban desbloqueadas de verdad): la pared geométrica sube el ínfimo
+real muy por encima de la combinatoria. Matices de código corregidos: el
+muestreo de [B] no llegaba a ω < 0.25 (ahora condicionado, 324 instancias con
+ω < 0.20), test cuasi-tautológico de [B](i) re-etiquetado como consistencia,
+código muerto de [D] convertido en la aserción real de la cadena de V4, y el
+check trivial de [C] re-etiquetado como medición. 5/5 tras las correcciones.

@@ -283,7 +283,14 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    caracterización es cerrada y demostrada — **Lema U₄**: corona ⟺ trío top +
    total del orden zigzag ≤ 2π (el orden decreciente NO es óptimo; la suma de
    arcos consecutivos NO basta) — con lo que el bloqueo de corona con dos
-   ocupantes queda reducido a dos ramas algebraicas exactas. El análisis anterior supone `v` rígido con un solo
+   ocupantes queda reducido a dos ramas algebraicas exactas. *Avance tercero
+   (`drafts/ocupantes.md`):* en la plantilla de agujeros libres los bloqueos
+   con ocupantes extra están **resueltos sin geometría** — el agujero de cada
+   ocupante es un recurso de reinserción, bloquearlo lo confina a
+   o_k ≤ 1 + ω, y la cola del mayor da ρ > (j+2)/(1+ω) > T (para
+   ω < 2/T − 1/2 = 0.5874 con j = 1; para todo ω con j ≥ 2): cada ocupante
+   paga su cola y la plantilla canónica es estrictamente óptima para el
+   adversario. El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
    capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del

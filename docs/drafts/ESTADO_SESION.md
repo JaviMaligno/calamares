@@ -1,12 +1,15 @@
-# Estado de la sesión (2026-08-01) — Batalla 1 en curso, paso 1 cerrado
+# Estado de la sesión (2026-08-01) — Batalla 1: pasos 1, 2 y 4 cerrados
 
 Documento de retoma para una sesión nueva. Todo lo listado como cerrado está
 verificado adversarialmente, consolidado en los documentos y pusheado.
 **El programa de la conjetura del umbral de Tribonacci tiene un único hueco
 bloqueante: `reinsercion.md` §10.1, partido en las Batallas 1 y 2 de abajo.
-El paso 1 de la Batalla 1 (criterio de coronas) quedó CERRADO en esta
-sesión: `drafts/corona.md` + `code/corona.py` 5/5, acta en VEREDICTOS.md —
-con dos correcciones al plan original (véase §3).**
+En esta racha cayeron el paso 1 (criterio de coronas, `drafts/corona.md` +
+`code/corona.py` 5/5, con dos correcciones al plan original) y los pasos 2
+y 4 en la plantilla libre (`drafts/ocupantes.md` + `code/ocupantes.py` 5/5:
+el precio del ocupante, sin geometría). Actas en VEREDICTOS.md. Lo que
+queda de la Batalla 1 es el paso 3 (agujeros ocupados / ocupantes
+interiores) y el tramo j = 1, ω ≥ 0.5874.**
 
 ## 1. Mapa de lo cerrado (no retocar; actas en `drafts/VEREDICTOS.md`)
 
@@ -21,6 +24,7 @@ con dos correcciones al plan original (véase §3).**
 | Cuadrado: X, b_□(X) = X−1 (con sus matices de acta) | `drafts/cuadrado.md` | `cuadrado.py` |
 | **Lema U (frontera universal) + Teorema S con holgura (Corolario U1)** | `drafts/universal.md` | `universal.py` 5/5 |
 | **Criterio de coronas + Lema U₄** (paso 1 de la Batalla 1): LP por orden; certificados de subconjunto ∀k; k=4 = trío top + zigzag; k=5 = + pentagrama (C7) | `drafts/corona.md` | `corona.py` 5/5 |
+| **El precio del ocupante** (pasos 2 y 4 en plantilla libre): bloqueo ⟹ o_k ≤ 1+ω y ρ > (j+2)/(1+ω); > T hasta ω₅ = 2/T−1/2 (j=1) y ∀ω (j≥2); conjetura fina demostrada en plantilla | `drafts/ocupantes.md` | `ocupantes.py` 5/5 |
 
 ## 2. El arsenal para las batallas (léase `drafts/universal.md` primero)
 
@@ -67,34 +71,42 @@ instancia completa, que INCLUYEN a los o_i).
    ≤ 2π** — demostrado para θ arbitrarias por dualidad de restricciones de
    diferencias; k=5 exacto con el certificado extra del pentagrama (Teorema
    C7; su redundancia geométrica = Conjetura C8, hueco declarado).
-2. **Dos ocupantes en corona** (v = sartén R, O = {α, γ}, S = par): resolver
-   el programa de bloqueo exacto con el **Lema U₄** y las paredes (B2)/(B4)/(W)
-   del programa canónico (`grosor_positivo.md` §1). El bloqueo de corona es
-   ahora exactamente: trío top {α, γ, σ₁} infactible (T_c(γ) + T_c(σ₁) < τ_R,
-   c = R − α) O total zigzag > 2π — dos ramas algebraicas, sin proxy.
-   Conjetura fina a demostrar: el óptimo del adversario es γ → ausente (o
-   γ → tangencia que degenera a la plantilla canónica), es decir
-   T_gen = T_can ≥ 13/7. La palanca: la cola de γ, (1+σ₁+σ₂)/γ ≥ (3−2ω)/γ —
-   γ pequeño se autocastiga (evidencia: `universal.py` [E], cola de γ
-   dominante en 321/321, mejor ρ = 2.56); γ grande estorba menos que α
-   (monotonías del Lema U).
-3. **Ocupantes interiores → corona** (el paso duro): lema de "empujar a la
-   pared": ¿el v adversarialmente óptimo tiene todos los ocupantes en
-   corona? Idea: dado un bloqueo con ocupante interior, moverlo a la pared
-   no puede DESBLOQUEAR (¿o sí? — explorar primero numéricamente con el
-   solver físico de `sim.py`/`pack_feasible` como oráculo). Si es falso en
-   general, plan B: "lema del hueco" vía densidad crítica 1/2 de
-   Fekete–Keldenich–Scheffer (citada en `hoja_de_ruta.md` §2 plan): con
-   ρ < T el área de S es pequeña y el hueco mayor de v−m debe absorber al
-   par crítico. La pista √δ de `rigido.py` V7b (rigidez aproximada) puede
-   cuantificar el hueco alrededor de D_m: al salir m, el hueco local ⊇ D_m
-   más el espacio entre los ≤ 2 vecinos apretados de m — reducción a tríos
-   {vecino, vecino, s} otra vez por el Lema U.
-4. **k ocupantes por inducción** con el patrón de `cuatro.md` (cada ocupante
-   extra paga su cola): objetivo T_gen^{(k)} ≥ T_gen^{(2)}. Para k ocupantes
-   el criterio de corona correspondiente es k+2 círculos: úsese la necesidad
-   (Lema C2/C2′) que vale ∀k, o el LP por orden; el criterio cerrado solo
-   está en k=4 (y k=5 módulo C8).
+2. **Dos ocupantes — CERRADO en la plantilla libre, y mejor de lo esperado
+   (`drafts/ocupantes.md`, `ocupantes.py` 5/5, acta en VEREDICTOS.md).**
+   La pared que el plan no listaba lo decide todo: el agujero de cada
+   ocupante extra es un recurso de reinserción (σ₂ ⊂ o_k si σ₂ ≤ o_k − ω),
+   y bloquearlo fuerza o_k < σ₂ + ω ≤ 1 + ω. La cola del mayor da
+   ρ > (j+2)/(1+ω) — SIN geometría, sin Lema U₄, sin feas3. Corolarios:
+   ρ > T para ω < ω₅ = 2/T − 1/2 = 2T²−2T−5/2 = 0.5874 (j = 1; cota fina
+   4/(1+2ω) del verificador en ω ≥ 1/2) y para todo ω con j ≥ 2;
+   ρ ≥ 13/7 hasta ω ≤ 15/26; conjetura fina DEMOSTRADA en plantilla
+   (ρ > 2 > curva canónica, vía Φ(ω) < 2 ∀ω — identidad exacta del 2).
+   La evidencia de `universal.py` [E] (mejor ρ = 2.56, cola de γ dominante)
+   queda explicada cuantitativamente: 3/(1+ω) ≥ 2.4 en su caja.
+3. **Agujeros ocupados y ocupantes interiores (EL PASO QUE QUEDA, ahora el
+   único corazón).** Dos frentes que la plantilla libre esquiva:
+   (a) *agujeros ocupados*: si el agujero de o_k tiene ocupantes, la pared
+   (Bo) se debilita a "σ₂ no empaqueta junto a ellos" — recursiva; la
+   dicotomía es clara (o σ₂ cabe, desbloqueado, o el ocupante del agujero
+   es grande y paga SU cola) pero el análisis recursivo no está hecho;
+   también faltan los ocupantes de v menores que m. (b) *ocupantes
+   interiores / empujar a la pared*: dado un bloqueo con ocupante interior,
+   ¿moverlo a la pared no puede DESBLOQUEAR? (explorar primero numéricamente
+   con `sim.py`/`pack_feasible` como oráculo). Plan B: "lema del hueco" vía
+   densidad crítica 1/2 de Fekete–Keldenich–Scheffer (`hoja_de_ruta.md` §2):
+   con ρ < T el área de S es pequeña y el hueco mayor de v−m debe absorber
+   al par crítico. La pista √δ de `rigido.py` V7b puede cuantificar el hueco
+   alrededor de D_m — reducción a tríos {vecino, vecino, s} por el Lema U.
+   Además queda el tramo j = 1, ω ∈ [0.5874, 1): rama del testigo deformada
+   con el Lema U₄ en R̄ (evidencia fuerte del verificador de que la pared
+   geométrica lo cierra: las 2000 bloqueadas-por-paredes de menor ρ en
+   ω ∈ [0.5, 0.63] admiten todas corona, i.e. estaban desbloqueadas).
+4. **k ocupantes — CERRADO en la plantilla libre, sin inducción (mismo
+   `drafts/ocupantes.md`).** La cota ρ > (j+2)/(1+ω) es uniforme en j (una
+   pared por agujero + la cola del mayor ocupante): cada ocupante paga
+   1/(1+ω), y con j ≥ 2 la cota supera T para TODO ω < 1. El "árbol en
+   número de ocupantes" que este plan conjeturaba resultó ser una sola
+   desigualdad.
 
 **Riesgos conocidos:** (i) corona ≠ empaquetamiento general (ocupantes
 interiores existen de verdad) — por eso el paso 3 es el corazón; el criterio
