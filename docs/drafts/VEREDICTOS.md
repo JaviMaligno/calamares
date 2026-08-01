@@ -150,3 +150,32 @@ de F sin bajar de T. Piezas nuevas: identidad sin²(θ/2) = f(a)f(b), reducción
 bolsillo antipodal solo NO basta (óptimo relajado ρ = 1.73 con trío factible).
 Matices declarados por el autor: cierre por compacidad de S6 esbozado (afecta solo
 a la dirección ≤ del ínfimo) y escala √δ del umbral fuera de la esquina (numérica).
+
+## corona.md + code/corona.py — TODO CONFIRMADO (C1–C7 + contraejemplos), con mejoras del verificador integradas
+
+Criterio de coronas (paso 1 de la Batalla 1). El verificador rederivó a ciegas
+(Fase 1, sin mirar los ficheros) el sistema de huecos, el contraejemplo al
+enunciado ingenuo del plan, el criterio exacto k=4, el orden zigzag, el patrón
+del pentagrama en k=5 y el contraejemplo del cuantificador — coincidencia total
+con el borrador antes de leerlo. En Fase 2 auditó las pruebas línea a línea
+(C4: ciclos simples bastan, conteo #aristas > 2U, enumeración U=1 reproducida;
+C6: mayorización y anchuras verificadas, g′ rederivada a mano) y ejecutó
+baterías propias: 4 000 aleatorias + 2 344 comparaciones en frontera (bisección
+a slack ≈ 0) + 3 000 con radios hasta 0.9 + 622 con a₁+a₂ = R exacto (θ = π):
+0 discrepancias; sanity clásico x = √2−1 para 4 iguales clavado a 3.6e−15; en
+frontera el trío activa 652 veces y el zigzag 520 (ninguna condición
+redundante); oráculo EUCLÍDEO propio (sin S1) concordante. NINGÚN CLAIM
+REFUTADO. Errores menores corregidos: dos constantes del §3 (2·arcsin(9/11) =
+1.9165, no 1.914; 3θ(0.47,0.47) = 6.5421, no 6.456), la redacción del censo
+U=2 omitía los 10 patrones de 3 aristas (30 por conteo + 10 por LP + 1
+pentagrama), y el «máximo geométrico 7.311» del pentagrama era un mínimo local
+de una búsqueda capada a radios < R/2 — el récord real del verificador es
+Σ_D = 7.5560 estricto (frontera 7.5742, con un radio > R/2), aún lejísimos del
+4π necesario. Hallazgos del verificador INTEGRADOS: **Corolario C5′** (el trío
+top domina a los otros tres: el Lema U₄ son DOS desigualdades), **Teorema C7**
+(k=5 exacto para θ arbitrarias: subconjuntos + pentagrama ⟺ LP, contrastado en
+30 000 matrices), la Conjetura C8 reformulada como redundancia geométrica del
+pentagrama, prueba constructiva alternativa de C4, contraejemplo global k=5
+propio con margen −0.099, y la dirección de polígonos estrella {m/q} para el
+censo k ≥ 6. Sesgo de muestreo del código corregido (radios > R/2 y pares
+tangentes ahora cubiertos). 5/5 bloques tras las correcciones.
