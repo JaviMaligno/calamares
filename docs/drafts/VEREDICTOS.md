@@ -208,3 +208,34 @@ muestreo de [B] no llegaba a ω < 0.25 (ahora condicionado, 324 instancias con
 ω < 0.20), test cuasi-tautológico de [B](i) re-etiquetado como consistencia,
 código muerto de [D] convertido en la aserción real de la cadena de V4, y el
 check trivial de [C] re-etiquetado como medición. 5/5 tras las correcciones.
+
+## bloqueadores.md + code/bloqueadores.py — NÚCLEO CONFIRMADO, §5 REFUTADO Y REESCRITO
+
+Agujeros ocupados a profundidad arbitraria (paso 3a de la Batalla 1). El
+verificador rederivó a ciegas TODO el núcleo antes de leer el borrador — disco
+opuesto, tarifa del bloqueo, nodo mínimo, dos colas, Ψ(ω) = (1−ω)+√((1−ω)²+1),
+cruce en (T−1)²/2 — coincidencia exacta. Confirmados: Lema R (tangencia exacta
+del disco opuesto; σ ≤ c hipotetizado y automático en las aplicaciones), pared
+Bo″ (el caso «un hijo supera σ₂» reduce literalmente a la misma desigualdad;
+legalidad de recolocación correcta: solo σ₂ cambia de contenedor), Teorema B
+(optimización verificada; y* ≥ 1 sin pérdida; empates bien) y Corolario B1
+(identidades reproducidas en sympy independiente). REFUTADA la §5 antigua («la
+fuga»): la familia con H_m relleno que "demostraba" que la hipótesis m-sin-hijos
+era necesaria NI SIQUIERA ESTABA BLOQUEADA — la desbloquea la propia evacuación
+(σ₁ + hijos de m en fila en D_m, σ₂ en el H_m vaciado), y para δ ≥ (1−2ω)/2
+además cae la pared (D); y la dicotomía enunciada olvidaba colocar a σ₁: la
+correcta es bloqueo ⟹ σ₂ > 1−ω ∨ σ₁ + Σhijos(m) > 1 (contraejemplo del
+verificador a la versión sin σ₁: ω = 0.1, σ = (0.9, 0.81), hijo de m 0.85,
+o₁ = 1 con hijo 0.81, α = 1.81, bloqueado con ρ = 4.37 — sin amenaza para el
+Teorema B). Con ello cae el único overclaim del borrador («m sin hijos se queda
+por una razón demostrable»): la evidencia adversaria apunta a lo CONTRARIO —
+en búsquedas amplias con H_m ocupado (hasta 6 hijos, Σ > capacidad incluida,
+evacuaciones exhaustivas) el mínimo quedó en 2.44–2.96, siempre ≥ Ψ, y el
+verificador conjetura que el Teorema B se extiende a m-con-hijos por
+combinatoria pura. TODO INTEGRADO: §5 reescrita (evacuación corregida +
+conjetura), matiz de notación del paso 3 (σ = σ₂ variable, no 1−ω fija — la
+lectura literal antigua habría invalidado el paso), nota de degeneración en
+ω = 0 de la minimalidad, Ψ < 3/(1+ω) afilada a estricta global (5ω²−2ω+2 > 0,
+disc −36), cota fina vía (B4)+cola de α anotada (≈ Ψ+0.05, explica las
+holguras de [D]), y el bloque [E] sustituido por la validación constructiva de
+la evacuación (20 000 casos, 0 fallos). 5/5 tras las correcciones.

@@ -1,15 +1,17 @@
-# Estado de la sesión (2026-08-01) — Batalla 1: pasos 1, 2 y 4 cerrados
+# Estado de la sesión (2026-08-02) — Batalla 1: pasos 1, 2, 3a y 4 cerrados
 
 Documento de retoma para una sesión nueva. Todo lo listado como cerrado está
 verificado adversarialmente, consolidado en los documentos y pusheado.
 **El programa de la conjetura del umbral de Tribonacci tiene un único hueco
 bloqueante: `reinsercion.md` §10.1, partido en las Batallas 1 y 2 de abajo.
-En esta racha cayeron el paso 1 (criterio de coronas, `drafts/corona.md` +
-`code/corona.py` 5/5, con dos correcciones al plan original) y los pasos 2
-y 4 en la plantilla libre (`drafts/ocupantes.md` + `code/ocupantes.py` 5/5:
-el precio del ocupante, sin geometría). Actas en VEREDICTOS.md. Lo que
-queda de la Batalla 1 es el paso 3 (agujeros ocupados / ocupantes
-interiores) y el tramo j = 1, ω ≥ 0.5874.**
+En esta racha cayeron: el paso 1 (criterio de coronas, `drafts/corona.md`,
+con dos correcciones al plan original), los pasos 2 y 4 en plantilla libre
+(`drafts/ocupantes.md`: el precio del ocupante) y el paso 3a
+(`drafts/bloqueadores.md`: agujeros ocupados a profundidad arbitraria,
+ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2). Actas en
+VEREDICTOS.md. Lo que queda de la Batalla 1: «m con hijos» (rama
+σ₁+Σhijos(m) > 1, probablemente combinatoria — conjetura del verificador),
+los ocupantes de v menores que m, y los tramos de ω grande.**
 
 ## 1. Mapa de lo cerrado (no retocar; actas en `drafts/VEREDICTOS.md`)
 
@@ -25,6 +27,7 @@ interiores) y el tramo j = 1, ω ≥ 0.5874.**
 | **Lema U (frontera universal) + Teorema S con holgura (Corolario U1)** | `drafts/universal.md` | `universal.py` 5/5 |
 | **Criterio de coronas + Lema U₄** (paso 1 de la Batalla 1): LP por orden; certificados de subconjunto ∀k; k=4 = trío top + zigzag; k=5 = + pentagrama (C7) | `drafts/corona.md` | `corona.py` 5/5 |
 | **El precio del ocupante** (pasos 2 y 4 en plantilla libre): bloqueo ⟹ o_k ≤ 1+ω y ρ > (j+2)/(1+ω); > T hasta ω₅ = 2/T−1/2 (j=1) y ∀ω (j≥2); conjetura fina demostrada en plantilla | `drafts/ocupantes.md` | `ocupantes.py` 5/5 |
+| **Los bloqueadores pagan** (paso 3a, agujeros ocupados ∀profundidad): Lema R (bloquear cuesta ≥ la holgura), nodo mínimo, ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1); Ψ(1/4) = 2; > T ⟺ ω < (T−1)²/2 | `drafts/bloqueadores.md` | `bloqueadores.py` 5/5 |
 
 ## 2. El arsenal para las batallas (léase `drafts/universal.md` primero)
 
@@ -83,24 +86,31 @@ instancia completa, que INCLUYEN a los o_i).
    (ρ > 2 > curva canónica, vía Φ(ω) < 2 ∀ω — identidad exacta del 2).
    La evidencia de `universal.py` [E] (mejor ρ = 2.56, cola de γ dominante)
    queda explicada cuantitativamente: 3/(1+ω) ≥ 2.4 en su caja.
-3. **Agujeros ocupados y ocupantes interiores (EL PASO QUE QUEDA, ahora el
-   único corazón).** Dos frentes que la plantilla libre esquiva:
-   (a) *agujeros ocupados*: si el agujero de o_k tiene ocupantes, la pared
-   (Bo) se debilita a "σ₂ no empaqueta junto a ellos" — recursiva; la
-   dicotomía es clara (o σ₂ cabe, desbloqueado, o el ocupante del agujero
-   es grande y paga SU cola) pero el análisis recursivo no está hecho;
-   también faltan los ocupantes de v menores que m. (b) *ocupantes
-   interiores / empujar a la pared*: dado un bloqueo con ocupante interior,
-   ¿moverlo a la pared no puede DESBLOQUEAR? (explorar primero numéricamente
-   con `sim.py`/`pack_feasible` como oráculo). Plan B: "lema del hueco" vía
-   densidad crítica 1/2 de Fekete–Keldenich–Scheffer (`hoja_de_ruta.md` §2):
-   con ρ < T el área de S es pequeña y el hueco mayor de v−m debe absorber
-   al par crítico. La pista √δ de `rigido.py` V7b puede cuantificar el hueco
-   alrededor de D_m — reducción a tríos {vecino, vecino, s} por el Lema U.
-   Además queda el tramo j = 1, ω ∈ [0.5874, 1): rama del testigo deformada
-   con el Lema U₄ en R̄ (evidencia fuerte del verificador de que la pared
-   geométrica lo cierra: las 2000 bloqueadas-por-paredes de menor ρ en
-   ω ∈ [0.5, 0.63] admiten todas corona, i.e. estaban desbloqueadas).
+3. **Paso 3a — CERRADO (`drafts/bloqueadores.md`, `bloqueadores.py` 5/5,
+   acta en VEREDICTOS.md).** Agujeros ocupados a profundidad arbitraria:
+   **Lema R** (el disco opuesto, tangencia exacta: bloquear un agujero
+   cuesta masa ≥ la holgura ⟹ pared general y < σ₂ + ω + X_y) + **Teorema
+   B** (nodo mínimo del árbol, dos colas, sin inducción):
+   ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1); Ψ(0) = 1+√2; Ψ(1/4) = 2 exacto;
+   > T ⟺ ω < (T−1)²/2 = 0.3522. OJO al acta: la primera versión de §5
+   («la fuga») fue REFUTADA — la dicotomía de evacuación correcta es
+   bloqueo ⟹ σ₂ > 1−ω ∨ σ₁+Σhijos(m) > 1, y la evidencia dice que «m con
+   hijos» probablemente NO necesita geometría.
+
+   **LO QUE QUEDA de la Batalla 1 (por orden sugerido):**
+   (i) *m con hijos*, rama σ₁+Σhijos(m) > 1: conjetura del verificador de
+   que el Teorema B se extiende por combinatoria pura (evacuación por
+   subconjuntos como pared B2 generalizada; mínimos observados 2.44–2.96
+   ≥ Ψ). Objetivo asequible.
+   (ii) *Ocupantes de v menores que m* (aplastamiento por pequeños) y
+   *tramos de ω grande* (ω ≥ (T−1)²/2 con agujeros ocupados; ω ≥ 0.5874 con
+   libres): rama geométrica del testigo con el Lema U₄ en R̄ (evidencia:
+   las 2000 bloqueadas-por-paredes de menor ρ en ω ∈ [0.5, 0.63] admiten
+   todas corona ⟹ estaban desbloqueadas). Para pequeños: "lema del hueco"
+   vía densidad crítica 1/2 de Fekete–Keldenich–Scheffer y la pista √δ de
+   `rigido.py` V7b; presupuesto de masa por la cola de m.
+   (iii) *S con más de dos piezas* (ρ*_k = ρ*₃ acota por el lado
+   combinatorio; rehacer las optimizaciones si hiciera falta).
 4. **k ocupantes — CERRADO en la plantilla libre, sin inducción (mismo
    `drafts/ocupantes.md`).** La cota ρ > (j+2)/(1+ω) es uniforme en j (una
    pared por agujero + la cola del mayor ocupante): cada ocupante paga

@@ -290,7 +290,12 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    o_k ≤ 1 + ω, y la cola del mayor da ρ > (j+2)/(1+ω) > T (para
    ω < 2/T − 1/2 = 0.5874 con j = 1; para todo ω con j ≥ 2): cada ocupante
    paga su cola y la plantilla canónica es estrictamente óptima para el
-   adversario. El análisis anterior supone `v` rígido con un solo
+   adversario. *Avance cuarto (`drafts/bloqueadores.md`):* con los agujeros de
+   los ocupantes OCUPADOS a cualquier profundidad, el Lema R (bloquear un
+   agujero cuesta masa ≥ la holgura) y el nodo mínimo dan ρ > Ψ(ω) =
+   (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2 = 0.3522; queda «m con hijos»
+   (rama σ₁+Σhijos(m) > 1, probablemente combinatoria), los pequeños en v y
+   el tramo de ω grande. El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
    capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del
