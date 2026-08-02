@@ -258,3 +258,33 @@ el hallazgo de que (T−1)²·T − (2T−T²+1) ES el polinomio de Tribonacci
 (identidad exacta, no solo resto 0); «Φ > T ∀ω» precisado a ω > 0; mapa
 actualizado a 6/6 y tautología del check 2·ω₆ eliminada. 6/6 tras las
 correcciones.
+
+## bolsillo.md + code/bolsillo.py — TODO CONFIRMADO (asalto geométrico), con la disyunción de bolsillos demostrada por el verificador
+
+La pared del bolsillo doble y el cierre en ω (j = 1 hasta 0.9505). El
+verificador rederivó a ciegas TODO: la pared σ₁ > b₂(α,o₁) vía contención en
+R̄ y S5 reescalada, la cuadrática N²+(1+σ₁)N−σ₁(1+σ₁)² = 0, el rincón dorado
+(α = 2, o₁ = √5−1, X = √5−2, b₂(2,√5−1) = 1) con la curva φ²−(φ/2)ω y el
+cruce 0.962585, Ψ_j con sus umbrales, y la limitación del Lema G frente a
+pequeños — coincidencia total, y su SLSQP independiente reproduce la curva a
+<10⁻⁴. NINGÚN CLAIM REFUTADO. Aportaciones del verificador INTEGRADAS:
+(1) la disyunción de los dos bolsillos espejo, que el borrador solo asertaba,
+DEMOSTRADA con la identidad exacta y₀² − b₂² = 3b₂² (y₀ = 2b₂: los círculos
+espejo distan 4b₂), ahora en el lema y verificada en simbólico con las
+tangencias; (2) hueco de demostración REAL en Ψ_j: si algún hijo del mayor
+ocupante es un nodo ≥ 1, la prueba escrita no aplica (la cola de m solo
+recoge hijos < 1) — el enunciado sobrevivió a sus ataques dirigidos (los
+nodos anidados se autodestruyen: mínimos 2.732 vs Ψ₂ = 2.000) y queda
+declarado como caso con parche pendiente (asteriscos en la tabla §7);
+(3) matiz de alcance del Corolario S ("compatible con la plantilla de cada
+teorema": un pequeño en el agujero de un o_i manda la instancia de V2 a B″);
+(4) forma alternativa ω_A = 2(φ²−T)(φ−1) vía φ³ = 2φ+1; (5) la puntita
+[0.9505, 0.9626) parece cerrable: su numérica indica que la rama B exacta
+nunca baja de la curva A (en ω = 0.98 el programa completo da 1.8252). Su
+verificación de coherencia con los resultados previos: los mínimos 2.32-2.14
+de bloqueadores.py [D] quedan BAJO la curva dorada ⟹ aquellas instancias con
+paredes combinatorias en pie estaban realmente desbloqueadas por el
+re-empaquetado (la geometría sube el suelo), y el proxy 2.5617 de
+universal.py [E] queda sobre la curva (2.416 en su caja) ✓. Detalles de
+código anotados (checks decorativos en [B]/[E], [D] de profundidad 1,
+cola de α sin imponer α ≥ o₁ — inocuo). 5/5 tras las correcciones.

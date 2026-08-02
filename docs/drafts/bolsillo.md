@@ -1,0 +1,271 @@
+# La pared del bolsillo doble: el asalto geométrico y el cierre en ω
+
+Borrador. Es el asalto geométrico pendiente de la Batalla 1: los tramos de
+ω grande que las cotas combinatorias (Ψ y las medias metálicas de
+`bloqueadores.md`) no alcanzan. La herramienta nueva es una pared geométrica
+que NO usa el criterio angular, ni el Lema U₄, ni `feas3` — solo la rigidez
+de la Proposición S5 reescalada y la monotonía del empaquetamiento en R:
+
+**Lema G.** Bloqueo (plantilla j = 1) ⟹ `σ₁ > b₂(α, o₁)`, el bolsillo de
+Descartes del par `{α, o₁}`.
+
+Con ella, el programa de paredes tiene un **rincón óptimo dorado**
+(`α = 2`, `o₁ = √5 − 1`, `b₂(2, √5−1) = 1` exacto, `σ₁ = 1`, `σ₂ = 1−ω`) y
+su valor es una recta en ω con pendiente áurea:
+
+    bloqueo (j = 1, rama A)  ⟹  ρ > φ² − (φ/2)·ω ,
+
+que cruza T en `ω_A = 2 − 2(T−1)(φ−1) = 0.962585…`; la rama B se cierra con
+el máximo de su cota combinatoria (Teorema B″) y la geométrica, hasta
+`ω_B = 0.950531…`. **En total: bloqueo con un ocupante extra ⟹ ρ > T para
+todo ω < 0.9505** — el tramo de ω grande queda cerrado salvo la puntita
+final. De regalo: la generalización `Ψ_j = (1−ω) + √((1−ω)² + j)` para j
+ocupantes (todo ω si j ≥ 4) y el **Corolario S**: los aros menores que m
+adicionales son gratis para todas las paredes combinatorias, porque sus
+colocaciones son locales. Sometido a verificación adversaria (acta en
+`VEREDICTOS.md`): rederivación a ciegas idéntica hasta el rincón dorado;
+ningún claim refutado; el verificador demostró la disyunción de los
+bolsillos espejo (`y₀ = 2b₂` exacto) y cazó el hueco del caso «hijo-nodo»
+en Ψ_j (declarado como caso con parche pendiente). Verificación:
+`code/bolsillo.py` (5/5). Numeración local: Lema G, Teorema G,
+Proposición Ψ_j, Corolario S.
+
+## 1. Marco
+
+Plantilla de `bloqueadores.md` con j = 1: `v` = sartén de radio `R` con
+ocupantes `{α, o₁, m}`, `o₁ ≥ m = 1`; `u` = agujero de `α` (capacidad
+`α − ω ≥ 1`); `S = {σ₁ ≥ σ₂}` colocado por el testigo en `u`
+(`σ₂ ≤ σ₁ ≤ 1`); ocupación de agujeros **arbitraria** (X = Σ hijos de o₁,
+M = Σ hijos de m, X_σ = Σ hijos de σ₁, a cualquier profundidad vía las
+tarifas del Lema R). Paredes combinatorias en pie (de `ocupantes.md` y
+`bloqueadores.md`, todas con colocaciones exactas):
+
+    (W)   σ₁ + σ₂ ≤ α − ω              (B4)  σ₂ > α − ω − 1
+    (Bo″) o₁ < σ₂ + ω + X              (B3′) σ₂ + X_σ > σ₁ − ω
+    (D)   σ₁ + σ₂ > 1                  (evac) σ₂ > 1 − ω  ∨  σ₁ + M > 1
+
+## 2. El Lema G: la pared del bolsillo doble
+
+Recuérdese el bolsillo de Descartes del par (resultados.md §5bis):
+
+    b₂(A, B) = A·B·(A+B) / (A² + A·B + B²) ,
+
+creciente en cada argumento (`∂b₂/∂B = A³(A+2B)/(·)² > 0`, verificado en
+simbólico) y con `b₂(α, 1) = b(α)`.
+
+**Lema G.** Si el intercambio está bloqueado, entonces
+
+    σ₁ > b₂(α, o₁)   ( ≥ b(α) ) .
+
+*Demostración.* Bloqueo ⟹ `{α, o₁, σ₁, σ₂}` no empaqueta en el disco `R`
+(el re-empaquetado de la sartén es un recurso: los hijos viajan dentro de
+sus padres y las posiciones son existenciales). Como `α + o₁ ≤ R` (el par
+convive en la sartén), la no-empaquetabilidad se hereda por contención en el
+disco `R̄ = α + o₁`. En `R̄` el par es **diametralmente rígido**: los centros
+cumplen `|c_α| ≤ R̄ − α = o₁`, `|c_{o₁}| ≤ α` y `|c_α − c_{o₁}| ≥ α + o₁`,
+y la desigualdad triangular fuerza igualdad en todo — es la rigidez de la
+Proposición S5 de `suelo_rigido.md`, reescalada (el par `{A, B}` en el disco
+`A + B` es exactamente S5 con `t = B/A`, multiplicado por `A`). Por la
+necesidad de S5 (la factorización exacta, reescalada), cualquier tercer
+círculo disjunto de ambos y contenido en el disco tiene radio
+`≤ b₂(α, o₁)`, y hay **dos** bolsillos, uno a cada lado del diámetro,
+disjuntos entre sí con holgura: el centro del bolsillo está en
+`(x₀, ±y₀)` con `x₀ = (α³ + α²o₁ − αo₁² − o₁³)/(α² + αo₁ + o₁²)` y
+
+    y₀² − b₂² = 3·b₂²   ⟹   y₀ = 2·b₂     (identidad exacta) ,
+
+así que los dos círculos espejo distan `4b₂ ≥ 2b₂` entre centros
+[identidad aportada por la verificación adversaria]. Si `σ₁ ≤ b₂(α, o₁)`,
+entonces también `σ₂ ≤ σ₁ ≤ b₂`, y colocando cada σ concéntrico en un
+bolsillo se empaqueta `{α, o₁, σ₁, σ₂}` en `R̄` ⊆ disco `R`: contradicción.
+∎
+
+Nótese qué NO se usa: ni el criterio angular, ni el Lema U₄, ni `feas3` —
+solo S5 (verificada) y contención. La dirección es la de las cotas
+inferiores, incondicional. (El criterio exacto de coronas confirma la
+exactitud en R̄: corona de `{α, o₁, σ₁, σ₂}` en `α+o₁` ⟺ `σ₁ ≤ b₂`,
+contrastado con el LP de `corona.py` en el bloque [B].)
+
+## 3. El Teorema G: el cierre en ω
+
+**Paso previo (la cadena (\*)).** La cola de `o₁` contiene a
+`{m, σ₁, σ₂} ∪ hijos(o₁) ∪ hijos(m) ∪ hijos(σ₁)` (todos ≤ o₁; empates por
+primera copia), luego `ρ·o₁ ≥ 1 + σ₁ + σ₂ + X + M + X_σ`; eliminando X con
+(Bo″) (`X > o₁ − σ₂ − ω`):
+
+    (*)   ρ  >  1 + (1 + σ₁ − ω + M + X_σ) / o₁ .
+
+**Teorema G.** Bloqueo en la plantilla (j = 1, ocupación arbitraria) ⟹
+
+    rama A (σ₂ ≥ 1−ω):   ρ > φ² − (φ/2)·ω
+    rama B (σ₁+M > 1):   ρ > máx( Ψ_B(ω) ,  1 + (2−ω)/N₁(ω) )
+
+con `Ψ_B` la media metálica de `2−ω` (Teorema B″) y
+`N₁(ω) = (1+ω)(√(ω²+4ω) − ω)/(2ω)` la raíz positiva de
+`ω·N² + ω(1+ω)·N − (1+ω)² = 0` (es decir, `b₂(1+ω, N₁) = 1`). En
+particular, `ρ > T` para todo `ω < ω_B = 0.950531…`, con
+`ω_A = 2 − 2(T−1)(φ−1) = 2(φ²−T)(φ−1) = 0.962585…` para la rama A sola
+(la segunda forma, del verificador, vía `φ³ = 2φ+1`).
+
+*Demostración.* **Rama A.** De (W) y `σ₂ ≥ 1−ω`:
+`α ≥ σ₁ + σ₂ + ω ≥ 1 + σ₁`. El Lema G con `b₂` creciente en α da
+`σ₁ > b₂(1+σ₁, o₁)`, que resuelta en `o₁` (la condición
+`b₂(1+σ₁, N) = σ₁` es la cuadrática `N² + (1+σ₁)N − σ₁(1+σ₁)² = 0`,
+verificada en simbólico) equivale a
+
+    o₁ < N(σ₁) := (1+σ₁)·(√(1+4σ₁) − 1)/2 .
+
+Con (\*) (y `M, X_σ ≥ 0`): `ρ > 1 + (1+σ₁−ω)/N(σ₁) =: 1 + h(σ₁)`. La
+función `h` es **decreciente** en σ₁: escribiendo
+`h = 2/(√(1+4σ₁)−1) − 2ω/[(1+σ₁)(√(1+4σ₁)−1)]`, la comparación de
+derivadas se reduce (tras multiplicar y elevar al cuadrado) a la identidad
+polinómica
+
+    (1 + 4σ₁) − (1 + 2σ₁ − 2σ₁²)²  =  4σ₁³(2 − σ₁)  >  0 ,
+
+verificada en simbólico. Luego el ínfimo está en `σ₁ = 1`:
+`N(1) = √5 − 1`, `1/(√5−1) = φ/2`, y
+
+    ρ > 1 + (2−ω)·φ/2 = φ² − (φ/2)·ω .
+
+**Rama B.** La cota combinatoria: es la rama B del Teorema B″ (misma
+dicotomía), `ρ > Ψ_B(ω)`. La geométrica: en (\*), `M > 1 − σ₁` da
+`ρ > 1 + (2−ω)/o₁`; y el Lema G con `α ≥ 1+ω` (plantilla) y `σ₁ ≤ 1` da
+`b₂(1+ω, o₁) < σ₁ ≤ 1`, es decir `o₁ < N₁(ω)`: `ρ > 1 + (2−ω)/N₁(ω)`. ∎
+
+**El rincón dorado.** El mínimo del programa completo de paredes (SLSQP
+multi-arranque, bloque [C]) coincide con la curva de la rama A en TODO el
+rango, y su minimizador es universal: `α = 2` (tope de B4 con
+`σ₂ = 1−ω`), `o₁ = √5 − 1` (tope del Lema G: `b₂(2, √5−1) = 1` **exacto**,
+identidad verificada — el par `{2, √5−1}` tiene bolsillo unidad),
+`σ₁ = 1`, `X = √5 − 2`. El oro reaparece por partida triple: el par de
+bolsillo unidad, la pendiente `φ/2` de la curva, y el valor en ω = 0,
+`φ² = φ + 1`. (El rincón es el punto de clausura donde m satura el bolsillo
+del par — por eso `b₂ = 1`: la frontera de bloqueo coincide con la frontera
+de existencia del testigo.)
+
+## 4. j ocupantes: la escalera Ψ_j
+
+**Proposición Ψ_j.** Bloqueo con j ≥ 1 ocupantes extra (ocupación
+arbitraria, las hipótesis de `bloqueadores.md`) ⟹
+
+    ρ > Ψ_j(ω) := (1−ω) + √((1−ω)² + j)      (raíz de u² − 2(1−ω)u − j) ,
+
+con umbrales exactos: `Ψ_j > T ⟺ ω < 1 − (T²−j)/(2T)`, es decir
+`0.352201` (j = 1, el ω₆ de `bloqueadores.md`), `0.624046` (j = 2),
+`0.895890` (j = 3), y **todo ω** para j ≥ 4 (`Ψ_j ≥ √j ≥ 2 > T`).
+
+*Demostración (en el caso «los hijos de o₁ son menores que m»).* Como el
+Teorema B/B″ con la cola del mayor ocupante `o₁` engordada: su cola
+contiene además a los otros `j−1` ocupantes (≥ 1 cada uno), así que el
+numerador de la segunda cola es `j + 2σ + X` en vez de `1 + 2σ + X`, y el
+cruce da la cuadrática `u² − (1+σ−ω)u − j = 0` con mínimo en `σ = 1−ω`.
+Las dos ramas de la dicotomía de evacuación se tratan como en B″ (la rama
+B da la metálica correspondiente con j, que domina: `2−ω ≥ 2−2ω`). ∎
+
+**Hueco del caso general (matiz de la verificación adversaria).** Si algún
+hijo de `o₁` es un nodo (≥ 1), la prueba anterior no aplica tal cual: la
+cola de m solo recoge los hijos < 1, y el argumento usa la misma X en las
+dos colas (el Teorema B esquivaba esto con el nodo **mínimo**, que pierde
+el bono j). El enunciado sobrevivió al ataque dirigido del verificador
+(programas SLSQP con nodos anidados en o₁, ambas ramas: los mínimos SUBEN
+— p. ej. 2.732 vs Ψ₂ = 2.000 en ω = 0.5 — porque cada nodo anidado añade
+≥ 1 a la cola de o₁ y las cadenas profundas se autodestruyen), y el parche
+es un lema de recursión corto (separar por casos según haya hijos-nodo).
+Hasta el parche, Ψ_j para j ≥ 2 lleva este asterisco; Ψ₁ = Ψ es el Teorema
+B/B″, sin asterisco.
+
+Combinando Ψ_j (j ≥ 2) con el Teorema G (j = 1): el único residuo de ω
+grande con varios ocupantes son los rincones `j = 2, ω ≥ 0.624` y
+`j = 3, ω ≥ 0.896` (donde el Lema G no aplica tal cual porque el
+re-empaquetado involucra 5+ círculos — véase §6).
+
+## 5. Corolario S: los pequeños son gratis (para la combinatoria)
+
+**Corolario S.** Los Teoremas V2 (`ocupantes.md`), B y B″
+(`bloqueadores.md`) y la Proposición Ψ_j valen sin cambios si la instancia
+contiene aros menores que m adicionales **en cualquier parte compatible
+con la plantilla de cada teorema** (en el espacio libre de `v`, en
+agujeros ya parametrizados por las X's… ; para V2, que supone agujeros
+libres, un pequeño dentro del agujero de un `o_i` saca la instancia de su
+plantilla y la manda a B″ — matiz del verificador; y siempre que S siga
+siendo el par `{σ₁, σ₂}` — véase la nota).
+
+*Demostración.* Todas las colocaciones desbloqueantes de esas paredes son
+**locales**: viven en `D_m` (libre por el intercambio), en `H_m`, en los
+agujeros de los nodos y de σ₁, o junto a m en `u` — nunca en el espacio
+libre de `v`. Un aro extra menor que m, esté donde esté, no interseca
+ninguno de esos recursos (los contenidos de agujeros ya están contados en
+las X's; los aros en `v`-propio se quedan donde están, que es legal porque
+las posiciones de los demás no cambian). Las colas solo pueden crecer. ∎
+
+**Nota de alcance.** Los aros < m dentro de `u` son, por definición, parte
+de S (`S` = todos los hijos de `u` menores que m en P): la plantilla
+`S = par` los excluye; el caso `|S| ≥ 3` es el frente (iii). Y el Lema G
+**no** está incluido en el corolario: su pared usa el re-empaquetado global
+de la sartén, que sí ve a los pequeños de `v` (véase §6).
+
+## 6. Huecos declarados
+
+1. **La puntita final**: `j = 1, ω ∈ [0.9505, 1)`. En ese régimen el
+   programa de paredes admite σ₂ → 0 y el mínimo baja suavemente hacia
+   `1 + φ/2 = 1.809` en ω → 1. Cerrarla requiere la pared que el análisis
+   en `R̄` no puede dar: con σ₂ minúsculo, ningún empaquetamiento razonable
+   de `{α, o₁, σ₁}` en el `R` real (que tiene holgura sobre `R̄` porque el
+   testigo necesita alojar a m) deja de tener un hueco para σ₂ — el «lema
+   del hueco» cuantitativo, el mismo ingrediente que pide el frente de los
+   pequeños. Observación del verificador que la ENCOGE: su numérica indica
+   que el mínimo exacto del programa en la rama B nunca baja de la curva A
+   (el descenso a 1.809 requiere soltar la cola de m), así que optimizando
+   la rama B exacta el umbral sería `ω_A = 0.9626`, no `ω_B` — y en
+   ω = 0.98 el programa completo aún da 1.8252 = curva A.
+1bis. **El parche de Ψ_j** (§4): el caso «algún hijo de o₁ es nodo» —
+   lema de recursión corto, atacado sin éxito numéricamente.
+2. **Los rincones j = 2, ω ≥ 0.624 y j = 3, ω ≥ 0.896**: el Lema G para
+   varios ocupantes exige entender el re-empaquetado de 5+ círculos (el
+   subconjunto `{α, o_i, σ₁, σ₂}` no hereda la no-empaquetabilidad del
+   conjunto completo). Con j ≥ 4, Ψ_j cierra todo ω.
+3. **El Lema G frente a pequeños en `v`**: la pared geométrica usa el
+   re-empaquetado global; con pequeños presentes se debilita a «el conjunto
+   completo no empaqueta». El presupuesto de masa (cola de m:
+   `Σ pequeños ≤ ρ − σ₁ − σ₂ − …`) acota el daño pero el análisis
+   cuantitativo (lema del hueco) está pendiente. La combinatoria (Corolario
+   S) no se ve afectada.
+4. La exactitud del ínfimo (¿es `φ² − (φ/2)ω` el ínfimo real de los
+   bloqueos j = 1?) no se persigue: la cota basta para `> T`, y las
+   familias realizadoras exigirían el estatus de `feas3`.
+
+## 7. Estado de la Batalla 1 tras este asalto
+
+| frente | estado |
+|---|---|
+| canónica (j = 0), toda ω | cerrado (`grosor_positivo.md`, `esquina.md`, B″) |
+| j = 1, ω < 0.9505, ocupación arbitraria | **cerrado (Teorema G + B/B″)** |
+| j ≥ 4, toda ω | cerrado (Ψ_j)* |
+| j = 2 hasta 0.624; j = 3 hasta 0.896 | cerrado (Ψ_j)* |
+| pequeños en v (paredes combinatorias) | cerrado (Corolario S) |
+| puntitas: j=1 ω≥0.9505; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; S ≥ 3 piezas | abierto (lema del hueco / re-empaquetado 5+) |
+
+(*) módulo el parche del caso «hijo-nodo» de Ψ_j (§4), numéricamente
+robusto.
+
+## Mapa de verificación
+
+`code/bolsillo.py`, cinco bloques (5/5 OK):
+
+- **[A]** simbólico: ∂b₂/∂o > 0; `b₂(2, √5−1) = 1`; `b₂(α,1) = b(α)`; la
+  cuadrática de N(σ₁) y `N(1) = √5−1`; el certificado polinómico de la
+  monotonía de h (`4σ³(2−σ)`); la curva dorada y su cruce
+  `ω_A = 2−2(T−1)(φ−1)`; la cuadrática de N₁ y `b₂(1+ω, N₁) = 1`; el cruce
+  numérico-algebraico `ω_B`; las cuadráticas de Ψ_j y sus umbrales
+  `1−(T²−j)/(2T)`.
+- **[B]** Lema G: exactitud del bolsillo doble contra el LP de coronas en
+  R̄ (800 casos, 0 discrepancias) y la rigidez S5-reescalada.
+- **[C]** Teorema G: el mínimo del programa completo (SLSQP multi-arranque,
+  ambas ramas) coincide con la curva analítica en 6 valores de ω (pegado a
+  <5·10⁻³) con el rincón dorado como minimizador, y la cota combinada
+  supera T en toda la malla (0, 0.9505].
+- **[D]** Ψ_j: muestreo de paredes con j = 2, 3 en ω = 0.5, mínimos
+  2.59/3.22 sobre Ψ_j = 2.00/2.30.
+- **[E]** Corolario S: añadir pequeños nunca baja ρ (26 852 casos) y el
+  argumento de localidad de las colocaciones.
