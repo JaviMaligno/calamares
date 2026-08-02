@@ -25,8 +25,9 @@ colocaciones son locales. Sometido a verificación adversaria (acta en
 `VEREDICTOS.md`): rederivación a ciegas idéntica hasta el rincón dorado;
 ningún claim refutado; el verificador demostró la disyunción de los
 bolsillos espejo (`y₀ = 2b₂` exacto) y cazó el hueco del caso «hijo-nodo»
-en Ψ_j (declarado como caso con parche pendiente). Verificación:
-`code/bolsillo.py` (5/5). Numeración local: Lema G, Teorema G,
+en Ψ_j, cerrado después con el **lema de las hojas** (§4): la Proposición
+Ψ_j vale sin asteriscos para todo j y toda ocupación. Verificación:
+`code/bolsillo.py` (6/6). Numeración local: Lema G, Teoremas G y G′,
 Proposición Ψ_j, Corolario S.
 
 ## 1. Marco
@@ -230,25 +231,48 @@ con umbrales exactos: `Ψ_j > T ⟺ ω < 1 − (T²−j)/(2T)`, es decir
 `0.352201` (j = 1, el ω₆ de `bloqueadores.md`), `0.624046` (j = 2),
 `0.895890` (j = 3), y **todo ω** para j ≥ 4 (`Ψ_j ≥ √j ≥ 2 > T`).
 
-*Demostración (en el caso «los hijos de o₁ son menores que m»).* Como el
-Teorema B/B″ con la cola del mayor ocupante `o₁` engordada: su cola
-contiene además a los otros `j−1` ocupantes (≥ 1 cada uno), así que el
-numerador de la segunda cola es `j + 2σ + X` en vez de `1 + 2σ + X`, y el
-cruce da la cuadrática `u² − (1+σ−ω)u − j = 0` con mínimo en `σ = 1−ω`.
-Las dos ramas de la dicotomía de evacuación se tratan como en B″ (la rama
-B da la metálica correspondiente con j, que domina: `2−ω ≥ 2−2ω`). ∎
+*Demostración (Lema de las hojas — cierra el caso general, sin
+asteriscos).* Llámese **hoja** a un nodo sin hijos-nodo. El subárbol de
+nodos de cada ocupante `o_i` es finito y no vacío (contiene a `o_i`),
+luego contiene una hoja `ℓ_i`; los subárboles son disjuntos, así que hay
+`j` hojas distintas `ℓ₁, …, ℓ_j`, todas ≥ 1. Sea `L` la mayor,
+`X_L = Σ hijos(L)` (todos < 1, por hoja), `M = Σ hijos(m)` y `W` la masa
+total de aros < 1 de la instancia distintos de σ₁, σ₂ (así `X_L ≤ W` y
+`M ≤ W`, con `X_L` y `M` disjuntos). Tres hechos:
 
-**Hueco del caso general (matiz de la verificación adversaria).** Si algún
-hijo de `o₁` es un nodo (≥ 1), la prueba anterior no aplica tal cual: la
-cola de m solo recoge los hijos < 1, y el argumento usa la misma X en las
-dos colas (el Teorema B esquivaba esto con el nodo **mínimo**, que pierde
-el bono j). El enunciado sobrevivió al ataque dirigido del verificador
-(programas SLSQP con nodos anidados en o₁, ambas ramas: los mínimos SUBEN
-— p. ej. 2.732 vs Ψ₂ = 2.000 en ω = 0.5 — porque cada nodo anidado añade
-≥ 1 a la cola de o₁ y las cadenas profundas se autodestruyen), y el parche
-es un lema de recursión corto (separar por casos según haya hijos-nodo).
-Hasta el parche, Ψ_j para j ≥ 2 lleva este asterisco; Ψ₁ = Ψ es el Teorema
-B/B″, sin asterisco.
+1. (Bo″ en la hoja) `L < σ₂ + ω + X_L ≤ σ₂ + ω + W`.
+2. (cola de `L`) las otras `j−1` hojas, `m`, `σ₁, σ₂` y toda la masa < 1
+   son menores o iguales que `L` (empates por la primera copia):
+   `ρ·L ≥ (j−1) + 1 + σ₁ + σ₂ + W ≥ j + 2σ₂ + W`.
+3. (cola de `m`) `σ₁, σ₂` y toda la masa < 1 están en la cola de m:
+   `ρ ≥ σ₁ + σ₂ + W ≥ 2σ₂ + W`.
+
+En la rama A de la dicotomía (`σ₂ ≥ 1−ω`), los hechos 1–3 dan
+`ρ > máx(2σ+W, (j+2σ+W)/(σ+ω+W))` en `σ = σ₂`; minimizar sobre
+`σ ≥ 1−ω`, `W ≥ 0` da el cruce `u² + u(ω−σ−1) − j = 0` (`u = 2σ+W`),
+creciente en σ, con mínimo en `σ = 1−ω`: exactamente `Ψ_j(ω)`, la raíz de
+`u² − 2(1−ω)u − j`. (Si el cruce cae en `W < 0` — posible con ω > 1/2,
+j = 1, σ → 1 —, el valor en `W = 0` es `2σ`, que satisface
+`(2σ)² − 2(1−ω)(2σ) − j ≥ j > 0`, luego `2σ > Ψ_j` igualmente: sin fuga
+por esa esquina.) En la rama B (`σ₁ + M > 1`), sea `s := σ₂ + X_L`: por
+el hecho 1 y `L ≥ 1` es `s > 1 − ω`; la cola de L contiene además a `M`
+(disjunta de `X_L`), luego
+`ρ·L ≥ j + σ₁ + M + σ₂ + X_L > j + 1 + s` con `L < s + ω`, y la cola de m
+da `ρ ≥ σ₁ + M + σ₂ + X_L > 1 + s`. Minimizar
+`máx(1+s, (j+1+s)/(s+ω))` da, con `u = 1+s`, la metálica
+`u² − (2−ω)u − j = 0` (la análoga de Ψ_B), de raíz ≥ Ψ_j porque
+`2−ω ≥ 2(1−ω)` y la raíz crece con el coeficiente: dominante. ∎
+*(El paso de la rama B de la primera redacción contaba M dos veces —
+corregido tras la verificación adversaria con la variable `s = σ₂ + X_L`;
+la esquina del cruce en W < 0 también es suya.)*
+
+Nótese por qué esto cierra el hueco que cazó la verificación adversaria
+(el caso «hijo-nodo del mayor ocupante»): las torres de nodos anidados que
+invalidaban la prueba vieja (inflan la X de o₁ sin pagar cola de m) siguen
+dejando una **hoja** en el fondo de cada subárbol, y la hoja mayor tiene a
+la vez el bono j en su cola y el techo de hoja `σ₂+ω+W`. El generador de
+árboles aleatorios del bloque [D] no encuentra nada por debajo (mínimos
+2.7–3.6 contra Ψ_j = 1.9–2.6).
 
 Combinando Ψ_j (j ≥ 2) con el Teorema G (j = 1): el único residuo de ω
 grande con varios ocupantes son los rincones `j = 2, ω ≥ 0.624` y
@@ -292,8 +316,8 @@ de la sartén, que sí ve a los pequeños de `v` (véase §6).
    el `R` real (que tiene holgura sobre `R̄` porque el testigo necesita
    alojar a m) deja de tener un hueco para σ₂ — el «lema del hueco»
    cuantitativo, el mismo ingrediente que pide el frente de los pequeños.
-1bis. **El parche de Ψ_j** (§4): el caso «algún hijo de o₁ es nodo» —
-   lema de recursión corto, atacado sin éxito numéricamente.
+1bis. ~~El parche de Ψ_j~~ — RESUELTO (lema de las hojas, §4): la
+   Proposición Ψ_j vale sin asteriscos para todo j y toda ocupación.
 2. **Los rincones j = 2, ω ≥ 0.624 y j = 3, ω ≥ 0.896**: el Lema G para
    varios ocupantes exige entender el re-empaquetado de 5+ círculos (el
    subconjunto `{α, o_i, σ₁, σ₂}` no hereda la no-empaquetabilidad del
@@ -314,17 +338,15 @@ de la sartén, que sí ve a los pequeños de `v` (véase §6).
 |---|---|
 | canónica (j = 0), toda ω | cerrado (`grosor_positivo.md`, `esquina.md`, B″) |
 | j = 1, ω < 0.9626, ocupación arbitraria | **cerrado (Teorema G′ + B/B″)** |
-| j ≥ 4, toda ω | cerrado (Ψ_j)* |
-| j = 2 hasta 0.624; j = 3 hasta 0.896 | cerrado (Ψ_j)* |
+| j ≥ 4, toda ω | cerrado (Ψ_j, lema de las hojas) |
+| j = 2 hasta 0.624; j = 3 hasta 0.896 | cerrado (Ψ_j, lema de las hojas) |
 | pequeños en v (paredes combinatorias) | cerrado (Corolario S) |
 | puntitas: j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; S ≥ 3 piezas | abierto (lema del hueco / re-empaquetado 5+) |
 
-(*) módulo el parche del caso «hijo-nodo» de Ψ_j (§4), numéricamente
-robusto.
 
 ## Mapa de verificación
 
-`code/bolsillo.py`, cinco bloques (5/5 OK):
+`code/bolsillo.py`, seis bloques (6/6 OK):
 
 - **[A]** simbólico: ∂b₂/∂o > 0; `b₂(2, √5−1) = 1`; `b₂(α,1) = b(α)`; la
   cuadrática de N(σ₁) y `N(1) = √5−1`; el certificado polinómico de la
@@ -338,8 +360,11 @@ robusto.
   ambas ramas) coincide con la curva analítica en 6 valores de ω (pegado a
   <5·10⁻³) con el rincón dorado como minimizador, y la cota combinada
   supera T en toda la malla (0, 0.9505].
-- **[D]** Ψ_j: muestreo de paredes con j = 2, 3 en ω = 0.5, mínimos
-  2.59/3.22 sobre Ψ_j = 2.00/2.30.
+- **[D]** Ψ_j vía el lema de las hojas: (i) la optimización de hojas
+  (rejilla sobre σ ≥ 1−ω, W ≥ 0) coincide con Ψ_j para j = 2, 3, 5 y
+  ω = 0.05/0.45/0.85 (dif ≤ 2·10⁻³ de rejilla); (ii) instancias-árbol
+  aleatorias (torres anidadas incluidas) con paredes en pie: mínimos
+  2.75–3.61 sobre Ψ_j = 1.87–2.57, 0 violaciones.
 - **[E]** Corolario S: añadir pequeños nunca baja ρ (26 852 casos) y el
   argumento de localidad de las colocaciones.
 - **[F]** Teorema G′ (el remate de la rama B): las dos factorizaciones

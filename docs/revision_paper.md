@@ -14,22 +14,32 @@ drafts a apéndices del paper, con enunciados formales (hipótesis explícitas):
 - [x] Apéndice B: prueba completa del Teorema del suelo rígido
   (S1–S4 + teorema + S5 + S6a + S6 + holgura U1), desde `suelo_rigido.md`
   y `universal.md`. — HECHO en esta pasada.
-- [ ] Apéndice C: el programa de anchura formalizado — Prop. ρ*₂, Prop. ρ*₃
-  (casos completos), ρ*_k = ρ*₃ (árbol), H1 (κ = √(g/g)), Prop. 4 (Φ),
-  curva completa y Teorema de la esquina. Fuentes: `perfil_tres.md`,
-  `cuatro.md`, `h1.md`, `grosor_positivo.md`, `esquina.md`.
-- [ ] Apéndice D: contenedores genéricos formalizados — Lema U (con su
-  hipótesis), criterio de coronas (C1–C7), paredes de ocupantes (V1–V2,
-  Lema R, Teoremas B/B″), bolsillo doble (Lema G, Teoremas G/G′), Ψ_j,
-  Corolario S. Fuentes: `universal.md`, `corona.md`, `ocupantes.md`,
-  `bloqueadores.md`, `bolsillo.md`.
-- [ ] **Demostrar el parche de recursión de Ψ_j** (el único "modulo" del
-  texto): lema de recursión para el caso hijo-nodo del mayor ocupante
-  (esbozo en `bolsillo.md` §4; robustez numérica ya atacada sin éxito).
-  REFORZAR: eliminar el asterisco demostrándolo, no explicándolo.
-- [ ] Tras portar C y D: reescribir las secciones 8–9 del cuerpo como
-  resumen con referencias a los apéndices, y re-etiquetar qué es teorema
-  (todo salvo las conjeturas C8/tribo y los huecos declarados).
+- [x] Apéndice C: el programa de anchura formalizado — HECHO
+  (`app:widthproofs`): Prop. ρ*₂, caracterización y fórmula de ρ*₃
+  (íntegras), ρ*_k = ρ*₃ (árbol general), frontera cerrada + identidad κ
+  + cierre Tribonacci, Φ con derivada y concavidad, Lemas E1/E2, curva
+  exacta de tres regímenes, demostración completa del Teorema 13/7
+  (cota + quíntica Q₅ + familia genuina vía S5/S6a) y remark del bump.
+- [x] Apéndice D: contenedores genéricos formalizados — HECHO
+  (`app:genericproofs`): Lema U (con su hipótesis y contraejemplo),
+  criterio de coronas (sistema de huecos, certificados, C4 exacto, zigzag,
+  U₄ en dos desigualdades, nota k = 5/pentagrama como conjetura no usada),
+  paredes V1/V2 con rama fina y corolarios, Lema R, Bo″, Teoremas B/B″
+  (dicotomía de evacuación, identidad Tribonacci del umbral), Lema G
+  (bolsillos espejo y₀ = 2b₂), Teorema G′ (ambas ramas, todos los casos),
+  Ψ_j incondicional (lema de las hojas) y Corolario S. Cuerpo de las
+  secciones 8–9 con referencias cruzadas a los apéndices.
+- [x] **Demostrar el parche de recursión de Ψ_j** — HECHO vía el **lema de
+  las hojas** (`bolsillo.md` §4): cada subárbol de ocupante contiene una
+  hoja; la cola de la hoja mayor + la pared Bo″ en ella reproducen
+  exactamente el programa de Ψ_j. Sin asteriscos; verificado en
+  `code/bolsillo.py` bloque [D] (rejilla = Ψ_j; instancias-árbol
+  aleatorias). Caveats eliminados del paper (sec:generic, Status,
+  op:assembly). REFORZADO, no explicado.
+- [x] Secciones 8–9 del cuerpo sobre los apéndices: cada párrafo remite a
+  los enunciados formales de C/D; lo demostrado es teorema/proposición con
+  prueba en apéndice, y lo no demostrado queda explícito (conjetura del
+  pentagrama declarada como no usada; huecos en Status/op:assembly).
 
 ## Bloqueo 2 — Sobre-afirmación del teorema de objetivos
 
@@ -93,12 +103,16 @@ drafts a apéndices del paper, con enunciados formales (hipótesis explícitas):
 - [x] Figuras autocontenidas en `paper/figures/` (sin `../figures`);
   colocación revisada.
 - [x] "Draft" fuera de la nota de autor; fecha fijada.
-- [ ] Overfull hbox de las gemelas y marcadores PDF: revisar en la pasada
-  final de maquetación.
+- [x] Overfull hbox: 0 en el log tras la pasada de maquetación (los tres
+  restantes — ρ_needed, Q₅, configuración de V3 — reformateados).
 
 ## Estado
 
-Pasada 1 (esta): bloqueos 2–5 y editoriales ejecutados; apéndice B (suelo
-rígido) portado. Pasadas siguientes: apéndices C y D, parche de Ψ_j,
-reescritura de las secciones 8–9 sobre los apéndices, maquetación final.
+Pasada 1: bloqueos 2–5 y editoriales ejecutados; apéndice B (suelo
+rígido) portado. Pasada 2: parche de Ψ_j demostrado (lema de las hojas) y
+caveats eliminados; apéndices C y D portados íntegros (32 pp.); secciones
+8–9 referenciadas sobre ellos. Queda: pasada final de maquetación
+(overfull de las gemelas, colocación de figuras, congelar fecha),
+verificación adversaria del lema de las hojas (en curso), y los puntos de
+Javier (repo público, Zenodo/DOI).
 El email de endorsement a Bas Lemmens espera a que esto esté cerrado.

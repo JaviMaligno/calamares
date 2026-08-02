@@ -14,13 +14,26 @@ Lema G (pared del bolsillo doble, σ₁ > b₂(α,o₁), S5 reescalada sin feas3
 con el rincón dorado (α = 2, o₁ = √5−1, b₂ = 1 exacto) y la curva
 ρ > φ² − (φ/2)ω > T para todo ω < ω_A = 0.9626 con un ocupante (Teorema G′, ambas ramas; N₁(1/2) = 3/2 y Ψ_B(1/2) = 2 exactos en el parche); Ψ_j =
 (1−ω)+√((1−ω)²+j) para j ocupantes; y el Corolario S (pequeños gratis
-para la combinatoria)). Actas en VEREDICTOS.md. Lo que queda de la
-Batalla 1 son puntitas y dos herramientas: (a) las puntitas de ω extremo
-(j=1 ω≥0.9626;
-j=2 ω≥0.624; j=3 ω≥0.896), (b) el parche del caso hijo-nodo de Ψ_j (lema
-de recursión corto), (c) el LEMA DEL HUECO cuantitativo (pequeños frente a
-la pared geométrica; σ₂ minúsculo), y (d) S con más de dos piezas.
+para la combinatoria)). Actas en VEREDICTOS.md. El antiguo parche del caso hijo-nodo de Ψ_j está
+RESUELTO por el **lema de las hojas** (`bolsillo.md` §4, bloque [D] de
+`bolsillo.py`; verificación adversaria CONFIRMADA, acta 4ª ronda en
+VEREDICTOS.md — reparó el paso de la rama B, doble conteo de M): Ψ_j vale
+sin asteriscos para todo j y toda ocupación. Lo que queda de la Batalla 1: (a) las
+puntitas de ω extremo (j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896), (b) el
+LEMA DEL HUECO cuantitativo (pequeños frente a la pared geométrica; σ₂
+minúsculo), y (c) S con más de dos piezas.
 Después: Batalla 2 (u = sartén) y el ensamblaje del lema universal.**
+
+**Revisión mayor del paper (2026-08-02, plan en `docs/revision_paper.md`,
+respuesta al revisor en `docs/respuesta_revision.md`): pasadas 1–2
+ejecutadas — Apéndices B (suelo rígido), C (programa de anchura ÍNTEGRO:
+ρ*₂/ρ*₃/ρ*_k, frontera cerrada + κ, curva del grosor, Teorema 13/7) y D
+(contenedores genéricos ÍNTEGROS: Lema U, coronas/U₄, V1/V2, Lema R,
+B/B″, Lema G/G′, Ψ_j por hojas, Corolario S) portados al paper (32 pp.);
+secciones 8–9 referencian los apéndices; NP-dureza reforzada (sartén
+cuadrada + reducción PARTITION propia; la cita FKS Thm 5.1 del revisor NO
+verificable y no usada). Queda: maquetación final, y de Javier: repo
+público + Zenodo antes de arXiv; endorsement a Bas Lemmens después.**
 
 ## 1. Mapa de lo cerrado (no retocar; actas en `drafts/VEREDICTOS.md`)
 

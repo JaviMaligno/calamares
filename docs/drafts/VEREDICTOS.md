@@ -313,3 +313,30 @@ min_programa tenía las dos colas sobre-restringidas justo en la región del
 hueco (cola de α incondicional y cola de m con X entera): arreglado imponiendo
 α ≥ o₁ (la sub-rama donde el modelo es válido) y cubriendo α < o₁ con el
 parche. 6/6 tras las correcciones.
+
+**Cuarta ronda (Lema de las hojas — Ψ_j sin asteriscos): CONFIRMADO,
+PRUEBA REPARADA EN LA RAMA B.** Verificador independiente, protocolo de dos
+fases; su rederivación a ciegas coincidió con §4 en existencia de las j
+hojas (anidamiento estricto ⟹ bosque finito; subárboles disjuntos), hecho 1
+(L nunca es α ni m: la definición de nodo ya los excluye), hecho 2 (empates
+por primera copia; misma W en ambos lados legítima — en el denominador solo
+debilita), la optimización de la rama A (cruce exacto en sympy, mínimo en
+σ = 1−ω, W* > 0) y la dominancia de la rama B. Dos hallazgos integrados:
+(1) el paso ESCRITO de la rama B contaba M dos veces (σ₁+M > 1 ya consume
+M; contraejemplo del paso tal cual: σ₁ = 0.7, M = 0.5, σ₂ = 0.3, W = 0.9 da
+cola garantizada 1.9 < 2.2 afirmado) — reparado con la variable
+s = σ₂ + X_L (X_L y M disjuntos): sale la MISMA metálica u² − (2−ω)u − j,
+el resultado no cambia; (2) la esquina del cruce en W < 0 (ω > 1/2, j = 1,
+σ → 1), no discutida: allí 2σ satisface (2σ)² − 2(1−ω)(2σ) − j ≥ j > 0 ⟹
+2σ > Ψ_j, sin fuga. Además exigió enunciar la cola de m como hecho 3
+explícito de la rama A (el término 2σ+W lo necesita). Su ataque con árboles
+reales (~3000 instancias legales + minimización dirigida sobre
+torres-cadena, hojas verdaderas, Bo″ por nodo, ambas ramas, 24 casos): 0
+violaciones, min ρ = 1.61–4.92 siempre ≥ Ψ_j con holgura ≥ 0.35, y el
+adversario óptimo elige siempre torres de altura 1 — exactamente lo que el
+lema afirma. Umbrales de la escalera exactos a 10⁻¹². Sobre el bloque [D]
+de bolsillo.py: el proxy «j menores nodos» es condición necesaria del
+bloqueo (conservador, correcto); limitación anotada: solo muestrea rama A
+(su ataque cubrió rama B y j = 1 sin hallazgos). VEREDICTO: la Proposición
+Ψ_j vale sin asteriscos para todo j y toda ocupación; correcciones
+editoriales aplicadas a bolsillo.md §4 y al Apéndice D del paper.

@@ -35,7 +35,12 @@ def main():
         for line in out.splitlines():
             if "RESUMEN" in line or "resumen" in line.lower():
                 resumen = line.strip()
-        fallos = len(re.findall(r"\[FALLO\]|FALLO\b", out))
+        # Solo el marcador [FALLO] de los scripts de verificacion cuenta como
+        # fallo. El texto descriptivo de cuadrado.py ("FALLO de best fit",
+        # "[FALLA]" en su control negativo) documenta el fenomeno estudiado
+        # (fallos del greedy en el cuadrado), no checks en rojo; su senal de
+        # error es el codigo de salida.
+        fallos = len(re.findall(r"\[FALLO\]", out))
         verde = (proc.returncode == 0 and fallos == 0)
         ok_all &= verde
         results.append((name, resumen or f"exit={proc.returncode}, "

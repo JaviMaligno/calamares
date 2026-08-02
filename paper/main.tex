@@ -504,7 +504,8 @@ the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$. Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
-placement obliviousness.
+placement obliviousness. Complete proofs for every statement of this
+section are given in Appendix~\ref{app:widthproofs}.
 
 \paragraph{The combinatorial layer is closed.}
 For two-ring profiles the blocked threshold is exactly
@@ -524,7 +525,9 @@ $k\ge3$. Consequently the combinatorial threshold crosses $T$ exactly at
 \omega_T \;=\; \tfrac1T-\tfrac12 \;=\; T^2-T-\tfrac32 \;=\;0.043689\dots :
 \]
 below $\omega_T$ the exchange step never blocks with $\rho<T$, with no
-geometry at all.
+geometry at all
+(Propositions~\ref{prop:Cpair}--\ref{prop:Callk},
+Theorem~\ref{thm:Ctrio}, Corollary~\ref{cor:Comegac}).
 
 \paragraph{The canonical template with positive width.}
 For $\omega>\omega_T$ geometry enters through the canonical template
@@ -557,7 +560,9 @@ and inherits the usual angular-criterion caveat on the other two branches:
 $2(1-\omega)$ on $(0,\omega_1]$, a sextic-algebraic middle branch on
 $[\omega_1,1/7]$, and $\Phi$ on $[1/7,0.30]$, where
 $\omega_1=0.0413570\dots$ is the root of $4\omega^3-20\omega^2+25\omega-1$
-in $(1/25,1/14)$.
+in $(1/25,1/14)$
+(Lemma~\ref{lem:CF}, Theorem~\ref{thm:Ckappa}, Corollary~\ref{cor:Cmin},
+Propositions~\ref{prop:Cwitness} and~\ref{prop:Ccurve}).
 
 \begin{theorem}[The $13/7$ corner]\label{thm:corner}
 For all $\omega>0$,
@@ -587,7 +592,8 @@ containers, and it is attacked by a toolkit of independent walls, each
 adversarially verified. Throughout, $v$ is a pan of radius $R$ with occupants
 $\{\alpha\}\cup O\cup\{m\}$, $O=\{o_1\ge\dots\ge o_j\}$, $o_i\ge m=1$,
 $u$ is the hole of $\alpha$, $S=\{\sigma_1\ge\sigma_2\}$, and holes may be
-occupied arbitrarily, at any nesting depth.
+occupied arbitrarily, at any nesting depth. Complete proofs for every
+statement of this section are given in Appendix~\ref{app:genericproofs}.
 
 \paragraph{The universal trio frontier.}
 For a trio $\{A,x,y\}$ wall-tangent in a disk of \emph{arbitrary} radius $R$
@@ -599,7 +605,7 @@ The pocket generalizes to $b_R(A)=ARc/(AR+c^2)$, increasing in $R$, and the
 frontier slope identity $\kappa=\sqrt{g_c(y)/g_c(x)}$, $g_c(s)=s^3(c-s)$, is
 uniform in $R$. Without the hypothesis $A\ge\min(x,y)$ the equivalence is
 false (an explicit counterexample pins the failure region exactly), a fact
-found by adversarial verification.
+found by adversarial verification (Lemma~\ref{lem:DU}).
 
 \paragraph{An exact corona criterion.}
 Call a \emph{corona} a packing of $k$ circles all wall-tangent. For a fixed
@@ -620,7 +626,9 @@ sorted order is \emph{not} optimal (the zigzag is: large circles must not be
 angular neighbours). For $k=5$ sufficiency requires exactly one additional
 certificate, the \emph{pentagram} (the five-diagonal star $\{5/2\}$, with
 combinatorially sharp example $\theta=\pi$ on the diagonals), conjecturally
-redundant for separations of geometric origin.
+redundant for separations of geometric origin
+(Lemmas~\ref{lem:Dgaps}--\ref{lem:Dsubset},
+Theorems~\ref{thm:Dk4}--\ref{thm:DU4}).
 
 \paragraph{Occupant walls and metallic floors.}
 Each extra occupant's hole is itself a reinsertion resource, and blocking it
@@ -655,7 +663,9 @@ the same bound and a second metallic mean, the root of
 $u^2-(2-\omega)u-1$, which dominates automatically; its own crossing is at
 $(T-1)^2$ exactly -- twice the previous one, and the certifying identity
 \emph{is} the Tribonacci polynomial:
-$(T-1)^2\,T-(2T-T^2+1)=T^3-T^2-T-1$.
+$(T-1)^2\,T-(2T-T^2+1)=T^3-T^2-T-1$
+(Lemmas~\ref{lem:DV1} and~\ref{lem:DR}, Proposition~\ref{prop:DV2},
+Theorems~\ref{thm:DB} and~\ref{thm:DBpp}).
 
 \paragraph{The double-pocket wall and the golden line.}
 The geometric wall needs no angular criterion at all: blocking implies the
@@ -688,23 +698,31 @@ one-variable boundary certificates anchored at the identity
 $f_1\equiv\mathrm{curve}$ at $o_1=\sqrt5-1$. For $j\ge2$ occupants the
 ladder $\Psi_j=(1-\omega)+\sqrt{(1-\omega)^2+j}$ (crossing $T$ at
 $1-(T^2-j)/(2T)$: $0.624$ for $j=2$, $0.896$ for $j=3$, all $\omega$ for
-$j\ge4$) covers the corresponding ranges, modulo a pending short recursion
-patch for the case where the largest occupant's hole itself contains a ring
-of radius $\ge r_m$ (numerically robust with wide margins; $\Psi_1=\Psi$ is
-unconditional). Small rings anywhere compatible with each theorem's template
+$j\ge4$) covers the corresponding ranges unconditionally, for arbitrary
+nested occupancy of the holes: a \emph{leaf argument} closes the case where
+occupants' holes contain further rings of radius $\ge r_m$. Every occupant
+subtree contains a leaf (a node none of whose hole contents reach $r_m$);
+taking $L$ the largest of the $j$ disjoint leaves, its tail collects the
+other $j-1$ leaves together with $m$, $\sigma_1$, $\sigma_2$ and all small
+mass $W$, while the blocking wall at a leaf reads $L<\sigma_2+\omega+W$;
+optimizing the resulting two-branch program returns exactly $\Psi_j$, with
+the crossing at $\sigma_2=1-\omega$ -- the same metallic-mean mechanism as
+$\Psi$. Small rings anywhere compatible with each theorem's template
 -- and with $S$ still a pair -- are free for all the combinatorial walls,
 whose unblocking placements are local to $D_m$, $H_m$, the holes, and the
-slot next to $m$ inside $u$.
+slot next to $m$ inside $u$
+(Lemma~\ref{lem:DG}, Theorem~\ref{thm:DGp},
+Proposition~\ref{prop:DPsij}, Corollary~\ref{cor:DS}).
 
 \paragraph{Status.}
 Together with Theorem~\ref{thm:corner}, every blocked exchange in the
 templates above satisfies $\rho>T$: for all $\omega$ in the canonical
 template, for $\omega<0.9626$ with one extra occupant under arbitrary hole
-occupancy, for $\omega<0.624$ and $\omega<0.896$ with two and three
-(modulo the $\Psi_j$ patch above), and for all $\omega$ with four or more.
+occupancy, for $\omega<0.624$ and $\omega<0.896$ with two and three, and
+for all $\omega$ with four or more.
 What remains open on the road to Conjecture~\ref{conj:tribo} is documented
 in the repository: the width tips ($j=1$, $\omega\ge0.9626$; $j=2$,
-$\omega\ge0.624$; $j=3$, $\omega\ge0.896$), the $\Psi_j$ recursion patch, a
+$\omega\ge0.624$; $j=3$, $\omega\ge0.896$), a
 quantitative ``gap lemma'' (small rings against the geometric wall; tiny
 $\sigma_2$), profiles $S$ with three or more pieces beyond the combinatorial
 bound, and the second battle where $u$ is the pan itself. Each statement in
@@ -862,7 +880,7 @@ lemma from the pieces of Sections~\ref{sec:width}--\ref{sec:generic}:
 combinatorics ($\rho^*_k=\rho^*_3$, $\omega_c=\omega_T$) below $\omega_T$ and
 the wall hierarchy above it. The documented remaining gaps are the width
 tips ($j=1$ with $\omega\ge0.9626$; $j=2$ with $\omega\ge0.624$; $j=3$ with
-$\omega\ge0.896$), the $\Psi_j$ recursion patch, a quantitative gap lemma
+$\omega\ge0.896$), a quantitative gap lemma
 (small rings against the double-pocket wall; tiny $\sigma_2$), profiles with
 three or more reinserted pieces beyond the combinatorial bound, and the case
 where $u$ is the pan.
@@ -1115,6 +1133,1096 @@ Proposition~\ref{prop:S6} has $R=r_1+r_2$, which is admissible, so the
 infimum is unchanged.
 \end{proof}
 
+\section{Complete proofs for the width program}\label{app:widthproofs}
+
+This appendix proves every statement of Section~\ref{sec:width}. Throughout,
+normalize $r_m=1$ and $\omega=w/r_m\in(0,1)$, and write $\beta:=1-\omega$.
+The reinsertion resources of the exchange step are the two root nests
+$A=N(1)$ (the vacated disk $D_m$) and $B=N(\beta)$ (the hole $H_m$), plus
+recursive nesting inside $S$ itself: a ring $x$ fits in the hole of a ring
+$y$ iff $x\le y-\omega$. For siblings in a disk of capacity $c$ we use:
+one circle, $s\le c$; two circles, $s+s'\le c$, which is \emph{exact}
+(sufficiency by tangent placement on a diameter; necessity from
+$s+s'\le|c_1-c_2|\le|c_1|+|c_2|\le(c-s)+(c-s')$); and for three or more
+only \emph{constructive} certificates -- the row of
+Lemma~\ref{lem:row} and explicit placements -- so that every lower bound
+below is unconditional. For a profile $S=\{s_1\ge\dots\ge s_k\}\subset(0,1)$,
+\[
+\rho_{\mathrm{needed}}(S)=\max\Bigl(\textstyle\sum S,\
+\max_j\bigl(\textstyle\sum_{l>j}s_l\bigr)/s_j\Bigr),
+\]
+and $\rho^*_k(\omega)=\inf\{\rho_{\mathrm{needed}}(S):S$ not reinsertable
+in $A\uplus B\}$.
+Two elementary facts are used without mention: $\rho_{\mathrm{needed}}$ is
+monotone under adding smaller rings, and if a prefix $\{s_1,\dots,s_j\}$ is
+already non-reinsertable then so is $S$ (every placement restricts).
+
+\subsection{Profile thresholds}\label{app:profiles}
+
+\begin{proposition}[Two rings]\label{prop:Cpair}
+$S=\{\sigma_1\ge\sigma_2\}$ is non-reinsertable iff $\sigma_1+\sigma_2>1$
+and $\sigma_2>1-\omega$. Hence $\rho^*_2(\omega)=\max\bigl(1,2(1-\omega)\bigr)$,
+approached by $\sigma_1=\sigma_2\to\max(\tfrac12,1-\omega)^+$.
+\end{proposition}
+\begin{proof}
+The possible placements are: both in $A$ (iff $\sigma_1+\sigma_2\le1$,
+two-circle exact); one in each nest (the one in $B$ measures
+$\ge\sigma_2$, so it requires $\sigma_2\le\beta$); $\sigma_2$ nested in
+$\sigma_1$ (requires $\sigma_2\le\sigma_1-\omega\le\beta$); both in $B$
+(stronger than one in each). Both stated conditions kill all four; failure
+of either condition enables the first or second placement. The infimum:
+blocking forces $\rho\ge\sigma_1+\sigma_2>\max(1,2\beta)$, and the twin
+family attains the bound in the limit (its tail ratios tend to $1$ and $0$).
+\end{proof}
+
+\begin{proposition}[Three rings: characterization]\label{prop:Ctrichar}
+Let $s_1\ge s_2\ge s_3$ in $(0,1)$. $S$ is non-reinsertable iff exactly one
+of the following holds (the cases are disjoint by the position of $s_1,s_2$
+relative to $\beta$):
+\begin{itemize}\itemsep2pt
+\item[(i)] $s_2>\beta$ and $s_1+s_2>1$ (then $s_3$ is arbitrary);
+\item[(ii)] $s_2>\beta$, $s_1+s_2\le1$, $s_3>\beta$, and the trio does not
+pack in the unit disk (possible only for $\omega>\tfrac12$);
+\item[(iii)] $s_2\le\beta<s_1$, $s_1+s_3>1$, $s_2+s_3>\beta$, and
+$s_3>s_1-\omega$;
+\item[(iv)] $s_1\le\beta$, $s_2+s_3>1$, and $s_3>s_1-\omega$.
+\end{itemize}
+\end{proposition}
+\begin{proof}
+The nesting forests on three rings are finite: no edge; one edge ($s_3$ in
+$s_1$, $s_3$ in $s_2$, $s_2$ in $s_1$); the chain $s_3\subset s_2\subset
+s_1$; the star $\{s_2,s_3\}$ in the hole of $s_1$. Top-level rings are
+distributed among $A$ and $B$ under the sibling rules above; $S$ is
+reinsertable iff some combination is feasible.
+
+\emph{(i).} Neither $s_1$ nor $s_2$ fits in $B$ ($>\beta$) and $s_2$ cannot
+nest in $s_1$ ($s_2\le s_1-\omega<\beta<s_2$ is absurd), so both must go to
+$A$, and $s_1+s_2>1$ forbids it: blocked for every $s_3$. Conversely, with
+$s_2>\beta$ and $s_1+s_2\le1$: if $s_3\le\beta$, place $\{s_1,s_2\}$ in a
+row in $A$ and $s_3$ in $B$; if $s_3>\beta$, all three live in the band
+$(\beta,1)$, $B$ is useless, nobody nests ($s_i-\omega<\beta<s_3$), so all
+three must go to $A$ and reinsertability is exactly packability of the trio
+in the unit disk -- case (ii), whose condition is also sufficient by the
+same argument. Habitability of (ii): $s_1+s_2>2\beta$ and $s_1+s_2\le1$
+force $\omega>\tfrac12$.
+
+\emph{(iii).} ($\Leftarrow$) $s_1>\beta$ has no parent and does not fit in
+$B$: $s_1\in A$. No edge survives: $s_3>s_1-\omega\ge s_2-\omega$ kills all
+three. A companion of $s_1$ in $A$ needs $s_1+s_i\ge s_1+s_3>1$: impossible.
+So $s_2,s_3$ must both go to $B$, and $s_2+s_3>\beta$ forbids it.
+($\Rightarrow$) If $s_1+s_3\le1$: $\{s_1,s_3\}$ in $A$, $s_2$ in $B$. If
+$s_2+s_3\le\beta$: $\{s_2,s_3\}$ in $B$, $s_1$ in $A$. If $s_3\le
+s_1-\omega$: nest $s_3$ in $s_1$, $s_1\to A$, $s_2\to B$.
+
+\emph{(iv).} ($\Leftarrow$) $s_2+s_3>1$ makes \emph{every} pair infeasible
+in any root ($s_i+s_j\ge s_2+s_3>1>\beta$), so each root hosts at most one
+top-level ring; two roots cannot host three rings unless someone nests, and
+$s_3>s_1-\omega$ kills all edges as in (iii). ($\Rightarrow$) If
+$s_2+s_3\le1$: $\{s_2,s_3\}$ in $A$, $s_1$ in $B$ ($s_1\le\beta$). If
+$s_3\le s_1-\omega$: nest $s_3$ in $s_1$, $s_1\to A$, $s_2\to B$.
+\end{proof}
+
+\begin{theorem}[Three rings: closed formula]\label{thm:Ctrio}
+For all $\omega\in(0,1)$,
+\[
+\rho^*_3(\omega)=\max\Bigl(1,\ \min\bigl(2(1-\omega),\
+\max\bigl(\varphi,\ \tfrac{2}{1+2\omega}\bigr)\bigr)\Bigr),
+\]
+with extremal families (as $\varepsilon\to0^+$):
+$\{\tfrac12+\omega,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ on the
+hyperbola, $\{1/\varphi,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ on the
+golden plateau
+$\omega\in\bigl[\tfrac{\sqrt5-2}{2},1-\tfrac{\varphi}{2}\bigr]$, and
+$\{\beta+\varepsilon,\beta+\varepsilon,\delta\}$ beyond. The proof is
+purely additive: neither case (ii) nor any three-circle geometry enters.
+\end{theorem}
+\begin{proof}
+We bound the infimum of $\rho_{\mathrm{needed}}$ over each case of
+Proposition~\ref{prop:Ctrichar} and take the minimum.
+
+\emph{Case (i).} $\rho\ge s_1+s_2>\max(1,2\beta)$, and the family
+$s_1=s_2=\max(\beta,\tfrac12)+\varepsilon$, $s_3=\delta\to0$ is blocked
+with $\rho_{\mathrm{needed}}\to\max(1,2\beta)=\rho^*_2$. (This ``pair plus
+dust'' argument also shows $\rho^*_{k+1}\le\rho^*_k$ for every $k$.)
+
+\emph{Case (ii).} Any blocked profile has $\sum S>1$ (otherwise the row of
+Lemma~\ref{lem:row} places the trio in $A$), so its infimum is $\ge1$,
+the formula's value on $\omega\ge\tfrac12$.
+
+\emph{Case (iii).} From $s_3>\max(1-s_1,\,s_1-\omega)$ and $s_2\ge s_3$:
+$\sum S\ge g(s_1):=s_1+2\max(1-s_1,s_1-\omega)$, which decreases until
+$s_1=(1+\omega)/2$ and increases after, with minimum $(3-\omega)/2$; and
+$s_1>\beta$. If $\omega\le\tfrac13$ then $\beta\ge(1+\omega)/2$ and
+$\sum S>g(\beta)=3-5\omega\ge2-2\omega$; if $\omega\in(\tfrac13,\tfrac12)$,
+$\sum S>(3-\omega)/2\ge2-2\omega$; if $\omega\ge\tfrac12$,
+$\sum S\ge s_1+s_3>1$. In all ranges case (iii) is dominated by the
+formula's value: it never furnishes the minimum.
+
+\emph{Case (iv).} Set $q=s_2+s_3$. Blocking gives $q>1$ and
+$q\ge2s_3>2(s_1-\omega)$, with $s_1\le\beta$, while
+$\rho\ge\max(s_1+q,\ q/s_1)$. For fixed $s_1$ both bounds grow with $q$, so
+$q\downarrow Q(s_1):=\max(1,2(s_1-\omega))$. On the branch
+$s_1\ge\tfrac12+\omega$ ($Q=2(s_1-\omega)$) both
+$3s_1-2\omega$ and $2-2\omega/s_1$ increase in $s_1$: the branch minimum is
+$\max\bigl(\tfrac32+\omega,\tfrac{2}{1+2\omega}\bigr)$ at the left endpoint.
+On the branch $s_1\le\tfrac12+\omega$ ($Q=1$),
+$h(s_1)=\max(s_1+1,1/s_1)$ decreases until the crossing $s_1^2+s_1=1$,
+i.e.\ $s_1=1/\varphi$ where $h=\varphi$, and increases after; the branch
+minimum sits at $s_1^*=\min(\beta,\tfrac12+\omega,1/\varphi)$. Comparing
+(exact crossings): for $\omega\le\omega_1:=\tfrac{\sqrt5-2}{2}$ the infimum
+is $\tfrac{2}{1+2\omega}$ (the crossing
+$\tfrac{2}{1+2\omega}=\tfrac32+\omega$ is $2\omega^2+4\omega-\tfrac12=0$,
+positive root $\omega_1$); for
+$\omega_1\le\omega\le1-1/\varphi$ it is $\varphi$; for
+$1-1/\varphi\le\omega<\tfrac12$ it is
+$\max(2-\omega,1/\beta)=1/\beta\ge2\beta$: dominated by case (i). For
+$\omega\ge\tfrac12$ case (iv) is empty ($s_2+s_3\le2\beta<1$). The lower
+bounds are approached by the stated families ($s_2=s_3=q/2$ with $s_1$ at
+each branch minimum satisfies all blocking conditions with margin
+$\varepsilon$).
+
+\emph{Global minimum.} $\tfrac{2}{1+2\omega}<2(1-\omega)$ on
+$(0,\tfrac12)$ (equivalent to $\omega(1-2\omega)>0$) and
+$\varphi\le2(1-\omega)\iff\omega\le1-\varphi/2$: the case-wise minimum is
+the stated formula.
+\end{proof}
+
+\begin{proposition}[All profile sizes]\label{prop:Callk}
+$\rho^*_k(\omega)=\rho^*_3(\omega)$ for every $k\ge3$ and every
+$\omega\in(0,1)$.
+\end{proposition}
+\begin{proof}
+$(\le)$ Dust: append $k-3$ rings $\delta\to0$ to any blocked three-ring
+witness. $(\ge)$ Let $S$ be non-reinsertable with $k$ rings and
+$\rho:=\rho_{\mathrm{needed}}(S)$.
+
+\emph{Step 0.} The row of all of $S$ in $A$ fails: $\sum S>1$, so $\rho>1$;
+this closes $\omega\ge\tfrac12$. Assume $\omega<\tfrac12$ and
+$\rho<2\beta$ (otherwise done).
+
+\emph{Step 1.} Two rings $>\beta$ would give $\sum S>2\beta\ge\rho\ge\sum S$.
+If only $s_1>\beta$: the placement ``$s_1\to A$ alone, the rest in a row in
+$B$'' fails, and since each $s_i\le\beta$ fits alone the failure is the
+sum: $\sum S-s_1>\beta$, whence $\sum S>2\beta$: impossible. So
+$s_1\le\beta$.
+
+\emph{Step 2.} ``$s_1\to B$, the rest in a row in $A$'' fails:
+$Q:=\sum S-s_1>1$. From $\rho\ge s_1+Q$ and $\rho\ge Q/s_1$:
+$\rho\ge\min_{s\le\beta}\max(1+s,1/s)$, which equals $\varphi$ if
+$\beta\ge1/\varphi$ and $1/\beta$ otherwise; in either case
+$\rho\ge\rho^*_3$ for all $\omega\ge\tfrac{\sqrt5-2}{2}$ (on the plateau
+$\rho^*_3\le\varphi$; beyond it $\rho^*_3=2\beta\le\varphi$ resp.\
+$2\beta\le1/\beta$ for $\beta\le1/\sqrt2$). Assume then
+$\omega<\tfrac{\sqrt5-2}{2}$, where $\rho^*_3=\tfrac{2}{1+2\omega}$, and
+towards a contradiction $\rho<\tfrac{2}{1+2\omega}$. From
+$\rho\ge Q/s_1>1/s_1$ we get $s_1>\tfrac12+\omega$, in particular
+$s_1-\omega>\tfrac12$.
+
+\emph{Step 3.} Let $p:=\#\{i:s_i>s_1-\omega\}$; all such rings exceed
+$\tfrac12$ and $\sum S\le\rho<2$ allows at most three, so $p\in\{1,2,3\}$.
+
+$p\ge3$: $s_1,s_2,s_3>s_1-\omega>\tfrac12$. No pair fits together in a root
+(sums $>1>\beta$, two-circle exact) and nobody nests
+($s_j\le s_i-\omega\le s_1-\omega<s_j$ is absurd): the prefix
+$\{s_1,s_2,s_3\}$ is already non-reinsertable, so
+$\rho\ge\rho_{\mathrm{needed}}(\{s_1,s_2,s_3\})\ge\rho^*_3$.
+
+$p=2$: $s_3,\dots,s_k\le s_1-\omega$. The placement ``$\{s_3,\dots,s_k\}$
+in a row inside the hole of $s_1$ (capacity $s_1-\omega$), $s_1\to A$,
+$s_2\to B$'' fails, and the only piece that can fail is the row:
+$R:=\sum_{i\ge3}s_i>s_1-\omega$. With $s_2>s_1-\omega$, the tail
+$Q=s_2+R>2(s_1-\omega)$ and $Q>1$ (Step 2): exactly the case-(iv) program
+of Theorem~\ref{thm:Ctrio}, whose value is $\ge\rho^*_3$. (This is the only
+biting branch: the dust of $(\le)$ lives here.)
+
+$p=1$: $s_2\le s_1-\omega$. The placement ``$s_2$ in the hole of $s_1$,
+$s_1\to B$, $\{s_3,\dots,s_k\}\to A$ in a row'' fails:
+$R':=\sum_{i\ge3}s_i>1$. Then
+$\sum S=s_1+s_2+R'>(s_2+\omega)+s_2+1=1+2s_2+\omega$ and the tail of $s_2$
+gives $\rho\ge R'/s_2>1/s_2$, so
+\[
+\rho\ \ge\ \min_s\max\bigl(1+2s+\omega,\ 1/s\bigr)
+=\tfrac{(1+\omega)+\sqrt{(1+\omega)^2+8}}{2}\ \ge\ 2,
+\]
+contradicting $\rho<2\beta<2$.
+\end{proof}
+
+\begin{corollary}[Exact combinatorial threshold]\label{cor:Comegac}
+For $\omega<\omega_T=\tfrac1T-\tfrac12$ no profile of any size blocks the
+exchange step with $\rho<T$; for $\omega>\omega_T$ the witness
+$\{\tfrac12+\omega,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ blocks with
+$\rho=\tfrac{2}{1+2\omega}<T$. \qed
+\end{corollary}
+
+\subsection{The blocking frontier of the canonical trio}\label{app:frontier}
+
+Work in the canonical template: the trio $\{\alpha,\sigma_1,\sigma_2\}$
+with $0<\sigma_2\le\sigma_1\le1<\alpha$ must pack in the pan of radius
+$R=\alpha+1$. With the half-angle machinery of Appendix~\ref{app:rigidproof}
+(Lemma~\ref{lem:S1}), set $f(x)=x/(R-x)$,
+$\theta(a,b)=2\arcsin\sqrt{f(a)f(b)}$ and
+$F(\sigma_1,\sigma_2)=\theta(\alpha,\sigma_1)+\theta(\alpha,\sigma_2)
++\theta(\sigma_1,\sigma_2)$; by the constructive direction
+(Lemma~\ref{lem:S2}), $F\le2\pi$ implies the trio packs, so
+non-packability implies $F\ge2\pi$ on the closure. Each $\theta$ is
+strictly increasing in both arguments, so $F=2\pi$ defines the
+\emph{blocking frontier} $\sigma_2=h(\alpha,\sigma_1)$ where it meets the
+band. Two evaluations used repeatedly: $f(\alpha)=\alpha$ (since
+$R-\alpha=1$) and $1-\alpha f(\sigma)=R(1-\sigma)/(R-\sigma)$.
+
+\begin{lemma}[Closed frontier]\label{lem:CF}
+Let $\alpha>1$ and $\sigma:=1/\sqrt{\alpha(\alpha+1)}$. In the band
+$0<\sigma_2\le\sigma_1\le1$,
+\[
+F(\sigma_1,\sigma_2)=2\pi\iff t(\sigma_1)+t(\sigma_2)=\sigma,
+\qquad t(s)=\sqrt{\tfrac{1-s}{s}},
+\]
+and $\sigma=t(b(\alpha))$. Consequently
+$h(\alpha,\sigma_1)=t^{-1}(\sigma-t(\sigma_1))$ with $t^{-1}(u)=1/(1+u^2)$,
+defined and strictly decreasing exactly for $\sigma_1\in[s^*,1]$ where
+$s^*=4\alpha(\alpha+1)/(2\alpha+1)^2$ is the diagonal point
+($t(s^*)=\sigma/2$); the range of $h$ is $[b(\alpha),s^*]$, with
+$h(\alpha,1)=b(\alpha)$.
+\end{lemma}
+\begin{proof}
+On a frontier point all three angles are interior: for the pairs
+$(\alpha,\sigma_i)$, $P=\alpha f(\sigma_i)<1$ since $\sigma_i<1$
+(and $\alpha f(1)=1$); for $(\sigma_1,\sigma_2)$,
+$\sigma_1+\sigma_2\le2<R$. Write $A=\theta(\alpha,\sigma_1)/2$,
+$B=\theta(\alpha,\sigma_2)/2\in(0,\pi/2)$, so that
+$\sin^2\!A=\alpha f(\sigma_1)$, $\cos^2\!A=R(1-\sigma_1)/(R-\sigma_1)$
+(same for $B$ with $\sigma_2$), and on the frontier
+$\theta(\sigma_1,\sigma_2)/2=\pi-A-B\in(0,\pi)$.
+
+($\Rightarrow$) Taking sines,
+$\sin\bigl(\theta(\sigma_1,\sigma_2)/2\bigr)=\sin(A+B)
+=\sin A\cos B+\cos A\sin B$. The cross terms factor:
+\[
+(\sin A\cos B)^2=\alpha f(\sigma_1)\cdot\frac{R(1-\sigma_2)}{R-\sigma_2}
+=\alpha R\,t(\sigma_2)^2\,f(\sigma_1)f(\sigma_2),
+\]
+because $(1-\sigma_2)/(R-\sigma_2)=t(\sigma_2)^2 f(\sigma_2)$; symmetrically
+with $t(\sigma_1)$. Since
+$\sin(\theta(\sigma_1,\sigma_2)/2)=\sqrt{f(\sigma_1)f(\sigma_2)}\neq0$,
+dividing gives $1=\sqrt{\alpha R}\,\bigl(t(\sigma_1)+t(\sigma_2)\bigr)$,
+the stated equation with $\sigma=1/\sqrt{\alpha R}$. The identity
+$(1-b)/b=1/(\alpha(\alpha+1))$ for $b=b(\alpha)$ gives
+$t(b(\alpha))=\sigma$.
+
+($\Leftarrow$) For fixed $\sigma_1$, both $F(\sigma_1,\cdot)$ (increasing)
+and $t(\sigma_1)+t(\cdot)$ (decreasing) are strictly monotone in
+$\sigma_2$; by ($\Rightarrow$) their level sets coincide where the frontier
+meets the band, and by monotonicity each has a unique solution.
+Existence: on the diagonal, $F(s,s)$ increases from $0^+$ to
+$F(1,1)>2\pi$, so there is a unique $s^\circ$ with $F=2\pi$, and
+($\Rightarrow$) forces $t(s^\circ)=\sigma/2$, i.e.\ $s^\circ=s^*$. For
+$\sigma_1\in[s^*,1]$, $F(\sigma_1,0^+)\le\pi<2\pi\le F(\sigma_1,\sigma_1)$:
+the frontier crosses, and $t(\sigma_1)\le\sigma/2$ keeps
+$h(\sigma_1)\le\sigma_1$. For $\sigma_1<s^*$ it would need
+$\sigma_2>\sigma_1$. Endpoints: $h(s^*)=s^*$ and
+$h(1)=t^{-1}(\sigma)=b(\alpha)$.
+\end{proof}
+
+\begin{theorem}[The $\kappa$ identity]\label{thm:Ckappa}
+On the frontier, for every $\alpha>1$ and $\sigma_1<1$,
+\[
+\kappa:=-\frac{\partial h}{\partial\sigma_1}
+=\sqrt{\frac{g(\sigma_2)}{g(\sigma_1)}},\qquad g(s)=s^3(1-s),
+\qquad\text{and}\qquad\kappa\ge1,
+\]
+with equality iff $\sigma_1=\sigma_2=s^*$.
+\end{theorem}
+\begin{proof}
+The identity: $t'(s)=-1/(2\sqrt{g(s)})$, and differentiating
+$t(\sigma_1)+t(h(\sigma_1))=\sigma$ gives
+$\kappa=t'(\sigma_1)/t'(\sigma_2)=\sqrt{g(\sigma_2)/g(\sigma_1)}$.
+
+The inequality, in the $t$-coordinate: since $t$ reverses order,
+$\sigma_2\le\sigma_1\iff t_2\ge t_1$ on the segment $t_1+t_2=\sigma$, and
+the claim is $G(t_2)\ge G(t_1)$ for
+\[
+G(t):=g\bigl(1/(1+t^2)\bigr)=\frac{t^2}{(1+t^2)^4},\qquad
+G'(t)=\frac{2t(1-3t^2)}{(1+t^2)^5}:
+\]
+$G$ increases on $[0,1/\sqrt3]$ and decreases after. Note
+$\alpha>1\iff\alpha(\alpha+1)>2\iff\sigma<1/\sqrt2$. If
+$\sigma\le1/\sqrt3$, both $t_i\le\sigma$ lie in the increasing range and
+$t_2\ge t_1$ gives the claim, with equality only at $t_1=t_2$. If
+$\sigma>1/\sqrt3$ and $t_2>1/\sqrt3$ (otherwise the previous case
+applies), then $t_1=\sigma-t_2<1/\sqrt2-1/\sqrt3$, so
+$G(t_1)\le G(1/\sqrt2-1/\sqrt3)=0.01574\dots$, while
+$t_2\in(1/\sqrt3,\sigma)$ lies in the decreasing range, so
+$G(t_2)>G(\sigma)>G(1/\sqrt2)=\tfrac{8}{81}$: here
+$\kappa^2>\tfrac{8/81}{0.0158}>6$, far from tight.
+\end{proof}
+
+\begin{corollary}[Minimum of $\sigma_1+\sigma_2$; Tribonacci closure]
+\label{cor:Cmin}
+For every $\alpha>1$, the minimum of $\sigma_1+\sigma_2$ over the
+non-packable region $\{F\ge2\pi,\ 0<\sigma_2\le\sigma_1\le1\}$ is
+$1+b(\alpha)$, attained at $(\sigma_1,\sigma_2)=(1,b(\alpha))$.
+Consequently a blocking satisfying the witness wall
+$\sigma_1+\sigma_2\le\alpha-\omega$ forces $1+b(\alpha)\le\alpha-\omega$,
+i.e.\ $\alpha\ge T_{1+\omega}$ (the root of
+$\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$); in particular no blocking exists
+for $\alpha\le T$, at any width.
+\end{corollary}
+\begin{proof}
+The region is non-empty ($F(1,1)>2\pi$) and a minimum cannot have
+$F>2\pi$ (decrease $\sigma_2$: the sum drops, $F$ stays $\ge2\pi$ by
+continuity until the frontier is crossed, and
+$F(\sigma_1,0^+)<2\pi$ guarantees it is crossed). On the frontier,
+$d(\sigma_1+h)/d\sigma_1=1-\kappa\le0$ (Theorem~\ref{thm:Ckappa}): the
+minimum sits at $\sigma_1=1$ and equals $1+b(\alpha)$. The sign of
+$1+b(\alpha)-(\alpha-\omega)$ is governed by the polynomial identity
+$1+b(\alpha)-\alpha=-(\alpha^3-\alpha^2-\alpha-1)/(\alpha^2+\alpha+1)$
+and its deformation
+$b(\alpha)-(\alpha-1-\omega)
+=-\bigl[\alpha^3-(1+\omega)(\alpha^2+\alpha+1)\bigr]/(\alpha^2+\alpha+1)$,
+whose numerator has the single positive root $T_{1+\omega}$ (Descartes'
+rule); $T_1=T$.
+\end{proof}
+
+\subsection{Positive width: the exact curve and the $13/7$ corner}
+\label{app:corner}
+
+The full blocking program of the canonical template adds the remaining
+resources to the trio wall. With capacities $c_2:=1-\omega$ (the hole
+$H_m$) and $c_4:=\alpha-\omega-1$ ($\sigma_2$ back in $u$ next to $m$,
+two-circle exact), a realizable blocking satisfies (closures for infima)
+\[
+\text{(B1) trio non-packable},\quad
+\text{(B2) }\sigma_2\ge c_2,\quad
+\text{(B4) }\sigma_2\ge c_4,\quad
+\text{(W) }\sigma_1+\sigma_2\le\alpha-\omega,
+\]
+plus the band $\sigma_2\le\sigma_1\le1$ and $\alpha-\omega\ge1$, and
+$T_{\mathrm{can}}(\omega)$ is the infimum of
+$\rho=\max\bigl(\sigma_1+\sigma_2,(1+\sigma_1+\sigma_2)/\alpha\bigr)$ over
+blockings. (At $\omega=0$ the program is empty -- (B2) would force
+$\sigma_2\ge1$ -- which is why the limit value $T$ uses only (B1)+(W).)
+
+\begin{proposition}[Witness branch]\label{prop:Cwitness}
+The infimum of $\rho$ over (B1)+(W) alone is
+$\Phi(\omega)=T_{1+\omega}-\omega$, attained in the limit
+$\alpha=T_{1+\omega}$, $\sigma_1\to1$, $\sigma_2\to b(\alpha)=
+\alpha-1-\omega$. Moreover $\Phi$ is strictly increasing and concave, with
+\[
+\Phi'(\omega)=\frac{2\alpha+1}{\alpha^2(\alpha^2+2\alpha+3)}
+\Big|_{\alpha=T_{1+\omega}}>0,\qquad
+\Phi'(0)=\frac{2T+1}{7T^2+4T+3}=0.1374\dots,
+\]
+and on $[0,\tfrac17]$ the chord--tangent bounds
+$T+(13-7T)\,\omega\le\Phi(\omega)\le T+\Phi'(0)\,\omega$ hold, the chord
+endpoint being exact: $T_{8/7}=2$ and $\Phi(\tfrac17)=\tfrac{13}7$.
+\end{proposition}
+\begin{proof}
+By Corollary~\ref{cor:Cmin}, blocking at a given $\alpha$ forces
+$\rho\ge\sigma_1+\sigma_2\ge1+b(\alpha)$ and (W) forces
+$\alpha\ge T_{1+\omega}$; $b$ is strictly increasing
+($b'=(2\alpha+1)/(\alpha^2+\alpha+1)^2$), so the infimum over admissible
+$\alpha$ is $1+b(T_{1+\omega})=T_{1+\omega}-\omega$ (the cubic identity
+with equality), approached by $\sigma_1=1-\varepsilon$,
+$\sigma_2=b(\alpha)+\varepsilon'$. The derivative: implicit
+differentiation of $\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$ and
+substitution of $1+\omega=\alpha^3/(\alpha^2+\alpha+1)$ reduce the
+numerator of $d\alpha/d\omega-1$ to $2\alpha+1$ (symbolic identity).
+Concavity: $\frac{d}{d\alpha}\log\Phi'=\frac{2}{2\alpha+1}-\frac2\alpha
+-\frac{2\alpha+2}{\alpha^2+2\alpha+3}<0$ and $\alpha$ increases with
+$\omega$. $T_{8/7}=2$ because $2^3=8=\tfrac87\cdot7$.
+\end{proof}
+
+Adding (B2) gives the second branch: every full blocking has
+$\rho\ge\sigma_1+\sigma_2\ge2(1-\omega)$. The maximum of the two branches
+is minimized at their crossing $T_{1+\omega}=2-\omega$, i.e.\ at the root
+$\omega_\times=0.0754315\dots$ of $2\omega^3-10\omega^2+14\omega-1$, giving
+the uniform floor
+$T_{\mathrm{can}}(\omega)\ge2(\alpha_\times-1)=T+0.00985\dots$ for
+$\omega\in(0,0.30]$ -- already enough for ``width only raises the floor''.
+The exact curve is finer. For fixed $\alpha$, pass to the coordinate
+$t_i=t(\sigma_i)$, where (B1) becomes \emph{linear}
+(Lemma~\ref{lem:CF}): $t_1+t_2\le\Theta(\alpha):=t(b(\alpha))$, and the
+walls read $t_2\le\tau:=t(c)$, $c:=\max(c_2,c_4)$. If $\alpha>2+\omega$
+there is no blocking at all ((B4) and the band give
+$\sigma_1+\sigma_2\ge2c_4>\alpha-\omega$, violating (W)); so
+$\alpha-\omega\in[1,2]$ effectively.
+
+\begin{lemma}[Conditional minimum]\label{lem:CE1}
+Let $\alpha\in(1,2+\omega)$ and $c=\max(1-\omega,\alpha-\omega-1)<1$. The
+infimum of $S=\sigma_1+\sigma_2$ over non-packable trios with
+$\sigma_2\ge c$ and $\sigma_2\le\sigma_1\le1$ is
+\[
+\text{(a) } 1+b(\alpha)\ \ \text{if } c\le b(\alpha);\qquad
+\text{(b) } c+\sigma\bigl(\Theta(\alpha)-t(c)\bigr)\ \ \text{if }
+b(\alpha)<c\le s^*(\alpha);\qquad
+\text{(c) } 2c\ \ \text{if } c>s^*(\alpha),
+\]
+where $\sigma(u)=1/(1+u^2)$. Moreover each case is non-decreasing in
+$\alpha$ on its domain.
+\end{lemma}
+\begin{proof}
+$\sigma(\cdot)$ is decreasing, so $S$ drops when either $t_i$ rises. In
+the truncated box $\{t_1\le t_2\le\tau,\ t_1+t_2\le\Theta\}$: if
+$2\tau\le\Theta$ (case (c)) the box corner $(\tau,\tau)$ is admissible and
+optimal, $S=2\sigma(\tau)=2c$. Otherwise the minimum lives on the segment
+$t_1+t_2=\Theta$, where
+\[
+\frac{dS}{dt_2}=-\sigma'(\Theta-t_2)+\sigma'(t_2)
+=2\bigl[\sqrt{G(t_1)}-\sqrt{G(t_2)}\bigr]\le0
+\]
+by the $G$-lemma inside Theorem~\ref{thm:Ckappa}
+($\sigma'(x)=-2x/(1+x^2)^2$, $(\sigma'/2)^2=G$): push $t_2$ to its cap.
+If $\tau\ge\Theta$ (case (a)): $t_2=\Theta$, $t_1=0$, i.e.\
+$(\sigma_1,\sigma_2)=(1,b(\alpha))$. If $\tau<\Theta$ (case (b)):
+$t_2=\tau$, $t_1=\Theta-\tau$. Monotonicity in $\alpha$: (a) is
+$1+b(\alpha)$ with $b$ increasing; (b) with $c=c_2$ fixed has
+$dS/d\alpha=\sigma'(\Theta-\tau)\,\Theta'(\alpha)\ge0$ ($\sigma'<0$,
+$\Theta'<0$); (b)/(c) with the moving cap $c=c_4$ ($\alpha\ge2$,
+$\tau_4=t(c_4)$) has
+$dS/d\alpha=\tau_4'\,(-2)\bigl[\sqrt{G(\tau_4)}-\sqrt{G(t_1)}\bigr]
++\sigma'(t_1)\,\Theta'\ge0$, since $\tau_4'<0$, $G(\tau_4)\ge G(t_1)$
+($\tau_4\ge t_1$ on the segment, same $G$-lemma) and the last two factors
+are both negative.
+\end{proof}
+
+\begin{proposition}[The exact curve]\label{prop:Ccurve}
+For $\omega\in(0,0.30]$, the proved lower bound for
+$T_{\mathrm{can}}$ is
+\[
+T_{\mathrm{can}}(\omega)\ \ge\
+\begin{cases}
+2(1-\omega) & \omega\in(0,\omega_1],\\[2pt]
+\alpha_m(\omega)-\omega & \omega\in[\omega_1,\tfrac17],\\[2pt]
+\Phi(\omega) & \omega\in[\tfrac17,0.30],
+\end{cases}
+\]
+where $\omega_1=0.0413570\dots$ is the root in
+$(\tfrac1{25},\tfrac1{14})$ of $4\omega^3-20\omega^2+25\omega-1$ and
+$\alpha_m(\omega)\in(1,2]$ is the unique root of
+$t(\alpha-1)+t(1-\omega)=\Theta(\alpha)$, an algebraic function of degree
+$6$ (its polynomial $P(\alpha,\omega)$, of bidegree $(6,2)$, is
+irreducible over $\mathbb Q[\alpha,\omega]$). Equality holds on the witness
+branch and at the corner; on the other two branches the matching upper
+bound inherits the angular-criterion caveat.
+\end{proposition}
+\begin{proof}
+Fix $\omega$ and minimize the value of Lemma~\ref{lem:CE1} over $\alpha$
+subject to (W).
+
+\emph{$H_m$ branch ($\omega\le\omega_1$).} Case (c) gives $S=2(1-\omega)$,
+constant in $\alpha$, admissible iff (W): $\alpha\ge2-\omega$, and iff
+$c_2>s^*(\alpha)$, i.e.\ $\alpha\le\bar\alpha(\omega)$. The window is
+non-empty iff $s^*(2-\omega)\le1-\omega$, and
+$(1-\omega)-s^*(2-\omega)$ has numerator
+$-(4\omega^3-20\omega^2+25\omega-1)$; the cubic is strictly increasing on
+$(0,\tfrac56)$ (derivative $(5-2\omega)(5-6\omega)$), so the window exists
+exactly for $\omega\le\omega_1$. The other cases do not undercut
+$2(1-\omega)$ (monotonicity in Lemma~\ref{lem:CE1} plus continuity across
+case junctions).
+
+\emph{Mixed branch ($\omega_1<\omega\le\tfrac17$).} For $\alpha\le2$, case
+(c) is empty (it would need $1-\omega\ge s^*(\alpha)\ge s^*(2-\omega)$,
+against the cubic) and case (a) needs $b(\alpha)\ge1-\omega$, impossible
+($b(2)=\tfrac67\le1-\omega$). Case (b) with $c=c_2$ has value
+$S^b(\alpha)=1-\omega+\sigma(\Theta-t(1-\omega))$, increasing in $\alpha$,
+and (W) is equivalent to
+$\Psi(\alpha):=\Theta(\alpha)-t(\alpha-1)\ge t(1-\omega)$ with $\Psi$
+strictly increasing on $(1,2]$, $\Psi(1^+)=-\infty$ and
+$\Psi(2)=t(\tfrac67)\ge t(1-\omega)\iff\omega\le\tfrac17$: the admissible
+$\alpha$ form $[\alpha_m,2]$ and the minimum is
+$S^b(\alpha_m)=\alpha_m-\omega$ ((W) with equality). For
+$\alpha\in(2,2+\omega)$: if $b(\alpha)\le1-\omega$, relax (B4) to (B2) and
+use monotonicity, $S\ge S^b(\alpha)>S^b(\alpha_m)$; if $b(\alpha)>1-\omega$,
+$S\ge1+b(\alpha)>2-\omega>\alpha_m-\omega$. Squaring the defining equation
+twice yields the polynomial $P$ (necessary condition; the right branch is
+pinned by $\alpha_m\in(1,2]$), with the junction identities
+$P(2-\omega,\omega)=(\omega-1)^3(4\omega^3-20\omega^2+25\omega-1)$ (so
+$\alpha_m(\omega_1)=2-\omega_1$) and $\alpha_m(\tfrac17)=2$.
+
+\emph{Witness branch ($\omega\ge\tfrac17$).} Now
+$b(T_{1+\omega})=T_{1+\omega}-1-\omega\ge1-\omega\iff T_{1+\omega}\ge2
+\iff\omega\ge\tfrac17$: the optimum of case (a) satisfies (B2), (W) forces
+$\alpha\ge T_{1+\omega}$ (Corollary~\ref{cor:Cmin}) and the minimum is
+$\Phi(\omega)$; larger $\alpha$ and the cases (b)/(c$_4$) are increasing
+and start at $\Phi(\omega)$; smaller $\alpha$ admit no blocking (for
+$\alpha\le2$, $\Psi(\alpha)\le\Psi(2)=t(\tfrac67)\le t(1-\omega)$ with
+equality only at the corner; case (c) would need $\omega\le\omega_1$).
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:corner}]
+\emph{Lower bound.} Take any blocking at width $\omega$. If $\alpha\ge2$:
+by Corollary~\ref{cor:Cmin} alone (no (B2), (B4), (W) needed),
+$\rho\ge1+b(\alpha)\ge1+b(2)=\tfrac{13}7$. If $\alpha<2$, use
+Proposition~\ref{prop:Ccurve}: for $\omega\ge\tfrac17$ there is no
+blocking with $\alpha<T_{1+\omega}$ and $T_{1+\omega}\ge2>\alpha$: empty.
+For $\omega\le\omega_1$: $\rho\ge2(1-\omega)\ge2(1-\omega_1)>\tfrac{13}7$
+(since $\omega_1<\tfrac1{14}$). For $\omega_1<\omega<\tfrac17$:
+$\rho\ge V(\omega):=\alpha_m(\omega)-\omega$, and $V>\tfrac{13}7$ there:
+if $V(\omega')=\tfrac{13}7$ then $(\alpha,\omega)=(\tfrac{13}7+\omega',
+\omega')$ satisfies $P=0$, but
+\[
+P\bigl(\tfrac{13}7+\omega,\ \omega\bigr)
+=\frac{4\,(7\omega-1)\,Q_5(\omega)}{7^6},
+\]
+\[
+Q_5=33614\,\omega^5+235298\,\omega^4+620830\,\omega^3+766066\,\omega^2
++397831\,\omega-289,
+\]
+and $Q_5$ has no root in $[\tfrac1{25},\tfrac17]$ (exact root isolation;
+its only positive root is $\approx0.0007$), so the only root of the
+product there is $\omega=\tfrac17$; since
+$V(\omega_1)-\tfrac{13}7=\tfrac17-2\omega_1>0$ and $V$ is continuous,
+$V>\tfrac{13}7$ on all of $[\omega_1,\tfrac17)$. Uniqueness of the
+infimum configuration: equality in the branch $\alpha\ge2$ forces
+$\alpha=2$, $\sigma_1=1$, $\sigma_2=\tfrac67$; then (B2) gives
+$\omega\ge\tfrac17$ and (W) gives $\omega\le\tfrac17$.
+
+\emph{The approximating family is genuine.} At exactly $\alpha=2$,
+$\omega=\tfrac17$ there is no family: $\kappa>1$ gives
+$\sigma_1+h(2,\sigma_1)>\tfrac{13}7=\alpha-\omega$ for $\sigma_1<1$,
+violating (W); the corner is approached by \emph{opening} (B4). Fix
+$\omega=\tfrac17$ and let $\delta\downarrow0$:
+\[
+\alpha=2+\delta,\quad\varepsilon=\delta^2/4,\quad
+\sigma_1=1-\varepsilon,\quad\sigma_2=(\alpha-\omega-1)+\varepsilon/2 .
+\]
+All walls hold ((B4) with slack $\varepsilon/2$; (B2) since
+$\alpha-\omega-1\ge1-\omega$ for $\alpha\ge2$; (W) since
+$\sigma_1+\sigma_2=\alpha-\omega-\varepsilon/2$). Genuineness: since
+$\alpha>T_{8/7}=2$, Corollary~\ref{cor:Cmin} gives
+$\sigma_2>b(\alpha)$ strictly, so the trio $\{\alpha,1,\sigma_2\}$ is
+non-packable by the \emph{rigidity} of Proposition~\ref{prop:S5}
+(the disk $R=\alpha+1$ is diametrically full; rescale by $t=1/\alpha$) --
+not merely by the angular criterion -- and the infeasibility propagates
+from $\sigma_1=1$ to $\sigma_1=1-\varepsilon$ by
+Lemma~\ref{lem:S6a}(3) for all small $\varepsilon$. Then
+$\rho=\alpha-\omega-\varepsilon/2\to\tfrac{13}7$.
+\end{proof}
+
+\begin{remark}[Fine structure]\label{rem:Cbump}
+The curve is not monotone on $(0,\tfrac17]$: differentiating the defining
+equation of $\alpha_m$ at the junction and using the exact coincidence of
+the leading terms ($(\alpha-1)^3(2-\alpha)=(1-\omega_1)^3\omega_1$ at
+$\alpha=2-\omega_1$) gives
+$V'(\omega_1^+)=c_0/(r'-c_0)>0$ (numerically $+0.0721$): $\omega_1$ is a
+\emph{local minimum} of $T_{\mathrm{can}}$, followed by a local maximum at
+$\omega_{\mathrm{peak}}=0.0444700$ (the unique root in
+$(\omega_1,\tfrac17)$ -- by Sturm -- of an explicit degree-8 factor $R_8$
+of the resultant of $P$ and $P_\alpha+P_\omega$), a bump of height
+$1.1\cdot10^{-4}$, before descending to the corner. $T_{\mathrm{can}}$ has
+two local minima, $\omega_1$ and $\tfrac17$, and the global one is the
+corner.
+\end{remark}
+
+\section{Complete proofs for generic containers}\label{app:genericproofs}
+
+This appendix proves every statement of Section~\ref{sec:generic}.
+Normalize $r_m=1$, $\omega=w/r_m$. The template: $v$ is the pan, of radius
+$R$, containing $\{\alpha\}\cup O\cup\{m\}$ with $O=\{o_1\ge\dots\ge o_j\}$,
+$j\ge0$, $o_i\ge m=1$ (rings larger than $m$ agree in $F$ and $P$); $u$ is
+the hole of $\alpha$, capacity $\alpha-\omega\ge1$; the witness placed
+$S=\{\sigma_1\ge\sigma_2\}$ in $u$, $\sigma_2\le\sigma_1\le1$. Holes may be
+occupied arbitrarily: contents of a hole at any depth are parametrized by
+$X_y:=\sum\mathrm{children}(y)$. The exchange builds a placement $P'$ that
+preserves the container assignments of all rings $\ge m$; \emph{positions}
+inside each container are existential (a placement is a nesting forest
+whose sibling groups pack). A \emph{node} is any ring of radius $\ge1$
+that is an occupant of $v$ other than $\alpha$ \emph{and} $m$, or is
+nested (at any depth) inside one; nodes and their descendants live outside
+$m$. Unless stated otherwise, blocked-exchange walls are closures of
+strict inequalities, as in Appendix~\ref{app:widthproofs}.
+
+\subsection{The universal frontier and the corona criterion}
+\label{app:corona-app}
+
+\begin{lemma}[Universal frontier]\label{lem:DU}
+Let $\{A,x,y\}$ be wall-tangent in a disk of arbitrary radius $R$, in the
+interior domain $A+x,A+y,x+y<R$. Set $c:=R-A$,
+$T_c(x):=\sqrt{(c-x)/x}$ and $\tau_R:=c/\sqrt{AR}$. If $A\ge\min(x,y)$,
+then
+\[
+F=\theta(A,x)+\theta(A,y)+\theta(x,y)\ \ge\ 2\pi
+\iff T_c(x)+T_c(y)\ \le\ \tau_R .
+\]
+The direction $(\Rightarrow)$ is unconditional; the converse fails without
+the hypothesis ($R=1$, $A=0.01$, $x=y=0.45$ is a counterexample).
+\end{lemma}
+\begin{proof}
+The cross term factors for arbitrary $R$: with
+$\sin^2(\theta_{Az}/2)=f(A)f(z)$, $f(z)=z/(R-z)$, one has the identity
+\[
+f(A)f(x)\bigl(1-f(A)f(y)\bigr)
+=\frac{AR}{(R-A)^2}\cdot\frac{c-y}{y}\cdot f(x)f(y),
+\]
+so
+$\sin(\theta_{Ax}/2)\cos(\theta_{Ay}/2)
+=\tfrac{\sqrt{AR}}{c}\,T_c(y)\sqrt{f(x)f(y)}$ and, adding the symmetric
+term, $\sin s=\tfrac{\sqrt{AR}}{c}\bigl(T_c(x)+T_c(y)\bigr)\sin w$ with
+$s=(\theta_{Ax}+\theta_{Ay})/2$, $w=\theta_{xy}/2$. The linear form is
+thus $\sin s\le\sin w$, while $F\ge2\pi$ is $s+w\ge\pi$. Since
+$w\le\pi/2$: $s+w\ge\pi\Rightarrow\sin s\le\sin w$ always; the converse
+needs $s>w$, which the hypothesis provides: if $A\ge y$, monotonicity
+gives $\theta(A,x)\ge\theta(y,x)=2w$, so $s>w$.
+\end{proof}
+
+Uniform companions (same computations as in
+Appendix~\ref{app:widthproofs}, now for general $R$): the general pocket
+$b_R(A)=ARc/(AR+c^2)$, equal to Descartes' $b_2$ when $R=A+B$, increasing
+in $R$ and always $\le A$; and the slope identity
+$\kappa=\sqrt{g_c(y)/g_c(x)}$ with $g_c(s)=s^3(c-s)$, since $T_c$ is a
+primitive of $-c/(2\sqrt{g_c})$.
+
+\begin{lemma}[Gap system]\label{lem:Dgaps}
+A \emph{corona} of $\{a_1,\dots,a_k\}$ in the disk $R$ (all $k$ circles
+wall-tangent) with cyclic order $\pi$ exists iff the linear system
+\[
+\theta_{ij}\ \le\ S_j-S_i\ \le\ 2\pi-\theta_{ij}
+\qquad(1\le i<j\le k,\ S_1=0)
+\]
+is feasible, where $\theta_{ij}$ is the angle of the pair in positions
+$i,j$ of $\pi$.
+\end{lemma}
+\begin{proof}
+The angular separation of positions $i<j$ is
+$\min(S_j-S_i,\,2\pi-(S_j-S_i))$, and
+$\min(\Delta,2\pi-\Delta)\ge\theta\iff\theta\le\Delta\le2\pi-\theta$
+because $\theta\le\pi$; wall-tangent circles are contained in the disk and
+pairwise disjointness is exactly the angular condition.
+\end{proof}
+
+\begin{lemma}[Subset certificates]\label{lem:Dsubset}
+If $\{a_1,\dots,a_k\}$ has a corona with cyclic order $\pi$, then every
+subset $T$, $|T|\ge3$, satisfies
+$\sum_{\text{consecutive pairs of }T}\theta\le2\pi$ in the induced cyclic
+order. Consequently, if some $T$ exceeds $2\pi$ in \emph{all} its cyclic
+orders, no corona exists in any order -- the unconditional direction used
+by all lower bounds. \qed
+\end{lemma}
+
+The naive criterion (``some order with consecutive sum $\le2\pi$ implies a
+corona'') is \emph{false} for $k\ge4$: the conditional triangle inequality
+$\theta(a,c)\le\theta(a,b)+\theta(b,c)$ holds when $b\ge\min(a,c)$ but
+fails badly for small $b$ ($R=1$, $a=c=0.45$, $b\to0$), and
+$\{0.47,0.47,0.47,0.02\}$ has a small cyclic sum while its top trio is
+already infeasible. The correct statement:
+
+\begin{theorem}[Exact criterion per order, $k=4$]\label{thm:Dk4}
+For arbitrary symmetric $\theta_{ij}\in(0,\pi]$, the system of
+Lemma~\ref{lem:Dgaps} for the order $(1,2,3,4)$ is feasible iff the four
+trio certificates and the total
+$\theta_{12}+\theta_{23}+\theta_{34}+\theta_{14}\le2\pi$ hold.
+\end{theorem}
+\begin{proof}
+Necessity: Lemma~\ref{lem:Dsubset}. Sufficiency, by difference-constraint
+duality: each upper bound is an up-edge $i\to j$ of weight
+$2\pi-\theta_{ij}$, each lower bound a down-edge $j\to i$ of weight
+$-\theta_{ij}$; the system is feasible iff the digraph has no negative
+directed cycle, and it suffices to exclude \emph{simple} cycles. A simple
+cycle $\Gamma$ with $U$ up-edges has weight
+$w(\Gamma)=2\pi U-\sum_{e\in\Gamma}\theta_e$, so $w<0$ requires
+$\#\mathrm{edges}(\Gamma)>2U$ (as $\theta\le\pi$). With $k=4$, a simple
+cycle has $\le4$ edges, so only $U=1$ can go negative; a $U=1$ cycle is an
+up-edge $i\to j$ plus a decreasing chain from $j$ to $i$, and its
+negativity condition $\theta_{ij}+\sum_{\text{chain}}\theta>2\pi$ is
+exactly the subset certificate of $\{i,\text{chain},j\}$: enumerating,
+sizes $3$ give the four trios and size $4$ gives the total.
+\end{proof}
+
+\begin{proposition}[The zigzag minimizes the total]\label{prop:Dzigzag}
+For $a_1\ge a_2\ge a_3\ge a_4$, the three cyclic orders have totals
+$\sum_{i<j}\theta_{ij}$ minus one perfect matching, and the maximum-sum
+matching is $\theta_{12}+\theta_{34}$; hence
+$\min_\pi\mathrm{TOT}(\pi)=\sum_{i<j}\theta_{ij}-\theta_{12}-\theta_{34}$,
+achieved by the zigzag order $(a_1,a_3,a_2,a_4)$.
+\end{proposition}
+\begin{proof}
+With $\sigma_i:=\log f(a_i)$ (decreasing) one has
+$\theta(a_i,a_j)=g(\sigma_i+\sigma_j)$ for $g(s)=2\arcsin(e^{s/2})$ on
+$s\le0$, with
+$g''(s)=e^{-s}/\bigl(2(e^{-s}-1)^{3/2}\bigr)>0$: $g$ is convex and
+increasing (continuity at $s=0$ by passage to the limit). The three
+matchings have pair-sums $\{\sigma_1+\sigma_2,\sigma_3+\sigma_4\}$,
+$\{\sigma_1+\sigma_3,\sigma_2+\sigma_4\}$,
+$\{\sigma_1+\sigma_4,\sigma_2+\sigma_3\}$ with equal totals, and the first
+majorizes the other two; convexity turns majorization into the claimed
+maximality.
+\end{proof}
+
+\begin{theorem}[Lemma $U_4$: global criterion, two inequalities]
+\label{thm:DU4}
+$\{a_1\ge a_2\ge a_3\ge a_4\}$ admits a corona in the disk $R$ (all pairs
+admissible) iff
+\[
+\theta_{12}+\theta_{13}+\theta_{23}\le2\pi
+\qquad\text{and}\qquad
+\sum_{i<j}\theta_{ij}-\theta_{12}-\theta_{34}\le2\pi .
+\]
+\end{theorem}
+\begin{proof}
+Trio certificates do not depend on the order, so a corona exists iff all
+trios pass and the minimal total does
+(Theorem~\ref{thm:Dk4}~+~Proposition~\ref{prop:Dzigzag}). By monotonicity
+of $\theta$, every trio is dominated pairwise by the top trio
+$\{a_1,a_2,a_3\}$, so one trio inequality suffices. Neither inequality is
+redundant (both are active on the frontier). The top-trio condition
+linearizes by Lemma~\ref{lem:DU} with automatic hypothesis
+($A=a_1$ is the global maximum): it reads
+$T_c(a_2)+T_c(a_3)\ge\tau_R$ with $c=R-a_1$.
+\end{proof}
+
+For $k=5$ the subset-only criterion fails for exactly one pattern, the
+\emph{pentagram}: of the $84$ simple cycles, all with $U\ge2$ are
+count-dominated or LP-dominated except the cycle through the five
+diagonals, and adding its certificate $\sum_D\theta\le4\pi$ restores an
+exact criterion for arbitrary $\theta$; for \emph{geometric} $\theta$
+(rank-one matrices $\sin^2(\theta_{ij}/2)=f_if_j$) the identity
+$\prod_Df_if_j=\prod_{\text{sides}}f_if_j=(\prod f_i)^2$ obstructs the
+pattern and the best value found is $7.556$ against the $4\pi=12.57$
+needed; its redundancy for geometric $\theta$ is stated as a conjecture in
+the repository and is \emph{not used}: lower bounds only ever use the
+unconditional direction of Lemma~\ref{lem:Dsubset}. For $k\ge5$ the
+subset quantifier does not commute with the order quantifier (explicit
+five-ring counterexamples in the repository), so the per-order criterion
+or the LP is the correct tool.
+
+\subsection{Occupant walls and metallic floors}\label{app:walls-app}
+
+\begin{lemma}[Walls, free-hole template]\label{lem:DV1}
+Suppose the holes of $m$, $\sigma_1$ and all $o_i$ are free. If the
+exchange is blocked, then
+\[
+\text{(B2) }\sigma_2>1-\omega;\quad
+\text{(B3) }\sigma_2>\sigma_1-\omega;\quad
+\text{(B4) }\sigma_2>\alpha-\omega-1;\quad
+\text{(Bo) }\sigma_2>o_k-\omega\ \forall k;
+\]
+\[
+\text{(D) }\sigma_1+\sigma_2>1;\qquad
+\text{(W) }\sigma_1+\sigma_2\le\alpha-\omega .
+\]
+In particular $o_k<\sigma_2+\omega\le1+\omega$ for all $k$: every extra
+occupant stays within one width of $m$.
+\end{lemma}
+\begin{proof}
+Each line is the contrapositive of an explicit placement whose two
+resources are disjoint and whose feasibility criteria (pair, nesting, row)
+are exact: $\sigma_2\to H_m$ with $\sigma_1\to D_m$; $\sigma_2\subset
+\sigma_1\to D_m$; $\sigma_2$ next to $m$ in $u$ ($1+\sigma_2\le
+\alpha-\omega$, pair-exact) with $\sigma_1\to D_m$; $\sigma_2\subset o_k$
+with $\sigma_1\to D_m$; the whole pair into $D_m$ (a free unit disk). (W)
+is the legality of the witness's placement.
+\end{proof}
+
+\begin{proposition}[Occupant price]\label{prop:DV2}
+Blocking in the free-hole template with $j\ge1$ extra occupants implies
+\[
+\rho\ >\ 2+\frac{j-2\omega}{o_1}\ \ge\ \frac{j+2}{1+\omega}
+\quad(\omega\le j/2),
+\qquad\text{and for }j=1,\ \omega\ge\tfrac12:\quad
+\rho>\frac{4}{1+2\omega}.
+\]
+\end{proposition}
+\begin{proof}
+The tail of $o_1$ contains $\{o_2,\dots,o_j,m,\sigma_1,\sigma_2\}$ (ties
+by the first-copy convention). By (Bo), $\sigma_1\ge\sigma_2>o_1-\omega$,
+and each $o_i\ge1$:
+$\rho\ge\bigl((j-1)+1+\sigma_1+\sigma_2\bigr)/o_1
+>\bigl(j+2(o_1-\omega)\bigr)/o_1=2+(j-2\omega)/o_1$. If $\omega\le j/2$
+the expression decreases in $o_1$ and $o_1<1+\omega$
+(Lemma~\ref{lem:DV1}). For $j=1<2\omega$, add (D):
+$\sigma_1+\sigma_2>\max(1,2(o_1-\omega))$, so
+$\rho>\bigl(1+\max(1,2(o_1-\omega))\bigr)/o_1$, whose infimum over $o_1$
+is $4/(1+2\omega)$ at $o_1=\tfrac12+\omega$.
+\end{proof}
+
+\begin{corollary}[Crossings; canonical optimality]\label{cor:DV34}
+For $j=1$: $\rho>3/(1+\omega)>T$ for
+$\omega<3/T-1=3T^2-3T-4=0.6310\dots$, and combining with the fine branch,
+$\rho>T$ for all $\omega<2/T-\tfrac12=2T^2-2T-\tfrac52=0.5873\dots$, with
+$\rho\ge\tfrac{13}7$ for $\omega\le\tfrac{15}{26}$. For $j\ge2$:
+$\rho>4/(1+\omega)>2>T$ for all $\omega<1$. Moreover every
+extra-occupant blocking has $\rho>2$ for $\omega<\tfrac12$, while the
+entire canonical curve lies strictly below $2$ -- the witness branch by
+the exact identity
+$(2+\omega)^3-(1+\omega)\bigl((2+\omega)^2+(2+\omega)+1\bigr)=1>0$, i.e.\
+$T_{1+\omega}<2+\omega$, hence $\Phi(\omega)<2$ -- so adding occupants is
+strictly suboptimal for the adversary: the canonical template is the
+optimal $v$ in this class. \qed
+\end{corollary}
+
+\subsection{Occupied holes: the opposite-disk lemma and the silver floor}
+\label{app:blockers-app}
+
+\begin{lemma}[Opposite disk]\label{lem:DR}
+Let a disk have capacity $c$, let $\sigma\le c$ be the largest piece and
+$C$ a multiset of pieces $\le\sigma$. If $\sum C\le c-\sigma$, then
+$\{\sigma\}\cup C$ packs in the disk.
+\end{lemma}
+\begin{proof}
+Place $\sigma$ wall-tangent with center $(-(c-\sigma),0)$. The disk of
+radius $r=c-\sigma$ centered at $(c-r,0)$ is wall-tangent and exactly
+tangent to $\sigma$ (center distance $(c-\sigma)+(c-r)=c=\sigma+r$): a
+free disk of radius $c-\sigma$, in which $C$ fits in a row
+(Lemma~\ref{lem:row}).
+\end{proof}
+
+\begin{lemma}[General blocking wall Bo$''$]\label{lem:DBo}
+Blocking implies, for every node $y$: $y<\sigma_2+\omega+X_y$.
+\end{lemma}
+\begin{proof}
+Otherwise $\sum\mathrm{children}(y)\le(y-\omega)-\sigma_2$ and
+Lemma~\ref{lem:DR} packs $\{\sigma_2\}\cup\mathrm{children}(y)$ in the
+hole of $y$ (if some child exceeds $\sigma_2$, apply the lemma with that
+child as the largest piece; the inequality is the same), with
+$\sigma_1\to D_m$: unblocked. Positions are re-eligible, and inserting
+$\sigma_2$ (a ring $<m$) only changes the container of $\sigma_2$: legal.
+\end{proof}
+
+\begin{theorem}[Silver floor; $m$ without children]\label{thm:DB}
+Blocking with $j\ge1$, holes occupied arbitrarily at any depth, $m$
+childless, implies
+$\rho>\Psi(\omega)=(1-\omega)+\sqrt{(1-\omega)^2+1}$, the positive root of
+$u^2-2(1-\omega)u-1$. In particular $\Psi(0)=1+\sqrt2$ (the silver ratio),
+$\Psi(\tfrac14)=2$, and $\Psi>T\iff\omega<(T-1)^2/2=0.35220\dots$
+\end{theorem}
+\begin{proof}
+Let $y^*$ be a node of minimal radius; its children are all $<1$ (a child
+$\ge1$ would be a smaller node), so $X:=X_{y^*}$ is a sum of rings smaller
+than $m$, living in the tail of $m$. With $\sigma:=\sigma_2>1-\omega$
+(wall (B2), valid since $H_m$ is free): the tail of $m$ gives
+$\rho\ge\sigma_1+\sigma_2+X\ge2\sigma+X$, and the tail of $y^*$ with
+Lemma~\ref{lem:DBo} gives
+$\rho\ge(1+\sigma_1+\sigma_2+X)/y^*>(1+2\sigma+X)/(\sigma+\omega+X)$.
+Minimize $F(\sigma,X)=\max\bigl(2\sigma+X,\
+(1+2\sigma+X)/(\sigma+\omega+X)\bigr)$ over $\sigma\ge1-\omega$, $X\ge0$:
+for fixed $\sigma$ the first term grows in $X$ and the second decreases,
+so $F(\sigma,\cdot)$ is bounded below by the crossing value
+$u=2\sigma+X$ with $u(u+\omega-\sigma)=1+u$, i.e.\ the positive root of
+$u^2-(1+\sigma-\omega)u-1=0$ (when the crossing falls at $X<0$, the same
+algebra shows $F(\sigma,0)=2\sigma$ already exceeds the root). The root
+increases in $\sigma$, so the program minimum is at $\sigma=1-\omega$,
+giving $\Psi(\omega)$.
+\end{proof}
+
+\begin{theorem}[Evacuation dichotomy; $m$ with children]\label{thm:DBpp}
+The conclusion of Theorem~\ref{thm:DB} holds without the hypothesis that
+$m$ is childless.
+\end{theorem}
+\begin{proof}
+Evacuation to $D_m$: place $\sigma_1$ and all children of $m$ in a row
+inside $D_m$ (possible if $\sigma_1+M\le1$, $M:=\sum\mathrm{children}(m)$;
+children of $\sigma_1$ travel inside $\sigma_1$) and $\sigma_2$ in the
+emptied $H_m$ (possible if $\sigma_2\le1-\omega$). Contrapositive:
+blocking implies $\sigma_2>1-\omega$ \emph{or} $\sigma_1+M>1$. In branch A
+the proof of Theorem~\ref{thm:DB} applies verbatim (it used only
+$\sigma_2>1-\omega$, Bo$''$ and the two tails; the mass $M\ge0$ only
+fattens them). In branch B, let $y^*$ be the minimal node,
+$s:=\sigma_2+X>1-\omega$ (Bo$''$ and $y^*\ge1$) and
+$A:=\sigma_1+\sigma_2+M+X>1+s$; the two tails give $\rho\ge A>1+s$ and
+$\rho\ge(1+A)/y^*>(2+s)/(s+\omega)$, whose optimization yields the
+metallic mean $\Psi_B(\omega)$, the positive root of $u^2-(2-\omega)u-1$.
+Since the positive root of $u^2-bu-1$ increases in $b$ and
+$2-\omega\ge2(1-\omega)$, $\Psi_B\ge\Psi$: branch B is dominated. (The
+crossing $\Psi_B=T$ happens at $\omega=(T-1)^2$ -- twice the branch-A
+threshold -- via the \emph{polynomial} identity
+$(T-1)^2\,T-(2T-T^2+1)=T^3-T^2-T-1$.)
+\end{proof}
+
+\begin{corollary}\label{cor:DB2}
+In the canonical template ($j=0$) with $m$ arbitrary: branch A gives the
+full curve $T_{\mathrm{can}}(\omega)$ (its program uses (B2) only as an
+inequality), branch B gives $\rho\ge\Phi(\omega)$
+(Proposition~\ref{prop:Cwitness} uses only (B1) and (W)); in both,
+$\rho>\Phi(\omega)>T$ for all $\omega>0$. \qed
+\end{corollary}
+
+\subsection{The double-pocket wall, the golden line, and $\Psi_j$}
+\label{app:pocket-app}
+
+Throughout this subsection $j\ge1$ and the walls above are in force; write
+$X:=X_{o_1}$, $M:=\sum\mathrm{children}(m)$,
+$X_\sigma:=\sum\mathrm{children}(\sigma_1)$, and add the tariffed-nesting
+wall (B3$'$): $\sigma_2+X_\sigma>\sigma_1-\omega$ (Lemma~\ref{lem:DR}
+applied to the hole of $\sigma_1$).
+
+\begin{lemma}[Double pocket]\label{lem:DG}
+Blocking (template $j=1$, arbitrary occupancy) implies
+$\sigma_1>b_2(\alpha,o_1)$, where
+$b_2(A,B)=AB(A+B)/(A^2+AB+B^2)$.
+\end{lemma}
+\begin{proof}
+Blocking implies $\{\alpha,o_1,\sigma_1,\sigma_2\}$ does not pack in the
+pan (full repacking is a legal resource: children travel inside their
+parents, positions are existential). Since $\alpha+o_1\le R$,
+non-packability is inherited by containment in the disk
+$\bar R=\alpha+o_1$, where the pair $\{\alpha,o_1\}$ is diametrically
+rigid: $|c_\alpha|\le o_1$, $|c_{o_1}|\le\alpha$,
+$|c_\alpha-c_{o_1}|\ge\alpha+o_1$ force equality throughout -- the
+rescaled rigidity of Proposition~\ref{prop:S5}. By the exact necessity of
+that proposition (rescaled), any third circle disjoint from both has
+radius $\le b_2(\alpha,o_1)$, and there are \emph{two} pockets, one on
+each side of the diameter, mutually disjoint with slack: their centers are
+at $(x_0,\pm y_0)$ with $y_0^2-b_2^2=3b_2^2$, i.e.\ $y_0=2b_2$ exactly, so
+the mirror circles are $4b_2$ apart. If $\sigma_1\le b_2$ then also
+$\sigma_2\le b_2$, and placing each $\sigma$ concentric in a pocket packs
+the quadruple in $\bar R\subseteq$ the pan: contradiction.
+\end{proof}
+
+\begin{theorem}[Golden line, both branches]\label{thm:DGp}
+Blocking in the template ($j=1$, arbitrary occupancy) implies
+$\rho>\varphi^2-\tfrac{\varphi}{2}\omega$ for all $\omega$ in every case
+except the corner \{branch B, $\alpha<o_1$, $o_1>\tilde o=1.2956$,
+node-child, $\omega<\tfrac12$\}, where the proved bound is $\ge2>T$. In
+particular $\rho>T$ for all $\omega<\omega_A=2(\varphi^2-T)(\varphi-1)
+=0.962585\dots$
+\end{theorem}
+\begin{proof}
+Write $g:=\sqrt5-1$. \emph{Tail chain.} The tail of $o_1$ contains
+$\{m,\sigma_1,\sigma_2\}\cup\mathrm{children}(o_1)\cup\mathrm{children}(m)
+\cup\mathrm{children}(\sigma_1)$, so
+$\rho\,o_1\ge1+\sigma_1+\sigma_2+X+M+X_\sigma$; eliminating $X$ with
+Bo$''$ ($X>o_1-\sigma_2-\omega$):
+\[
+(*)\qquad \rho\ >\ 1+\frac{1+\sigma_1-\omega+M+X_\sigma}{o_1}.
+\]
+
+\emph{Branch A} ($\sigma_2\ge1-\omega$). From (W),
+$\alpha\ge\sigma_1+\sigma_2+\omega\ge1+\sigma_1$. Lemma~\ref{lem:DG} with
+$b_2$ increasing in $\alpha$ gives $\sigma_1>b_2(1+\sigma_1,o_1)$, i.e.\
+$o_1<N(\sigma_1):=(1+\sigma_1)\bigl(\sqrt{1+4\sigma_1}-1\bigr)/2$ (the
+condition $b_2(1+\sigma_1,N)=\sigma_1$ is the quadratic
+$N^2+(1+\sigma_1)N-\sigma_1(1+\sigma_1)^2=0$). With $(*)$ and
+$M,X_\sigma\ge0$: $\rho>1+(1+\sigma_1-\omega)/N(\sigma_1)=:1+h(\sigma_1)$,
+and $h$ is decreasing in $\sigma_1$: the comparison of derivatives reduces
+to the polynomial identity
+$(1+4\sigma_1)-(1+2\sigma_1-2\sigma_1^2)^2=4\sigma_1^3(2-\sigma_1)>0$.
+The infimum is at $\sigma_1=1$: $N(1)=g$, $1/g=\varphi/2$, and
+$\rho>1+(2-\omega)\varphi/2=\varphi^2-\tfrac{\varphi}{2}\omega$.
+
+\emph{Branch B} ($\sigma_1+M>1$). Using $\sigma_1+M>1$, Bo$''$, (B3$'$),
+(W) and Lemma~\ref{lem:DG}:
+\begin{align*}
+\text{(I)}\quad
+\rho\,o_1&\ge1+\sigma_1+\sigma_2+M+X+X_\sigma
+\ >\ 2+o_1-\omega+2b_2(\alpha,o_1)-\alpha,\\
+\text{(II)}\quad
+\rho\,\alpha&\ge o_1+1+\sigma_1+\sigma_2+M+X+X_\sigma
+\ >\ 2o_1+2-\omega+2b_2(\alpha,o_1)-\alpha
+\quad[\text{if }\alpha\ge o_1],
+\end{align*}
+(in (I): $X>o_1-\omega-\sigma_2$, $X_\sigma>\sigma_1-\omega-\sigma_2$,
+$-\sigma_2\ge\sigma_1+\omega-\alpha$ by (W), $\sigma_1>b_2$; (II) is the
+tail of $\alpha$, which contains $o_1$ and its children only when
+$\alpha\ge o_1$). Set $f_1:=1+(2-\omega+2b_2-\alpha)/o_1$ and
+$f_2:=(2o_1+2-\omega+2b_2-\alpha)/\alpha$. If $o_1\le g$, the short chain
+(only $\sigma_1+M>1$ and Bo$''$, valid in any order) gives
+$\rho>1+(2-\omega)/o_1\ge1+(2-\omega)/g=\varphi^2-\tfrac\varphi2\omega$.
+If $o_1>g$, the admissible $\alpha$-region is $[1+\omega,A_{\max}(o_1)]$
+where $b_2(A_{\max},o_1)=1$, and two exact facts drive the optimization:
+$b_2$ is concave in $\alpha$
+($\partial^2b_2/\partial\alpha^2=-6\alpha o_1^3(\alpha+o_1)/D^3<0$, $D$
+the denominator), so $f_1$ is concave in $\alpha$ and minimized at the
+endpoints; and
+$D^2-\alpha o_1^2(o_1+2\alpha)=(\alpha+o_1)(\alpha^3+\alpha^2o_1+o_1^3)>0$
+gives $\alpha\,\partial b_2/\partial\alpha<o_1$, so $f_2$ is strictly
+decreasing in $\alpha$. For $o_1\in(g,\tilde o]$ ($\tilde o=1.29558\dots$;
+any order of $\alpha,o_1$, only (I) used): at $\alpha=A_{\max}$,
+$f_1-\mathrm{curve}=c_{10}(o_1)+\omega(1/g-1/o_1)$ with the
+$\omega$-coefficient $\ge0$ and $c_{10}\ge0$ on $[g,o^\ast=1.5958]$, with
+the exact identity $f_1\equiv\mathrm{curve}$ at $o_1=g$ (the golden
+corner, for all $\omega$); at $\alpha=1+\omega$,
+$f_1\ge\mathrm{curve}$ on $[g,o^\ast]\times[0,1]$ with contact only at
+$(g,\omega\to1)$. For $o_1>\tilde o$ with $\alpha\ge o_1$ (forcing
+$o_1\le\tfrac32$, since $A_{\max}$ is decreasing with
+$A_{\max}(\tfrac32)=\tfrac32$ exactly; also $A_{\max}(g)=2$,
+$A_{\max}(2)=g$ -- the corner is self-dual): $f_2\ge f_2(A_{\max})
+=c_{20}(o_1)+\omega\,c_{21}(o_1)$ with $c_{21}\ge0$ for $o_1\le2$ and
+$c_{20}\ge0$ on $[\tilde o,\tfrac32]$. For $o_1>\tilde o$ with
+$\alpha<o_1$ (a region requiring $\omega<\tfrac12$: it needs
+$1+\omega\le\alpha<o_1<N_1(\omega)$, and $N_1(\tfrac12)=\tfrac32$ exactly
+with $N_1$ decreasing, where $b_2(1+\omega,N_1)=1$): if the children of
+$o_1$ are all $<1$, the two $\alpha$-free bounds
+$\rho>1+o_1-\omega$ (tail of $m$: $\sigma_1+M>1$ and Bo$''$) and
+$\rho>1+\bigl(2-\omega+2b_2(1+\omega,o_1)\bigr)/o_1$ (tail of $o_1$, which
+now contains $\alpha$; Bo$''$, (B3$'$), (W) cancel $\alpha$, and
+Lemma~\ref{lem:DG} applies with $\alpha\ge1+\omega$) have
+$\max\ge\mathrm{curve}+0.307$ throughout the region (certified on a grid
+with symbolic endpoints); if $o_1$ has a node child we are in branch B
+with $\omega<\tfrac12$, and Theorem~\ref{thm:DBpp} gives
+$\rho>\Psi_B(\omega)>\Psi_B(\tfrac12)=2>T$ ($\Psi_B(\tfrac12)=2$ exact).
+\end{proof}
+
+\begin{proposition}[The $\Psi_j$ ladder, unconditional]\label{prop:DPsij}
+Blocking with $j\ge1$ extra occupants and arbitrary nested occupancy
+implies
+\[
+\rho\ >\ \Psi_j(\omega)=(1-\omega)+\sqrt{(1-\omega)^2+j}
+\qquad(\text{root of }u^2-2(1-\omega)u-j),
+\]
+with $\Psi_j>T\iff\omega<1-(T^2-j)/(2T)$: $0.3522$ ($j=1$), $0.6240$
+($j=2$), $0.8959$ ($j=3$), and all $\omega$ for $j\ge4$
+($\Psi_j\ge\sqrt j\ge2$).
+\end{proposition}
+\begin{proof}[Proof (leaf argument)]
+Call a node a \emph{leaf} if it has no node children. The node subtree of
+each occupant $o_i$ is finite and non-empty, hence contains a leaf
+$\ell_i$; the subtrees are disjoint, so there are $j$ distinct leaves
+$\ell_1,\dots,\ell_j\ge1$. Let $L$ be the largest,
+$X_L=\sum\mathrm{children}(L)$ (all $<1$, as $L$ is a leaf),
+$M=\sum\mathrm{children}(m)$, and $W$ the total mass of rings $<1$ other
+than $\sigma_1,\sigma_2$ (so $X_L\le W$, $M\le W$, and $X_L$, $M$ are
+disjoint). Three facts:
+(1) \emph{wall at the leaf} (Lemma~\ref{lem:DBo}):
+$L<\sigma_2+\omega+X_L\le\sigma_2+\omega+W$;
+(2) \emph{tail of $L$}: the other $j-1$ leaves, $m$, $\sigma_1$,
+$\sigma_2$ and all mass $<1$ are $\le L$ (first-copy convention), so
+$\rho\,L\ge(j-1)+1+\sigma_1+\sigma_2+W\ge j+2\sigma_2+W$;
+(3) \emph{tail of $m$}: $\rho\ge\sigma_1+\sigma_2+W\ge2\sigma_2+W$.
+In branch A of the evacuation dichotomy ($\sigma_2\ge1-\omega$), facts
+(1)--(3) give
+$\rho>\max\bigl(2\sigma+W,\ (j+2\sigma+W)/(\sigma+\omega+W)\bigr)$ at
+$\sigma=\sigma_2$; minimizing over $\sigma\ge1-\omega$, $W\ge0$, the
+crossing $u^2+u(\omega-\sigma-1)-j=0$ ($u=2\sigma+W$) increases in
+$\sigma$, with minimum at $\sigma=1-\omega$: exactly $\Psi_j(\omega)$.
+(If the crossing falls at $W<0$ -- possible for $\omega>\tfrac12$, $j=1$,
+$\sigma\to1$ -- the value $2\sigma$ at $W=0$ satisfies
+$(2\sigma)^2-2(1-\omega)(2\sigma)-j\ge j>0$, so $2\sigma>\Psi_j$ anyway.)
+In branch B ($\sigma_1+M>1$), set $s:=\sigma_2+X_L$: by fact (1) and
+$L\ge1$, $s>1-\omega$; the tail of $L$ also contains $M$, disjoint from
+$X_L$, so $\rho\,L\ge j+\sigma_1+M+\sigma_2+X_L>j+1+s$ with $L<s+\omega$,
+and the tail of $m$ gives $\rho\ge\sigma_1+M+\sigma_2+X_L>1+s$;
+minimizing $\max\bigl(1+s,\ (j+1+s)/(s+\omega)\bigr)$ yields, with
+$u=1+s$, the metallic mean $u^2-(2-\omega)u-j=0$, whose root dominates
+$\Psi_j$ ($2-\omega\ge2(1-\omega)$, and the root increases in the linear
+coefficient).
+\end{proof}
+
+The leaf argument is what closes the case caught by the adversarial
+verification (a node child inside the largest occupant): towers of nested
+nodes inflate $X_{o_1}$ without paying the tail of $m$, but they always
+leave a leaf at the bottom of each subtree, and the largest leaf carries
+both the $j$-bonus in its tail and the leaf ceiling
+$\sigma_2+\omega+W$.
+
+\begin{corollary}[Small rings are free for the combinatorial walls]
+\label{cor:DS}
+Proposition~\ref{prop:DV2}, Theorems~\ref{thm:DB} and~\ref{thm:DBpp} and
+Proposition~\ref{prop:DPsij} hold unchanged if the instance contains
+additional rings smaller than $m$ anywhere compatible with each theorem's
+template (with $S$ still the pair $\{\sigma_1,\sigma_2\}$).
+\end{corollary}
+\begin{proof}
+Every unblocking placement used by those walls is \emph{local}: it lives
+in $D_m$ (freed by the exchange), in $H_m$, in the holes of nodes or of
+$\sigma_1$, or next to $m$ inside $u$ -- never in the free space of $v$.
+An extra ring smaller than $m$, wherever it sits, intersects none of
+these resources (hole contents are already counted in the $X$'s; rings in
+$v$ proper stay put, which is legal since no other position changes), and
+tails can only grow. (The geometric wall of Lemma~\ref{lem:DG} is
+\emph{not} covered: it uses the global repacking of the pan, which does
+see small rings in $v$; this is the ``gap lemma'' left open.)
+\end{proof}
+
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
 All feasibilities in the twin instances are two-circle-exact except three
@@ -1143,10 +2251,11 @@ $|c_z-c_B|^2=|c_z|^2-20\,c_z\!\cdot\!u+100\le(15-z)^2-20\,c_z\!\cdot\!u+100$,
 giving $|c_z-c_B|\le5.38<9.76$ and $\le5.60<9.74$ respectively.
 
 \paragraph{(V3) $\{10,\,4.76,\,4.74\}$ packs in a disk of radius 15.}
-Explicit boundary configuration:
-$c_A=(-5,0)$,
-$c_X=10.24(\cos30.77^\circ,\ \sin30.77^\circ)\approx(8.799,\,5.238)$,
-$c_Y=10.26(\cos32.02^\circ,\ -\sin32.02^\circ)\approx(8.700,\,-5.440)$.
+Explicit boundary configuration: $c_A=(-5,0)$,
+\begin{align*}
+c_X&=10.24(\cos30.77^\circ,\ \sin30.77^\circ)\approx(8.799,\,5.238),\\
+c_Y&=10.26(\cos32.02^\circ,\ -\sin32.02^\circ)\approx(8.700,\,-5.440).
+\end{align*}
 Then $|c_A|=5$, $|c_X|=10.24=15-4.76$, $|c_Y|=10.26=15-4.74$ (all inside);
 $|c_A-c_X|=14.76$ and $|c_A-c_Y|=14.74$ (exact tangencies, chosen via the
 boundary angles); and $|c_X-c_Y|\approx10.68\ge9.50$ with ample margin.

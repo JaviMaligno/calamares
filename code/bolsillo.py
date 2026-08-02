@@ -269,30 +269,69 @@ def bloque_C():
 # ---------------- [D] Psi_j por muestreo ----------------
 
 def bloque_D():
-    print("[D] Psi_j: la cola de o1 con j ocupantes (muestreo de paredes)")
+    print("[D] Psi_j via el lema de las HOJAS (sin asteriscos)")
     ok = True
     rng = random.Random(83)
-    w = 0.5
-    for j in [2, 3]:
-        best = math.inf
-        for _ in range(60000):
+
+    # (i) la optimizacion de hojas da exactamente Psi_j: min sobre s >= 1-w,
+    # W >= 0 de max(2s+W, (j+2s+W)/(s+w+W)) == raiz de u^2 - 2(1-w)u - j
+    for j in [2, 3, 5]:
+        for w in [0.05, 0.45, 0.85]:
+            best = math.inf
+            for i in range(200):
+                s = (1 - w) + w*i/199
+                for k in range(2500):
+                    W = 4.0*k/2499
+                    best = min(best, max(2*s + W, (j + 2*s + W)/(s + w + W)))
+            Pj = (1 - w) + math.sqrt((1 - w)**2 + j)
+            ok &= check(f"j={j} w={w:.2f}: optimizacion de hojas {best:.5f} = "
+                        f"Psi_j {Pj:.5f} (dif {best - Pj:+.0e})",
+                        -1e-9 <= best - Pj <= 2e-3)
+
+    # (ii) instancias-arbol aleatorias (torres incluidas) con paredes en pie:
+    # rho > Psi_j — el ataque del caso hijo-nodo, ahora cubierto por las hojas
+    def subarbol(o, w, prof):
+        nodos, peques = [], []
+        if prof <= 0 or o < 1 + w + 0.05:
+            return nodos, peques
+        cap = o - w
+        for _ in range(rng.choice([0, 0, 1, 1, 2])):
+            if cap < 1.05:
+                break
+            y = rng.uniform(1.0, cap)
+            nodos.append(y)
+            sn, sp = subarbol(y, w, prof - 1)
+            nodos += sn; peques += sp
+            cap -= y
+        if rng.random() < 0.5 and cap > 0.05:
+            peques.append(rng.uniform(0.02, min(0.95, cap)))
+        return nodos, peques
+    for j, w in [(2, 0.3), (2, 0.6), (3, 0.3), (3, 0.6)]:
+        best = math.inf; n = 0
+        for _ in range(30000):
             s2 = rng.uniform(1 - w, 1.0)
             s1 = rng.uniform(s2, 1.0)
-            X = rng.uniform(0.0, 1.2)
-            if s2 + w + X <= 1.0:
-                continue
-            o1 = rng.uniform(1.0, s2 + w + X)
-            occ_extra = [rng.uniform(1.0, o1) for _ in range(j - 1)]
-            alpha = rng.uniform(max([1 + w, o1] + occ_extra), 3.2)
+            occs, nodos, peques = [], [], []
+            for _ in range(j):
+                o = rng.uniform(1.0, 3.0)
+                occs.append(o)
+                sn, sp = subarbol(o, w, 3)
+                nodos += sn; peques += sp
+            alpha = rng.uniform(max([1 + w] + occs), 4.0)
             if s1 + s2 > alpha - w or 1 + s2 <= alpha - w:
                 continue
-            radios = sorted([alpha, o1] + occ_extra + [1.0, s1, s2]
-                            + ([X/2, X/2] if X > 1e-9 else []), reverse=True)
+            W = sum(peques)
+            hojas = sorted(occs + nodos)[:j]
+            if any(h >= s2 + w + W for h in hojas):
+                continue
+            n += 1
+            radios = sorted([alpha] + occs + nodos + [1.0, s1, s2] + peques,
+                            reverse=True)
             rho = max(sum(radios[i+1:]) / radios[i] for i in range(len(radios) - 1))
             best = min(best, rho)
         Pj = (1 - w) + math.sqrt((1 - w)**2 + j)
-        ok &= check(f"j={j}, w={w}: min rho muestreado = {best:.4f} >= Psi_j = {Pj:.4f}",
-                    best >= Pj - 1e-9)
+        ok &= check(f"arboles j={j}, w={w}: n={n}, min rho = {best:.4f} >= "
+                    f"Psi_j = {Pj:.4f}", n > 20 and best >= Pj - 1e-9)
     return ok
 
 
