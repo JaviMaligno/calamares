@@ -288,3 +288,28 @@ re-empaquetado (la geometría sube el suelo), y el proxy 2.5617 de
 universal.py [E] queda sobre la curva (2.416 en su caja) ✓. Detalles de
 código anotados (checks decorativos en [B]/[E], [D] de profundidad 1,
 cola de α sin imponer α ≥ o₁ — inocuo). 5/5 tras las correcciones.
+
+**Tercera ronda (Teorema G′, el remate de la rama B): ENUNCIADO SOBREVIVE,
+PRUEBA REPARADA.** El verificador auditó su propia observación convertida en
+teorema y cazó un error real: la cadena (II) — la cola de α — solo vale si
+α ≥ o₁, hipótesis que la plantilla no da (¡los ocupantes pueden superar a α!);
+como A_máx(3/2) = 3/2 exacto, para o₁ > 3/2 el caso α ≥ o₁ es VACÍO y la
+«dominación trivial o₁ > 2» de la primera redacción hablaba de un conjunto
+vacío mientras las instancias reales quedaban sin cubrir. Confirmó todo lo
+demás con re-verificación independiente: cadenas y signos, B3′ en rama B, las
+dos factorizaciones exactas, el caso o₁ ∈ (g, õ] (con la tangencia benigna
+c₁₀′(g⁺) = φ — otra aparición áurea — y la autodualidad A_máx(g) = 2,
+A_máx(2) = g), los certificados univariantes (sus mallas de 40 000 coinciden),
+y las erratas õ = 1.29558 y los primeros eslabones «≥». REPARACIÓN integrada
+(el enunciado ρ > T para ω < ω_A queda SIN asteriscos): el caso α < o₁ solo
+existe para ω < 1/2 (N₁(1/2) = 3/2 exacto) y ahí (a) con hijos de o₁ menores
+que m valen dos cotas α-libres — 1+o₁−ω por la cola de m, y
+1+(2−ω+2b₂(1+ω,o₁))/o₁ por la cola de o₁ que ahora CONTIENE a α (Bo″+B3′+W
+cancelan α) — cuyo máximo supera la curva dorada con margen +0.31 (certificado
+del verificador, reproducido en [F]); (b) con hijo-nodo en o₁, la rama B da
+ρ > Ψ_B(ω) > Ψ_B(1/2) = 2 > T exacto (la forma fuerte de la curva hereda ahí
+el asterisco de recursión de Ψ_j; numéricamente ≥ 3.1). El modelo SLSQP de
+min_programa tenía las dos colas sobre-restringidas justo en la región del
+hueco (cola de α incondicional y cola de m con X entera): arreglado imponiendo
+α ≥ o₁ (la sub-rama donde el modelo es válido) y cubriendo α < o₁ con el
+parche. 6/6 tras las correcciones.

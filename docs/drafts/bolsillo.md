@@ -11,15 +11,14 @@ Descartes del par `{α, o₁}`.
 
 Con ella, el programa de paredes tiene un **rincón óptimo dorado**
 (`α = 2`, `o₁ = √5 − 1`, `b₂(2, √5−1) = 1` exacto, `σ₁ = 1`, `σ₂ = 1−ω`) y
-su valor es una recta en ω con pendiente áurea:
+su valor es una recta en ω con pendiente áurea, válida en AMBAS ramas
+(Teorema G′, §3bis):
 
-    bloqueo (j = 1, rama A)  ⟹  ρ > φ² − (φ/2)·ω ,
+    bloqueo (j = 1)  ⟹  ρ > φ² − (φ/2)·ω      para todo ω ,
 
-que cruza T en `ω_A = 2 − 2(T−1)(φ−1) = 0.962585…`; la rama B se cierra con
-el máximo de su cota combinatoria (Teorema B″) y la geométrica, hasta
-`ω_B = 0.950531…`. **En total: bloqueo con un ocupante extra ⟹ ρ > T para
-todo ω < 0.9505** — el tramo de ω grande queda cerrado salvo la puntita
-final. De regalo: la generalización `Ψ_j = (1−ω) + √((1−ω)² + j)` para j
+que cruza T en `ω_A = 2 − 2(T−1)(φ−1) = 0.962585…`. **En total: bloqueo
+con un ocupante extra ⟹ ρ > T para todo ω < 0.9626** — el tramo de ω
+grande queda cerrado salvo la puntita final. De regalo: la generalización `Ψ_j = (1−ω) + √((1−ω)² + j)` para j
 ocupantes (todo ω si j ≥ 4) y el **Corolario S**: los aros menores que m
 adicionales son gratis para todas las paredes combinatorias, porque sus
 colocaciones son locales. Sometido a verificación adversaria (acta en
@@ -133,6 +132,82 @@ dicotomía), `ρ > Ψ_B(ω)`. La geométrica: en (\*), `M > 1 − σ₁` da
 `ρ > 1 + (2−ω)/o₁`; y el Lema G con `α ≥ 1+ω` (plantilla) y `σ₁ ≤ 1` da
 `b₂(1+ω, o₁) < σ₁ ≤ 1`, es decir `o₁ < N₁(ω)`: `ρ > 1 + (2−ω)/N₁(ω)`. ∎
 
+## 3bis. El remate: la rama B también da la curva dorada (Teorema G′)
+
+La cota de la rama B en el Teorema G (máx(Ψ_B, geométrica)) era un
+parcheado; con la pared (B3′) — el anidamiento con tarifa, que la primera
+optimización de esta racha olvidó y sin el cual hay configuraciones bajo la
+curva — la rama B alcanza la MISMA curva dorada, y el teorema se unifica:
+
+**Teorema G′ (cierre unificado, j = 1).** Bloqueo en la plantilla
+(ocupación arbitraria) ⟹ `ρ > φ² − (φ/2)·ω` para **todo** ω. En
+particular `ρ > T ⟺ ω < ω_A = 2(φ²−T)(φ−1) = 0.962585…`.
+
+*Demostración (rama B; la A es el Teorema G).* Con `g := √5 − 1`. Las
+cadenas, usando `σ₁ + M > 1`, (Bo″), (B3′), (W) y (G):
+
+    (I)   ρ·o₁ ≥ 1+σ₁+σ₂+M+X+X_σ > 2+σ₂+X+X_σ > 2+o₁−2ω+σ₁−σ₂
+              ≥ 2+o₁−ω+2σ₁−α > 2+o₁−ω+2b₂(α,o₁)−α
+    (II)  ρ·α  ≥ o₁+1+σ₁+σ₂+M+X+X_σ > 2o₁+2−ω+2b₂(α,o₁)−α   [SI α ≥ o₁]
+
+(en (I): X > o₁−ω−σ₂ por Bo″, X_σ > σ₁−ω−σ₂ por B3′, −σ₂ ≥ σ₁+ω−α por W,
+σ₁ > b₂ por G; (II) es lo mismo sobre la cola de α, que contiene a o₁ y a
+sus hijos **solo si α ≥ o₁** — matiz de la verificación adversaria: la
+plantilla no ordena α y o₁). Sea `f₁ := 1+(2−ω+2b₂−α)/o₁` y
+`f₂ := (2o₁+2−ω+2b₂−α)/α`. Si `o₁ ≤ g`, la cadena corta (solo σ₁+M>1 y
+Bo″, válida en cualquier orden) da
+`ρ > 1+(2−ω)/o₁ ≥ 1+(2−ω)/g = φ²−(φ/2)ω`. Si `o₁ > g`, la región de α es
+`[1+ω, A_máx(o₁)]` (G y σ₁ ≤ 1 dan `b₂(α,o₁) < 1`), y:
+
+- `f₂` es **estrictamente decreciente en α**: su numerador de derivada es
+  `2αb₂′ − (2o₁+2−ω+2b₂)` y `αb₂′ < o₁` por la identidad exacta
+
+      (α²+αo₁+o₁²)² − α·o₁²·(o₁+2α) = (α+o₁)·(α³+α²o₁+o₁³) > 0 ;
+
+- `f₁` es **cóncava en α** (`∂²b₂/∂α² = −6αo₁³(α+o₁)/D³ < 0`, exacto), así
+  que su mínimo en α está en los extremos.
+
+**Caso `o₁ ∈ (g, õ]`, õ = 1.29558…** (válido en cualquier orden α/o₁,
+porque solo usa (I)/f₁): por concavidad basta ver los dos extremos de
+`f₁`: en `α = A_máx`, `f₁ − curva = c₁₀ + ω(1/g − 1/o₁)` con el
+coeficiente de ω ≥ 0 (peor caso ω = 0) y `c₁₀ ≥ 0` en
+`[g, o* = 1.5958…]` ⊇ `(g, õ]`, con la **identidad exacta `f₁ ≡ curva` en
+`o₁ = g`** (∀ω, el rincón dorado; la tangencia sale con pendiente
+`c₁₀′(g⁺) = φ`); y en `α = 1+ω`, `f₁ − curva ≥ 0` en `[g, o*]×[0,1]` con
+contacto solo en `(g, ω→1)`.
+
+**Caso `o₁ > õ` con `α ≥ o₁`** (que fuerza `o₁ ≤ 3/2`: `A_máx` es
+decreciente con `A_máx(3/2) = 3/2` exacto — y de propina `A_máx(g) = 2` y
+`A_máx(2) = g`: el rincón dorado es autodual): `f₂(α) ≥ f₂(A_máx)`, y en
+la frontera `f₂ − curva = c₂₀(o₁) + ω·c₂₁(o₁)` con
+`c₂₁ = 1/g − 1/A_máx ≥ 0` para `o₁ ≤ 2` (peor caso ω = 0) y `c₂₀ ≥ 0` en
+`[õ, 3/2]`.
+
+**Caso `o₁ > õ` con `α < o₁`** (el hueco que cazó la verificación; su
+región exige `ω < 1/2`: hace falta `1+ω ≤ α < o₁ < N₁(ω)` y
+`N₁(1/2) = 3/2 = 1 + 1/2` **exacto**, con N₁ decreciente y 1+ω creciente):
+si los hijos de o₁ son < 1, valen las dos cotas α-libres
+
+    ρ > 1 + o₁ − ω              (cola de m: σ₁+M > 1 y Bo″)
+    ρ > 1 + (2−ω+2b₂(1+ω,o₁))/o₁   (cola de o₁, que ahora CONTIENE a α:
+                                    Bo″ + B3′ + W hacen cancelar α, y
+                                    G con α ≥ 1+ω)
+
+y `máx` de ambas ≥ curva + 0.311 en toda la región (mínimo del margen en
+ω ≈ 0.015, o₁ ≈ 1.93 — certificado en malla del bloque [F], verificado
+también por el verificador). Si o₁ tiene un hijo-nodo, la cota de la curva
+queda con el asterisco de recursión de Ψ_j (numéricamente el adversario no
+baja de 3.1), pero la conclusión `ρ > T` es incondicional: estamos en la
+rama B con `ω < 1/2`, y el Teorema B″ da
+`ρ > Ψ_B(ω) > Ψ_B(1/2) = 2 > T` (¡`Ψ_B(1/2) = 2` exacto!). ∎
+
+**Resumen del estatus de G′:** la conclusión `ρ > T para ω < ω_A` está
+demostrada **sin asteriscos** en todos los casos; la forma fuerte
+`ρ > φ²−(φ/2)ω` vale en todos salvo el rincón {rama B, α < o₁, o₁ > õ,
+hijo-nodo, ω < 1/2}, donde la cota demostrada es ≥ 2. Con G′, la puntita
+de j = 1 se encoge de `[0.9505, 1)` a `[ω_A, 1) = [0.9626, 1)`, y la cota
+de la rama B del Teorema G queda subsumida.
+
 **El rincón dorado.** El mínimo del programa completo de paredes (SLSQP
 multi-arranque, bloque [C]) coincide con la curva de la rama A en TODO el
 rango, y su minimizador es universal: `α = 2` (tope de B4 con
@@ -207,18 +282,16 @@ de la sartén, que sí ve a los pequeños de `v` (véase §6).
 
 ## 6. Huecos declarados
 
-1. **La puntita final**: `j = 1, ω ∈ [0.9505, 1)`. En ese régimen el
-   programa de paredes admite σ₂ → 0 y el mínimo baja suavemente hacia
-   `1 + φ/2 = 1.809` en ω → 1. Cerrarla requiere la pared que el análisis
-   en `R̄` no puede dar: con σ₂ minúsculo, ningún empaquetamiento razonable
-   de `{α, o₁, σ₁}` en el `R` real (que tiene holgura sobre `R̄` porque el
-   testigo necesita alojar a m) deja de tener un hueco para σ₂ — el «lema
-   del hueco» cuantitativo, el mismo ingrediente que pide el frente de los
-   pequeños. Observación del verificador que la ENCOGE: su numérica indica
-   que el mínimo exacto del programa en la rama B nunca baja de la curva A
-   (el descenso a 1.809 requiere soltar la cola de m), así que optimizando
-   la rama B exacta el umbral sería `ω_A = 0.9626`, no `ω_B` — y en
-   ω = 0.98 el programa completo aún da 1.8252 = curva A.
+1. **La puntita final**: `j = 1, ω ∈ [ω_A, 1) = [0.9626, 1)` — encogida
+   desde 0.9505 por el Teorema G′ (§3bis), que materializa la observación
+   del verificador de la primera ronda (la rama B exacta nunca baja de la
+   curva A; en ω = 0.98 el programa completo aún da 1.8252 = curva A). En
+   ese régimen la curva dorada cae bajo T (hacia `1 + φ/2 = 1.809` en
+   ω → 1). Cerrarla requiere la pared que el análisis en `R̄` no puede dar:
+   con σ₂ minúsculo, ningún empaquetamiento razonable de `{α, o₁, σ₁}` en
+   el `R` real (que tiene holgura sobre `R̄` porque el testigo necesita
+   alojar a m) deja de tener un hueco para σ₂ — el «lema del hueco»
+   cuantitativo, el mismo ingrediente que pide el frente de los pequeños.
 1bis. **El parche de Ψ_j** (§4): el caso «algún hijo de o₁ es nodo» —
    lema de recursión corto, atacado sin éxito numéricamente.
 2. **Los rincones j = 2, ω ≥ 0.624 y j = 3, ω ≥ 0.896**: el Lema G para
@@ -240,11 +313,11 @@ de la sartén, que sí ve a los pequeños de `v` (véase §6).
 | frente | estado |
 |---|---|
 | canónica (j = 0), toda ω | cerrado (`grosor_positivo.md`, `esquina.md`, B″) |
-| j = 1, ω < 0.9505, ocupación arbitraria | **cerrado (Teorema G + B/B″)** |
+| j = 1, ω < 0.9626, ocupación arbitraria | **cerrado (Teorema G′ + B/B″)** |
 | j ≥ 4, toda ω | cerrado (Ψ_j)* |
 | j = 2 hasta 0.624; j = 3 hasta 0.896 | cerrado (Ψ_j)* |
 | pequeños en v (paredes combinatorias) | cerrado (Corolario S) |
-| puntitas: j=1 ω≥0.9505; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; S ≥ 3 piezas | abierto (lema del hueco / re-empaquetado 5+) |
+| puntitas: j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; S ≥ 3 piezas | abierto (lema del hueco / re-empaquetado 5+) |
 
 (*) módulo el parche del caso «hijo-nodo» de Ψ_j (§4), numéricamente
 robusto.
@@ -269,3 +342,10 @@ robusto.
   2.59/3.22 sobre Ψ_j = 2.00/2.30.
 - **[E]** Corolario S: añadir pequeños nunca baja ρ (26 852 casos) y el
   argumento de localidad de las colocaciones.
+- **[F]** Teorema G′ (el remate de la rama B): las dos factorizaciones
+  exactas (concavidad de b₂ en α: `−6αo³(α+o)/D³`; y
+  `D² − αo²(o+2α) = (α+o)(α³+α²o+o³)` para el decrecimiento de f₂), los
+  certificados univariantes de la frontera (`c₁₀ ≥ 0` en `[g, o*]` con
+  ancla exacta `f₁ ≡ curva` en `o = g`; `c₂₀ ≥ 0` en `[õ, 2]`; dominación
+  trivial en `o > 2`; `f₁(1+ω) ≥ curva` en `[g, o*]×[0,1]`), el solape
+  `õ < o*`, y el SLSQP de la rama B con (B3′) pegado a la curva dorada.

@@ -29,16 +29,18 @@ Resultados que este script verifica:
 
      rama B (s1+M > 1): M > 1-s1 en (*) y el techo uniforme o1 < N1(w) con
      w N^2 + w(1+w) N - (1+w)^2 = 0 => N1(w) = (1+w)(sqrt(w^2+4w)-w)/(2w):
-
-         rho > max( Psi_B(w) ,  1 + (2-w)/N1(w) )
-
-     (la primera es la cota combinatoria del Teorema B'' — la rama B de la
-     dicotomia es la misma —, > T hasta (T-1)^2 = 0.704; la segunda es la
-     geometrica, > T en (0.207, 0.9505): juntas cubren (0, w_B)).
-     Cruces con T: rama A en w_A = 2 - 2(T-1)(phi-1) = 0.96259...; rama B en
-     w_B = 0.95053... (raiz algebraica de N1(w)(T-1) = 2-w). En total:
-     bloqueo (j=1) => rho > T para todo w < w_B. El rincon optimo del programa
-     es DORADO: alpha = 2, o1 = sqrt(5)-1, b2(2, sqrt(5)-1) = 1 exacto.
+     rho > max(Psi_B(w), 1 + (2-w)/N1(w)) — cota historica, SUBSUMIDA por:
+  T_G' (Teorema G', el remate). Con (B3') la rama B alcanza la MISMA curva
+     dorada: bloqueo (j=1) => rho > phi^2 - (phi/2) w para TODO w, y
+     rho > T <=> w < w_A = 2 - 2(T-1)(phi-1) = 2(phi^2-T)(phi-1) = 0.962585.
+     Prueba: cadenas (I)/(II) con Bo''+B3'+W+G => rho > max(f1, f2) con
+     f1 = 1+(2-w+2b2-alpha)/o1, f2 = (2o1+2-w+2b2-alpha)/alpha; b2 concava
+     en alpha (d2b2 = -6 alpha o^3(alpha+o)/D^3) => f1 concava => extremos;
+     f2 decreciente en alpha (D^2 - alpha o^2(o+2alpha) = (alpha+o)(alpha^3+
+     alpha^2 o + o^3) > 0); certificados univariantes en la frontera b2 = 1
+     (f1 = curva IDENTICAMENTE en o1 = g; solape [o~, o*] = [1.296, 1.596];
+     dominacion trivial en o1 > 2). El rincon optimo del programa es DORADO:
+     alpha = 2, o1 = sqrt(5)-1, b2(2, sqrt(5)-1) = 1 exacto.
 
   Psi_j (j ocupantes, combinatorio). La cola de o1 con j-1 ocupantes extra da
      rho > Psi_j(w) = (1-w) + sqrt((1-w)^2 + j), raiz de u^2 - 2(1-w)u - j;
@@ -213,7 +215,9 @@ def min_programa(w, rama, n_starts=100, seed=0):
               (s2 + Xs) - (s1 - w),
               s1 - b2(a, o1),
               t - tot, t - (1 + tot)/o1, t - (o1 + 1 + tot)/a,
-              X, M, Xs, a - (1 + w)]
+              X, M, Xs, a - (1 + w),
+              a - o1]   # la cola de alpha del modelo exige alpha >= o1; la
+                        # sub-rama alpha < o1 se cubre con el parche de [F]
         cs.append(s2 - (1 - w) if rama == 'A' else s1 + M - 1.0)
         return np.array(cs)
 
@@ -325,11 +329,108 @@ def bloque_E():
     return ok
 
 
+def bloque_F():
+    print("[F] Teorema G': la rama B tambien da la curva dorada")
+    import sympy as sp
+    import numpy as np
+    ok = True
+    a, o, w = sp.symbols('alpha o omega', positive=True)
+    g = sp.sqrt(5) - 1
+    gn = float(g)
+    b2s = a*o*(a + o)/(a**2 + a*o + o**2)
+    D = a**2 + a*o + o**2
+
+    # concavidad de b2 en alpha (f1 concava => min en extremos)
+    ok &= check("d2 b2/d alpha2 = -6 alpha o^3 (alpha+o) / D^3 < 0 (b2 concava en alpha)",
+                sp.simplify(sp.diff(b2s, a, 2) + 6*a*o**3*(a + o)/D**3) == 0)
+    # f2 decreciente en alpha: alpha b2' < o1 via la factorizacion exacta
+    ok &= check("D^2 - alpha o^2 (o+2alpha) = (alpha+o)(alpha^3+alpha^2 o+o^3) > 0 "
+                "(=> alpha b2' < o => f2 decreciente en alpha)",
+                sp.expand(D**2 - a*o**2*(o + 2*a)
+                          - (a + o)*(a**3 + a**2*o + o**3)) == 0)
+
+    # frontera b2 = 1: A_max(o) y los certificados univariantes
+    Amax = sp.simplify(o*(1 - o + sp.sqrt(o**2 + 2*o - 3))/(2*(o - 1)))
+    ok &= check("b2(A_max(o), o) = 1 (la frontera)",
+                sp.simplify(b2s.subs(a, Amax) - 1) == 0)
+    curva = 1 + (2 - w)/g
+    f1b = 1 + (4 - w - Amax)/o
+    f2b = (2*o + 4 - w - Amax)/Amax
+    ok &= check("f1 - curva se anula IDENTICAMENTE en o = g (el rincon, forall w)",
+                sp.simplify((f1b - curva).subs(o, g)) == 0)
+    ok &= check("coeficiente en w de f1-curva = 1/g - 1/o >= 0 para o >= g "
+                "(peor caso w = 0)",
+                sp.simplify(sp.diff(f1b - curva, w) - (1/g - 1/o)) == 0)
+
+    c10 = sp.lambdify(o, sp.simplify((f1b - curva).subs(w, 0)), 'numpy')
+    c20 = sp.lambdify(o, sp.simplify((f2b - curva).subs(w, 0)), 'numpy')
+    Ov = np.linspace(gn + 1e-10, 2.0, 6000)
+    v10, v20 = c10(Ov), c20(Ov)
+    ostar = Ov[np.where(v10 < 0)[0][0]]
+    otil = Ov[np.where(v20 < 0)[0][-1] + 1]
+    ok &= check(f"certificados de frontera: c10 >= 0 en [g, o* = {ostar:.4f}] "
+                f"(min {v10[Ov <= ostar - 1e-9].min():.2e}), c20 >= 0 en "
+                f"[o~ = {otil:.4f}, 2], y solape o~ < o*",
+                ostar > 1.55 and otil < 1.30 and otil < ostar
+                and v10[Ov <= ostar - 1e-9].min() > -1e-12
+                and v20[Ov >= otil + 1e-9].min() > -1e-12)
+    # (vestigial, inocuo: el caso alpha >= o1 fuerza o1 <= 3/2 — A_max(3/2) = 3/2 —
+    # asi que el rango [o~, 2] de c20 sobra; se conserva el hecho aritmetico)
+    ok &= check(f"aritmetica: (7-g)/g = {(7-gn)/gn:.3f} > phi^2 (sobra rango en c20)",
+                (7-gn)/gn > PHI**2)
+    # alpha = 1+w: f1 - curva >= 0 en [g, o*] x [0,1]
+    f1a = sp.lambdify((o, w), sp.simplify(
+        1 + (2 - w + 2*b2s.subs(a, 1 + w) - (1 + w))/o - curva), 'numpy')
+    OO, WW = np.meshgrid(np.linspace(gn, ostar, 400), np.linspace(0.0, 1.0, 400))
+    V = f1a(OO, WW)
+    ok &= check(f"f1 - curva >= 0 en alpha = 1+w sobre [g, o*]x[0,1] "
+                f"(min {V.min():.2e}, contacto solo en (g, 1))", V.min() > -1e-12)
+
+    # anclas exactas del parche del caso alpha < o1 (verificacion adversaria):
+    # N1(1/2) = 3/2 (la region del hueco exige w < 1/2); Psi_B(1/2) = 2;
+    # y la autodualidad del rincon: A_max(g) = 2, A_max(2) = g, A_max(3/2) = 3/2
+    ok &= check("N1(1/2) = 3/2 exacto (el hueco alpha < o1 solo existe si w < 1/2)",
+                sp.simplify(((1 + sp.Rational(1, 2))
+                             * (sp.sqrt(sp.Rational(1, 4) + 2) - sp.Rational(1, 2)))
+                            / (2*sp.Rational(1, 2)) - sp.Rational(3, 2)) == 0)
+    ok &= check("Psi_B(1/2) = 2 exacto (cierra > T el subcaso hijo-nodo del hueco)",
+                sp.simplify((sp.Rational(3, 2) + sp.sqrt(sp.Rational(9, 4) + 4))/2 - 2) == 0)
+    ok &= check("autodualidad: A_max(g) = 2, A_max(2) = g, A_max(3/2) = 3/2 exactos",
+                sp.simplify(Amax.subs(o, g) - 2) == 0
+                and sp.simplify(Amax.subs(o, 2) - g) == 0
+                and sp.simplify(Amax.subs(o, sp.Rational(3, 2)) - sp.Rational(3, 2)) == 0)
+
+    # certificado del parche: max(1+o1-w, 1+(2-w+2 b2(1+w,o1))/o1) >= curva
+    # en la region del hueco (o1 >= o~, w <= 1/2)
+    def b2n(x, y):
+        return x*y*(x+y)/(x*x + x*y + y*y)
+    peor = 1e9
+    for wi in range(200):
+        wv = 0.5*wi/199
+        cv = PHI**2 - (PHI/2)*wv
+        for oi in range(400):
+            ov = otil + (3.5 - otil)*oi/399
+            m1 = 1 + ov - wv
+            m2 = 1 + (2 - wv + 2*b2n(1 + wv, ov))/ov
+            peor = min(peor, max(m1, m2) - cv)
+    ok &= check(f"parche alpha < o1 (hijos < 1): max de las dos cotas alpha-libres "
+                f">= curva + {peor:.3f} en [o~, 3.5] x [0, 1/2]", peor > 0.25)
+
+    # el SLSQP de la rama B con alpha >= o1 (la unica sub-rama donde la cola de
+    # alpha del modelo es valida; alpha < o1 queda cubierto por el parche)
+    for wv in [0.35, 0.65, 0.90, 0.96]:
+        bB, _ = min_programa(wv, 'B', n_starts=80)
+        cA = curva_A(wv)
+        ok &= check(f"w={wv:.2f}: SLSQP rama B = {bB:.4f} vs curva dorada {cA:.4f} "
+                    f"(>=, dif {bB - cA:+.1e})", bB >= cA - 1e-6)
+    return ok
+
+
 if __name__ == "__main__":
     random.seed(0)
     resultados = []
     for nombre, fn in [("A", bloque_A), ("B", bloque_B), ("C", bloque_C),
-                       ("D", bloque_D), ("E", bloque_E)]:
+                       ("D", bloque_D), ("E", bloque_E), ("F", bloque_F)]:
         try:
             resultados.append((nombre, fn()))
         except Exception as e:

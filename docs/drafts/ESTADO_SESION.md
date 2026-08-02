@@ -12,11 +12,11 @@ con dos correcciones al plan original), los pasos 2 y 4 en plantilla libre
 elimina «m con hijos», y el ASALTO GEOMÉTRICO (`drafts/bolsillo.md`): el
 Lema G (pared del bolsillo doble, σ₁ > b₂(α,o₁), S5 reescalada sin feas3)
 con el rincón dorado (α = 2, o₁ = √5−1, b₂ = 1 exacto) y la curva
-ρ > φ² − (φ/2)ω > T para todo ω < 0.9505 con un ocupante; Ψ_j =
+ρ > φ² − (φ/2)ω > T para todo ω < ω_A = 0.9626 con un ocupante (Teorema G′, ambas ramas; N₁(1/2) = 3/2 y Ψ_B(1/2) = 2 exactos en el parche); Ψ_j =
 (1−ω)+√((1−ω)²+j) para j ocupantes; y el Corolario S (pequeños gratis
 para la combinatoria)). Actas en VEREDICTOS.md. Lo que queda de la
 Batalla 1 son puntitas y dos herramientas: (a) las puntitas de ω extremo
-(j=1 ω≥0.9505 — probablemente cerrable hasta 0.9626 con la rama B exacta;
+(j=1 ω≥0.9626;
 j=2 ω≥0.624; j=3 ω≥0.896), (b) el parche del caso hijo-nodo de Ψ_j (lema
 de recursión corto), (c) el LEMA DEL HUECO cuantitativo (pequeños frente a
 la pared geométrica; σ₂ minúsculo), y (d) S con más de dos piezas.
@@ -37,7 +37,7 @@ Después: Batalla 2 (u = sartén) y el ensamblaje del lema universal.**
 | **Criterio de coronas + Lema U₄** (paso 1 de la Batalla 1): LP por orden; certificados de subconjunto ∀k; k=4 = trío top + zigzag; k=5 = + pentagrama (C7) | `drafts/corona.md` | `corona.py` 5/5 |
 | **El precio del ocupante** (pasos 2 y 4 en plantilla libre): bloqueo ⟹ o_k ≤ 1+ω y ρ > (j+2)/(1+ω); > T hasta ω₅ = 2/T−1/2 (j=1) y ∀ω (j≥2); conjetura fina demostrada en plantilla | `drafts/ocupantes.md` | `ocupantes.py` 5/5 |
 | **Los bloqueadores pagan** (pasos 3a+3b, agujeros ocupados ∀profundidad, H_m incluido): Lema R, nodo mínimo, ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1); Teorema B″ (m con hijos): rama B = Ψ_B ≥ Ψ, plata 1+√2, umbrales (T−1)²/2 y (T−1)² | `drafts/bloqueadores.md` | `bloqueadores.py` 6/6 |
-| **La pared del bolsillo doble** (asalto geométrico): Lema G (σ₁ > b₂(α,o₁), S5 reescalada, bolsillos espejo a 4b₂); Teorema G: rincón dorado, ρ > φ²−(φ/2)ω > T ∀ω < 0.9505 (j=1); Ψ_j; Corolario S (pequeños gratis) | `drafts/bolsillo.md` | `bolsillo.py` 5/5 |
+| **La pared del bolsillo doble** (asalto geométrico): Lema G (σ₁ > b₂(α,o₁), S5 reescalada, bolsillos espejo a 4b₂); Teoremas G y G′: rincón dorado, ρ > φ²−(φ/2)ω > T ∀ω < 0.9626 (j=1, ambas ramas); Ψ_j; Corolario S (pequeños gratis) | `drafts/bolsillo.md` | `bolsillo.py` 6/6 |
 
 ## 2. El arsenal para las batallas (léase `drafts/universal.md` primero)
 

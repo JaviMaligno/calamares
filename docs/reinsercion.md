@@ -298,7 +298,7 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    plantilla ya no tiene ninguna hipótesis de ocupación. *Avance quinto
    (`drafts/bolsillo.md`):* la pared del bolsillo doble (σ₁ > b₂(α,o₁), por
    rigidez S5 reescalada) cierra el tramo geométrico: con un ocupante extra,
-   ρ > φ² − (φ/2)ω > T para todo ω < 0.9505 (rincón dorado α = 2,
+   ρ > φ² − (φ/2)ω > T para todo ω < ω_A = 0.9626 (Teorema G′; rincón dorado α = 2,
    o₁ = √5−1), más la escalera Ψ_j para j ocupantes y los pequeños gratis
    para la combinatoria. Quedan las puntitas de ω extremo, el lema del hueco
    (pequeños frente a la pared geométrica) y S con más de dos piezas. El análisis anterior supone `v` rígido con un solo
