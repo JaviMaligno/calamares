@@ -39,7 +39,8 @@ Los teoremas de superincrecencia ya cubren cualquier contenedor y dimensión (pa
 
 ## 6. Publicación
 
-- Pulir paper/main.tex: nombres, agradecimientos, revisar redacción del abstract, decidir si el apéndice de verificación crece con (V-extra) para el contraejemplo n=4 de la sección de fases.
+- **Consolidación HECHA (2026-08-02)**: main.tex incluye ya toda la cosecha (Teorema S sin idealización + holgura, el programa del grosor con H1/Φ/curva/esquina 13/7, ρ*_k = ρ*₃ con ω_T, y contenedores genéricos: frontera universal, criterio de coronas, muros de ocupantes con suelos metálicos y el bolsillo doble con la línea dorada), con revisión enunciado-por-enunciado contra los drafts (6 sobre-afirmaciones corregidas) y apéndice «Verification map». PDF recompilado.
+- Pulir: nombres, agradecimientos, y pulido fino de redacción del abstract (ahora largo).
 - Recomprobar cada cita contra su fuente primaria (los datos bibliográficos vienen de la revisión documentada en docs/resultados.md §7).
 - Destino primario: Operations Research Letters o Discrete Applied Mathematics; preprint arXiv (math.CO / cs.CG cruzado).
 - Al subir, enlazar el repo como material suplementario (el mapa de verificación del README cubre cada afirmación numérica).

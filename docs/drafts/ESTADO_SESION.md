@@ -162,8 +162,9 @@ de la Batalla 1. Formulación en `universal.md` §3. Sin explorar.
    Tribonacci queda a un paso (revisar el argumento completo del Teorema 2).
 2. Rigor menor: cota ρ > √2 del cuadrado solo α ≥ 1 (hoja §7.5); exactitud
    de feas3 (§7.6, esquivable con direcciones constructivas).
-3. **Consolidar `paper/main.tex`** con toda la cosecha (hoja §6): Teorema S
-   + S6a, H1, esquina 13/7, ρ*_k, ω_c = ω_T, Lema U, S con holgura.
+3. ~~Consolidar `paper/main.tex`~~ — HECHO (2026-08-02): toda la cosecha
+   integrada (incluida la Batalla 1), revisada contra los drafts y
+   recompilada; queda el pulido fino (nombres, abstract) de hoja §6.
 
 ## 6. Protocolo y entorno (imprescindible)
 

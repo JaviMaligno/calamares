@@ -47,15 +47,32 @@ placement rule that is a function of the observable state succeeds on all
 instances, and every randomized rule fails some instance with probability at
 least $1/2$. Measuring the violation of superincreasingness by
 $\rho=\max_i \bigl(\sum_{j>i} r_j\bigr)/r_i$, we show that in the additive
-relaxation of the model the threshold is exactly $\rho=1$, whereas the
-geometric four-ring counterexample family has infimum exactly the Tribonacci
-constant $T\approx 1.83929$ (the real root of $x^3=x^2+x+1$), with the
-Descartes ``pocket'' circle -- whose size threshold involves the golden ratio --
-as the obstruction. We conjecture that the geometric threshold equals $T$.
-We complement these results with a phase diagram for the divergence of the two
-objectives and a decoupling of the problem's hardness into a geometric layer
-(circle packing) and a combinatorial layer (subset sum), of which
-superincreasingness eliminates exactly the latter.
+relaxation of the model the threshold is exactly $\rho=1$, whereas in the
+geometric model the four-ring counterexample family has infimum exactly the
+Tribonacci constant $T\approx 1.83929$ (the real root of $x^3=x^2+x+1$), with
+the Descartes ``pocket'' circle -- whose size threshold involves the golden
+ratio -- as the obstruction. The Tribonacci floor is proved as a genuine
+theorem, without tangency idealizations, for the entire rigid subfamily
+(diametral pan, positive width, strict radii), with the rigid configuration
+\emph{emerging} from a concavity argument rather than being assumed, and the
+infimum is exact and not attained. We conjecture that the geometric threshold
+equals $T$, and we develop the supporting program: the blocked-exchange
+threshold with positive relative width $\omega$ is governed by a
+\emph{deformed Tribonacci} cubic with closed-form curve and global minimum
+exactly $13/7$ at the rational corner $(\omega,\alpha,\sigma_2)=(1/7,2,6/7)$;
+the purely combinatorial profile threshold is
+$\rho^*_k(\omega)=\max(1,\min(2(1-\omega),\max(\varphi,2/(1+2\omega))))$ for
+every $k\ge3$, crossing $T$ exactly at $\omega_T=1/T-1/2$; and, for generic
+containers with extra occupants, blocking is charged by a hierarchy of
+explicit walls -- an exact corona criterion in the spirit of a linear program,
+``blocking a hole costs at least its slack'', and a double-pocket wall -- that
+force $\rho$ above metallic-mean floors ($1+\sqrt2$ appears, alongside the
+golden line $\varphi^2-(\varphi/2)\omega$): all widths $\omega<0.9626$ are
+covered with one extra occupant, $\omega<0.624$ and $\omega<0.896$ with two
+and three, and all widths with four or more. We complement these results with a phase diagram for the
+divergence of the two objectives and a decoupling of the problem's hardness
+into a geometric layer (circle packing) and a combinatorial layer (subset
+sum), of which superincreasingness eliminates exactly the latter.
 \end{abstract}
 
 \section{Introduction}
@@ -100,10 +117,27 @@ $n\le3$ rings and fails at $n=4$; twin instances with an identical prefix rule
 out every state-based placement rule, deterministic or randomized
 (Section~\ref{sec:sharp}).
 (4)~\emph{Thresholds}: the additive model has threshold exactly $\rho=1$;
-the geometric four-ring family has infimum exactly the Tribonacci constant
-$T$, and we conjecture the geometric threshold equals $T$
+the geometric four-ring rigid subfamily has infimum exactly the Tribonacci
+constant $T$, proved with no idealization (Theorem~\ref{thm:rigidfloor}), and
+we conjecture the geometric threshold equals $T$
 (Section~\ref{sec:threshold}).
-(5)~A phase diagram for the divergence of the two objectives, and a
+(5)~\emph{The width program}: the blocked-exchange infimum with relative
+width $\omega>0$ is governed by the deformed Tribonacci cubic
+$\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$; the full curve is in closed form
+and its global minimum is exactly $13/7$, attained at a rational corner
+(Section~\ref{sec:width}); the combinatorial profile threshold is closed for
+every profile size, with golden plateau and exact Tribonacci crossing
+$\omega_T=1/T-1/2$.
+(6)~\emph{Generic containers}: an exact corona criterion for wall-tangent
+packings (with two corrective counterexamples and a $k=5$ ``pentagram''
+certificate), and a hierarchy of blocking walls -- occupant holes, ``blocking
+costs the slack'', and the double pocket -- yielding metallic-mean floors
+(silver ratio $1+\sqrt2$, golden line $\varphi^2-(\varphi/2)\omega$) that
+push every blocked exchange with extra occupants above $T$ -- for all widths
+$\omega<0.9626$ with one extra occupant, up to $0.624$ and $0.896$ with two
+and three, and for all widths with four or more
+(Section~\ref{sec:generic}).
+(7)~A phase diagram for the divergence of the two objectives, and a
 decoupling of hardness into a geometric and a combinatorial layer
 (Sections~\ref{sec:divergence}--\ref{sec:hardness}).
 
@@ -363,45 +397,303 @@ best fit nests $r_2$, sends $r_3$ to the pan, and blocks $r_4$ additively
 verified instances reach $\rho=1.03$ and $1.02$.
 \end{theorem}
 
-\begin{proposition}[Geometric four-ring family: Tribonacci floor]
-\label{prop:tribo}
-Normalize $r_1=1$, $t=r_2$, and consider the $n=4$ counterexample family of
-Theorem~\ref{thm:n4} in the tangent limit $R=1+t$, $r_3\to t$, $w\to0$. Its
-two defining pressures are: non-packability of the pan triple requires
-$r_4$ to exceed the Descartes pocket of the tangent pair, giving
-$\rho_2:=(r_3+r_4)/r_2\ \ge\ 1+\frac{1+t}{1+t+t^2}$,
-while the witness pair must fit the hole, giving $\rho_2\le1/t$. These are
-compatible iff $t^3+t^2+t\le1$, and the family infimum of $\rho$ is attained
-where the bounds meet:
+The four-ring counterexample family carries a genuine floor at the Tribonacci
+constant. An earlier version of this statement relied on a tangency
+idealization ($r_3\to r_2$, $w\to0$); the following theorem removes it
+entirely: the rigid configuration is not assumed but \emph{emerges} as the
+extremal case of a concavity argument.
+
+\begin{theorem}[Rigid-subfamily Tribonacci floor, no idealization]
+\label{thm:rigidfloor}
+Normalize $r_1=1$ and write $t=r_2$, $u=r_3$, $v=r_4$, $\omega=w>0$.
+Let $\mathcal F$ be the family of four-ring instances with
+\textup{(F1)} diametral pan $R=1+t$,
+\textup{(F2)} $u+v\le 1-\omega$ (the witness pair fits the hole of $r_1$), and
+\textup{(F3)} the triple $\{1,u,v\}$ does not pack in the disk of radius
+$1+t$. Then every instance of $\mathcal F$ satisfies $\rho>T$, strictly, for
+every width $\omega>0$ and all strict radii $v<u<t<1$; moreover
+$\inf_{\mathcal F}\rho=T$ and the infimum is not attained. The family is
+nonempty only for $t<t^{*}=1/T$, and it contains the $n=4$ counterexample and
+the twin $I_1$ of Theorem~\ref{thm:twins}.
+\end{theorem}
+
+\begin{proof}[Proof sketch (full proofs in the repository, adversarially
+verified)]
+For two circles of radii $a,b$ internally tangent to the wall of a disk of
+radius $R$, the minimal angular separation $\theta(a,b)$ obeys the half-angle
+identity $\sin^2\bigl(\theta/2\bigr)=f(a)f(b)$ with $f(x)=x/(R-x)$.
+Placing the triple $\{1,u,v\}$ wall-tangent with the unit ring in the middle
+packs it whenever $\theta(1,u)+\theta(1,v)+\theta(u,v)\le2\pi$ (the two
+non-adjacent arguments are separated by monotonicity of $\theta$), and this
+angular condition reduces \emph{algebraically} to
 \[
-\inf\rho \;=\; \frac{1}{t^{*}} \;=\; T,\qquad
-t^{*3}+t^{*2}+t^{*}=1,\qquad T^3=T^2+T+1,
+\psi(u)+\psi(v)\;\ge\;\tau,\qquad
+\psi(x)=\sqrt{\tfrac{t-x}{x}},\qquad \tau=\tfrac{t}{\sqrt{1+t}} ,
 \]
-the \emph{Tribonacci constant} $T\approx1.83929$. (The pocket radius of
-circles $A\ge B$ at $R=A+B$ is exactly $AB(A{+}B)/(A^2{+}AB{+}B^2)$ by the
-Descartes circle theorem, and satisfies the curious dichotomy
-$\text{pocket}\ge A/2\iff A\le\varphi B$ with $\varphi$ the golden ratio,
-which quantifies why comparable large rings always rescue small ones.)
-Margin-constrained numerical optimization over the family corroborates the
-floor (best verified failing instance with strict margins: $\rho=1.906$;
-best absolute concrete failures: the twins, $\rho=1.898$).
-\end{proposition}
+(an algebraic \emph{sufficient} condition for packing, which is all the
+contrapositive needs: (F3) forces $\psi(u)+\psi(v)<\tau$). In the
+coordinates $\alpha=\psi(u)$, $\beta=\psi(v)$ the sum $u+v=U(\alpha)+U(\beta)$
+with $U(z)=t/(1+z^2)$, and $U$ is concave on $[0,\tau]$ exactly when
+$\tau\le1/\sqrt3$, i.e.\ $t\le(1+\sqrt{13})/6=0.7676\dots$, which covers the
+relevant range with room to spare; hence the infimum of $u+v$ over the
+blocked (open) region sits at the \emph{corner} of its closure, $u=t$,
+$v=b(t)$, where $b(t)=t(1+t)/(1+t+t^2)$ is the Descartes pocket of the rigid
+pair. This gives the two pressures $t+b(t)<u+v\le1-\omega<1$ (the first one
+strict, whence the strict floor and the non-attainment), whose compatibility
+is precisely the cubic $t^3+t^2+t<1$, and then
+$\rho\ge(u+v)/t>1+(1+t)/(1+t+t^2)=:L(t)$ with $L$ strictly decreasing and
+$L(t^{*})=T$. Exactness of the pocket at the rigid pair (needed only for the
+direction $\inf\le T$) is a rigidity computation: the constraint left-hand
+side factors exactly as $4(t^2+t+1)\bigl(b(t)-v\bigr)$; and the approximating
+family lives genuinely inside $\mathcal F$ by a closure-and-monotonicity
+lemma for the packing region (compactness of witnesses), which shows the
+blocked interval in $u$ is half-open with an attained endpoint.
+\end{proof}
+
+\begin{remark}[Slack pans]\label{rem:slack}
+The hypothesis $R=r_1+r_2$ can be relaxed to $R\ge r_1+r_2$ at no cost:
+non-packability is antitone in the container (a packing in a smaller disk is
+a packing in a larger one after translation), so (F3) at radius $R$ implies
+(F3) at radius $r_1+r_2$ and Theorem~\ref{thm:rigidfloor} applies verbatim;
+the infimum remains $T$. Slack in the pan never helps the blocker --- what it
+changes is the set of possible \emph{occupants}, the subject of
+Section~\ref{sec:generic}.
+\end{remark}
 
 \begin{conjecture}[Tribonacci threshold]\label{conj:tribo}
 In the geometric model, placement obliviousness holds for all instances with
 $\rho<T$ and fails for suitable instances at every $\rho>T$; that is, the
 geometric threshold is exactly the Tribonacci constant, and $T-1$ measures the
 extra protection that disk geometry (Descartes pockets) grants the greedy over
-additive bookkeeping. Evidence: the additive $\rho\to1$ family is rescued
-geometrically (its small rings are half the pocket scale); structured searches
-restricted to $\rho<1.8$ ($120$ five-ring instances, best and worst fit versus
-the lex-max oracle) and more than $900$ further runs produced no failure below
-$T$; and a mechanism analysis: pair certificates are additively exact (hence
-pocket-rescued), triple certificates yield exactly $T$, quadruple certificates
-require pocket-scale rings that cannot share any hole as a triple, and deep
-nesting reproduces the same scale-invariant algebra with the width only
-raising the floor.
+additive bookkeeping. Evidence beyond Theorem~\ref{thm:rigidfloor} and
+Sections~\ref{sec:width}--\ref{sec:generic}: the additive $\rho\to1$ family is
+rescued geometrically (its small rings, at half the instance scale, sit well
+below the pocket $\approx0.43\times$scale); structured
+searches restricted to $\rho<1.8$ ($120$ five-ring instances, best and worst
+fit versus the lex-max oracle) and more than $900$ further runs produced no
+failure below $T$.
 \end{conjecture}
+
+\section{The width program: profile thresholds and the $13/7$ corner}
+\label{sec:width}
+
+Towards Conjecture~\ref{conj:tribo}, the proof of
+Theorem~\ref{thm:oblivious} localizes all difficulty in a single
+\emph{exchange step}: $m$ is the largest ring that the greedy $F$ and a
+witness $P$ place in different containers $u=c_F(m)$, $v=c_P(m)$, and the set
+$S$ of rings smaller than $m$ that $P$ keeps in $u$ must be reinserted using
+the resources freed by moving $m$ to $u$: the vacated disk $D_m$ (radius
+$r_m$), the hole $H_m$ (capacity $r_m-w$, travelling with $m$), nesting, and
+the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$. Everything $\rho$
+imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
+$\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
+\emph{blocked} exchanges is therefore a lower bound for any failure of
+placement obliviousness.
+
+\paragraph{The combinatorial layer is closed.}
+For two-ring profiles the blocked threshold is exactly
+$\rho^*_2(\omega)=\max\bigl(1,\,2(1-\omega)\bigr)$; in particular no
+two-ring blocking is compatible with $\rho<T$ for
+$\omega\le1-T/2=0.0804$. For three rings the threshold is closed,
+\[
+\rho^*_3(\omega)=\max\Bigl(1,\ \min\bigl(2(1-\omega),\
+\max\bigl(\varphi,\ \tfrac{2}{1+2\omega}\bigr)\bigr)\Bigr),
+\]
+with a purely additive proof and a \emph{golden plateau}
+$\rho^*_3\equiv\varphi$ on
+$\omega\in\bigl[\tfrac{\sqrt5-2}{2},\,1-\tfrac{\varphi}{2}\bigr]$; and a
+general additive tree argument shows $\rho^*_k=\rho^*_3$ for \emph{every}
+$k\ge3$. Consequently the combinatorial threshold crosses $T$ exactly at
+\[
+\omega_T \;=\; \tfrac1T-\tfrac12 \;=\; T^2-T-\tfrac32 \;=\;0.043689\dots :
+\]
+below $\omega_T$ the exchange step never blocks with $\rho<T$, with no
+geometry at all.
+
+\paragraph{The canonical template with positive width.}
+For $\omega>\omega_T$ geometry enters through the canonical template
+($v$ a diametral pan with one big neighbour $\alpha$; $u$ the hole of
+$\alpha$, capacity $\alpha-\omega$; $S=\{\sigma_1\ge\sigma_2\}$ placed there
+by the witness). Blocking must defeat four resources, giving the walls
+$\sigma_2>1-\omega$ ($H_m$), $\sigma_2>\alpha-\omega-1$ ($\sigma_2$ next to
+$m$ inside $u$), $\sigma_1+\sigma_2\le\alpha-\omega$ (the witness), and
+non-packability of the triple $\{\alpha,\sigma_1,\sigma_2\}$ in the pan. Two
+structural facts organize the optimum. First, on the blocking frontier of the
+triple one has the closed form $t(\sigma_1)+t(\sigma_2)=t(b(\alpha))$ with
+$t(s)=\sqrt{(1-s)/s}$ (the Descartes pocket read in the $t$-coordinate), and
+the frontier slope satisfies the $\alpha$-\emph{independent} identity
+\[
+\kappa \;=\; -\,\frac{\partial\sigma_2}{\partial\sigma_1}
+\;=\;\sqrt{\frac{g(\sigma_2)}{g(\sigma_1)}},\qquad g(s)=s^3(1-s),
+\qquad \kappa\ge1\ \text{for all }\alpha>1 ,
+\]
+so the cheapest blocked pair sits at $\sigma_1\to1$, $\sigma_2\to b(\alpha)$;
+moreover $1+b(\alpha)\ge\alpha$ iff $\alpha\le T$, so no blocking exists at
+all for $\alpha\le T$. Second, the witness capacity deforms the cubic: with
+$T_c$ the positive root of $\alpha^3=c(\alpha^2+\alpha+1)$, the
+witness branch has infimum
+$\Phi(\omega)=T_{1+\omega}-\omega$, strictly increasing and concave with
+$\Phi'(\omega)=(2\alpha+1)/\bigl(\alpha^2(\alpha^2+2\alpha+3)\bigr)$ at
+$\alpha=T_{1+\omega}$. The full curve of the blocked infimum
+$T_{\mathrm{can}}(\omega)$ is closed \emph{as a proved lower bound} --- the
+matching upper bound is exact on the witness branch and at the corner below,
+and inherits the usual angular-criterion caveat on the other two branches:
+$2(1-\omega)$ on $(0,\omega_1]$, a sextic-algebraic middle branch on
+$[\omega_1,1/7]$, and $\Phi$ on $[1/7,0.30]$, where
+$\omega_1=0.0413570\dots$ is the root of $4\omega^3-20\omega^2+25\omega-1$
+in $(1/25,1/14)$.
+
+\begin{theorem}[The $13/7$ corner]\label{thm:corner}
+For all $\omega>0$,
+\[
+T_{\mathrm{can}}(\omega)\;\ge\;\tfrac{13}{7}\;=\;T+0.017856\dots,
+\]
+with equality exactly in the limit at the rational corner
+$(\omega,\alpha,\sigma_2)=\bigl(\tfrac17,\,2,\,\tfrac67\bigr)$, where all
+four walls saturate simultaneously (note $T_{8/7}=2$ because $2^3=8=
+\tfrac87\cdot7$). The bound is unconditional -- in particular it does not
+depend on the exactness of any angular feasibility criterion -- and the
+approximating family is genuine. Thus positive width only \emph{raises} the
+Tribonacci floor, uniformly.
+\end{theorem}
+
+The fine structure is amusing: the curve is \emph{not} monotone on
+$(0,1/7]$ -- $\omega_1$ is a local minimum, followed by a bump of height
+$1.1\cdot10^{-4}$ at $\omega_{\mathrm{peak}}\approx0.0445$ (a root of an
+explicit degree-8 polynomial) before descending to the corner.
+
+\section{Generic containers: coronas, walls, and metallic floors}
+\label{sec:generic}
+
+The canonical template assumes $v$ contains only the big neighbour and $m$.
+The remaining gap towards Conjecture~\ref{conj:tribo} is genericity of the
+containers, and it is attacked by a toolkit of independent walls, each
+adversarially verified. Throughout, $v$ is a pan of radius $R$ with occupants
+$\{\alpha\}\cup O\cup\{m\}$, $O=\{o_1\ge\dots\ge o_j\}$, $o_i\ge m=1$,
+$u$ is the hole of $\alpha$, $S=\{\sigma_1\ge\sigma_2\}$, and holes may be
+occupied arbitrarily, at any nesting depth.
+
+\paragraph{The universal trio frontier.}
+For a trio $\{A,x,y\}$ wall-tangent in a disk of \emph{arbitrary} radius $R$
+(interior domain, and under the necessary hypothesis $A\ge\min(x,y)$), the
+angular blocking condition is \emph{linear} in the coordinates
+$T_c(x)=\sqrt{(c-x)/x}$, $c=R-A$:
+$\ \theta$-infeasibility $\iff T_c(x)+T_c(y)\le\tau_R=c/\sqrt{AR}$.
+The pocket generalizes to $b_R(A)=ARc/(AR+c^2)$, increasing in $R$, and the
+frontier slope identity $\kappa=\sqrt{g_c(y)/g_c(x)}$, $g_c(s)=s^3(c-s)$, is
+uniform in $R$. Without the hypothesis $A\ge\min(x,y)$ the equivalence is
+false (an explicit counterexample pins the failure region exactly), a fact
+found by adversarial verification.
+
+\paragraph{An exact corona criterion.}
+Call a \emph{corona} a packing of $k$ circles all wall-tangent. For a fixed
+cyclic order the corona constraints form a linear feasibility system in the
+angular gaps, so coronas are decidable exactly; every subset of a corona
+yields a necessary \emph{certificate} (its induced cyclic sum of pairwise
+angles is at most $2\pi$). For $k=4$ the certificates are exactly sufficient
+-- for arbitrary symmetric separations in $(0,\pi]$, by a negative-cycle
+argument: a violating cycle with $U$ ascents needs more than $2U$ edges, so
+on four nodes only $U=1$ cycles can violate, and those are exactly the
+subset certificates -- and the global criterion collapses to \emph{two}
+inequalities: the top trio, plus the total of the \emph{zigzag} order
+$(a_1,a_3,a_2,a_4)$, which minimizes the cyclic total by a
+convexity/majorization argument ($\theta=g(\log f(a)+\log f(b))$ with $g$
+convex). Two natural guesses are refuted by explicit counterexamples: the
+consecutive-arc condition alone is \emph{not} sufficient for $k\ge4$, and the
+sorted order is \emph{not} optimal (the zigzag is: large circles must not be
+angular neighbours). For $k=5$ sufficiency requires exactly one additional
+certificate, the \emph{pentagram} (the five-diagonal star $\{5/2\}$, with
+combinatorially sharp example $\theta=\pi$ on the diagonals), conjecturally
+redundant for separations of geometric origin.
+
+\paragraph{Occupant walls and metallic floors.}
+Each extra occupant's hole is itself a reinsertion resource, and blocking it
+is \emph{taxed}. The basic count: with free holes, blocking forces every
+extra occupant to within one width of $m$ ($o_i<\sigma_2+\omega$), and the
+largest occupant's tail gives
+$\rho>(j+2)/(1+\omega)$ -- each occupant pays $1/(1+\omega)$ -- whence, with
+a refined branch $\rho>4/(1+2\omega)$ for $\omega\ge\tfrac12$,
+$\rho>T$ for $\omega<2/T-\tfrac12=0.5874$ when $j=1$ and for \emph{all}
+$\omega$ when $j\ge2$; adding occupants is strictly suboptimal for the
+blocker, since the canonical curve satisfies $\Phi(\omega)<2$ identically
+(the polynomial identity
+$(2+\omega)^3-(1+\omega)\bigl((2+\omega)^2+(2+\omega)+1\bigr)=1$).
+For occupied holes the tax is quantified by the \emph{opposite-disk lemma}:
+in a disk of capacity $c$ with largest piece $\sigma$, if the remaining mass
+is at most $c-\sigma$ the whole family packs (the wall-tangent $\sigma$
+leaves a free disk of radius exactly $c-\sigma$ opposite, filled in a row);
+hence blocking a hole costs at least its slack,
+$y<\sigma_2+\omega+X_y$ with $X_y$ the hole content, for every \emph{extra}
+occupant $o_i$ and every ring of radius $\ge r_m$ nested inside one
+($\alpha$ and $m$ themselves are excluded: $\alpha$'s hole is $u$, governed
+by its own walls, and excluding $m$ is essential). Following the
+\emph{minimal} such ring and balancing two tails yields, for arbitrary hole
+occupancy at any depth,
+\[
+\rho\;>\;\Psi(\omega)\;=\;(1-\omega)+\sqrt{(1-\omega)^2+1} ,
+\]
+the metallic mean of $2(1-\omega)$: $\Psi(0)=1+\sqrt2$ is the silver ratio,
+$\Psi(1/4)=2$ exactly, and $\Psi>T$ iff $\omega<(T-1)^2/2=0.3522$.
+Allowing $m$ itself to carry children splits by an evacuation dichotomy into
+the same bound and a second metallic mean, the root of
+$u^2-(2-\omega)u-1$, which dominates automatically; its own crossing is at
+$(T-1)^2$ exactly -- twice the previous one, and the certifying identity
+\emph{is} the Tribonacci polynomial:
+$(T-1)^2\,T-(2T-T^2+1)=T^3-T^2-T-1$.
+
+\paragraph{The double-pocket wall and the golden line.}
+The geometric wall needs no angular criterion at all: blocking implies the
+four rings $\{\alpha,o_1,\sigma_1,\sigma_2\}$ do not pack in the pan, hence
+not in the disk of radius $\bar R=\alpha+o_1$ (containment), where the pair
+$\{\alpha,o_1\}$ is diametrically rigid and leaves exactly \emph{two}
+Descartes pockets
+$b_2(\alpha,o_1)=\alpha o_1(\alpha+o_1)/(\alpha^2+\alpha o_1+o_1^2)$, one on
+each side (their mirror centers are $4b_2$ apart: the exact identity
+$y_0=2b_2$). Thus blocking forces $\sigma_1>b_2(\alpha,o_1)$. Feeding this
+wall into the program of the previous walls produces a \emph{golden} optimum:
+the binding corner is $\alpha=2$, $o_1=\sqrt5-1$ -- the pair with unit pocket,
+$b_2(2,\sqrt5-1)=1$ exactly, self-dual in the sense
+$A_{\max}(\sqrt5-1)=2$, $A_{\max}(2)=\sqrt5-1$ -- and, for one extra occupant
+and \emph{any} hole occupancy, both branches of the analysis meet the same
+line: $\rho>T$ unconditionally for all $\omega<\omega_A$, via
+\[
+\rho\;>\;\varphi^2-\tfrac{\varphi}{2}\,\omega ,
+\qquad
+\omega_A\;=\;2-2(T-1)(\varphi-1)\;=\;0.962585\dots
+\]
+(the golden line itself is proved in all but one corner configuration --
+branch B with a nested node inside the occupant and $\alpha<o_1$, possible
+only for $\omega<\tfrac12$ -- where the proved bound is $\ge2>T$, via
+$\Psi_B(\tfrac12)=2$ exactly). The proof combines two exact facts -- $b_2$
+is concave in $\alpha$
+($\partial^2b_2/\partial\alpha^2=-6\alpha o^3(\alpha+o)/D^3$) and
+$D^2-\alpha o^2(o+2\alpha)=(\alpha+o)(\alpha^3+\alpha^2o+o^3)>0$ -- with
+one-variable boundary certificates anchored at the identity
+$f_1\equiv\mathrm{curve}$ at $o_1=\sqrt5-1$. For $j\ge2$ occupants the
+ladder $\Psi_j=(1-\omega)+\sqrt{(1-\omega)^2+j}$ (crossing $T$ at
+$1-(T^2-j)/(2T)$: $0.624$ for $j=2$, $0.896$ for $j=3$, all $\omega$ for
+$j\ge4$) covers the corresponding ranges, modulo a pending short recursion
+patch for the case where the largest occupant's hole itself contains a ring
+of radius $\ge r_m$ (numerically robust with wide margins; $\Psi_1=\Psi$ is
+unconditional). Small rings anywhere compatible with each theorem's template
+-- and with $S$ still a pair -- are free for all the combinatorial walls,
+whose unblocking placements are local to $D_m$, $H_m$, the holes, and the
+slot next to $m$ inside $u$.
+
+\paragraph{Status.}
+Together with Theorem~\ref{thm:corner}, every blocked exchange in the
+templates above satisfies $\rho>T$: for all $\omega$ in the canonical
+template, for $\omega<0.9626$ with one extra occupant under arbitrary hole
+occupancy, for $\omega<0.624$ and $\omega<0.896$ with two and three
+(modulo the $\Psi_j$ patch above), and for all $\omega$ with four or more.
+What remains open on the road to Conjecture~\ref{conj:tribo} is documented
+in the repository: the width tips ($j=1$, $\omega\ge0.9626$; $j=2$,
+$\omega\ge0.624$; $j=3$, $\omega\ge0.896$), the $\Psi_j$ recursion patch, a
+quantitative ``gap lemma'' (small rings against the geometric wall; tiny
+$\sigma_2$), profiles $S$ with three or more pieces beyond the combinatorial
+bound, and the second battle where $u$ is the pan itself. Each statement in
+this section is backed by a verification script and an adversarial
+verification report in the repository.
 
 \section{The two objectives diverge: a phase diagram}\label{sec:divergence}
 
@@ -497,10 +789,15 @@ Proposition~\ref{prop:count}, genuinely so.
 \section{Open problems}\label{sec:open}
 
 \begin{openproblem}
-Prove Conjecture~\ref{conj:tribo}, plausibly via a universal reinsertion lemma
-for $\rho<T$ built from the Descartes-pocket rescue, and give a fully rigorous
-(non-idealized) proof of the family floor in
-Proposition~\ref{prop:tribo}.
+Prove Conjecture~\ref{conj:tribo} by assembling the universal reinsertion
+lemma from the pieces of Sections~\ref{sec:width}--\ref{sec:generic}:
+combinatorics ($\rho^*_k=\rho^*_3$, $\omega_c=\omega_T$) below $\omega_T$ and
+the wall hierarchy above it. The documented remaining gaps are the width
+tips ($j=1$ with $\omega\ge0.9626$; $j=2$ with $\omega\ge0.624$; $j=3$ with
+$\omega\ge0.896$), the $\Psi_j$ recursion patch, a quantitative gap lemma
+(small rings against the double-pocket wall; tiny $\sigma_2$), profiles with
+three or more reinserted pieces beyond the combinatorial bound, and the case
+where $u$ is the pan.
 \end{openproblem}
 
 \begin{openproblem}
@@ -516,6 +813,29 @@ the additive surrogate admits a pseudopolynomial algorithm for integer radii.
 \end{openproblem}
 
 \appendix
+\section{Verification map}\label{app:verifmap}
+
+Every theorem of Sections~\ref{sec:threshold}--\ref{sec:generic} is backed in
+the accompanying repository by (i) a self-contained draft with complete
+proofs, (ii) a verification script whose blocks separate exact symbolic
+identities (\texttt{sympy}) from numerical sweeps, all green, and (iii) an
+\emph{adversarial verification report}: an independent rederivation of each
+result from its statement alone, followed by an audit and directed attacks.
+The correspondence, as ``verified claims (script blocks)'', is:
+Theorem~\ref{thm:rigidfloor} -- \texttt{suelo\_rigido}, 10/10 claims
+(7 blocks); slack pans and the universal trio frontier --
+\texttt{universal} (5/5 blocks); the $\kappa$ identity -- \texttt{h1},
+6/6 claims (5/5 blocks); the width curve and Theorem~\ref{thm:corner} --
+\texttt{grosor} 8/8 claims, \texttt{esquina} 6/6 claims (5/5 blocks);
+profile thresholds -- \texttt{perfil\_tres}, \texttt{cuatro}
+(\texttt{cuatrok} 5/5 blocks); the corona criterion -- \texttt{corona}
+(5/5 blocks); occupant walls, the opposite-disk lemma and the metallic
+floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
+double-pocket wall and the golden line -- \texttt{bolsillo} (6/6). Several
+statements were corrected or sharpened by the adversarial round (a missing
+hypothesis in the trio frontier, a refuted ``leak'' family, the
+$\alpha\ge o_1$ case split); the reports record each incident.
+
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
 All feasibilities in the twin instances are two-circle-exact except three
