@@ -19,7 +19,10 @@
 \newcommand{\R}{\mathbb{R}}
 
 \title{Greedy Packing of Nested Rings:\\ Superadditivity, Placement Rules, and a Tribonacci Threshold}
-\author{[Author names]\thanks{Draft. Computational verification scripts for every numerical claim are available in the accompanying repository.}}
+\author{Javier Aguilar\thanks{\texttt{javier.aguilar@sapira.ai}. Draft.
+Computational verification scripts for every numerical claim, together with
+the full proofs and the adversarial verification reports cited in the
+appendix, are available in the accompanying repository.}}
 \date{\today}
 
 \begin{document}
@@ -51,25 +54,23 @@ relaxation of the model the threshold is exactly $\rho=1$, whereas in the
 geometric model the four-ring counterexample family has infimum exactly the
 Tribonacci constant $T\approx 1.83929$ (the real root of $x^3=x^2+x+1$), with
 the Descartes ``pocket'' circle -- whose size threshold involves the golden
-ratio -- as the obstruction. The Tribonacci floor is proved as a genuine
-theorem, without tangency idealizations, for the entire rigid subfamily
-(diametral pan, positive width, strict radii), with the rigid configuration
-\emph{emerging} from a concavity argument rather than being assumed, and the
-infimum is exact and not attained. We conjecture that the geometric threshold
-equals $T$, and we develop the supporting program: the blocked-exchange
-threshold with positive relative width $\omega$ is governed by a
-\emph{deformed Tribonacci} cubic with closed-form curve and global minimum
-exactly $13/7$ at the rational corner $(\omega,\alpha,\sigma_2)=(1/7,2,6/7)$;
-the purely combinatorial profile threshold is
-$\rho^*_k(\omega)=\max(1,\min(2(1-\omega),\max(\varphi,2/(1+2\omega))))$ for
-every $k\ge3$, crossing $T$ exactly at $\omega_T=1/T-1/2$; and, for generic
-containers with extra occupants, blocking is charged by a hierarchy of
-explicit walls -- an exact corona criterion in the spirit of a linear program,
-``blocking a hole costs at least its slack'', and a double-pocket wall -- that
-force $\rho$ above metallic-mean floors ($1+\sqrt2$ appears, alongside the
-golden line $\varphi^2-(\varphi/2)\omega$): all widths $\omega<0.9626$ are
-covered with one extra occupant, $\omega<0.624$ and $\omega<0.896$ with two
-and three, and all widths with four or more. We complement these results with a phase diagram for the
+ratio -- as the obstruction. The Tribonacci floor is proved as a theorem,
+with no tangency idealization, over the entire rigid subfamily: the rigid
+configuration \emph{emerges} from a concavity argument, and the infimum $T$
+is exact and not attained. We conjecture that the geometric threshold equals
+$T$ and develop the supporting program: with positive relative width
+$\omega$ the blocked-exchange infimum is governed by a \emph{deformed
+Tribonacci} cubic, with a closed lower-bound curve whose global minimum is
+exactly $13/7$ at a rational corner; the purely combinatorial profile
+threshold equals
+$\max\bigl(1,\min\bigl(2(1-\omega),\max(\varphi,\tfrac{2}{1+2\omega})\bigr)\bigr)$
+for every profile size, crossing $T$ at $\omega_T=1/T-1/2$; and for generic
+containers a hierarchy of explicit blocking walls (an exact corona
+criterion, ``blocking a hole costs its slack'', a double-pocket wall) forces
+$\rho$ above metallic-mean floors -- the silver ratio $1+\sqrt2$ and the
+golden line $\varphi^2-(\varphi/2)\omega$ appear -- covering, with extra
+occupants, widths up to $0.9626$, $0.624$, $0.896$, and all widths,
+respectively for one, two, three, and four or more occupants. We complement these results with a phase diagram for the
 divergence of the two objectives and a decoupling of the problem's hardness
 into a geometric layer (circle packing) and a combinatorial layer (subset
 sum), of which superincreasingness eliminates exactly the latter.
@@ -812,6 +813,14 @@ determine the approximability of the cardinality objective; and decide whether
 the additive surrogate admits a pseudopolynomial algorithm for integer radii.
 \end{openproblem}
 
+\section*{Acknowledgements}
+The results of Sections~\ref{sec:threshold}--\ref{sec:generic} were developed
+with extensive computer assistance (Anthropic's Claude) under a
+draft--verify workflow: every result was independently rederived from its
+bare statement by an adversarial verification pass before being accepted,
+and several statements were corrected or sharpened by that pass; the reports
+are part of the repository.
+
 \appendix
 \section{Verification map}\label{app:verifmap}
 
@@ -953,7 +962,7 @@ Convex hulls of superincreasing knapsacks and lexicographic orderings.
 \emph{Discrete Applied Mathematics} 201:150--163, 2016.
 
 \bibitem{Litvinchev2014}
-I.~Litvinchev, L.~Infante, E.~L. Ozuna.
+I.~Litvinchev, L.~Infante, E.~L. Ozuna Espinosa.
 Approximate circle packing in a rectangular container: integer programming
 formulations and valid inequalities.
 In \emph{Computational Logistics (ICCL 2014)}, LNCS 8760, Springer, 2014,
