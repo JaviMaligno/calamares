@@ -33,11 +33,19 @@ Resultados que este script verifica:
      version anterior afirmaba una "fuga" con una familia que NI SIQUIERA
      estaba bloqueada). Dicotomia correcta: bloqueo =>
      s2 > 1-w  O  s1 + Sum(hijos de m) > 1  (si no: s1 y los hijos de m en
-     fila en D_m por el Lema 0, y s2 en el H_m vaciado). En la primera rama
-     el Teorema B aplica tal cual; la segunda queda abierta, con evidencia
-     adversaria fuerte de que Psi sobrevive tambien ahi (minimos 2.44-2.96
-     en busquedas con H_m ocupado; conjetura del verificador: el Teorema B
-     se extiende a m con hijos por combinatoria pura).
+     fila en D_m por el Lema 0, y s2 en el H_m vaciado).
+  B'' (Teorema B''; la conjetura del verificador, demostrada). La conclusion
+     rho > Psi(w) vale SIN la hipotesis "m sin hijos": rama A (s2 > 1-w) =
+     Teorema B tal cual; rama B (s1 + M > 1): con s = s2 + X > 1-w y
+     A = s1+s2+M+X > 1+s, las dos colas dan rho > Psi_B(w) = raiz positiva
+     de u^2 - (2-w)u - 1, y Psi es la raiz de u^2 - 2(1-w)u - 1: la raiz
+     crece con b y 2-w >= 2(1-w), luego Psi_B >= Psi y la rama B queda
+     dominada. Umbral de la rama B: Psi_B > T <=> w < (T-1)^2 (¡el doble
+     exacto del (T-1)^2/2 de la rama A!; identidad (T-1)^2*T = 2T-T^2+1
+     modulo la cubica). Psi(0) = Psi_B(0) = 1 + sqrt(2): la razon de PLATA.
+     Corolario B2: la canonica (j=0) con m con hijos da rho > Phi(w) > T
+     para todo w (rama A: la curva entera; rama B: la Proposicion 4 no usa
+     B2).
 
 Bloques: [A] identidades simbolicas; [B] Lema R constructivo (geometria
 directa); [C] la optimizacion del Teorema B (analitica + rejilla + muestreo
@@ -289,13 +297,90 @@ def bloque_E():
     return ok
 
 
+def bloque_F():
+    print("[F] Teorema B'': m con hijos (rama B y las medias metalicas)")
+    import sympy as sp
+    ok = True
+    w = sp.Symbol('omega', positive=True)
+    Ts = sp.Symbol('T', positive=True)
+    Psis = (1 - w) + sp.sqrt((1 - w)**2 + 1)
+    PsiBs = ((2 - w) + sp.sqrt((2 - w)**2 + 4)) / 2
+
+    ok &= check("Psi es la raiz positiva de u^2 - 2(1-w)u - 1",
+                sp.simplify(Psis**2 - 2*(1 - w)*Psis - 1) == 0)
+    ok &= check("Psi_B es la raiz positiva de u^2 - (2-w)u - 1",
+                sp.simplify(PsiBs**2 - (2 - w)*PsiBs - 1) == 0)
+    b1, b2 = sp.symbols('b1 b2', positive=True)
+    raiz = lambda b: (b + sp.sqrt(b**2 + 4))/2
+    ok &= check("la raiz positiva de u^2 - bu - 1 crece con b => Psi_B >= Psi "
+                "(2-w >= 2(1-w))",
+                sp.simplify(sp.diff(raiz(b1), b1) - (1 + b1/sp.sqrt(b1**2 + 4))/2) == 0
+                and sp.simplify((2 - w) - 2*(1 - w) - w) == 0)
+    cub = Ts**3 - Ts**2 - Ts - 1
+    # hallazgo de la verificacion: la diferencia ES el polinomio de Tribonacci
+    # (identidad polinomica exacta, mas fuerte que "resto 0 modulo la cubica")
+    ok &= check("(T-1)^2 * T - (2T - T^2 + 1) = T^3 - T^2 - T - 1 (identidad exacta)",
+                sp.expand((Ts - 1)**2 * Ts - (2*Ts - Ts**2 + 1) - cub) == 0)
+    PsiB_num = lambda v: ((2 - v) + math.sqrt((2 - v)**2 + 4))/2
+    wB = (T - 1)**2
+    ok &= check(f"Psi_B((T-1)^2) = {PsiB_num(wB):.12f} = T  ((T-1)^2 = {wB:.8f})",
+                abs(PsiB_num(wB) - T) < 1e-12)
+    ok &= check("Psi_B(0) = Psi(0) = 1 + sqrt(2) (la razon de plata)",
+                abs(PsiB_num(0) - (1 + math.sqrt(2))) < 1e-15)
+
+    # rejilla de la optimizacion de la rama B
+    for v in [0.0, 0.1, 0.25, 0.4]:
+        best = math.inf
+        for i in range(6000):
+            s = (1 - v) + 2.5 * i / 5999
+            best = min(best, max(1 + s, 1 + (2 - v)/(s + v)))
+        ok &= check(f"w={v:.2f}: rejilla rama B {best:.6f} >= Psi_B {PsiB_num(v):.6f} "
+                    f"(dif {best - PsiB_num(v):+.1e})", best >= PsiB_num(v) - 1e-9)
+
+    # muestreo de instancias rama-B con paredes en pie (m con hijos).
+    # Nota (verificador): no se comprueba la empaquetabilidad geometrica de los
+    # hijos en H_m (algunas M grandes son irrealizables) — direccion
+    # conservadora: superconjunto de instancias, test mas fuerte.
+    rng = random.Random(61)
+    viol = n = 0
+    peor = math.inf
+    for _ in range(200000):
+        v = rng.uniform(0.02, 0.5)
+        s1 = rng.uniform(0.3, 1.0)
+        s2 = rng.uniform(0.2, min(s1, 1 - v))
+        M = rng.uniform(max(0.0, 1 - s1) + 1e-6, 1.6)
+        k = rng.randint(1, 4)
+        piezas_m, restante = [], M
+        for _ in range(k - 1):
+            piezas_m.append(restante * rng.uniform(0.1, 0.6)); restante -= piezas_m[-1]
+        piezas_m.append(restante)
+        if any(p > 1 - v or p <= 0 for p in piezas_m):
+            continue
+        X = rng.uniform(0.0, 1.2)
+        if s2 + v + X <= 1.0 or X/2 >= 1.0:
+            continue
+        ystar = rng.uniform(1.0, s2 + v + X)
+        bloq = [X/2, X/2] if X > 1e-9 else []
+        alpha = rng.uniform(max(1 + v, ystar), 3.0)
+        if s1 + s2 > alpha - v or 1 + s2 <= alpha - v:
+            continue
+        n += 1
+        rho = rho_de([alpha, ystar, 1.0, s1, s2] + piezas_m + bloq)
+        margen = rho - PsiB_num(v)
+        peor = min(peor, margen)
+        viol += (margen < -1e-9)
+    ok &= check(f"instancias rama-B con paredes en pie: {n}, rho > Psi_B "
+                f"(viol={viol}, margen minimo {peor:+.4f})", viol == 0)
+    return ok
+
+
 if __name__ == "__main__":
     import sys, os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     random.seed(0)
     resultados = []
     for nombre, fn in [("A", bloque_A), ("B", bloque_B), ("C", bloque_C),
-                       ("D", bloque_D), ("E", bloque_E)]:
+                       ("D", bloque_D), ("E", bloque_E), ("F", bloque_F)]:
         try:
             resultados.append((nombre, fn()))
         except Exception as e:

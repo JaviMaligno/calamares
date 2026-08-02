@@ -1,4 +1,4 @@
-# Estado de la sesión (2026-08-02) — Batalla 1: pasos 1, 2, 3a y 4 cerrados
+# Estado de la sesión (2026-08-02) — Batalla 1: pasos 1, 2, 3a, 3b y 4 cerrados
 
 Documento de retoma para una sesión nueva. Todo lo listado como cerrado está
 verificado adversarialmente, consolidado en los documentos y pusheado.
@@ -8,10 +8,11 @@ En esta racha cayeron: el paso 1 (criterio de coronas, `drafts/corona.md`,
 con dos correcciones al plan original), los pasos 2 y 4 en plantilla libre
 (`drafts/ocupantes.md`: el precio del ocupante) y el paso 3a
 (`drafts/bloqueadores.md`: agujeros ocupados a profundidad arbitraria,
-ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2). Actas en
-VEREDICTOS.md. Lo que queda de la Batalla 1: «m con hijos» (rama
-σ₁+Σhijos(m) > 1, probablemente combinatoria — conjetura del verificador),
-los ocupantes de v menores que m, y los tramos de ω grande.**
+ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2, y el Teorema B″ que
+elimina «m con hijos»: la plantilla ya no tiene NINGUNA hipótesis de
+ocupación). Actas en VEREDICTOS.md. Lo que queda de la Batalla 1: los
+ocupantes de v menores que m (pequeños), los tramos de ω grande
+(ω ≥ (T−1)²/2), y S con más de dos piezas.**
 
 ## 1. Mapa de lo cerrado (no retocar; actas en `drafts/VEREDICTOS.md`)
 
@@ -27,7 +28,7 @@ los ocupantes de v menores que m, y los tramos de ω grande.**
 | **Lema U (frontera universal) + Teorema S con holgura (Corolario U1)** | `drafts/universal.md` | `universal.py` 5/5 |
 | **Criterio de coronas + Lema U₄** (paso 1 de la Batalla 1): LP por orden; certificados de subconjunto ∀k; k=4 = trío top + zigzag; k=5 = + pentagrama (C7) | `drafts/corona.md` | `corona.py` 5/5 |
 | **El precio del ocupante** (pasos 2 y 4 en plantilla libre): bloqueo ⟹ o_k ≤ 1+ω y ρ > (j+2)/(1+ω); > T hasta ω₅ = 2/T−1/2 (j=1) y ∀ω (j≥2); conjetura fina demostrada en plantilla | `drafts/ocupantes.md` | `ocupantes.py` 5/5 |
-| **Los bloqueadores pagan** (paso 3a, agujeros ocupados ∀profundidad): Lema R (bloquear cuesta ≥ la holgura), nodo mínimo, ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1); Ψ(1/4) = 2; > T ⟺ ω < (T−1)²/2 | `drafts/bloqueadores.md` | `bloqueadores.py` 5/5 |
+| **Los bloqueadores pagan** (pasos 3a+3b, agujeros ocupados ∀profundidad, H_m incluido): Lema R, nodo mínimo, ρ > Ψ(ω) = (1−ω)+√((1−ω)²+1); Teorema B″ (m con hijos): rama B = Ψ_B ≥ Ψ, plata 1+√2, umbrales (T−1)²/2 y (T−1)² | `drafts/bloqueadores.md` | `bloqueadores.py` 6/6 |
 
 ## 2. El arsenal para las batallas (léase `drafts/universal.md` primero)
 
@@ -97,20 +98,27 @@ instancia completa, que INCLUYEN a los o_i).
    bloqueo ⟹ σ₂ > 1−ω ∨ σ₁+Σhijos(m) > 1, y la evidencia dice que «m con
    hijos» probablemente NO necesita geometría.
 
+   **Paso 3b — CERRADO (Teorema B″, mismo borrador, acta 2ª ronda).**
+   «m con hijos» cae por la dicotomía de evacuación: rama A = Teorema B
+   literal; rama B (σ₁+Σhijos(m) > 1) = media metálica Ψ_B = raíz de
+   u²−(2−ω)u−1 ≥ Ψ = raíz de u²−2(1−ω)u−1 (la raíz crece con b), dominada.
+   Umbral de la rama B: (T−1)² exacto (su identidad ES el polinomio de
+   Tribonacci); Ψ(0) = 1+√2 = razón de plata. Corolario B2: la canónica
+   tampoco necesita la hipótesis (ρ > Φ(ω)). OJO del acta: la definición de
+   nodo excluye a m explícitamente (sin ello se rompe el paso 3 de B).
+
    **LO QUE QUEDA de la Batalla 1 (por orden sugerido):**
-   (i) *m con hijos*, rama σ₁+Σhijos(m) > 1: conjetura del verificador de
-   que el Teorema B se extiende por combinatoria pura (evacuación por
-   subconjuntos como pared B2 generalizada; mínimos observados 2.44–2.96
-   ≥ Ψ). Objetivo asequible.
-   (ii) *Ocupantes de v menores que m* (aplastamiento por pequeños) y
+   (i) *Ocupantes de v menores que m* (aplastamiento por pequeños) y
    *tramos de ω grande* (ω ≥ (T−1)²/2 con agujeros ocupados; ω ≥ 0.5874 con
    libres): rama geométrica del testigo con el Lema U₄ en R̄ (evidencia:
    las 2000 bloqueadas-por-paredes de menor ρ en ω ∈ [0.5, 0.63] admiten
    todas corona ⟹ estaban desbloqueadas). Para pequeños: "lema del hueco"
    vía densidad crítica 1/2 de Fekete–Keldenich–Scheffer y la pista √δ de
    `rigido.py` V7b; presupuesto de masa por la cola de m.
-   (iii) *S con más de dos piezas* (ρ*_k = ρ*₃ acota por el lado
+   (ii) *S con más de dos piezas* (ρ*_k = ρ*₃ acota por el lado
    combinatorio; rehacer las optimizaciones si hiciera falta).
+   Después: Batalla 2 (u = sartén, `universal.md` §3) y el ensamblaje del
+   lema universal de reinserción (§5 de este documento).
 4. **k ocupantes — CERRADO en la plantilla libre, sin inducción (mismo
    `drafts/ocupantes.md`).** La cota ρ > (j+2)/(1+ω) es uniforme en j (una
    pared por agujero + la cola del mayor ocupante): cada ocupante paga

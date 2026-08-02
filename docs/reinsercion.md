@@ -293,9 +293,10 @@ reinserción necesita los tres; con dos de ellos el umbral demostrable se queda 
    adversario. *Avance cuarto (`drafts/bloqueadores.md`):* con los agujeros de
    los ocupantes OCUPADOS a cualquier profundidad, el Lema R (bloquear un
    agujero cuesta masa ≥ la holgura) y el nodo mínimo dan ρ > Ψ(ω) =
-   (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2 = 0.3522; queda «m con hijos»
-   (rama σ₁+Σhijos(m) > 1, probablemente combinatoria), los pequeños en v y
-   el tramo de ω grande. El análisis anterior supone `v` rígido con un solo
+   (1−ω)+√((1−ω)²+1) > T para ω < (T−1)²/2 = 0.3522, y el Teorema B″ elimina
+   también «m con hijos» (rama B = media metálica Ψ_B ≥ Ψ, dominada): la
+   plantilla ya no tiene ninguna hipótesis de ocupación. Quedan los pequeños
+   en v y el tramo de ω grande. El análisis anterior supone `v` rígido con un solo
    vecino grande. Con varios ocupantes el bolsillo relevante es el mayor hueco del
    empaquetamiento, y hace falta una cota inferior universal en función de la
    capacidad libre. Igualmente, `u` genérico: si `u` es la sartén, la restricción del

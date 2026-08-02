@@ -239,3 +239,22 @@ lectura literal antigua habría invalidado el paso), nota de degeneración en
 disc −36), cota fina vía (B4)+cola de α anotada (≈ Ψ+0.05, explica las
 holguras de [D]), y el bloque [E] sustituido por la validación constructiva de
 la evacuación (20 000 casos, 0 fallos). 5/5 tras las correcciones.
+
+**Segunda ronda (Teorema B″, m con hijos): CONFIRMADO.** La conjetura del
+verificador quedó demostrada y él mismo la auditó: rama A correcta (H_m solo
+entra por (B2); D_m íntegro porque m viaja con sus hijos), rama B correcta (el
+paso de doble sustitución (1+A)/y* > (2+s)/(s+ω) es sano — numerador y
+denominador no comparten variable —, el cruce s²+sω = 2−ω cae estrictamente
+dentro de la región, estrictos bien), dominancia Ψ_B ≥ Ψ correcta (raíz
+metálica creciente en b, igualdad solo en ω = 0), Corolario B2 cotejado contra
+las fuentes (la curva T_can solo usa σ₂ > 1−ω; la Proposición 4 no usa (B2) ni
+(B4)). Su ataque ampliado (200k configs × 6 ω, adversario con agujeros de σ₁,
+σ₂ y de los hijos de m rellenables, empaquetados h > 1−ω, evacuaciones a 6
+destinos) no encontró nada bajo Ψ_B (mínimos 2.34–2.69). Correcciones
+integradas: la definición de nodo debe excluir explícitamente a m (sin ello
+y* = m rompería el paso 3 de B y duplicaría masa en B″ — matiz que afecta a
+ambos teoremas, arreglado); errata decimal (T−1)² = 0.70440226 (no 0.7044045);
+el hallazgo de que (T−1)²·T − (2T−T²+1) ES el polinomio de Tribonacci
+(identidad exacta, no solo resto 0); «Φ > T ∀ω» precisado a ω > 0; mapa
+actualizado a 6/6 y tautología del check 2·ω₆ eliminada. 6/6 tras las
+correcciones.

@@ -15,18 +15,22 @@ con Ψ(0) = 1 + √2, Ψ(1/4) = 2 exacto, y
 
     Ψ(ω) > T   ⟺   ω < ω₆ := (T − 1)²/2 = 0.3522011… .
 
-La única hipótesis de plantilla que queda es **m sin hijos** (H_m libre).
-Una versión anterior de este borrador afirmaba que la hipótesis era
-necesaria («la combinatoria se fuga hacia 2(1−ω)»); la verificación
-adversaria REFUTÓ esa sección: la supuesta familia de la fuga ni siquiera
-estaba bloqueada (la evacuación de §5, con σ₁ incluida, la desbloquea), y la
-evidencia apunta a lo contrario — el Teorema B probablemente se extiende a
-«m con hijos» por combinatoria pura (§5, conjetura del verificador): cada
-gramo en H_m paga 1:1 en la cola de m y abre rutas de evacuación.
-Sometido a verificación adversaria (acta en `VEREDICTOS.md`): Lema R, Bo″,
-Teorema B y B1 confirmados (rederivación a ciegas idéntica); §5 refutado y
-reescrito. Verificación: `code/bloqueadores.py` (5/5). Numeración local:
-Lema R, pared Bo″, Teorema B, Corolario B1.
+Y no queda ninguna hipótesis de ocupación: el **Teorema B″** (§5) elimina
+también «m sin hijos» — la dicotomía de evacuación parte el bloqueo en la
+rama `σ₂ > 1−ω` (donde el Teorema B aplica tal cual) y la rama
+`σ₁ + Σ hijos(m) > 1`, cuya optimización es otra media metálica,
+`Ψ_B = raíz de u² − (2−ω)u − 1 ≥ Ψ = raíz de u² − 2(1−ω)u − 1`, dominada
+automáticamente (la raíz crece con b). De propina, `Ψ(0) = 1 + √2` es la
+**razón de plata**, y el umbral de la rama B es `(T−1)²` exacto, el doble
+del de la A.
+
+Historia de verificación (actas en `VEREDICTOS.md`): Lema R, Bo″, Teorema B
+y B1 confirmados por rederivación a ciegas idéntica; la §5 primera («la
+fuga», que afirmaba que la hipótesis m-sin-hijos era necesaria) fue
+REFUTADA por el verificador — su familia ni siquiera estaba bloqueada — y su
+conjetura de lo contrario es ahora el Teorema B″. Verificación:
+`code/bloqueadores.py` (6/6). Numeración local: Lema R, pared Bo″,
+Teoremas B y B″, Corolarios B1–B2.
 
 ## 1. Marco
 
@@ -77,8 +81,12 @@ esta es exactamente la pared (Bo) de `ocupantes.md`.
 ## 3. La pared general y el nodo mínimo
 
 **Definición (nodos).** Llámese **nodo** a todo aro de radio ≥ 1 (= r_m) que
-sea ocupante de `v` distinto de `α`, o esté anidado — a cualquier
-profundidad — dentro de uno. Por hipótesis `j ≥ 1`, hay al menos un nodo.
+sea ocupante de `v` distinto de `α` **y de m**, o esté anidado — a
+cualquier profundidad — dentro de uno. Por hipótesis `j ≥ 1`, hay al menos
+un nodo, y m nunca es nodo ni aparece dentro de uno (los nodos y sus
+descendientes viven fuera de m). [La exclusión explícita de m es un matiz
+de la verificación adversaria: sin ella, `y* = m` rompería el paso 3 del
+Teorema B y duplicaría masa en la rama B de B″.]
 
 **Pared Bo″.** Bloqueo ⟹ para todo nodo `y`: `y < σ₂ + ω + X_y`.
 
@@ -156,63 +164,98 @@ siempre tiene ω > 0. Y Ψ no es el ínfimo del programa completo: añadiendo
 (cuantificado por el verificador; explica las holguras del bloque [D]).
 No se necesita para `> T`.
 
-## 5. «m con hijos»: la evacuación y la conjetura del verificador
+## 5. «m con hijos»: la dicotomía de evacuación y el Teorema B″
 
-[Sección reescrita tras la verificación adversaria, que REFUTÓ la versión
-anterior: la supuesta «familia de la fuga» con H_m relleno no estaba
-bloqueada en absoluto — la desbloquea la propia evacuación de abajo — y la
-dicotomía que se enunciaba olvidaba colocar a σ₁.]
+[Historia: la primera versión de esta sección afirmaba que sin «m sin
+hijos» la combinatoria se fugaba; la verificación adversaria la REFUTÓ (la
+supuesta familia de la fuga no estaba bloqueada, y la dicotomía enunciada
+olvidaba colocar a σ₁) y conjeturó lo contrario. La conjetura es ahora el
+Teorema B″.]
 
 Si m tiene hijos, H_m no está libre y la pared (B2) se debilita. La
 herramienta correcta es la **evacuación a D_m** (Lema 0): colóquense σ₁ y
 todos los hijos de m **en fila dentro de D_m** (posible si
-`σ₁ + Σ hijos(m) ≤ 1`) y σ₂ en el H_m vaciado (posible si `σ₂ ≤ 1 − ω`).
-Contrapositiva:
+`σ₁ + Σ hijos(m) ≤ 1`; los hijos de σ₁ viajan dentro de σ₁) y σ₂ en el H_m
+vaciado (posible si `σ₂ ≤ 1 − ω`). Contrapositiva, con `M := Σ hijos(m)`:
 
-    bloqueo  ⟹  σ₂ > 1 − ω   ∨   σ₁ + Σ hijos(m) > 1 .
+    bloqueo  ⟹  σ₂ > 1 − ω   ∨   σ₁ + M > 1 .
 
-En la primera rama el Teorema B aplica tal cual. La segunda rama queda
-abierta, pero la evidencia adversaria apunta a que **no hay fuga**: en
-búsquedas amplias con H_m ocupado (hasta 6 hijos, incluidos empaquetados
-con `Σ hijos > 1 − ω` — la fila es solo suficiente y con ≥ 3 piezas la suma
-puede exceder la capacidad — y evacuaciones exhaustivas por subconjuntos),
-el mínimo de ρ sobre bloqueos con hijos de m quedó en 2.44–2.96, siempre
-≥ Ψ(ω), convergiendo a Ψ solo cuando la masa en H_m tiende a 0. El
-mecanismo: cada gramo en H_m paga 1:1 en la cola de m, relaja las paredes a
-lo sumo 1:1 y abre rutas de evacuación. Ejemplo bloqueado genuino con H_m
-ocupado (verificador): `ω = 0.1`, `σ₁ = 0.9`, `σ₂ = 0.81`, hijo de m
-`0.85`, `o₁ = 1` con hijo `0.81`, `α = 1.81` — todos los contenedores
-par-ajustados y tres piezas ≥ 0.81 no caben en D_m (el trío de iguales en
-disco unidad exige radio ≤ 2√3 − 3 = 0.464): ρ = 4.37 ≫ Ψ.
+**Teorema B″ (m con hijos).** La conclusión del Teorema B vale sin la
+hipótesis «m sin hijos»: bloqueo en la plantilla (agujeros ocupados
+arbitrarios en todos los niveles, incluido H_m) ⟹ `ρ > Ψ(ω)`.
 
-**Conjetura (del verificador).** El Teorema B se extiende a «m con hijos»
-por combinatoria pura, con las paredes de evacuación por subconjuntos en el
-papel de (B2). De confirmarse, el hueco 1 de §7 es un objetivo asequible y
-la rama geométrica del testigo queda reservada para los pequeños en `v` y
-el tramo de ω grande.
+*Demostración.* Rama A (`σ₂ > 1 − ω`): la prueba del Teorema B aplica
+literalmente — solo usaba `σ₂ > 1 − ω`, la pared Bo″ y las dos colas, y la
+masa `M ≥ 0` solo puede engordarlas. Rama B (`σ₂ ≤ 1 − ω` y `σ₁ + M > 1`):
+sea `y*` el nodo mínimo, `X := X_{y*}` y `s := σ₂ + X`. Por Bo″ y
+`y* ≥ 1`: `s > 1 − ω`. Sea `A := σ₁ + σ₂ + M + X`; por la rama B,
+`A > 1 + σ₂ + X = 1 + s`. Las dos colas (la de m contiene a
+`{σ₁, σ₂} ∪ hijos(m) ∪ hijos(y*)`; la de `y*` añade a m):
+
+    ρ ≥ A > 1 + s      y      ρ ≥ (1 + A)/y* > (2 + s)/(s + ω) = 1 + (2 − ω)/(s + ω) ,
+
+y minimizando `máx(1 + s, 1 + (2−ω)/(s+ω))` sobre `s > 1 − ω` sale el
+cruce `s² + sω = 2 − ω`, es decir `ρ > Ψ_B(ω)` con `u = 1 + s` raíz
+positiva de
+
+    u² − (2 − ω)·u − 1 = 0 ,      Ψ_B(ω) = [ (2−ω) + √((2−ω)² + 4) ] / 2 .
+
+Ahora bien, `Ψ(ω)` es la raíz positiva de `u² − 2(1−ω)·u − 1 = 0` (la misma
+familia con `b = 2(1−ω)` en vez de `b = 2 − ω`), y la raíz positiva de
+`u² − bu − 1` es creciente en b: como `2 − ω ≥ 2(1−ω)`,
+
+    Ψ_B(ω) ≥ Ψ(ω)      (igualdad solo en ω = 0) ,
+
+y la rama B queda dominada por la A. ∎
+
+**Observación (números metálicos).** Ψ y Ψ_B son medias metálicas — raíces
+de `u² − bu − 1` —, y `Ψ(0) = Ψ_B(0) = 1 + √2` es la **razón de plata**: al
+oro de la meseta de ρ*₃ y al Tribonacci del umbral se les une la plata en
+el suelo de los agujeros ocupados. Y el cruce de la rama B con T tiene la
+misma estética que el de la A:
+
+    Ψ_B(ω) > T   ⟺   ω < (T − 1)²  = 0.7044022…  = 2·ω₆
+
+(y aquí la identidad es aún mejor que «módulo la cúbica»:
+`(T−1)²·T − (2T − T² + 1) = T³ − T² − T − 1` **es exactamente el polinomio
+de Tribonacci**, como identidad polinómica — hallazgo de la verificación):
+el umbral de la rama B es el **cuadrado** (T−1)², el doble del `(T−1)²/2`
+de la rama A.
+
+**Corolario B2 (la canónica tampoco necesita la hipótesis).** En la
+plantilla canónica (`j = 0`) con m con hijos: rama A ⟹ la curva `T_can(ω)`
+entera (su programa solo usa `σ₂ > 1−ω` como desigualdad); rama B ⟹ la
+rama del testigo `S ≥ Φ(ω)` vale porque la Proposición 4 de
+`grosor_positivo.md` no usa (B2) — solo (B1) y (W), intactas. En ambas
+ramas `ρ > Φ(ω)`, y `Φ(ω) > T` para todo ω > 0 (Φ(0) = T y Φ es
+estrictamente creciente; el modelo vive en ω > 0).
+
+Ejemplo bloqueado genuino con H_m ocupado (verificador): `ω = 0.1`,
+`σ₁ = 0.9`, `σ₂ = 0.81`, hijo de m `0.85`, `o₁ = 1` con hijo `0.81`,
+`α = 1.81` — contenedores par-ajustados y tres piezas ≥ 0.81 no caben en
+D_m (el trío de iguales en disco unidad exige radio ≤ 2√3 − 3 = 0.464):
+ρ = 4.37 ≫ Ψ, coherente con el teorema.
 
 ## 6. Estado de la Batalla 1 tras este paso
 
 | plantilla | resultado | dónde |
 |---|---|---|
 | canónica (j = 0) | ρ ≥ T_can(ω) ≥ máx(2(1−ω), Φ(ω)) > T ∀ω | `grosor_positivo.md`, `esquina.md` |
+| canónica con m con hijos | ρ > Φ(ω) > T ∀ω | Corolario B2 |
 | ocupantes extra, agujeros libres | ρ > (j+2)/(1+ω) | `ocupantes.md` |
-| ocupantes extra, agujeros ocupados (cualquier profundidad) | ρ > Ψ(ω) > T para ω < (T−1)²/2 | **este borrador** |
+| ocupantes extra, agujeros ocupados (cualquier profundidad, H_m incluido) | ρ > Ψ(ω) > T para ω < (T−1)²/2 | Teoremas B y B″ |
 
-Fuera de las plantillas quedan: `m` con hijos (§5 — probablemente
-combinatorio, conjetura del verificador), y, apuntando a la rama geométrica
-del testigo (Lema U₄ de `corona.md`): los ocupantes de `v` menores que m
-(aplastamiento por pequeños), el tramo `ω ≥ (T−1)²/2` con `j ≥ 1`, y S con
-más de dos piezas (que la combinatoria ρ*_k = ρ*₃ de `cuatro.md` acota por
-otro lado).
+Fuera de las plantillas quedan, apuntando a la rama geométrica del testigo
+(Lema U₄ de `corona.md`): los ocupantes de `v` menores que m (aplastamiento
+por pequeños), el tramo `ω ≥ (T−1)²/2` con `j ≥ 1`, y S con más de dos
+piezas (que la combinatoria ρ*_k = ρ*₃ de `cuatro.md` acota por otro
+lado).
 
 ## 7. Huecos declarados
 
-1. **`m` con hijos**: abierto en la rama `σ₁ + Σ hijos(m) > 1` de la
-   dicotomía de evacuación (§5). La evidencia adversaria (mínimos 2.44–2.96,
-   siempre ≥ Ψ) y la conjetura del verificador sugieren que se cierra por
-   combinatoria pura con evacuación por subconjuntos — objetivo asequible,
-   no el corazón duro que este borrador afirmaba en su primera versión.
+1. ~~**`m` con hijos**~~ — **RESUELTO** (Teorema B″, §5): la rama
+   `σ₁ + Σ hijos(m) > 1` da la media metálica `Ψ_B ≥ Ψ` y queda dominada.
+   La conjetura del verificador de la ronda anterior, demostrada.
 2. **Tramo `ω ≥ ω₆ = 0.3522` con ocupantes y agujeros ocupados**: la cota Ψ
    cae bajo T; misma herramienta pendiente. (En el caso de agujeros libres,
    `ocupantes.md` llega hasta 0.5874.)
@@ -227,7 +270,7 @@ otro lado).
 
 ## Mapa de verificación
 
-`code/bloqueadores.py`, cinco bloques (5/5 OK):
+`code/bloqueadores.py`, seis bloques (6/6 OK):
 
 - **[A]** simbólico: Ψ(1/4) = 2, Ψ(0) = 1+√2, la raíz de Ψ = T y su
   identidad con (T−1)²/2 módulo la cúbica, Ψ ≤ 3/(1+ω) en malla, la raíz
@@ -244,3 +287,8 @@ otro lado).
   σ₁ + hijos de m en fila en D_m y σ₂ en el H_m vaciado, validada con
   geometría directa), la identidad `5ω² − 2ω + 2 > 0` de la comparación
   estricta con 3/(1+ω), y la consistencia con `ocupantes.py`.
+- **[F]** Teorema B″: las dos cuadráticas metálicas (Ψ y Ψ_B como raíces de
+  `u² − bu − 1` con `b = 2(1−ω)` y `2−ω`), la monotonía de la raíz en b
+  (Ψ_B ≥ Ψ), la identidad `(T−1)²·T = 2T − T² + 1` del umbral de la rama B,
+  la rejilla de la optimización de la rama B, y el muestreo de instancias
+  rama-B con paredes en pie (m con hijos): 0 violaciones de Ψ_B.
