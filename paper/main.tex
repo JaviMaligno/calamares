@@ -558,11 +558,13 @@ geometric threshold exactly the golden ratio: $\varphi-1$ measures the
 protection that disk geometry grants the greedy over additive
 bookkeeping, and $T$ is the exact floor of the \emph{nested} exchange
 (Sections~\ref{sec:width}--\ref{sec:generic}), attained by the rigid
-family of Theorem~\ref{thm:rigidfloor}. Evidence: the blocking program
-of the pan exchange with one occupant and a pair profile has numerical
-infimum $\varphi$ (the same fixed-point mechanism,
-$\min_A\max(2b(A),(1+2b(A))/A)=\varphi$), and every proved floor of the
-nested exchange exceeds $T>\varphi$ with margin.
+family of Theorem~\ref{thm:rigidfloor}. Evidence: the pan-exchange
+$\varphi$-floor is proved in the repository for pair profiles except a
+sliver (Open Problem~\ref{op:assembly}(a)) -- one occupant at every
+width via the golden fixed point, the evacuation branch at every width
+via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
+$\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- and every proved floor
+of the nested exchange exceeds $T>\varphi$ with margin.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the $13/7$ corner}
@@ -983,16 +985,25 @@ fall outside and, by Proposition~\ref{prop:count}, genuinely so.
 
 \begin{openproblem}\label{op:assembly}
 Prove Conjecture~\ref{conj:golden}. Two halves. (a)~\emph{The pan
-exchange has floor $\varphi$}: redo the wall program of
-Sections~\ref{sec:width}--\ref{sec:generic} for $u$ the pan (multiple
-occupants, larger profiles, nested occupancy), where the numerical
-infimum of the one-occupant pair program is already $\varphi$ via the
-fixed point $\min_A\max(2b(A),(1+2b(A))/A)=\varphi$. (b)~\emph{Assemble
-the universal reinsertion lemma} for the nested exchange from the proved
-floors ($\ge T>\varphi$, so far above the golden threshold that the
-remaining nested gaps -- the width tips, the quantitative gap lemma,
-profiles of four or more pieces beyond the reduction branch -- only
-matter for pinning the nested threshold at exactly $T$, not for
+exchange has floor $\varphi$}: largely proved in the repository for pair
+profiles (adversarially verified): blocking the pan exchange forces
+$\rho>\varphi$ for one occupant at every width (both reinserted rings
+exceed the pocket $b(o_1)$ by containment and rigidity, and the two
+tails meet at the golden fixed point $2b(A)A=1+2b(A)$, whose crossing
+factors as $(A^2-A-1)(2A+1)$); for the evacuation branch at every width
+(a \emph{strict leaf} yields the $\Psi_B$ program and
+$\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
+strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
+$\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with a
+$U_4$-based wall ($o_2<1+1/o_1$) trimming what is left. Open: a sliver
+(two or three occupants, large width, $o_1>3/\varphi$; numerical
+evidence $\ge\varphi+0.41$), profiles of three or more reinserted
+pieces, and extra small rings. (b)~\emph{Assemble the universal
+reinsertion lemma} for the nested exchange from the proved floors
+($\ge T>\varphi$, so far above the golden threshold that the remaining
+nested gaps -- the width tips, the quantitative gap lemma, profiles of
+four or more pieces beyond the reduction branch -- only matter for
+pinning the nested threshold at exactly $T$, not for
 Conjecture~\ref{conj:golden} itself).
 \end{openproblem}
 
@@ -1044,7 +1055,8 @@ floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
 double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
 three-piece profiles and the golden deformation -- \texttt{striple}
 (5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
-\texttt{aureo} (5/5). Several
+\texttt{aureo} (5/5); the pan-exchange golden floor --
+\texttt{batalla2} (5/5). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.

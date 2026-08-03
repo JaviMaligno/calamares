@@ -5,7 +5,7 @@ Cada script imprime lineas [OK]/[FALLO] y un RESUMEN n/n; aqui se recogen los
 resumenes y el codigo de salida es 0 solo si todo esta en verde. Scripts de
 verificacion principales (con bloques [A] simbolico-exacto vs [B..] numerico):
 rigido, h1, grosor, esquina, tresk, cuatrok, universal, cuadrado, corona,
-ocupantes, bloqueadores, bolsillo, striple, aureo.
+ocupantes, bloqueadores, bolsillo, striple, aureo, batalla2.
 """
 import subprocess, sys, os, re, time
 
@@ -13,7 +13,7 @@ SCRIPTS = [
     "rigido.py", "h1.py", "grosor.py", "esquina.py", "tresk.py",
     "cuatrok.py", "universal.py", "cuadrado.py", "corona.py",
     "ocupantes.py", "bloqueadores.py", "bolsillo.py", "striple.py",
-    "aureo.py",
+    "aureo.py", "batalla2.py",
 ]
 
 def main():

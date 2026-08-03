@@ -401,3 +401,32 @@ mataría también n=4 y las gemelas); el teorema exacto vive en δ = 0
 la robustez δ < δ* = 0.0248 es evidencia angular. T queda
 recaracterizado: suelo del intercambio anidado (Batalla 1 intacta), no
 umbral global. aureo.py 5/5 tras las correcciones.
+
+## Acta: batalla2.md (Teorema P — el suelo áureo de la Batalla 2, S par)
+
+**Veredicto: CONFIRMADO en todos los sub-claims matemáticos; rincón
+correctamente declarado NO DECIDIDO; un bug del aparato numérico hallado y
+corregido.** Dos fases. Fase 1 (a ciegas): rederivación idéntica de las
+cinco paredes con el punto crítico de la legalidad de (G) resuelto (D_m
+viaja dentro del ocupante que el re-empaquetado mueve: las posiciones son
+existenciales por contenedor, sin incompatibilidad corona↮D_m porque los
+recursos viven en contenedores distintos); el caso j = 1 con dos
+aportaciones exactas: el numerador de g′ es −(3A⁴+6A³+3A²+2A+1) y el
+cruce 2b = g factoriza como (A²−A−1)(2A+1) = 0 — raíz positiva única φ;
+la hoja estricta (agujero ≠ agujero de y) identificada como exactamente lo
+que evita el doble conteo de m; Ψ_B(1) = φ, Ψ₁(1/2) = φ, Ψ₂(φ/2) = φ,
+Ψ₃(1) = √3 verificadas en sympy; el Lema Z rederivado SIN U₄ (identidad
+sin²(θ/2) = ab/((R−a)(R−b))) con la observación de que la admisibilidad de
+θ(o₁,1) ES el par de F, y contrastado con un LP exacto de coronas propio:
+0 violaciones en 35 000 tests. Fase 2 (ataques, ~1.25M iteraciones con
+generador propio de profundidad 4): 0 violaciones de φ y de cadenas;
+campaña reveladora: sin la pared (G) el mínimo j = 2 cae a 1.6555 con
+instancias que violan o₂ < 1+1/o₁ — el Lema Z es exactamente la pared que
+las mata. HALLAZGO (código): corona_ok con k ≥ 5 devolvía True, que en el
+generador DESCARTA candidatos (no conservador): la evidencia j = 3 del
+bloque [D] era vacía (n = 0 enmascarado por «n == 0 or»). Corregido
+(k ≥ 5 → no imponer (G); n > 0 exigido): j = 3 puebla con n ≈ 12–13k y
+mín ρ ≥ 2.24. Matices integrados: la rama B es vacía para ω ≥ 1/2 bajo
+S ⊂ (ω,1) (Ψ_B(1) = φ es cierre estético; margen real ≥ 2−φ en la región
+poblada); márgenes del rincón actualizados (φ+0.41 / φ+0.62); nota
+cosmética en §2. 5/5 tras las correcciones.

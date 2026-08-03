@@ -12,10 +12,15 @@ instancia es áurea 4 veces (A = φ punto fijo de 2bA = 1+2b; b₂ = φ/2;
 (1+φ)/φ = φ; ρ → φ). REINTERPRETACIÓN: T = suelo exacto del intercambio
 ANIDADO (toda la Batalla 1 en pie, > T > φ con margen); nueva conjetura:
 el umbral global es exactamente φ. El paper ya está reescrito
-(thm:golden + conj:golden, abstract, encuadre nested/pan). SIGUIENTE
-FRENTE: demostrar el suelo φ de la Batalla 2 en general (ocupantes
-múltiples, S ≥ 3, ocupación anidada) — el programa de paredes con un
-ocupante y par ya da mínimo numérico φ (aureo.py [E]).**
+(thm:golden + conj:golden, abstract, encuadre nested/pan). Y el suelo φ
+está CASI CERRADO en S par (**Teorema P**, `drafts/batalla2.md`,
+`batalla2.py` 5/5, acta CONFIRMADO): j = 1 toda ω (punto fijo áureo,
+cruce (A²−A−1)(2A+1)); rama B todo j y toda ω (hoja estricta,
+Ψ_B(1) = φ); rama A por la escalera Ψ (Ψ₁(1/2) = Ψ₂(φ/2) = φ,
+Ψ₃(1) = √3); Lema Z (o₂ < 1+1/o₁). QUEDA: el sliver {j ∈ {2,3}, rama A,
+ω grande, o₁ > 3/φ, o₂ < 1.54} (evidencia ≥ φ+0.41), |S| ≥ 3 a sartén,
+pequeños extra (Corolario-S-análogo), y el ensamblaje del lema universal
+con umbral φ.**
 
 ## (histórico) Batalla 1: pasos 1–4 y el asalto geométrico cerrados
 
