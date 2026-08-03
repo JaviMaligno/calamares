@@ -280,7 +280,8 @@ superadditive, and Lemma~\ref{lem:lexdom} fails for it.
 Let the radii be superincreasing (weakly: $r_i\ge\sum_{j>i}r_j$ suffices) and
 let $K\subset\R^d$ be an arbitrary container. Every descending greedy, with an
 \emph{arbitrary} rule for choosing among feasible containers, places exactly
-the lex-max feasible set. In particular best fit, worst fit and random
+the lex-max feasible set. In particular best fit (place in the feasible
+container of smallest capacity), worst fit (largest capacity) and random
 placement are all optimal for every positive, strictly increasing,
 superadditive objective.
 \end{theorem}
@@ -424,13 +425,19 @@ circles and sufficient in general by Lemma~\ref{lem:row}). Then the
 obliviousness holds for \emph{all} instances with $\rho\le1$ (the proof of
 Theorem~\ref{thm:oblivious} applies verbatim), while for every
 $\varepsilon>0$ \emph{some} instance with $\rho\le1+\varepsilon$ fails --
-individual instances with larger $\rho$ may of course still succeed. Indeed, with $r_1$ fixed,
-$s=R-r_1\in\bigl(\tfrac{2}{3}(r_1-w),\,r_1-w\bigr]$, $w>s/2$, take
-$r_2=s$ and a pair $r_3\approx r_4\approx s/2$ with $r_3+r_4=s+\varepsilon$:
-the witness fills the pan with $\{r_1,r_2\}$ and the hole with the pair, while
-best fit nests $r_2$, sends $r_3$ to the pan, and blocks $r_4$ additively
-($r_1+r_3+r_4>R$; $r_2+r_4>r_1-w$; $r_4>r_2-w$). All ratios tend to $1$;
-verified instances reach $\rho=1.03$ and $1.02$.
+individual instances with larger $\rho$ may of course still succeed.
+Indeed, fix $r_1$, set $s=r_1/2$ and $R=r_1+s=\tfrac32r_1$, pick any
+$w\in\bigl(\tfrac{r_1}4,\,\tfrac{r_1}2-\delta\bigr)$, and take $r_2=s$
+and a pair $r_3\approx r_4\approx s/2$ with $r_3+r_4=s+\delta$,
+$\delta\downarrow0$: the witness fills the pan with $\{r_1,r_2\}$ and
+the hole of $r_1$ with the pair ($r_3+r_4=s+\delta\le r_1-w$), while
+best fit nests $r_2$ ($r_2=s\le r_1-w$ since $w\le r_1/2$), sends $r_3$
+to the pan, and blocks $r_4$ additively ($r_1+r_3+r_4>R$ since
+$r_3+r_4>s$; $r_2+r_4>r_1-w$ since $w>r_1/4$; $r_4>r_2-w$ likewise).
+The three tail ratios are $(2s+\delta)/r_1=1+\delta/r_1$,
+$(s+\delta)/s=1+2\delta/r_1$ and $r_4/r_3\to1$, so
+$\rho=1+2\delta/r_1\to1$; verified instances reach $\rho=1.03$ and
+$1.02$.
 \end{theorem}
 
 The four-ring counterexample family carries a genuine floor at the Tribonacci
@@ -495,9 +502,16 @@ changes is the set of possible \emph{occupants}, the subject of
 Section~\ref{sec:generic}.
 \end{remark}
 
-The natural conjecture -- which we ourselves held until late in this
-project -- is that the geometric threshold is exactly $T$. It is
-\emph{false}. The witness capacity that lifts the floor from $\varphi$ to
+Define the \emph{geometric threshold} as
+\[
+\tau\;:=\;\inf\bigl\{\rho(I)\ :\ \text{some greedy execution fails to
+place the lex-max set on }I\bigr\},
+\]
+so that placement obliviousness holds for every instance with
+$\rho<\tau$ and fails arbitrarily close above it; ``floor'' always
+refers to an infimum of $\rho$ over a family of blocked exchanges. The
+natural conjecture -- which we ourselves held until late in this
+project -- is that $\tau=T$. It is \emph{false}. The witness capacity that lifts the floor from $\varphi$ to
 $T$ in Theorem~\ref{thm:rigidfloor} exists only when the greedy's
 container for the pivotal ring is a \emph{hole}; when it is the pan
 itself, the floor drops to the first rung of the ladder, the Descartes
@@ -572,14 +586,18 @@ four with $1$ in the hole (\texttt{code/aureo.py}).
 
 \begin{corollary}[The family realizes every $\rho\in(\varphi,T)$]
 \label{cor:goldencover}
-For $\rho_0\in(\varphi,T)$ take $s_2=\varphi/2+\varepsilon$,
-$s_1=s_2+\eta$ with $2\varepsilon+\eta=\rho_0-\varphi$ and $\eta>0$
-small. The dominant tail is $s_1+s_2=\rho_0$ exactly, all walls above
-are unchanged, and the corona certificate needs only
-$s_1<4(\sqrt5-2)$, which holds:
+For $\rho_0\in(\varphi,T)$ fix the width $\omega=0.3$ (any value in
+the window works) and take $s_2=\varphi/2+\varepsilon$, $s_1=s_2+\eta$
+with $2\varepsilon+\eta=\rho_0-\varphi$ and $0<\eta<\rho_0-\varphi$
+small. The dominant tail is $s_1+s_2=\rho_0$ exactly. All walls hold
+explicitly: $s_1<1$ and the corona certificate $s_1<4(\sqrt5-2)$, since
 $s_1=\varphi/2+\tfrac{\rho_0-\varphi}{2}+\tfrac\eta2
 <\varphi/2+\tfrac{T-\varphi}{2}+\tfrac\eta2=0.9195\ldots+\tfrac\eta2
-<4(\sqrt5-2)=0.9443\dots$ for $\eta$ small. \qed
+<0.9443$ for $\eta$ small; $s_2>\varphi/2=0.809>0.7=1-\omega$ ($H_m$
+blocked); $s_1+s_2=\rho_0>\varphi>\varphi-\omega$ (the hole of
+$\varphi$ rejects the pair); $s_2>s_1-\omega$ (their gap is
+$\eta<0.3=\omega$, so no nesting); and $s_1\le\varphi-\omega=1.318$
+($s_1$ fits alone in the hole, where the greedy strands it). \qed
 \end{corollary}
 
 The instance is golden four times over: the occupant is
@@ -596,7 +614,8 @@ codimension-one corner (pan tangency) that random radii never visit.
 Placement obliviousness holds for every instance with $\rho<\varphi$;
 together with Corollary~\ref{cor:goldencover} (the family realizes
 every $\rho\in(\varphi,T)$) and the failures above $T$, this would make the
-geometric threshold exactly the golden ratio: $\varphi-1$ measures the
+geometric threshold exactly the golden ratio, $\tau=\varphi$:
+$\varphi-1$ measures the
 protection that disk geometry grants the greedy over additive
 bookkeeping, and $T$ is the exact floor of the rigid nested family
 (Theorem~\ref{thm:rigidfloor}), the proved floor of every nested
@@ -2508,8 +2527,15 @@ top level, shared by $F$ and $P$, arbitrarily occupied) and, per $P$, the
 pair $S=\{\sigma_1\ge\sigma_2\}$. Resources: $D_m$ (free unit disk in
 $y$'s hole), $H_m$, hole tariffs (Lemma~\ref{lem:DR}), nesting, and the
 pan repack. $F$'s pan gives the pair necessities $o_i+1\le R$ and
-$o_i+o_k\le R$. \emph{Strict leaf}: a leaf whose hole is not $y$'s;
-with $j\ge2$ at least $j-1$ exist ($j$ if $y$ is not a leaf).
+$o_i+o_\ell\le R$ for all $i\ne\ell$. Write $S_0:=\sigma_1+\sigma_2$;
+the row placement of the pair in $D_m$ fails, so (D) $S_0>1$; and the
+joint placement of the pair in $y$'s hole beside its remaining content
+$X_y^{\mathrm{rest}}$ fails, which by Lemma~\ref{lem:DR} gives the wall
+\begin{equation}
+\sigma_1+\sigma_2+X_y^{\mathrm{rest}}>y-\omega .\tag{Ry}
+\end{equation}
+\emph{Strict leaf}: a leaf whose hole is not $y$'s; with $j\ge2$ at
+least $j-1$ exist ($j$ if $y$ is not a leaf).
 
 \begin{theorem}[Partial golden floor, pan exchange, pair profiles]
 \label{thm:DP}
@@ -2556,8 +2582,8 @@ $2/o_2>2/\bar A(2)=\varphi$. The crossing at $o_1=2$ is the golden
 corner $b_2(2,\sqrt5-1)=1$ once more.
 
 \emph{Evacuation branch, $j\ge2$.} A strict leaf $L'$ with
-$s:=\sigma_2+X_{L'}>1-\omega$ satisfies (Lemma~\ref{lem:DR})
-$L'<s+\omega$, and its tail collects $\{m,\sigma_1,\sigma_2,M\}\cup
+$q:=\sigma_2+X_{L'}>1-\omega$ satisfies (Lemma~\ref{lem:DR})
+$L'<q+\omega$, and its tail collects $\{m,\sigma_1,\sigma_2,M\}\cup
 \mathrm{children}(L')$: with $\sigma_1+M>1$, exactly the branch-B
 program of Theorem~\ref{thm:DBpp}, so $\rho>\Psi_B(\omega)$, and
 $\Psi_B(1)=\varphi$ \emph{exactly} with $\Psi_B$ decreasing:
@@ -2573,10 +2599,11 @@ $o_2$ exceeds $3/o_2$), or $o_1<3$ (tail of $o_1$ exceeds
 $(3/\varphi+3)/o_1$, and $(3/\varphi+3)/\varphi=3$ exactly), or
 $o_1\ge3$ with the node/dust dichotomy on $o_1$'s hole content: a node
 makes $y$'s subtree or $o_1$'s contribute a third strict leaf
-($\Psi_3$), dust lands in $m$'s tail. In detail, for $o_1\ge3$: if $y=o_1$, (Ry)
-gives $X_1\ge o_1-\omega-s>0$; a node inside makes $y$ a non-leaf,
-whence $jj=3$ and $\Psi_3$ applies, while pure dust lives in $m$'s tail
-and $\rho\ge s+X_1\ge o_1-\omega\ge2$. If $y$ lies in another
+($\Psi_3$), dust lands in $m$'s tail. In detail, for $o_1\ge3$: if
+$y=o_1$, (Ry) gives $X_1\ge o_1-\omega-S_0>0$ (as $S_0<2\le o_1-\omega$);
+a node inside makes $y$ a non-leaf, whence $jj=3$ and $\Psi_3$ applies,
+while pure dust lives in $m$'s tail and
+$\rho\ge S_0+X_1\ge o_1-\omega\ge2$. If $y$ lies in another
 occupant's subtree and is not a leaf, its subtree supplies the third
 strict leaf ($jj=3$); if $y$ is a leaf and $\omega<\varphi/2$,
 $\Psi_2>\varphi$; and if $y$ is a leaf, $\omega\ge\varphi/2$ and

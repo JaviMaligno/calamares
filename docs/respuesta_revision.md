@@ -197,3 +197,33 @@ Presentación: figuras recolocadas junto a la sección de divergencia
 (páginas 12–14, vía placeins/FloatBarrier); título cambiado al sugerido
 por el revisor («Placement Rules, a Golden Counterexample, and a
 Tribonacci Floor»).
+
+---
+
+# Respuesta al TERCER dictamen (revisión moderada)
+
+1. **Notación de la prueba del intercambio a sartén — ACEPTADO ÍNTEGRO.**
+   (Ry) se introduce ahora formalmente en el preámbulo del apéndice
+   (σ₁+σ₂+X_y^rest > y−ω, ecuación etiquetada, derivada del Lema R sobre
+   el agujero de y); la colisión de s resuelta con S₀ := σ₁+σ₂ y
+   q := σ₂+X_{L′}; y o_i+o_k pasa a o_i+o_ℓ con i ≠ ℓ.
+2. **Parametrización del umbral aditivo — ACEPTADO ÍNTEGRO** (el
+   revisor tenía razón: el s libre no daba límite 1). Fijado s = r₁/2,
+   R = 3r₁/2, w ∈ (r₁/4, r₁/2−δ), perturbación δ con r₃+r₄ = s+δ; las
+   tres razones de cola se calculan explícitamente
+   (1+δ/r₁, 1+2δ/r₁, →1) y ρ = 1+2δ/r₁ → 1.
+3. **Anchura en el corolario de cobertura — ACEPTADO ÍNTEGRO.** Se fija
+   ω = 0.3 y se verifican explícitamente las cinco desigualdades
+   (s₁ < 1; certificado de corona; s₂ > 1−ω; s₁+s₂ > φ−ω;
+   s₂ > s₁−ω con η < ω; s₁ ≤ φ−ω).
+4. **Contrato de run_all — ACEPTADO ÍNTEGRO.** ocupantes/bloqueadores/
+   bolsillo terminan ahora con sys.exit según su resumen; cuadrado.py
+   separa los «FALLO de best fit» (fenómeno estudiado) de la
+   verificación y sale con un booleano global real (identidades de X y
+   b_□); el agregador reconoce además el patrón «=FALLO» de los
+   resúmenes.
+   Menores: hoja de ruta del README reescrita (conjetura áurea + suelo
+   anidado), retirado el «listo para arXiv», definición formal del
+   umbral τ = inf{ρ(I) : alguna ejecución voraz falla} en la sección de
+   umbrales (y la conjetura enuncia τ = φ), y best/worst fit definidos
+   en el enunciado de la irrelevancia de colocación.

@@ -4,7 +4,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 
 ## Estructura
 
-- `paper/main.tex` — borrador del artículo (inglés, listo para arXiv; compilar con `pdflatex main.tex` dos veces).
+- `paper/main.tex` — el artículo (inglés; compilar con `pdflatex main.tex` dos veces). Antes de subir a arXiv: congelar fecha y commit, repo público.
 - `docs/resultados.md` — documento de trabajo completo en español: modelo, lemas y teoremas con demostraciones, contraejemplos, veredictos de novedad y estrategia de publicación.
 - `docs/generalizaciones.md` — todas las generalizaciones anotadas, con estado y primeras preguntas.
 - `docs/reinsercion.md` — lema de reinserción: la parte combinatoria del umbral de Tribonacci, cerrada con cota exacta, y la parte geométrica aislada (mínimo en la razón áurea).
@@ -33,7 +33,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 
 ## Hoja de ruta
 
-1. Conjetura del umbral de Tribonacci: lema universal de reinserción por bolsillos de Descartes para ρ < T; rigor pleno del suelo de la familia (límite tangente).
+1. Conjetura del umbral áureo (τ = φ): cerrar la micro-celda de j = 3 del intercambio a sartén, |S| ≥ 3 y pequeños extra, y ensamblar el lema universal de reinserción con umbral φ; en paralelo, fijar el suelo anidado en exactamente T (puntitas de anchura, gap lemma, perfiles k ≥ 4).
 2. Pregunta de complejidad para reglas con input completo (oráculo de hermanos, número de consultas).
 3. Afilados en cuadrado y en R³ (los teoremas de superincrecencia ya valen; la constante análoga a T es abierta).
 4. Grosor variable, flexibilidad δ, inventarios infinitos (ver `docs/generalizaciones.md`).

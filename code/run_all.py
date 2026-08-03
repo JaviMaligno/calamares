@@ -49,7 +49,7 @@ def main():
         fallos = len(re.findall(r"\[FALLO\]", out))
         # veredictos de texto de los scripts antiguos (cinturon y tirantes;
         # todos los scripts devuelven ademas codigo de salida != 0 al fallar)
-        fallos += len(re.findall(r"HAY FALLOS|<-- REVISAR", out))
+        fallos += len(re.findall(r"HAY FALLOS|<-- REVISAR|=FALLO", out))
         verde = (proc.returncode == 0 and fallos == 0)
         ok_all &= verde
         results.append((name, resumen or f"exit={proc.returncode}, "

@@ -479,3 +479,6 @@ if __name__ == "__main__":
     verdes = sum(1 for _, r in resultados if r)
     print(f"RESUMEN: {verdes}/{len(resultados)} bloques en verde "
           f"({', '.join(n + ('=OK' if r else '=FALLO') for n, r in resultados)})")
+
+    import sys
+    sys.exit(0 if verdes == len(resultados) else 1)

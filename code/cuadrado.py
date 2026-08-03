@@ -601,3 +601,16 @@ if __name__ == "__main__":
     print("rigido, y la familia deslizada (seccion 8) los realiza como fallos de")
     print("best fit con rho < X. El umbral del cuadrado queda estrictamente por")
     print("debajo de X; X sigue siendo el suelo exacto de la familia rigida.")
+
+    # Veredicto global de VERIFICACION (los "FALLO de best fit" de las
+    # secciones 7-8 son el fenomeno estudiado, NO fallos de verificacion):
+    # exit 0 sii las identidades algebraicas centrales se sostienen.
+    verif = [
+        abs(17*XSQ**4 - 4*XSQ**3 - 62*XSQ**2 + 4*XSQ + 49) < 1e-9,
+        abs(b_sq(XSQ) - (XSQ - 1.0)) < 1e-12,
+        1.0 < XSQ < 1.8392867552141612,
+    ]
+    import sys
+    if not all(verif):
+        print("[FALLO] verificacion algebraica de cuadrado.py")
+    sys.exit(0 if all(verif) else 1)
