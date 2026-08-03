@@ -145,9 +145,10 @@ packings (with two corrective counterexamples and a $k=5$ ``pentagram''
 certificate), and a hierarchy of blocking walls -- occupant holes, ``blocking
 costs the slack'', and the double pocket -- yielding metallic-mean floors
 (silver ratio $1+\sqrt2$, golden line $\varphi^2-(\varphi/2)\omega$) that
-push every blocked exchange with extra occupants above $T$ -- for all widths
+push every blocked exchange with extra occupants above $T$ -- throughout
+the width convention $\omega\in(0,1)$ of the program: for widths
 $\omega<0.9626$ with one extra occupant, up to $0.624$ and $0.896$ with two
-and three, and for all widths with four or more
+and three, and for all $\omega\in(0,1)$ with four or more
 (Section~\ref{sec:generic}). The remaining gaps of the program are stated
 explicitly there and in Open Problem~\ref{op:assembly}.
 (7)~A phase diagram for the divergence of the two objectives, and a
@@ -327,7 +328,7 @@ worst-fit and random placement produced identical, optimal outcomes without
 exception.
 \end{remark}
 
-\section{Sharpness: the $n=4$ transition and twin instances}\label{sec:sharp}
+\section{Sharpness: the \texorpdfstring{$n=4$}{n=4} transition and twin instances}\label{sec:sharp}
 
 \begin{proposition}[$n\le3$, disk pan]\label{prop:n3}
 For a disk pan and arbitrary radii, every descending greedy on at most three
@@ -428,16 +429,19 @@ $\varepsilon>0$ \emph{some} instance with $\rho\le1+\varepsilon$ fails --
 individual instances with larger $\rho$ may of course still succeed.
 Indeed, fix $r_1$, set $s=r_1/2$ and $R=r_1+s=\tfrac32r_1$, pick any
 $w\in\bigl(\tfrac{r_1}4,\,\tfrac{r_1}2-\delta\bigr)$, and take $r_2=s$
-and a pair $r_3\approx r_4\approx s/2$ with $r_3+r_4=s+\delta$,
-$\delta\downarrow0$: the witness fills the pan with $\{r_1,r_2\}$ and
+and the exact pair
+$r_3=\tfrac{r_1}4+\tfrac{2\delta}3$, $r_4=\tfrac{r_1}4+\tfrac\delta3$
+(so $r_3+r_4=s+\delta$ and $r_4<r_3<r_2<r_1$ strictly), with any
+$0<\delta<\min(\tfrac{r_1}4,\ \tfrac{\varepsilon r_1}2)$: the witness
+fills the pan with $\{r_1,r_2\}$ and
 the hole of $r_1$ with the pair ($r_3+r_4=s+\delta\le r_1-w$), while
 best fit nests $r_2$ ($r_2=s\le r_1-w$ since $w\le r_1/2$), sends $r_3$
 to the pan, and blocks $r_4$ additively ($r_1+r_3+r_4>R$ since
 $r_3+r_4>s$; $r_2+r_4>r_1-w$ since $w>r_1/4$; $r_4>r_2-w$ likewise).
 The three tail ratios are $(2s+\delta)/r_1=1+\delta/r_1$,
-$(s+\delta)/s=1+2\delta/r_1$ and $r_4/r_3\to1$, so
-$\rho=1+2\delta/r_1\to1$; verified instances reach $\rho=1.03$ and
-$1.02$.
+$(s+\delta)/s=1+2\delta/r_1$ and $r_4/r_3<1$, so
+$\rho=1+2\delta/r_1\le1+\varepsilon$; verified instances reach
+$\rho=1.03$ and $1.02$.
 \end{theorem}
 
 The four-ring counterexample family carries a genuine floor at the Tribonacci
@@ -508,8 +512,10 @@ Define the \emph{geometric threshold} as
 place the lex-max set on }I\bigr\},
 \]
 so that placement obliviousness holds for every instance with
-$\rho<\tau$ and fails arbitrarily close above it; ``floor'' always
-refers to an infimum of $\rho$ over a family of blocked exchanges. The
+$\rho<\tau$ and fails at values of $\rho$ arbitrarily close to $\tau$
+(possibly at $\tau$ itself, if the infimum is attained); ``floor''
+always refers to an infimum of $\rho$ over a family of blocked
+exchanges. The
 natural conjecture -- which we ourselves held until late in this
 project -- is that $\tau=T$. It is \emph{false}. The witness capacity that lifts the floor from $\varphi$ to
 $T$ in Theorem~\ref{thm:rigidfloor} exists only when the greedy's
@@ -624,13 +630,14 @@ conjectured universal floor of nested exchanges (the remaining nested
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in the repository for pair profiles except a
 sliver (Open Problem~\ref{op:assembly}(a)) -- one occupant at every
-width via the golden fixed point, the evacuation branch at every width
+width via the golden fixed point, the evacuation branch at every
+$\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
 $\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- and every proved floor
 of the nested exchange exceeds $T>\varphi$ with margin.
 \end{conjecture}
 
-\section{The width program: profile thresholds and the $13/7$ corner}
+\section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
 \label{sec:width}
 
 Towards Conjecture~\ref{conj:golden}, the proof of
@@ -640,7 +647,14 @@ witness $P$ place in different containers $u=c_F(m)$, $v=c_P(m)$, and the set
 $S$ of rings smaller than $m$ that $P$ keeps in $u$ must be reinserted using
 the resources freed by moving $m$ to $u$: the vacated disk $D_m$ (radius
 $r_m$), the hole $H_m$ (capacity $r_m-w$, travelling with $m$), nesting, and
-the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$. Everything $\rho$
+the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$.
+\emph{Width convention}: throughout the exchange-step program (this
+section, the next, and Appendices~\ref{app:widthproofs}
+and~\ref{app:genericproofs}) we assume $0<\omega<1$, so that the pivot
+$m$ is a genuine ring with a nonempty hole $H_m$; the model does admit
+$\omega\ge1$ (a solid-disk pivot), and that regime is open except where
+a proof uses no width at all -- notably cases (i)--(ii) of
+Theorem~\ref{thm:DP}, which hold for every $\omega>0$. Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
@@ -891,7 +905,7 @@ exchange in the templates above satisfies $\rho>T$: for all $\omega$ in
 the canonical template -- with $S$ a pair or a triple -- for
 $\omega<0.9626$ with one extra occupant under arbitrary hole occupancy,
 for $\omega<0.624$ and $\omega<0.896$ with two and three, and for all
-$\omega$ with four or more. All these floors exceed $T>\varphi$, so for
+$\omega\in(0,1)$ with four or more. All these floors exceed $T>\varphi$, so for
 Conjecture~\ref{conj:golden} the decisive open front is the \emph{pan}
 exchange (Open Problem~\ref{op:assembly}); the remaining nested gaps --
 the width tips ($j=1$, $\omega\ge0.9626$; $j=2$, $\omega\ge0.624$;
@@ -1056,10 +1070,12 @@ fall outside and, by Proposition~\ref{prop:count}, genuinely so.
 Prove Conjecture~\ref{conj:golden}. Two halves. (a)~\emph{The pan
 exchange has floor $\varphi$}: largely proved in the repository for pair
 profiles (adversarially verified): blocking the pan exchange forces
-$\rho>\varphi$ for one occupant at every width (both reinserted rings
+$\rho>\varphi$ for one occupant at every width $\omega>0$ (both
+reinserted rings
 exceed the pocket $b(o_1)$ by containment and rigidity, and the two
 tails meet at the golden fixed point $2b(A)A=1+2b(A)$, whose crossing
-factors as $(A^2-A-1)(2A+1)$); for the evacuation branch at every width
+factors as $(A^2-A-1)(2A+1)$); for the evacuation branch at every
+$\omega\in(0,1)$
 (a \emph{strict leaf} yields the $\Psi_B$ program and
 $\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
 strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
@@ -1678,7 +1694,7 @@ whose numerator has the single positive root $T_{1+\omega}$ (Descartes'
 rule); $T_1=T$.
 \end{proof}
 
-\subsection{Positive width: the exact curve and the $13/7$ corner}
+\subsection{Positive width: the exact curve and the \texorpdfstring{$13/7$}{13/7} corner}
 \label{app:corner}
 
 The full blocking program of the canonical template adds the remaining
@@ -2234,7 +2250,7 @@ inequality), branch B gives $\rho\ge\Phi(\omega)$
 $\rho>\Phi(\omega)>T$ for all $\omega>0$. \qed
 \end{corollary}
 
-\subsection{The double-pocket wall, the golden line, and $\Psi_j$}
+\subsection{The double-pocket wall, the golden line, and \texorpdfstring{$\Psi_j$}{Psi j}}
 \label{app:pocket-app}
 
 Throughout this subsection $j\ge1$ and the walls above are in force; write
@@ -2358,8 +2374,9 @@ implies
 \qquad(\text{root of }u^2-2(1-\omega)u-j),
 \]
 with $\Psi_j>T\iff\omega<1-(T^2-j)/(2T)$: $0.3522$ ($j=1$), $0.6240$
-($j=2$), $0.8959$ ($j=3$), and all $\omega$ for $j\ge4$
-($\Psi_j\ge\sqrt j\ge2$).
+($j=2$), $0.8959$ ($j=3$), and all $\omega\in(0,1)$ for $j\ge4$
+($\Psi_j(\omega)>\Psi_j(1)=\sqrt j\ge2$ there; for $\omega>1$ the
+$(1-\omega)$ term is negative and $\Psi_j$ drops below $\sqrt j$).
 \end{proposition}
 \begin{proof}[Proof (leaf argument)]
 Call a node a \emph{leaf} if it has no node children. The node subtree of
@@ -2540,9 +2557,12 @@ least $j-1$ exist ($j$ if $y$ is not a leaf).
 \begin{theorem}[Partial golden floor, pan exchange, pair profiles]
 \label{thm:DP}
 Blocking implies $\rho>\varphi$ in each of the following closed cases:
-(i)~$j=1$, every width and occupancy; (ii)~$j=2$, every width and
-occupancy; (iii)~the evacuation branch $\sigma_1+M>1$, every $j\ge2$ and
-width; (iv)~$j\ge4$, every width, and $j=3$ except the single open
+(i)~$j=1$, every width $\omega>0$ (including the solid-pivot regime
+$\omega\ge1$: the proof uses no width) and every occupancy;
+(ii)~$j=2$, likewise every $\omega>0$ and occupancy; (iii)~the
+evacuation branch $\sigma_1+M>1$, every $j\ge2$ and every
+$\omega\in(0,1)$; (iv)~$j\ge4$, every $\omega\in(0,1)$, and $j=3$
+except the single open
 micro-cell $\{$solid-disk $\sigma_2\le\omega$, $\omega\ge\varphi/2$,
 $y$ a leaf outside $o_1$'s subtree, $o_1\ge3$, $o_2\ge3/\varphi\}$,
 which we leave as a conjecture (directed evidence: $240$k samples,

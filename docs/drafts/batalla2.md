@@ -18,16 +18,22 @@ en j = 1). Mecanismos por caso:
 
 | caso | mecanismo |
 |---|---|
-| j = 1, toda ω | dicotomía del punto fijo áureo |
-| j = 2, toda ω | **pared de bolsillos espejo** `b₂(o₁,o₂) < 1` + cruce áureo `o₂* = √(1+2o₁)−1` |
-| j = 3, toda ω | árbol de casos: colas de o₂/o₁, dicotomía masa/nodo, `Ψ₃` |
-| j ≥ 4, toda ω | hojas estrictas (`Ψ₃(1) = √3 > φ`) + rama B (`Ψ_B(1) = φ`) |
+| j = 1, **toda ω > 0** (incl. pivote sólido) | dicotomía del punto fijo áureo |
+| j = 2, **toda ω > 0** (incl. pivote sólido) | **pared de bolsillos espejo** `b₂(o₁,o₂) < 1` + cruce áureo `o₂* = √(1+2o₁)−1` |
+| j = 3, ω ∈ (0,1) | árbol de casos: colas de o₂/o₁, dicotomía masa/nodo, `Ψ₃` |
+| j ≥ 4, ω ∈ (0,1) | hojas estrictas (`Ψ₃(1) = √3 > φ`) + rama B (`Ψ_B(1) = φ`) |
 
 Verificación: `code/batalla2.py` (6 bloques). Numeración local:
 Teorema P, Lema Z (histórico: subsumido por la pared de bolsillos espejo
 en j = 2, se conserva por interés propio).
 
 ## 1. Marco
+
+**Convención de anchura (dictamen 4)**: el programa de intercambio se
+enuncia para ω ∈ (0, 1) (m aro genuino, H_m no vacío); el modelo admite
+ω ≥ 1 (pivote disco sólido) y ese régimen queda abierto SALVO en los
+casos j = 1 y j = 2 del Teorema P, cuyas pruebas no usan ω en absoluto
+(bolsillo + colas + (D)) y valen para todo ω > 0.
 
 Sartén de radio R con ocupantes O = {o₁ ≥ … ≥ o_j} (> 1, nivel superior,
 compartidos por F y P), con nodos anidados y pequeños en los agujeros;

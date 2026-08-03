@@ -420,6 +420,7 @@ def _evalpoly(cs, x):
 
 
 if __name__ == "__main__":
+    VERIF = []
     print(f"T = {TRIB:.7f}   phi = {PHI:.7f}")
     print(f"X_sq = {XSQ:.10f}   t* = 1/X_sq = {TSTAR:.10f}\n")
 
@@ -549,6 +550,9 @@ if __name__ == "__main__":
               f"{'BLOQUEA' if blq else 'no bloquea'} el trio")
         print(f"     lex-max={len(L)}  best fit={len(gb)}  worst fit={len(gw)}"
               + ("   <-- FALLO de best fit" if gb != L else ""))
+        # verificacion: el fenomeno esperado es lex-max 4, best fit atascado
+        VERIF.append(("seccion 7 " + nombre,
+                      len(L) == 4 and len(gb) == 3 and len(gw) == 4))
     print()
 
     print("8. FAMILIA DESLIZADA: fallos realizables con rho < X")
@@ -589,6 +593,15 @@ if __name__ == "__main__":
             veredicto = "  <-- FALLO con rho < X" if (gb != L and rho(radii) < XSQ) else ""
             print(f"     lex-max={len(L)}  best fit={len(gb)}  worst fit={len(gw)}"
                   f"{veredicto}")
+            # D y E deben realizar el fallo con rho < X (el fenomeno)
+            VERIF.append(("seccion 8 " + nombre.strip(),
+                          gb != L and rho(radii) < XSQ))
+        else:
+            # D' es el control negativo: debe caer exactamente su primera
+            # condicion (s2 <= M: la ventana se cierra)
+            VERIF.append(("seccion 8 control " + nombre.strip(),
+                          nombre.strip() == "D'" and not cond[0][1]
+                          and all(ok for _, ok in cond[1:])))
     print()
     print("RESUMEN: el bolsillo de esquina (sqrt(s)-sqrt(a))^2 reproduce en el")
     print("cuadrado el algebra del suelo del disco: la constante hermana de la")
@@ -602,15 +615,16 @@ if __name__ == "__main__":
     print("best fit con rho < X. El umbral del cuadrado queda estrictamente por")
     print("debajo de X; X sigue siendo el suelo exacto de la familia rigida.")
 
-    # Veredicto global de VERIFICACION (los "FALLO de best fit" de las
-    # secciones 7-8 son el fenomeno estudiado, NO fallos de verificacion):
-    # exit 0 sii las identidades algebraicas centrales se sostienen.
-    verif = [
-        abs(17*XSQ**4 - 4*XSQ**3 - 62*XSQ**2 + 4*XSQ + 49) < 1e-9,
-        abs(b_sq(XSQ) - (XSQ - 1.0)) < 1e-12,
-        1.0 < XSQ < 1.8392867552141612,
-    ]
+    # Veredicto global de VERIFICACION: identidades algebraicas + las
+    # expectativas de las secciones 7-8 (el "FALLO de best fit" es el
+    # fenomeno ESPERADO; que no ocurra seria el fallo de verificacion).
+    VERIF.append(("cuartica de X",
+                  abs(17*XSQ**4 - 4*XSQ**3 - 62*XSQ**2 + 4*XSQ + 49) < 1e-9))
+    VERIF.append(("b_sq(X) = X-1", abs(b_sq(XSQ) - (XSQ - 1.0)) < 1e-12))
+    VERIF.append(("1 < X < T", 1.0 < XSQ < 1.8392867552141612))
+    malos = [n for n, ok in VERIF if not ok]
+    print()
+    print(f"VERIFICACION GLOBAL: {len(VERIF) - len(malos)}/{len(VERIF)} "
+          f"comprobaciones" + (f"  [FALLO] {malos}" if malos else "  (OK)"))
     import sys
-    if not all(verif):
-        print("[FALLO] verificacion algebraica de cuadrado.py")
-    sys.exit(0 if all(verif) else 1)
+    sys.exit(0 if not malos else 1)

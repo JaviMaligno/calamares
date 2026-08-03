@@ -227,3 +227,32 @@ Tribonacci Floor»).
    umbral τ = inf{ρ(I) : alguna ejecución voraz falla} en la sección de
    umbrales (y la conjetura enuncia τ = φ), y best/worst fit definidos
    en el enunciado de la irrelevancia de colocación.
+
+---
+
+# Respuesta al CUARTO dictamen
+
+1. **«Every width» y el régimen ω ≥ 1 — ACEPTADO, con la reparación
+   mixta que el propio dictamen sugiere.** Se añade la **convención de
+   anchura** al arranque del programa de intercambio (0 < ω < 1: pivote
+   con agujero no vacío; el régimen del pivote sólido ω ≥ 1 se declara
+   abierto), y se revisan TODAS las apariciones: contribuciones, Status,
+   evidencia de la conjetura, op:assembly y la Proposición Ψ_j (con la
+   observación explícita de que Ψ_j(ω) < √j para ω > 1). A la vez se
+   REFUERZA lo que sí es cierto: los casos (i) j = 1 y (ii) j = 2 del
+   Teorema del suelo áureo parcial no usan ω en ninguna línea (bolsillo,
+   contención, colas y (D)) y se enuncian ahora para **todo ω > 0,
+   incluido el pivote sólido** — donde vive la familia áurea. El
+   Teorema del suelo rígido conserva «every width ω > 0» porque su
+   familia exige u+v ≤ 1−ω y es vacía para ω ≥ 1.
+2. **Radios exactos del umbral aditivo — ACEPTADO ÍNTEGRO**: r₃ =
+   r₁/4+2δ/3, r₄ = r₁/4+δ/3, con 0 < δ < mín(r₁/4, εr₁/2), ordenación
+   estricta y ρ = 1+2δ/r₁ ≤ 1+ε sin «aproximadamente».
+3. **cuadrado.py — ACEPTADO**: veredicto global que acumula TODAS las
+   expectativas comprobables (las tres instancias de la sección 7 con
+   lex-max 4/best 3/worst 4; la familia deslizada de la sección 8 con
+   D y E realizando el fallo con ρ < X y D′ como control negativo que
+   debe caer exactamente en su primera condición; más las identidades
+   de X) y sale con código acorde.
+4. Menores: la definición de τ contempla que el ínfimo pueda alcanzarse;
+   \texorpdfstring en los títulos con matemáticas.
