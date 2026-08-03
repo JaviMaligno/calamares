@@ -336,7 +336,8 @@ def bloque_C():
                 else:
                     rama = "R1B"
                     cond = (comun and s1 + M > 1 - 1e-9
-                            and rho_can(S, al, M=M) > 1 + s1 - 1e-9)
+                            and (s3 <= w
+                                 or rho_can(S, al, M=M) > 1 + s1 - 1e-9))
             elif not trio_corona:
                 rama = "2A"
                 cond = (s1 + s2 >= 1 + b_pocket(al) - 1e-9

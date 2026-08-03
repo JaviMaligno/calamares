@@ -17,10 +17,14 @@ está CASI CERRADO en S par (**Teorema P**, `drafts/batalla2.md`,
 `batalla2.py` 5/5, acta CONFIRMADO): j = 1 toda ω (punto fijo áureo,
 cruce (A²−A−1)(2A+1)); rama B todo j y toda ω (hoja estricta,
 Ψ_B(1) = φ); rama A por la escalera Ψ (Ψ₁(1/2) = Ψ₂(φ/2) = φ,
-Ψ₃(1) = √3); Lema Z (o₂ < 1+1/o₁). QUEDA: el sliver {j ∈ {2,3}, rama A,
-ω grande, o₁ > 3/φ, o₂ < 1.54} (evidencia ≥ φ+0.41), |S| ≥ 3 a sartén,
-pequeños extra (Corolario-S-análogo), y el ensamblaje del lema universal
-con umbral φ.**
+Ψ₃(1) = √3); Lema Z; y en 2ª ronda el rincón CERRADO: j = 2 completo
+toda ω vía la PARED DE BOLSILLOS ESPEJO (bloqueo ⟹ b₂(o₁,o₂) < 1, cruce
+áureo o₂* = √(1+2o₁)−1, Ā(2) = √5−1); j = 3 por árbol de casos salvo
+una sub-celda de discos sólidos declarada (torre esbozada, evidencia
+2.37). OJO CORRECCIÓN: «S ⊂ (ω,1)» NO es necesidad (discos sólidos
+legales); el 13/7-uniforme de T3 es condicional a σ₃ > ω. QUEDA: la
+sub-celda de j = 3, |S| ≥ 3 a sartén, pequeños extra, y el ensamblaje
+del lema universal con umbral φ.**
 
 ## (histórico) Batalla 1: pasos 1–4 y el asalto geométrico cerrados
 

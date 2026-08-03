@@ -168,6 +168,14 @@ def paredes(inst, w):
             if not (i == y_i and y_k == kk) and z >= s2 + w:
                 return None
     roots = [o for o, _, _ in occs] + [1.0]
+    # j = 2: colocacion de bolsillos espejo (m y s2 concentricos en los dos
+    # bolsillos del par rigido {o1,o2} en el disco o1+o2 <= R; s1 -> D_m):
+    # legal y constructiva si b2(o1,o2) >= 1 (identidad y0 = 2 b2)
+    if len(occs) == 2:
+        A, B = occs[0][0], occs[1][0]
+        b2 = A * B * (A + B) / (A * A + A * B + B * B)
+        if b2 >= 1.0:
+            return None
     for s in (s1, s2):
         if corona_ok(roots + [s], R):
             return None
@@ -296,10 +304,95 @@ def bloque_E():
                 f"{best - PHI:+.1e}, rejilla)", abs(best - PHI) < 1e-4)
     return ok
 
+# ---------------------------------------------------------------- bloque F
+def bloque_F():
+    print("[F] el CIERRE del rincon: j = 2 y j = 3 completos (toda omega)")
+    ok = True
+    import sympy as sp
+    phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
+    o1s, Bs = sp.symbols('o1 B', positive=True)
+    b2s = o1s * Bs * (o1s + Bs) / (o1s ** 2 + o1s * Bs + Bs ** 2)
+    ok &= check("Abar(2) = sqrt(5)-1 (raiz de b2(2,B) = 1)",
+                sp.simplify(b2s.subs({o1s: 2, Bs: sp.sqrt(5) - 1}) - 1) == 0)
+    ok &= check("o2*(2) = sqrt(1+2*2)-1 = sqrt(5)-1 y 2/o2*(2) = phi exacto",
+                sp.simplify(2 / (sp.sqrt(5) - 1) - phi) == 0)
+    f_int = sp.simplify(b2s.subs(Bs, sp.sqrt(1 + 2 * o1s) - 1) - 1)
+    interior = all(float(f_int.subs(o1s, v)) < 0
+                   for v in [1.51, 1.6, 1.7, 1.8, 1.9, 1.99])
+    ok &= check("b2(o1, o2*) < 1 en (3/2, 2) con igualdad exacta en o1 = 2 "
+                "(el cruce aureo es interior a la pared)",
+                interior and sp.simplify(f_int.subs(o1s, 2)) == 0)
+    ok &= check("(3/phi + 3)/phi = 3 exacto (umbral de la cola de o1, j=3)",
+                sp.simplify((3 / phi + 3) / phi - 3) == 0)
+    # cadenas j = 2 sobre bloqueos muestreados: b2 < 1 y el cruce aureo
+    rng = random.Random(71)
+    n2 = fallos2 = 0
+    for w in [0.3, 0.6, 0.85, 0.95]:
+        for _ in range(120000):
+            inst = genera(rng, 2, w)
+            if inst is None:
+                continue
+            r = paredes(inst, w)
+            if r is None:
+                continue
+            occs, _, s1, s2, M, R = inst
+            A, B = occs[0][0], occs[1][0]
+            b2v = A * B * (A + B) / (A * A + A * B + B * B)
+            n2 += 1
+            PHIv = PHI
+            cota = max((min(A, B) + 2) / max(A, B), 2 / min(A, B))
+            if not (b2v < 1 and s1 + s2 > 1 and r > cota - 1e-9
+                    and cota > PHIv - 1e-9):
+                fallos2 += 1
+    ok &= check(f"j=2: n={n2}, cadena (b2<1, rho > max((o2+2)/o1, 2/o2) > "
+                f"phi) con 0 fallos: {fallos2}", n2 > 0 and fallos2 == 0)
+    # cadenas j = 3: la disyuncion del arbol de casos
+    n3 = fallos3 = 0
+    for w in [0.85, 0.95]:
+        for _ in range(150000):
+            inst = genera(rng, 3, w)
+            if inst is None:
+                continue
+            r = paredes(inst, w)
+            if r is None:
+                continue
+            occs, (y_i, y_k, y_r), s1, s2, M, R = inst
+            os_ = sorted([o for o, _, _ in occs], reverse=True)
+            o1v, o2v, o3v = os_
+            n3 += 1
+            # la disyuncion REPARADA del arbol de casos (acta delta)
+            r1 = 3 / o2v                      # cola de o2
+            r2 = (o2v + o3v + 2) / o1v        # cola de o1 (s > 1, o3 > 1)
+            ramas = max(r1, r2) > PHI
+            if not ramas:                     # caso 3: o1 >= 3
+                oc1 = max(range(3), key=lambda i: occs[i][0])
+                y_en_o1 = (y_i == oc1)
+                tiene_nodo_o1 = bool(occs[oc1][1])
+                if y_en_o1:
+                    if tiene_nodo_o1:
+                        ramas = max(Psij(3, w), PsiB(w)) > PHI  # jj = 3
+                    else:                     # polvo: cola de m
+                        ramas = o1v - w >= 2
+                else:
+                    y_hoja = (y_k is not None) or (not occs[y_i][1])
+                    if not y_hoja:
+                        ramas = max(Psij(3, w), PsiB(w)) > PHI
+                    elif w < PHI / 2:
+                        ramas = Psij(2, w) > PHI
+                    elif s2 > w:              # rho >= s1+s2 > 2w >= phi
+                        ramas = 2 * w >= PHI - 1e-12
+                    else:                     # sub-celda declarada (discos
+                        ramas = r > PHI       # solidos): solo evidencia
+            if not (ramas and r > PHI - 1e-9):
+                fallos3 += 1
+    ok &= check(f"j=3: n={n3}, arbol de casos y rho > phi con 0 fallos: "
+                f"{fallos3}", n3 > 0 and fallos3 == 0)
+    return ok
+
 if __name__ == "__main__":
     res = {}
     for nombre, fn in [("A", bloque_A), ("B", bloque_B), ("C", bloque_C),
-                       ("D", bloque_D), ("E", bloque_E)]:
+                       ("D", bloque_D), ("E", bloque_E), ("F", bloque_F)]:
         res[nombre] = bool(fn())
         print()
     verdes = sum(res.values())

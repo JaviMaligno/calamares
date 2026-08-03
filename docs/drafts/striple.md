@@ -7,9 +7,13 @@ Borrador. Ataca el frente **«S con más de dos piezas»** de la Batalla 1
 con `S = {σ₁ ≥ σ₂ ≥ σ₃}` (tres piezas, ocupación del agujero de m
 arbitraria) ⟹
 
-    ρ > máx( Φ(ω), 13/7 ) > T      para todo ω ∈ (0, 1) ,
+    ρ > máx( Φ(ω), 13/7 ) > T      para todo ω ∈ (0, 1)
 
-sin excepciones de rama; en la rama del zigzag la cota sube a `17/7`. La
+si `σ₃ > ω`; en general (σ₃ ≤ ω posible: discos sólidos) queda
+`ρ > Φ(ω) > T` siempre y `ρ ≥ 13/7` salvo en {rama 1B, σ₃ ≤ ω}
+[CORRECCIÓN post-acta: la cadena `ρ > 1+σ₁` de la rama 1B usa `σ₃ > ω`,
+que NO es una necesidad del modelo]. En la rama del zigzag la cota sube
+a `17/7`. La
 herramienta nueva es el **Lema U₄ leído al revés**: si el trío
 `{α, σ₁, σ₂}` empaqueta pero el cuarteto no, el certificado que falla es
 el **zigzag**, y el zigzag implica exactamente `σ₂ > b(α)` — el bolsillo
@@ -37,7 +41,7 @@ Plantilla canónica de `grosor_positivo.md` §1 con S de tres piezas:
 de `α`, capacidad `α − ω ≥ 1`; el testigo colocó
 `S = {σ₁ ≥ σ₂ ≥ σ₃} ⊂ (0, 1)` en `u`; `m` puede tener hijos
 (`M := Σ hijos(m)`); el intercambio manda `m` a `u` y debe reinsertar S.
-Como todo σ es un aro, `ω < σ₃ < 1`.
+Los σ pueden ser ≤ ω (discos sólidos, permitidos por el modelo).
 
 Recursos de reinserción (colocaciones constructivas; los criterios de
 fila, par y anidamiento son los de siempre):

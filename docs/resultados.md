@@ -128,10 +128,18 @@ j = 1 (toda ω, dicotomía del punto fijo con el cruce factorizado
 (A²−A−1)(2A+1)), para la rama B de la evacuación (todo j, toda ω, vía la
 hoja estricta y la identidad Ψ_B(1) = φ) y para la rama A por la
 escalera de hojas estrictas (Ψ₁(1/2) = φ, Ψ₂(φ/2) = φ, Ψ₃(1) = √3:
-j ≥ 4 siempre, j = 3 hasta φ/2 o siempre, j = 2 hasta 1/2 o φ/2), con
-el **Lema Z** (ambas ramas del U₄ dan f(1)[f(o₁)+f(o₂)] > 1 ⟹
-o₂ < 1+1/o₁) recortando el rincón restante {j ∈ {2,3}, rama A, ω
-grande, o₁ > 3/φ}, declarado con evidencia ≥ φ+0.41.
+j ≥ 4 siempre, j = 3 hasta φ/2 o siempre, j = 2 hasta 1/2 o φ/2), y el
+rincón CERRADO en 2ª ronda: para j = 2, la **pared de los bolsillos
+espejo** (contención al disco o₁+o₂ + rigidez + y₀ = 2b₂: bloqueo ⟹
+b₂(o₁,o₂) < 1) con el cruce áureo o₂* = √(1+2o₁)−1 y la identidad
+Ā(2) = √5−1 = o₂*(2) cierra TODA ω sin hipótesis; para j = 3, árbol de
+casos (colas de o₂/o₁ con la identidad (3/φ+3)/φ = 3, dicotomías
+nodo/polvo) salvo una sub-celda de discos sólidos declarada (σ₂ ≤ ω,
+ω ≥ φ/2, o₁ ≥ 3; argumento de la torre esbozado; evidencia 240k
+muestras, mín 2.37). Corrección de plantilla descubierta en la ronda:
+«S ⊂ (ω,1)» NO es necesidad del modelo (discos sólidos legales); el
+refuerzo 13/7-uniforme de T3 queda condicionado a σ₃ > ω (sin
+condición: ρ > Φ(ω) > T siempre).
 
 **La escalera y el suelo rígido (demostrado; `code/trio.py`, `code/rigido.py`).** El análisis del paso de intercambio aísla tres ingredientes y produce la escalera de la Proposición 3 de `reinsercion.md` §9: con solo el bolsillo de Descartes el ínfimo demostrable de ρ es φ ≈ 1.6180; añadiendo la infactibilidad del trío completo sube a 1.7990559… (cruce exacto de las ramas 1 + b(α) = (2 + b(α))/α, con α* ≈ 1.5558471 raíz de 2α³ = α² + 2α + 2, verificado en simbólico); y añadiendo la colocación del testigo alcanza T ≈ 1.8392868. La Proposición 3 vivía en el límite idealizado w → 0 con tangencias supuestas; el **Teorema S** (`drafts/suelo_rigido.md`) elimina ambas idealizaciones: en la subfamilia rígida F — sartén llena por tangencia diametral R = r₁ + r₂, pareja {r₃, r₄} en el agujero de r₁, trío {r₁, r₃, r₄} infactible — **toda** instancia cumple ρ > T estrictamente, para todo w > 0 y todo r₃ < r₂, y el ínfimo es exactamente T, no alcanzado (Proposición S6; el cierre por compacidad de la dirección ≤, antes esbozado, es ahora el Lema S6a — monotonía + cierre + apertura de la infactibilidad en el intervalo [0, δ₀) con δ₀ = t − u_máx, el extremo óptimo). Las piezas técnicas nuevas: la identidad del medio ángulo sin²(θ/2) = f(a)f(b), la reducción algebraica ψ(u) + ψ(v) ≥ τ como condición suficiente de empaquetamiento del trío, y un argumento de concavidad por el que la configuración rígida *emerge* como caso extremo en lugar de suponerse. De propina, φ reaparece como divisor de casos (para r₂/r₁ ≥ 1/φ la subfamilia es vacía). Verificación 10/10 claims (`code/rigido.py`, 7 bloques). El punto 1 de la hoja de ruta queda así resuelto en la subfamilia rígida; lo que el teorema no cubre — sartenes con holgura R > r₁ + r₂ y contenedores genéricos — es el hueco que queda (véase la síntesis).
 

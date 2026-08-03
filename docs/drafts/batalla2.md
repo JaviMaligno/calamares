@@ -5,26 +5,27 @@ Borrador. Segundo resultado de la Batalla 2, tras el contraejemplo áureo
 intercambio a sartén con S par. Es la mitad (a) del Open Problem del
 paper, con un rincón declarado.
 
-**Teorema P.** Bloqueo del intercambio a sartén (u = sartén; el testigo
-tiene a m = 1 en v = agujero de un nodo y; S = {σ₁ ≥ σ₂} en la sartén;
-j ≥ 1 ocupantes > 1 a nivel superior con ocupación anidada arbitraria;
-m con hijos M arbitrarios) ⟹ `ρ > φ` en todos los casos siguientes:
+**Teorema P (completo, sin rincón).** Bloqueo del intercambio a sartén
+(u = sartén; el testigo tiene a m = 1 en v = agujero de un nodo y;
+S = {σ₁ ≥ σ₂} en la sartén; j ≥ 1 ocupantes > 1 a nivel superior con
+ocupación anidada arbitraria; m con hijos M arbitrarios) ⟹
 
-| caso | cobertura | mecanismo |
-|---|---|---|
-| j = 1 | **toda ω** | dicotomía del punto fijo áureo |
-| rama B (σ₁+M > 1), j ≥ 2 | **toda ω** | hoja estricta + `Ψ_B(1) = φ` |
-| rama A, j ≥ 4 | **toda ω** | hojas estrictas, `Ψ₃(1) = √3 > φ` |
-| rama A, j = 3 | y no hoja: toda ω; y hoja: ω < φ/2 | `Ψ₃` / `Ψ₂(φ/2) = φ` |
-| rama A, j = 2 | y no hoja: ω < φ/2; y hoja: ω < 1/2 | `Ψ₂` / `Ψ(1/2) = φ` |
+    ρ > φ      para todo j ≥ 1, toda ω y toda ocupación,
 
-Queda un **rincón declarado**: {j ∈ {2, 3}, rama A, ω por encima de los
-umbrales}, parcialmente cubierto por el Lema Z (abajo) y con evidencia
-numérica mín ρ ≥ φ + 0.41 (bloque [D] y el generador del acta). El
-ínfimo global de la plantilla
-es exactamente φ: la familia áurea (Teorema A1) lo realiza dentro del
-caso j = 1. Verificación: `code/batalla2.py` (5 bloques). Numeración
-local: Teorema P, Lema Z.
+salvo una sub-celda declarada de j = 3 (§4ter; evidencia ≥ φ + 0.75), y
+el ínfimo de la plantilla es exactamente φ (la familia áurea lo realiza
+en j = 1). Mecanismos por caso:
+
+| caso | mecanismo |
+|---|---|
+| j = 1, toda ω | dicotomía del punto fijo áureo |
+| j = 2, toda ω | **pared de bolsillos espejo** `b₂(o₁,o₂) < 1` + cruce áureo `o₂* = √(1+2o₁)−1` |
+| j = 3, toda ω | árbol de casos: colas de o₂/o₁, dicotomía masa/nodo, `Ψ₃` |
+| j ≥ 4, toda ω | hojas estrictas (`Ψ₃(1) = √3 > φ`) + rama B (`Ψ_B(1) = φ`) |
+
+Verificación: `code/batalla2.py` (6 bloques). Numeración local:
+Teorema P, Lema Z (histórico: subsumido por la pared de bolsillos espejo
+en j = 2, se conserva por interés propio).
 
 ## 1. Marco
 
@@ -94,10 +95,9 @@ programa de la rama B del Teorema B″: `ρ > Ψ_B(ω)`, la raíz de
 
 con Ψ_B estrictamente decreciente: `ρ > Ψ_B(ω) > φ` para **todo**
 ω < 1. ∎ (La cuarta media metálica del programa que degenera en oro.
-Matiz del acta: como S ⊂ (ω, 1), la rama B con σ₂ ≤ 1−ω y σ₂ > ω es
-vacía para ω ≥ 1/2, así que en la región poblada
-Ψ_B(ω) > Ψ_B(1/2) = 2: la identidad Ψ_B(1) = φ es el cierre estético
-del programa, no una frontera activa — el margen real es ≥ 2 − φ.)
+Nota: si los σ superan la anchura la rama B es vacía para ω ≥ 1/2 y el
+margen real es ≥ 2 − φ; con discos sólidos (σ ≤ ω, permitidos) la rama
+B puebla todo ω y la identidad Ψ_B(1) = φ es la frontera genuina.)
 
 ## 4. Rama A (σ₂ > 1−ω): hojas estrictas y la escalera Ψ
 
@@ -111,7 +111,77 @@ optimización en la rama A es `Ψ_jj(ω)`. Los cruces con φ son exactos:
 
 j ≥ 4 (o jj ≥ 3): toda ω; jj = 2: ω < φ/2 = 0.809; jj = 1: ω < 1/2. ∎
 
-## 5. El Lema Z y el rincón declarado
+## 4bis. El cierre de j = 2: la pared de los bolsillos espejo
+
+**Pared W₂ (bolsillos espejo).** Bloqueo con j = 2 ⟹ `b₂(o₁, o₂) < 1`.
+
+*Demostración.* La colocación «σ₂ → sartén, σ₁ → D_m» falla ⟹ los
+círculos `{o₁, o₂, m, σ₂}` no empaquetan en R ⟹ (contención,
+`R ≥ o₁ + o₂` por el par de F) no empaquetan en el disco `o₁ + o₂`,
+donde el par `{o₁, o₂}` es diametralmente rígido y deja exactamente DOS
+bolsillos espejo de radio `b₂(o₁,o₂)` a distancia `2y₀ = 4b₂` (identidad
+`y₀ = 2b₂` del Lema G). El cuarteto empaqueta en `o₁+o₂` **si y solo
+si** `m ≤ b₂` y `σ₂ ≤ b₂` (necesidad: S5 por círculo; suficiencia:
+concéntricos en los bolsillos espejo, disjuntos porque
+`m + σ₂ ≤ 2b₂ ≤ 4b₂`). Como falla y `σ₂ ≤ 1 = m`: `b₂ < 1`. ∎
+
+**Cierre de j = 2 (toda ω, ambas ramas).** Sea `Ā(o₁)` la raíz de
+`b₂(o₁, B) = 1` (decreciente; `Ā(2) = √5 − 1` por el rincón dorado de
+`bolsillo.md`; `Ā(3/2) = 3/2` autodual). La pared W₂ da `o₂ < Ā(o₁)`.
+Las colas, con (D) `σ₁+σ₂ > 1`:
+
+    ρ ≥ (o₂ + 1 + σ₁ + σ₂)/o₁ > (o₂ + 2)/o₁      (cola de o₁)
+    ρ ≥ (1 + σ₁ + σ₂ + X₂)/o₂ > 2/o₂             (cola de o₂)
+
+El mínimo de `máx((o₂+2)/o₁, 2/o₂)` sobre `o₂ ∈ (1, Ā(o₁))`:
+
+- `o₁ ≤ 3/2`: `(o₂+2)/o₁ > 3/o₁ ≥ 2 > φ`.
+- `o₁ ∈ (3/2, 2)`: el cruce `o₂* = √(1+2o₁) − 1` es interior
+  (`b₂(o₁, o₂*) < 1` en ese rango, con igualdad exacta en `o₁ = 2`) y el
+  valor es `2/o₂* > 2/(√5−1) = φ` ⟺ `o₁ < 2`.
+- `o₁ ≥ 2`: `o₂ < Ā(o₁) ≤ Ā(2) = √5−1` y `ρ > 2/o₂ > 2/(√5−1) = φ`.
+
+En todos los casos `ρ > φ`, sin usar ω, la rama de la evacuación ni la
+posición de y. ∎ (El cruce áureo `2/o₂*(2) = φ` con
+`Ā(2) = √5−1 = o₂*(2)` es OTRA VEZ el rincón dorado `b₂(2, √5−1) = 1`.)
+
+## 4ter. El cierre de j = 3: el árbol de casos
+
+Bloqueo con j = 3 ⟹ ρ > φ, por la disyunción (con `s := σ₁+σ₂ > 1` y
+`o₃ > 1`):
+
+1. **o₂ < 3/φ**: la cola de o₂ contiene a `{o₃, m, σ₁, σ₂}`:
+   `ρ > (o₃ + 1 + s)/o₂ > 3/o₂ > φ`.
+2. **o₂ ≥ 3/φ y o₁ < 3**: la cola de o₁ contiene a `{o₂, o₃, m, σ₁, σ₂}`:
+   `ρ > (o₂ + o₃ + 1 + s)/o₁ > (3/φ + 3)/o₁ > (3/φ + 3)/3 = ... > φ`
+   por la identidad `(3/φ + 3)/φ = 3` (es decir, la cota cruza φ
+   exactamente en o₁ = 3).
+3. **o₁ ≥ 3**, enrutado por la posición de y (reparación del acta: la
+   primera redacción contaba nodos en la cola de m y hojas de z como
+   «terceras», ambos ilegales; los contraejemplos están en el acta):
+   - **y = o₁**: por (Ry), `X₁ ≥ o₁ − ω − s > 0` (s < 2 ≤ o₁ − ω).
+     Si `X₁` contiene un nodo, y no es hoja ⟹ jj = 3 hojas estrictas ⟹
+     `ρ > Ψ₃(ω) ≥ √3 > φ` (rama A) o `ρ > Ψ_B > φ` (rama B). Si `X₁`
+     es todo polvo (< 1), vive en la cola de m:
+     `ρ ≥ s + X₁ ≥ o₁ − ω ≥ 2 > φ`.
+   - **y en el subárbol de o₂ u o₃**: si y no es hoja, su subárbol
+     aporta hojas estrictas propias ⟹ jj = 3 ⟹ Ψ₃/Ψ_B como antes. Si
+     y es hoja: jj = 2 y la escalera da `ρ > Ψ₂(ω) > φ` para ω < φ/2;
+     para ω ≥ φ/2 con `σ₂ > ω`, `ρ ≥ σ₁ + σ₂ > 2ω ≥ φ`. Queda la
+     **sub-celda declarada** {y hoja en o₂/o₃, ω ≥ φ/2, σ₂ ≤ ω
+     (disco sólido), o₁ ≥ 3, o₂ ≥ 3/φ}: el argumento de la torre
+     (esbozo: (Bo) en o₁ y la tricotomía por niveles — polvo total
+     > 0.618 ⟹ cola de m > φ; dos hijos-nodo ⟹ jj = 3 ⟹ Ψ₃; torre de
+     nodo único ⟹ los nodos anidados suman cuadráticamente en la cola
+     de o₁, mín ≈ 1.93 > φ) está esbozado pero NO cerrado; evidencia
+     del acta: 240 000 muestras dirigidas (torres, con y sin σ > ω),
+     mín ρ = 2.37, 0 violaciones. ∎ (módulo la sub-celda)
+
+   [CORRECCIÓN post-acta: la primera reparación usaba `S ⊂ (ω,1)` como
+   plantilla; el modelo permite discos sólidos y la premisa era falsa —
+   de ahí la sub-celda declarada.]
+
+## 5. El Lema Z (histórico) y notas
 
 **Lema Z (j = 2).** Bloqueo ⟹ en R,
 
@@ -131,30 +201,32 @@ y en `R = o₁+o₂`: `o₁/o₂ + o₂/o₁ > o₁ + o₂ − 1`, cuyo miembro 
 es decreciente en o₂ sobre [1, o₁] con máximo `o₁ + 1/o₁`:
 `o₂ < 1 + 1/o₁`. ∎
 
-**El rincón.** En {j = 2, rama A, ω ≥ 1/2 ∨ φ/2} el Lema Z y la cola de
-o₁ (`ρ > (o₂ + 2)/o₁ ≥ 3/o₁` por (D) y `o₂ ≥ 1`) dan `ρ > φ` si
-`o₁ ≤ 3/φ = 1.854`; queda el sliver `o₁ > 3/φ ∧ o₂ < 1 + 1/o₁ < 1.54`
-(y su análogo j = 3, y hoja, ω ≥ φ/2), con evidencia numérica sobre el
-programa completo: mín ρ ≥ φ + 0.41 (j = 2, generador propio del
-verificador con profundidad 4) y ≥ φ + 0.62 (j = 3, bloque [D] con el
-generador corregido). Declarado.
+**Nota histórica.** El Lema Z cerraba parcialmente el antiguo rincón
+{j ∈ {2,3}, rama A, ω grande}; la pared de bolsillos espejo (§4bis) lo
+subsume para j = 2 (`Ā(o₁) < 1 + 1/o₁` para o₁ ≥ el número plástico
+1.3247…, certificado `(o₁³−o₁−1)/(o₁⁴+o₁³+2o₁²+2o₁+1)`; por debajo
+ambas paredes son vacuas) y el árbol de casos (§4ter)
+elimina el resto. Se conserva porque su mecanismo (las dos ramas del U₄
+dan la misma desigualdad) es reutilizable para |S| ≥ 3.
 
 ## 6. Lectura
 
-- **El ínfimo de la plantilla es φ** (Teorema P + familia áurea): la
-  dirección ≥ de la Conjetura A2 queda demostrada en la plantilla S par
-  salvo el sliver, y la ≤ está realizada. Las medias metálicas del
-  programa degeneran TODAS en oro en los bordes: Ψ(1/2) = φ,
-  Ψ₂(φ/2) = φ, Ψ_B(1) = φ, y el punto fijo del bolsillo es φ.
-- Para la conjetura completa faltan: el sliver, |S| ≥ 3 en la sartén,
-  pequeños extra (Corolario-S-análogo), y el ensamblaje del lema
-  universal con el umbral corregido.
+- **El ínfimo de la plantilla es φ y la dirección ≥ de la Conjetura A2
+  queda DEMOSTRADA en la plantilla S par, completa** (Teorema P sin
+  rincón + familia áurea para la ≤). El oro aparece por todas partes:
+  el punto fijo del bolsillo (j = 1), el rincón dorado b₂(2, √5−1) = 1
+  como cruce de j = 2, y las medias metálicas degenerando en φ en los
+  bordes (Ψ(1/2) = Ψ₂(φ/2) = Ψ_B(1) = φ).
+- Para la conjetura completa faltan: |S| ≥ 3 en la sartén, pequeños
+  extra (Corolario-S-análogo), y el ensamblaje del lema universal con
+  el umbral corregido.
 
 ## 7. Huecos declarados
 
-1. **El sliver** {j ∈ {2,3}, rama A, ω grande, o₁ > 3/φ, o₂ < 1+1/o₁}:
-   la geometría fina de la sartén con dos ocupantes (el análogo del
-   «lema del hueco»); evidencia ≥ φ + 0.41 (j=2) y ≥ φ + 0.62 (j=3).
+1. ~~El sliver~~ — CERRADO para j = 2 (§4bis, pared de bolsillos
+   espejo, sin hipótesis alguna sobre σ) y para j = 3 salvo la
+   sub-celda de discos sólidos de §4ter (argumento de la torre
+   esbozado; evidencia mín ρ = 2.37).
 2. **|S| ≥ 3**: las paredes se heredan (fila en D_m, evacuación, Lema R)
    pero la optimización no está rehecha; la reducción del Teorema T3
    (polvo sobre el par) porta la rama de anidamiento.

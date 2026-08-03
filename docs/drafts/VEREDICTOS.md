@@ -430,3 +430,35 @@ mín ρ ≥ 2.24. Matices integrados: la rama B es vacía para ω ≥ 1/2 bajo
 S ⊂ (ω,1) (Ψ_B(1) = φ es cierre estético; margen real ≥ 2−φ en la región
 poblada); márgenes del rincón actualizados (φ+0.41 / φ+0.62); nota
 cosmética en §2. 5/5 tras las correcciones.
+
+## Acta (2ª ronda): batalla2.md — el cierre del rincón y la corrección σ>ω
+
+**Delta verificado: W₂ y j = 2 CONFIRMADOS; árbol j = 3 con resultado
+confirmado y dos pasos escritos REFUTADOS y reparados; y una CORRECCIÓN DE
+PLANTILLA descubierta al integrar.** (1) Pared W₂ (bolsillos espejo):
+el SII del cuarteto en o₁+o₂ confirmado (rigidez del par por sus propias
+restricciones; necesidad S5 por círculo válida para ambos a la vez;
+suficiencia por colocación espejo con y₀ = 2b₂ resuelto en sympy y 4 000
+muestras geométricas); cruce áureo o₂* = √(1+2o₁)−1 con o₂*(3/2) = 1,
+b₂(o₁,o₂*) < 1 en (3/2,2) e igualdad exacta en o₁ = 2; mín-máx numérico
+1.618312 con argmin el rincón dorado (2, 1.236): ínfimo φ, nunca
+alcanzado. Nit integrado: Ā < 1+1/o₁ solo para o₁ ≥ el número plástico
+(certificado (o₁³−o₁−1)/(o₁⁴+o₁³+2o₁²+2o₁+1)). (2) Árbol j = 3: casos
+1, 2 y polvo confirmados; Slip A («cola de m ≥ s+X₁» ilegal con nodos en
+X₁; contraejemplo con paredes en pie) reparado enrutando y = o₁ por la
+dicotomía nodo→jj=3/polvo→cola-de-m; Slip B («nodo z ⟹ tercera hoja
+estricta» falso con hijo-nodo único; contraejemplo jj = 2) reparado con
+Ψ₂ (ω < φ/2) y ρ > 2ω (ω ≥ φ/2, σ₂ > ω). (3) CORRECCIÓN: la premisa
+«S ⊂ (ω,1)» que la reparación y una nota usaban NO es una necesidad del
+modelo (los discos sólidos r ≤ w son piezas legales, y las familias de
+polvo del repo los usan): rastro corregido en striple.md (el refuerzo
+13/7-en-1B de T3 queda condicionado a σ₃ > ω; carve-out {rama 1B,
+σ₃ ≤ ω} con cota Φ(ω) > T restaurado) y en batalla2.md (nota de rama B
+reformulada; la sub-celda {j = 3, rama A, y hoja, ω ≥ φ/2, σ₂ ≤ ω,
+o₁ ≥ 3, o₂ ≥ 3/φ} queda DECLARADA con el argumento de la torre esbozado
+— tricotomía por niveles: polvo total > φ−1 ⟹ cola de m; dos hijos-nodo
+⟹ jj = 3; torre de nodo único ⟹ suma cuadrática en la cola de o₁,
+mín ≈ 1.93 — y la evidencia del verificador: 240 000 muestras dirigidas
+con y sin σ > ω, mín ρ = 2.37, 0 violaciones). Teorema P: j = 1 y j = 2
+completos toda ω; j ≥ 4 completo; j = 3 completo salvo la sub-celda
+declarada. batalla2.py 6/6 tras las correcciones.
