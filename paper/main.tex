@@ -2445,6 +2445,86 @@ cargo travelling inside) and $\sigma_2$ exactly as in the pair case, and
 the tails only grow.
 \end{proof}
 
+\subsection{The golden floor of the pan exchange}\label{app:pan-app}
+
+Here $u$ is the pan itself: $F$ places $m$ at top level, the witness $P$
+keeps $m$ in the hole of a ring $y$ ($1+X_y^{\mathrm{rest}}\le
+y-\omega$), the pan holds occupants $O=\{o_1\ge\dots\ge o_j\}$ ($>1$,
+top level, shared by $F$ and $P$, arbitrarily occupied) and, per $P$, the
+pair $S=\{\sigma_1\ge\sigma_2\}$. Resources: $D_m$ (free unit disk in
+$y$'s hole), $H_m$, hole tariffs (Lemma~\ref{lem:DR}), nesting, and the
+pan repack. $F$'s pan gives the pair necessities $o_i+1\le R$ and
+$o_i+o_k\le R$. \emph{Strict leaf}: a leaf whose hole is not $y$'s;
+with $j\ge2$ at least $j-1$ exist ($j$ if $y$ is not a leaf).
+
+\begin{theorem}[Golden floor, pan exchange, pair profiles]\label{thm:DP}
+Blocking implies $\rho>\varphi$ -- for $j=1$ and $j=2$ at every width
+and occupancy, for the evacuation branch ($\sigma_1+M>1$) at every
+width, and for $j\ge3$ through the strict-leaf ladder and a case tree,
+except one declared micro-cell for $j=3$ (solid-disk $\sigma_2\le\omega$,
+$\omega\ge\varphi/2$, $y$ a leaf, $o_1\ge3$; directed evidence
+$\min\rho=2.37$). The infimum is exactly $\varphi$, realized by the
+golden family of Theorem~\ref{thm:golden} inside the case $j=1$.
+\end{theorem}
+\begin{proof}
+\emph{$j=1$.} The placement ``$\sigma_i\to$ pan, the other to $D_m$''
+fails, so $\{o_1,m,\sigma_i\}$ does not pack in $R$, hence (antitone
+containment, $R\ge o_1+1$) not in the disk $o_1+1$, where
+$\{o_1,1\}$ is rigid: $\sigma_i>b(o_1)$ by
+Proposition~\ref{prop:S5}. The tails give
+$\rho>\max\bigl(2b(o_1),\,(1+2b(o_1))/o_1\bigr)$; $b$ is increasing,
+$g(A)=(1+2b)/A$ decreasing (the certificate
+$(3A^2+3A+1)(A^2+A+1)-2A(2A+1)$ has positive coefficients), and the
+crossing $2b(A)A=1+2b(A)$ factors as $(A^2-A-1)(2A+1)$: unique positive
+root $A=\varphi$, value $\varphi$ ($2b(\varphi)=\varphi$,
+$g(\varphi)=(1+\varphi)/\varphi=\varphi$).
+
+\emph{$j=2$: the mirror-pocket wall.} The same placement fails, so
+$\{o_1,o_2,m,\sigma_2\}$ does not pack in $R$, hence not in the disk
+$o_1+o_2$, where $\{o_1,o_2\}$ is rigid and the quadruple packs
+\emph{iff} $m\le b_2(o_1,o_2)$ and $\sigma_2\le b_2$ (necessity by
+Proposition~\ref{prop:S5} per circle; sufficiency by placing them
+concentric in the two mirror pockets, disjoint since $y_0=2b_2$, as in
+Lemma~\ref{lem:DG}). Thus $b_2(o_1,o_2)<1$, i.e.\ $o_2<\bar A(o_1)$,
+the decreasing root of $b_2(o_1,\cdot)=1$ with $\bar A(2)=\sqrt5-1$ and
+$\bar A(\tfrac32)=\tfrac32$. The tails of $o_1$ and $o_2$, with (D)
+$\sigma_1+\sigma_2>1$ (row in $D_m$), give
+$\rho>\max\bigl((o_2+2)/o_1,\ 2/o_2\bigr)$ on $o_2\in(1,\bar A(o_1))$:
+for $o_1\le\tfrac32$, $3/o_1\ge2$; for $o_1\in(\tfrac32,2)$ the
+crossing $o_2^\ast=\sqrt{1+2o_1}-1$ is interior
+($b_2(o_1,o_2^\ast)<1$ there, with exact equality at $o_1=2$) and its
+value $2/o_2^\ast>2/(\sqrt5-1)=\varphi$; for $o_1\ge2$,
+$2/o_2>2/\bar A(2)=\varphi$. The crossing at $o_1=2$ is the golden
+corner $b_2(2,\sqrt5-1)=1$ once more.
+
+\emph{Evacuation branch, $j\ge2$.} A strict leaf $L'$ with
+$s:=\sigma_2+X_{L'}>1-\omega$ satisfies (Lemma~\ref{lem:DR})
+$L'<s+\omega$, and its tail collects $\{m,\sigma_1,\sigma_2,M\}\cup
+\mathrm{children}(L')$: with $\sigma_1+M>1$, exactly the branch-B
+program of Theorem~\ref{thm:DBpp}, so $\rho>\Psi_B(\omega)$, and
+$\Psi_B(1)=\varphi$ \emph{exactly} with $\Psi_B$ decreasing:
+$\rho>\varphi$ for all $\omega<1$.
+
+\emph{$j\ge3$, remaining branch.} The strict-leaf ladder gives
+$\rho>\Psi_{jj}(\omega)$ with $jj\in\{j-1,j\}$ leaves, and the golden
+crossings are exact: $\Psi_1(\tfrac12)=\varphi$,
+$\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$ -- covering
+$j\ge4$ outright and $j=3$ up to $\varphi/2$ (always if $y$ is not a
+leaf). The rest of $j=3$ is a case tree: $o_2<3/\varphi$ (tail of
+$o_2$ exceeds $3/o_2$), or $o_1<3$ (tail of $o_1$ exceeds
+$(3/\varphi+3)/o_1$, and $(3/\varphi+3)/\varphi=3$ exactly), or
+$o_1\ge3$ with the node/dust dichotomy on $o_1$'s hole content: a node
+makes $y$'s subtree or $o_1$'s contribute a third strict leaf
+($\Psi_3$), dust lands in $m$'s tail
+($\rho\ge\sigma_1+\sigma_2+X_1>o_1-\omega\ge2$ when $y=o_1$, and
+$>o_1-1$ otherwise); the declared micro-cell is what survives this
+dichotomy when $\sigma_2\le\omega$ (a solid disk) disables the
+$\rho>2\omega$ shortcut. Full details, the adversarial reports (two
+rounds, including two repaired steps), and the tower-argument sketch
+for the micro-cell are in the repository (\texttt{code/batalla2.py},
+6/6).
+\end{proof}
+
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
 All feasibilities in the twin instances are two-circle-exact except three

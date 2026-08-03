@@ -18,7 +18,7 @@ el suelo rígido, y partirlas duplicaría preliminares; (2) los resultados de
 las secciones 8–9 no son «evidencia»: son teoremas con demostraciones
 completas ya escritas (en los borradores del repositorio), y el defecto era
 de *presentación* (no estaban portadas al paper), no de contenido — se está
-corrigiendo portándolas (Apéndice B hecho; C y D en curso); (3) la longitud
+corrigiendo portándolas (Apéndices B, C y D completos); (3) la longitud
 resultante es la habitual en artículos de geometría discreta con apéndices
 técnicos. Si tras completar los apéndices el conjunto no cohesionara, se
 reconsiderará la partición.
@@ -108,10 +108,42 @@ revisión interna.
 - Edmonds, Korte–Hausmann y Litvinchev: ahora citados en texto.
 - Figuras: autocontenidas en `paper/figures/` (raíz lista para arXiv).
 - «Draft» eliminado de la nota del autor.
-- Overfull hbox de las gemelas y colocación de figuras: pendientes de la
-  pasada final de maquetación (anotado).
+- Overfull hbox: 0 en el log tras la pasada de maquetación.
 - Fecha: se mantiene \today mientras el manuscrito evoluciona; se fijará
   al congelar.
+
+## Desarrollo posterior al dictamen (debe conocerlo el revisor)
+
+Tras ejecutar la revisión, el propio programa de verificación produjo un
+resultado que OBLIGA a reescribir la tesis central del artículo, y así se
+ha hecho:
+
+1. **La conjetura del umbral de Tribonacci del manuscrito original es
+   FALSA.** La familia áurea — sartén R = φ+1, radios
+   {φ, 1, φ/2+2ε, φ/2+ε} — rompe la placement obliviousness en
+   ρ = φ+3ε < T (Theorem thm:golden, con prueba exacta: rigidez S5,
+   b₂(φ,1) = φ/2, criterios de par; verificación hostil independiente
+   incluida la optimización sin asumir rigidez y el solver del repo).
+   La versión enviada al primer dictamen conjeturaba umbral = T; el
+   error era nuestro y lo encontró nuestro propio flujo adversario.
+2. **Reinterpretación**: T es el suelo exacto del intercambio ANIDADO
+   (todo el programa de las secciones 8–9 queda en pie, por encima de
+   T > φ); el umbral global lo gobierna el intercambio a sartén y la
+   nueva conjetura (conj:golden) es que vale exactamente φ, con la
+   dirección ≥ demostrada para perfiles par salvo una micro-celda
+   declarada (Theorem thm:DP, Apéndice) y la ≤ realizada por la familia.
+3. Además se completaron, con verificación adversaria por resultado:
+   Ψ_j sin asteriscos (lema de las hojas), el Teorema de las tres piezas
+   (thm:DT3, con la esquina racional 17/7 y la corrección honesta sobre
+   discos sólidos), y el suelo áureo del intercambio a sartén (thm:DP).
+   Las actas de todas las rondas están en el repositorio.
+
+El título pasa a «Golden and Tribonacci Thresholds». Entendemos que esto
+es un cambio mayor de contenido respecto del manuscrito dictaminado; a
+nuestro juicio lo refuerza (un contraejemplo exacto con familia
+realizadora y un umbral conjetural áureo sustituyen a una conjetura
+apoyada en búsqueda numérica), y todos los bloqueos del dictamen siguen
+atendidos en la nueva versión.
 
 ## Verificación de la bibliografía
 
