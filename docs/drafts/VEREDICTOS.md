@@ -368,3 +368,36 @@ hueco de cobertura del código; arreglado (H_m solo restringe si se usa) y
 la rama 1B ejercitada en [C] con M > 0. Estrictitud menor anotada e
 integrada: el > estricto de la rama 1B usa σ₃ > ω. 5/5 bloques en verde
 tras las correcciones.
+
+## Acta: umbral_aureo.md (Teorema A1 — contraejemplo a la conjetura de T)
+
+**Veredicto: CONFIRMADO — la conjetura del umbral de Tribonacci queda
+refutada.** Verificación con mandato explícito de DESTRUIR el
+contraejemplo, por siete vías; resistió todas. El verificador: (1)
+rederivó en simbólico desde cero el bolsillo por curvaturas de Descartes
+(k₀k₁+k₁k₂+k₂k₀ = 0 ⟹ b₂ = AB(A+B)/(A²+AB+B²)), b₂(φ,1) = φ/2,
+(1+φ)/φ = φ, la factorización de la necesidad S5 y el punto fijo
+2b(A)·A = 1+2b(A) con única raíz positiva A = φ; (2) optimización
+numérica propia SIN asumir rigidez (3 centros libres, multistart):
+v_máx = φ/2 a 1.8e−13, v = φ/2+10⁻³ infactible; (3) contraste con el
+solver físico del repo (`sim.pack_feasible`, independiente): {φ,1,s} NO
+empaqueta en R = φ+1, {φ,s,s} SÍ, {s,s} NO cabe en el agujero de φ —
+también con radios estrictos; (4) semántica del modelo auditada contra
+paper y código: tangencias legales (par sum ≤ R, como en n=4 y gemelas),
+regla del agujero r ≤ r'−w, worst fit = capacidad estática máxima ⟹
+elige la sartén, obliviousness = TODAS las reglas (basta una ejecución
+legal que falle); (5) el árbol exhaustivo de aureo.py [B] auditado: la
+única rama de bolsillo que decide es la rígida exacta, la rama corona
+(suficiente-solo) nunca bloquea en el subárbol m→sartén, best[True]=3
+acota toda regla; (6) ρ recalculada en simbólico y la Conjecture
+contradicha LITERALMENTE tal como está en paper/main.tex:479 y
+resultados.md §5quater. Hallazgos integrados: radios ESTRICTOS
+{φ, 1, φ/2+2ε, φ/2+ε} (ρ = φ+3ε) para respetar la convención r₁ > … >
+r_n del paper; assert en la rama bolsillo de pan_ok; Conjetura A2
+reformulada directamente sobre obliviousness; el modelo del paper debe
+decir «interiores disjuntos» (la lectura literal «pairwise-disjoint»
+mataría también n=4 y las gemelas); el teorema exacto vive en δ = 0
+(tangencia diametral, codimensión 1) con ventanas abiertas en ω y ε, y
+la robustez δ < δ* = 0.0248 es evidencia angular. T queda
+recaracterizado: suelo del intercambio anidado (Batalla 1 intacta), no
+umbral global. aureo.py 5/5 tras las correcciones.

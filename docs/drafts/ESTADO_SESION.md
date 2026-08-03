@@ -1,4 +1,23 @@
-# Estado de la sesión (2026-08-02) — Batalla 1: pasos 1–4 y el asalto geométrico cerrados
+# Estado de la sesión (2026-08-03) — LA CONJETURA DE T ES FALSA: el umbral es áureo
+
+**BOMBA (2026-08-03, `drafts/umbral_aureo.md`, `aureo.py` 5/5, acta
+CONFIRMADO con verificación hostil):** el primer resultado de la
+Batalla 2 (u = sartén) REFUTA la conjetura del umbral de Tribonacci. La
+familia áurea — sartén R = φ+1, radios {φ, 1, φ/2+2ε, φ/2+ε},
+ω ∈ (0.191, 0.618) — tiene ρ = φ+3ε < T, lex-max = 4, y worst fit coloca
+3: {φ,1} queda diametralmente rígida y todo tercer círculo ≤ b₂(φ,1) =
+φ/2 (S5 exacto). Mecanismo: sin (W) — que solo existe con u = agujero —
+el ínfimo cae al primer peldaño de la escalera (el bolsillo): φ. La
+instancia es áurea 4 veces (A = φ punto fijo de 2bA = 1+2b; b₂ = φ/2;
+(1+φ)/φ = φ; ρ → φ). REINTERPRETACIÓN: T = suelo exacto del intercambio
+ANIDADO (toda la Batalla 1 en pie, > T > φ con margen); nueva conjetura:
+el umbral global es exactamente φ. El paper ya está reescrito
+(thm:golden + conj:golden, abstract, encuadre nested/pan). SIGUIENTE
+FRENTE: demostrar el suelo φ de la Batalla 2 en general (ocupantes
+múltiples, S ≥ 3, ocupación anidada) — el programa de paredes con un
+ocupante y par ya da mínimo numérico φ (aureo.py [E]).**
+
+## (histórico) Batalla 1: pasos 1–4 y el asalto geométrico cerrados
 
 Documento de retoma para una sesión nueva. Todo lo listado como cerrado está
 verificado adversarialmente, consolidado en los documentos y pusheado.

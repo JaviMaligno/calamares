@@ -100,7 +100,28 @@ Quedan registradas para explorar: grosor w variable por aro (ensancha drásticam
 
 ## 9. El programa del umbral de Tribonacci: estado consolidado
 
-La conjetura del umbral de Tribonacci (§5quater) abrió un programa de trabajo — el lema de reinserción de `reinsercion.md` y su hoja de ruta — cuyo estado se consolida aquí tras seis borradores sometidos a verificación adversaria independiente (`docs/drafts/`, acta en `docs/drafts/VEREDICTOS.md`). Cada bloque lleva su estatus (demostrado / conjeturado / numérico) y el script que lo respalda; las pruebas completas están en los borradores citados.
+La conjetura del umbral de Tribonacci (§5quater) abrió un programa de trabajo — el lema de reinserción de `reinsercion.md` y su hoja de ruta — cuyo estado se consolida aquí tras los borradores sometidos a verificación adversaria independiente (`docs/drafts/`, acta en `docs/drafts/VEREDICTOS.md`). Cada bloque lleva su estatus (demostrado / conjeturado / numérico) y el script que lo respalda; las pruebas completas están en los borradores citados.
+
+**AVISO (2026-08-03): la conjetura del umbral de Tribonacci es FALSA tal
+como estaba enunciada.** El contraejemplo áureo (`drafts/umbral_aureo.md`,
+`code/aureo.py` 5/5, acta CONFIRMADO en VEREDICTOS.md con verificación
+hostil: rederivación por curvaturas de Descartes, optimización sin asumir
+rigidez, solver físico del repo): sartén R = φ + 1, radios
+{φ, 1, φ/2+2ε, φ/2+ε}, ω ∈ (1−φ/2, φ−1) — ρ = φ + 3ε < T, lex-max = 4
+aros, y el voraz con worst fit (m → sartén; {φ,1} queda diametralmente
+rígida y todo tercer círculo ≤ b₂(φ,1) = φ/2 exacto) coloca 3. El
+mecanismo: la subida de φ a T en la escalera usaba la capacidad del
+testigo (W), que existe solo cuando u = c_F(m) es un AGUJERO; con
+u = sartén (Batalla 2) no hay (W) y el ínfimo cae al primer peldaño, el
+bolsillo: φ. Reinterpretación: **T es el suelo exacto del intercambio
+ANIDADO** (todo el programa de la Batalla 1 queda en pie y por encima de
+T > φ con margen); el umbral global lo gobierna el intercambio a sartén y
+la nueva **conjetura del umbral áureo** es que vale exactamente φ (la
+familia realiza todo ρ ∈ (φ, T); el programa de paredes de la Batalla 2
+con un ocupante y par tiene mínimo numérico φ por el punto fijo
+2b(A)·A = 1 + 2b(A) ⟺ A = φ). El párrafo de §5quater y las menciones al
+«umbral T» deben leerse con esta corrección; el paper ya la incorpora
+(Teorema thm:golden + Conjecture conj:golden).
 
 **La escalera y el suelo rígido (demostrado; `code/trio.py`, `code/rigido.py`).** El análisis del paso de intercambio aísla tres ingredientes y produce la escalera de la Proposición 3 de `reinsercion.md` §9: con solo el bolsillo de Descartes el ínfimo demostrable de ρ es φ ≈ 1.6180; añadiendo la infactibilidad del trío completo sube a 1.7990559… (cruce exacto de las ramas 1 + b(α) = (2 + b(α))/α, con α* ≈ 1.5558471 raíz de 2α³ = α² + 2α + 2, verificado en simbólico); y añadiendo la colocación del testigo alcanza T ≈ 1.8392868. La Proposición 3 vivía en el límite idealizado w → 0 con tangencias supuestas; el **Teorema S** (`drafts/suelo_rigido.md`) elimina ambas idealizaciones: en la subfamilia rígida F — sartén llena por tangencia diametral R = r₁ + r₂, pareja {r₃, r₄} en el agujero de r₁, trío {r₁, r₃, r₄} infactible — **toda** instancia cumple ρ > T estrictamente, para todo w > 0 y todo r₃ < r₂, y el ínfimo es exactamente T, no alcanzado (Proposición S6; el cierre por compacidad de la dirección ≤, antes esbozado, es ahora el Lema S6a — monotonía + cierre + apertura de la infactibilidad en el intervalo [0, δ₀) con δ₀ = t − u_máx, el extremo óptimo). Las piezas técnicas nuevas: la identidad del medio ángulo sin²(θ/2) = f(a)f(b), la reducción algebraica ψ(u) + ψ(v) ≥ τ como condición suficiente de empaquetamiento del trío, y un argumento de concavidad por el que la configuración rígida *emerge* como caso extremo en lugar de suponerse. De propina, φ reaparece como divisor de casos (para r₂/r₁ ≥ 1/φ la subfamilia es vacía). Verificación 10/10 claims (`code/rigido.py`, 7 bloques). El punto 1 de la hoja de ruta queda así resuelto en la subfamilia rígida; lo que el teorema no cubre — sartenes con holgura R > r₁ + r₂ y contenedores genéricos — es el hueco que queda (véase la síntesis).
 

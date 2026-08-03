@@ -50,9 +50,15 @@ the violation of superincreasingness by $\rho=\max_i(\sum_{j>i}r_j)/r_i$,
 the additive relaxation of the model has universal threshold exactly
 $\rho=1$, while the geometric model resists further: we prove, with no
 tangency idealization, that the four-ring rigid family of counterexamples
-has infimum exactly the Tribonacci constant $T\approx1.83929$, and we
-conjecture that the geometric threshold is exactly $T$. We develop a
-supporting program towards the conjecture -- exact positive-width curves
+has infimum exactly the Tribonacci constant $T\approx1.83929$ -- but $T$
+is \emph{not} the global threshold: an explicit golden family (pan
+$\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
+\varphi/2+\varepsilon\}$) breaks placement obliviousness at
+$\rho=\varphi+3\varepsilon$, refuting the natural Tribonacci-threshold
+conjecture, and we conjecture that the geometric threshold is exactly the
+golden ratio $\varphi$, with $T$ the exact floor of the \emph{nested}
+exchange. We develop a program that proves the nested-exchange floors --
+exact positive-width curves
 with global minimum $13/7$, closed profile thresholds, and blocking walls
 for generic containers with metallic-mean floors -- and complement it with
 a phase diagram for the divergence of the objectives and a decoupling of
@@ -85,7 +91,11 @@ alone with nesting. We prove one, with \emph{superincreasing} radii (each radius
 the sum of all smaller ones) playing the role of divisibility, and we determine
 exactly how far the hypothesis can be relaxed -- with a surprising answer: the
 additive relaxation of the model has threshold exactly $1$, while the geometric
-model resists up to (conjecturally, exactly) the Tribonacci constant.
+model resists up to (conjecturally, exactly) the \emph{golden ratio}: an
+explicit golden family fails at $\rho=\varphi+3\varepsilon$, and the
+Tribonacci constant -- the natural conjectured threshold, which our own
+program long targeted -- turns out to be the exact floor of the
+\emph{nested} exchange only.
 
 \paragraph{Contributions: main theorems.}
 (1)~A \emph{superadditivity dichotomy}: under superincreasing radii the
@@ -110,10 +120,14 @@ out every state-based placement rule, deterministic or randomized
 $\rho=1$; the geometric four-ring rigid subfamily has infimum exactly the
 Tribonacci constant $T$, proved with no idealization
 (Theorem~\ref{thm:rigidfloor}, full proof in
-Appendix~\ref{app:rigidproof}), and we conjecture the geometric threshold
-equals $T$ (Section~\ref{sec:threshold}).
+Appendix~\ref{app:rigidproof}); and an explicit \emph{golden family}
+refutes the natural conjecture that the geometric threshold equals $T$:
+placement obliviousness fails at $\rho=\varphi+3\varepsilon$ for every
+small $\varepsilon$ (Theorem~\ref{thm:golden}), and we conjecture the
+geometric threshold is exactly $\varphi$ (Section~\ref{sec:threshold}).
 
-\paragraph{Contributions: the program towards the Tribonacci threshold.}
+\paragraph{Contributions: the nested-exchange program (the Tribonacci
+floor).}
 (5)~\emph{The width program}: the blocked-exchange infimum with relative
 width $\omega>0$ is governed by the deformed Tribonacci cubic
 $\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$; the full lower-bound curve is in
@@ -148,7 +162,7 @@ $d$, with rings read as spherical shells). A \emph{placement} of a subset $S$
 of the rings is a forest: each placed ring has as parent either the pan or a
 placed ring with $r_{\mathrm{child}}\le r_{\mathrm{parent}}-w$ (it sits inside
 the parent's hole); the children of a common parent must be packable as
-pairwise-disjoint balls (by outer radius) inside the parent's region --- $K$
+balls (by outer radius) with pairwise disjoint interiors inside the parent's region --- $K$
 itself, or the hole ball of radius $r-w$. Feasibility is a property of the
 assignment (siblings may be rearranged freely inside their container).
 \end{definition}
@@ -394,7 +408,7 @@ the question becomes one of computational complexity and remains open
 (Section~\ref{sec:open}).
 \end{remark}
 
-\section{Thresholds: additive sharpness and the Tribonacci floor}
+\section{Thresholds: the Tribonacci floor and the golden counterexample}
 \label{sec:threshold}
 
 \begin{theorem}[Additive model: threshold exactly $1$]\label{thm:additive}
@@ -476,24 +490,84 @@ changes is the set of possible \emph{occupants}, the subject of
 Section~\ref{sec:generic}.
 \end{remark}
 
-\begin{conjecture}[Tribonacci threshold]\label{conj:tribo}
-In the geometric model, placement obliviousness holds for all instances with
-$\rho<T$ and fails for suitable instances at every $\rho>T$; that is, the
-geometric threshold is exactly the Tribonacci constant, and $T-1$ measures the
-extra protection that disk geometry (Descartes pockets) grants the greedy over
-additive bookkeeping. Evidence beyond Theorem~\ref{thm:rigidfloor} and
-Sections~\ref{sec:width}--\ref{sec:generic}: the additive $\rho\to1$ family is
-rescued geometrically (its small rings, at half the instance scale, sit well
-below the pocket $\approx0.43\times$scale); structured
-searches restricted to $\rho<1.8$ ($120$ five-ring instances, best and worst
-fit versus the lex-max oracle) and more than $900$ further runs produced no
-failure below $T$.
+The natural conjecture -- which we ourselves held until late in this
+project -- is that the geometric threshold is exactly $T$. It is
+\emph{false}. The witness capacity that lifts the floor from $\varphi$ to
+$T$ in Theorem~\ref{thm:rigidfloor} exists only when the greedy's
+container for the pivotal ring is a \emph{hole}; when it is the pan
+itself, the floor drops to the first rung of the ladder, the Descartes
+pocket, and the golden ratio appears:
+
+\begin{theorem}[The golden family: the threshold is at most $\varphi$]
+\label{thm:golden}
+For every $\omega\in(1-\varphi/2,\ \varphi-1)=(0.1910,0.6180)$ and every
+sufficiently small $\varepsilon>0$, the instance
+\[
+R=\varphi+1,\qquad w=\omega,\qquad
+r=\bigl\{\varphi,\ 1,\ \tfrac\varphi2+2\varepsilon,\
+\tfrac\varphi2+\varepsilon\bigr\}
+\]
+has $\rho=\varphi+3\varepsilon<T$, its lex-max set is all four rings, and
+the descending greedy under worst fit places only three: placement
+obliviousness fails at $\rho=\varphi+3\varepsilon$.
+\end{theorem}
+\begin{proof}
+Write $s_1=\tfrac\varphi2+2\varepsilon$, $s_2=\tfrac\varphi2+\varepsilon$.
+Every feasibility below is exact. \emph{The value of $\rho$}: the tails
+are $(1+s_1+s_2)/\varphi=\varphi+3\varepsilon/\varphi$ (by the golden
+identity $(1+\varphi)/\varphi=\varphi$), $s_1+s_2=\varphi+3\varepsilon$
+(dominant) and $s_2/s_1<1$, and $\varphi+3\varepsilon<T$ for
+$\varepsilon<(T-\varphi)/3$. \emph{The witness}: place $1$ in the hole of
+$\varphi$ (capacity $\varphi-\omega\ge1\iff\omega\le\varphi-1$) and
+$\{\varphi,s_1,s_2\}$ as a corona in the pan: their angular sum is
+$5.004<2\pi$ with slack $1.28$ as $\varepsilon\to0$ (explicit
+coordinates in the repository), so all four rings are placeable.
+\emph{The greedy under worst fit}: $\varphi\to$ pan; the ring $1$ fits
+both the pan ($\varphi+1\le R$, exact tangency, as in
+Theorem~\ref{thm:n4}) and the hole of $\varphi$, and worst fit -- the
+container of largest capacity, $R=\varphi+1>\varphi-\omega$ -- chooses
+the \emph{pan}. Now $\{\varphi,1\}$ fills the pan diametrally: the pair
+is rigid and, by the exact necessity of Proposition~\ref{prop:S5}
+(rescaled), any third circle has radius at most
+$b_2(\varphi,1)=\varphi/2$ -- the golden pocket identity. Hence neither
+$s_1$ nor $s_2$ fits the pan; the hole of $\varphi$ admits one of them
+but not both ($s_1+s_2=\varphi+3\varepsilon>\varphi-\omega$, two-circle
+exact); the hole of $m$ admits neither
+($s_2>1-\omega\iff\omega>1-\tfrac\varphi2-\varepsilon$); and
+$s_2$ cannot nest in $s_1$. An exhaustive placement tree confirms the
+count: three rings with $1$ in the pan, four with $1$ in the hole
+(\texttt{code/aureo.py}).
+\end{proof}
+
+The instance is golden four times over: the occupant is
+$\varphi$ (the unique positive fixed point of $2b(A)\,A=1+2b(A)$), the
+pocket is $b_2(\varphi,1)=\varphi/2$, the tail of $\varphi$ is
+$(1+\varphi)/\varphi=\varphi$, and $\rho\to\varphi$. The family is not
+degenerate: the $\omega$-window has width $0.427$, $\varepsilon$ ranges
+over an interval, and the diametral tangency survives pan slack up to
+$\delta^\ast=0.0248$ (numerically, via the angular criterion). It
+escaped the earlier structured searches because it lives at a
+codimension-one corner (pan tangency) that random radii never visit.
+
+\begin{conjecture}[Golden threshold]\label{conj:golden}
+Placement obliviousness holds for every instance with $\rho<\varphi$;
+together with Theorem~\ref{thm:golden} (which realizes every
+$\rho\in(\varphi,T)$) and the failures above $T$, this would make the
+geometric threshold exactly the golden ratio: $\varphi-1$ measures the
+protection that disk geometry grants the greedy over additive
+bookkeeping, and $T$ is the exact floor of the \emph{nested} exchange
+(Sections~\ref{sec:width}--\ref{sec:generic}), attained by the rigid
+family of Theorem~\ref{thm:rigidfloor}. Evidence: the blocking program
+of the pan exchange with one occupant and a pair profile has numerical
+infimum $\varphi$ (the same fixed-point mechanism,
+$\min_A\max(2b(A),(1+2b(A))/A)=\varphi$), and every proved floor of the
+nested exchange exceeds $T>\varphi$ with margin.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the $13/7$ corner}
 \label{sec:width}
 
-Towards Conjecture~\ref{conj:tribo}, the proof of
+Towards Conjecture~\ref{conj:golden}, the proof of
 Theorem~\ref{thm:oblivious} localizes all difficulty in a single
 \emph{exchange step}: $m$ is the largest ring that the greedy $F$ and a
 witness $P$ place in different containers $u=c_F(m)$, $v=c_P(m)$, and the set
@@ -504,7 +578,15 @@ the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$. Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
-placement obliviousness. Complete proofs for every statement of this
+placement obliviousness. Two regimes must be distinguished. When $u$ is
+the \emph{hole} of a ring (the \emph{nested} exchange), the witness
+placement supplies the capacity wall $\sum S\le\mathrm{cap}(u)$, and this
+section and the next prove floors that all exceed $T$: the Tribonacci
+constant is the exact threshold of the nested exchange. When $u$ is the
+pan, that wall is absent, the floor drops to the Descartes pocket, and
+the golden family of Theorem~\ref{thm:golden} realizes it: the
+\emph{pan} exchange governs the global threshold of
+Conjecture~\ref{conj:golden}. Complete proofs for every statement of this
 section are given in Appendix~\ref{app:widthproofs}.
 
 \paragraph{The combinatorial layer is closed.}
@@ -587,7 +669,7 @@ explicit degree-8 polynomial) before descending to the corner.
 \label{sec:generic}
 
 The canonical template assumes $v$ contains only the big neighbour and $m$.
-The remaining gap towards Conjecture~\ref{conj:tribo} is genericity of the
+The remaining gap towards Conjecture~\ref{conj:golden} is genericity of the
 containers, and it is attacked by a toolkit of independent walls, each
 adversarially verified. Throughout, $v$ is a pan of radius $R$ with occupants
 $\{\alpha\}\cup O\cup\{m\}$, $O=\{o_1\ge\dots\ge o_j\}$, $o_i\ge m=1$,
@@ -737,20 +819,21 @@ sister of the $13/7$ corner
 (Theorem~\ref{thm:DT3}, Proposition~\ref{prop:DT3j}).
 
 \paragraph{Status.}
-Together with Theorem~\ref{thm:corner}, every blocked exchange in the
-templates above satisfies $\rho>T$: for all $\omega$ in the canonical
-template -- with $S$ a pair or a triple -- for $\omega<0.9626$ with one
-extra occupant under arbitrary hole occupancy, for $\omega<0.624$ and
-$\omega<0.896$ with two and three, and for all $\omega$ with four or more.
-What remains open on the road to Conjecture~\ref{conj:tribo} is documented
-in the repository: the width tips ($j=1$, $\omega\ge0.9626$; $j=2$,
-$\omega\ge0.624$; $j=3$, $\omega\ge0.896$), a
-quantitative ``gap lemma'' (small rings against the geometric wall; tiny
-$\sigma_2$), profiles of four or more pieces beyond the reduction branch
-(and $k\ge3$ with extra occupants beyond it), and the second battle where
-$u$ is the pan itself. Each statement in
-this section is backed by a verification script and an adversarial
-verification report in the repository.
+Together with Theorem~\ref{thm:corner}, every blocked \emph{nested}
+exchange in the templates above satisfies $\rho>T$: for all $\omega$ in
+the canonical template -- with $S$ a pair or a triple -- for
+$\omega<0.9626$ with one extra occupant under arbitrary hole occupancy,
+for $\omega<0.624$ and $\omega<0.896$ with two and three, and for all
+$\omega$ with four or more. All these floors exceed $T>\varphi$, so for
+Conjecture~\ref{conj:golden} the decisive open front is the \emph{pan}
+exchange (Open Problem~\ref{op:assembly}); the remaining nested gaps --
+the width tips ($j=1$, $\omega\ge0.9626$; $j=2$, $\omega\ge0.624$;
+$j=3$, $\omega\ge0.896$), a quantitative ``gap lemma'' (small rings
+against the geometric wall; tiny $\sigma_2$), and profiles of four or
+more pieces beyond the reduction branch (and $k\ge3$ with extra
+occupants beyond it) -- matter only for pinning the nested threshold at
+exactly $T$. Each statement in this section is backed by a verification
+script and an adversarial verification report in the repository.
 
 \section{The two objectives diverge: a phase diagram}\label{sec:divergence}
 
@@ -898,15 +981,18 @@ fall outside and, by Proposition~\ref{prop:count}, genuinely so.
 \section{Open problems}\label{sec:open}
 
 \begin{openproblem}\label{op:assembly}
-Prove Conjecture~\ref{conj:tribo} by assembling the universal reinsertion
-lemma from the pieces of Sections~\ref{sec:width}--\ref{sec:generic}:
-combinatorics ($\rho^*_k=\rho^*_3$, $\omega_c=\omega_T$) below $\omega_T$ and
-the wall hierarchy above it. The documented remaining gaps are the width
-tips ($j=1$ with $\omega\ge0.9626$; $j=2$ with $\omega\ge0.624$; $j=3$ with
-$\omega\ge0.896$), a quantitative gap lemma
-(small rings against the double-pocket wall; tiny $\sigma_2$), reinsertion
-profiles of four or more pieces beyond the reduction branch, and the case
-where $u$ is the pan.
+Prove Conjecture~\ref{conj:golden}. Two halves. (a)~\emph{The pan
+exchange has floor $\varphi$}: redo the wall program of
+Sections~\ref{sec:width}--\ref{sec:generic} for $u$ the pan (multiple
+occupants, larger profiles, nested occupancy), where the numerical
+infimum of the one-occupant pair program is already $\varphi$ via the
+fixed point $\min_A\max(2b(A),(1+2b(A))/A)=\varphi$. (b)~\emph{Assemble
+the universal reinsertion lemma} for the nested exchange from the proved
+floors ($\ge T>\varphi$, so far above the golden threshold that the
+remaining nested gaps -- the width tips, the quantitative gap lemma,
+profiles of four or more pieces beyond the reduction branch -- only
+matter for pinning the nested threshold at exactly $T$, not for
+Conjecture~\ref{conj:golden} itself).
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -956,7 +1042,8 @@ profile thresholds -- \texttt{perfil\_tres}, \texttt{cuatro}
 floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
 double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
 three-piece profiles and the golden deformation -- \texttt{striple}
-(5/5). Several
+(5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
+\texttt{aureo} (5/5). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
