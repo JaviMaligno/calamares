@@ -320,3 +320,6 @@ if __name__ == "__main__":
     res = [V1(), V2V3(), V4(), V5(), V6(), V7(), V8()]
     print(f"\nRESULTADO GLOBAL: {sum(res)}/{len(res)} bloques verificados"
           + ("  -- TODO OK" if all(res) else "  -- HAY FALLOS"))
+
+    import sys
+    sys.exit(0 if all(res) else 1)

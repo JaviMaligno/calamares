@@ -266,3 +266,6 @@ if __name__ == "__main__":
           "TODO OK" if all((ok1, ok2, ok3, ok4, ok5, ok6)) else "HAY FALLOS")
     print(f"  rho*_3 cruza T en omega_T = 1/T - 1/2 = {OMT:.6f} "
           f"(antes se estimaba omega_c ~ 0.05)")
+
+    import sys
+    sys.exit(0 if all((ok1, ok2, ok3, ok4, ok5, ok6)) else 1)

@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage[margin=1.1in]{geometry}
 \usepackage{hyperref}
+\usepackage{placeins}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -18,8 +19,8 @@
 \newcommand{\lexmax}{\mathrm{lexmax}}
 \newcommand{\R}{\mathbb{R}}
 
-\title{Greedy Packing of Nested Rings:\\ Superadditivity, Placement Rules,
-and Golden and Tribonacci Thresholds}
+\title{Greedy Packing of Nested Rings:\\ Placement Rules, a Golden
+Counterexample, and a Tribonacci Floor}
 \author{Javier Aguilar Mart\'in\thanks{Independent researcher.
 \texttt{javier.aguilar@sapira.ai}. Computational verification scripts for
 every numerical claim, together with extended proofs and the verification
@@ -57,8 +58,10 @@ $\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
 \varphi/2+\varepsilon\}$) breaks placement obliviousness at
 $\rho=\varphi+3\varepsilon$, refuting the natural Tribonacci-threshold
 conjecture, and we conjecture that the geometric threshold is exactly the
-golden ratio $\varphi$, with $T$ the exact floor of the \emph{nested}
-exchange. We develop a program that proves the nested-exchange floors --
+golden ratio $\varphi$, with $T$ the exact floor of the rigid nested
+family and the conjectured universal floor of nested exchanges. We
+develop a program that proves nested-exchange floors above $T$ for a
+hierarchy of templates --
 exact positive-width curves
 with global minimum $13/7$, closed profile thresholds, and blocking walls
 for generic containers with metallic-mean floors -- and complement it with
@@ -95,8 +98,9 @@ additive relaxation of the model has threshold exactly $1$, while the geometric
 model resists up to (conjecturally, exactly) the \emph{golden ratio}: an
 explicit golden family fails at $\rho=\varphi+3\varepsilon$, and the
 Tribonacci constant -- the natural conjectured threshold, which our own
-program long targeted -- turns out to be the exact floor of the
-\emph{nested} exchange only.
+program long targeted -- survives as the exact floor of the rigid
+nested family, the proved floor of a hierarchy of nested-exchange
+templates, and the conjectured universal floor of nested exchanges.
 
 \paragraph{Contributions: main theorems.}
 (1)~A \emph{superadditivity dichotomy}: under superincreasing radii the
@@ -502,7 +506,14 @@ pocket, and the golden ratio appears:
 \begin{theorem}[The golden family: the threshold is at most $\varphi$]
 \label{thm:golden}
 For every $\omega\in(1-\varphi/2,\ \varphi-1)=(0.1910,0.6180)$ and every
-sufficiently small $\varepsilon>0$, the instance
+\[
+0<\varepsilon<\varepsilon^\ast:=
+\min\Bigl(\tfrac{T-\varphi}{3},\ \tfrac{\varphi/2-\omega}{2},\
+\tfrac{4\sqrt5-8-\varphi/2}{2}\Bigr)
+\]
+(all three bounds positive on the window; the middle one is read as
+$(\varphi-\omega-\varphi/2)/2$ when it is the binding constraint on
+$s_1\le\varphi-\omega$), the instance
 \[
 R=\varphi+1,\qquad w=\omega,\qquad
 r=\bigl\{\varphi,\ 1,\ \tfrac\varphi2+2\varepsilon,\
@@ -520,9 +531,26 @@ identity $(1+\varphi)/\varphi=\varphi$), $s_1+s_2=\varphi+3\varepsilon$
 (dominant) and $s_2/s_1<1$, and $\varphi+3\varepsilon<T$ for
 $\varepsilon<(T-\varphi)/3$. \emph{The witness}: place $1$ in the hole of
 $\varphi$ (capacity $\varphi-\omega\ge1\iff\omega\le\varphi-1$) and
-$\{\varphi,s_1,s_2\}$ as a corona in the pan: their angular sum is
-$5.004<2\pi$ with slack $1.28$ as $\varepsilon\to0$ (explicit
-coordinates in the repository), so all four rings are placeable.
+$\{\varphi,s_1,s_2\}$ as a corona in the pan; the corona exists by an
+\emph{exact} certificate. By monotonicity of $\theta$ it suffices that
+the symmetric trio $\{\varphi,\sigma,\sigma\}$ with $\sigma=s_1$ has
+angular sum below $2\pi$, i.e.\ $2A+B<\pi$ with
+$A=\theta(\varphi,\sigma)/2$, $B=\theta(\sigma,\sigma)/2$. Here
+$f(\varphi)=\varphi$, and when $2A>\pi/2$ (otherwise the claim is
+immediate from $B<\pi/2$),
+\[
+2A+B<\pi\iff\sin B<\sin2A
+\iff f(\sigma)^2<4\varphi f(\sigma)\bigl(1-\varphi f(\sigma)\bigr)
+\iff f(\sigma)\,(1+4\varphi^2)<4\varphi ,
+\]
+which with $f(\sigma)=\sigma/(\varphi^2-\sigma)$,
+$8\varphi+5=(2+\sqrt5)^2$ and $\varphi^3=2+\sqrt5$ reduces to
+$\sigma(8\varphi+5)<4\varphi^3$, i.e.\
+$\sigma<4(\sqrt5-2)=0.9442\dots$; this holds since
+$s_1=\varphi/2+2\varepsilon<4(\sqrt5-2)$ by the third bound in
+$\varepsilon^\ast$. (At $\varepsilon=0$ the certificate is the exact
+identity $4\varphi(\sqrt5-\varphi)=4>1$.) So all four rings are
+placeable.
 \emph{The greedy under worst fit}: $\varphi\to$ pan; the ring $1$ fits
 both the pan ($\varphi+1\le R$, exact tangency, as in
 Theorem~\ref{thm:n4}) and the hole of $\varphi$, and worst fit -- the
@@ -535,10 +563,24 @@ $s_1$ nor $s_2$ fits the pan; the hole of $\varphi$ admits one of them
 but not both ($s_1+s_2=\varphi+3\varepsilon>\varphi-\omega$, two-circle
 exact); the hole of $m$ admits neither
 ($s_2>1-\omega\iff\omega>1-\tfrac\varphi2-\varepsilon$); and
-$s_2$ cannot nest in $s_1$. An exhaustive placement tree confirms the
-count: three rings with $1$ in the pan, four with $1$ in the hole
-(\texttt{code/aureo.py}).
+$s_2$ cannot nest in $s_1$; and $s_1$ fits alone in the hole of
+$\varphi$ ($s_1\le\varphi-\omega$, via $\varepsilon^\ast$), which is
+where the greedy puts it before $s_2$ is stranded. An exhaustive
+placement tree confirms the count: three rings with $1$ in the pan,
+four with $1$ in the hole (\texttt{code/aureo.py}).
 \end{proof}
+
+\begin{corollary}[The family realizes every $\rho\in(\varphi,T)$]
+\label{cor:goldencover}
+For $\rho_0\in(\varphi,T)$ take $s_2=\varphi/2+\varepsilon$,
+$s_1=s_2+\eta$ with $2\varepsilon+\eta=\rho_0-\varphi$ and $\eta>0$
+small. The dominant tail is $s_1+s_2=\rho_0$ exactly, all walls above
+are unchanged, and the corona certificate needs only
+$s_1<4(\sqrt5-2)$, which holds:
+$s_1=\varphi/2+\tfrac{\rho_0-\varphi}{2}+\tfrac\eta2
+<\varphi/2+\tfrac{T-\varphi}{2}+\tfrac\eta2=0.9195\ldots+\tfrac\eta2
+<4(\sqrt5-2)=0.9443\dots$ for $\eta$ small. \qed
+\end{corollary}
 
 The instance is golden four times over: the occupant is
 $\varphi$ (the unique positive fixed point of $2b(A)\,A=1+2b(A)$), the
@@ -552,13 +594,15 @@ codimension-one corner (pan tangency) that random radii never visit.
 
 \begin{conjecture}[Golden threshold]\label{conj:golden}
 Placement obliviousness holds for every instance with $\rho<\varphi$;
-together with Theorem~\ref{thm:golden} (which realizes every
-$\rho\in(\varphi,T)$) and the failures above $T$, this would make the
+together with Corollary~\ref{cor:goldencover} (the family realizes
+every $\rho\in(\varphi,T)$) and the failures above $T$, this would make the
 geometric threshold exactly the golden ratio: $\varphi-1$ measures the
 protection that disk geometry grants the greedy over additive
-bookkeeping, and $T$ is the exact floor of the \emph{nested} exchange
-(Sections~\ref{sec:width}--\ref{sec:generic}), attained by the rigid
-family of Theorem~\ref{thm:rigidfloor}. Evidence: the pan-exchange
+bookkeeping, and $T$ is the exact floor of the rigid nested family
+(Theorem~\ref{thm:rigidfloor}), the proved floor of every nested
+template of Sections~\ref{sec:width}--\ref{sec:generic}, and the
+conjectured universal floor of nested exchanges (the remaining nested
+gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in the repository for pair profiles except a
 sliver (Open Problem~\ref{op:assembly}(a)) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every width
@@ -584,9 +628,10 @@ $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 placement obliviousness. Two regimes must be distinguished. When $u$ is
 the \emph{hole} of a ring (the \emph{nested} exchange), the witness
 placement supplies the capacity wall $\sum S\le\mathrm{cap}(u)$, and this
-section and the next prove floors that all exceed $T$: the Tribonacci
-constant is the exact threshold of the nested exchange. When $u$ is the
-pan, that wall is absent, the floor drops to the Descartes pocket, and
+section and the next prove floors that all exceed $T$ for a hierarchy of
+nested templates: the Tribonacci constant is the exact floor of the
+rigid family and the conjectured universal floor of nested exchanges.
+When $u$ is the pan, that wall is absent, the floor drops to the Descartes pocket, and
 the golden family of Theorem~\ref{thm:golden} realizes it: the
 \emph{pan} exchange governs the global threshold of
 Conjecture~\ref{conj:golden}. Complete proofs for every statement of this
@@ -873,6 +918,7 @@ places all four rings.}
 \label{fig:n4}
 \end{figure}
 
+\FloatBarrier
 \section{Hardness decouples into two layers}\label{sec:hardness}
 
 If all radii lie within a band of width less than $w$, no nesting is
@@ -889,10 +935,11 @@ of the model is NP-hard. Membership in NP is itself delicate, because tight
 packings may require coordinates without short descriptions -- a phenomenon
 made precise by the $\exists\mathbb R$-completeness framework for
 two-dimensional packing~\cite{AbrahamsenMiltzowSeiferth2020}. For the disk
-pan specifically, we are not aware of a published NP-hardness proof (the
-related-work discussions of~\cite{FeketeKeldenichScheffer2019} and its
-companions attribute hardness to the square container only), and we leave
-its precise status as part of Open Problem~\ref{op:misc}. Integer-programming
+pan specifically, NP-hardness of deciding whether given disks fit into a
+circular container is established in the journal version of
+Fekete--Keldenich--Scheffer~\cite[Theorem~5.1]{FeketeKeldenichScheffer2019}
+(the conference version does not contain this result -- we thank the
+referee for the precise pointer). Integer-programming
 formulations for circle packing in rectangular containers are studied
 in~\cite{Litvinchev2014}.
 
@@ -910,10 +957,13 @@ for instances with a no-nesting radius band.
 \begin{proof}
 Reduce from \textsc{Equal-Cardinality Partition}: given positive integers
 $a_1,\dots,a_n$, $n$ even, with $\sum_i a_i=2B$, decide whether some $S$
-with $|S|=n/2$ has $\sum_{S}a_i=B$. (This variant is NP-hard by the
-standard padding: scaling a \textsc{Partition} instance by $2n$ and
-adjoining $n$ unit items forces, modulo $2n$, every solution to use exactly
-$n$ of the $2n$ items.) Fix any width $w>0$, set $M=3B$, pick
+with $|S|=n/2$ has $\sum_{S}a_i=B$. (This variant is NP-hard: from a
+\textsc{Partition} instance $b_1,\dots,b_m$ with $\sum_i b_i=2B_0$, take
+$K>\sum_i b_i$ and the $2m$ numbers $b_1+K,\dots,b_m+K,K,\dots,K$ ($m$
+copies of $K$); an $m$-subset with $t$ items of the first kind has sum
+$mK+\sum_{\mathrm{chosen}}b_i$, so $m$-subsets of sum $mK+B_0$ correspond
+exactly to subsets of the original instance of sum $B_0$, of any size,
+padded to cardinality $m$ with $K$-items.) Fix any width $w>0$, set $M=3B$, pick
 $\delta\in\bigl(\tfrac{w}{3B},\tfrac{w}{2B}\bigr)$, and take radii
 $r_i=\delta(a_i+M)$ with pan capacity $R^{+}=\delta\bigl(\tfrac n2M+B\bigr)$.
 All radii lie in $[3B\delta,\,5B\delta]$, so $r_i>w$ (each is a genuine
@@ -1017,8 +1067,9 @@ complexity-theoretic obstruction?
 Characterize the divergence band of Section~\ref{sec:divergence} exactly;
 determine the approximability of the cardinality objective; decide whether
 the additive surrogate admits a pseudopolynomial algorithm for integer
-radii; and settle the complexity of deciding packability of given circles
-into a \emph{disk} container (NP-hardness is only published for the square).
+radii; and settle membership in NP (versus
+$\exists\mathbb R$-completeness) of disk-into-disk packability, whose
+NP-hardness is~\cite[Theorem~5.1]{FeketeKeldenichScheffer2019}.
 \end{openproblem}
 
 \section*{Acknowledgements}
@@ -1841,7 +1892,10 @@ corner.
 
 \section{Complete proofs for generic containers}\label{app:genericproofs}
 
-This appendix proves every statement of Section~\ref{sec:generic}.
+This appendix proves every statement of Section~\ref{sec:generic}; its
+final subsection (\ref{app:pan-app}) proves the \emph{partial} golden
+floor of the pan exchange, whose single open micro-cell is stated
+explicitly in Theorem~\ref{thm:DP} and left as a conjecture.
 Normalize $r_m=1$, $\omega=w/r_m$. The template: $v$ is the pan, of radius
 $R$, containing $\{\alpha\}\cup O\cup\{m\}$ with $O=\{o_1\ge\dots\ge o_j\}$,
 $j\ge0$, $o_i\ge m=1$ (rings larger than $m$ agree in $F$ and $P$); $u$ is
@@ -2445,7 +2499,7 @@ cargo travelling inside) and $\sigma_2$ exactly as in the pair case, and
 the tails only grow.
 \end{proof}
 
-\subsection{The golden floor of the pan exchange}\label{app:pan-app}
+\subsection{Partial golden floor for pan exchanges}\label{app:pan-app}
 
 Here $u$ is the pan itself: $F$ places $m$ at top level, the witness $P$
 keeps $m$ in the hole of a ring $y$ ($1+X_y^{\mathrm{rest}}\le
@@ -2457,14 +2511,18 @@ pan repack. $F$'s pan gives the pair necessities $o_i+1\le R$ and
 $o_i+o_k\le R$. \emph{Strict leaf}: a leaf whose hole is not $y$'s;
 with $j\ge2$ at least $j-1$ exist ($j$ if $y$ is not a leaf).
 
-\begin{theorem}[Golden floor, pan exchange, pair profiles]\label{thm:DP}
-Blocking implies $\rho>\varphi$ -- for $j=1$ and $j=2$ at every width
-and occupancy, for the evacuation branch ($\sigma_1+M>1$) at every
-width, and for $j\ge3$ through the strict-leaf ladder and a case tree,
-except one declared micro-cell for $j=3$ (solid-disk $\sigma_2\le\omega$,
-$\omega\ge\varphi/2$, $y$ a leaf, $o_1\ge3$; directed evidence
-$\min\rho=2.37$). The infimum is exactly $\varphi$, realized by the
-golden family of Theorem~\ref{thm:golden} inside the case $j=1$.
+\begin{theorem}[Partial golden floor, pan exchange, pair profiles]
+\label{thm:DP}
+Blocking implies $\rho>\varphi$ in each of the following closed cases:
+(i)~$j=1$, every width and occupancy; (ii)~$j=2$, every width and
+occupancy; (iii)~the evacuation branch $\sigma_1+M>1$, every $j\ge2$ and
+width; (iv)~$j\ge4$, every width, and $j=3$ except the single open
+micro-cell $\{$solid-disk $\sigma_2\le\omega$, $\omega\ge\varphi/2$,
+$y$ a leaf outside $o_1$'s subtree, $o_1\ge3$, $o_2\ge3/\varphi\}$,
+which we leave as a conjecture (directed evidence: $240$k samples,
+$\min\rho=2.37$). The infimum over the closed cases is exactly
+$\varphi$, realized by the golden family of Theorem~\ref{thm:golden}
+inside case (i).
 \end{theorem}
 \begin{proof}
 \emph{$j=1$.} The placement ``$\sigma_i\to$ pan, the other to $D_m$''
@@ -2515,14 +2573,19 @@ $o_2$ exceeds $3/o_2$), or $o_1<3$ (tail of $o_1$ exceeds
 $(3/\varphi+3)/o_1$, and $(3/\varphi+3)/\varphi=3$ exactly), or
 $o_1\ge3$ with the node/dust dichotomy on $o_1$'s hole content: a node
 makes $y$'s subtree or $o_1$'s contribute a third strict leaf
-($\Psi_3$), dust lands in $m$'s tail
-($\rho\ge\sigma_1+\sigma_2+X_1>o_1-\omega\ge2$ when $y=o_1$, and
-$>o_1-1$ otherwise); the declared micro-cell is what survives this
-dichotomy when $\sigma_2\le\omega$ (a solid disk) disables the
-$\rho>2\omega$ shortcut. Full details, the adversarial reports (two
-rounds, including two repaired steps), and the tower-argument sketch
-for the micro-cell are in the repository (\texttt{code/batalla2.py},
-6/6).
+($\Psi_3$), dust lands in $m$'s tail. In detail, for $o_1\ge3$: if $y=o_1$, (Ry)
+gives $X_1\ge o_1-\omega-s>0$; a node inside makes $y$ a non-leaf,
+whence $jj=3$ and $\Psi_3$ applies, while pure dust lives in $m$'s tail
+and $\rho\ge s+X_1\ge o_1-\omega\ge2$. If $y$ lies in another
+occupant's subtree and is not a leaf, its subtree supplies the third
+strict leaf ($jj=3$); if $y$ is a leaf and $\omega<\varphi/2$,
+$\Psi_2>\varphi$; and if $y$ is a leaf, $\omega\ge\varphi/2$ and
+$\sigma_2>\omega$, then
+$\rho\ge\sigma_1+\sigma_2>2\omega\ge\varphi$. What survives is exactly
+the micro-cell of the statement (solid-disk $\sigma_2$), for which a
+tower argument is sketched in the repository. The adversarial reports
+(two rounds, including two repaired steps) and the verification script
+are in the repository (\texttt{code/batalla2.py}, 6/6).
 \end{proof}
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}

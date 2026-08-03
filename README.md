@@ -1,6 +1,6 @@
 # El problema de los calamares — Nested Ring Packing
 
-Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidamiento recursivo en una sartén circular: teoremas de superincrecencia, irrelevancia de colocación, instancias gemelas y umbrales (aditivo = 1, geométrico conjeturado = constante de Tribonacci). Variante circular y de selección del Recursive Circle Packing Problem.
+Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidamiento recursivo en una sartén circular: teoremas de superincrecencia, irrelevancia de colocación, instancias gemelas y umbrales: aditivo = 1; el geométrico REFUTA la conjetura de Tribonacci — el contraejemplo áureo falla en ρ = φ+3ε < T y el umbral conjeturado es la razón áurea φ, con T como suelo exacto de la familia rígida anidada. Variante circular y de selección del Recursive Circle Packing Problem.
 
 ## Estructura
 
@@ -9,7 +9,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `docs/generalizaciones.md` — todas las generalizaciones anotadas, con estado y primeras preguntas.
 - `docs/reinsercion.md` — lema de reinserción: la parte combinatoria del umbral de Tribonacci, cerrada con cota exacta, y la parte geométrica aislada (mínimo en la razón áurea).
 - `figures/` — divergencia área/número, diagrama de fases, contraejemplo n = 4.
-- `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, matplotlib).
+- `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, scipy, sympy, matplotlib — véase `code/requirements.txt`). Comando único: `python code/run_all.py` (~20 min; `--quick` omite `cuadrado.py`, ~8 min); código de salida 0 sólo si todo está en verde.
 
 ## Mapa de verificación (qué script respalda cada afirmación)
 

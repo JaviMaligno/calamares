@@ -351,3 +351,5 @@ if __name__ == "__main__":
     print( "  plantilla canonica, con holgura uniforme. La curva T_can(w) no es")
     print( "  monotona: cae de 2 hasta su minimo (medido 13/7, en la esquina")
     print( "  racional w = 1/7, alpha = 2, sigma2 = 6/7) y sube despues como Phi.")
+    import sys
+    sys.exit(0 if (ok_T and ok_lb) else 1)

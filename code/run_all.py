@@ -9,6 +9,9 @@ ocupantes, bloqueadores, bolsillo, striple, aureo, batalla2.
 """
 import subprocess, sys, os, re, time
 
+# Duracion aproximada: --full ~20 min (cuadrado.py ~10 min es el dominante);
+# --quick omite cuadrado.py y corre en ~8 min.
+
 SCRIPTS = [
     "rigido.py", "h1.py", "grosor.py", "esquina.py", "tresk.py",
     "cuatrok.py", "universal.py", "cuadrado.py", "corona.py",
@@ -17,11 +20,13 @@ SCRIPTS = [
 ]
 
 def main():
+    quick = "--quick" in sys.argv
+    scripts = [x for x in SCRIPTS if not (quick and x == "cuadrado.py")]
     base = os.path.dirname(os.path.abspath(__file__))
     root = os.path.dirname(base)
     ok_all = True
     results = []
-    for name in SCRIPTS:
+    for name in scripts:
         path = os.path.join(base, name)
         if not os.path.exists(path):
             results.append((name, "AUSENTE", False))
@@ -42,6 +47,9 @@ def main():
         # (fallos del greedy en el cuadrado), no checks en rojo; su senal de
         # error es el codigo de salida.
         fallos = len(re.findall(r"\[FALLO\]", out))
+        # veredictos de texto de los scripts antiguos (cinturon y tirantes;
+        # todos los scripts devuelven ademas codigo de salida != 0 al fallar)
+        fallos += len(re.findall(r"HAY FALLOS|<-- REVISAR", out))
         verde = (proc.returncode == 0 and fallos == 0)
         ok_all &= verde
         results.append((name, resumen or f"exit={proc.returncode}, "

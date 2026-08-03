@@ -6,14 +6,14 @@ Teorema A1 (docs/drafts/umbral_aureo.md): para todo omega en
     sarten R = phi + 1,  anchura w = omega,
     radios {phi, 1, phi/2 + 2 eps, phi/2 + eps}   (estrictos)
 
-tiene rho = phi + 2eps < T, su conjunto lex-max son los CUATRO aros
-(testigo: m = 1 en el agujero de phi, {s, s} en corona con phi en la
+tiene rho = phi + 3eps < T, su conjunto lex-max son los CUATRO aros
+(testigo: m = 1 en el agujero de phi, {s1, s2} en corona con phi en la
 sarten), y el voraz con worst fit (m -> sarten) se atasca en 3: la pareja
 {phi, 1} llena la sarten por tangencia diametral (phi + 1 = R) y todo
 tercer circulo cabe solo si <= b2(phi, 1) = phi/2 (rigidez S5, exacta);
-s = phi/2 + eps no cabe; el agujero de phi no admite el par (2s > phi -
-omega); H_m tampoco (s > 1 - omega). La obliviousness de colocacion FALLA
-en rho = phi + 2eps < T: la conjetura del umbral T es FALSA tal cual; el
+s2 = phi/2 + eps no cabe; el agujero de phi no admite el par (s1 + s2 >
+phi - omega); H_m tampoco (s2 > 1 - omega). La obliviousness FALLA
+en rho = phi + 3eps < T: la conjetura del umbral T es FALSA tal cual; el
 umbral geometrico es <= phi, y se conjetura = phi (el primer peldano de la
 escalera: la subida a T usaba la capacidad del testigo (W), que solo
 existe cuando u es un agujero; con u = sarten no hay (W)).
@@ -63,10 +63,32 @@ def bloque_A():
     e = sp.symbols('epsilon', positive=True)
     r1 = (1 + 2 * (phi / 2 + e)) / phi
     r2 = 2 * (phi / 2 + e)
-    ok &= check("rho = max((1+2s)/phi, 2s) = phi + 2eps (la cola de m manda: "
-                "2s - (1+2s)/phi = 2eps(1-1/phi) >= 0)",
+    ok &= check("familia simetrica {s,s}: rho = max((1+2s)/phi, 2s) = "
+                "phi + 2eps (mecanismo; la familia OFICIAL es la estricta "
+                "con rho = phi + 3eps, bloques B/C)",
                 sp.simplify(r2 - (phi + 2 * e)) == 0
                 and sp.simplify(r2 - r1 - 2 * e * (1 - 1 / phi)) == 0)
+    # certificado EXACTO del testigo (acta del 2o dictamen): la corona del
+    # trio {phi, s, s} existe sii s < 4(sqrt5 - 2); cadena
+    # f(s)(1+4phi^2) < 4phi  <=>  s(8phi+5) < 4phi^3, con
+    # 8phi+5 = (2+sqrt5)^2 y phi^3 = 2+sqrt5
+    sig = sp.symbols('sigma', positive=True)
+    fs = sig / (phi ** 2 - sig)
+    cert = sp.simplify(sp.expand(fs * (1 + 4 * phi ** 2) - 4 * phi))
+    sstar = 4 * (sp.sqrt(5) - 2)
+    ok &= check("certificado del testigo: f(s)(1+4phi^2) = 4phi exactamente "
+                "en s* = 4(sqrt5-2), y 8phi+5 = (2+sqrt5)^2, phi^3 = 2+sqrt5",
+                sp.simplify(cert.subs(sig, sstar)) == 0
+                and sp.simplify(8 * phi + 5 - (2 + sp.sqrt(5)) ** 2) == 0
+                and sp.simplify(phi ** 3 - 2 - sp.sqrt(5)) == 0)
+    ok &= check("en eps = 0 el certificado es 4 phi (sqrt5 - phi) = 4 > 1",
+                sp.simplify(4 * phi * (sp.sqrt(5) - phi) - 4) == 0)
+    # corolario de cobertura: con 2eps + eta = rho0 - phi (peso en eps),
+    # sigma1 = phi/2 + (rho0-phi)/2 + eta/2 -> phi/2 + (T-phi)/2 < s*
+    ok &= check(f"cobertura de (phi, T): phi/2 + (T-phi)/2 = "
+                f"{float(phi)/2 + (T - float(phi))/2:.4f} < s* = "
+                f"{float(sstar):.4f}",
+                float(phi) / 2 + (T - float(phi)) / 2 < float(sstar))
     ok &= check("phi < T", float(phi) < T)
     ok &= check("ventana no vacia: 1 - phi/2 = 0.1910 < phi - 1 = 0.6180",
                 float(1 - phi / 2) < float(phi - 1))

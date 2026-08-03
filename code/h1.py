@@ -324,3 +324,6 @@ if __name__ == "__main__":
     res.append(bloque_E())
     print(f"\nRESULTADO: {sum(res)}/{len(res)} bloques OK"
           + ("" if all(res) else "  <-- REVISAR"))
+
+    import sys
+    sys.exit(0 if all(res) else 1)

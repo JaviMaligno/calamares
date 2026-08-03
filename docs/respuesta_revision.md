@@ -152,3 +152,48 @@ por dos pasadas independientes (DBLP, Springer, ScienceDirect, Wiley,
 Dagstuhl, IJPAM): 15/15 correctas; único ajuste, el apellido completo
 «Ozuna Espinosa». La nueva cita (Abrahamsen–Miltzow–Seiferth) se verificó
 vía Crossref (FOCS 2020, pp. 1014–1021).
+
+---
+
+# Respuesta al SEGUNDO dictamen (2026-08-03)
+
+1. **«T como suelo exacto del intercambio anidado» — ACEPTADO ÍNTEGRO.**
+   Reformulado en abstract, introducción, encuadre de la sección 8 y
+   conj:golden: «T is the exact floor of the rigid nested family, the
+   proved floor of a hierarchy of nested templates, and the conjectured
+   universal floor of nested exchanges». Ninguna frase presenta ya a T
+   como umbral universal demostrado del anidado.
+2. **Paso numérico en el teorema áureo — ACEPTADO y REFORZADO.** El
+   testigo tiene ahora certificado algebraico exacto: la corona de
+   {φ, σ, σ} existe ⟺ σ < 4(√5−2), vía sin B < sin 2A ⟺
+   f(σ)(1+4φ²) < 4φ ⟺ σ(8φ+5) < 4φ³ con 8φ+5 = (2+√5)² y φ³ = 2+√5
+   (en ε = 0: 4φ(√5−φ) = 4 > 1). La ventana de ε es explícita
+   (ε* = mín((T−φ)/3, (φ/2−ω)/2, (4√5−8−φ/2)/2)) y la frase de
+   cobertura es ahora un Corolario demostrado (cor:goldencover, con el
+   reparto 2ε+η del exceso). Checks simbólicos en aureo.py [A].
+3. **Apéndice del intercambio a sartén — ACEPTADO.** Renombrado
+   «Partial golden floor for pan exchanges», enunciado por casos
+   cerrados (i)–(iv) con la micro-celda como conjetura explícita, árbol
+   j = 3 portado al texto, y la frase de apertura del apéndice
+   cualificada.
+4. **FKS Theorem 5.1 — ACEPTADO CON AGRADECIMIENTO y RETIRAMOS nuestra
+   discrepancia anterior.** Verificado en la versión de revista (open
+   access): el enunciado existe literalmente. Citado como
+   [Theorem 5.1, FKS DCG 69 (2023)]; el problema abierto del disco se
+   retira (queda solo la pertenencia a NP vs ∃R). Nuestra objeción
+   anterior valía únicamente para el preprint.
+5. **Padding de Equal-Cardinality Partition — ACEPTADO.** Sustituido
+   por la reducción estándar correcta: {bᵢ+K} ∪ {K}×m con K > Σbᵢ y
+   subconjuntos de cardinalidad exactamente m y suma mK+B₀.
+6. **run_all y códigos de salida — ACEPTADO.** Los 8 scripts antiguos
+   terminan ahora con sys.exit según su veredicto; el agregador
+   reconoce además «HAY FALLOS» y «<-- REVISAR»; modo --quick (~8 min,
+   omite cuadrado.py) y duración documentada; aureo.py sin restos de la
+   familia simétrica (etiquetada como mecanismo); README corregido
+   (umbral áureo conjeturado; dependencias numpy/scipy/sympy/
+   matplotlib).
+
+Presentación: figuras recolocadas junto a la sección de divergencia
+(páginas 12–14, vía placeins/FloatBarrier); título cambiado al sugerido
+por el revisor («Placement Rules, a Golden Counterexample, and a
+Tribonacci Floor»).
