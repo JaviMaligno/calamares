@@ -18,10 +18,20 @@ para la combinatoria)). Actas en VEREDICTOS.md. El antiguo parche del caso hijo-
 RESUELTO por el **lema de las hojas** (`bolsillo.md` §4, bloque [D] de
 `bolsillo.py`; verificación adversaria CONFIRMADA, acta 4ª ronda en
 VEREDICTOS.md — reparó el paso de la rama B, doble conteo de M): Ψ_j vale
-sin asteriscos para todo j y toda ocupación. Lo que queda de la Batalla 1: (a) las
-puntitas de ω extremo (j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896), (b) el
-LEMA DEL HUECO cuantitativo (pequeños frente a la pared geométrica; σ₂
-minúsculo), y (c) S con más de dos piezas.
+sin asteriscos para todo j y toda ocupación. Y el frente «S con más de
+dos piezas» está CERRADO en la canónica (**Teorema T3**,
+`drafts/striple.md`, `striple.py` 5/5, acta CONFIRMADO+REFORZADO):
+bloqueo con S = 3 piezas y H_m arbitrario ⟹ ρ > máx(Φ(ω), 13/7) para
+todo ω, sin excepciones — el polvo cabalga sobre el par si σ₃ anida; si
+no, el U₄ leído al revés fuerza el zigzag, y el zigzag implica
+σ₂ > b(α), con la deformación áurea γ_ω (raíz de α³ = α²+α+ω(α²+α+1),
+γ₀ = φ, γ₍₂/₇₎ = 2 exacto: 8 = 4+2+2) y el suelo racional **17/7** en
+esa rama (la esquina hermana de 13/7); la Proposición T3j hereda Ψ_j
+con ocupantes en la rama de reducción. Lo que queda de la Batalla 1:
+(a) las puntitas de ω extremo (j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896),
+(b) el LEMA DEL HUECO cuantitativo (pequeños frente a la pared
+geométrica; σ₂ minúsculo), y (c) k ≥ 4 y j ≥ 1 con k ≥ 3 fuera de la
+rama de reducción (numéricamente ≥ 2.2; huecos de `striple.md`).
 Después: Batalla 2 (u = sartén) y el ensamblaje del lema universal.**
 
 **Revisión mayor del paper (2026-08-02, plan en `docs/revision_paper.md`,

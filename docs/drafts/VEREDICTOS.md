@@ -340,3 +340,31 @@ bloqueo (conservador, correcto); limitación anotada: solo muestrea rama A
 (su ataque cubrió rama B y j = 1 sin hallazgos). VEREDICTO: la Proposición
 Ψ_j vale sin asteriscos para todo j y toda ocupación; correcciones
 editoriales aplicadas a bolsillo.md §4 y al Apéndice D del paper.
+
+## Acta: striple.md (Teorema T3 — S de tres piezas en la canónica)
+
+**Veredicto: CONFIRMADO en todos los sub-claims; enunciado REFORZADO por el
+verificador.** Protocolo de dos fases; la rederivación a ciegas coincidió en
+colocaciones, paredes, incompatibilidades (corona de v ↮ D_m/evacuación), la
+cadena del zigzag (rangos A, B < π/2; sentido de f(σ₁) ≤ 1/α; identidad
+σ₂ > b(α)), la herencia de las 4 paredes en la Rama 1 y la tricotomía. Sus
+ataques: oráculo independiente reescrito desde cero (0 discrepancias en 140k
+configuraciones), 2M muestras del zigzag (0 violaciones; pared AJUSTADA,
+margen mínimo 2.8·10⁻⁵ en σ₃ = σ₂, σ₁ → 1), barrido de bordes en 11 valores
+de ω (~85k bloqueos en régimen fiel, 0 fallos de cadena, 0 violaciones de
+ρ > Φ; mínimos por rama R1A ≥ 2.14, R1B ≥ 1.99, 2A ≥ 2.50, 2B ≥ 2.64).
+Cuatro aportaciones integradas: (1) la pared **(BH)** «σ₁(σ₃) → D_m;
+σ₂ + M fila en H_m» ⟹ σ₂ + M > 1 − ω, que en la rama 1B da
+ρ > 1 + σ₁ ≥ 1 + Φ/2 ≥ 1 + T/2 = 1.9196 y ELIMINA la excepción de rama:
+ρ > máx(Φ, 13/7) en TODAS las ramas; (2) el suelo de la rama 2B es exacto
+y racional: el cruce de las dos cotas es γ = 2 en ω = 2/7 (identidad
+8 = 4 + 2 + 2 en la cúbica de la deformación áurea) con valor **17/7** —
+corrige el 2.4291 de rejilla (artefacto del paso i/200); (3) la línea
+B1+W ⟹ σ₁+σ₂ ≥ 1+b(α) ≥ Φ añadida a la rama 1A (tal como estaba escrita
+solo daba 13/7, insuficiente para ρ > Φ con ω > 1/7); (4) artefacto del
+oráculo en M > 1−ω (capH < 0 rechazaba asignaciones que ni tocaban H_m;
+contraejemplo concreto con M = 1.036) — la prueba era válida ahí, era
+hueco de cobertura del código; arreglado (H_m solo restringe si se usa) y
+la rama 1B ejercitada en [C] con M > 0. Estrictitud menor anotada e
+integrada: el > estricto de la rama 1B usa σ₃ > ω. 5/5 bloques en verde
+tras las correcciones.

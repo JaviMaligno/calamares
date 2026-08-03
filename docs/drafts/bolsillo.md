@@ -341,7 +341,8 @@ de la sartén, que sí ve a los pequeños de `v` (véase §6).
 | j ≥ 4, toda ω | cerrado (Ψ_j, lema de las hojas) |
 | j = 2 hasta 0.624; j = 3 hasta 0.896 | cerrado (Ψ_j, lema de las hojas) |
 | pequeños en v (paredes combinatorias) | cerrado (Corolario S) |
-| puntitas: j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; S ≥ 3 piezas | abierto (lema del hueco / re-empaquetado 5+) |
+| S = 3 piezas en la canónica, toda ω | cerrado (Teorema T3, `striple.md`) |
+| puntitas: j=1 ω≥0.9626; j=2 ω≥0.624; j=3 ω≥0.896; Lema G con pequeños; k ≥ 4 y j ≥ 1 con k ≥ 3 fuera de la rama de reducción | abierto (lema del hueco / re-empaquetado 5+) |
 
 
 ## Mapa de verificación

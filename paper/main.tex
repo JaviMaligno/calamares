@@ -714,18 +714,41 @@ slot next to $m$ inside $u$
 (Lemma~\ref{lem:DG}, Theorem~\ref{thm:DGp},
 Proposition~\ref{prop:DPsij}, Corollary~\ref{cor:DS}).
 
+\paragraph{Three-piece profiles: the zigzag pays.}
+Larger reinsertion profiles are \emph{cheaper} for the adversary in pure
+nest accounting ($\rho^*_3\le\rho^*_2$), but in the canonical template the
+geometry reverses the sign: blocking with $S=\{\sigma_1\ge\sigma_2\ge
+\sigma_3\}$ and arbitrary occupancy of $H_m$ forces
+$\rho>\max\bigl(\Phi(\omega),\tfrac{13}7\bigr)$ for \emph{all} $\omega$,
+with no exceptional branch. If $\sigma_3\le\sigma_1-\omega$ the dust rides
+inside $\sigma_1$ and the pair program is inherited wall by wall
+(the $13/7$ corner bound applies); if nothing nests and the trio
+$\{\alpha,\sigma_1,\sigma_2\}$ has no corona, the witness chain gives
+$\sigma_1+\sigma_2\ge1+b(\alpha)\ge\Phi(\omega)$; and if the trio
+\emph{does} pack, Lemma $U_4$ read backwards forces the \emph{zigzag}
+certificate to fail, and the zigzag implies exactly $\sigma_2>b(\alpha)$
+-- the Descartes pocket by a third route, via
+$\sin^2\!A+\sin^2\!B>1$. Crossing that wall with the witness capacity
+lands on the \emph{golden deformation} $\gamma_\omega$, the root of
+$\alpha^3=\alpha^2+\alpha+\omega(\alpha^2+\alpha+1)$ with
+$\gamma_0=\varphi$, and the tail bounds meet at another rational corner:
+$\gamma_{2/7}=2$ exactly ($8=4+2+2$) with value $\tfrac{17}7$ -- the
+sister of the $13/7$ corner
+(Theorem~\ref{thm:DT3}, Proposition~\ref{prop:DT3j}).
+
 \paragraph{Status.}
 Together with Theorem~\ref{thm:corner}, every blocked exchange in the
 templates above satisfies $\rho>T$: for all $\omega$ in the canonical
-template, for $\omega<0.9626$ with one extra occupant under arbitrary hole
-occupancy, for $\omega<0.624$ and $\omega<0.896$ with two and three, and
-for all $\omega$ with four or more.
+template -- with $S$ a pair or a triple -- for $\omega<0.9626$ with one
+extra occupant under arbitrary hole occupancy, for $\omega<0.624$ and
+$\omega<0.896$ with two and three, and for all $\omega$ with four or more.
 What remains open on the road to Conjecture~\ref{conj:tribo} is documented
 in the repository: the width tips ($j=1$, $\omega\ge0.9626$; $j=2$,
 $\omega\ge0.624$; $j=3$, $\omega\ge0.896$), a
 quantitative ``gap lemma'' (small rings against the geometric wall; tiny
-$\sigma_2$), profiles $S$ with three or more pieces beyond the combinatorial
-bound, and the second battle where $u$ is the pan itself. Each statement in
+$\sigma_2$), profiles of four or more pieces beyond the reduction branch
+(and $k\ge3$ with extra occupants beyond it), and the second battle where
+$u$ is the pan itself. Each statement in
 this section is backed by a verification script and an adversarial
 verification report in the repository.
 
@@ -881,8 +904,8 @@ combinatorics ($\rho^*_k=\rho^*_3$, $\omega_c=\omega_T$) below $\omega_T$ and
 the wall hierarchy above it. The documented remaining gaps are the width
 tips ($j=1$ with $\omega\ge0.9626$; $j=2$ with $\omega\ge0.624$; $j=3$ with
 $\omega\ge0.896$), a quantitative gap lemma
-(small rings against the double-pocket wall; tiny $\sigma_2$), profiles with
-three or more reinserted pieces beyond the combinatorial bound, and the case
+(small rings against the double-pocket wall; tiny $\sigma_2$), reinsertion
+profiles of four or more pieces beyond the reduction branch, and the case
 where $u$ is the pan.
 \end{openproblem}
 
@@ -931,7 +954,9 @@ profile thresholds -- \texttt{perfil\_tres}, \texttt{cuatro}
 (\texttt{cuatrok} 5/5 blocks); the corona criterion -- \texttt{corona}
 (5/5 blocks); occupant walls, the opposite-disk lemma and the metallic
 floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
-double-pocket wall and the golden line -- \texttt{bolsillo} (6/6). Several
+double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
+three-piece profiles and the golden deformation -- \texttt{striple}
+(5/5). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
@@ -2221,6 +2246,104 @@ $v$ proper stay put, which is legal since no other position changes), and
 tails can only grow. (The geometric wall of Lemma~\ref{lem:DG} is
 \emph{not} covered: it uses the global repacking of the pan, which does
 see small rings in $v$; this is the ``gap lemma'' left open.)
+\end{proof}
+
+\subsection{Three-piece profiles in the canonical template}
+\label{app:triple-app}
+
+Here $v$ is the canonical pan of radius $R=\alpha+1$ with $\{\alpha,m\}$
+diametral, $u$ is the hole of $\alpha$, and the witness placed
+$S=\{\sigma_1\ge\sigma_2\ge\sigma_3\}\subset(\omega,1)$ in $u$; the hole
+of $m$ may carry mass $M\ge0$. The reinsertion resources are $D_m$ (rows
+of sum $\le1$, with $\alpha$ in place), $H_m$ (capacity $1-\omega$;
+its content $M$ can be evacuated in a row to $D_m$), the slot next to $m$
+in $u$ (row $1+\Sigma\le\alpha-\omega$), nesting inside $S$, and the
+repack of $v$: placing $\{\alpha\}\cup(\text{roots of }S)$ as a corona in
+the pan -- incompatible with using $D_m$ or the evacuation, both of which
+pin $\alpha$. The witness gives (W) $\sigma_1+\sigma_2\le\alpha-\omega$.
+
+\begin{theorem}[Three pieces; the zigzag pays]\label{thm:DT3}
+Blocking with $S$ a triple and arbitrary $M$ implies
+$\rho>\max\bigl(\Phi(\omega),\tfrac{13}7\bigr)$ for all
+$\omega\in(0,1)$; in the zigzag branch below, $\rho>\tfrac{17}7$.
+\end{theorem}
+\begin{proof}
+\emph{Branch 1 ($\sigma_3\le\sigma_1-\omega$): the dust rides the pair.}
+Nest $\sigma_3$ in $\sigma_1$ inside each pair placement; their failures
+give five walls: (B1) ``$\sigma_3\subset\sigma_1$; corona
+$\{\alpha,\sigma_1,\sigma_2\}$ in $v$'' fails, so the trio has no corona
+and $F(\sigma_1,\sigma_2)>2\pi$ (corona $\iff F\le2\pi$ is exact for
+three circles); (B2/dichotomy) ``$\sigma_1(\sigma_3)+M$ in a row in
+$D_m$; $\sigma_2\to$ emptied $H_m$'' fails, so $\sigma_2>1-\omega$ or
+$\sigma_1+M>1$; (B4) ``$\sigma_2\to u$ next to $m$; corona
+$\{\alpha,\sigma_1(\sigma_3)\}$'' fails, so $\sigma_2>\alpha-\omega-1$;
+(BH) ``$\sigma_1(\sigma_3)\to D_m$; $\sigma_2+M$ in a row in $H_m$''
+fails, so $\sigma_2+M>1-\omega$; and (W). From (B1)+(W), by
+Corollary~\ref{cor:Cmin}, in \emph{both} branches of the dichotomy
+$\sigma_1+\sigma_2\ge1+b(\alpha)$, $\alpha\ge T_{1+\omega}$ and
+$\rho\ge\sigma_1+\sigma_2\ge\Phi(\omega)>T$. Moreover: if
+$\sigma_2>1-\omega$, the program (B1)+(B2)+(B4)+(W) is exactly that of
+Theorem~\ref{thm:corner}, whose lower bound gives
+$\sigma_1+\sigma_2>\tfrac{13}7$; if instead $\sigma_1+M>1$, then (BH)
+and $\sigma_3>\omega$ give
+$\rho\ge\sigma_1+\sigma_2+\sigma_3+M>\sigma_1+(1-\omega)+\omega
+=1+\sigma_1\ge1+\Phi(\omega)/2\ge1+T/2=1.9196>\tfrac{13}7$.
+
+\emph{Branch 2 ($\sigma_3>\sigma_1-\omega$): nothing nests} (also
+$\sigma_2,\sigma_3>\sigma_2-\omega$ and the star needs
+$\sigma_2+\sigma_3\le\sigma_1-\omega$, impossible). Split by the trio.
+
+\emph{2A: the trio $\{\alpha,\sigma_1,\sigma_2\}$ has no corona.} Then
+$F>2\pi$ and, as above, $\rho\ge\sum S>\sigma_1+\sigma_2\ge\Phi(\omega)$.
+Furthermore $\sigma_1\ge(\sigma_1+\sigma_2)/2\ge\Phi/2$, so
+$\sigma_3>\sigma_1-\omega\ge\Phi/2-\omega$ and
+$\rho>\tfrac32\Phi-\omega$ when $\omega\le\Phi/2$; by the chord bound
+$\Phi\ge T+(13-7T)\omega$ this exceeds $2.64$ on $(0,\tfrac17]$, while
+for $\omega\ge\tfrac17$, $\Phi\ge\tfrac{13}7$: in all cases
+$\rho\ge\tfrac{13}7$.
+
+\emph{2B: the trio has a corona.} Three mixed placements fail:
+``$\sigma_3(+M)$ in a row in $H_m$ $+$ trio corona'' gives (m1)
+$\sigma_3+M>1-\omega$; ``$\sigma_3\to u$ next to $m$ $+$ trio corona''
+gives (m2) $\alpha<1+\omega+\sigma_3$; and ``corona of the quadruple''
+fails, so by Theorem~\ref{thm:DU4} -- the top trio passing its
+certificate, by Lemma~\ref{lem:Dsubset} -- the \emph{zigzag} fails:
+$\theta(\alpha,\sigma_2)+\theta(\alpha,\sigma_3)
++\theta(\sigma_1,\sigma_2)+\theta(\sigma_1,\sigma_3)>2\pi$. By
+monotonicity, $2[\theta(\alpha,\sigma_2)+\theta(\sigma_1,\sigma_2)]>2\pi$,
+so $A+B>\pi/2$ with $A=\theta(\alpha,\sigma_2)/2$,
+$B=\theta(\sigma_1,\sigma_2)/2$, both $<\pi/2$ ($A\ge\pi/2$ would force
+$\sigma_2\ge1$; $\sigma_1+\sigma_2<R$). Hence $\sin A>\cos B$, i.e.\
+$\sin^2\!A+\sin^2\!B>1$:
+$f(\sigma_2)\bigl[f(\alpha)+f(\sigma_1)\bigr]>1$ with $f(\alpha)=\alpha$
+and $f(\sigma_1)\le1/\alpha$, so $f(\sigma_2)(\alpha+1/\alpha)>1$, which
+is \emph{exactly} $\sigma_2>b(\alpha)$. With (W):
+$2b(\alpha)<\sigma_1+\sigma_2\le\alpha-\omega$, and since
+$\alpha\mapsto\alpha-\omega-2b(\alpha)$ is strictly increasing
+($1-2b'>0$ for $\alpha\ge1$), $\alpha>\gamma_\omega$, the root of
+$2b(\alpha)=\alpha-\omega$ -- equivalently of
+$\alpha^3=\alpha^2+\alpha+\omega(\alpha^2+\alpha+1)$, with
+$\gamma_0=\varphi$. The tails: by (m1),
+$\rho\ge\sum S+M>2b(\alpha)+(1-\omega)\ge\gamma_\omega+1-2\omega$, and by
+(m2), $\rho>2b(\alpha)+\alpha-1-\omega\ge2\gamma_\omega-1-2\omega$. The
+first bound decreases in $\omega$ and the second increases
+($1<\gamma'<2$), and they cross \emph{exactly} at $\gamma=2$,
+$\omega=\tfrac27$ ($8=4+2+2$ in the cubic), where both equal
+$3-\tfrac47=\tfrac{17}7$: $\rho>\tfrac{17}7$ throughout branch 2B.
+\end{proof}
+
+\begin{proposition}[Reduction branch with occupants]\label{prop:DT3j}
+In the templates with $j\ge1$ extra occupants and $S$ of $k\ge3$ pieces
+with $\sum_{i\ge3}\sigma_i\le\sigma_1-\omega$, all pair walls and bounds
+(Proposition~\ref{prop:DV2}, Theorems~\ref{thm:DB} and~\ref{thm:DBpp},
+Proposition~\ref{prop:DPsij}) hold unchanged: blocking implies
+$\rho>\Psi_j(\omega)$.
+\end{proposition}
+\begin{proof}
+Nest $\sigma_3,\dots,\sigma_k$ in a row inside the hole of $\sigma_1$;
+every unblocking placement of those walls moves $\sigma_1$ (with its
+cargo travelling inside) and $\sigma_2$ exactly as in the pair case, and
+the tails only grow.
 \end{proof}
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
