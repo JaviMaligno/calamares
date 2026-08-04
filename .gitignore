@@ -13,3 +13,6 @@ paper/*.fls
 paper/*.fdb_latexmk
 paper/*.bbl
 paper/*.blg
+
+# Lean build artifacts
+lean/.lake/

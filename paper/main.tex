@@ -1170,6 +1170,27 @@ statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
 
+A fourth layer is machine-checked. The repository contains a Lean~4
+development (\texttt{lean/}, core only, no \texttt{mathlib}) that formalizes
+the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
+$\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
+polynomial identities over $\mathbb Z[A]$ and $(\mathbb Q[e])[d]$. Its
+twenty-two theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
+factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
+$\varepsilon_0$ margin and the width window), the metallic-mean certificates
+of Theorem~\ref{thm:DP} (including $\Psi(1/2)=\Psi_B(1)=\Psi_2(\varphi/2)
+=\varphi$ and the monotonicity certificate for $g$), the Tribonacci floor
+($P(\varphi)=-1$, the bracket $1.8392<T<1.8393$ and a certificate that $P$
+increases strictly on $[1,\infty)$), the $13/7$ corner, and the additive
+threshold family. There are no \texttt{sorry}s and no new axioms
+(\texttt{\#print axioms} reports only \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
+is not used, so every proof is checked by the Lean kernel. The geometric
+layer proper -- corona rigidity, angular criteria, placement trees,
+evacuations -- is \emph{not} formalized and remains covered by the scripts
+and reports above.
+
 \section{Complete proof of Theorem~\ref{thm:rigidfloor}}\label{app:rigidproof}
 
 Throughout, work in the normalization of Theorem~\ref{thm:rigidfloor}:
