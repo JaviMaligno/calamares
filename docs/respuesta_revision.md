@@ -278,3 +278,18 @@ Tribonacci Floor»).
    = X) y la sección 5 (punto fijo a₃ = X y los residuos de los tres
    polinomios de los peldaños): 24 comprobaciones en el veredicto,
    ejecutado completo con exit 0.
+
+---
+
+# Respuesta al SEXTO dictamen (final)
+
+- La prueba del Teorema 13/7 ya no invoca la Proposición de la curva
+  fuera de su dominio: el caso α < 2, ω ≥ 1/7 usa la deducción directa
+  «por el Corolario del mínimo y (W), el bloqueo fuerza
+  α ≥ T_{1+ω} ≥ T_{8/7} = 2, contradiciendo α < 2».
+- «Width-free» sustituido en las dos frases por «walls that do not use
+  H_m … remain valid for a solid pivot» (en efecto (W) contiene ω como
+  parámetro; lo que no usa es el agujero del pivote).
+
+Con esto quedan atendidos los seis dictámenes; pendiente solo la
+congelación (fecha, commit, repo público, Zenodo) para arXiv.

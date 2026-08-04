@@ -658,8 +658,8 @@ $\omega>0$'' explicitly -- Theorem~\ref{thm:corner},
 Corollary~\ref{cor:Cmin}'s Tribonacci closure,
 Corollary~\ref{cor:DB2}, and cases (i)--(ii) of
 Theorem~\ref{thm:DP} -- whose proofs route the $\omega\ge1$ regime
-through width-free walls only (the trio frontier and the witness
-capacity). Everything $\rho$
+through walls that do not use $H_m$ (the trio frontier and the witness
+capacity) and so remain valid for a solid pivot. Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
@@ -734,8 +734,8 @@ Propositions~\ref{prop:Cwitness} and~\ref{prop:Ccurve}).
 
 \begin{theorem}[The $13/7$ corner]\label{thm:corner}
 For all $\omega>0$ (including the solid-pivot regime $\omega\ge1$: for
-$\omega\ge\tfrac17$ the proof below uses only (B1) and (W), which are
-width-free),
+$\omega\ge\tfrac17$ the proof below uses only (B1) and (W), which do
+not use $H_m$ and remain valid for a solid pivot),
 \[
 T_{\mathrm{can}}(\omega)\;\ge\;\tfrac{13}{7}\;=\;T+0.017856\dots,
 \]
@@ -1870,9 +1870,10 @@ equality only at the corner; case (c) would need $\omega\le\omega_1$).
 \begin{proof}[Proof of Theorem~\ref{thm:corner}]
 \emph{Lower bound.} Take any blocking at width $\omega$. If $\alpha\ge2$:
 by Corollary~\ref{cor:Cmin} alone (no (B2), (B4), (W) needed),
-$\rho\ge1+b(\alpha)\ge1+b(2)=\tfrac{13}7$. If $\alpha<2$, use
-Proposition~\ref{prop:Ccurve}: for $\omega\ge\tfrac17$ there is no
-blocking with $\alpha<T_{1+\omega}$ and $T_{1+\omega}\ge2>\alpha$: empty.
+$\rho\ge1+b(\alpha)\ge1+b(2)=\tfrac{13}7$. If $\alpha<2$: for
+$\omega\ge\tfrac17$, by Corollary~\ref{cor:Cmin} and (W) blocking
+forces $\alpha\ge T_{1+\omega}\ge T_{8/7}=2$, contradicting $\alpha<2$:
+empty.
 For $\omega\le\omega_1$: $\rho\ge2(1-\omega)\ge2(1-\omega_1)>\tfrac{13}7$
 (since $\omega_1<\tfrac1{14}$). For $\omega_1<\omega<\tfrac17$:
 $\rho\ge V(\omega):=\alpha_m(\omega)-\omega$, and $V>\tfrac{13}7$ there:
