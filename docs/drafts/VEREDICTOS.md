@@ -462,3 +462,53 @@ mín ≈ 1.93 — y la evidencia del verificador: 240 000 muestras dirigidas
 con y sin σ > ω, mín ρ = 2.37, 0 violaciones). Teorema P: j = 1 y j = 2
 completos toda ω; j ≥ 4 completo; j = 3 completo salvo la sub-celda
 declarada. batalla2.py 6/6 tras las correcciones.
+
+## Acta (2026-08-04): microcelda.md — cierre de la micro-celda de j = 3 (pinza sobre v*)
+
+**Veredicto: CONFIRMADO. La sub-celda declarada en el acta anterior queda
+CERRADA; el Teorema P pasa a ser TOTAL para perfiles de pares.** Objeto:
+el Teorema M de `drafts/microcelda.md` (`microcelda.py` 5/5) — la pinza
+sobre v*, el nodo más pequeño del subárbol de o₁ cuya cola contiene a o₂
+y o₃: (Bo) más la cola dan a la vez `v* > φ(3φ − s)` y
+`v* < φ²(2s + φ − 4)` con `s := σ₂ + ω`, incompatibles mientras
+`s ≤ (6φ−1)/(2φ+1) = 11 − 4√5 = 15 − 8φ = 2.0557`, y aquí `s < 2` porque
+σ₂ ≤ 1 y ω < 1. No usa σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ ≥ 3: cierra las ramas
+3b–3e enteras y hace innecesario el esbozo de la torre con suma
+cuadrática.
+
+**Los ocho frentes del verificador hostil** (todos superados): (1) doble
+conteo en las colas — o₂, o₃, m, σ₁, σ₂ son ajenas al subárbol de v*
+(ocupantes de nivel superior; m en el agujero de y o en la sartén; el
+par lo coloca P en la sartén); (2) legalidad de (Bo) en profundidad —
+vale en todo nodo cuyo agujero no sea el de y, y v* lo cumple;
+(3) conteo de hojas estrictas en la rama de dos hijos-nodo — las dos
+hojas son estrictas porque y está fuera del subárbol de o₁, y el
+ocupante de {o₂,o₃} que no contiene a y aporta la tercera: jj = 3;
+(4) minimalidad de v* con empate o₁ = o₂ — obliga a definir V por «su
+cola contiene o₂ y o₃» (véase reserva 2); (5) dirección de la cota del
+polvo — D < φ−1 sale de la cola de m, no al revés; (6) estrictas vs no
+estrictas en toda la cadena; (7) ¿prueba de más? — contraste con el
+contraejemplo áureo (`thm:golden`), que vive en j = 1 y por tanto no
+tiene los tres ocupantes que la cadena necesita, y además cumple
+ρ = φ+3ε > φ: compatible; (8) auditoría del script bloque a bloque.
+
+**Ataque numérico independiente.** El verificador montó un generador
+propio, más estricto que el del borrador: impone y, (Ry) y (Bo) en
+TODOS los nodos, el anidamiento y la rama A. Resultado: **29 310
+configuraciones, mín ρ = 2.9795, sin contraejemplo**.
+
+**Seis reservas de redacción**, todas señaladas por el verificador y ya
+aplicadas en el paper y en `microcelda.md`: (1) D es el polvo
+*distinto del par* (σ₁, σ₂ no cuentan como polvo en la cola de m);
+(2) V se define por «su cola contiene o₂ y o₃», no por «v > o₂» — con el
+empate o₁ = o₂ la segunda formulación dejaría fuera a o₁; (3) hay que
+citar la rama A/B explícitamente en el paso de las dos hojas estrictas
+(la rama B es el caso ya cerrado del Teorema DP); (4) «nodo del subárbol
+de o₁» incluye a o₁ mismo; (5) (Bo) en profundidad presupone σ₁ ≤ 1 y
+que el agujero en cuestión no es el de y; (6) el alcance del argumento
+es la rama A. Ninguna afecta al resultado.
+
+Nota de alcance (control negativo del bloque [D], no reserva): para
+`s > s* = 2.0557` la cadena NO cierra. El régimen de **pivote sólido
+ω ≥ 1 con j ≥ 3** queda por tanto fuera de este argumento y sigue
+abierto, como ya declaraba el convenio de anchura de `batalla2.md` §1.

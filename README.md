@@ -31,10 +31,12 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `tresk.py` — perfil de 3 aros: Proposición 4 (cuatro casos) y fórmula cerrada ρ*₃(ω); el cruce con T es exacto: ω_T = 1/T − 1/2 ≈ 0.0437; ver `docs/drafts/perfil_tres.md`.
 - `rigido.py` — Teorema S (suelo rígido sin idealización): ρ > T en toda la subfamilia rígida, para todo w > 0; identidad sin²(θ/2) = f(a)f(b), bolsillo rígido exacto (Prop. S5) y familia aproximante del ínfimo; ver `docs/drafts/suelo_rigido.md`.
 - `cuadrado.py` — sartén cuadrada: bolsillo de esquina x = (√s−√a)², constante hermana X = 1.7110185903… (raíz de 17x⁴ − 4x³ − 62x² + 4x + 49 en su rama), escalera cuadrada; ver `docs/drafts/cuadrado.md`.
+- `batalla2.py` — Teorema P (suelo áureo del intercambio a sartén, S par): identidades exactas del punto fijo áureo 2b(φ) = φ y de las medias metálicas (Ψ_B(1) = φ, Ψ₂(φ/2) = φ, Ψ₃(1) = √3), las cadenas de las ramas A y B, y el cierre del rincón (pared de bolsillos espejo en j = 2, árbol de casos en j = 3); ver `docs/drafts/batalla2.md`.
+- `microcelda.py` — Teorema M: cierre de la última rama de j = 3 del intercambio a sartén por la pinza sobre v*, con la constante exacta s* = 11 − 4√5 = 15 − 8φ y sus controles negativos; ver `docs/drafts/microcelda.md`.
 
 ## Hoja de ruta
 
-1. Conjetura del umbral áureo (τ = φ): cerrar la micro-celda de j = 3 del intercambio a sartén, |S| ≥ 3 y pequeños extra, y ensamblar el lema universal de reinserción con umbral φ; en paralelo, fijar el suelo anidado en exactamente T (puntitas de anchura, gap lemma, perfiles k ≥ 4).
+1. Conjetura del umbral áureo (τ = φ): |S| ≥ 3 y pequeños extra en el intercambio a sartén, y ensamblar el lema universal de reinserción con umbral φ; en paralelo, fijar el suelo anidado en exactamente T (puntitas de anchura, gap lemma, perfiles k ≥ 4). La micro-celda de j = 3 ya está cerrada (Teorema M, `docs/drafts/microcelda.md`).
 2. Pregunta de complejidad para reglas con input completo (oráculo de hermanos, número de consultas).
 3. Afilados en cuadrado y en R³ (los teoremas de superincrecencia ya valen; la constante análoga a T es abierta).
 4. Grosor variable, flexibilidad δ, inventarios infinitos (ver `docs/generalizaciones.md`).

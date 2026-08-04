@@ -122,8 +122,9 @@ con un ocupante y par tiene mínimo numérico φ por el punto fijo
 2b(A)·A = 1 + 2b(A) ⟺ A = φ). El párrafo de §5quater y las menciones al
 «umbral T» deben leerse con esta corrección; el paper ya la incorpora
 (Teorema thm:golden + Conjecture conj:golden). Y la dirección ≥ está
-CASI CERRADA en la plantilla S par (**Teorema P**, `drafts/batalla2.md`,
-`batalla2.py` 5/5, acta CONFIRMADO): bloqueo a sartén ⟹ ρ > φ para
+CERRADA para perfiles de pares en la plantilla S par (**Teorema P**,
+`drafts/batalla2.md`, `batalla2.py` 6/6, acta CONFIRMADO): bloqueo a
+sartén ⟹ ρ > φ para
 j = 1 (toda ω, dicotomía del punto fijo con el cruce factorizado
 (A²−A−1)(2A+1)), para la rama B de la evacuación (todo j, toda ω, vía la
 hoja estricta y la identidad Ψ_B(1) = φ) y para la rama A por la
@@ -134,9 +135,21 @@ espejo** (contención al disco o₁+o₂ + rigidez + y₀ = 2b₂: bloqueo ⟹
 b₂(o₁,o₂) < 1) con el cruce áureo o₂* = √(1+2o₁)−1 y la identidad
 Ā(2) = √5−1 = o₂*(2) cierra TODA ω sin hipótesis; para j = 3, árbol de
 casos (colas de o₂/o₁ con la identidad (3/φ+3)/φ = 3, dicotomías
-nodo/polvo) salvo una sub-celda de discos sólidos declarada (σ₂ ≤ ω,
-ω ≥ φ/2, o₁ ≥ 3; argumento de la torre esbozado; evidencia 240k
-muestras, mín 2.37). Corrección de plantilla descubierta en la ronda:
+nodo/polvo) completo desde 2026-08-04, cuando la última rama — la de
+discos sólidos, antes declarada abierta — cayó con el **Teorema M**
+(`drafts/microcelda.md`, `microcelda.py` 5/5, acta CONFIRMADO): la pinza
+sobre v*, el nodo más pequeño del subárbol de o₁ cuya cola contiene a o₂
+y o₃, en la que (Bo) y la cola dan a la vez v* > φ(3φ − s) y
+v* < φ²(2s + φ − 4) con s := σ₂ + ω, incompatibles mientras
+s ≤ 11 − 4√5 = 15 − 8φ = 2.0557, y aquí s < 2 porque σ₂ ≤ 1 y ω < 1.
+No usa σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ ≥ 3, y el esbozo de la torre con suma
+cuadrática resultó innecesario. El Teorema P es por tanto TOTAL para
+perfiles de pares (j ≥ 1, ω ∈ (0,1); toda ω > 0 en j = 1, 2). **La
+Conjetura del umbral áureo sigue siendo conjetura**: le faltan los
+perfiles |S| ≥ 3 a sartén, los pequeños extra y el ensamblaje del lema
+universal de reinserción con umbral φ; y el régimen de pivote sólido
+ω ≥ 1 para j ≥ 3, que el nuevo argumento no cubre.
+Corrección de plantilla descubierta en la ronda:
 «S ⊂ (ω,1)» NO es necesidad del modelo (discos sólidos legales); el
 refuerzo 13/7-uniforme de T3 queda condicionado a σ₃ > ω (sin
 condición: ρ > Φ(ω) > T siempre).

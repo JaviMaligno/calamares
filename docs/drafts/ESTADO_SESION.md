@@ -13,18 +13,27 @@ instancia es áurea 4 veces (A = φ punto fijo de 2bA = 1+2b; b₂ = φ/2;
 ANIDADO (toda la Batalla 1 en pie, > T > φ con margen); nueva conjetura:
 el umbral global es exactamente φ. El paper ya está reescrito
 (thm:golden + conj:golden, abstract, encuadre nested/pan). Y el suelo φ
-está CASI CERRADO en S par (**Teorema P**, `drafts/batalla2.md`,
-`batalla2.py` 5/5, acta CONFIRMADO): j = 1 toda ω (punto fijo áureo,
-cruce (A²−A−1)(2A+1)); rama B todo j y toda ω (hoja estricta,
-Ψ_B(1) = φ); rama A por la escalera Ψ (Ψ₁(1/2) = Ψ₂(φ/2) = φ,
+está CERRADO para perfiles de pares en S par (**Teorema P**,
+`drafts/batalla2.md`, `batalla2.py` 6/6, acta CONFIRMADO): j = 1 toda ω
+(punto fijo áureo, cruce (A²−A−1)(2A+1)); rama B todo j y toda ω (hoja
+estricta, Ψ_B(1) = φ); rama A por la escalera Ψ (Ψ₁(1/2) = Ψ₂(φ/2) = φ,
 Ψ₃(1) = √3); Lema Z; y en 2ª ronda el rincón CERRADO: j = 2 completo
 toda ω vía la PARED DE BOLSILLOS ESPEJO (bloqueo ⟹ b₂(o₁,o₂) < 1, cruce
-áureo o₂* = √(1+2o₁)−1, Ā(2) = √5−1); j = 3 por árbol de casos salvo
-una sub-celda de discos sólidos declarada (torre esbozada, evidencia
-2.37). OJO CORRECCIÓN: «S ⊂ (ω,1)» NO es necesidad (discos sólidos
-legales); el 13/7-uniforme de T3 es condicional a σ₃ > ω. QUEDA: la
-sub-celda de j = 3, |S| ≥ 3 a sartén, pequeños extra, y el ensamblaje
-del lema universal con umbral φ.**
+áureo o₂* = √(1+2o₁)−1, Ā(2) = √5−1); j = 3 por árbol de casos, ahora
+COMPLETO: la última rama (la de discos sólidos, antes declarada como
+sub-celda) cayó el 2026-08-04 con el **Teorema M**
+(`drafts/microcelda.md`, `microcelda.py` 5/5, acta CONFIRMADO): pinza
+sobre v* = el nodo más pequeño del subárbol de o₁ cuya cola contiene a
+o₂ y o₃; (Bo) más la cola dan v* > φ(3φ − s) y v* < φ²(2s + φ − 4) con
+s := σ₂ + ω, incompatibles mientras s ≤ 11 − 4√5 = 15 − 8φ = 2.0557, y
+aquí s < 2 (σ₂ ≤ 1, ω < 1); no usa σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ ≥ 3, y el
+esbozo de la torre resultó innecesario. El Teorema P es TOTAL para
+perfiles de pares (j ≥ 1, ω ∈ (0,1); toda ω > 0 en j = 1, 2).
+OJO CORRECCIÓN: «S ⊂ (ω,1)» NO es necesidad (discos sólidos
+legales); el 13/7-uniforme de T3 es condicional a σ₃ > ω. QUEDA:
+|S| ≥ 3 a sartén, pequeños extra, el ensamblaje del lema universal con
+umbral φ, y el régimen de pivote sólido ω ≥ 1 para j ≥ 3 (que el
+Teorema M NO cubre: su constante s* = 2.0557 lo excluye).**
 
 ## (histórico) Batalla 1: pasos 1–4 y el asalto geométrico cerrados
 

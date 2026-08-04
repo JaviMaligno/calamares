@@ -3,17 +3,17 @@
 Borrador. Segundo resultado de la Batalla 2, tras el contraejemplo áureo
 (`umbral_aureo.md`): la dirección ≥ de la Conjetura A2 en la plantilla del
 intercambio a sartén con S par. Es la mitad (a) del Open Problem del
-paper, con un rincón declarado.
+paper, sin rincón.
 
 **Teorema P (completo, sin rincón).** Bloqueo del intercambio a sartén
 (u = sartén; el testigo tiene a m = 1 en v = agujero de un nodo y;
 S = {σ₁ ≥ σ₂} en la sartén; j ≥ 1 ocupantes > 1 a nivel superior con
 ocupación anidada arbitraria; m con hijos M arbitrarios) ⟹
 
-    ρ > φ      para todo j ≥ 1, toda ω y toda ocupación,
+    ρ > φ      para todo j ≥ 1 y toda ocupación, con toda ω > 0
+               en j = 1, 2 y ω ∈ (0,1) en j ≥ 3,
 
-salvo una sub-celda declarada de j = 3 (§4ter; evidencia ≥ φ + 0.75), y
-el ínfimo de la plantilla es exactamente φ (la familia áurea lo realiza
+y el ínfimo de la plantilla es exactamente φ (la familia áurea lo realiza
 en j = 1). Mecanismos por caso:
 
 | caso | mecanismo |
@@ -23,7 +23,8 @@ en j = 1). Mecanismos por caso:
 | j = 3, ω ∈ (0,1) | árbol de casos: colas de o₂/o₁, dicotomía masa/nodo, `Ψ₃` |
 | j ≥ 4, ω ∈ (0,1) | hojas estrictas (`Ψ₃(1) = √3 > φ`) + rama B (`Ψ_B(1) = φ`) |
 
-Verificación: `code/batalla2.py` (6 bloques). Numeración local:
+Verificación: `code/batalla2.py` (6 bloques) y `code/microcelda.py`
+(5 bloques, el Teorema M de §4ter). Numeración local:
 Teorema P, Lema Z (histórico: subsumido por la pared de bolsillos espejo
 en j = 2, se conserva por interés propio).
 
@@ -173,19 +174,41 @@ Bloqueo con j = 3 ⟹ ρ > φ, por la disyunción (con `s := σ₁+σ₂ > 1` y
    - **y en el subárbol de o₂ u o₃**: si y no es hoja, su subárbol
      aporta hojas estrictas propias ⟹ jj = 3 ⟹ Ψ₃/Ψ_B como antes. Si
      y es hoja: jj = 2 y la escalera da `ρ > Ψ₂(ω) > φ` para ω < φ/2;
-     para ω ≥ φ/2 con `σ₂ > ω`, `ρ ≥ σ₁ + σ₂ > 2ω ≥ φ`. Queda la
-     **sub-celda declarada** {y hoja en o₂/o₃, ω ≥ φ/2, σ₂ ≤ ω
-     (disco sólido), o₁ ≥ 3, o₂ ≥ 3/φ}: el argumento de la torre
-     (esbozo: (Bo) en o₁ y la tricotomía por niveles — polvo total
-     > 0.618 ⟹ cola de m > φ; dos hijos-nodo ⟹ jj = 3 ⟹ Ψ₃; torre de
-     nodo único ⟹ los nodos anidados suman cuadráticamente en la cola
-     de o₁, mín ≈ 1.93 > φ) está esbozado pero NO cerrado; evidencia
-     del acta: 240 000 muestras dirigidas (torres, con y sin σ > ω),
-     mín ρ = 2.37, 0 violaciones. ∎ (módulo la sub-celda)
+     para ω ≥ φ/2 con `σ₂ > ω`, `ρ ≥ σ₁ + σ₂ > 2ω ≥ φ`. Y lo que antes
+     quedaba fuera de esos dos alcances — {y hoja fuera del subárbol de
+     o₁, ω ≥ φ/2, σ₂ ≤ ω (disco sólido)} — lo cierra ahora el
+     **Teorema M** (prueba completa en `microcelda.md`, `microcelda.py`
+     5/5), que de hecho cubre la rama entera {y hoja fuera del subárbol
+     de o₁, o₂ ≥ 3/φ} sin usar σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ ≥ 3. ∎
 
-   [CORRECCIÓN post-acta: la primera reparación usaba `S ⊂ (ω,1)` como
-   plantilla; el modelo permite discos sólidos y la premisa era falsa —
-   de ahí la sub-celda declarada.]
+     *La pinza, en corto* (por reducción al absurdo, ρ ≤ φ, con
+     `t := σ₂ + ω` — el `s` de `microcelda.md`, que NO es el
+     `s = σ₁+σ₂` de esta sección): (i) el polvo total es < φ−1, porque
+     la cola de m lo
+     recoge junto a σ₁+σ₂ > 1; (ii) ningún nodo del subárbol de o₁ tiene
+     dos hijos-nodo (darían dos hojas estrictas y el ocupante libre una
+     tercera: jj = 3 ⟹ ρ > Ψ₃(ω) > √3 > φ), luego ese subárbol es una
+     torre; (iii) sea v* el nodo más pequeño de {o₁} ∪ torre cuya cola
+     contiene a o₂ y o₃. Su cola (o₂, o₃, m, σ₁, σ₂ y todo su subárbol)
+     más (Bo) en v* (`X_{v*} > v* − t`) da `o₂ < (φ−1)v* − 3 + t`, y con
+     `o₂ ≥ 3/φ` y la identidad `3/φ + 3 = 3φ`: `v* > φ(3φ − t)`;
+     (iv) v* tiene un hijo-nodo w (si no, su agujero sería polvo puro y
+     (Bo) lo haría demasiado pequeño), y por minimalidad de v* es
+     `w ≤ o₂`, luego (Bo) da `o₂ > v* − t − (φ−1)` y con (iii)
+     `v* < φ²(2t + φ − 4)`. Las dos cotas de v* son incompatibles
+     exactamente cuando `t ≤ (6φ−1)/(2φ+1) = 11 − 4√5 = 2.0557`, y aquí
+     `t = σ₂ + ω < 2` porque σ₂ ≤ 1 (el par va detrás del pivote) y
+     ω < 1 (convenio de anchura). Contradicción. El margen en el peor
+     caso admisible s → 2 es `φ + 3 − φ³ = 2 − φ = 0.382`.
+
+     El **esbozo de la torre** con suma cuadrática que figuraba aquí
+     resultó innecesario: la pinza sobre v* no necesita sumar los niveles.
+
+   [CORRECCIÓN post-acta (nota histórica): la primera reparación usaba
+   `S ⊂ (ω,1)` como plantilla; el modelo permite discos sólidos y la
+   premisa era falsa — de ahí la sub-celda que se declaró en su momento.
+   Esa sub-celda está hoy CERRADA por el Teorema M (`microcelda.md`),
+   que no usa hipótesis alguna sobre σ₂ frente a ω.]
 
 ## 5. El Lema Z (histórico) y notas
 
@@ -230,9 +253,10 @@ dan la misma desigualdad) es reutilizable para |S| ≥ 3.
 ## 7. Huecos declarados
 
 1. ~~El sliver~~ — CERRADO para j = 2 (§4bis, pared de bolsillos
-   espejo, sin hipótesis alguna sobre σ) y para j = 3 salvo la
-   sub-celda de discos sólidos de §4ter (argumento de la torre
-   esbozado; evidencia mín ρ = 2.37).
+   espejo, sin hipótesis alguna sobre σ) y para j = 3 **entero**
+   (§4ter): ya no queda sub-celda, la pinza sobre v* del Teorema M
+   (`microcelda.md`, `microcelda.py` 5/5) cierra la rama de discos
+   sólidos sin hipótesis sobre σ₂ frente a ω.
 2. **|S| ≥ 3**: las paredes se heredan (fila en D_m, evacuación, Lema R)
    pero la optimización no está rehecha; la reducción del Teorema T3
    (polvo sobre el par) porta la rama de anidamiento.
@@ -247,7 +271,7 @@ dan la misma desigualdad) es reutilizable para |S| ≥ 3.
 
 ## Mapa de verificación
 
-`code/batalla2.py`, cinco bloques: **[A]** identidades exactas en sympy
+`code/batalla2.py`, seis bloques: **[A]** identidades exactas en sympy
 (2b(φ) = φ; g(φ) = φ; el certificado de coeficientes de g′ < 0;
 Ψ(1/2) = φ; **Ψ_B(1) = φ**; Ψ₂(φ/2) = φ; Ψ₃(1) = √3; la monotonía de la
 pared Z y `dq/do₂ ≤ 0`); **[B]** j = 1: muestreo del programa con la
@@ -256,4 +280,17 @@ cadena del teorema verificada instancia a instancia (ambas σ > b(o₁),
 (ρ > Ψ_B > φ) y de la rama A cubierta (ρ > Ψ_jj en su ventana), 0
 fallos; **[D]** el rincón: mín ρ ≥ φ + 0.1 en {j ∈ {2,3},
 ω ∈ {0.85, 0.95}, rama A}; **[E]** consistencia con la familia áurea
-(paredes en pie, ρ = φ + 3ε) y el mínimo del programa j = 1 = φ.
+(paredes en pie, ρ = φ + 3ε) y el mínimo del programa j = 1 = φ;
+**[F]** el cierre del rincón: j = 2 y j = 3 completos (toda ω) con la
+pared W₂ y el árbol de casos.
+
+`code/microcelda.py`, cinco bloques (5/5), respalda el Teorema M de
+§4ter: **[A]** identidades exactas (`3/φ + 3 = 3φ`, `1/(2−φ) = φ²`, la
+frontera `s* = (6φ−1)/(2φ+1) = 11 − 4√5 = 15 − 8φ > 2`, Ψ₃(1) = √3);
+**[B]** la cadena [C1]–[C4] en simbólico, con las cotas `φ+3` y `φ³` en
+s = 2; **[C]** barrido dirigido con TODAS las paredes impuestas (y,
+(Ry), (Bo) en todos los nodos, anidamiento, rama A): ~190 k bloqueos,
+mín ρ = 2.91 > T > φ; **[D]** controles negativos (la constante s* es la
+justa: no cierra por encima de s*, y [C2] necesita `o₂ ≥ 3/φ`);
+**[E]** la tricotomía polvo / dos hijos-nodo / torre, rama por rama:
+exhaustiva y con la cota de cada rama comprobada, 0 fallos.

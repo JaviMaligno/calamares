@@ -294,3 +294,15 @@ Tribonacci Floor»).
 
 Con esto quedan atendidos los seis dictámenes; pendiente solo la
 congelación (fecha, commit, repo público, Zenodo) para arXiv.
+
+---
+
+# Addendum posterior al sexto dictamen (2026-08-04)
+
+La micro-celda de j = 3 que el Teorema DP dejaba como conjetura incrustada
+queda CERRADA (pinza sobre el nodo minimo cuya cola contiene a o2 y o3;
+constante exacta 11-4sqrt5 = 15-8phi). El teorema pasa a ser total para
+perfiles de pares y pierde el adjetivo "partial". Verificacion: acta
+adversaria CONFIRMADO, code/microcelda.py 5/5, seis certificados nuevos en
+Lean. La Conjetura aurea NO cambia de estatus: siguen abiertos |S| >= 3,
+los anillos pequenos extra, el ensamblaje y el pivote solido con j >= 3.

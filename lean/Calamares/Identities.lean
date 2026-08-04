@@ -231,6 +231,51 @@ aureo.py C] -/
 theorem coverage : Q5.ofRat (18393/20000) < 4 * sqrt5 - 8 := by decide +kernel
 
 /-!
+## La pinza que cierra j = 3 en el intercambio a sartén
+(`thm:DP` caso (iv); script `code/microcelda.py`, bloques [A] y [B])
+
+La cadena enfrenta `v* > φ(3φ − s)` con `v* < φ²(2s + φ − 4)`, donde
+`s = σ₂ + ω`.  Son incompatibles exactamente hasta `s* = 11 − 4√5`.
+-/
+
+/-- (23) `3/φ + 3 = 3φ`: la cota de las colas cruza φ exactamente en
+`o₁ = 3`; es la identidad que fija los umbrales 3 y 3/φ del árbol de
+casos. [thm:DP (iv); microcelda.py A] -/
+theorem tail_crossing : 3 / phi + 3 = 3 * phi := by decide +kernel
+
+/-- (24) `1/(2 − φ) = φ²`: el factor que despeja (C4). [thm:DP (iv)] -/
+theorem inv_two_sub_phi : 1 / (2 - phi) = phi ^ 2 := by decide +kernel
+
+/-- (25) La constante de la pinza: `s* = (6φ−1)/(2φ+1) = 11 − 4√5 = 15 − 8φ`.
+Para `s ≤ s*` las cotas (C2) y (C4) son incompatibles.
+[thm:DP (iv); microcelda.py A] -/
+theorem pincer_constant :
+    (6 * phi - 1) / (2 * phi + 1) = 11 - 4 * sqrt5
+    ∧ (11 : Q5) - 4 * sqrt5 = 15 - 8 * phi := by
+  decide +kernel
+
+/-- (26) `s* > 2`: como `σ₂ ≤ 1` (el perfil son anillos menores que el
+pivote) y `ω < 1` (convenio de anchura), siempre `s < 2 < s*`.
+[thm:DP (iv)] -/
+theorem pincer_applies : (2 : Q5) < 11 - 4 * sqrt5 := by decide +kernel
+
+/-- (27) La contradicción en el extremo `s = 2`: la cota inferior es
+`φ(3φ−2) = φ+3` y la superior `φ²(2·2+φ−4) = φ³ = 2φ+1`, y `φ³ < φ+3`
+con margen exactamente `2 − φ`. [thm:DP (iv); microcelda.py B] -/
+theorem pincer_gap :
+    phi * (3 * phi - 2) = phi + 3
+    ∧ phi ^ 2 * (2 * 2 + phi - 4) = phi ^ 3
+    ∧ phi ^ 3 < phi + 3
+    ∧ (phi + 3) - phi ^ 3 = 2 - phi := by
+  decide +kernel
+
+/-- (28) La rama sin hijo-nodo: si el agujero de `v*` fuese polvo puro,
+(Bo) daría `v* < s + φ − 1`, incompatible con (C2) mientras
+`s ≤ (2φ+4)/φ² = 2.7639…`, que también supera 2. [thm:DP (iv)] -/
+theorem pincer_child : (2 : Q5) < (2 * phi + 4) / phi ^ 2 := by
+  decide +kernel
+
+/-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
 

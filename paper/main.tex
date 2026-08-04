@@ -66,8 +66,8 @@ $\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
 $\rho=\varphi+3\varepsilon$ for every small $\varepsilon>0$. This
 \emph{proves} $\tau\le\varphi<T$ for the geometric threshold $\tau$ and
 refutes the natural Tribonacci-threshold conjecture. The matching bound
-$\tau\ge\varphi$ we prove for pan exchanges with pair profiles, up to a
-single micro-cell, and conjecture in general: the golden value is thus a
+$\tau\ge\varphi$ we prove for pan exchanges with pair profiles, and
+conjecture in general: the golden value is thus a
 theorem in one direction and open only in the other, with $T$ the exact
 floor of the rigid nested family and the conjectured universal floor of
 nested exchanges. Towards
@@ -143,7 +143,7 @@ small $\varepsilon>0$, which \emph{proves} $\tau\le\varphi<T$
 (Theorem~\ref{thm:golden}), and the family realizes every
 $\rho\in(\varphi,T)$ at a fixed width
 (Corollary~\ref{cor:goldencover}). The matching bound $\tau\ge\varphi$
-is proved for pan exchanges with pair profiles up to a single micro-cell
+is proved for pan exchanges with pair profiles
 (Theorem~\ref{thm:DP}) and conjectured in general
 (Conjecture~\ref{conj:golden}): the golden value is a theorem in one
 direction and open only in the other
@@ -658,9 +658,8 @@ bookkeeping, and $T$ is the exact floor of the rigid nested family
 template of Sections~\ref{sec:width}--\ref{sec:generic}, and the
 conjectured universal floor of nested exchanges (the remaining nested
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
-$\varphi$-floor is proved for pair profiles in Theorem~\ref{thm:DP}
-(Appendix~\ref{app:pan-app}), except one open micro-cell
-(Open Problem~\ref{op:assembly}(a)) -- one occupant at every
+$\varphi$-floor is proved in full for pair profiles in
+Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
 $\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
@@ -1107,8 +1106,8 @@ fall outside and, by Proposition~\ref{prop:count}, genuinely so.
 
 \begin{openproblem}\label{op:assembly}
 Prove Conjecture~\ref{conj:golden}. Two halves. (a)~\emph{The pan
-exchange has floor $\varphi$}: proved for pair profiles in
-Theorem~\ref{thm:DP} except one micro-cell (adversarially verified):
+exchange has floor $\varphi$}: proved in full for pair profiles in
+Theorem~\ref{thm:DP} (adversarially verified):
 blocking the pan exchange forces
 $\rho>\varphi$ for one occupant at every width $\omega>0$ (both
 reinserted rings
@@ -1120,10 +1119,10 @@ $\omega\in(0,1)$
 $\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
 strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
 $\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with a
-$U_4$-based wall ($o_2<1+1/o_1$) trimming what is left. Open: the
-micro-cell of Theorem~\ref{thm:DP}(iv) (numerical evidence: minimum
-$\rho\approx2.37$ over the cell), profiles of three or more reinserted
-pieces, and extra small rings. (b)~\emph{Assemble the universal
+$U_4$-based wall ($o_2<1+1/o_1$) and a pincer on the smallest node above
+$o_2$ closing the rest. Open: profiles of three or more reinserted
+pieces, extra small rings, and the solid-pivot regime $\omega\ge1$ for
+$j\ge3$. (b)~\emph{Assemble the universal
 reinsertion lemma} for the nested exchange from the proved floors
 ($\ge T>\varphi$, so far above the golden threshold that the remaining
 nested gaps -- the width tips, the quantitative gap lemma, profiles of
@@ -1182,7 +1181,7 @@ double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
 three-piece profiles and the golden deformation -- \texttt{striple}
 (5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
 \texttt{aureo} (5/5); the pan-exchange golden floor --
-\texttt{batalla2} (5/5). Several
+\texttt{batalla2} (6/6) and \texttt{microcelda} (5/5). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
@@ -1991,9 +1990,8 @@ corner.
 \section{Complete proofs for generic containers}\label{app:genericproofs}
 
 This appendix proves every statement of Section~\ref{sec:generic}; its
-final subsection (\ref{app:pan-app}) proves the \emph{partial} golden
-floor of the pan exchange, whose single open micro-cell is stated
-explicitly in Theorem~\ref{thm:DP} and left as a conjecture.
+final subsection (\ref{app:pan-app}) proves the golden floor of the pan
+exchange for pair profiles, in full.
 Normalize $r_m=1$, $\omega=w/r_m$. The template: $v$ is the pan, of radius
 $R$, containing $\{\alpha\}\cup O\cup\{m\}$ with $O=\{o_1\ge\dots\ge o_j\}$,
 $j\ge0$, $o_i\ge m=1$ (rings larger than $m$ agree in $F$ and $P$); $u$ is
@@ -2599,7 +2597,7 @@ cargo travelling inside) and $\sigma_2$ exactly as in the pair case, and
 the tails only grow.
 \end{proof}
 
-\subsection{Partial golden floor for pan exchanges}\label{app:pan-app}
+\subsection{Golden floor for pan exchanges}\label{app:pan-app}
 
 Here $u$ is the pan itself: $F$ places $m$ at top level, the witness $P$
 keeps $m$ in the hole of a ring $y$ ($1+X_y^{\mathrm{rest}}\le
@@ -2618,21 +2616,17 @@ $X_y^{\mathrm{rest}}$ fails, which by Lemma~\ref{lem:DR} gives the wall
 \emph{Strict leaf}: a leaf whose hole is not $y$'s; with $j\ge2$ at
 least $j-1$ exist ($j$ if $y$ is not a leaf).
 
-\begin{theorem}[Partial golden floor, pan exchange, pair profiles]
+\begin{theorem}[Golden floor, pan exchange, pair profiles]
 \label{thm:DP}
-Blocking implies $\rho>\varphi$ in each of the following closed cases:
-(i)~$j=1$, every width $\omega>0$ (including the solid-pivot regime
-$\omega\ge1$: the proof uses no width) and every occupancy;
-(ii)~$j=2$, likewise every $\omega>0$ and occupancy; (iii)~the
-evacuation branch $\sigma_1+M>1$, every $j\ge2$ and every
-$\omega\in(0,1)$; (iv)~$j\ge4$, every $\omega\in(0,1)$, and $j=3$
-except the single open
-micro-cell $\{$solid-disk $\sigma_2\le\omega$, $\omega\ge\varphi/2$,
-$y$ a leaf outside $o_1$'s subtree, $o_1\ge3$, $o_2\ge3/\varphi\}$,
-which we leave as a conjecture (directed evidence: $240$k samples,
-$\min\rho=2.37$). The infimum over the closed cases is exactly
-$\varphi$, realized by the golden family of Theorem~\ref{thm:golden}
-inside case (i).
+Blocking implies $\rho>\varphi$ in each of the following cases, which
+together exhaust the template: (i)~$j=1$, every width $\omega>0$
+(including the solid-pivot regime $\omega\ge1$: the proof uses no width)
+and every occupancy; (ii)~$j=2$, likewise every $\omega>0$ and occupancy;
+(iii)~the evacuation branch $\sigma_1+M>1$, every $j\ge2$ and every
+$\omega\in(0,1)$; (iv)~$j\ge3$, every $\omega\in(0,1)$. (Note $j\ge1$
+always: the carrier $y$ has $y\ge1+\omega>1$, so $y$ is an occupant or
+lies inside one.) The infimum is exactly $\varphi$, realized by the
+golden family of Theorem~\ref{thm:golden} inside case (i).
 \end{theorem}
 \begin{proof}
 \emph{$j=1$.} The placement ``$\sigma_i\to$ pan, the other to $D_m$''
@@ -2673,8 +2667,11 @@ program of Theorem~\ref{thm:DBpp}, so $\rho>\Psi_B(\omega)$, and
 $\Psi_B(1)=\varphi$ \emph{exactly} with $\Psi_B$ decreasing:
 $\rho>\varphi$ for all $\omega<1$.
 
-\emph{$j\ge3$, remaining branch.} The strict-leaf ladder gives
-$\rho>\Psi_{jj}(\omega)$ with $jj\in\{j-1,j\}$ leaves, and the golden
+\emph{$j\ge3$, remaining branch.} The strict-leaf ladder of
+Proposition~\ref{prop:DPsij} needs only $k$ \emph{distinct} strict
+leaves, each a node with the wall (Bo) at it (not one per occupant):
+it gives $\rho>\Psi_k(\omega)$, and here $k\ge j-1$ always ($k\ge j$ if
+$y$ is not a leaf). The golden
 crossings are exact: $\Psi_1(\tfrac12)=\varphi$,
 $\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$ -- covering
 $j\ge4$ outright and $j=3$ up to $\varphi/2$ (always if $y$ is not a
@@ -2692,11 +2689,67 @@ occupant's subtree and is not a leaf, its subtree supplies the third
 strict leaf ($jj=3$); if $y$ is a leaf and $\omega<\varphi/2$,
 $\Psi_2>\varphi$; and if $y$ is a leaf, $\omega\ge\varphi/2$ and
 $\sigma_2>\omega$, then
-$\rho\ge\sigma_1+\sigma_2>2\omega\ge\varphi$. What survives is exactly
-the micro-cell of the statement (solid-disk $\sigma_2$), for which a
-tower argument is sketched in the repository. The adversarial reports
-(two rounds, including two repaired steps) and the verification script
-are in the repository (\texttt{code/batalla2.py}, 6/6).
+$\rho\ge\sigma_1+\sigma_2>2\omega\ge\varphi$. What survives is
+$y$ a leaf outside $o_1$'s subtree, closed by the pincer below.
+
+\emph{The pincer (closes $y$ a leaf outside $o_1$'s subtree).} Here
+$o_2\ge3/\varphi$, and no width, solid-disk or $o_1$ hypothesis is
+needed: it suffices that $s:=\sigma_2+\omega<2$, which holds since
+$\sigma_2\le1$ (the profile consists of rings smaller than $m$) and
+$\omega<1$. Suppose $\rho\le\varphi$. Write $D$ for the total radius of
+the rings $<1$ \emph{other than} $\sigma_1,\sigma_2$, and for a node $v$
+let $X_v$ be its hole content and $T_v\ge X_v$ its whole subtree.
+(a)~The tail of $m$ collects $\sigma_1,\sigma_2$ and all of $D$, whence
+$\rho>1+D$ and so $D<\varphi-1$. (b)~If some node of $\{o_1\}\cup$
+$o_1$'s subtree had two node children, their subtrees are disjoint and
+each contains a leaf, and the occupant of $\{o_2,o_3\}$ not containing
+$y$ contributes a third; all three are strict (their holes are not
+$y$'s, as $y$ lies outside $o_1$'s subtree), so
+$\rho>\Psi_3(\omega)>\Psi_3(1)=\sqrt3>\varphi$ in branch~A
+(branch~B is case (iii)). (c)~Hence $\{o_1\}\cup$ $o_1$'s subtree is a
+chain. Let $V$ be the set of its nodes whose tail contains both $o_2$
+and $o_3$ (so $o_1\in V$, by the first-copy convention even if
+$o_1=o_2$), and let $v^{*}=\min V$. The pieces $o_2,o_3,m,\sigma_1,
+\sigma_2$ lie outside $v^{*}$'s subtree --- $o_2,o_3$ are top-level
+occupants, $m$ sits in $y$'s hole, and $P$ keeps the profile in the pan
+--- so the tail of $v^{*}$ counts them and $T_{v^{*}}$ without
+repetition. Now (Bo) applies at every node of $o_1$'s subtree (its hole
+is not $y$'s, and $\sigma_1\le1$), giving $X_{v^{*}}>v^{*}-s$, so
+\[
+o_2+3+(v^{*}-s)<\varphi\,v^{*}
+\;\Longrightarrow\;
+o_2<(\varphi-1)v^{*}-3+s,
+\tag{C1}
+\]
+using $o_3>1$ and $\sigma_1+\sigma_2>1$. With $o_2\ge3/\varphi$ and
+$3/\varphi+3=3\varphi$ this forces $v^{*}>\varphi(3\varphi-s)$~(C2).
+Moreover $v^{*}$ has a node child: otherwise $X_{v^{*}}\le D<\varphi-1$
+and (Bo) would give $v^{*}<s+\varphi-1$, against (C2) whenever
+$s\le(2\varphi+4)/\varphi^2=2.7639\dots$; and that child is $\le o_2$ by
+minimality of $v^{*}$, so $X_{v^{*}}<o_2+(\varphi-1)$ and (Bo) gives
+$o_2>v^{*}-s-(\varphi-1)$~(C3). Combining (C1) and (C3) with
+$1/(2-\varphi)=\varphi^2$,
+\[
+v^{*}(2-\varphi)<2s+\varphi-4
+\;\Longrightarrow\;
+v^{*}<\varphi^{2}(2s+\varphi-4).
+\tag{C4}
+\]
+(C2) and (C4) are incompatible exactly when
+$6\varphi-1\ge s(2\varphi+1)$, that is when
+\[
+s\;\le\;\frac{6\varphi-1}{2\varphi+1}\;=\;11-4\sqrt5\;=\;15-8\varphi
+\;=\;2.05572\dots,
+\]
+and $s<2$ here. Contradiction; so $\rho>\varphi$. At the extreme $s\to2$
+the two bounds are $\varphi+3=4.618\dots$ and
+$\varphi^3=2\varphi+1=4.236\dots$, a margin of $2-\varphi$. The
+constant is sharp for the argument: for $s>11-4\sqrt5$ the pincer no
+longer closes, which is why it says nothing about a solid pivot.
+The adversarial reports (three rounds, including two repaired steps and
+a hostile audit of this pincer) and the verification scripts are in the
+repository (\texttt{code/batalla2.py}, 6/6;
+\texttt{code/microcelda.py}, 5/5).
 \end{proof}
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}

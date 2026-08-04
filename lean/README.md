@@ -27,6 +27,10 @@ apoyan los teoremas del paper.
   (P(1+e+d) − P(1+e) = d·Q(e,d) con Q de coeficientes ≥ 0 y coeficiente de
   d con término constante 2 > 0).
 - La esquina 13/7 (`thm:corner`): γ_{2/7} = 2 y 1 + b(2) = 13/7.
+- La **pinza** que cierra j = 3 del intercambio a sartén (`thm:DP` (iv)):
+  la constante exacta s* = (6φ−1)/(2φ+1) = 11−4√5 = 15−8φ, que s < 2 la
+  cumple, y la contradicción en el extremo (φ³ = 4.236 < φ+3 = 4.618, con
+  margen exactamente 2−φ).
 - La cobertura T/2 < s* (vía 18393/20000 < 4√5 − 8).
 - El umbral aditivo: la familia (1/4+2δ/3, 1/4+δ/3)/(1/2) = 1+2δ como
   identidad de polinomios en δ.
@@ -45,7 +49,7 @@ formaliza el esqueleto algebraico exacto que esos argumentos consumen.
   aritmética completa; el orden del encaje real con √5 > 0 (`Q5.posb`,
   decidible); polinomios como listas de coeficientes ascendentes: `Poly`
   (ℚ[X]), `PolyZ` (ℤ[X]) y `Poly2` ((ℚ[e])[d]).
-- `Calamares/Identities.lean` — los teoremas 1–22.
+- `Calamares/Identities.lean` — los teoremas 1–28.
 - `Calamares.lean` — raíz de la librería.
 
 Nota técnica: `decide` a secas se atasca con `Rat` (el elaborador no reduce
@@ -79,6 +83,12 @@ funciona porque el kernel acelera `Nat.gcd` sobre literales. No hace falta
 | 20 | `corner_137` | `thm:corner` (ínfimo 13/7) | `esquina.py` |
 | 21 | `coverage` | `thm:golden` + `thm:rigidfloor` (T/2 < s*) | `aureo.py` [C] |
 | 22 | `additive_family` | umbral aditivo | `umbral.py` / `frontera.py` |
+| 23 | `tail_crossing` | `thm:DP` (iv) (3/φ+3 = 3φ) | `microcelda.py` [A] |
+| 24 | `inv_two_sub_phi` | `thm:DP` (iv) (el factor de (C4)) | `microcelda.py` [A] |
+| 25 | `pincer_constant` | `thm:DP` (iv) (s* = 11−4√5 = 15−8φ) | `microcelda.py` [A] |
+| 26 | `pincer_applies` | `thm:DP` (iv) (s < 2 < s*) | `microcelda.py` [A] |
+| 27 | `pincer_gap` | `thm:DP` (iv) (φ³ < φ+3, margen 2−φ) | `microcelda.py` [B] |
+| 28 | `pincer_child` | `thm:DP` (iv) (la torre no acaba en v*) | `microcelda.py` [A] |
 
 ## Compilar
 
