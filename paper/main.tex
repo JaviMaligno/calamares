@@ -63,10 +63,14 @@ has infimum exactly the Tribonacci constant $T\approx1.83929$. Yet $T$
 is \emph{not} the global threshold: an explicit golden family (pan
 $\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
 \varphi/2+\varepsilon\}$) breaks placement obliviousness at
-$\rho=\varphi+3\varepsilon$, refuting the natural Tribonacci-threshold
-conjecture, and we conjecture that the geometric threshold is exactly the
-golden ratio $\varphi$, with $T$ the exact floor of the rigid nested
-family and the conjectured universal floor of nested exchanges. Towards
+$\rho=\varphi+3\varepsilon$ for every small $\varepsilon>0$. This
+\emph{proves} $\tau\le\varphi<T$ for the geometric threshold $\tau$ and
+refutes the natural Tribonacci-threshold conjecture. The matching bound
+$\tau\ge\varphi$ we prove for pan exchanges with pair profiles, up to a
+single micro-cell, and conjecture in general: the golden value is thus a
+theorem in one direction and open only in the other, with $T$ the exact
+floor of the rigid nested family and the conjectured universal floor of
+nested exchanges. Towards
 this we develop a program that proves nested-exchange floors above $T$
 for a hierarchy of templates -- an exact positive-width curve with global
 minimum $13/7$, closed-form profile thresholds, and blocking walls
@@ -135,8 +139,15 @@ Tribonacci constant $T$, proved with no idealization
 Appendix~\ref{app:rigidproof}); and an explicit \emph{golden family}
 refutes the natural conjecture that the geometric threshold equals $T$:
 placement obliviousness fails at $\rho=\varphi+3\varepsilon$ for every
-small $\varepsilon$ (Theorem~\ref{thm:golden}), and we conjecture the
-geometric threshold is exactly $\varphi$ (Section~\ref{sec:threshold}).
+small $\varepsilon>0$, which \emph{proves} $\tau\le\varphi<T$
+(Theorem~\ref{thm:golden}), and the family realizes every
+$\rho\in(\varphi,T)$ at a fixed width
+(Corollary~\ref{cor:goldencover}). The matching bound $\tau\ge\varphi$
+is proved for pan exchanges with pair profiles up to a single micro-cell
+(Theorem~\ref{thm:DP}) and conjectured in general
+(Conjecture~\ref{conj:golden}): the golden value is a theorem in one
+direction and open only in the other
+(Section~\ref{sec:threshold}).
 
 \paragraph{Contributions: the nested-exchange program (the Tribonacci
 floor).}

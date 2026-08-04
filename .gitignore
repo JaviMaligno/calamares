@@ -19,3 +19,6 @@ lean/.lake/
 
 # Borrador privado (nombra a una persona concreta)
 docs/email_endorsement.md
+
+# Bundle de arXiv (regenerable: python paper/make_arxiv_bundle.py)
+paper/arxiv-bundle.tar.gz
