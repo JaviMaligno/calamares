@@ -115,4 +115,4 @@ caveats eliminados; apéndices C y D portados íntegros (32 pp.); secciones
 (overfull de las gemelas, colocación de figuras, congelar fecha),
 verificación adversaria del lema de las hojas (en curso), y los puntos de
 Javier (repo público, Zenodo/DOI).
-El email de endorsement a Bas Lemmens espera a que esto esté cerrado.
+El email de endorsement (math.MG) espera a que esto esté cerrado.

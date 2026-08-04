@@ -16,3 +16,6 @@ paper/*.blg
 
 # Lean build artifacts
 lean/.lake/
+
+# Borrador privado (nombra a una persona concreta)
+docs/email_endorsement.md

@@ -69,9 +69,12 @@ ejecutadas — Apéndices B (suelo rígido), C (programa de anchura ÍNTEGRO:
 (contenedores genéricos ÍNTEGROS: Lema U, coronas/U₄, V1/V2, Lema R,
 B/B″, Lema G/G′, Ψ_j por hojas, Corolario S) portados al paper (32 pp.);
 secciones 8–9 referencian los apéndices; NP-dureza reforzada (sartén
-cuadrada + reducción PARTITION propia; la cita FKS Thm 5.1 del revisor NO
-verificable y no usada). Queda: maquetación final, y de Javier: repo
-público + Zenodo antes de arXiv; endorsement a Bas Lemmens después.**
+cuadrada + reducción PARTITION propia; la cita FKS Thm 5.1 del revisor SÍ
+existe en la versión de revista (DCG 69:51–90, 2023, open access): se
+verificó contra el PDF publicado y está citada en el paper — la duda
+inicial se refería a la versión de conferencia, que no la contiene).
+Queda: maquetación final, y de Javier: repo público + Zenodo antes de
+arXiv, y el endorsement de math.MG.**
 
 ## 1. Mapa de lo cerrado (no retocar; actas en `drafts/VEREDICTOS.md`)
 
