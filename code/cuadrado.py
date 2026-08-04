@@ -433,6 +433,8 @@ if __name__ == "__main__":
     print(f"  cuartica de t*: 49t^4+4t^3-62t^2-4t+17 : {ok5}")
     print(f"  min bolsillo: b_sq(sqrt2) = 1/sqrt2 exacto : {ok6}")
     print(f"  X = {Xnum}")
+    VERIF.append(("seccion 1 algebra exacta (ok1..ok6)",
+                  all((ok1, ok2, ok3, ok4, ok5, ok6))))
     print(f"  cuartica en X (float): "
           f"{17*XSQ**4 - 4*XSQ**3 - 62*XSQ**2 + 4*XSQ + 49:.2e}\n")
 
@@ -453,6 +455,7 @@ if __name__ == "__main__":
             if pred != got:
                 fallos += 1
     print(f"  {casos} casos cerca del umbral, discrepancias: {fallos}\n")
+    VERIF.append(("seccion 2 par vs solver", casos > 0 and fallos == 0))
 
     print("3. BOLSILLO DE ESQUINA = MAXIMO INSERTABLE (config rigida)")
     print(f"  {'alpha':>7} {'formula':>10} {'mayor circulo vacio':>20} {'dif':>9}")
@@ -463,6 +466,8 @@ if __name__ == "__main__":
         circ = [(-(h - al), -(h - al), al), (h - 1.0, h - 1.0, 1.0)]
         lec, _ = mayor_circulo_vacio(circ, s)
         print(f"  {al:>7.4f} {b_sq(al):>10.6f} {lec:>20.6f} {lec - b_sq(al):>9.2e}")
+        VERIF.append((f"seccion 3 bolsillo alpha={al:.3f}",
+                      abs(lec - b_sq(al)) < 5e-4))
     print("  (dif ~ 0: el mayor hueco es exactamente el bolsillo de esquina)\n")
 
     print("4. SUELO DE LA FAMILIA: las dos presiones y su cruce")
@@ -473,6 +478,10 @@ if __name__ == "__main__":
               + ("no vacia" if lo_ <= hi_ + 1e-9 else "VACIA (t > t*)"))
     print(f"  P(t*) - (1 - t*) = {P_suelo(TSTAR) - (1 - TSTAR):.2e}")
     print(f"  valor comun en t*: {1 + P_suelo(TSTAR)/TSTAR:.10f} = X\n")
+    VERIF.append(("seccion 4 cruce P(t*) = 1-t*",
+                  abs(P_suelo(TSTAR) - (1 - TSTAR)) < 1e-12))
+    VERIF.append(("seccion 4 valor comun = X",
+                  abs(1 + P_suelo(TSTAR) / TSTAR - XSQ) < 1e-9))
 
     print("5. ESCALERA CUADRADA (cruces exactos sobre b_sq)")
     a1 = peldano(lambda a: 0.5 / (a - 1.0))          # bolsillo solo
@@ -485,11 +494,14 @@ if __name__ == "__main__":
     print(f"  + testigo       : alpha = {a3:.7f}  rho = {1 + b_sq(a3):.7f}"
           f"   (= X = {XSQ:.7f}; disco: T)")
     print(f"  punto fijo del peldano final: |alpha - X| = {abs(a3 - XSQ):.2e}")
+    VERIF.append(("seccion 5 punto fijo a3 = X", abs(a3 - XSQ) < 1e-7))
     print("  polinomios racionales de los cruces (residuo en la raiz):")
     for nombre, cs, r in (("peldano 1 (grado 8)", POLY_P1, a1),
                           ("peldano 2 (grado 8)", POLY_P2, a2),
                           ("peldano 3 (cuartica)", POLY_P3, a3)):
-        print(f"    {nombre}: p({r:.7f}) = {_evalpoly(cs, r):.2e}")
+        res = _evalpoly(cs, r)
+        print(f"    {nombre}: p({r:.7f}) = {res:.2e}")
+        VERIF.append((f"seccion 5 residuo {nombre}", abs(res) < 1e-5))
     print()
 
     print("6. EL PAR DESLIZADO: en el cuadrado, sigma1 < 1 ABARATA el bloqueo")

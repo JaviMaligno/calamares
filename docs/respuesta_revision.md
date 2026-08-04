@@ -256,3 +256,25 @@ Tribonacci Floor»).
    de X) y sale con código acorde.
 4. Menores: la definición de τ contempla que el ínfimo pueda alcanzarse;
    \texorpdfstring en los títulos con matemáticas.
+
+---
+
+# Respuesta al QUINTO dictamen (revisión menor)
+
+1. **Consistencia de la convención de anchura — ACEPTADO, por la vía de
+   enumerar.** La convención dice ahora «unless a result explicitly
+   states otherwise» y lista las excepciones legítimas: el Teorema 13/7
+   (su prueba para ω ≥ 1/7 — en particular todo el régimen del pivote
+   sólido — usa solo (B1) y (W), que no ven la anchura; anotado en el
+   propio enunciado), el cierre Tribonacci del Corolario del mínimo, el
+   Corolario B2 (ambas ramas van por B1+W ⟹ Φ) y los casos (i)–(ii) del
+   Teorema DP. Todos los «every ω > 0» que quedan en el texto son
+   afirmaciones demostradas con paredes ω-libres, no descuidos.
+2. **cuadrado.py — ACEPTADO ÍNTEGRO**: el veredicto global acumula ahora
+   también la sección 1 (ok1..ok6 del álgebra exacta), la sección 2
+   (120 casos par-vs-solver con fallos == 0), los residuos de la
+   sección 3 (bolsillo = mayor círculo vacío, 7 valores de α con
+   tolerancia 5·10⁻⁴), la sección 4 (cruce P(t*) = 1−t* y valor común
+   = X) y la sección 5 (punto fijo a₃ = X y los residuos de los tres
+   polinomios de los peldaños): 24 comprobaciones en el veredicto,
+   ejecutado completo con exit 0.

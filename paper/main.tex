@@ -648,13 +648,18 @@ $S$ of rings smaller than $m$ that $P$ keeps in $u$ must be reinserted using
 the resources freed by moving $m$ to $u$: the vacated disk $D_m$ (radius
 $r_m$), the hole $H_m$ (capacity $r_m-w$, travelling with $m$), nesting, and
 the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$.
-\emph{Width convention}: throughout the exchange-step program (this
-section, the next, and Appendices~\ref{app:widthproofs}
-and~\ref{app:genericproofs}) we assume $0<\omega<1$, so that the pivot
-$m$ is a genuine ring with a nonempty hole $H_m$; the model does admit
-$\omega\ge1$ (a solid-disk pivot), and that regime is open except where
-a proof uses no width at all -- notably cases (i)--(ii) of
-Theorem~\ref{thm:DP}, which hold for every $\omega>0$. Everything $\rho$
+\emph{Width convention}: unless a result explicitly states otherwise,
+throughout the exchange-step program (this section, the next, and
+Appendices~\ref{app:widthproofs} and~\ref{app:genericproofs}) we assume
+$0<\omega<1$, so that the pivot $m$ is a genuine ring with a nonempty
+hole $H_m$; the model does admit $\omega\ge1$ (a solid-disk pivot), and
+that regime is open except in the results that state ``every
+$\omega>0$'' explicitly -- Theorem~\ref{thm:corner},
+Corollary~\ref{cor:Cmin}'s Tribonacci closure,
+Corollary~\ref{cor:DB2}, and cases (i)--(ii) of
+Theorem~\ref{thm:DP} -- whose proofs route the $\omega\ge1$ regime
+through width-free walls only (the trio frontier and the witness
+capacity). Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
@@ -728,7 +733,9 @@ in $(1/25,1/14)$
 Propositions~\ref{prop:Cwitness} and~\ref{prop:Ccurve}).
 
 \begin{theorem}[The $13/7$ corner]\label{thm:corner}
-For all $\omega>0$,
+For all $\omega>0$ (including the solid-pivot regime $\omega\ge1$: for
+$\omega\ge\tfrac17$ the proof below uses only (B1) and (W), which are
+width-free),
 \[
 T_{\mathrm{can}}(\omega)\;\ge\;\tfrac{13}{7}\;=\;T+0.017856\dots,
 \]
