@@ -265,11 +265,12 @@ Tribonacci Floor»).
    enumerar.** La convención dice ahora «unless a result explicitly
    states otherwise» y lista las excepciones legítimas: el Teorema 13/7
    (su prueba para ω ≥ 1/7 — en particular todo el régimen del pivote
-   sólido — usa solo (B1) y (W), que no ven la anchura; anotado en el
-   propio enunciado), el cierre Tribonacci del Corolario del mínimo, el
+   sólido — usa solo (B1) y (W), que no usan H_m y siguen siendo
+   válidas con pivote sólido; anotado en el propio enunciado), el cierre Tribonacci del Corolario del mínimo, el
    Corolario B2 (ambas ramas van por B1+W ⟹ Φ) y los casos (i)–(ii) del
    Teorema DP. Todos los «every ω > 0» que quedan en el texto son
-   afirmaciones demostradas con paredes ω-libres, no descuidos.
+   afirmaciones demostradas con paredes que no usan H_m (válidas con
+   pivote sólido), no descuidos.
 2. **cuadrado.py — ACEPTADO ÍNTEGRO**: el veredicto global acumula ahora
    también la sección 1 (ok1..ok6 del álgebra exacta), la sección 2
    (120 casos par-vs-solver con fallos == 0), los residuos de la
