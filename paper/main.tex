@@ -41,7 +41,8 @@ two natural objectives, number of placed rings and total contact area,
 genuinely diverge: area is a superadditive function of the radius,
 cardinality is not. For \emph{superincreasing} radii (each exceeding the
 sum of all smaller ones) we prove that the descending greedy maximizes
-every positive, strictly increasing, superadditive objective, and -- our
+every positive, strictly increasing, superadditive objective (in any
+placement variant), and -- our
 main structural theorem -- that the placement rule is irrelevant: any
 choice among feasible containers yields the lexicographically maximal
 feasible set, for containers of arbitrary shape and in every dimension.
@@ -50,20 +51,19 @@ at most three rings and fails at four, and \emph{twin instances} rule out
 every placement rule that is a function of the observable state. Measuring
 the violation of superincreasingness by $\rho=\max_i(\sum_{j>i}r_j)/r_i$,
 the additive relaxation of the model has universal threshold exactly
-$\rho=1$, while the geometric model resists further: we prove, with no
+$\rho=1$. The geometric model resists further: we prove, with no
 tangency idealization, that the four-ring rigid family of counterexamples
-has infimum exactly the Tribonacci constant $T\approx1.83929$ -- but $T$
+has infimum exactly the Tribonacci constant $T\approx1.83929$. Yet $T$
 is \emph{not} the global threshold: an explicit golden family (pan
 $\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
 \varphi/2+\varepsilon\}$) breaks placement obliviousness at
 $\rho=\varphi+3\varepsilon$, refuting the natural Tribonacci-threshold
 conjecture, and we conjecture that the geometric threshold is exactly the
 golden ratio $\varphi$, with $T$ the exact floor of the rigid nested
-family and the conjectured universal floor of nested exchanges. We
-develop a program that proves nested-exchange floors above $T$ for a
-hierarchy of templates --
-exact positive-width curves
-with global minimum $13/7$, closed profile thresholds, and blocking walls
+family and the conjectured universal floor of nested exchanges. Towards
+this we develop a program that proves nested-exchange floors above $T$
+for a hierarchy of templates -- an exact positive-width curve with global
+minimum $13/7$, closed-form profile thresholds, and blocking walls
 for generic containers with metallic-mean floors -- and complement it with
 a phase diagram for the divergence of the objectives and a decoupling of
 hardness into a geometric layer and a combinatorial (subset-sum) layer, of
@@ -80,27 +80,28 @@ Abstracted, this is the problem of packing annuli of common width into a disk
 with recursive nesting, a circular-container relative of the
 \emph{Recursive Circle Packing Problem} (RCPP) introduced by Pedroso, Cunha and
 Tavares~\cite{PedrosoCunhaTavares2016} to model the ``telescoping'' of tubes in
-shipping containers, and attacked exactly by Gleixner, Maher, M\"uller and
+shipping containers, and solved exactly by Gleixner, Maher, M\"uller and
 Pedroso~\cite{Gleixner2020}. That literature is algorithmic: it packs a fixed
 set of rings into as few rectangular containers as possible. Here we ask
-structural questions instead: which objectives does the natural greedy
-algorithm optimize, when is the choice of \emph{where} to put each ring
-irrelevant, and what conditions on the radii govern the answers.
+structural questions instead: which objectives the natural greedy
+algorithm optimizes, when the choice of \emph{where} to put each ring
+is irrelevant, and which conditions on the radii govern the answers.
 
 Our starting point is a classical phenomenon in one dimension. For bin packing
 with \emph{divisible} item sizes, Coffman, Garey and
 Johnson~\cite{CoffmanGareyJohnson1987} proved that First Fit Decreasing is
 optimal. We are not aware of an analogue for geometric packing of disks, let
 alone with nesting. We prove one, with \emph{superincreasing} radii (each radius exceeding
-the sum of all smaller ones) playing the role of divisibility, and we determine
-exactly how far the hypothesis can be relaxed -- with a surprising answer: the
-additive relaxation of the model has threshold exactly $1$, while the geometric
-model resists up to (conjecturally, exactly) the \emph{golden ratio}: an
-explicit golden family fails at $\rho=\varphi+3\varepsilon$, and the
-Tribonacci constant -- the natural conjectured threshold, which our own
-program long targeted -- survives as the exact floor of the rigid
-nested family, the proved floor of a hierarchy of nested-exchange
-templates, and the conjectured universal floor of nested exchanges.
+the sum of all smaller ones) playing the role of divisibility, and we
+determine exactly how far the hypothesis can be relaxed. The answer is a
+surprise: the additive relaxation of the model has threshold exactly $1$,
+while the geometric model resists up to (conjecturally, exactly) the
+\emph{golden ratio} -- an explicit golden family fails at
+$\rho=\varphi+3\varepsilon$. The Tribonacci constant -- the natural
+conjectured threshold, which our own program long targeted -- survives as
+the exact floor of the rigid nested family, the proved floor of a
+hierarchy of nested-exchange templates, and the conjectured universal
+floor of nested exchanges.
 
 \paragraph{Contributions: main theorems.}
 (1)~A \emph{superadditivity dichotomy}: under superincreasing radii the
@@ -138,7 +139,7 @@ width $\omega>0$ is governed by the deformed Tribonacci cubic
 $\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$; the full lower-bound curve is in
 closed form and its global minimum is exactly $13/7$, attained at a rational
 corner (Section~\ref{sec:width}); the combinatorial profile threshold is
-closed for every profile size, with golden plateau and exact Tribonacci
+in closed form for every profile size, with golden plateau and exact Tribonacci
 crossing $\omega_T=1/T-1/2$.
 (6)~\emph{Generic containers}: an exact corona criterion for wall-tangent
 packings (with two corrective counterexamples and a $k=5$ ``pentagram''
@@ -179,6 +180,9 @@ $a(r)=\pi\bigl(r^2-\max(0,r-w)^2\bigr)$; the two objectives are
 $N=|S|$ and $A=\sum_{i\in S}a(r_i)$ over feasible $S$. The radii are
 \emph{superincreasing} if $r_i>\sum_{j>i}r_j$ for all $i$; the violation is
 measured by $\rho=\max_i\bigl(\sum_{j>i}r_j\bigr)/r_i$.
+We call $\bigl(\sum_{j>i}r_j\bigr)/r_i$ the \emph{tail} (ratio) of ring
+$i$, so that $\rho$ is the largest tail; ``the tail of $x$'' always
+refers to this ratio.
 The \emph{lex-max} set $L$ is defined greedily: scanning $i=1,\dots,n$,
 include $i$ whenever $(L\cap\{1,\dots,i-1\})\cup\{i\}$ is feasible.
 Since feasibility is downward closed, $L$ is the unique lexicographically
@@ -194,7 +198,7 @@ of an already placed ring), skipping it only if no container admits it.
 \end{definition}
 
 \begin{lemma}[Row lemma]\label{lem:row}
-Balls with radii $\rho_1,\dots,\rho_k$ satisfying $\sum_j\rho_j\le C$ pack
+Balls with radii $x_1,\dots,x_k$ satisfying $\sum_j x_j\le C$ pack
 inside a ball of radius $C$: place them tangent in a row along a diameter.
 Consequently, if a ball of radius $m$ is removed from any packing, any
 collection of balls of total radius at most $m$ can be inserted into the
@@ -202,7 +206,7 @@ vacated ball without disturbing the rest.
 \end{lemma}
 \begin{proof}
 With centers on a diameter at coordinates
-$x_j=-C+2\sum_{l<j}\rho_l+\rho_j$, each satisfies $|x_j|\le C-\rho_j$.
+$p_j=-C+2\sum_{l<j}x_l+x_j$, each satisfies $|p_j|\le C-x_j$.
 \end{proof}
 
 \section{The superadditivity dichotomy}\label{sec:superadd}
@@ -375,8 +379,17 @@ $\{10,\,5,\,4.9,\,4.8\}$ (all four form the lex-max set, witnessed by the pan
 pair $\{10,5\}$ at exact tangency and the hole pair $\{4.9,4.8\}$ filling the
 hole $9.7$ exactly), best fit nests the $5$, forces the $4.9$ into the pan,
 and blocks the $4.8$ everywhere by Lemma~\ref{lem:cap} and the exact two-circle
-conditions; worst fit places all four.
+conditions; worst fit places all four (Figure~\ref{fig:n4}).
 \end{theorem}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/contraejemplo_n4.png}
+\caption{The $n=4$ counterexample of Theorem~\ref{thm:n4}: best fit (left)
+nests the $5$ and loses the $4.8$; the witness (right), realized by worst fit,
+places all four rings.}
+\label{fig:n4}
+\end{figure}
 
 \begin{theorem}[Twin instances; no state-based rule]\label{thm:twins}
 Let $R=15$, $r_1=10$, $r_2=5$, $w=0.505$ (hole $9.495$), and
@@ -452,13 +465,13 @@ extremal case of a concavity argument.
 
 \begin{theorem}[Rigid-subfamily Tribonacci floor, no idealization]
 \label{thm:rigidfloor}
-Normalize $r_1=1$ and write $t=r_2$, $u=r_3$, $v=r_4$, $\omega=w>0$.
+Normalize $r_1=1$ and write $t=r_2$, $p=r_3$, $q=r_4$, $\omega=w>0$.
 Let $\mathcal F$ be the family of four-ring instances with
 \textup{(F1)} diametral pan $R=1+t$,
-\textup{(F2)} $u+v\le 1-\omega$ (the witness pair fits the hole of $r_1$), and
-\textup{(F3)} the triple $\{1,u,v\}$ does not pack in the disk of radius
+\textup{(F2)} $p+q\le 1-\omega$ (the witness pair fits the hole of $r_1$), and
+\textup{(F3)} the triple $\{1,p,q\}$ does not pack in the disk of radius
 $1+t$. Then every instance of $\mathcal F$ satisfies $\rho>T$, strictly, for
-every width $\omega>0$ and all strict radii $v<u<t<1$; moreover
+every width $\omega>0$ and all strict radii $q<p<t<1$; moreover
 $\inf_{\mathcal F}\rho=T$ and the infimum is not attained. The family is
 nonempty only for $t<t^{*}=1/T$, and it contains the $n=4$ counterexample and
 the twin $I_1$ of Theorem~\ref{thm:twins}.
@@ -468,32 +481,32 @@ the twin $I_1$ of Theorem~\ref{thm:twins}.
 For two circles of radii $a,b$ internally tangent to the wall of a disk of
 radius $R$, the minimal angular separation $\theta(a,b)$ obeys the half-angle
 identity $\sin^2\bigl(\theta/2\bigr)=f(a)f(b)$ with $f(x)=x/(R-x)$.
-Placing the triple $\{1,u,v\}$ wall-tangent with the unit ring in the middle
-packs it whenever $\theta(1,u)+\theta(1,v)+\theta(u,v)\le2\pi$ (the two
+Placing the triple $\{1,p,q\}$ wall-tangent with the unit ring in the middle
+packs it whenever $\theta(1,p)+\theta(1,q)+\theta(p,q)\le2\pi$ (the two
 non-adjacent arguments are separated by monotonicity of $\theta$), and this
 angular condition reduces \emph{algebraically} to
 \[
-\psi(u)+\psi(v)\;\ge\;\tau,\qquad
-\psi(x)=\sqrt{\tfrac{t-x}{x}},\qquad \tau=\tfrac{t}{\sqrt{1+t}} ,
+\psi(p)+\psi(q)\;\ge\;\tau_t,\qquad
+\psi(x)=\sqrt{\tfrac{t-x}{x}},\qquad \tau_t=\tfrac{t}{\sqrt{1+t}} ,
 \]
 (an algebraic \emph{sufficient} condition for packing, which is all the
-contrapositive needs: (F3) forces $\psi(u)+\psi(v)<\tau$). In the
-coordinates $\alpha=\psi(u)$, $\beta=\psi(v)$ the sum $u+v=U(\alpha)+U(\beta)$
-with $U(z)=t/(1+z^2)$, and $U$ is concave on $[0,\tau]$ exactly when
-$\tau\le1/\sqrt3$, i.e.\ $t\le(1+\sqrt{13})/6=0.7676\dots$, which covers the
-relevant range with room to spare; hence the infimum of $u+v$ over the
-blocked (open) region sits at the \emph{corner} of its closure, $u=t$,
-$v=b(t)$, where $b(t)=t(1+t)/(1+t+t^2)$ is the Descartes pocket of the rigid
-pair. This gives the two pressures $t+b(t)<u+v\le1-\omega<1$ (the first one
+contrapositive needs: (F3) forces $\psi(p)+\psi(q)<\tau_t$). In the
+coordinates $\alpha=\psi(p)$, $\beta=\psi(q)$ the sum $p+q=U(\alpha)+U(\beta)$
+with $U(z)=t/(1+z^2)$, and $U$ is concave on $[0,\tau_t]$ exactly when
+$\tau_t\le1/\sqrt3$, i.e.\ $t\le(1+\sqrt{13})/6=0.7676\dots$, which covers the
+relevant range with room to spare; hence the infimum of $p+q$ over the
+blocked (open) region sits at the \emph{corner} of its closure, $p=t$,
+$q=b(t)$, where $b(t)=t(1+t)/(1+t+t^2)$ is the Descartes pocket of the rigid
+pair. This gives the two pressures $t+b(t)<p+q\le1-\omega<1$ (the first one
 strict, whence the strict floor and the non-attainment), whose compatibility
 is precisely the cubic $t^3+t^2+t<1$, and then
-$\rho\ge(u+v)/t>1+(1+t)/(1+t+t^2)=:L(t)$ with $L$ strictly decreasing and
+$\rho\ge(p+q)/t>1+(1+t)/(1+t+t^2)=:L(t)$ with $L$ strictly decreasing and
 $L(t^{*})=T$. Exactness of the pocket at the rigid pair (needed only for the
 direction $\inf\le T$) is a rigidity computation: the constraint left-hand
-side factors exactly as $4(t^2+t+1)\bigl(b(t)-v\bigr)$; and the approximating
+side factors exactly as $4(t^2+t+1)\bigl(b(t)-q\bigr)$; and the approximating
 family lives genuinely inside $\mathcal F$ by a closure-and-monotonicity
 lemma for the packing region (compactness of witnesses), which shows the
-blocked interval in $u$ is half-open with an attained endpoint.
+blocked interval in $p$ is half-open with an attained endpoint.
 \end{proof}
 
 \begin{remark}[Slack pans]\label{rem:slack}
@@ -628,8 +641,9 @@ bookkeeping, and $T$ is the exact floor of the rigid nested family
 template of Sections~\ref{sec:width}--\ref{sec:generic}, and the
 conjectured universal floor of nested exchanges (the remaining nested
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
-$\varphi$-floor is proved in the repository for pair profiles except a
-sliver (Open Problem~\ref{op:assembly}(a)) -- one occupant at every
+$\varphi$-floor is proved for pair profiles in Theorem~\ref{thm:DP}
+(Appendix~\ref{app:pan-app}), except one open micro-cell
+(Open Problem~\ref{op:assembly}(a)) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
 $\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
@@ -652,18 +666,20 @@ the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$.
 throughout the exchange-step program (this section, the next, and
 Appendices~\ref{app:widthproofs} and~\ref{app:genericproofs}) we assume
 $0<\omega<1$, so that the pivot $m$ is a genuine ring with a nonempty
-hole $H_m$; the model does admit $\omega\ge1$ (a solid-disk pivot), and
-that regime is open except in the results that state ``every
-$\omega>0$'' explicitly -- Theorem~\ref{thm:corner},
-Corollary~\ref{cor:Cmin}'s Tribonacci closure,
-Corollary~\ref{cor:DB2}, and cases (i)--(ii) of
-Theorem~\ref{thm:DP} -- whose proofs route the $\omega\ge1$ regime
+hole $H_m$. The model does admit $\omega\ge1$ (a solid-disk pivot); that
+regime is open except in the results that state ``every $\omega>0$''
+explicitly: Theorem~\ref{thm:corner}, Corollary~\ref{cor:Cmin}'s
+Tribonacci closure, Corollary~\ref{cor:DB2}, and cases (i)--(ii) of
+Theorem~\ref{thm:DP}. Their proofs route the $\omega\ge1$ regime
 through walls that do not use $H_m$ (the trio frontier and the witness
 capacity) and so remain valid for a solid pivot. Everything $\rho$
 imposes on $S$ is the pair of inequalities $\sum S\le\rho$ and
 $\sum_{l>j}x_l\le\rho\,x_j$; a lower bound for $\rho$ over all
 \emph{blocked} exchanges is therefore a lower bound for any failure of
-placement obliviousness. Two regimes must be distinguished. When $u$ is
+placement obliviousness. We call a \emph{wall} any such necessary
+condition for blocking: the contrapositive of an explicit unblocking
+placement, which every blocked exchange must therefore satisfy. Two
+regimes must be distinguished. When $u$ is
 the \emph{hole} of a ring (the \emph{nested} exchange), the witness
 placement supplies the capacity wall $\sum S\le\mathrm{cap}(u)$, and this
 section and the next prove floors that all exceed $T$ for a hierarchy of
@@ -676,7 +692,9 @@ Conjecture~\ref{conj:golden}. Complete proofs for every statement of this
 section are given in Appendix~\ref{app:widthproofs}.
 
 \paragraph{The combinatorial layer is closed.}
-For two-ring profiles the blocked threshold is exactly
+For two-ring profiles the blocked threshold (a \emph{floor} in the
+terminology of Section~\ref{sec:threshold}: an infimum over blocked
+exchanges) is exactly
 $\rho^*_2(\omega)=\max\bigl(1,\,2(1-\omega)\bigr)$; in particular no
 two-ring blocking is compatible with $\rho<T$ for
 $\omega\le1-T/2=0.0804$. For three rings the threshold is closed,
@@ -722,9 +740,12 @@ witness branch has infimum
 $\Phi(\omega)=T_{1+\omega}-\omega$, strictly increasing and concave with
 $\Phi'(\omega)=(2\alpha+1)/\bigl(\alpha^2(\alpha^2+2\alpha+3)\bigr)$ at
 $\alpha=T_{1+\omega}$. The full curve of the blocked infimum
-$T_{\mathrm{can}}(\omega)$ is closed \emph{as a proved lower bound} --- the
+$T_{\mathrm{can}}(\omega)$ is obtained in closed form \emph{as a proved
+lower bound} --- the
 matching upper bound is exact on the witness branch and at the corner below,
-and inherits the usual angular-criterion caveat on the other two branches:
+and inherits the angular-criterion caveat (the criterion is proved
+sufficient, not necessary, so the matching upper bound is conditional
+there) on the other two branches:
 $2(1-\omega)$ on $(0,\omega_1]$, a sextic-algebraic middle branch on
 $[\omega_1,1/7]$, and $\Phi$ on $[1/7,0.30]$, where
 $\omega_1=0.0413570\dots$ is the root of $4\omega^3-20\omega^2+25\omega-1$
@@ -748,7 +769,7 @@ approximating family is genuine. Thus positive width only \emph{raises} the
 Tribonacci floor, uniformly.
 \end{theorem}
 
-The fine structure is amusing: the curve is \emph{not} monotone on
+The fine structure is curious: the curve is \emph{not} monotone on
 $(0,1/7]$ -- $\omega_1$ is a local minimum, followed by a bump of height
 $1.1\cdot10^{-4}$ at $\omega_{\mathrm{peak}}\approx0.0445$ (a root of an
 explicit degree-8 polynomial) before descending to the corner.
@@ -816,9 +837,10 @@ For occupied holes the tax is quantified by the \emph{opposite-disk lemma}:
 in a disk of capacity $c$ with largest piece $\sigma$, if the remaining mass
 is at most $c-\sigma$ the whole family packs (the wall-tangent $\sigma$
 leaves a free disk of radius exactly $c-\sigma$ opposite, filled in a row);
-hence blocking a hole costs at least its slack,
-$y<\sigma_2+\omega+X_y$ with $X_y$ the hole content, for every \emph{extra}
-occupant $o_i$ and every ring of radius $\ge r_m$ nested inside one
+hence blocking a hole costs at least its slack: every \emph{node} $y$ --
+an extra occupant $o_i$, or any ring of radius $\ge r_m$ nested at any
+depth inside one -- satisfies $y<\sigma_2+\omega+X_y$, where $X_y$ is the
+total radius of $y$'s hole content
 ($\alpha$ and $m$ themselves are excluded: $\alpha$'s hole is $u$, governed
 by its own walls, and excluding $m$ is essential). Following the
 \emph{minimal} such ring and balancing two tails yields, for arbitrary hole
@@ -890,7 +912,7 @@ nest accounting ($\rho^*_3\le\rho^*_2$), but in the canonical template the
 geometry reverses the sign: blocking with $S=\{\sigma_1\ge\sigma_2\ge
 \sigma_3\}$ and arbitrary occupancy of $H_m$ forces
 $\rho>\max\bigl(\Phi(\omega),\tfrac{13}7\bigr)$ for \emph{all} $\omega$,
-with no exceptional branch. If $\sigma_3\le\sigma_1-\omega$ the dust rides
+with no exceptional branch. If $\sigma_3\le\sigma_1-\omega$ then $\sigma_3$ (the \emph{dust}) rides
 inside $\sigma_1$ and the pair program is inherited wall by wall
 (the $13/7$ corner bound applies); if nothing nests and the trio
 $\{\alpha,\sigma_1,\sigma_2\}$ has no corona, the witness chain gives
@@ -914,14 +936,16 @@ $\omega<0.9626$ with one extra occupant under arbitrary hole occupancy,
 for $\omega<0.624$ and $\omega<0.896$ with two and three, and for all
 $\omega\in(0,1)$ with four or more. All these floors exceed $T>\varphi$, so for
 Conjecture~\ref{conj:golden} the decisive open front is the \emph{pan}
-exchange (Open Problem~\ref{op:assembly}); the remaining nested gaps --
+exchange (Theorem~\ref{thm:DP}, Open Problem~\ref{op:assembly}); the
+remaining nested gaps --
 the width tips ($j=1$, $\omega\ge0.9626$; $j=2$, $\omega\ge0.624$;
 $j=3$, $\omega\ge0.896$), a quantitative ``gap lemma'' (small rings
 against the geometric wall; tiny $\sigma_2$), and profiles of four or
 more pieces beyond the reduction branch (and $k\ge3$ with extra
 occupants beyond it) -- matter only for pinning the nested threshold at
 exactly $T$. Each statement in this section is backed by a verification
-script and an adversarial verification report in the repository.
+script and an adversarial verification report in the repository
+(Appendix~\ref{app:verifmap}).
 
 \section{The two objectives diverge: a phase diagram}\label{sec:divergence}
 
@@ -934,7 +958,7 @@ $R=10$, $w=1$, radii $\{9.0,\,4.2,\,4.2,\,4.2\}$: the area optimum is the
 $9.0$ with one nested $4.2$ ($N=2$, $A\approx76.7$), the cardinality optimum
 the three $4.2$'s ($N=3$, $A\approx69.7$). Figure~\ref{fig:phase} maps the
 divergence region for the family ``one large ring $b$ plus unlimited equal
-small rings $\rho$'': a staircase governed by the proved optimal thresholds
+small rings of radius $s$'': a staircase governed by the proved optimal thresholds
 for $n$ equal circles in a disk~\cite{GLNO1998,Pirl1969,Melissen1994,%
 Fodor1999,EkanayakeLaFountain2024}; its upper edge is exactly the three-circle
 threshold $0.4641R$.
@@ -947,15 +971,6 @@ threshold $0.4641R$.
 cardinality optimum (right). Bottom: phase diagram of the divergence band for
 uniform width.}
 \label{fig:phase}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/contraejemplo_n4.png}
-\caption{The $n=4$ counterexample of Theorem~\ref{thm:n4}: best fit (left)
-nests the $5$ and loses the $4.8$; the witness (right), realized by worst fit,
-places all four rings.}
-\label{fig:n4}
 \end{figure}
 
 \FloatBarrier
@@ -1075,8 +1090,9 @@ fall outside and, by Proposition~\ref{prop:count}, genuinely so.
 
 \begin{openproblem}\label{op:assembly}
 Prove Conjecture~\ref{conj:golden}. Two halves. (a)~\emph{The pan
-exchange has floor $\varphi$}: largely proved in the repository for pair
-profiles (adversarially verified): blocking the pan exchange forces
+exchange has floor $\varphi$}: proved for pair profiles in
+Theorem~\ref{thm:DP} except one micro-cell (adversarially verified):
+blocking the pan exchange forces
 $\rho>\varphi$ for one occupant at every width $\omega>0$ (both
 reinserted rings
 exceed the pocket $b(o_1)$ by containment and rigidity, and the two
@@ -1087,9 +1103,9 @@ $\omega\in(0,1)$
 $\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
 strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
 $\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with a
-$U_4$-based wall ($o_2<1+1/o_1$) trimming what is left. Open: a sliver
-(two or three occupants, large width, $o_1>3/\varphi$; numerical
-evidence $\ge\varphi+0.41$), profiles of three or more reinserted
+$U_4$-based wall ($o_2<1+1/o_1$) trimming what is left. Open: the
+micro-cell of Theorem~\ref{thm:DP}(iv) (numerical evidence: minimum
+$\rho\approx2.37$ over the cell), profiles of three or more reinserted
 pieces, and extra small rings. (b)~\emph{Assemble the universal
 reinsertion lemma} for the nested exchange from the proved floors
 ($\ge T>\varphi$, so far above the golden threshold that the remaining
@@ -1157,7 +1173,7 @@ $\alpha\ge o_1$ case split); the reports record each incident.
 \section{Complete proof of Theorem~\ref{thm:rigidfloor}}\label{app:rigidproof}
 
 Throughout, work in the normalization of Theorem~\ref{thm:rigidfloor}:
-$r_1=1$, $t=r_2$, $u=r_3$, $v=r_4$, width $\omega>0$, pan radius $R=1+t$,
+$r_1=1$, $t=r_2$, $p=r_3$, $q=r_4$, width $\omega>0$, pan radius $R=1+t$,
 and recall $b(t)=t(1+t)/(1+t+t^2)$, $T^3=T^2+T+1$, $t^{*}=1/T$
 (equivalently $t^{*3}+t^{*2}+t^{*}=1$), $\varphi=(1+\sqrt5)/2$. All exact
 algebraic identities used below are additionally verified in
@@ -1185,32 +1201,32 @@ Monotonicity is that of $f$.
 \end{proof}
 
 \begin{lemma}[Construction]\label{lem:S2}
-Let $v\le u\le t<1$ and $R=1+t$. If
-$\theta(1,u)+\theta(1,v)+\theta(u,v)\le2\pi$, then $\{1,u,v\}$ packs in the
+Let $q\le p\le t<1$ and $R=1+t$. If
+$\theta(1,p)+\theta(1,q)+\theta(p,q)\le2\pi$, then $\{1,p,q\}$ packs in the
 disk of radius $R$.
 \end{lemma}
 \begin{proof}
-All three angles are defined ($1+u\le R\iff u\le t$, and $u+v\le2t<R$).
+All three angles are defined ($1+p\le R\iff p\le t$, and $p+q\le2t<R$).
 Place the three circles wall-tangent with the unit circle in the middle:
-centers at angles $0$, $+\theta(1,u)$, $-\theta(1,v)$. Each circle is
-contained in the disk (internal wall tangency). The pairs $(1,u)$ and
-$(1,v)$ are separated by exactly their thresholds. For $(u,v)$, the angular
-difference is $\Delta=\theta(1,u)+\theta(1,v)$ and the separation is
+centers at angles $0$, $+\theta(1,p)$, $-\theta(1,q)$. Each circle is
+contained in the disk (internal wall tangency). The pairs $(1,p)$ and
+$(1,q)$ are separated by exactly their thresholds. For $(p,q)$, the angular
+difference is $\Delta=\theta(1,p)+\theta(1,q)$ and the separation is
 $\gamma=\min(\Delta,2\pi-\Delta)$. If $\gamma=\Delta$: by monotonicity
-(Lemma~\ref{lem:S1}, $1\ge u$), $\theta(1,v)\ge\theta(u,v)$, so
-$\Delta\ge\theta(u,v)$. If $\gamma=2\pi-\Delta$: the hypothesis gives
-$2\pi-\Delta\ge\theta(u,v)$.
+(Lemma~\ref{lem:S1}, $1\ge p$), $\theta(1,q)\ge\theta(p,q)$, so
+$\Delta\ge\theta(p,q)$. If $\gamma=2\pi-\Delta$: the hypothesis gives
+$2\pi-\Delta\ge\theta(p,q)$.
 \end{proof}
 
 \begin{lemma}[Algebraic reduction]\label{lem:S3}
 Define $\psi(x)=\sqrt{(t-x)/x}$ (decreasing, $\psi(t)=0$) and
-$\tau=t/\sqrt{1+t}$; note the exact identities $\psi(b(t))=\tau$ and
-$t/(1+\tau^2)=b(t)$. If $v\le u\le t<1$ and $\psi(u)+\psi(v)\ge\tau$, then
-$\theta(1,u)+\theta(1,v)+\theta(u,v)\le2\pi$, and hence $\{1,u,v\}$ packs
+$\tau_t=t/\sqrt{1+t}$; note the exact identities $\psi(b(t))=\tau_t$ and
+$t/(1+\tau_t^2)=b(t)$. If $q\le p\le t<1$ and $\psi(p)+\psi(q)\ge\tau_t$, then
+$\theta(1,p)+\theta(1,q)+\theta(p,q)\le2\pi$, and hence $\{1,p,q\}$ packs
 in the disk $R=1+t$ by Lemma~\ref{lem:S2}.
 \end{lemma}
 \begin{proof}
-Let $A=\sqrt{f(1)f(u)}$, $B=\sqrt{f(1)f(v)}$, $C=\sqrt{f(u)f(v)}$ (the
+Let $A=\sqrt{f(1)f(p)}$, $B=\sqrt{f(1)f(q)}$, $C=\sqrt{f(p)f(q)}$ (the
 sines of the half-angles); the goal is
 $\arcsin A+\arcsin B+\arcsin C\le\pi$. If $\arcsin A+\arcsin B\le\pi/2$
 there is nothing to prove, since $\arcsin C\le\pi/2$. Otherwise the goal is
@@ -1218,57 +1234,57 @@ equivalent, both sides lying in $[0,\pi/2]$, to
 $C\le\sin(\arcsin A+\arcsin B)=A\sqrt{1-B^2}+B\sqrt{1-A^2}$. Dividing by
 $C>0$ and writing $G(x)=f(1)/f(x)-f(1)^2$,
 \[
-\frac{A\sqrt{1-B^2}}{C}=\sqrt{G(v)},\qquad
-\frac{B\sqrt{1-A^2}}{C}=\sqrt{G(u)},\qquad
+\frac{A\sqrt{1-B^2}}{C}=\sqrt{G(q)},\qquad
+\frac{B\sqrt{1-A^2}}{C}=\sqrt{G(p)},\qquad
 G(x)=\frac{(1+t)(t-x)}{t^2x},
 \]
 the last identity by direct computation with $f(1)=1/t$,
 $f(x)=x/(1+t-x)$; the radicals are real because $f(1)f(x)\le1\iff x\le t$.
 Thus $\sqrt{G(x)}=\bigl(\sqrt{1+t}/t\bigr)\psi(x)$ and, by hypothesis,
-$\sqrt{G(u)}+\sqrt{G(v)}=\bigl(\sqrt{1+t}/t\bigr)(\psi(u)+\psi(v))
-\ge\bigl(\sqrt{1+t}/t\bigr)\tau=1$, which is the required inequality.
+$\sqrt{G(p)}+\sqrt{G(q)}=\bigl(\sqrt{1+t}/t\bigr)(\psi(p)+\psi(q))
+\ge\bigl(\sqrt{1+t}/t\bigr)\tau_t=1$, which is the required inequality.
 \end{proof}
 
 The contrapositive used below: hypothesis (F3) implies
-$\psi(u)+\psi(v)<\tau$. This is the only direction ever used -- the
+$\psi(p)+\psi(q)<\tau_t$. This is the only direction ever used -- the
 \emph{constructive} one -- so no exactness of any angular criterion is
 assumed anywhere in this appendix.
 
 \begin{lemma}[Corner minimization]\label{lem:S4}
-Let $0<v\le u\le t<1$ with $\psi(u)+\psi(v)<\tau$. Then:
-\textup{(1)} $u,v>b(t)$;
-\textup{(2)} if $t\ge1/\varphi$ then $u+v>1$;
-\textup{(3)} if $t<1/\varphi$ then $u+v>t+b(t)$.
+Let $0<q\le p\le t<1$ with $\psi(p)+\psi(q)<\tau_t$. Then:
+\textup{(1)} $p,q>b(t)$;
+\textup{(2)} if $t\ge1/\varphi$ then $p+q>1$;
+\textup{(3)} if $t<1/\varphi$ then $p+q>t+b(t)$.
 \end{lemma}
 \begin{proof}
-(1) Each summand is $<\tau$, $\psi$ is decreasing and $\psi(b(t))=\tau$.
-(2) $u+v>2b(t)$ and $2b(t)-1=(t^2+t-1)/(t^2+t+1)\ge0$ exactly when
+(1) Each summand is $<\tau_t$, $\psi$ is decreasing and $\psi(b(t))=\tau_t$.
+(2) $p+q>2b(t)$ and $2b(t)-1=(t^2+t-1)/(t^2+t+1)\ge0$ exactly when
 $t\ge1/\varphi$.
-(3) Substitute $\alpha=\psi(u)$, $\beta=\psi(v)$, so $u=U(\alpha)$,
-$v=U(\beta)$ with $U(z)=t/(1+z^2)$ strictly decreasing; the region is
-$\alpha,\beta\ge0$, $\alpha+\beta<\tau$. Increasing $\alpha$ to
-$\tau-\beta$ decreases $u$, so $u+v>U(\tau-\beta)+U(\beta)=:W(\tau-\beta)$.
+(3) Substitute $\alpha=\psi(p)$, $\beta=\psi(q)$, so $p=U(\alpha)$,
+$q=U(\beta)$ with $U(z)=t/(1+z^2)$ strictly decreasing; the region is
+$\alpha,\beta\ge0$, $\alpha+\beta<\tau_t$. Increasing $\alpha$ to
+$\tau_t-\beta$ decreases $p$, so $p+q>U(\tau_t-\beta)+U(\beta)=:W(\tau_t-\beta)$.
 Now $U''(z)=2t(3z^2-1)/(1+z^2)^3\le0$ for $z\le1/\sqrt3$, and
-$\tau\le1/\sqrt3\iff3t^2-t-1\le0\iff t\le(1+\sqrt{13})/6=0.7676\dots$,
+$\tau_t\le1/\sqrt3\iff3t^2-t-1\le0\iff t\le(1+\sqrt{13})/6=0.7676\dots$,
 which covers $t<1/\varphi=0.618\dots$ with room to spare. Hence $U$ is
-concave on $[0,\tau]$, $W$ is concave, and its minimum over $[0,\tau]$ is
-at the endpoints: $W\ge W(0)=U(0)+U(\tau)=t+t/(1+\tau^2)=t+b(t)$, by the
-identity $t/(1+\tau^2)=b(t)$.
+concave on $[0,\tau_t]$, $W$ is concave, and its minimum over $[0,\tau_t]$ is
+at the endpoints: $W\ge W(0)=U(0)+U(\tau_t)=t+t/(1+\tau_t^2)=t+b(t)$, by the
+identity $t/(1+\tau_t^2)=b(t)$.
 \end{proof}
 
 \begin{proof}[Proof of the strict floor in Theorem~\ref{thm:rigidfloor}]
 Let $I\in\mathcal F$, normalized. By (F3) and the contrapositive of
-Lemmas~\ref{lem:S2}--\ref{lem:S3}, $\psi(u)+\psi(v)<\tau$. If
-$t\ge1/\varphi$, Lemma~\ref{lem:S4}(2) gives $u+v>1$, contradicting (F2)
-($u+v\le1-\omega<1$); so $t<1/\varphi$ and Lemma~\ref{lem:S4}(3) gives the
-blocking pressure $u+v>t+b(t)$. Chaining with the witness pressure (F2),
+Lemmas~\ref{lem:S2}--\ref{lem:S3}, $\psi(p)+\psi(q)<\tau_t$. If
+$t\ge1/\varphi$, Lemma~\ref{lem:S4}(2) gives $p+q>1$, contradicting (F2)
+($p+q\le1-\omega<1$); so $t<1/\varphi$ and Lemma~\ref{lem:S4}(3) gives the
+blocking pressure $p+q>t+b(t)$. Chaining with the witness pressure (F2),
 \[
-t+b(t)\;<\;u+v\;\le\;1-\omega\;<\;1,
+t+b(t)\;<\;p+q\;\le\;1-\omega\;<\;1,
 \]
 and $t+b(t)<1\iff t(1+t)<(1-t)(1+t+t^2)=1-t^3\iff t^3+t^2+t<1\iff t<t^{*}$
 (which also proves that $\mathcal F$ forces $t<t^{*}$). Finally
 \[
-\rho\;\ge\;\rho_2=\frac{u+v}{t}\;>\;\frac{t+b(t)}{t}
+\rho\;\ge\;\rho_2=\frac{p+q}{t}\;>\;\frac{t+b(t)}{t}
 \;=\;1+\frac{1+t}{1+t+t^2}\;=:\;L(t),
 \]
 and $L$ is strictly decreasing ($L'=-(t^2+2t)/(1+t+t^2)^2<0$) with
@@ -1280,45 +1296,45 @@ It remains to prove exactness of the infimum. Two ingredients: the rigid
 pocket is exact, and infeasibility survives small perturbations.
 
 \begin{proposition}[Exact rigid pocket]\label{prop:S5}
-For $0<v\le t<1$, the triple $\{1,t,v\}$ packs in the disk of radius
-$R=1+t$ if and only if $v\le b(t)$.
+For $0<q\le t<1$, the triple $\{1,t,q\}$ packs in the disk of radius
+$R=1+t$ if and only if $q\le b(t)$.
 \end{proposition}
 \begin{proof}
 \emph{Rigidity.} Centers satisfy $|c_1|\le t$, $|c_t|\le1$ and
 $|c_1-c_t|\ge1+t$; the triangle inequality forces equality throughout, so
 up to rotation $c_1=(-t,0)$, $c_t=(1,0)$.
 \emph{Sufficiency.} The pocket circle tangent to the wall and to both has
-radius $b(t)$; any $v\le b(t)$ placed concentrically inside it works.
-\emph{Necessity.} Let $X$ be the center of $v$, $d=|X|>0$, and $\gamma$ the
+radius $b(t)$; any $q\le b(t)$ placed concentrically inside it works.
+\emph{Necessity.} Let $X$ be the center of $q$, $d=|X|>0$, and $\gamma$ the
 angle between $X$ and $(1,0)$. Disjointness reads
-$d^2+t^2+2dt\cos\gamma\ge(1+v)^2$ and $d^2+1-2d\cos\gamma\ge(t+v)^2$, which
+$d^2+t^2+2dt\cos\gamma\ge(1+q)^2$ and $d^2+1-2d\cos\gamma\ge(t+q)^2$, which
 bound $\cos\gamma$ from below and above; compatibility of the two bounds
-requires $(1+t)d^2\ge(1+v)^2+t(t+v)^2-t(1+t)$, and with $d\le R-v=1+t-v$:
+requires $(1+t)d^2\ge(1+q)^2+t(t+q)^2-t(1+t)$, and with $d\le R-q=1+t-q$:
 \[
-(1+t)(1+t-v)^2-(1+v)^2-t(t+v)^2+t(1+t)\;\ge\;0 .
+(1+t)(1+t-q)^2-(1+q)^2-t(t+q)^2+t(1+t)\;\ge\;0 .
 \]
 The left-hand side factors \emph{exactly} as
-$4\,(t^2+t+1)\,\bigl(b(t)-v\bigr)$ (symbolic identity, V5), whence
-$v\le b(t)$.
+$4\,(t^2+t+1)\,\bigl(b(t)-q\bigr)$ (symbolic identity, V5), whence
+$q\le b(t)$.
 \end{proof}
 
 \begin{lemma}[Closure and monotonicity of packability]\label{lem:S6a}
-Let $D=\{(t,u,v):0<v\le u\le t<1\}$ and say $p=(t,u,v)$ \emph{packs} if
-there are centers with $|c_1|\le t$, $|c_2|\le1+t-u$, $|c_3|\le1+t-v$,
-$|c_1-c_2|\ge1+u$, $|c_1-c_3|\ge1+v$, $|c_2-c_3|\ge u+v$. Let
+Let $D=\{(t,p,q):0<q\le p\le t<1\}$ and say $z=(t,p,q)$ \emph{packs} if
+there are centers with $|c_1|\le t$, $|c_2|\le1+t-p$, $|c_3|\le1+t-q$,
+$|c_1-c_2|\ge1+p$, $|c_1-c_3|\ge1+q$, $|c_2-c_3|\ge p+q$. Let
 $E\subseteq D$ be the packable set. Then:
-\textup{(1)} $E$ is downward closed in $(u,v)$;
+\textup{(1)} $E$ is downward closed in $(p,q)$;
 \textup{(2)} $E$ is closed in $D$;
-\textup{(3)} for fixed $t,v$, the set $\{u\in[v,t]:(t,u,v)\in E\}$ is empty
-or a closed interval $[v,u_{\max}]$ with the maximum attained; in
-particular, if $(t,t,v)\notin E$, then $(t,u,v)\notin E$ for all
-$u\in(u_{\max},t]$ -- the infeasibility of the rigid corner propagates to
-$\delta:=t-u\in[0,\delta_0)$, $\delta_0=t-u_{\max}>0$.
+\textup{(3)} for fixed $t,q$, the set $\{p\in[q,t]:(t,p,q)\in E\}$ is empty
+or a closed interval $[q,p_{\max}]$ with the maximum attained; in
+particular, if $(t,t,q)\notin E$, then $(t,p,q)\notin E$ for all
+$p\in(p_{\max},t]$ -- the infeasibility of the rigid corner propagates to
+$\delta:=t-p\in[0,\delta_0)$, $\delta_0=t-p_{\max}>0$.
 \end{lemma}
 \begin{proof}
 (1) The same centers witness (all six constraints relax). (2) Witness
 centers live in a fixed compact ball; take a convergent subsequence of
-witnesses along $p_k\to p$ and pass to the limit in the six non-strict
+witnesses along $z_k\to z$ and pass to the limit in the six non-strict
 continuous constraints. (3) By (1) the set is an initial segment, by (2) it
 is closed.
 \end{proof}
@@ -1329,15 +1345,15 @@ $\inf\{\rho(I):I\in\mathcal F\}=T$.
 \begin{proof}
 $\ge$ and non-attainment: the strict floor above. $\le$: fix $t<t^{*}$, set
 $\varepsilon_t=(1-t-b(t))/2>0$ and
-$v_t=b(t)+\min\bigl(\varepsilon_t,(t-b(t))/2\bigr)$. By
-Proposition~\ref{prop:S5}, $(t,t,v_t)$ is infeasible; by
-Lemma~\ref{lem:S6a}(3) there is $\delta\in(0,\min(\varepsilon_t,t-v_t))$
-with $(t,t-\delta,v_t)$ infeasible. The instance
-$I_t=(1,\,t,\,t-\delta,\,v_t)$ with $\omega=1-(t-\delta+v_t)>0$ satisfies
+$q_t=b(t)+\min\bigl(\varepsilon_t,(t-b(t))/2\bigr)$. By
+Proposition~\ref{prop:S5}, $(t,t,q_t)$ is infeasible; by
+Lemma~\ref{lem:S6a}(3) there is $\delta\in(0,\min(\varepsilon_t,t-q_t))$
+with $(t,t-\delta,q_t)$ infeasible. The instance
+$I_t=(1,\,t,\,t-\delta,\,q_t)$ with $\omega=1-(t-\delta+q_t)>0$ satisfies
 (F1)--(F3) and the strict orderings, so $I_t\in\mathcal F$, and
 $\rho(I_t)=\rho_2\le\bigl(t+b(t)+\varepsilon_t\bigr)/t
 =L(t)+\varepsilon_t/t\longrightarrow L(t^{*})=T$ as $t\to t^{*}$
-(the other tails are smaller: $\rho_1=t+u+v<3t<T$ and $\rho_3=v/u<1$).
+(the other tails are smaller: $\rho_1=t+p+q<3t<T$ and $\rho_3=q/p<1$).
 \end{proof}
 
 \begin{proof}[Proof of Remark~\ref{rem:slack}]
@@ -1760,45 +1776,46 @@ $\omega\in(0,0.30]$ -- already enough for ``width only raises the floor''.
 The exact curve is finer. For fixed $\alpha$, pass to the coordinate
 $t_i=t(\sigma_i)$, where (B1) becomes \emph{linear}
 (Lemma~\ref{lem:CF}): $t_1+t_2\le\Theta(\alpha):=t(b(\alpha))$, and the
-walls read $t_2\le\tau:=t(c)$, $c:=\max(c_2,c_4)$. If $\alpha>2+\omega$
+walls read $t_2\le\tau_c:=t(c)$, $c:=\max(c_2,c_4)$. If $\alpha>2+\omega$
 there is no blocking at all ((B4) and the band give
 $\sigma_1+\sigma_2\ge2c_4>\alpha-\omega$, violating (W)); so
 $\alpha-\omega\in[1,2]$ effectively.
 
 \begin{lemma}[Conditional minimum]\label{lem:CE1}
 Let $\alpha\in(1,2+\omega)$ and $c=\max(1-\omega,\alpha-\omega-1)<1$. The
-infimum of $S=\sigma_1+\sigma_2$ over non-packable trios with
+infimum of $S_0=\sigma_1+\sigma_2$ over non-packable trios with
 $\sigma_2\ge c$ and $\sigma_2\le\sigma_1\le1$ is
 \[
-\text{(a) } 1+b(\alpha)\ \ \text{if } c\le b(\alpha);\qquad
-\text{(b) } c+\sigma\bigl(\Theta(\alpha)-t(c)\bigr)\ \ \text{if }
-b(\alpha)<c\le s^*(\alpha);\qquad
+\text{(a) } 1+b(\alpha)\ \ \text{if } c\le b(\alpha);\quad
+\text{(b) } c+t^{-1}\bigl(\Theta(\alpha)-t(c)\bigr)\ \ \text{if }
+b(\alpha)<c\le s^*(\alpha);\quad
 \text{(c) } 2c\ \ \text{if } c>s^*(\alpha),
 \]
-where $\sigma(u)=1/(1+u^2)$. Moreover each case is non-decreasing in
-$\alpha$ on its domain.
+where $t^{-1}(u)=1/(1+u^2)$ as in Lemma~\ref{lem:CF}. Moreover each case
+is non-decreasing in $\alpha$ on its domain.
 \end{lemma}
 \begin{proof}
-$\sigma(\cdot)$ is decreasing, so $S$ drops when either $t_i$ rises. In
-the truncated box $\{t_1\le t_2\le\tau,\ t_1+t_2\le\Theta\}$: if
-$2\tau\le\Theta$ (case (c)) the box corner $(\tau,\tau)$ is admissible and
-optimal, $S=2\sigma(\tau)=2c$. Otherwise the minimum lives on the segment
+$t^{-1}(\cdot)$ is decreasing, so $S_0$ drops when either $t_i$ rises. In
+the truncated box $\{t_1\le t_2\le\tau_c,\ t_1+t_2\le\Theta\}$: if
+$2\tau_c\le\Theta$ (case (c)) the box corner $(\tau_c,\tau_c)$ is admissible and
+optimal, $S_0=2\,t^{-1}(\tau_c)=2c$. Otherwise the minimum lives on the segment
 $t_1+t_2=\Theta$, where
 \[
-\frac{dS}{dt_2}=-\sigma'(\Theta-t_2)+\sigma'(t_2)
+\frac{dS_0}{dt_2}=-(t^{-1})'(\Theta-t_2)+(t^{-1})'(t_2)
 =2\bigl[\sqrt{G(t_1)}-\sqrt{G(t_2)}\bigr]\le0
 \]
 by the $G$-lemma inside Theorem~\ref{thm:Ckappa}
-($\sigma'(x)=-2x/(1+x^2)^2$, $(\sigma'/2)^2=G$): push $t_2$ to its cap.
-If $\tau\ge\Theta$ (case (a)): $t_2=\Theta$, $t_1=0$, i.e.\
-$(\sigma_1,\sigma_2)=(1,b(\alpha))$. If $\tau<\Theta$ (case (b)):
-$t_2=\tau$, $t_1=\Theta-\tau$. Monotonicity in $\alpha$: (a) is
+($(t^{-1})'(x)=-2x/(1+x^2)^2$, $\bigl((t^{-1})'/2\bigr)^2=G$): push $t_2$
+to its cap.
+If $\tau_c\ge\Theta$ (case (a)): $t_2=\Theta$, $t_1=0$, i.e.\
+$(\sigma_1,\sigma_2)=(1,b(\alpha))$. If $\tau_c<\Theta$ (case (b)):
+$t_2=\tau_c$, $t_1=\Theta-\tau_c$. Monotonicity in $\alpha$: (a) is
 $1+b(\alpha)$ with $b$ increasing; (b) with $c=c_2$ fixed has
-$dS/d\alpha=\sigma'(\Theta-\tau)\,\Theta'(\alpha)\ge0$ ($\sigma'<0$,
+$dS_0/d\alpha=(t^{-1})'(\Theta-\tau_c)\,\Theta'(\alpha)\ge0$ ($(t^{-1})'<0$,
 $\Theta'<0$); (b)/(c) with the moving cap $c=c_4$ ($\alpha\ge2$,
 $\tau_4=t(c_4)$) has
-$dS/d\alpha=\tau_4'\,(-2)\bigl[\sqrt{G(\tau_4)}-\sqrt{G(t_1)}\bigr]
-+\sigma'(t_1)\,\Theta'\ge0$, since $\tau_4'<0$, $G(\tau_4)\ge G(t_1)$
+$dS_0/d\alpha=\tau_4'\,(-2)\bigl[\sqrt{G(\tau_4)}-\sqrt{G(t_1)}\bigr]
++(t^{-1})'(t_1)\,\Theta'\ge0$, since $\tau_4'<0$, $G(\tau_4)\ge G(t_1)$
 ($\tau_4\ge t_1$ on the segment, same $G$-lemma) and the last two factors
 are both negative.
 \end{proof}
@@ -1842,16 +1859,16 @@ case junctions).
 (c) is empty (it would need $1-\omega\ge s^*(\alpha)\ge s^*(2-\omega)$,
 against the cubic) and case (a) needs $b(\alpha)\ge1-\omega$, impossible
 ($b(2)=\tfrac67\le1-\omega$). Case (b) with $c=c_2$ has value
-$S^b(\alpha)=1-\omega+\sigma(\Theta-t(1-\omega))$, increasing in $\alpha$,
+$S_0^b(\alpha)=1-\omega+t^{-1}(\Theta-t(1-\omega))$, increasing in $\alpha$,
 and (W) is equivalent to
-$\Psi(\alpha):=\Theta(\alpha)-t(\alpha-1)\ge t(1-\omega)$ with $\Psi$
-strictly increasing on $(1,2]$, $\Psi(1^+)=-\infty$ and
-$\Psi(2)=t(\tfrac67)\ge t(1-\omega)\iff\omega\le\tfrac17$: the admissible
+$\Xi(\alpha):=\Theta(\alpha)-t(\alpha-1)\ge t(1-\omega)$ with $\Xi$
+strictly increasing on $(1,2]$, $\Xi(1^+)=-\infty$ and
+$\Xi(2)=t(\tfrac67)\ge t(1-\omega)\iff\omega\le\tfrac17$: the admissible
 $\alpha$ form $[\alpha_m,2]$ and the minimum is
-$S^b(\alpha_m)=\alpha_m-\omega$ ((W) with equality). For
+$S_0^b(\alpha_m)=\alpha_m-\omega$ ((W) with equality). For
 $\alpha\in(2,2+\omega)$: if $b(\alpha)\le1-\omega$, relax (B4) to (B2) and
-use monotonicity, $S\ge S^b(\alpha)>S^b(\alpha_m)$; if $b(\alpha)>1-\omega$,
-$S\ge1+b(\alpha)>2-\omega>\alpha_m-\omega$. Squaring the defining equation
+use monotonicity, $S_0\ge S_0^b(\alpha)>S_0^b(\alpha_m)$; if $b(\alpha)>1-\omega$,
+$S_0\ge1+b(\alpha)>2-\omega>\alpha_m-\omega$. Squaring the defining equation
 twice yields the polynomial $P$ (necessary condition; the right branch is
 pinned by $\alpha_m\in(1,2]$), with the junction identities
 $P(2-\omega,\omega)=(\omega-1)^3(4\omega^3-20\omega^2+25\omega-1)$ (so
@@ -1863,7 +1880,7 @@ $b(T_{1+\omega})=T_{1+\omega}-1-\omega\ge1-\omega\iff T_{1+\omega}\ge2
 $\alpha\ge T_{1+\omega}$ (Corollary~\ref{cor:Cmin}) and the minimum is
 $\Phi(\omega)$; larger $\alpha$ and the cases (b)/(c$_4$) are increasing
 and start at $\Phi(\omega)$; smaller $\alpha$ admit no blocking (for
-$\alpha\le2$, $\Psi(\alpha)\le\Psi(2)=t(\tfrac67)\le t(1-\omega)$ with
+$\alpha\le2$, $\Xi(\alpha)\le\Xi(2)=t(\tfrac67)\le t(1-\omega)$ with
 equality only at the corner; case (c) would need $\omega\le\omega_1$).
 \end{proof}
 
@@ -1950,7 +1967,7 @@ preserves the container assignments of all rings $\ge m$; \emph{positions}
 inside each container are existential (a placement is a nesting forest
 whose sibling groups pack). A \emph{node} is any ring of radius $\ge1$
 that is an occupant of $v$ other than $\alpha$ \emph{and} $m$, or is
-nested (at any depth) inside one; nodes and their descendants live outside
+nested (at any depth) inside such an occupant; nodes and their descendants live outside
 $m$. Unless stated otherwise, blocked-exchange walls are closures of
 strict inequalities, as in Appendix~\ref{app:widthproofs}.
 
@@ -2146,7 +2163,8 @@ Blocking in the free-hole template with $j\ge1$ extra occupants implies
 \end{proposition}
 \begin{proof}
 The tail of $o_1$ contains $\{o_2,\dots,o_j,m,\sigma_1,\sigma_2\}$ (ties
-by the first-copy convention). By (Bo), $\sigma_1\ge\sigma_2>o_1-\omega$,
+among equal radii are broken by index, so the tail of a ring collects all
+later copies: the \emph{first-copy convention}). By (Bo), $\sigma_1\ge\sigma_2>o_1-\omega$,
 and each $o_i\ge1$:
 $\rho\ge\bigl((j-1)+1+\sigma_1+\sigma_2\bigr)/o_1
 >\bigl(j+2(o_1-\omega)\bigr)/o_1=2+(j-2\omega)/o_1$. If $\omega\le j/2$
@@ -2296,7 +2314,7 @@ $\rho>\varphi^2-\tfrac{\varphi}{2}\omega$ for all $\omega$ in every case
 except the corner \{branch B, $\alpha<o_1$, $o_1>\tilde o=1.2956$,
 node-child, $\omega<\tfrac12$\}, where the proved bound is $\ge2>T$. In
 particular $\rho>T$ for all $\omega<\omega_A=2(\varphi^2-T)(\varphi-1)
-=0.962585\dots$
+=2-2(T-1)(\varphi-1)=0.962585\dots$
 \end{theorem}
 \begin{proof}
 Write $g:=\sqrt5-1$. \emph{Tail chain.} The tail of $o_1$ contains
