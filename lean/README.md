@@ -27,6 +27,8 @@ apoyan los teoremas del paper.
   (P(1+e+d) − P(1+e) = d·Q(e,d) con Q de coeficientes ≥ 0 y coeficiente de
   d con término constante 2 > 0).
 - La esquina 13/7 (`thm:corner`): γ_{2/7} = 2 y 1 + b(2) = 13/7.
+- Los certificados de perfiles mayores (`thm:DPp`): la legalidad
+  universal de los espejos (φ−1 < 2/3 = b(1)) y las cadenas pesadas.
 - La **pinza** que cierra j = 3 del intercambio a sartén (`thm:DP` (iv)):
   la constante exacta s* = (6φ−1)/(2φ+1) = 11−4√5 = 15−8φ, que s < 2 la
   cumple, y la contradicción en el extremo (φ³ = 4.236 < φ+3 = 4.618, con
@@ -49,7 +51,7 @@ formaliza el esqueleto algebraico exacto que esos argumentos consumen.
   aritmética completa; el orden del encaje real con √5 > 0 (`Q5.posb`,
   decidible); polinomios como listas de coeficientes ascendentes: `Poly`
   (ℚ[X]), `PolyZ` (ℤ[X]) y `Poly2` ((ℚ[e])[d]).
-- `Calamares/Identities.lean` — los teoremas 1–28.
+- `Calamares/Identities.lean` — los teoremas 1–30.
 - `Calamares.lean` — raíz de la librería.
 
 Nota técnica: `decide` a secas se atasca con `Rat` (el elaborador no reduce
@@ -89,6 +91,8 @@ funciona porque el kernel acelera `Nat.gcd` sobre literales. No hace falta
 | 26 | `pincer_applies` | `thm:DP` (iv) (s < 2 < s*) | `microcelda.py` [A] |
 | 27 | `pincer_gap` | `thm:DP` (iv) (φ³ < φ+3, margen 2−φ) | `microcelda.py` [B] |
 | 28 | `pincer_child` | `thm:DP` (iv) (la torre no acaba en v*) | `microcelda.py` [A] |
+| 29 | `mirror_legal` | `thm:DPp` (v)-(vi) (φ−1 < 2/3 = b(1)) | `perfilp.py` [A] |
+| 30 | `heavy_chains` | `thm:DPp` (iii),(vi) (cadenas pesadas) | `perfilp.py` [A]/[C] |
 
 ## Compilar
 

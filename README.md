@@ -10,7 +10,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `docs/reinsercion.md` — lema de reinserción: la parte combinatoria del umbral de Tribonacci, cerrada con cota exacta, y la parte geométrica aislada (mínimo en la razón áurea).
 - `figures/` — divergencia área/número, diagrama de fases, contraejemplo n = 4.
 - `lean/` — formalización en Lean 4 (core, sin mathlib) de la capa de certificados exactos: 22 teoremas sobre ℚ y ℚ[√5] (aritmética áurea del contraejemplo, certificados de los medios metálicos, suelo Tribonacci con encajonamiento y monotonía, esquina 13/7, umbral aditivo). Cero `sorry`, cero axiomas nuevos, sin `native_decide`. Comando: `cd lean && lake build`. La geometría de empaquetamiento NO está formalizada — véase `lean/README.md`.
-- `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, scipy, sympy, matplotlib — véase `code/requirements.txt`). Comando único: `python code/run_all.py` (~20 min; `--quick` omite `cuadrado.py`, ~8 min); código de salida 0 sólo si todo está en verde.
+- `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, scipy, sympy, matplotlib — véase `code/requirements.txt`). Comando único: `python code/run_all.py` (~27 min; `--quick` omite `cuadrado.py` y `perfilp.py`, ~8 min); código de salida 0 sólo si todo está en verde.
 
 ## Mapa de verificación (qué script respalda cada afirmación)
 
@@ -33,10 +33,11 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `cuadrado.py` — sartén cuadrada: bolsillo de esquina x = (√s−√a)², constante hermana X = 1.7110185903… (raíz de 17x⁴ − 4x³ − 62x² + 4x + 49 en su rama), escalera cuadrada; ver `docs/drafts/cuadrado.md`.
 - `batalla2.py` — Teorema P (suelo áureo del intercambio a sartén, S par): identidades exactas del punto fijo áureo 2b(φ) = φ y de las medias metálicas (Ψ_B(1) = φ, Ψ₂(φ/2) = φ, Ψ₃(1) = √3), las cadenas de las ramas A y B, y el cierre del rincón (pared de bolsillos espejo en j = 2, árbol de casos en j = 3); ver `docs/drafts/batalla2.md`.
 - `microcelda.py` — Teorema M: cierre de la última rama de j = 3 del intercambio a sartén por la pinza sobre v*, con la constante exacta s* = 11 − 4√5 = 15 − 8φ y sus controles negativos; ver `docs/drafts/microcelda.md`.
+- `perfilp.py` — Teorema DP-p (suelo áureo a sartén para perfiles |S| = p ≥ 3, PARCIAL): herencia de las paredes del par en los casos (L)/(N), cadena (H1), programa Ψ_B con hoja estricta, bolsillos espejo (p = 3, j = 1 cerrado para todo ω > 0), swap con H_m (j = 2), controles negativos y barrido dirigido de la región abierta R*; ver `docs/drafts/perfilp.md` (~6–8 min por las coronas del bloque E).
 
 ## Hoja de ruta
 
-1. Conjetura del umbral áureo (τ = φ): |S| ≥ 3 y pequeños extra en el intercambio a sartén, y ensamblar el lema universal de reinserción con umbral φ; en paralelo, fijar el suelo anidado en exactamente T (puntitas de anchura, gap lemma, perfiles k ≥ 4). La micro-celda de j = 3 ya está cerrada (Teorema M, `docs/drafts/microcelda.md`).
+1. Conjetura del umbral áureo (τ = φ): |S| ≥ 3 en el intercambio a sartén está PARCIALMENTE cerrado (Teorema DP-p, `docs/drafts/perfilp.md`: casos (L)/(N)/(H1)/(H2-ΨB)/(H2-espejos)/(H2-swap j = 2); p = 3 con j = 1 cerrado para todo ω > 0) — queda la región R* de `perfilp.md` §2 (cuatro celdas), los pequeños extra y ensamblar el lema universal de reinserción con umbral φ; en paralelo, fijar el suelo anidado en exactamente T (puntitas de anchura, gap lemma, perfiles k ≥ 4). La micro-celda de j = 3 ya está cerrada (Teorema M, `docs/drafts/microcelda.md`).
 2. Pregunta de complejidad para reglas con input completo (oráculo de hermanos, número de consultas).
 3. Afilados en cuadrado y en R³ (los teoremas de superincrecencia ya valen; la constante análoga a T es abierta).
 4. Grosor variable, flexibilidad δ, inventarios infinitos (ver `docs/generalizaciones.md`).

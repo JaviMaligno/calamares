@@ -512,3 +512,71 @@ Nota de alcance (control negativo del bloque [D], no reserva): para
 `s > s* = 2.0557` la cadena NO cierra. El régimen de **pivote sólido
 ω ≥ 1 con j ≥ 3** queda por tanto fuera de este argumento y sigue
 abierto, como ya declaraba el convenio de anchura de `batalla2.md` §1.
+
+## Acta (2026-08-05): perfilp.md — Teorema DP-p, perfiles |S| ≥ 3 a sartén (parcial)
+
+**Veredicto: REFUTADO tal como estaba escrito → REPARADO.** Los casos
+(L), (N), (H1), (H2-ΨB) y (H2-espejos) CONFIRMADOS tras auditoría
+analítica caso por caso contra thm:DP / thm:DBpp / lem:DR / lem:DBo /
+lem:DG; (H2-swap) REFUTADO para j ≥ 3 y confirmado para j = 2; la
+exhaustividad de la partición REFUTADA con dos celdas omitidas. Todas
+las reparaciones ya aplicadas en `perfilp.md` y `code/perfilp.py` (5/5).
+
+**Los ocho ataques:**
+
+1. **Herencia (L) caso por caso — CONFIRMADA.** Cada colocación del par
+   sigue legal mandando además W a D_m (fila σ_j + W ≤ σ₁ + W ≤ 1 para
+   j ∈ {1,2}); los casos (i)–(iv) del Teorema DP portan con las mismas
+   constantes y los mismos dominios de ω. El matiz de (evac_p)
+   CONFIRMADO correcto: la colocación de evacuación con p piezas es
+   «σ₂ → H_m vaciado, σ₁+M+W → D_m», la pared es σ₂ > 1−ω ∨ σ₁+M+W > 1,
+   y en la rama B el programa Ψ_B usa la MISMA contabilidad del par con
+   σ₁+M+W en el papel de σ₁+M.
+2. **(N) con la tarifa X_σ₁ — CONFIRMADO con una imprecisión reparada.**
+   El umbral correcto es W ≤ σ₁ − ω − X_σ₁ (la tarifa del Lema R junto
+   al contenido previo del agujero de σ₁). El borrador tenía un
+   paréntesis impreciso sobre a dónde va σ₁; lo correcto (ya escrito):
+   W viaja dentro del agujero de σ₁ VAYA DONDE VAYA σ₁ — a D_m en
+   (G_σ₂), (Bo) y la evacuación; al agujero de y en (Ry); a la sartén en
+   (G_σ₁) — y por eso todas las colocaciones del par quedan legales.
+3. **Geometría de espejos — CONFIRMADA numéricamente.** y₀ = 2b₂ exacto,
+   tangencias con residuo ~1e-11; los espejos tienen radio
+   b(o₁) ≥ b(1) = 2/3 > φ−1 ≥ σ₂ ≥ σ₃ y son disjuntos (Lema DG).
+4. **Contrapositiva de la fila con pieza individual — CONFIRMADA.**
+   {σ₁ con W dentro} es UNA pieza de radio σ₁ ≤ 1: la fila {σ₁} en D_m
+   es legal siempre, aun con σ₁ + W > 1, y cada pieza de W cabe
+   individualmente porque σᵢ ≤ W ≤ capacidad.
+5. **(H2-swap) — REFUTADO para j ≥ 3, confirmado para j = 2.** La
+   no-empaquetabilidad NO es hereditaria hacia subconjuntos: que
+   {O, m, σ₃} falle con j ≥ 3 no implica que {o₁, o₂, m, σ₃} falle en
+   el disco o₁+o₂ — el mismo motivo por el que el caso (ii) del par es
+   j = 2 (j ≥ 3 fue por la escalera). Reparación: el caso queda
+   restringido a j = 2 y nace la cuarta celda de R*
+   ({p = 3, j ≥ 3, σ₁+M ≤ 1}).
+6. **¿Prueba de más? — NO.** La familia áurea con polvo añadido
+   (S = {φ/2+2ε, φ/2+ε, δ}) cae en (L) (σ₁+W = φ/2+2ε+δ ≤ 1), donde el
+   suelo sigue siendo φ y la familia lo realiza: consistente. El
+   contraejemplo áureo (p = 2) no entra en ningún caso nuevo.
+7. **Exhaustividad — REFUTADA, dos celdas omitidas** (ambas incorporadas
+   a R*): **(A)** {pesado, no-anida, σ₂ ≤ φ−1, σ₁+M > 1, j = 1,
+   subárbol de o₁ = cadena hasta y (sin hoja estricta), p ≥ 4} — existe
+   porque (H2-ΨB) necesita una hoja estricta que la cadena hasta y no
+   tiene; es el pariente p ≥ 4 de la vieja micro-celda, hoy sin pinza
+   porque no hay o₂ que atrapar. El verificador la barrió con 18 452
+   muestras y 0 bloqueos supervivientes. **(B)** {p = 3, j ≥ 3, pesado,
+   σ₁+M ≤ 1, σ₂ ≤ φ−1} — consecuencia directa de restringir el swap a
+   j = 2 (ataque 5).
+8. **Auditoría del script — superada tras una reparación.**
+   `perfilp.py` 5/5 en verde; el bloque E ahora muestrea M > 0 (antes
+   no ejercitaba la pared σ₁+M). Evidencia de R*: 236 685
+   configuraciones examinadas con todas las paredes y coronas
+   impuestas, 15 bloqueos supervivientes, mín ρ = 3.15 (margen 1.53
+   sobre φ).
+
+**Reparaciones aplicadas** (todas ya en `perfilp.md` y
+`code/perfilp.py`): (1) (H2-swap) restringido a j = 2; (2) R* ampliada
+de dos a cuatro celdas con las dos omitidas; (3) el paréntesis de (N)
+reescrito — W viaja dentro de σ₁ vaya donde vaya σ₁; (4) el bloque E
+muestrea M > 0. Estado final del Teorema DP-p: **parcial** — p = 3 con
+j = 1 cerrado para todo ω > 0; (L)/(N)/(H1)/(H2-ΨB)/(H2-espejos)/
+(H2-swap j = 2) probados; R* declarada abierta con evidencia.

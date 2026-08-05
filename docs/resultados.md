@@ -145,14 +145,45 @@ s ≤ 11 − 4√5 = 15 − 8φ = 2.0557, y aquí s < 2 porque σ₂ ≤ 1 y ω 
 No usa σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ ≥ 3, y el esbozo de la torre con suma
 cuadrática resultó innecesario. El Teorema P es por tanto TOTAL para
 perfiles de pares (j ≥ 1, ω ∈ (0,1); toda ω > 0 en j = 1, 2). **La
-Conjetura del umbral áureo sigue siendo conjetura**: le faltan los
-perfiles |S| ≥ 3 a sartén, los pequeños extra y el ensamblaje del lema
+Conjetura del umbral áureo sigue siendo conjetura**: le faltan la
+región R* de los perfiles |S| ≥ 3 a sartén (véase el Teorema DP-p, en
+el párrafo siguiente), los pequeños extra y el ensamblaje del lema
 universal de reinserción con umbral φ; y el régimen de pivote sólido
 ω ≥ 1 para j ≥ 3, que el nuevo argumento no cubre.
 Corrección de plantilla descubierta en la ronda:
 «S ⊂ (ω,1)» NO es necesidad del modelo (discos sólidos legales); el
 refuerzo 13/7-uniforme de T3 queda condicionado a σ₃ > ω (sin
 condición: ρ > Φ(ω) > T siempre).
+
+**Perfiles |S| = p ≥ 3 a sartén — PARCIALMENTE CERRADO (Teorema DP-p,
+2026-08-05; `drafts/perfilp.md`, `perfilp.py` 5/5, acta
+REFUTADO→REPARADO en VEREDICTOS.md tras ronda adversaria).** El suelo
+áureo del intercambio a sartén se extiende a perfiles de p ≥ 3 piezas
+por un principio de reparto: las paredes del par se heredan cuando el
+resto del perfil cabe en los depósitos que la colocación par no usa.
+Casos cerrados: **(L)** ligero (σ₁+W ≤ 1, con W := Σ_{i≥3} σᵢ: herencia
+verbatim de los casos (i)–(iv) del par con las colas engordadas +W);
+**(N)** anidado (W ≤ σ₁−ω−X_{σ₁}: W viaja en fila dentro del agujero de
+σ₁ vaya donde vaya σ₁); **(H1)** pesado grande (σ₁+W > 1, σ₂ > φ−1:
+ρ ≥ Σ > φ, sin geometría, todo j y todo ω); **(H2-ΨB)** (σ₁+M > 1 con
+hoja estricta: fila {σ₂,…,σ_p} al agujero de la hoja, programa Ψ_B con
+q̃ = σ₂+W+X_{L′}, ρ > φ para ω ∈ (0,1)); **(H2-espejos)** (p = 3,
+j = 1: σ₂, σ₃ ≤ φ−1 < 2/3 = b(1) caben en los dos bolsillos espejo de
+{o₁, m} — NO HAY BLOQUEO, sin usar ω); y **(H2-swap)** para j = 2
+(dicotomía con H_m que resucita la pared de espejos del caso (ii) del
+par). Titular: **p = 3 con j = 1 queda cerrado para todo ω > 0**. Queda
+declarada abierta la región R* (cuatro celdas, `perfilp.md` §2):
+{p ≥ 4, σ₁+M ≤ 1}; {p ≥ 4, σ₁+M > 1, j = 1, subárbol de o₁ = cadena
+hasta y, sin hoja estricta}; {p = 3, j = 2, σ₁+M ≤ 1, σ₂, σ₃ > 1−ω}
+(solo habitable con ω > 2−φ); y {p = 3, j ≥ 3, σ₁+M ≤ 1}. Evidencia
+dirigida: 236 685 configuraciones de R* con todas las paredes y coronas
+impuestas, 15 bloqueos supervivientes, mín ρ = 3.15 (margen 1.53 sobre
+φ); el verificador hostil barrió además la celda con σ₁+M > 1 con
+18 452 muestras y 0 bloqueos supervivientes. La primera versión fue
+REFUTADA por la ronda adversaria — dos celdas de cobertura omitidas y
+el paso del swap inválido para j ≥ 3 (la no-empaquetabilidad no es
+hereditaria hacia subconjuntos) — y reparada. **La Conjetura áurea
+SIGUE siendo conjetura**: falta R*, los pequeños extra y el ensamblaje.
 
 **La escalera y el suelo rígido (demostrado; `code/trio.py`, `code/rigido.py`).** El análisis del paso de intercambio aísla tres ingredientes y produce la escalera de la Proposición 3 de `reinsercion.md` §9: con solo el bolsillo de Descartes el ínfimo demostrable de ρ es φ ≈ 1.6180; añadiendo la infactibilidad del trío completo sube a 1.7990559… (cruce exacto de las ramas 1 + b(α) = (2 + b(α))/α, con α* ≈ 1.5558471 raíz de 2α³ = α² + 2α + 2, verificado en simbólico); y añadiendo la colocación del testigo alcanza T ≈ 1.8392868. La Proposición 3 vivía en el límite idealizado w → 0 con tangencias supuestas; el **Teorema S** (`drafts/suelo_rigido.md`) elimina ambas idealizaciones: en la subfamilia rígida F — sartén llena por tangencia diametral R = r₁ + r₂, pareja {r₃, r₄} en el agujero de r₁, trío {r₁, r₃, r₄} infactible — **toda** instancia cumple ρ > T estrictamente, para todo w > 0 y todo r₃ < r₂, y el ínfimo es exactamente T, no alcanzado (Proposición S6; el cierre por compacidad de la dirección ≤, antes esbozado, es ahora el Lema S6a — monotonía + cierre + apertura de la infactibilidad en el intervalo [0, δ₀) con δ₀ = t − u_máx, el extremo óptimo). Las piezas técnicas nuevas: la identidad del medio ángulo sin²(θ/2) = f(a)f(b), la reducción algebraica ψ(u) + ψ(v) ≥ τ como condición suficiente de empaquetamiento del trío, y un argumento de concavidad por el que la configuración rígida *emerge* como caso extremo en lugar de suponerse. De propina, φ reaparece como divisor de casos (para r₂/r₁ ≥ 1/φ la subfamilia es vacía). Verificación 10/10 claims (`code/rigido.py`, 7 bloques). El punto 1 de la hoja de ruta queda así resuelto en la subfamilia rígida; lo que el teorema no cubre — sartenes con holgura R > r₁ + r₂ y contenedores genéricos — es el hueco que queda (véase la síntesis).
 

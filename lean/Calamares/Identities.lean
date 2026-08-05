@@ -276,6 +276,24 @@ theorem pincer_child : (2 : Q5) < (2 * phi + 4) / phi ^ 2 := by
   decide +kernel
 
 /-!
+## Perfiles mayores en la sartén (`thm:DPp`; script `code/perfilp.py`)
+-/
+
+/-- (29) Legalidad universal de los espejos en régimen pesado:
+`φ − 1 < 2/3 = b(1) ≤ b(o₁)`, así que toda pieza `σ ≤ φ−1` cabe en un
+bolsillo espejo de `{o₁, m}` para cualquier `o₁ ≥ 1`.
+[thm:DPp (v)-(vi); perfilp.py A] -/
+theorem mirror_legal : phi - 1 < Q5.ofRat (2/3) := by decide +kernel
+
+/-- (30) La cadena del caso pesado-grande: `(φ−1) + 1 = φ`, y la
+frontera del swap: `2 − ω > φ ⟺ ω < 2 − φ`, con `2 − φ = 1/φ²·…`;
+aquí certificamos `(2 − φ) + φ = 2` y `2 − φ > 0`.
+[thm:DPp (iii),(vi); perfilp.py A/C] -/
+theorem heavy_chains :
+    (phi - 1) + 1 = phi ∧ (2 - phi) + phi = 2 ∧ (0 : Q5) < 2 - phi := by
+  decide +kernel
+
+/-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
 

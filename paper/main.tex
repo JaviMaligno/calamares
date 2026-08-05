@@ -66,7 +66,8 @@ $\varphi+1$, radii $\{\varphi,1,\varphi/2+2\varepsilon,
 $\rho=\varphi+3\varepsilon$ for every small $\varepsilon>0$. This
 \emph{proves} $\tau\le\varphi<T$ for the geometric threshold $\tau$ and
 refutes the natural Tribonacci-threshold conjecture. The matching bound
-$\tau\ge\varphi$ we prove for pan exchanges with pair profiles, and
+$\tau\ge\varphi$ we prove for pan exchanges with pair profiles -- and
+with larger profiles outside an explicit heavy region -- and
 conjecture in general: the golden value is thus a
 theorem in one direction and open only in the other, with $T$ the exact
 floor of the rigid nested family and the conjectured universal floor of
@@ -144,7 +145,8 @@ small $\varepsilon>0$, which \emph{proves} $\tau\le\varphi<T$
 $\rho\in(\varphi,T)$ at a fixed width
 (Corollary~\ref{cor:goldencover}). The matching bound $\tau\ge\varphi$
 is proved for pan exchanges with pair profiles
-(Theorem~\ref{thm:DP}) and conjectured in general
+(Theorem~\ref{thm:DP}), extended to larger profiles outside an explicit
+heavy region (Theorem~\ref{thm:DPp}), and conjectured in general
 (Conjecture~\ref{conj:golden}): the golden value is a theorem in one
 direction and open only in the other
 (Section~\ref{sec:threshold}).
@@ -659,7 +661,9 @@ template of Sections~\ref{sec:width}--\ref{sec:generic}, and the
 conjectured universal floor of nested exchanges (the remaining nested
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in full for pair profiles in
-Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}) -- one occupant at every
+Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}), and for larger
+profiles outside an explicit heavy region
+(Theorem~\ref{thm:DPp}) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
 $\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
@@ -1120,8 +1124,14 @@ $\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
 strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
 $\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with a
 $U_4$-based wall ($o_2<1+1/o_1$) and a pincer on the smallest node above
-$o_2$ closing the rest. Open: profiles of three or more reinserted
-pieces, extra small rings, and the solid-pivot regime $\omega\ge1$ for
+$o_2$ closing the rest. Larger profiles are closed in the light,
+nested, heavy-large and heavy-$\Psi_B$ regimes of
+Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
+Open: the remaining heavy region of Theorem~\ref{thm:DPp} (heavy
+non-nestable profiles with $\sigma_2\le\varphi-1$ and: $p\ge4$ with
+$\sigma_1+M\le1$ or with no strict leaf; $p=3$ with $j\ge3$ and
+$\sigma_1+M\le1$; or the $j=2$ sliver $\sigma_2,\sigma_3>1-\omega$),
+extra small rings, and the solid-pivot regime $\omega\ge1$ for
 $j\ge3$. (b)~\emph{Assemble the universal
 reinsertion lemma} for the nested exchange from the proved floors
 ($\ge T>\varphi$, so far above the golden threshold that the remaining
@@ -1181,7 +1191,8 @@ double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
 three-piece profiles and the golden deformation -- \texttt{striple}
 (5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
 \texttt{aureo} (5/5); the pan-exchange golden floor --
-\texttt{batalla2} (6/6) and \texttt{microcelda} (5/5). Several
+\texttt{batalla2} (6/6), \texttt{microcelda} (5/5) and, for larger
+profiles, \texttt{perfilp} (5/5). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
@@ -2750,6 +2761,75 @@ The adversarial reports (three rounds, including two repaired steps and
 a hostile audit of this pincer) and the verification scripts are in the
 repository (\texttt{code/batalla2.py}, 6/6;
 \texttt{code/microcelda.py}, 5/5).
+\end{proof}
+
+For larger profiles the walls depend on how the rest of the profile is
+stashed; write $W:=\sum_{i\ge3}\sigma_i$, $\Sigma:=\sigma_1+\sigma_2+W$,
+$M:=\sum\mathrm{children}(m)$ and $X_{\sigma_1}$ for the prior content
+of $\sigma_1$'s hole.
+
+\begin{theorem}[Golden floor, pan exchange, larger profiles]\label{thm:DPp}
+Let the witness keep $p\ge3$ rings $\sigma_1\ge\dots\ge\sigma_p$
+(all $<1$) in the pan. Blocking implies $\rho>\varphi$ in each of:
+(i)~\emph{light}, $\sigma_1+W\le1$; (ii)~\emph{nested},
+$W\le\sigma_1-\omega-X_{\sigma_1}$ (each with the $\omega$ domains of
+Theorem~\ref{thm:DP}); (iii)~\emph{heavy large}, $\sigma_1+W>1$ and
+$\sigma_2>\varphi-1$, every $j$ and every $\omega>0$;
+(iv)~\emph{heavy $\Psi_B$}, $\sigma_1+W>1$, $\sigma_1+M>1$ and some
+strict leaf exists (in particular whenever $j\ge2$), $\omega\in(0,1)$;
+(v)~\emph{heavy mirrors}: for $p=3$, $j=1$, $\sigma_2\le\varphi-1$,
+blocking is \emph{impossible} -- with (iii), $p=3$ profiles with one
+occupant are closed at every $\omega>0$; (vi)~\emph{heavy swap}, $p=3$,
+$j=2$, $\sigma_1+M\le1$, $\sigma_2\le\varphi-1$, except the sliver
+$\{\sigma_2,\sigma_3>1-\omega\}$ (which forces $\omega>2-\varphi$).
+The remaining heavy region is stated in Open
+Problem~\ref{op:assembly}(a).
+\end{theorem}
+\begin{proof}
+(i) Every placement of the proof of Theorem~\ref{thm:DP} sends one of
+$\sigma_1,\sigma_2$ to a target and the other to a row in $D_m$; adding
+$W$ to that row is legal ($\sigma_j+W\le\sigma_1+W\le1$), so every wall
+-- $(D_p)$: $\Sigma>1$; (G) with either $\sigma_i$; (Ry); (Bo); the
+evacuation dichotomy, now $\sigma_2>1-\omega$ \emph{or}
+$\sigma_1+M+W>1$ -- ports verbatim, and every tail only grows by $W$.
+In branch B the bookkeeping is
+$A=\sigma_1+\sigma_2+W+M+X=(\sigma_1+M+W)+(\sigma_2+X)>1+q$ with
+$q:=\sigma_2+X$: the same $\Psi_B$ program. The pincer is unchanged
+($s=\sigma_2+\omega<2$).
+(ii) By Lemma~\ref{lem:DR}, $W$ rows inside $\sigma_1$'s hole beside
+$X_{\sigma_1}$, and $\{\sigma_1$ carrying $W\}$ is a single piece of
+radius $\sigma_1\le1$ \emph{wherever} $\sigma_1$ goes -- to $D_m$ in
+(G$_{\sigma_2}$), (Bo) and the evacuation, to $y$'s hole in (Ry), to
+the pan in (G$_{\sigma_1}$): Theorem~\ref{thm:DP} ports again.
+(iii) The tail of $m$ collects the whole profile:
+$\rho\ge\Sigma=\sigma_2+(\sigma_1+W)>(\varphi-1)+1=\varphi$.
+(iv) The row $\{\sigma_2,\dots,\sigma_p\}$ into the strict leaf's hole
+($\sigma_1\le1$ to $D_m$) gives the wall
+$L'<(\sigma_2+W)+\omega+X_{L'}$; with
+$\tilde q:=\sigma_2+W+X_{L'}>1-\omega$ (from $L'\ge1$) and
+$A:=(\sigma_1+M)+\tilde q>1+\tilde q$, the two tails give $\rho\ge A$
+and $\rho>(2+\tilde q)/(\tilde q+\omega)$: the branch-B program,
+$\rho>\Psi_B(\omega)>\Psi_B(1)=\varphi$.
+(v) $\sigma_2,\sigma_3\le\varphi-1<\tfrac23=b(1)\le b(o_1)$ fit
+concentrically in the two mirror pockets of $\{o_1,m\}$ in the disk
+$o_1+1\le R$ (disjoint, Lemma~\ref{lem:DG}), and $\sigma_1\le1$ rows in
+$D_m$: the exchange is never blocked there.
+(vi) The placement ``$\sigma_2\to H_m$, $\sigma_1{+}M\to D_m$ (row
+$\le1$ by hypothesis), $\sigma_3\to$ pan'' and its
+$\sigma_2\leftrightarrow\sigma_3$ mirror force either
+$\{o_1,o_2,m,\sigma_3\}$ not to repack -- by containment to the disk
+$o_1+o_2$ and Proposition~\ref{prop:S5}, $b_2(o_1,o_2)<1$, the
+mirror-pocket wall of case (ii) of Theorem~\ref{thm:DP}, whose
+optimization ports with fatter tails ($1+\Sigma>2+\sigma_2$) -- or
+$\sigma_2,\sigma_3>1-\omega$, and then
+$\rho\ge\Sigma>1+\sigma_2>2-\omega$ closes $\omega<2-\varphi$. (Only
+$j=2$: non-packability is not inherited by subsets, so the containment
+step fails for $j\ge3$ -- the same reason case (ii) of
+Theorem~\ref{thm:DP} is a pair statement.) The case tree, the two
+coverage cells missed by a first version and repaired, and the
+verification script are in the repository
+(\texttt{docs/drafts/perfilp.md}; \texttt{code/perfilp.py}, 5/5;
+adversarially verified).
 \end{proof}
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}

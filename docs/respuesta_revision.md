@@ -306,3 +306,15 @@ perfiles de pares y pierde el adjetivo "partial". Verificacion: acta
 adversaria CONFIRMADO, code/microcelda.py 5/5, seis certificados nuevos en
 Lean. La Conjetura aurea NO cambia de estatus: siguen abiertos |S| >= 3,
 los anillos pequenos extra, el ensamblaje y el pivote solido con j >= 3.
+
+El desarrollo posterior incluye tambien el **Teorema DP-p** (2026-08-05,
+`docs/drafts/perfilp.md`, `code/perfilp.py` 5/5): el suelo aureo del
+intercambio a sarten para perfiles |S| = p >= 3, PARCIAL — casos
+(L)/(N)/(H1)/(H2-PsiB)/(H2-espejos)/(H2-swap j=2) cerrados por herencia
+de las paredes del par, con p = 3 y j = 1 cerrado para todo omega > 0,
+y la region R* (cuatro celdas) declarada abierta con evidencia. La
+primera version fue REFUTADA por la ronda adversaria — dos celdas de
+cobertura omitidas en la particion y un paso invalido para j >= 3 (la
+no-empaquetabilidad no es hereditaria hacia subconjuntos) — y reparada
+(acta en `docs/drafts/VEREDICTOS.md`): senal de que el protocolo de
+verificacion hostil funciona. La Conjetura aurea NO cambia de estatus.

@@ -5,23 +5,28 @@ Cada script imprime lineas [OK]/[FALLO] y un RESUMEN n/n; aqui se recogen los
 resumenes y el codigo de salida es 0 solo si todo esta en verde. Scripts de
 verificacion principales (con bloques [A] simbolico-exacto vs [B..] numerico):
 rigido, h1, grosor, esquina, tresk, cuatrok, universal, cuadrado, corona,
-ocupantes, bloqueadores, bolsillo, striple, aureo, batalla2, microcelda.
+ocupantes, bloqueadores, bolsillo, striple, aureo, batalla2, microcelda,
+perfilp.
 """
 import subprocess, sys, os, re, time
 
-# Duracion aproximada: --full ~20 min (cuadrado.py ~10 min es el dominante);
-# --quick omite cuadrado.py y corre en ~8 min.
+# Duracion aproximada: --full ~27 min (cuadrado.py ~10 min y perfilp.py
+# ~6-8 min, por las coronas de su bloque E, son los dominantes);
+# --quick omite cuadrado.py y perfilp.py y corre en ~8 min.
 
 SCRIPTS = [
     "rigido.py", "h1.py", "grosor.py", "esquina.py", "tresk.py",
     "cuatrok.py", "universal.py", "cuadrado.py", "corona.py",
     "ocupantes.py", "bloqueadores.py", "bolsillo.py", "striple.py",
-    "aureo.py", "batalla2.py", "microcelda.py",
+    "aureo.py", "batalla2.py", "microcelda.py", "perfilp.py",
 ]
+
+# Scripts lentos que --quick omite.
+SLOW = ("cuadrado.py", "perfilp.py")
 
 def main():
     quick = "--quick" in sys.argv
-    scripts = [x for x in SCRIPTS if not (quick and x == "cuadrado.py")]
+    scripts = [x for x in SCRIPTS if not (quick and x in SLOW)]
     base = os.path.dirname(os.path.abspath(__file__))
     root = os.path.dirname(base)
     ok_all = True

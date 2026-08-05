@@ -257,9 +257,13 @@ dan la misma desigualdad) es reutilizable para |S| ≥ 3.
    (§4ter): ya no queda sub-celda, la pinza sobre v* del Teorema M
    (`microcelda.md`, `microcelda.py` 5/5) cierra la rama de discos
    sólidos sin hipótesis sobre σ₂ frente a ω.
-2. **|S| ≥ 3**: las paredes se heredan (fila en D_m, evacuación, Lema R)
-   pero la optimización no está rehecha; la reducción del Teorema T3
-   (polvo sobre el par) porta la rama de anidamiento.
+2. ~~|S| ≥ 3~~ — PARCIALMENTE CERRADO por el **Teorema DP-p**
+   (`drafts/perfilp.md`, `perfilp.py` 5/5, acta REFUTADO→REPARADO en
+   VEREDICTOS.md): la herencia de las paredes está ahora rehecha caso a
+   caso — (L) verbatim, (N) con la tarifa X_{σ₁}, (H1) sin geometría,
+   (H2-ΨB) por hoja estricta, (H2-espejos) y (H2-swap j = 2) — y
+   **p = 3 con j = 1 queda cerrado para todo ω > 0**. Queda la región
+   R* declarada en `perfilp.md` §2 (cuatro celdas).
 3. **Pequeños extra en la sartén**: análogo del Corolario S pendiente
    (las colocaciones de las paredes son locales salvo (G)).
 4. El generador de [B]–[D] muestrea árboles de profundidad ≤ 2 y NO

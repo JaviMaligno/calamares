@@ -1,4 +1,4 @@
-# Estado de la sesión (2026-08-03) — LA CONJETURA DE T ES FALSA: el umbral es áureo
+# Estado de la sesión (2026-08-05) — LA CONJETURA DE T ES FALSA: el umbral es áureo
 
 **BOMBA (2026-08-03, `drafts/umbral_aureo.md`, `aureo.py` 5/5, acta
 CONFIRMADO con verificación hostil):** el primer resultado de la
@@ -30,8 +30,17 @@ aquí s < 2 (σ₂ ≤ 1, ω < 1); no usa σ₂ ≤ ω, ni ω ≥ φ/2, ni o₁ 
 esbozo de la torre resultó innecesario. El Teorema P es TOTAL para
 perfiles de pares (j ≥ 1, ω ∈ (0,1); toda ω > 0 en j = 1, 2).
 OJO CORRECCIÓN: «S ⊂ (ω,1)» NO es necesidad (discos sólidos
-legales); el 13/7-uniforme de T3 es condicional a σ₃ > ω. QUEDA:
-|S| ≥ 3 a sartén, pequeños extra, el ensamblaje del lema universal con
+legales); el 13/7-uniforme de T3 es condicional a σ₃ > ω. Y |S| ≥ 3 a
+sartén está PARCIALMENTE CERRADO desde 2026-08-05 (**Teorema DP-p**,
+`drafts/perfilp.md`, `perfilp.py` 5/5, acta REFUTADO→REPARADO en
+VEREDICTOS.md: la ronda adversaria refutó la primera versión — dos
+celdas de cobertura omitidas y el swap inválido para j ≥ 3 — y quedó
+reparada): casos (L)/(N)/(H1)/(H2-ΨB)/(H2-espejos)/(H2-swap j = 2)
+probados por herencia de las paredes del par; **p = 3 con j = 1 cerrado
+para todo ω > 0**. QUEDA: la región R* de `perfilp.md` §2 (cuatro
+celdas: {p ≥ 4, σ₁+M ≤ 1}; {p ≥ 4, σ₁+M > 1, j = 1, subárbol de o₁ =
+cadena hasta y}; {p = 3, j = 2, σ₁+M ≤ 1, σ₂, σ₃ > 1−ω}; {p = 3,
+j ≥ 3, σ₁+M ≤ 1}), pequeños extra, el ensamblaje del lema universal con
 umbral φ, y el régimen de pivote sólido ω ≥ 1 para j ≥ 3 (que el
 Teorema M NO cubre: su constante s* = 2.0557 lo excluye).**
 
