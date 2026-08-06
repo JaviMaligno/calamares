@@ -580,3 +580,77 @@ reescrito — W viaja dentro de σ₁ vaya donde vaya σ₁; (4) el bloque E
 muestrea M > 0. Estado final del Teorema DP-p: **parcial** — p = 3 con
 j = 1 cerrado para todo ω > 0; (L)/(N)/(H1)/(H2-ΨB)/(H2-espejos)/
 (H2-swap j = 2) probados; R* declarada abierta con evidencia.
+
+## Acta (2026-08-06): rstar.md — cierre de la región R* (Teorema DPr)
+
+**Veredicto: REFUTADO → REPARADO. CONFIRMADO CON CORRECCIONES salvo una
+celda REFUTADA, que queda declarada abierta.** Objeto: el cierre de la
+región R* del Teorema DP-p — el nuevo **Teorema DPr** (`paper/main.tex`
+thm:DPr, `drafts/rstar.md`, `code/rstar.py` 6/6). Resultado neto tras
+la ronda: **R* = {p ≥ 4, σ₁+M ≤ 1, j ≥ 3}** — una sola celda. Cerradas:
+C4 = {p = 3, j ≥ 3} (pinza-con-Σ), C3 = {p = 3, j = 2} entera
+(espejos-par / Ψ-programa / corona-vacía con margen 0.494), C1 j = 1
+(coronas, márgenes 0.54–0.86), C1 j = 2 (análisis de frontera con la
+esquina π), y C2 = {p ≥ 4, σ₁+M > 1, cadena} entera (j = 1 por
+definición de la celda).
+
+**Los ocho puntos de la ronda:**
+
+1. **Suficiencia del criterio de camino más largo — CONFIRMADA
+   constructivamente.** La colocación mural (círculos tangentes a pared
+   con el par {o₁, o₂} diametral) es factible ⟺ el camino más largo
+   sobre subsecuencias (TODAS las parejas separadas ≥ θ, no solo las
+   adyacentes) es ≤ π. El verificador construyó 3 071 colocaciones
+   explícitas y las contrastó con distancias euclidianas: 0 inválidas.
+   El criterio ingenuo (suma de arcos adyacentes) es el que refuta el
+   **pentagrama**; ese fallo fue detectado y corregido ANTES de la
+   ronda por el hilo principal, y la ronda confirmó la corrección.
+2. **REFUTADO: la corona de C1 para j ≥ 3 no recolocaba a o₃.** La
+   contención al disco o₁+o₂ no es legal con tres o más ocupantes: o₃
+   tiene que ir a alguna parte. La reparación numérica con o₃ inserto
+   en la cadena da camino más largo 4.86–4.93 ≫ π: la colocación NO
+   existe. La celda **{p ≥ 4, σ₁+M ≤ 1, j ≥ 3} queda ABIERTA** (única
+   superviviente de R*).
+3. **El margen 0.038–0.042 de p ≥ 4, j = 2 era ARTEFACTO de malla.**
+   El sup real del camino más largo es **π EXACTO**, alcanzado solo en
+   la esquina de frontera {σ₁ = 1, W = 0}: allí o₂ = 2/φ, o₁ = 2,
+   R̄ = 2φ, con las identidades exactas
+   sin²(θ(o₂,m)/2) = 1/2 − √5/10, sin²(θ(m,o₁)/2) = 1/2 + √5/10 (suman
+   1 ⟹ θ(o₂,m) + θ(m,o₁) = π) y f(o₁)f(o₂) = 1 (par diametral). La
+   esquina está EXCLUIDA del dominio (el perfil es < 1 estricto y
+   pesado exige σ₁+W > 1): el cierre de j = 2 sobrevive **por análisis
+   de frontera, no por malla** (~10⁶ muestras interiores sin ningún
+   punto ≥ π). Bloque [A2] de `rstar.py` incorporado.
+4. **Pinza-con-Σ rederivada desde cero — CONFIRMADA.** Frontera exacta
+   de C2' contra C4': s' = (φ−1)Σ + (16−9φ); sup del dominio de
+   s' − (φ−1)Σ = 5φ−7; margen **23 − 14φ = 16 − 7√5 = 0.3475 > 0**;
+   degeneración exacta a 11 − 4√5 = 15 − 8φ (Teorema M) en Σ = 1.
+   Monte Carlo 500k sin violación.
+5. **Rama (b) de C4 (dos hijos-nodo ⟹ jj = 3): mínimo real 2.000363**
+   (el 2.0058 del barrido era de malla; multistart del verificador),
+   sigue > φ con margen ~0.382.
+6. **C3.1 y C3.2 — CONFIRMADOS con matices.** C3.1: el ínfimo es
+   exactamente φ en el rincón áureo (o₁, o₂) = (2, √5−1), que queda
+   FUERA de la pared (b₂(2, √5−1) = 1 exacto); estricto porque las
+   colas llevan 1+Σ > 2+σ₂. C3.2: el argmin es interior, en el cruce
+   q* = √(1+(1−ω)²) (errata del mensaje de la ronda, corregida), con
+   Ψ(1/2) = φ exacto y empalme √3 en ω = 1 − 1/√3.
+7. **Colateral: `corona_cabe` de `perfilp.py` usaba el criterio
+   ingenuo** (suma de arcos adyacentes). Ya PORTADO al camino más largo
+   por el hilo principal y `perfilp.py` re-ejecutado (5/5; la
+   evidencia del bloque E no cambia de veredicto).
+8. **Controles negativos informativos** (bloque [E] de `rstar.py`):
+   (a) sin las colas o₂ ≥ (1+Σ)/φ, o₁ ≥ (o₂+1+Σ)/φ la corona NO cabe
+   (mín sobre órdenes 5.46 > π): la pared no es vacua, la vacían las
+   colas; (b) quitando Σ de las colas la frontera vuelve a ser el
+   11 − 4√5 del Teorema M, y la pinza SIN Σ no cierra C4 (s' alcanza
+   2.226 > s* = 2.0557); (c) Ψ(0.6) = 1.477 < φ: el programa de C3.2
+   no cubre ω > 1/2, por eso C3.3 necesita la pared de corona.
+
+**Auditoría numérica independiente:** ~2M de puntos Monte Carlo +
+multistart sobre las cuatro celdas (scripts `audit1.py`/`audit2.py` del
+scratchpad del verificador), sin contraejemplo fuera del punto 2.
+Estado final: el Teorema DPr cierra R* entera salvo la celda
+{p ≥ 4, σ₁+M ≤ 1, j ≥ 3}; la vía identificada para ella es la corona
+cíclica a nivel de sartén (pared R ≥ R_corona(O ∪ {m})).
+`rstar.py` 6/6 tras las reparaciones.

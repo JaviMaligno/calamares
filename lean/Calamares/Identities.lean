@@ -294,6 +294,37 @@ theorem heavy_chains :
   decide +kernel
 
 /-!
+## El cierre de la región pesada (`thm:DPr`; script `code/rstar.py`)
+-/
+
+/-- (31) La pinza-con-Σ: la frontera `s' ≤ (φ−1)Σ + (16−9φ)` degenera en
+`Σ = 1` a la constante `15 − 8φ = 11 − 4√5` del Teorema M, y sobre la
+celda `sup(s' − (φ−1)Σ) = 5φ−7` queda bajo la frontera con margen
+exacto `23 − 14φ > 0`. [thm:DPr (i); rstar.py A/B] -/
+theorem pincer_sigma :
+    (phi - 1) * 1 + (16 - 9 * phi) = 15 - 8 * phi
+    ∧ (5 * phi - 7) < (16 - 9 * phi)
+    ∧ (16 - 9 * phi) - (5 * phi - 7) = 23 - 14 * phi
+    ∧ (0 : Q5) < 23 - 14 * phi := by
+  decide +kernel
+
+/-- (32) La esquina de frontera de `p ≥ 4, j = 2`: en `σ₁ = 1, W = 0`
+las colas dan `o₂ = 2/φ`, `o₁ = 2`, `R̄ = 2φ`, el par `{o₁, o₂}` es
+diametral exacto (`f(o₁)f(o₂) = 1`) y los dos arcos de `m` suman `π`:
+`sin²(θ/2)` valen `1/2 ∓ √5/10` y suman `1`.  La esquina está FUERA del
+dominio (perfil < 1 estricto, pesado exige `σ₁+W > 1`): el interior
+queda estrictamente bajo `π`. [thm:DPr (iv); rstar.py A2] -/
+theorem corner_pi :
+    ((2 : Q5) / phi) / (2 * phi - 2 / phi) * (1 / (2 * phi - 1))
+      = Q5.ofRat (1/2) - sqrt5 / 10
+    ∧ (1 / (2 * phi - 1)) * (2 / (2 * phi - 2))
+      = Q5.ofRat (1/2) + sqrt5 / 10
+    ∧ ((2 : Q5) / phi) / (2 * phi - 2 / phi) * (1 / (2 * phi - 1))
+      + (1 / (2 * phi - 1)) * (2 / (2 * phi - 2)) = 1
+    ∧ (2 / (2 * phi - 2)) * ((2 / phi) / (2 * phi - 2 / phi)) = 1 := by
+  decide +kernel
+
+/-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
 

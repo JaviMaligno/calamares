@@ -1,4 +1,4 @@
-# Estado de la sesión (2026-08-05) — LA CONJETURA DE T ES FALSA: el umbral es áureo
+# Estado de la sesión (2026-08-06) — LA CONJETURA DE T ES FALSA: el umbral es áureo
 
 **BOMBA (2026-08-03, `drafts/umbral_aureo.md`, `aureo.py` 5/5, acta
 CONFIRMADO con verificación hostil):** el primer resultado de la
@@ -37,12 +37,29 @@ VEREDICTOS.md: la ronda adversaria refutó la primera versión — dos
 celdas de cobertura omitidas y el swap inválido para j ≥ 3 — y quedó
 reparada): casos (L)/(N)/(H1)/(H2-ΨB)/(H2-espejos)/(H2-swap j = 2)
 probados por herencia de las paredes del par; **p = 3 con j = 1 cerrado
-para todo ω > 0**. QUEDA: la región R* de `perfilp.md` §2 (cuatro
-celdas: {p ≥ 4, σ₁+M ≤ 1}; {p ≥ 4, σ₁+M > 1, j = 1, subárbol de o₁ =
-cadena hasta y}; {p = 3, j = 2, σ₁+M ≤ 1, σ₂, σ₃ > 1−ω}; {p = 3,
-j ≥ 3, σ₁+M ≤ 1}), pequeños extra, el ensamblaje del lema universal con
-umbral φ, y el régimen de pivote sólido ω ≥ 1 para j ≥ 3 (que el
-Teorema M NO cubre: su constante s* = 2.0557 lo excluye).**
+para todo ω > 0**. Y la región R* está CERRADA SALVO UNA CELDA desde
+2026-08-06 (**Teorema DPr**, `drafts/rstar.md`, `rstar.py` 6/6, thm:DPr
+en el paper, acta REFUTADO→REPARADO en VEREDICTOS.md): la pinza-con-Σ
+(frontera exacta s' = (φ−1)Σ + (16−9φ), margen 23−14φ = 0.3475, cierra
+p = 3, j ≥ 3), las tres ramas de p = 3, j = 2 (espejos / Ψ con
+Ψ(1/2) = φ exacto / corona-vacía con margen 0.494), las coronas
+murales de j = 1 (márgenes 0.54–0.86) y la frontera π de j = 2 (sup =
+π EXACTO solo en la esquina excluida {σ₁ = 1, W = 0}; el margen de
+malla 0.04 era artefacto) — todo con el criterio de camino más largo
+(corrección del pentagrama; la ronda REFUTÓ la corona de j ≥ 3 por no
+recolocar a o₃). QUEDA: la celda **{p ≥ 4, σ₁+M ≤ 1, j ≥ 3}** (vía
+identificada: corona cíclica a nivel de sartén, pared
+R ≥ R_corona(O ∪ {m})), los pequeños extra (convergen a la misma
+corona), el régimen de pivote sólido ω ≥ 1 para j ≥ 3 (a sartén, y en
+el anidado desde j ≥ 1: el Teorema M NO lo cubre — su constante
+s* = 2.0557 lo excluye — y los suelos anidados están probados solo con
+pivote de anchura), los tres huecos anidados al nivel áureo — la
+puntita j = 2 con ω ∈ [φ/2, 1), el gap lemma cuantitativo y k ≥ 4
+fuera de la rama de reducción, ya DECLARADOS en el paper (Status y
+op:assembly(b)) — y el ensamblaje del lema universal con umbral φ.
+NOTA: la llave maestra identificada para lo que queda de sartén es la
+pared corona-contra-colas (las colas de ρ ≤ φ contra la corona cíclica
+de los ocupantes).**
 
 ## (histórico) Batalla 1: pasos 1–4 y el asalto geométrico cerrados
 

@@ -1,8 +1,10 @@
 # Perfiles |S| = p ≥ 3 en el intercambio a sartén (Teorema DP-p)
 
-Estado: **parcial** — casos (L), (N), (H1), (H2-ΨB), (H2-espejos) probados
-(pendiente de acta adversaria); franja R* declarada abierta con evidencia.
-Script: `code/perfilp.py`.
+Estado: **parcial** — casos (L), (N), (H1), (H2-ΨB), (H2-espejos),
+(H2-swap j = 2) probados (acta REFUTADO→REPARADO en VEREDICTOS.md); la
+región R*, declarada abierta con cuatro celdas, quedó CERRADA salvo una
+el 2026-08-06 (Teorema DPr, §2bis, `drafts/rstar.md`).
+Scripts: `code/perfilp.py`, `code/rstar.py`.
 
 Notación: S = {σ₁ ≥ … ≥ σ_p}, todas < 1; W := Σ_{i≥3} σᵢ; Σ := σ₁+σ₂+W;
 M := Σ hijos(m). Paredes del par (batalla2.md §1) con las variantes p
@@ -80,40 +82,86 @@ simétrica en σ₃ («σ₃ → H_m, σ₂ → bolsillo»), fuerza σ₃ > 1−
 entonces ρ ≥ Σ > σ₁ + 2(1−ω); con la cola 1+σ₂ > 2−ω esto cierra
 ω < 2−φ. **Queda la franja** ω ≥ 2−φ con σ₂, σ₃ ∈ (1−ω, φ−1].
 
-## 2. La región declarada abierta R*
+## 2. La región abierta R* — reducida a UNA celda (2026-08-06)
 
-    R* := { σ₁+W > 1,  W+X_{σ₁} > σ₁−ω,  σ₂ ≤ φ−1 } ∩
-          [ { p ≥ 4, σ₁+M ≤ 1 }
-          ∪ { p ≥ 4, σ₁+M > 1, j = 1, subárbol de o₁ = cadena hasta
-              la hoja y (sin hoja estricta) }
-          ∪ { p = 3, j = 2, σ₁+M ≤ 1, σ₂ > 1−ω, σ₃ > 1−ω }
-          ∪ { p = 3, j ≥ 3, σ₁+M ≤ 1 } ]
+**Desde el Teorema DPr (§2bis) R* se reduce a una sola celda:**
 
-(el tercer miembro implica ω > 2−φ; para p = 3 con j = 1 los espejos
-cierran siempre; para p = 3, j = 2, con alguna σᵢ ≤ 1−ω cierra el
-swap; y el
-segundo miembro existe porque (H2-ΨB) necesita una hoja estricta, que
-la cadena hasta y no tiene — es el pariente p ≥ 4 de la vieja
-micro-celda, hoy sin pinza porque no hay o₂ que atrapar; la cuarta
-celda existe porque el swap solo vale para j = 2). La partición
-(L)∪(N)∪(H1)∪(H2-ΨB)∪(H2-espejos)∪(H2-swap)∪R* es exhaustiva — la
-enumeración fue verificada adversariamente, que encontró y corrigió dos
-celdas omitidas en la primera versión (acta en VEREDICTOS.md). Con
-p ≥ 4 quedan fuera todos los j en la rama σ₁+M ≤ 1 porque el swap y los
-espejos solo alojan dos piezas más allá de σ₁ (los espejos son dos, y m
-compite por ellos cuando j ≥ 2). Para {p=3, j≥3, σ₁+M≤1} el programa
-crudo de la escalera con σ̂ := σ₂+W roza φ sin superarlo (mín numérico
-≈ 1.616 < φ): se necesita una pared más fina, no un empujón. Evidencia
-dirigida (`perfilp.py` bloque E, con M > 0 muestreado): los bloqueos
-ahí casi no existen — 11 configuraciones bloqueadas de 236 016
-examinadas con todas las paredes y coronas impuestas, mín ρ = 3.01
-(margen 1.39 sobre φ); el verificador hostil añadió un barrido propio
-de la celda con σ₁+M > 1 (18 452 muestras, 0 bloqueos supervivientes).
-La maquinaria
-identificada para cerrarla: la pared de intercambio de coronas
-(P empaqueta {O} ∪ S en R y el re-empaquetado {O, m} ∪ (S∖A) debe
-fallar en el mismo R: el canje σ₁ ↔ m da una pared cuantitativa) y la
-cascada de bolsillos (escalera).
+    R* = { σ₁+W > 1,  W+X_{σ₁} > σ₁−ω,  σ₂ ≤ φ−1 } ∩
+         { p ≥ 4,  σ₁+M ≤ 1,  j ≥ 3 }
+
+La región que este teorema declaró abierta originalmente tenía cuatro
+celdas (la numeración C1–C4 es la de `code/rstar.py`):
+
+    C1 = { p ≥ 4, σ₁+M ≤ 1 }
+    C2 = { p ≥ 4, σ₁+M > 1, j = 1, subárbol de o₁ = cadena hasta
+           la hoja y (sin hoja estricta) }
+    C3 = { p = 3, j = 2, σ₁+M ≤ 1, σ₂ > 1−ω, σ₃ > 1−ω }
+    C4 = { p = 3, j ≥ 3, σ₁+M ≤ 1 }
+
+El Teorema DPr cierra C2, C3 y C4 enteras y C1 para j ≤ 2; sobrevive
+solo C1 con j ≥ 3.
+
+(C3 implica ω > 2−φ; para p = 3 con j = 1 los espejos cierran siempre;
+para p = 3, j = 2, con alguna σᵢ ≤ 1−ω cierra el swap; C2 existe porque
+(H2-ΨB) necesita una hoja estricta, que la cadena hasta y no tiene — es
+el pariente p ≥ 4 de la vieja micro-celda, hoy sin pinza porque no hay
+o₂ que atrapar; C4 existe porque el swap solo vale para j = 2). La
+partición (L)∪(N)∪(H1)∪(H2-ΨB)∪(H2-espejos)∪(H2-swap)∪(C1∪C2∪C3∪C4) es
+exhaustiva — la enumeración fue verificada adversariamente, que
+encontró y corrigió dos celdas omitidas en la primera versión (acta en
+VEREDICTOS.md). Con p ≥ 4 quedan fuera todos los j en la rama σ₁+M ≤ 1
+porque el swap y los espejos solo alojan dos piezas más allá de σ₁ (los
+espejos son dos, y m compite por ellos cuando j ≥ 2). Evidencia
+dirigida de la ronda del DP-p (`perfilp.py` bloque E, con M > 0
+muestreado): los bloqueos en las cuatro celdas casi no existen — 11
+configuraciones bloqueadas de 236 016 examinadas con todas las paredes
+y coronas impuestas, mín ρ = 3.01 (margen 1.39 sobre φ); el verificador
+hostil añadió un barrido propio de la celda con σ₁+M > 1 (18 452
+muestras, 0 bloqueos supervivientes).
+
+## 2bis. El cierre de R* (Teorema DPr, 2026-08-06)
+
+Draft completo: `drafts/rstar.md`; script: `code/rstar.py` (6/6);
+acta REFUTADO→REPARADO en VEREDICTOS.md; enunciado en el paper
+(thm:DPr). Las cuatro palancas:
+
+1. **Pinza-con-Σ (cierra C4).** El árbol de casos de j = 3 del par
+   porta con la fila s' := σ₂+σ₃+ω y la masa Σ del perfil en todas las
+   colas; la pinza sobre v* cierra sii
+   s' ≤ (φ−1)Σ + (16−9φ) — que vale en TODA la celda:
+   sup(s' − (φ−1)Σ) = 5φ−7 y el margen es exactamente
+   23 − 14φ = 0.3475 > 0. En Σ = 1 la frontera degenera EXACTAMENTE en
+   el 11 − 4√5 del Teorema M (consistencia). Rama sin hijo-nodo:
+   margen 14 − 8φ = 1.0557.
+2. **Tres ramas de C3 (cierra C3 entera).** C3.1 (σ₂+σ₃ ≤ 1): resucita
+   la pared de espejos del caso (ii) del par; ínfimo φ en el rincón
+   áureo (2, √5−1), fuera de la pared. C3.2 (σ₂+σ₃ > 1, ω ≤ 1/2):
+   Ψ-programa con cruce interior q* = √(1+(1−ω)²) y Ψ(1/2) = φ exacto.
+   C3.3 (ω > 1/2): VACÍA de bloqueos — las colas de ρ ≤ φ fuerzan
+   o₂ ≥ (1+Σ)/φ, o₁ ≥ (o₂+1+Σ)/φ, y ahí la colocación mural de
+   {o₂, m, σ₂, σ₃, o₁} en el disco o₁+o₂ SIEMPRE cabe (camino más
+   largo máx 2.648 < π, margen 0.494).
+3. **Coronas j = 1 (cierra C2 entera y C1 con j = 1).** La corona
+   mural (σ₂…σ_p entre m y o₁, θ(o₁,m) = π) cabe siempre: márgenes
+   0.54–0.86 sobre π en p = 4, 5, 6 (más la cadena
+   Σ > σ₁+σ₂+σ₃+(1−ω), que ya cierra sii σ₁+σ₂+σ₃ ≥ φ−1+ω, y en C2 la
+   cadena ρ ≥ Σ+M > 1+σ₂+W sii σ₂+W ≥ φ−1).
+4. **Frontera π de j = 2 (cierra C1 con j = 2).** El sup del camino
+   más largo sobre el dominio cerrado es π EXACTO, alcanzado solo en
+   la esquina excluida {σ₁ = 1, W = 0} (o₂ = 2/φ, o₁ = 2, R̄ = 2φ;
+   identidades sin²(θ(o₂,m)/2) = 1/2 − √5/10 y
+   sin²(θ(m,o₁)/2) = 1/2 + √5/10, que suman 1): el interior queda
+   estrictamente bajo π. El margen ~0.04 de la malla era un artefacto;
+   el cierre es por análisis de frontera.
+
+El instrumento común es el **criterio de camino más largo** para
+colocaciones murales (corrección del pentagrama: toda pareja separada
+≥ θ, no solo las adyacentes; suficiencia confirmada constructivamente
+en la ronda con 3 071 colocaciones, 0 inválidas). La celda
+superviviente {p ≥ 4, σ₁+M ≤ 1, j ≥ 3} queda abierta porque la
+contención al disco o₁+o₂ no recoloca a o₃ (con o₃ en la cadena el
+camino más largo da 4.86–4.93 ≫ π); la vía identificada es la corona
+cíclica a nivel de sartén, con la pared R ≥ R_corona(O ∪ {m}).
 
 ## 3. Por qué no prueba de más
 
@@ -128,9 +176,14 @@ cascada de bolsillos (escalera).
 
 ## 4. Qué implica
 
-El suelo áureo del intercambio a sartén queda probado para **perfiles
-de 3 piezas con j = 1 en todo ω > 0**, y para perfiles arbitrarios en
-los regímenes ligero, anidado, pesado-grande y pesado-ΨB. La Conjetura
-áurea (τ = φ) sigue abierta: falta R*, los pequeños extra y el
-ensamblaje. El ínfimo sobre los casos cerrados sigue siendo φ
-(familia áurea, ahora también con polvo: cor:goldencover se extiende).
+El suelo áureo del intercambio a sartén queda probado para **todo
+perfil p = 3 (todo j, todo ω ∈ (0,1); todo ω > 0 con j = 1)** y para
+p ≥ 4 salvo una única celda: con el Teorema DPr (§2bis) caen C2, C3,
+C4 y C1 con j ≤ 2, además de los regímenes ligero, anidado,
+pesado-grande y pesado-ΨB de este teorema. La Conjetura áurea (τ = φ)
+sigue abierta: falta la celda {p ≥ 4, σ₁+M ≤ 1, j ≥ 3} (vía
+identificada: corona cíclica a nivel de sartén), los pequeños extra
+(que convergen a la misma corona), el régimen de pivote sólido ω ≥ 1
+con j ≥ 3, y el ensamblaje. El ínfimo sobre los casos cerrados sigue
+siendo φ (familia áurea, ahora también con polvo: cor:goldencover se
+extiende).

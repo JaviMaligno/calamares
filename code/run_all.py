@@ -6,23 +6,25 @@ resumenes y el codigo de salida es 0 solo si todo esta en verde. Scripts de
 verificacion principales (con bloques [A] simbolico-exacto vs [B..] numerico):
 rigido, h1, grosor, esquina, tresk, cuatrok, universal, cuadrado, corona,
 ocupantes, bloqueadores, bolsillo, striple, aureo, batalla2, microcelda,
-perfilp.
+perfilp, rstar.
 """
 import subprocess, sys, os, re, time
 
-# Duracion aproximada: --full ~27 min (cuadrado.py ~10 min y perfilp.py
-# ~6-8 min, por las coronas de su bloque E, son los dominantes);
-# --quick omite cuadrado.py y perfilp.py y corre en ~8 min.
+# Duracion aproximada: --full ~33 min (cuadrado.py ~10 min, perfilp.py
+# ~6-8 min por las coronas de su bloque E, y rstar.py ~5-8 min por el
+# barrido de la pared de corona, son los dominantes); --quick omite
+# cuadrado.py, perfilp.py y rstar.py y corre en ~8 min.
 
 SCRIPTS = [
     "rigido.py", "h1.py", "grosor.py", "esquina.py", "tresk.py",
     "cuatrok.py", "universal.py", "cuadrado.py", "corona.py",
     "ocupantes.py", "bloqueadores.py", "bolsillo.py", "striple.py",
     "aureo.py", "batalla2.py", "microcelda.py", "perfilp.py",
+    "rstar.py",
 ]
 
 # Scripts lentos que --quick omite.
-SLOW = ("cuadrado.py", "perfilp.py")
+SLOW = ("cuadrado.py", "perfilp.py", "rstar.py")
 
 def main():
     quick = "--quick" in sys.argv

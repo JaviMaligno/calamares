@@ -185,6 +185,43 @@ el paso del swap inválido para j ≥ 3 (la no-empaquetabilidad no es
 hereditaria hacia subconjuntos) — y reparada. **La Conjetura áurea
 SIGUE siendo conjetura**: falta R*, los pequeños extra y el ensamblaje.
 
+**El cierre de R* — CERRADA SALVO UNA CELDA (Teorema DPr, 2026-08-06;
+`drafts/rstar.md`, `rstar.py` 6/6, acta REFUTADO→REPARADO en
+VEREDICTOS.md tras ronda adversaria).** Las cuatro celdas de R* caen a
+una por cuatro palancas: **(1)** la **pinza-con-Σ** (cierra
+p = 3, j ≥ 3): el árbol de j = 3 del par porta con la fila
+s' = σ₂+σ₃+ω y la masa Σ en todas las colas; la pinza cierra sii
+s' ≤ (φ−1)Σ + (16−9φ), que vale en toda la celda con margen exacto
+23 − 14φ = 16 − 7√5 = 0.3475 > 0 y degenera en el 11 − 4√5 del Teorema
+M en Σ = 1; **(2)** las **tres ramas de p = 3, j = 2**: espejos del
+caso (ii) del par (ínfimo φ en el rincón áureo (2, √5−1), fuera de la
+pared), Ψ-programa con cruce interior q* = √(1+(1−ω)²) y Ψ(1/2) = φ
+exacto (ω ≤ 1/2), y para ω > 1/2 la celda es VACÍA de bloqueos — las
+colas de ρ ≤ φ fuerzan o₂ ≥ (1+Σ)/φ, o₁ ≥ (o₂+1+Σ)/φ y ahí la
+colocación mural de {o₂, m, σ₂, σ₃, o₁} siempre cabe (camino más largo
+máx 2.648 < π, margen 0.494); **(3)** las **coronas murales de j = 1**
+(p ≥ 4, incluida la celda-cadena con σ₁+M > 1): márgenes 0.54–0.86
+sobre π; **(4)** el **análisis de frontera de j = 2** (p ≥ 4): el
+margen ~0.04 de la malla era un ARTEFACTO — el sup del camino más
+largo es π EXACTO, alcanzado solo en la esquina excluida
+{σ₁ = 1, W = 0} (o₂ = 2/φ, o₁ = 2, R̄ = 2φ, con
+sin²(θ(o₂,m)/2) = 1/2 − √5/10 y sin²(θ(m,o₁)/2) = 1/2 + √5/10 sumando
+1 exacto), y el interior queda estrictamente bajo π. El instrumento
+común es el **criterio de camino más largo** para colocaciones murales
+(scheduling por restricciones de diferencias; el criterio ingenuo de
+arcos adyacentes lo refuta el pentagrama — detectado antes de la ronda
+y confirmado constructivamente en ella con 3 071 colocaciones, 0
+inválidas). La ronda REFUTÓ la corona de j ≥ 3 (no recoloca a o₃; con
+o₃ en la cadena da 4.86–4.93 ≫ π): queda ABIERTA la única celda
+**{p ≥ 4, σ₁+M ≤ 1, j ≥ 3}**, con la vía identificada (corona cíclica
+a nivel de sartén, pared R ≥ R_corona(O ∪ {m})), más los pequeños
+extra y el pivote sólido ω ≥ 1 con j ≥ 3. Corrección de honestidad en
+el paper con la misma pasada: los **tres huecos anidados abiertos al
+nivel áureo** — la puntita j = 2 con ω ∈ [φ/2, 1), el gap lemma
+cuantitativo y k ≥ 4 fuera de la rama de reducción — quedan ya
+DECLARADOS explícitamente (párrafo Status de la sección genérica y
+op:assembly(b)).
+
 **La escalera y el suelo rígido (demostrado; `code/trio.py`, `code/rigido.py`).** El análisis del paso de intercambio aísla tres ingredientes y produce la escalera de la Proposición 3 de `reinsercion.md` §9: con solo el bolsillo de Descartes el ínfimo demostrable de ρ es φ ≈ 1.6180; añadiendo la infactibilidad del trío completo sube a 1.7990559… (cruce exacto de las ramas 1 + b(α) = (2 + b(α))/α, con α* ≈ 1.5558471 raíz de 2α³ = α² + 2α + 2, verificado en simbólico); y añadiendo la colocación del testigo alcanza T ≈ 1.8392868. La Proposición 3 vivía en el límite idealizado w → 0 con tangencias supuestas; el **Teorema S** (`drafts/suelo_rigido.md`) elimina ambas idealizaciones: en la subfamilia rígida F — sartén llena por tangencia diametral R = r₁ + r₂, pareja {r₃, r₄} en el agujero de r₁, trío {r₁, r₃, r₄} infactible — **toda** instancia cumple ρ > T estrictamente, para todo w > 0 y todo r₃ < r₂, y el ínfimo es exactamente T, no alcanzado (Proposición S6; el cierre por compacidad de la dirección ≤, antes esbozado, es ahora el Lema S6a — monotonía + cierre + apertura de la infactibilidad en el intervalo [0, δ₀) con δ₀ = t − u_máx, el extremo óptimo). Las piezas técnicas nuevas: la identidad del medio ángulo sin²(θ/2) = f(a)f(b), la reducción algebraica ψ(u) + ψ(v) ≥ τ como condición suficiente de empaquetamiento del trío, y un argumento de concavidad por el que la configuración rígida *emerge* como caso extremo en lugar de suponerse. De propina, φ reaparece como divisor de casos (para r₂/r₁ ≥ 1/φ la subfamilia es vacía). Verificación 10/10 claims (`code/rigido.py`, 7 bloques). El punto 1 de la hoja de ruta queda así resuelto en la subfamilia rígida; lo que el teorema no cubre — sartenes con holgura R > r₁ + r₂ y contenedores genéricos — es el hueco que queda (véase la síntesis).
 
 **Grosor positivo en la plantilla canónica (demostrado; `code/grosor.py` + `code/h1.py`).** Con ω = w/r_m > 0 el programa de bloqueo gana dos recursos (el agujero H_m que viaja con m, y la vuelta de σ₂ al contenedor u junto a m), y la rama del testigo se gobierna por un **Tribonacci deformado**: Φ(ω) = T₍₁₊ω₎ − ω, con T_c la raíz positiva de α³ = c(α² + α + 1). Φ es estrictamente creciente y cóncava, con derivada en forma cerrada y pendiente inicial (2T+1)/(7T²+4T+3) ≈ 0.137. Combinada con la rama H_m, que impone ρ ≥ 2(1−ω), da la cota uniforme

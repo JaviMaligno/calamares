@@ -215,6 +215,33 @@ def bloque_D():
 
 
 # ---------------------------------------------------------------- bloque E
+def _corona_factible(orden, R):
+    """Colocacion mural CICLICA factible: existen angulos con TODAS las
+    parejas separadas >= theta (no solo adyacentes: pentagrama).
+    Suficiente: fija orden[0] en 0, coloca cada uno en el camino mas
+    largo desde orden[0], y comprueba (i) el cierre ciclico con
+    orden[0] y (ii) todas las parejas.  Conservador (una colocacion
+    concreta), que es lo que necesita un desbloqueo."""
+    n = len(orden)
+    th = {}
+    for i in range(n):
+        for j2 in range(i + 1, n):
+            t = theta(orden[i], orden[j2], R)
+            if t is None:
+                return False
+            th[(i, j2)] = th[(j2, i)] = t
+    alfa = [0.0] * n
+    for i in range(1, n):
+        alfa[i] = max(alfa[k] + th[(k, i)] for k in range(i))
+    for i in range(n):
+        for j2 in range(i + 1, n):
+            d = alfa[j2] - alfa[i]
+            d = min(d, TAU - d)
+            if d < th[(i, j2)] - 1e-12:
+                return False
+    return alfa[-1] + th[(n - 1, 0)] <= TAU + 1e-12
+
+
 def corona_cabe(circulos, R):
     n = len(circulos)
     if n == 1:
@@ -231,14 +258,7 @@ def corona_cabe(circulos, R):
         else:
             hi -= 1
     for orden in (desc, inter, inter[::-1]):
-        total, valido = 0.0, True
-        for i in range(n):
-            t = theta(orden[i], orden[(i + 1) % n], R)
-            if t is None:
-                valido = False
-                break
-            total += t
-        if valido and total <= TAU + 1e-12:
+        if _corona_factible(orden, R):
             return True
     return False
 

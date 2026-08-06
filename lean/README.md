@@ -29,6 +29,9 @@ apoyan los teoremas del paper.
 - La esquina 13/7 (`thm:corner`): γ_{2/7} = 2 y 1 + b(2) = 13/7.
 - Los certificados de perfiles mayores (`thm:DPp`): la legalidad
   universal de los espejos (φ−1 < 2/3 = b(1)) y las cadenas pesadas.
+- El cierre de la región pesada (`thm:DPr`): la frontera de la
+  pinza-con-Σ con margen exacto 23−14φ y la esquina π de j = 2
+  (sin²(θ/2) = 1/2 ∓ √5/10, suma 1, par diametral exacto).
 - La **pinza** que cierra j = 3 del intercambio a sartén (`thm:DP` (iv)):
   la constante exacta s* = (6φ−1)/(2φ+1) = 11−4√5 = 15−8φ, que s < 2 la
   cumple, y la contradicción en el extremo (φ³ = 4.236 < φ+3 = 4.618, con
@@ -51,7 +54,7 @@ formaliza el esqueleto algebraico exacto que esos argumentos consumen.
   aritmética completa; el orden del encaje real con √5 > 0 (`Q5.posb`,
   decidible); polinomios como listas de coeficientes ascendentes: `Poly`
   (ℚ[X]), `PolyZ` (ℤ[X]) y `Poly2` ((ℚ[e])[d]).
-- `Calamares/Identities.lean` — los teoremas 1–30.
+- `Calamares/Identities.lean` — los teoremas 1–32.
 - `Calamares.lean` — raíz de la librería.
 
 Nota técnica: `decide` a secas se atasca con `Rat` (el elaborador no reduce
@@ -93,6 +96,8 @@ funciona porque el kernel acelera `Nat.gcd` sobre literales. No hace falta
 | 28 | `pincer_child` | `thm:DP` (iv) (la torre no acaba en v*) | `microcelda.py` [A] |
 | 29 | `mirror_legal` | `thm:DPp` (v)-(vi) (φ−1 < 2/3 = b(1)) | `perfilp.py` [A] |
 | 30 | `heavy_chains` | `thm:DPp` (iii),(vi) (cadenas pesadas) | `perfilp.py` [A]/[C] |
+| 31 | `pincer_sigma` | `thm:DPr` (i) (frontera (φ−1)Σ+16−9φ, margen 23−14φ) | `rstar.py` [A]/[B] |
+| 32 | `corner_pi` | `thm:DPr` (iv) (la esquina π: sin² = 1/2∓√5/10) | `rstar.py` [A2] |
 
 ## Compilar
 

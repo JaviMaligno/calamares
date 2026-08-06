@@ -662,8 +662,8 @@ conjectured universal floor of nested exchanges (the remaining nested
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in full for pair profiles in
 Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}), and for larger
-profiles outside an explicit heavy region
-(Theorem~\ref{thm:DPp}) -- one occupant at every
+profiles outside a single heavy cell
+(Theorems~\ref{thm:DPp} and~\ref{thm:DPr}) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
 $\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
@@ -956,14 +956,21 @@ $\omega<0.9626$ with one extra occupant under arbitrary hole occupancy,
 for $\omega<0.624$ and $\omega<0.896$ with two and three, and for all
 $\omega\in(0,1)$ with four or more. All these floors exceed $T>\varphi$, so for
 Conjecture~\ref{conj:golden} the decisive open front is the \emph{pan}
-exchange (Theorem~\ref{thm:DP}, Open Problem~\ref{op:assembly}); the
-remaining nested gaps --
-the width tips ($j=1$, $\omega\ge0.9626$; $j=2$, $\omega\ge0.624$;
-$j=3$, $\omega\ge0.896$), a quantitative ``gap lemma'' (small rings
-against the geometric wall; tiny $\sigma_2$), and profiles of four or
+exchange (Theorem~\ref{thm:DP}, Open Problem~\ref{op:assembly}). Of the
+remaining nested gaps, the width tips at $j=1$ ($\omega\ge0.9626$,
+where the golden line still gives $\varphi^2-\tfrac\varphi2\omega
+\ge\varphi^2-\tfrac\varphi2=1.809>\varphi$) and at $j=3$
+($\omega\ge0.896$, where $\Psi_3(\omega)>\Psi_3(1)=\sqrt3>\varphi$)
+matter only for pinning the nested threshold at exactly $T$. Three
+nested gaps, however, are also open \emph{at the golden level}: the
+$j=2$ tip for $\omega\in[\varphi/2,1)$, where the proved floor
+$\Psi_2(\omega)$ crosses $\varphi$ at $\Psi_2(\varphi/2)=\varphi$
+exactly and no other wall applies; the quantitative ``gap lemma''
+(small rings against the geometric walls; tiny $\sigma_2$), below which
+only the combinatorial floor $\rho^*_3(\omega)$ survives (above
+$\varphi$ only for $\omega\le1-\varphi/2$); and profiles of four or
 more pieces beyond the reduction branch (and $k\ge3$ with extra
-occupants beyond it) -- matter only for pinning the nested threshold at
-exactly $T$. Each statement in this section is backed by a verification
+occupants beyond it), which sit on the same combinatorial floor. Each statement in this section is backed by a verification
 script and an adversarial verification report in the repository
 (Appendix~\ref{app:verifmap}).
 
@@ -1127,18 +1134,18 @@ $U_4$-based wall ($o_2<1+1/o_1$) and a pincer on the smallest node above
 $o_2$ closing the rest. Larger profiles are closed in the light,
 nested, heavy-large and heavy-$\Psi_B$ regimes of
 Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
-Open: the remaining heavy region of Theorem~\ref{thm:DPp} (heavy
-non-nestable profiles with $\sigma_2\le\varphi-1$ and: $p\ge4$ with
-$\sigma_1+M\le1$ or with no strict leaf; $p=3$ with $j\ge3$ and
-$\sigma_1+M\le1$; or the $j=2$ sliver $\sigma_2,\sigma_3>1-\omega$),
+Open after Theorem~\ref{thm:DPr}: the single heavy cell
+$\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$,
 extra small rings, and the solid-pivot regime $\omega\ge1$ for
 $j\ge3$. (b)~\emph{Assemble the universal
-reinsertion lemma} for the nested exchange from the proved floors
-($\ge T>\varphi$, so far above the golden threshold that the remaining
-nested gaps -- the width tips, the quantitative gap lemma, profiles of
-four or more pieces beyond the reduction branch -- only matter for
-pinning the nested threshold at exactly $T$, not for
-Conjecture~\ref{conj:golden} itself).
+reinsertion lemma} for the nested exchange from the proved floors. The
+$j=1$ and $j=3$ width tips matter only for pinning the nested threshold
+at exactly $T$; but three nested gaps are open at the golden level
+itself (see the Status paragraph of Section~\ref{sec:generic}): the
+$j=2$ tip $\omega\in[\varphi/2,1)$, the quantitative gap lemma, and
+profiles of four or more pieces beyond the reduction branch. Closing
+Conjecture~\ref{conj:golden} requires those three as well as~(a), plus
+the solid-pivot regime beyond the cases proved width-free.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -1192,7 +1199,7 @@ three-piece profiles and the golden deformation -- \texttt{striple}
 (5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
 \texttt{aureo} (5/5); the pan-exchange golden floor --
 \texttt{batalla2} (6/6), \texttt{microcelda} (5/5) and, for larger
-profiles, \texttt{perfilp} (5/5). Several
+profiles, \texttt{perfilp} (5/5) and \texttt{rstar} (6/6). Several
 statements were corrected or sharpened by the adversarial round (a missing
 hypothesis in the trio frontier, a refuted ``leak'' family, the
 $\alpha\ge o_1$ case split); the reports record each incident.
@@ -2830,6 +2837,67 @@ coverage cells missed by a first version and repaired, and the
 verification script are in the repository
 (\texttt{docs/drafts/perfilp.md}; \texttt{code/perfilp.py}, 5/5;
 adversarially verified).
+\end{proof}
+
+The remaining heavy region shrinks further. The tool is a
+\emph{mural-placement criterion} corrected for the pentagram
+phenomenon: circles $a_0,\dots,a_{k+1}$ tangent to the wall of a disk
+$\bar R$, with $a_0,a_{k+1}$ diametral (so their own separation is
+exactly $\pi$ on the far side), can be placed with \emph{all} pairs
+disjoint if and only if, in the chosen order, the longest path
+\[
+\max_{S\subseteq\{1,\dots,k\}}\quad
+\sum_{\text{consecutive in }a_0,S,a_{k+1}}\theta(a_i,a_j)
+\]
+is at most $\pi$ (difference-constraint scheduling
+over Lemma~\ref{lem:S1}; summing adjacent arcs alone is the criterion
+that the pentagram refutes).
+
+\begin{theorem}[The heavy region closes except one cell]\label{thm:DPr}
+In the heavy non-nestable region of Theorem~\ref{thm:DPp}
+($\sigma_1+W>1$, $W+X_{\sigma_1}>\sigma_1-\omega$,
+$\sigma_2\le\varphi-1$, $\sigma_1+M\le1$ where applicable), blocking
+implies $\rho>\varphi$ in each of: (i)~$p=3$, $j\ge3$: the $j=3$ case
+tree of Theorem~\ref{thm:DP} ports with the row wall
+$s':=\sigma_2+\sigma_3+\omega$ and the profile mass $\Sigma$ in every
+tail, and the pincer closes whenever
+$s'\le(\varphi-1)\Sigma+(16-9\varphi)$ -- which holds on the whole
+cell: $\sup(s'-(\varphi-1)\Sigma)=5\varphi-7$, a margin of exactly
+$23-14\varphi>0$, and at $\Sigma=1$ the frontier degenerates to the
+$11-4\sqrt5$ of Theorem~\ref{thm:DP}(iv); (ii)~$p=3$, $j=2$: three
+branches -- $\sigma_2+\sigma_3\le1$ resurrects the mirror wall of
+Theorem~\ref{thm:DP}(ii); $\sigma_2+\sigma_3>1$, $\omega\le\tfrac12$
+runs a $\Psi$-program with interior crossing
+$\sqrt{1+(1-\omega)^2}$ and $\Psi(\tfrac12)=\varphi$ exactly; and for
+$\omega>\tfrac12$ the cell is \emph{empty of blockings}: the tails of
+$\rho\le\varphi$ force $o_2\ge(1+\Sigma)/\varphi$,
+$o_1\ge(o_2+1+\Sigma)/\varphi$, and there the mural placement of
+$\{o_2,m,\sigma_2,\sigma_3,o_1\}$ in the disk $o_1+o_2$ always fits
+(longest path $\le2.648<\pi$, computer-assisted maximization);
+(iii)~$p\ge4$, $j=1$: mural coronas with margins $\ge0.54$
+(computer-assisted); (iv)~$p\ge4$, $j=2$: the supremum of the longest
+path over the closed domain is exactly $\pi$, attained only at the
+excluded boundary corner $\{\sigma_1=1,\,W=0\}$, where $o_2=2/\varphi$,
+$o_1=2$, $\bar R=2\varphi$ and
+$\sin^2\tfrac{\theta(o_2,m)}2=\tfrac12-\tfrac{\sqrt5}{10}$,
+$\sin^2\tfrac{\theta(m,o_1)}2=\tfrac12+\tfrac{\sqrt5}{10}$ sum to $1$
+exactly; the open domain stays strictly below $\pi$. What remains open
+of the pan exchange is the single cell
+\[
+\{\,p\ge4,\ \sigma_1+M\le1,\ j\ge3\,\}
+\]
+(the containment to the disk $o_1+o_2$ does not re-place $o_3$, and
+the pan-level cyclic corona is future work), together with extra small
+rings and the solid-pivot regime $\omega\ge1$ for $j\ge3$.
+\end{theorem}
+\begin{proof}[Proof sketch and verification]
+The chains and identities are exact (sympy); the two maximizations are
+grid-plus-refinement sweeps over compact four-parameter domains with
+the boundary behaviour controlled by the exact identities above
+(script \texttt{code/rstar.py}, 6/6, and a hostile adversarial round
+that refuted and repaired two steps: the naive adjacent-arc criterion
+-- the pentagram -- and a $j\ge3$ corona that failed to re-place
+$o_3$, whence the surviving cell; report in the repository).
 \end{proof}
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
