@@ -231,6 +231,8 @@ def ciclo_constructivo(orden, R):
     th = {}
     for i in range(k):
         for j2 in range(i + 1, k):
+            if orden[i] + orden[j2] > R + 1e-12:
+                return False, float('inf')   # par imposible en el disco
             th[(i, j2)] = th[(j2, i)] = theta_w(orden[i], orden[j2], R)
     alfa = [0.0] * k
     for i in range(1, k):
@@ -258,8 +260,8 @@ def corona_suf(todos, R, semilla=0):
     for t in range(len(asc)):
         muro = asc[t:]
         granos = asc[:t]
-        if not muro:
-            break
+        if len(muro) < 2:
+            break     # muro unico/vacio: fuera del esquema ciclico
         desc = sorted(muro, reverse=True)
         k = len(desc)
         zig = []
@@ -314,11 +316,6 @@ def cascada(extras_mid, masa_menor, j, rng=None, holgura=None):
         os_.append(o)
         total += o
     return os_[::-1]      # o1 >= o2 >= ... >= oj
-
-
-def stackable(a, b, R):
-    """Apilamiento radial posible (certificado angular vacuo)."""
-    return R >= max(a, b) + 2 * min(a, b) - 1e-12
 
 
 def theta_w(a, b, R):
@@ -408,7 +405,7 @@ def R_lb_pack(circulos, R_ini, confinado_por=None):
             hi = mid
         else:
             lo = mid
-    return hi
+    return lo      # extremo SEGURO: lo garantizado es R real > lo
 
 
 # ---------------------------------------------------------------- bloque A
@@ -523,9 +520,8 @@ def bloque_C():
     # agujeros ya estan contados en las X; los extras en la sarten son
     # exactamente piezas nuevas del perfil.  El residuo de S+ es la
     # misma celda D1 (p+ >= 4, sigma1+M <= 1, j >= 3).
-    ok &= check("todo extra e < m: e se adjunta como pieza de perfil "
-                "(< 1 y el re-empaquetado puede moverlo: legalidad "
-                "existencial)", True)
+    print("      [enunciado] todo extra e < m se adjunta como pieza de "
+          "perfil (legalidad existencial del re-empaquetado)")
     # contabilidad: la trichotomia ligero/anidado/pesado esta bien
     # definida para S+ y la asignacion de casos de DPp cubre
     rng = random.Random(17)
@@ -569,9 +565,8 @@ def bloque_C():
                 f"DP-p/DPr sobre S+ es exhaustiva y el residuo es "
                 f"exactamente la celda D1 ({sin_caso} sin caso)",
                 sin_caso == 0)
-    ok &= check("por tanto D2 se reduce a D1: no necesita corona propia "
-                "(los extras solo cambian p+ y las masas, que las "
-                "paredes ya tratan)", True)
+    print("      [enunciado] D2 se reduce a D1: los extras solo cambian "
+          "p+ y las masas")
     return ok
 
 
@@ -663,6 +658,8 @@ def bloque_E():
 
 def main():
     print("=" * 68)
+    print("(B y D son barridos MC + esquinas: evidencia computacional; "
+          "el cierre formal exige el argumento de dualidad del draft)")
     print("CORONA-CONTRA-COLAS EN LA SARTEN: D1 (celda final), "
           "D2 (pequenos), D3 (pivote solido)")
     print("=" * 68)

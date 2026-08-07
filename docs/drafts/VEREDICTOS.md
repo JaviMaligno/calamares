@@ -654,3 +654,50 @@ Estado final: el Teorema DPr cierra R* entera salvo la celda
 {p ≥ 4, σ₁+M ≤ 1, j ≥ 3}; la vía identificada para ella es la corona
 cíclica a nivel de sartén (pared R ≥ R_corona(O ∪ {m})).
 `rstar.py` 6/6 tras las reparaciones.
+
+---
+
+## Acta 2026-08-07 — Campaña corona-contra-colas (sartén): D1, D2, D3
+
+**Objeto**: `code/coronacolas.py` — cierre computacional de los tres
+dominios residuales de la sartén: D1 = {p≥4, σ₁+M≤1, j≥3}, D2 =
+pequeños extra (por adjunción al perfil), D3 = pivote sólido ω≥1 j≥3.
+
+**Veredicto hostil: CONFIRMADO CON CORRECCIONES.** Los ocho eslabones
+resistieron: (1) colas en cascada exactas (el max dentro del generador;
+cierre del dominio visitado; 4 284 esquinas deterministas sin fallo);
+(2) el lema del certificado angular para empaquetamientos ARBITRARIOS
+verificado con cálculo propio (∂h/∂d con un solo cambio de signo ⟹
+máximo de caja en esquina; 400 cajas × grid 150², 0 violaciones), el
+confinamiento por triángulo, la necesidad cíclica por subconjuntos
+(limitarse a los 6 mayores es conservador); (3) la suficiencia cíclica
+constructiva validada EUCLIDIANAMENTE (1 500/1 500 colocaciones con
+coordenadas explícitas, 0 solapes; identidad de bolsillo
+θ(a,p)+θ(p,b) = θ(a,b) con error 7e-15); (4) la tangencia es legal
+(interiores disjuntos); (5) legalidad del desbloqueo y dirección de
+monotonía correctas; (6) D2 por adjunción con el barrido de 200k
+cubriendo la partición; (7) D3 sin anchura en ningún paso; (8) NO
+prueba de más: la instancia áurea nunca se certifica (en ε = 0 es la
+realización tangente exacta, con sin²(θ(φ,σ)/2) = (φ+1)/(φ+2) y
+sin²(θ(1,σ)/2) = 1/(φ+2) sumando 1).
+
+**Reparado tras el acta** (6 ítems): guarda a+b ≤ R en el ciclo (bug
+latente no explotable), muro de tamaño < 2 (el KeyError hacía
+inalcanzable el return False), bisección devuelve el extremo seguro
+`lo`, checks tautológicos convertidos en enunciados, `stackable` muerto
+eliminado, y el carácter MC de B/D declarado en el resumen.
+
+**Historia interna de la campaña** (refutaciones previas al acta, todas
+del hilo principal): el pentagrama (arcos adyacentes ⟹ camino más
+largo), el teletransporte de m (⟹ certificados por subconjuntos), el
+clamp de la cascada (cuasi-empates exigen o ≥ φ(1+Σ)), el ancla
+diametral de la suficiencia (⟹ corona cíclica en zigzag), el polvo en
+la pared (⟹ bolsillos de Descartes como bins de fila).
+
+**Limitación declarada**: B y D son evidencia computacional
+(MC + esquinas + dualidad exacta déficit 0.0 uniforme), no una prueba
+sobre j, p arbitrarios; el cierre formal exige redactar el argumento de
+dualidad (necesidad y suficiencia usan los mismos certificados) con la
+ley de escala en (j, p) como lema. ESE es el siguiente paso antes de
+integrar al paper, junto con la versión anidada (D4-D6) y el
+ensamblaje.
