@@ -15,12 +15,17 @@ Contenedores: la sarten o el agujero de un anillo.  Arbol de casos:
       (c2) alfa anidada.  Reduccion a (a)/(b) por descenso a discos
       intrinsecos (las paredes nunca usan el radio del contenedor).
 
-Bloques: [A] identidades exactas (aureo en (a)(i), Psi_2(phi/2) = phi
-en (b), b_2(2, sqrt5-1) = 1); [B] particion MC (0 sin caso, 0 en dos);
-[C] descenso a discos intrinsecos (necesidades de par exactas: el
-disco intrinseco cabe en el contenedor en todos los casos) y el bonus
-de la cola del portador; [D] E1 (|S| <= 1 nunca bloquea) y E3/E4;
-[E] controles negativos.
+Bloques (re-etiquetados tras la ronda adversaria 2026-08-08, acta
+docs/drafts/acta_ensamblaje.md; los checks [ENUNCIADO] registran
+afirmaciones probadas en el draft/paper, no verificaciones):
+[A] identidades exactas (aureo en (a)(i), Psi_2(phi/2) = phi en (b),
+b_2(2, sqrt5-1) = 1); [B] particion definicional + corte (c-i)/(c-ii)
+((c-ii) = alfa fuera de v: CELDA ABIERTA declarada); [C] criterio de
+dos circulos constructivo y el bonus de la cola del portador; [D] E1;
+[E] controles; [F] lema-extension de (N) REPARADO: contraejemplo al
+monolito ingenuo (B3 no se extiende), absorcion exacta de B3' en la
+cadena (I) de thm:DGp (sympy), Psi_B(1/2) = 2 exacto, monolito MC con
+alcance corregido.
 """
 import math
 import os
@@ -78,40 +83,59 @@ def bloque_A():
 
 # ---------------------------------------------------------------- bloque B
 def bloque_B():
-    print("[B] la particion (a)/(b)/(c) es exhaustiva y disjunta")
+    print("[B] la particion (a)/(b)/(c1)/(c2) [re-etiquetado adversario:")
+    print("    la exhaustividad es DEFINICIONAL (contenedor = sarten unica")
+    print("    o agujero de un anillo > m), no un hecho que el muestreo")
+    print("    pueda establecer; el MC solo comprueba la disyuncion de los")
+    print("    predicados corregidos sobre el espacio de flags]")
     rng = random.Random(20260808)
     ok = True
+    # exclusion u = v = sarten: derivada, no cableada
+    ok &= check("[ENUNCIADO] u = v = sarten imposible: la sarten es unica "
+                "y u != v; el padre de m en cualquier colocacion es > m, "
+                "luego u y v son la sarten o agujeros de anillos > m",
+                True)
     n, sin_caso, doble = 0, 0, 0
     conteo = {"a": 0, "b": 0, "c1": 0, "c2": 0}
+    ci, cii = 0, 0   # corte real de cierre dentro de (c)
     for _ in range(max(50000, ITER)):
-        # estructura del paso: tipo de u y v, nivel de alfa
+        # flags primitivos independientes; se descarta lo imposible
         u_pan = rng.random() < 0.5
-        if u_pan:
-            v_pan = False           # u != v y u es LA sarten
-        else:
-            v_pan = rng.random() < 0.6
-        alfa_top = rng.random() < 0.7   # solo relevante si u es agujero
+        v_pan = rng.random() < 0.5
+        if u_pan and v_pan:
+            continue                 # excluido por el enunciado anterior
+        alfa_top = rng.random() < 0.7    # nivel de alfa (si u es agujero)
+        alfa_in_v = rng.random() < 0.5   # alfa miembro directo de v (c1)
         n += 1
         casos = []
-        # predicados INDEPENDIENTES (como en el draft):
+        # predicados corregidos (disjuntos por construccion logica):
         if u_pan:
-            casos.append("a")
+            casos.append("a")            # => v agujero del portador
         if (not u_pan) and v_pan and alfa_top:
             casos.append("b")
-        if (not u_pan) and ((not v_pan) or (not alfa_top)):
-            casos.append("c1" if not v_pan else "c2")
+        if (not u_pan) and (not v_pan):
+            casos.append("c1")           # ambos agujeros, alfa cualquiera
+        if (not u_pan) and v_pan and (not alfa_top):
+            casos.append("c2")           # v = sarten, alfa anidada
         if len(casos) == 0:
             sin_caso += 1
-        if len(casos) > 1:
+        elif len(casos) > 1:
             doble += 1
         else:
             conteo[casos[0]] += 1
-    ok &= check(f"{n} configuraciones: 0 sin caso ({sin_caso}) y 0 en "
-                f"dos casos ({doble}); particion "
+            if casos[0] == "c1":
+                (ci, cii) = (ci + 1, cii) if alfa_in_v else (ci, cii + 1)
+            if casos[0] == "c2":
+                cii += 1                 # alfa anidada => alfa fuera de v
+    ok &= check(f"{n} configuraciones admisibles: 0 sin caso ({sin_caso}) "
+                f"y 0 en dos casos ({doble}); "
                 f"a/b/c1/c2 = {[conteo[k] for k in 'a b c1 c2'.split()]}",
                 sin_caso == 0 and doble == 0)
-    # dentro de (a): el residuo de la particion DP/DPp/DPr es la celda
-    # D1 (ya verificado en coronacolas bloque C sobre 200k instancias)
+    ok &= check(f"corte de cierre en (c): (c-i) alfa en v = {ci} "
+                f"(hereda (b) verbatim con cap = Y-omega), (c-ii) alfa "
+                f"fuera de v = {cii} (CELDA ABIERTA declarada: paredes "
+                f"portadas, programa pendiente)", ci + cii ==
+                conteo["c1"] + conteo["c2"])
     print("      [nota] el sub-arbol de (a) (DP/DPp/DPr -> residuo D1) "
           "esta verificado en coronacolas [C]; el de (b) "
           "(L/N/H1/D4W/LW/corona) en coronanidada [D]")
@@ -123,25 +147,34 @@ def bloque_C():
     print("[C] descenso a discos intrinsecos y el bonus del portador")
     rng = random.Random(7)
     ok = True
-    # los miembros del contenedor cumplen las necesidades de par
-    # EXACTAS (dos circulos en un disco: s + s' <= cap), luego el disco
-    # intrinseco del par cabe en el contenedor: la pared desciende
+    # [re-etiquetado adversario] la version anterior muestreaba pares
+    # con o2 <= cap - o1 y comprobaba o1 + o2 <= cap: TAUTOLOGIA.
+    # Verificacion real: el criterio de dos circulos es exacto en la
+    # direccion constructiva -- si o1 + o2 <= cap, la fila diametral
+    # es una colocacion legal (contencion y disyuncion numericas).
     n, viol = 0, 0
     for _ in range(max(20000, ITER // 3)):
         cap = rng.uniform(2.0, 12.0)
-        # un empaquetamiento legal cualquiera de dos miembros:
         o1 = rng.uniform(0.5, cap / 2)
         o2 = rng.uniform(0.1, min(o1, cap - o1))
         n += 1
-        # el disco intrinseco o1 + o2 cabe: capacidad del par
-        if o1 + o2 > cap + 1e-12:
+        # fila diametral: centros en -cap + o1 y cap - o2
+        c1x, c2x = -cap + o1, cap - o2
+        dentro = (abs(c1x) + o1 <= cap + 1e-12 and
+                  abs(c2x) + o2 <= cap + 1e-12)
+        disjuntos = abs(c1x - c2x) >= o1 + o2 - 1e-12
+        if not (dentro and disjuntos):
             viol += 1
-        # y el fallo en el contenedor desciende: empaquetar en el disco
-        # intrinseco implica empaquetar en cap (monotonia)
-    ok &= check(f"necesidad de par exacta: en {n} pares legales, "
-                f"o1 + o2 <= cap siempre ({viol} violaciones): el "
-                f"disco intrinseco cabe y la contencion antitona "
-                f"transfiere el fallo hacia abajo", viol == 0)
+    ok &= check(f"criterio de dos circulos, direccion constructiva: la "
+                f"fila diametral es legal en {n} pares con o1+o2 <= cap "
+                f"({viol} violaciones); la necesidad es exacta "
+                f"(prueba en app:widthproofs) => el disco intrinseco "
+                f"cabe en todo contenedor que cohabite el par", viol == 0)
+    ok &= check("[ENUNCIADO] la contencion antitona (fallo en el "
+                "contenedor => fallo en todo subdisco) y el lema-puerto "
+                "a NIVEL PARED; la cobertura de PROGRAMA en (c) es solo "
+                "(c-i): vease la dicotomia del draft, (c-ii) pendiente",
+                True)
     # bonus del portador: la cola de Y es del multiconjunto, no de la
     # colocacion: rho >= (1 + Sigma S)/Y con m = 1 < Y y S < m
     n2, viol2 = 0, 0
@@ -153,9 +186,11 @@ def bloque_C():
         # m y S son menores que Y: entran en la cola de Y
         if not (1.0 < Y and all(s < 1.0 < Y for s in S)):
             viol2 += 1
-    ok &= check(f"bonus: m = 1 y S < m < Y en {n2} instancias "
-                f"({viol2} violaciones): rho >= (1 + Sigma S)/Y "
-                f"gratis en el caso (c1)", viol2 == 0)
+    ok &= check(f"bonus [semi-tautologico: S se muestrea < 1 < Y por "
+                f"construccion]: m = 1 y S < m < Y en {n2} instancias "
+                f"({viol2} violaciones): rho >= (1 + Sigma S)/Y gratis "
+                f"en el caso (c1); el contenido es que la cola es del "
+                f"multiconjunto, no de la colocacion", viol2 == 0)
     return ok
 
 
@@ -176,8 +211,12 @@ def bloque_D():
     ok &= check(f"|S| = 1: sigma_1 < 1 cabe en D_m (criterio exacto de "
                 f"un circulo) en {n} muestras ({viol} violaciones): el "
                 f"bloqueo exige |S| >= 2", viol == 0)
-    ok &= check("|S| = 0: el paso es mover m a u, donde F ya lo coloca "
-                "(mismo espacio libre): siempre legal", True)
+    ok &= check("[ENUNCIADO] |S| = 0: mover m a u re-colocando los "
+                "miembros directos de u segun el certificado de F "
+                "(coinciden con los de P por maximalidad de m, E2; las "
+                "posiciones son existenciales y los subarboles viajan): "
+                "siempre legal, como en la prueba de thm:oblivious",
+                True)
     return ok
 
 
@@ -201,25 +240,29 @@ def bloque_E():
                 f"{abs(T**3 - T**2 - T - 1):.1e}) y T > phi: los "
                 f"suelos anidados probados exceden phi con margen",
                 abs(T ** 3 - T ** 2 - T - 1) < 1e-12 and T > PHI)
-    # un intercambio con |S| = 2 y sigma_1 + sigma_2 <= 1 NO bloquea
-    # (fila de dos en D_m, exacta): la pared (D) es la primera puerta
+    # un intercambio con |S| = 2 y sigma_1 + sigma_2 <= 1 NO bloquea:
+    # fila de dos en D_m CONSTRUIDA y validada (antes: tautologia
+    # s1 + s2 <= 1 sobre muestras con s1 <= 1 - s2 por construccion)
     rng = random.Random(3)
     n, viol = 0, 0
     for _ in range(20000):
         s2 = rng.uniform(0.01, 0.5)
         s1 = rng.uniform(s2, 1 - s2)
         n += 1
-        if s1 + s2 > 1.0 + 1e-12:
+        c1x, c2x = -1 + s1, 1 - s2       # fila diametral en D_m (cap 1)
+        if not (abs(c1x) + s1 <= 1 + 1e-12 and
+                abs(c2x) + s2 <= 1 + 1e-12 and
+                abs(c1x - c2x) >= s1 + s2 - 1e-12):
             viol += 1
-    ok &= check(f"(D) es puerta: S_0 <= 1 coloca el par en D_m (fila "
-                f"de dos exacta) en {n} muestras ({viol} violaciones)",
-                viol == 0)
+    ok &= check(f"(D) es puerta: la fila diametral de dos en D_m es "
+                f"legal (contencion y disyuncion numericas) en {n} "
+                f"muestras con S_0 <= 1 ({viol} violaciones)", viol == 0)
     return ok
 
 
 # ---------------------------------------------------------------- bloque F
 def bloque_F():
-    print("[F] lema-extension de (N) (cierra C4 del acta anidada)")
+    print("[F] lema-extension de (N), version REPARADA (cierra C4)")
     import sympy as sp
     rng = random.Random(20260808)
     ok = True
@@ -233,6 +276,52 @@ def bloque_F():
                 "cierra para todo omega <= 1 sin tocar W",
                 sp.simplify(phi ** 2 - phi / 2 - 1 - phi / 2) == 0 and
                 float(1 + phi / 2) > float(phi))
+    # CONTRAEJEMPLO al monolito ingenuo (hallazgo A4 del acta): la
+    # colocacion "sigma_2 anidada en sigma_1" (pared B3, prop:Cpair)
+    # es viable para el par pero NO se extiende bajo (N)
+    w, s1, s2, X, W = 0.1, 0.9, 0.7, 0.0, 0.75
+    cap = s1 - w
+    ok &= check(f"contraejemplo (repara el enunciado (i) del draft): "
+                f"omega={w}, sigma1={s1}, sigma2={s2}, X={X}, W={W}: "
+                f"B3 viable para el par (sigma2 <= sigma1-omega: "
+                f"{s2} <= {cap:.2f}) y (N) se cumple (W+X = {W + X} <= "
+                f"{cap:.2f}), pero la extension falla (sigma2+W+X = "
+                f"{s2 + W + X:.2f} > {cap:.2f}): el monolito NO cubre "
+                f"las colocaciones que usan el agujero de sigma1",
+                s2 <= cap and W + X <= cap and s2 + W + X > cap)
+    # ABSORCION EXACTA: la cadena (I) de thm:DGp (rama B de la linea
+    # aurea) es invariante bajo X_sigma -> X_sigma + W. Con holguras
+    # e0..e4 >= 0:  sigma1+M = 1+e0 (rama B), X = o1-omega-sigma2+e1
+    # (Bo''), X_sigma + W = sigma1-omega-sigma2+e2 (B3' engordada),
+    # -sigma2 = sigma1+omega-alfa+e3 (W), sigma1 = b2+e4 (lem:DG):
+    # LHS - RHS == e0+e1+e2+e3+2e4 identicamente => W solo entra por
+    # la suma X_sigma+W y la conclusion (I) es verbatim
+    o1, al, om, s1s, s2s, b2 = sp.symbols('o1 alfa omega s1 s2 b2',
+                                          positive=True)
+    e0, e1, e2, e3, e4 = sp.symbols('e0 e1 e2 e3 e4', nonnegative=True)
+    s1v = b2 + e4
+    s2v = al - om - s1v - e3            # de -sigma2 = s1+omega-alfa+e3
+    lhs = (1 + (1 + e0) + s2v + (o1 - om - s2v + e1)
+           + (s1v - om - s2v + e2))     # 1 + (s1+M) + s2 + X + (Xs+W)
+    rhs = 2 + o1 - om + 2 * b2 - al
+    resto = sp.expand(lhs - rhs - (e0 + e1 + e2 + e3 + 2 * e4))
+    ok &= check("absorcion exacta: la cadena (I) de thm:DGp con la B3' "
+                "engordada por W reduce a LHS - RHS = e0+e1+e2+e3+2e4 "
+                ">= 0 identicamente (sympy): la conclusion de la rama "
+                "B es invariante bajo X_sigma -> X_sigma + W",
+                resto == 0)
+    # esquina del min(., 2): Psi_B(1/2) = 2 exacto (raiz de
+    # u^2 - (2-omega)u - 1) y Psi_B decreciente => el programa de
+    # thm:DBpp (que no usa el agujero de sigma1) transporta el 2 > phi
+    u = sp.symbols('u', positive=True)
+    psiB = lambda wv: sp.solve(u ** 2 - (2 - wv) * u - 1, u)
+    r_half = [r for r in psiB(sp.Rational(1, 2)) if r.is_positive]
+    ok &= check("esquina del min(.,2): Psi_B(1/2) = 2 exacto y "
+                "2 > phi: la esquina exceptuada de la linea aurea "
+                "(rama B, hijo-nodo, omega < 1/2) tambien se "
+                "transporta (thm:DBpp no usa el agujero de sigma1)",
+                len(r_half) == 1 and sp.simplify(r_half[0] - 2) == 0
+                and 2 > float(phi))
     # (i) monolito: extender una colocacion legal del par con la fila
     # W U X dentro del agujero de sigma_1 NUNCA crea solapes fuera:
     # verificacion geometrica constructiva en instancias aleatorias
@@ -276,15 +365,18 @@ def bloque_F():
         # y ningun disco interior sale de la huella de sigma_1: la
         # pieza esta a distancia <= cap < s1 del centro => estricta-
         # mente dentro => disjunta de todo lo exterior a sigma_1
-    ok &= check(f"monolito: la fila (N) dentro del agujero de sigma_1 "
-                f"es legal e interior a su huella en {n} instancias "
-                f"({viol} violaciones): toda colocacion del par se "
-                f"extiende a una de S sin tocar nada fuera", viol == 0)
-    ok &= check("consecuencia: bloqueo de S => fallan TODAS las "
-                "colocaciones del programa del par => sus paredes "
-                "(solo radios sigma_1, sigma_2 y recursos) valen a "
-                "fortiori; X_sigma1 vive en la cola de sigma_1 "
-                "(multiconjunto), ya contada", True)
+    ok &= check(f"monolito (alcance corregido): la fila (N) dentro del "
+                f"agujero de sigma_1 es legal e interior a su huella en "
+                f"{n} instancias ({viol} violaciones): toda colocacion "
+                f"del par QUE NO USA EL AGUJERO DE SIGMA_1 se extiende "
+                f"a una de S sin tocar nada fuera", viol == 0)
+    ok &= check("[ENUNCIADO] consecuencia (prueba en el draft 4bis): "
+                "las colocaciones de los programas de las dos celdas "
+                "(D, B1/BH, B2/B4, Bo, repack de v, W) no usan el "
+                "agujero de sigma_1 => (i) las porta; la unica pared "
+                "de ese agujero es B3', absorbida exactamente (check "
+                "anterior); X_sigma1 y W viven en las colas de o_1, "
+                "alfa y m (multiconjunto), ya contadas", True)
     return ok
 
 

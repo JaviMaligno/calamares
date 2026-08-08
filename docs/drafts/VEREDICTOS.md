@@ -997,3 +997,221 @@ líneas); V y la dualidad exacta en R_lb son verificación por
 dominio (D1: 4 500-7 497 instancias, déficit y fallos 0 con el
 contador sin agujeros); la ley de escala (j, p) sigue siendo el
 asterisco declarado. La inducción NS-2 ya no forma parte del lema.
+
+---
+
+# Acta: teorema de ensamblaje y lema-extensión (N) (ronda hostil)
+
+Fecha: 2026-08-08. Adversario sobre `docs/drafts/ensamblaje.md` y
+`code/ensamblaje.py` (6/6 en verde, CC_ITER=60000 al inicio).
+Fuentes contrastadas: `paper/main.tex` (thm:oblivious §~303-341,
+localización §~677-712, lem:row §219, prop:Cpair §1451, lem:DV1
+§2183 (paredes B2/B3/B4/Bo/D/W), cor:DB2 §2325, thm:DBpp §2301,
+app:pocket-app §2333 (B3′, thm:DGp), thm:DT3 §2535, prop:DT3j §2604,
+thm:DPp §2778 (caso (ii) anidado), app:pan-app §2618, thm:DP §2638,
+sec:generic §797-927), `coronacolas.md`, `coronanidada.md` (§5 C4,
+§6 caveat de alcance). NO se tocaron `zigzag.py`, `zigzag.md` ni
+`VEREDICTOS.md`.
+
+## VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES
+
+La partición (a)/(b)/(c) es correcta (definicional) y los hechos
+E1–E4 sobreviven. El lema-extensión de (N) es CIERTO pero su prueba
+(i) era FALSA tal como estaba escrita (contraejemplo explícito);
+reparada con la división correcta monolito/absorción, anclada en los
+mecanismos que el propio paper usa (thm:DPp(ii), prop:DT3j, thm:DT3
+rama 1). La corrección mayor: el caso (c) vendido como «teorema» por
+portabilidad NO estaba probado — la portabilidad pared a pared es
+real, pero no implica cobertura de PROGRAMA; (c) queda partido en
+(c-i) α ∈ v (cerrado de verdad, herencia verbatim de (b)) y (c-ii)
+α ∉ v (celda abierta declarada). El teorema de ensamblaje pasa a
+CONDICIONAL módulo (c-ii) además de los residuos computacionales ya
+declarados.
+
+## Hallazgos
+
+### ALTA
+
+**H1. El «teorema» del caso (c) era un salto lógico (A2/A7).**
+El draft afirmaba que los suelos ρ > φ «se heredan verbatim» en el
+puerto porque ninguna pared usa el radio del contenedor. La
+inspección pared a pared es correcta a NIVEL PARED (verificado contra
+el paper: criterio angular y confinamiento del gigante paramétricos
+en la capacidad — coronacolas §3, |c| ≥ 2o₁+r−cap es desigualdad
+triangular en cualquier disco; b_R, T_c, κ uniformes en R — sec:
+generic §809-819; necesidades de par exactas por dos-círculos;
+colas libres de posición). Pero un SUELO es un programa completo, y
+los programas tienen hipótesis estructurales de COHABITACIÓN que el
+puerto no siempre satisface:
+- el programa (a) (thm:DP) usa m ∈ sartén = u (repack {o₁, m, σ}:
+  la rigidez del par {o₁, m} en el disco o₁+1 exige que cohabiten) y
+  E3 (j ≥ 1) usa que la sartén contiene TODO — en (c), u es un
+  agujero que puede no tener ningún miembro > 1, y el portador Y no
+  vive en u;
+- el programa (b) (lem:DG, thm:DGp, coronas D4–D6) exige α ∈ v
+  («v is a pan with occupants {α}∪O∪{m}», sec:generic §803;
+  coronanidada §6 lo declara explícitamente fuera de su alcance);
+- Ψ_j con j′ = ocupantes reales de la sartén no cubre j′ = 1,
+  ω ≥ 1/2 (Ψ₁ ≤ φ ahí) — exactamente el hueco que en (b) tapaba la
+  línea áurea, que necesita α ∈ v.
+Configuración concreta sin programa: u = agujero de α sin miembros
+> 1, v = agujero de Y, α ∉ v, todo anidado en una torre única de la
+sartén, ω ≥ 1/2. REPARACIÓN: dicotomía (c-i)/(c-ii) en el draft;
+(c-i) α ∈ v hereda (b) programa a programa (v es un disco de
+capacidad Y−ω con ocupantes {α}∪O_v∪{m} según P: plantilla (b) con
+R ↦ Y−ω, con las mismas etiquetas); (c-ii) queda como CELDA ABIERTA
+declarada con las paredes portadas listadas y un sondeo de cierre
+(con X_Y^rest = 0, las colas de α e Y con (Ry) fuerzan
+σ₂ ≥ (φ−1)(1+ω) y ΣS > φ: contradicción; el caso torres/X_Y > 0
+queda por programar). §6 re-etiquetado como teorema CONDICIONAL.
+
+**H2. La prueba (i) del lema-extensión era falsa tal como estaba
+(A4, el ataque central).** Afirmaba «toda colocación-testigo del
+programa del par se extiende» añadiendo W al agujero de σ₁. Falso:
+la colocación «σ₂ anidada en σ₁» (tercera colocación de prop:Cpair;
+pared B3 de lem:DV1, placement «σ₂ ⊂ σ₁ → D_m») USA el agujero de
+σ₁, y con él cargado no se extiende. Contraejemplo (ahora en el
+bloque F del script): ω = 0.1, σ₁ = 0.9, σ₂ = 0.7 ≤ σ₁−ω = 0.8,
+X = 0, W = 0.75 (cumple (N): W+X ≤ 0.8), pero σ₂+W+X = 1.45 > 0.8.
+El LEMA sobrevive porque los programas de las dos celdas de (N) no
+usan esa colocación como pared:
+- j = 1 línea áurea (thm:DGp): la rama A usa Bo″, lem:DG, (W) y la
+  cadena (*) con M, X_σ ≥ 0 — sin agujero de σ₁; la rama B usa B3′
+  (σ₂+X_σ > σ₁−ω, YA tarifada, app:pocket-app §2338), que bajo (N)
+  engorda a σ₂+X_σ+W > σ₁−ω, y la cadena (I) es INVARIANTE bajo
+  X_σ ↦ X_σ+W: solo usa X_σ por esa cota inferior y por la cola de
+  o₁/α, que también recogen W (masa del multiconjunto). Verificado
+  simbólicamente (sympy): LHS − RHS = e₀+e₁+e₂+e₃+2e₄ en las
+  holguras de {rama B, Bo″, B3′+W, (W), lem:DG}, con W dentro de e₂.
+- j = 0, k ≥ 4 curva canónica: las paredes del programa (B1-corona,
+  B2/dicotomía, B4, BH, W — thm:DT3 rama 1, cor:DB2) no tocan el
+  agujero de σ₁; el monolito (fila W∪X_σ₁ por el lema de fila, σ₁
+  una pieza de radio σ₁ vaya donde vaya) las porta todas — el
+  precedente textual es thm:DPp(ii) del propio paper.
+REPARACIÓN aplicada en §4bis del draft (prueba reescrita con el
+reparto correcto y el contraejemplo) y en el bloque F del script
+(contraejemplo + invariancia simbólica + Ψ_B(1/2) = 2 exacto para la
+esquina del mín(·,2), que el draft ni mencionaba — thm:DBpp tampoco
+usa el agujero de σ₁, sus masas solo engordan).
+
+### MEDIA
+
+**H3. El bloque B era un check tautológico (A1/A6).** Muestreaba
+flags booleanos con u_pan ⟹ ¬v_pan CABLEADO («u != v y u es LA
+sarten») y luego «verificaba» la partición sobre los mismos flags:
+cero contenido. La exhaustividad real es DEFINICIONAL (contenedor =
+sartén única o agujero de un anillo > m — esto último probado en
+thm:oblivious: el padre de m es mayor que m; u = v = sartén excluido
+por unicidad). REPARACIÓN: flags primitivos independientes con la
+exclusión derivada y etiquetada [ENUNCIADO], predicados corregidos,
+y conteo del corte (c-i)/(c-ii). Sigue siendo definicional y así se
+declara en la salida.
+
+**H4. (c1)/(c2) del draft se solapaban (A1).** (c2) decía «v =
+sartén o agujero»: la configuración {u = agujero de α anidada,
+v = agujero de Y} caía en (c1) Y en (c2). El script ya resolvía con
+prioridad implícita; el draft no. REPARACIÓN: (c1) = ambos agujeros
+(α a cualquier nivel), (c2) = v sartén con α anidada; y nota de que
+el corte de cierre real es α ∈ v / α ∉ v, transversal a (c1)/(c2).
+Respuestas al resto de A1: u = v = agujero del mismo anillo es
+imposible (un anillo, un agujero, u ≠ v); v = agujero de Y cubre Y a
+cualquier nivel (solo entra al programa vía (Ry)/colas, libres de
+nivel); m a nivel superior en v con u agujero es (b) o (c2) según α;
+contenedores de anillos ≤ m no existen (padre > m).
+
+**H5. El bloque C era tautológico y no versaba sobre lo que decía
+versar (A6).** Muestreaba pares con o₂ ≤ cap−o₁ y comprobaba
+o₁+o₂ ≤ cap (tautología), y llamaba a eso «descenso a discos
+intrínsecos». No refuta la portabilidad (que queda establecida a
+nivel pared por la inspección manual contra el paper, hallazgo H1),
+pero el acta debe registrar que el script NO la verificaba.
+REPARACIÓN: el check ahora construye la fila diametral y valida
+contención y disyunción numéricas (dirección constructiva real del
+criterio exacto), y la contención antítona + lema-puerto quedan como
+[ENUNCIADO] con remisión al draft. Ídem el «bonus» de la cola de Y
+(semi-tautológico, etiquetado). El check análogo del bloque E ((D)
+es puerta) tenía la misma tautología y se reparó igual.
+
+**H6. Cinco checks eran check(True) sin distinguir enunciado de
+verificación (A6).** E3, E4, |S| = 0, «consecuencia» del bloque F, y
+la exclusión de u = v = sartén. REPARACIÓN: etiqueta [ENUNCIADO]
+sistemática en script y draft §7; la «consecuencia» además corregida
+en contenido (H2).
+
+### BAJA
+
+**H7. E1 con |S| = 0 estaba mal justificado (A3).** «El sitio de m
+en u lo garantiza F» es falso a posiciones fijas de P: P puede tener
+los miembros de u en otra disposición. Lo que vale (y es lo que hace
+la prueba de thm:oblivious): los miembros > m de u coinciden en F y
+P por maximalidad de m, las posiciones son existenciales, y P′
+re-coloca u por dentro según el certificado de F con los subárboles
+viajando rígidos. Con |S| = 1, añadido que la carga de σ viaja
+dentro. REPARACIÓN: redactado en E1 y en el check [ENUNCIADO].
+
+**H8. Alineación con el acta anidada C4 (A5): correcta.** Las dos
+celdas del lema-extensión coinciden con coronanidada §5 (j = 1 línea
+áurea mín(φ²−(φ/2)ω, 2) y j = 0, k ≥ 4, ω > 1−φ/2 curva canónica), y
+la identidad φ²−φ/2 = 1+φ/2 > φ es exacta y suficiente para todo
+ω ≤ 1 (el draft ya lo tenía bien). El único hueco era el transporte
+de la esquina «2» (rama B con hijo-nodo, ω < 1/2), no argumentado en
+el draft: cerrado vía thm:DBpp (H2, con Ψ_B(1/2) = 2 verificado
+exacto). La curva canónica da ≥ 13/7 > φ para todo ω (thm:corner),
+más de lo que la celda necesita.
+
+**H9. E3 y E4 son correctos.** E3: y ≥ 1+ω porque su agujero admite
+m = 1 (capacidad y−ω ≥ 1+X ≥ 1, lem:DR), y su raíz es un ocupante
+> 1 de la sartén — el análogo en el puerto NO existe para u (puede
+no tener miembros > 1), y eso es parte de H1, pero sí existe para la
+sartén global (siempre hay un ocupante > 1 si hay portador o α
+anidada). E4 vale en (b) y (c) con el matiz ya recogido en
+coronanidada C3 (el suelo S₀+ω solo con el par que vive en u).
+
+## Reparaciones aplicadas
+
+1. `docs/drafts/ensamblaje.md`: cabecera de estado; (c1)/(c2)
+   disjuntos + justificación de (a) y de «contenedor = sartén o
+   agujero de anillo > m»; E1 reescrito (H7); §4bis prueba del
+   lema-extensión reescrita (H2: monolito restringido +
+   contraejemplo + absorción exacta de B3′ + esquina Ψ_B); lema-
+   puerto rebajado a nivel pared; nueva sección de la dicotomía
+   (c-i)/(c-ii) (H1); §6 teorema re-etiquetado CONDICIONAL con
+   etiquetas honestas; §7 realineado con el script.
+2. `code/ensamblaje.py`: bloque B reescrito (H3, H4); bloques C y E
+   des-tautologizados (H5); etiquetas [ENUNCIADO] (H6); bloque F
+   ampliado con el contraejemplo, la invariancia simbólica de (I) y
+   Ψ_B(1/2) = 2 (H2); docstring actualizado.
+
+## Verificaciones independientes
+
+- Lectura dirigida del paper en todos los puntos citados (lista
+  arriba); en particular: prop:Cpair enumera la colocación B3 —
+  base del contraejemplo H2; lem:DV1 la deriva de «σ₂ ⊂ σ₁ → D_m»;
+  thm:DGp usa B3′ SOLO en la rama B; cor:DB2 confirma que el
+  programa canónico usa (B1)/(B2)/(W) sin agujero de σ₁; thm:DPp(ii)
+  y prop:DT3j son el precedente exacto del monolito bien enunciado;
+  sec:generic §803 confirma la hipótesis α ∈ v de TODA la plantilla
+  anidada (base de H1); coronanidada §6 ya advertía el alcance.
+- Re-derivación a mano de la cadena (I) de thm:DGp (con σ₁+M > 1,
+  Bo″, B3′, (W), σ₁ > b₂ dos veces) y de su invariancia bajo
+  X_σ ↦ X_σ+W; después codificada en sympy (bloque F).
+- Sondeo de cierre de (c-ii) en el subcaso X_Y^rest = 0: (Ry) ⟹
+  Y < S₀+ω ≤ α ⟹ la cola de α contiene a Y, m y S ⟹
+  ρ ≥ (Y+1+S₀)/α con α < 1+ω+σ₂ ⟹ σ₂ ≥ (φ−1)(1+ω) ⟹ ΣS ≥
+  2(φ−1)(1+ω) > φ para ω > (2−φ)/(2φ−2)... > 0.236; junto a
+  ρ*₃ > φ en ω pequeño el subcaso parece cerrable — NO es prueba,
+  queda documentado como sondeo.
+- Script: 6/6 con CC_ITER=60000 y CC_ITER=200000; harness de
+  semillas (scratchpad `semillas.py`): 4 desplazamientos × bloques
+  B–F, todo OK. El verde no depende de la semilla cableada.
+
+## Estado final
+
+- `code/ensamblaje.py`: 6/6 en verde (60k y 200k; semillas OK), con
+  contenido real añadido y tautologías etiquetadas o eliminadas.
+- `docs/drafts/ensamblaje.md`: corregido; el teorema de ensamblaje
+  queda CONDICIONAL: (a), (b), (c-i) cerrados con sus etiquetas
+  (teoremas del paper + D1–D6 computacionales + lema-extensión (N)
+  ahora probado); (c-ii) (α ∉ v) es la celda abierta declarada del
+  ensamblaje, junto con la ley de escala (j, p, k) y los lemas de
+  dualidad/zigzag ya conocidos.
