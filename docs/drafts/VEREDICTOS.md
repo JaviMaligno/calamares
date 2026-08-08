@@ -701,3 +701,100 @@ dualidad (necesidad y suficiencia usan los mismos certificados) con la
 ley de escala en (j, p) como lema. ESE es el siguiente paso antes de
 integrar al paper, junto con la versión anidada (D4-D6) y el
 ensamblaje.
+
+---
+
+## Acta 2026-08-07 — Campaña anidada D4-D6
+
+**Objeto**: `code/coronanidada.py` (+ `drafts/coronanidada.md`) — la
+versión ANIDADA de corona-contra-colas: D4 = puntita j = 2
+(ω ∈ [φ/2, 1)), D5 = perfiles k ≥ 3 fuera de la rama de reducción,
+D6 = gap lemma (pequeños extra en v y σ₂ minúsculo), sobre la
+plantilla u = agujero de α, v = c_P(m), con el intercambio que manda
+m al agujero de α y re-crea D_m a nivel superior de v.
+
+**Veredicto hostil: CONFIRMADO CON CORRECCIONES.** Verificador
+independiente con script propio (sympy propio, fórmula del coseno y
+Descartes rederivados, generadores adversarios). Los ocho ataques:
+
+1. **El D_m mural — CONSERVADOR, explicado.** Re-crear D_m como
+   MIEMBRO 1.0 de la corona (un disco unidad virtual que la propia
+   corona coloca, con fila de suma ≤ 1, legal por el criterio de
+   fila) solo puede endurecer el certificado de suficiencia: el bin
+   ocupa arco como un miembro más en vez de reutilizar el hueco que
+   el intercambio libera. Dirección segura; resistió.
+2. **El conjunto de la necesidad {α, m = 1, o₁..o_j} — LEGÍTIMO, con
+   caveat de alcance.** P empaqueta ese conjunto a nivel superior de
+   v porque v = c_P(m) y m está a nivel superior SEGÚN P (según F irá
+   dentro de α, pero R_lb solo necesita que ALGUIEN lo empaquete).
+   Caveat anotado en el draft: esto presupone α ∈ v a nivel superior
+   (v = sartén). Cuando v es un agujero y α queda anidada más arriba
+   (α ∉ v), el conjunto de la necesidad es otro: ese caso es del
+   ENSAMBLAJE, no de esta campaña.
+3. **La esquina rígida — tangencia 2π EXACTA, verificada con sympy
+   independiente.** En {α = 1/t, σ₁ = 1, σ₂ = b(t)/t}, R = α+1
+   (t = 0.52): θ(α,1)+θ(1,σ₂)+θ(σ₂,α) − 2π = 0 exacto con fórmula
+   del coseno propia, y b(t)/t coincide con el bolsillo de Descartes
+   rederivado por curvaturas. Con σ₂ un factor 1.001–1.3 mayor el
+   ciclo excede 2π y la maquinaria completa NO certifica (déficits
+   positivos crecientes). En la tangente exacta sí cabe: frontera
+   legal (interiores disjuntos).
+4. **Familias bloqueadas contradictorias — AUSENTES.** La búsqueda de
+   instancias genuinamente bloqueadas que la maquinaria certificara
+   (prueba-de-más) no encontró ninguna; la única certificación en
+   frontera es la tangente exacta del punto 3, y la esquina rígida
+   vive además fuera del dominio (ρ ≥ 1+b(t)/t > φ).
+5. **C1 (grave, enrutado) — REFUTADA la herencia geométrica de (L),
+   REPARADA por reenvío.** La celda ligera (L) NO hereda las paredes
+   geométricas del par: lem:DG/B1 reempaquetan v entero y destruyen
+   la fila de D_m donde (L) aparca W — el mismo mecanismo por el que
+   cor:DS excluye a lem:DG. Como Ψ₁(ω) < φ para ω ≥ 1/2 y ρ*₃ muere
+   en ω > 1−φ/2, las celdas {(L), j = 1, ω ∈ [1/2,1)} y {(L), j = 0,
+   k ≥ 4, ω > 1−φ/2} quedaban descubiertas. Reparación (gemela del
+   reenvío D4W): se reenvían a la corona ('LW'), salvo si además
+   anidan (W+X ≤ σ₁−ω), que van por (N). El atacante verificó
+   2 779 + 2 652 coronas de las dos celdas con déficit 0.0; el
+   reenvío quedó integrado en la tricotomía (`caso_anidado`) y en los
+   barridos de C2.
+6. **C2 (cobertura) — la franja {W ≤ σ₁−ω < W+X_σ₁} no se barría.**
+   El generador de la celda de corona saltaba con W ≤ σ₁−ω, pero la
+   celda es W+X_σ₁ > σ₁−ω: la franja con X_σ₁ > 0 ni se barría ni se
+   heredaba. Reparación: se muestrea X_σ₁ y se salta SOLO con
+   W+X ≤ σ₁−ω. El atacante verificó 669 sondas de la franja con
+   déficit 0.0.
+7. **C3 (legitimidad de D6) — el suelo del par no viaja con S⁺.** La
+   reducción D6 → D5 + D4 transportaba el suelo α ≥ σ₁+σ₂+ω con el
+   par de S⁺, que puede contener extras que NO viven en u — y la
+   pared (W) solo vale para el par que sí vive en el agujero de α.
+   Reparación: en las celdas alcanzables desde D6 el suelo legítimo
+   es max(1+ω, par verdadero de u + ω), y el bloque D2 barre D6
+   DIRECTAMENTE (gaps j = 0/j = 1, barridos nuevos j = 2 y j = 3 en
+   toda ω, σ₂ minúsculo) con af tomado del par de u y los extras solo
+   engordando colas y corona. Déficit 0.0 en todos los barridos.
+8. **C4 (redacción) — las herencias geométricas de (N) necesitan un
+   lema-extensión explícito.** (N) j = 1 (línea áurea) y (N) j = 0
+   k ≥ 4 (curva canónica) usan paredes geométricas del par con W
+   dentro del agujero de σ₁; el argumento de carga es: σ₁ con W
+   dentro es UNA pieza (mismo radio σ₁), luego (W) queda intacta a
+   fortiori, y la B3′ engordada por X_σ₁ la absorbe la cola. El lema
+   está PENDIENTE DE REDACCIÓN y el docstring lo declara: esas dos
+   celdas cuentan como «probadas módulo lema-extensión», sin
+   sobre-reclamar.
+
+**Reparaciones aplicadas** (todas en `code/coronanidada.py`): C1
+(reenvío 'LW' en la tricotomía + muestreo de las celdas reenviadas en
+los barridos de D5), C2 (salto solo con W+X ≤ σ₁−ω), C3 (barridos
+directos j = 2/j = 3 con af del par verdadero de u; enunciado de la
+reducción rebajado a enrutado), C4 (docstring). Re-ejecución completa
+`CC_ITER=60000`: **5/5 bloques en verde**, con las celdas reenviadas
+cerrando por corona con déficit 0.00 y la partición
+L/N/H1/D4W/LW/corona verificada sobre 150 000 + 150 000 perfiles
+(0 sin caso, 0 violaciones de contrato).
+
+**Limitación compartida con la sartén**: B, C2 y D2 son evidencia
+computacional (MC + esquinas + dualidad tangente en R_lb); el cierre
+formal pende del MISMO lema de dualidad/zigzag de
+`coronacolas.md` §4, con la ley de escala en (j, k) como lema, MÁS el
+lema-extensión de C4. **Caveat de alcance** (punto 2): esta campaña
+cubre v = sartén con α ∈ v a nivel superior; v = agujero con α
+anidada es del ensamblaje.

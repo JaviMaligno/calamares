@@ -35,17 +35,33 @@ ADAPTACIONES de la sarten (coronacolas.py) al anidado:
     contenido superior de v tras el intercambio mas lo que va a v.
  5. Trichotomia anidada (analogo de perfilp.md seccion 1), derivada
     ANTES de invocar coronas: (L) ligero sigma1+W <= 1 y (N) anidado
-    W+X_sigma1 <= sigma1-omega heredan el programa del par VERBATIM (las
-    colocaciones del par siguen legales con W en la fila o dentro de
-    sigma1; cor:DS cubre lo combinatorio); (H1) sigma2 > phi-1 da
-    rho >= Sigma > phi por la cola de m; el resto (pesado sigma1+W > 1,
-    sin reduccion W+X > sigma1-omega, sigma2 <= phi-1) va a la corona.
-    La herencia del par deja UN reenvio: j = 2 con omega >= phi/2
-    (Psi_2 cruza phi en phi/2 exacto) -> la corona de D4 con W a
-    cuestas.  Suelos del par heredados: j = 1 la linea aurea
-    min(phi^2-(phi/2)omega, 2) > phi para todo omega < 1; j >= 3 la
-    escalera Psi_j > Psi_j(1) = sqrt(j) >= sqrt(3) > phi; j = 0 el
-    template canonico (thm:DT3 / cor:DB2, > T > phi, probado).
+    W+X_sigma1 <= sigma1-omega heredan el programa del par (cor:DS
+    cubre lo combinatorio); (H1) sigma2 > phi-1 da rho >= Sigma > phi
+    por la cola de m; el resto (pesado sigma1+W > 1, sin reduccion
+    W+X_sigma1 > sigma1-omega, sigma2 <= phi-1) va a la corona.
+    CORRECCION C1 (acta 2026-08-07): (L) solo hereda las paredes
+    COMBINATORIAS del par.  Las geometricas NO pasan: lem:DG/B1
+    reempaquetan v entero y destruyen la fila de D_m donde (L) aparca
+    W -- el mismo mecanismo por el que cor:DS excluye a lem:DG.  Las
+    celdas de (L) cuyo suelo combinatorio muere ({j=1, omega in
+    [1/2,1)}: Psi_1 < phi; {j=0, k >= 4, omega > 1-phi/2}: rho*_3 <=
+    phi) se REENVIAN a la corona ('LW', gemelo del reenvio D4W),
+    salvo si ademas anidan (W+X <= sigma1-omega): entonces van por
+    (N).  Suelos que (L) hereda sin geometria: j=1 omega < 1/2 Psi_1;
+    j >= 3 la escalera Psi_j >= sqrt(3) > phi; j=2 omega < phi/2
+    Psi_2; j=0 k=3 el template canonico (thm:DT3 / cor:DB2, > T >
+    phi, probado) y j=0 k>=4 omega <= 1-phi/2 rho*_3.
+    CORRECCION C4 (redaccion, acta 2026-08-07): la herencia
+    GEOMETRICA de (N) -- j=1 la linea aurea min(phi^2-(phi/2)omega,
+    2) > phi y j=0 k>=4 omega > 1-phi/2 la curva canonica -- necesita
+    un LEMA-EXTENSION aun POR REDACTAR, con este argumento de carga:
+    sigma1 con W dentro de su agujero es UNA pieza (mismo radio
+    sigma1), luego la pared (W) queda intacta a fortiori, y la B3'
+    engordada por X_sigma1 la absorbe la cola.  Hasta que el lema
+    este redactado, esas dos celdas de (N) cuentan como "probadas
+    modulo lema-extension", no mas.
+    Reenvio restante del par: j = 2 con omega >= phi/2 (Psi_2 cruza
+    phi en phi/2 exacto) -> la corona de D4 con W a cuestas ('D4W').
  6. D6 por ADJUNCION (analogo del Corolario DS-sarten): todo extra
     e < m en v se adjunta al perfil, S+ := S U {extras} -- los depositos
     combinatorios estan dentro de v o viajan con m, las posiciones de
@@ -53,7 +69,16 @@ ADAPTACIONES de la sarten (coronacolas.py) al anidado:
     cor:DS declaraba) queda REHECHA por la corona con los extras como
     miembros/granos.  Los extras ENGORDAN las colas de forma exacta (son
     aros < m de la instancia: cuentan en toda cola).  Camino corto:
-    D6 se reduce a D5 (S+ tiene k+ >= 3) + D4; se comprueba primero.
+    D6 se ENRUTA a D5 (S+ tiene k+ >= 3) + D4; se comprueba primero.
+    CORRECCION C3 (acta 2026-08-07): el enrutado es combinatorio,
+    pero el suelo alpha >= sigma1+sigma2+omega NO viaja con el par de
+    S+ -- las piezas extra viven en v, no en u (el agujero de alpha),
+    y la pared (W) solo vale para el par que SI vive en u.  En las
+    celdas alcanzables desde D6 el suelo legitimo es max(1+omega,
+    par verdadero de u + omega); por eso el bloque D2 barre D6
+    DIRECTAMENTE (gaps j=0/j=1, barridos j=2/j=3 en toda omega y
+    sigma2 minusculo) con af tomado del par de u y los extras solo
+    engordando las colas y la corona.
 
 Conservadurismo (direccion segura, como en la sarten):
  - masas opcionales (M, X's, hijos) OMITIDAS de las colas: cotas
@@ -95,21 +120,32 @@ def linea_aurea(w):
     return min(PHI ** 2 - (PHI / 2) * w, 2.0)
 
 
-def suelo_herencia(j, w):
+def suelo_herencia(j, w, caso='N'):
     """Suelo del programa del par anidado heredado por (L)/(N).
-    None = caso j=0, probado en el paper (thm:DT3 / cor:DB2 > T > phi),
-    sin formula local."""
+    C1: (L) solo hereda paredes COMBINATORIAS (lem:DG/B1 reempaquetan
+    v y destruyen la fila de D_m donde (L) aparca W): en j=1 su suelo
+    es Psi_1, valido porque las celdas con Psi_1 <= phi (omega >=
+    1/2) se reenvian a la corona ('LW').  (N) hereda ademas la linea
+    aurea (geometrica), modulo el lema-extension C4 (pendiente de
+    redaccion).  None = caso j=0: k=3 probado en el paper (thm:DT3 /
+    cor:DB2 > T > phi); k>=4 con omega <= 1-phi/2 por rho*_3
+    (combinatorio); el resto de j=0 en (L) se reenvia (C1) y en (N)
+    es la curva canonica modulo el lema-extension C4."""
     if j == 0:
         return None
     if j == 1:
+        if caso == 'L':
+            return psi_j(1, w)
         return linea_aurea(w)
     return psi_j(j, w)
 
 
-def caso_anidado(s1, s2, W, w, j, Xs1):
+def caso_anidado(s1, s2, W, w, j, Xs1, k=3):
     """Trichotomia anidada sobre el perfil (adaptacion 5).  Devuelve
     'L'/'N' (herencia par), 'H1' (cola de m), 'D4W' (reenvio j=2,
-    omega >= phi/2, con W a cuestas) o 'corona' (celda pesada D5)."""
+    omega >= phi/2, con W a cuestas), 'LW' (reenvio C1: celda ligera
+    cuyo suelo combinatorio muere y que no hereda la geometria) o
+    'corona' (celda pesada D5)."""
     if s1 + W <= 1.0:
         base = 'L'
     elif W + Xs1 <= s1 - w:
@@ -120,6 +156,13 @@ def caso_anidado(s1, s2, W, w, j, Xs1):
         return 'corona'
     if j == 2 and w >= PHI / 2:
         return 'D4W'
+    if base == 'L' and ((j == 1 and w >= 0.5)
+                        or (j == 0 and k >= 4 and w > 1.0 - PHI / 2)):
+        # C1: (L) no hereda las paredes geometricas; si ademas anida,
+        # va por (N) (lema-extension C4); si no, a la corona
+        if W + Xs1 <= s1 - w:
+            return 'N'
+        return 'LW'
     return base
 
 
@@ -407,7 +450,7 @@ def bloque_C():
     margen_LN = float('inf')
     margen_H1 = float('inf')
     mal_celda = 0
-    cuentas = {'L': 0, 'N': 0, 'H1': 0, 'D4W': 0, 'corona': 0}
+    cuentas = {'L': 0, 'N': 0, 'H1': 0, 'D4W': 0, 'LW': 0, 'corona': 0}
     for _ in range(150000):
         k = rng.randrange(3, 7)
         S = sorted((rng.uniform(0.02, 0.999) for _ in range(k)),
@@ -417,30 +460,41 @@ def bloque_C():
         j = rng.randrange(0, 5)
         Xs1 = rng.uniform(0.0, max(1e-9, s1 - w)) if rng.random() < 0.7 \
             else 0.0
-        caso = caso_anidado(s1, s2, W, w, j, Xs1)
+        caso = caso_anidado(s1, s2, W, w, j, Xs1, k)
         n += 1
         cuentas[caso] += 1
         if caso in ('L', 'N'):
-            f = suelo_herencia(j, w)
+            f = suelo_herencia(j, w, caso)
             if f is not None:           # j=0 probado (thm:DT3/cor:DB2)
                 margen_LN = min(margen_LN, f - PHI)
         elif caso == 'H1':
             margen_H1 = min(margen_H1, (s1 + s2 + W) - PHI)
+        elif caso == 'LW':
+            # reenvio C1: ligera, no anida, en el rango sin herencia
+            if not (s1 + W <= 1.0 and W + Xs1 > s1 - w
+                    and ((j == 1 and w >= 0.5)
+                         or (j == 0 and k >= 4
+                             and w > 1.0 - PHI / 2))):
+                mal_celda += 1
         elif caso == 'corona':
             # la celda residual debe cumplir sus desigualdades
             if not (s1 + W > 1.0 and W + Xs1 > s1 - w
                     and s2 <= PHI - 1):
                 mal_celda += 1
     ok &= check(f"trichotomia anidada sobre {n} perfiles: particion "
-                f"L/N/H1/D4W/corona = "
-                f"{[cuentas[c] for c in ('L', 'N', 'H1', 'D4W', 'corona')]}"
-                f"; la celda corona siempre cumple {{pesado, sin "
-                f"reduccion, sigma2 <= phi-1}} ({mal_celda} fallos)",
+                f"L/N/H1/D4W/LW/corona = "
+                f"{[cuentas[c] for c in ('L', 'N', 'H1', 'D4W', 'LW', 'corona')]}"
+                f"; corona cumple {{pesado, sin reduccion (W+X), "
+                f"sigma2 <= phi-1}} y LW cumple {{ligera, no anida, "
+                f"rango C1}} ({mal_celda} fallos)",
                 mal_celda == 0)
     ok &= check(f"herencia (L)/(N): suelo del par > phi en todos los "
                 f"muestreos con j >= 1 (margen minimo "
-                f"{margen_LN:.2e} > 0; el reenvio j=2 omega >= phi/2 va "
-                f"a D4W; j=0 probado: thm:DT3/cor:DB2 > T > phi)",
+                f"{margen_LN:.2e} > 0; (L) solo con suelos "
+                f"combinatorios -- C1 --, (N) j=1 con la linea aurea "
+                f"modulo lema-extension C4; reenvios j=2 omega >= "
+                f"phi/2 -> D4W y (L) sin suelo -> LW; j=0 probado: "
+                f"thm:DT3/cor:DB2 y rho*_3)",
                 margen_LN > 0)
     ok &= check(f"(H1): cola de m da rho >= Sigma > phi (margen minimo "
                 f"{margen_H1:.2e} > 0)", margen_H1 > 0)
@@ -449,8 +503,8 @@ def bloque_C():
         rngc = random.Random(1000 * k + j)
         peor, arg, nres, cerr, nev = 0.0, None, 0, 0, 0
         for _ in range(ITER):
-            forward = (j == 2 and rngc.random() < 0.3)
-            if forward:
+            u = rngc.random()
+            if j == 2 and u < 0.3:
                 # reenvio D4W: perfil ligero/anidado, omega >= phi/2
                 w = rngc.uniform(PHI / 2, 0.98)
                 s2 = rngc.uniform(0.02, 0.999)
@@ -459,6 +513,22 @@ def bloque_C():
                 W = sum(piezas)
                 s1 = rngc.uniform(s2, 0.999)
                 if s1 + s2 + W <= 1.0:      # (D_p): fila entera a D_m
+                    continue
+            elif (j == 1 or (j == 0 and k >= 4)) and u < 0.3:
+                # reenvio LW (C1): celda ligera cuyo suelo
+                # combinatorio muere (j=1: Psi_1 < phi en omega >=
+                # 1/2; j=0 k>=4: rho*_3 <= phi en omega > 1-phi/2) y
+                # que NO hereda la geometria -> a la corona
+                w = rngc.uniform(0.5 if j == 1
+                                 else 1.0 - PHI / 2 + 1e-3, 0.98)
+                s1 = rngc.uniform(0.3, 0.999)
+                s2 = rngc.uniform(0.02, s1)
+                piezas = sorted((rngc.uniform(0.01, s2)
+                                 for _ in range(k - 2)), reverse=True)
+                W = sum(piezas)
+                if s1 + W > 1.0:            # queremos la celda LIGERA
+                    continue
+                if W <= s1 - w:             # anida: hereda via (N)+C4
                     continue
             else:
                 w = rngc.uniform(0.02, 0.98)
@@ -470,9 +540,14 @@ def bloque_C():
                 if lo1 >= 0.999:
                     continue
                 s1 = rngc.uniform(lo1, 0.999)
-                if s1 + W <= 1.0:           # (L): herencia
+                if s1 + W <= 1.0:           # (L): herencia o reenvio LW
                     continue
-                if W <= s1 - w:             # (N) con X=0: herencia
+                # C2: la celda de corona es W+X_sigma1 > s1-omega; se
+                # salta SOLO con W+X <= s1-omega -- la franja
+                # {W <= s1-omega < W+X_sigma1} se barre, no se hereda
+                Xs1 = rngc.uniform(0.0, max(1e-9, s1 - w)) \
+                    if rngc.random() < 0.7 else 0.0
+                if W + Xs1 <= s1 - w:       # (N): herencia
                     continue
             Sg = s1 + s2 + W
             if Sg > PHI:                    # cola de m
@@ -535,7 +610,9 @@ def bloque_C():
         marca = peor <= TOL
         ok &= check(f"D5 celda k={k}, j={j}: {nev} coronas MC + {esq} "
                     f"esquinas, peor deficit = {peor:.2e} <= {TOL} "
-                    f"({cerr} cerradas por cola de m)", marca)
+                    f"({cerr} cerradas por cola de m; el MC incluye "
+                    f"los reenvios D4W/LW y la franja "
+                    f"W <= s1-omega < W+X de C2)", marca)
         if not marca:
             print(f"      RESIDUO D5 k={k} j={j} ({nres} casos): {arg}")
     print("      [nota] k=3 con j=0 NO esta en D5: es thm:DT3 (probado "
@@ -564,24 +641,31 @@ def bloque_D():
         ne = rng.randrange(1, 5)
         extras = [rng.uniform(0.02, 0.999) for _ in range(ne)]
         Sp = sorted(S + extras, reverse=True)
+        kp = len(Sp)
         w = rng.uniform(0.05, 0.95)
         j = rng.randrange(0, 5)
         Xs1 = rng.uniform(0.0, max(1e-9, Sp[0] - w)) \
             if rng.random() < 0.7 else 0.0
         s1, s2, W = Sp[0], Sp[1], sum(Sp[2:])
-        caso = caso_anidado(s1, s2, W, w, j, Xs1)
+        caso = caso_anidado(s1, s2, W, w, j, Xs1, kp)
         n += 1
-        if caso not in ('L', 'N', 'H1', 'D4W', 'corona'):
+        if caso not in ('L', 'N', 'H1', 'D4W', 'LW', 'corona'):
             sin_caso += 1
             continue
         if caso in ('L', 'N'):
-            f = suelo_herencia(j, w)
+            f = suelo_herencia(j, w, caso)
             if f is not None:
                 margen = min(margen, f - PHI)
                 if f <= PHI:
                     viol_h += 1
         elif caso == 'H1':
             if s1 + s2 + W <= PHI:
+                viol_h += 1
+        elif caso == 'LW':
+            if not (s1 + W <= 1.0 and W + Xs1 > s1 - w
+                    and ((j == 1 and w >= 0.5)
+                         or (j == 0 and kp >= 4
+                             and w > 1.0 - PHI / 2))):
                 viol_h += 1
         elif caso == 'corona':
             if not (s1 + W > 1.0 and W + Xs1 > s1 - w
@@ -590,14 +674,25 @@ def bloque_D():
     ok &= check(f"{n} instancias con extras: la trichotomia sobre S+ es "
                 f"exhaustiva ({sin_caso} sin caso) y cada caso cumple su "
                 f"contrato ({viol_h} violaciones; margen herencia "
-                f"{margen:.2e} > 0): D6 se reduce a D5 (k+ >= 3) + D4",
+                f"{margen:.2e} > 0): D6 se ENRUTA a D5 (k+ >= 3) + D4 + "
+                f"reenvios LW; el suelo del par NO viaja con S+ (C3): "
+                f"los barridos directos de D2 usan af del par de u",
                 sin_caso == 0 and viol_h == 0 and margen > 0)
-    # --- D2: la corona del residuo en los dos gaps declarados + sigma2
-    #     minusculo (extras en las colas de forma exacta, adaptacion 6)
+    # --- D2: la corona del residuo -- los dos gaps declarados, los
+    #     barridos DIRECTOS j >= 2 (C3: la reduccion a D5+D4 no
+    #     transporta el suelo af = s1+s2+omega cuando el par de S+
+    #     contiene extras que no viven en u; aqui af usa el par
+    #     verdadero de u y los extras solo engordan colas y corona) y
+    #     sigma2 minusculo (extras en las colas de forma exacta,
+    #     adaptacion 6)
     gaps = [("j=0, omega > 1-phi/2 (donde muere rho*_3)", 0,
              (1 - PHI / 2 + 0.001, 0.98)),
             ("j=1, omega in [1/2, 1) (donde muere Psi_1)", 1,
-             (0.5, 0.98))]
+             (0.5, 0.98)),
+            ("j=2, toda omega (C3: directo, af del par de u)", 2,
+             (0.05, 0.98)),
+            ("j=3, toda omega (C3: directo, af del par de u)", 3,
+             (0.05, 0.98))]
     rngg = random.Random(61)
     for (nombre, j, (wlo, whi)) in gaps:
         peor, arg, nres, cerr, nev = 0.0, None, 0, 0, 0
@@ -618,6 +713,8 @@ def bloque_D():
             holg = [1.0 + rngg.expovariate(3.0) for _ in range(j + 1)]
             if rngg.random() < 0.3:
                 holg = [1.0] * (j + 1)
+            # C3: af del par VERDADERO de u (s1, s2 viven en el
+            # agujero de alpha); los extras no inflan el suelo
             af = max(1.0 + w, s1 + s2 + w)
             alpha, occs = cascada_anidada(Sg, j, rank, af, holg)
             R = radio_necesario(alpha, occs)
@@ -661,6 +758,7 @@ def bloque_D():
             continue
         rank = rngm.randrange(j + 1)
         holg = [1.0 + rngm.expovariate(3.0) for _ in range(j + 1)]
+        # C3: af del par verdadero de u; los extras no inflan el suelo
         af = max(1.0 + w, s1 + s2 + w)
         alpha, occs = cascada_anidada(Sg, j, rank, af, holg)
         R = radio_necesario(alpha, occs)
