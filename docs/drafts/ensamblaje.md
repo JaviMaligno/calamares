@@ -76,7 +76,40 @@ la herencia (N) (C4 del acta anidada) — la rama (N) transporta el
 programa del par con el polvo dentro de σ₁; su versión con carga
 explícita queda enunciada y verificada en dominio, sin prueba general.
 
-## 5. El caso (c): el puerto de contenedor
+## 4bis. El lema-extensión de (N) (cierra C4 del acta anidada)
+
+**Lema (extensión de la herencia (N)).** En la plantilla anidada con
+(N): W + X_{σ₁} ≤ σ₁ − ω, las herencias geométricas del programa del
+par valen verbatim: en particular la línea áurea de j = 1
+(mín(φ² − (φ/2)ω, 2) > φ) y la curva canónica de j = 0, k ≥ 4,
+ω > 1 − φ/2 dan ρ > φ con W y X_{σ₁} arbitrarios.
+
+*Prueba.* Dos mecanismos.
+
+(i) *Monolito.* Bajo (N), el conjunto W ∪ X_{σ₁} cabe como fila en el
+agujero de σ₁ (capacidad σ₁ − ω; fila constructiva del Lema de fila,
+suma ≤ capacidad). σ₁ con ese contenido es UNA pieza de radio σ₁: su
+huella circular no cambia. Por tanto toda colocación-testigo del
+programa del par para {σ₁, σ₂} se extiende a una colocación de S
+(añadir W al agujero de σ₁, legal por lo anterior), y el bloqueo de S
+implica el fallo de TODAS las colocaciones del par. Las paredes del
+programa del par — que se derivan exactamente de esos fallos y solo
+usan los radios σ₁, σ₂ y los recursos (D_m, H_m, bolsillos, disco
+intrínseco) — quedan intactas a fortiori.
+
+(ii) *Absorción por colas.* Los términos engordados por X_{σ₁} (la
+B3′ del template) son masas de piezas < σ₁ del multiconjunto de
+entrada: están contenidas en la cola de σ₁ (y en la de m si son
+< 1), que las cotas de ρ ya contabilizan; ninguna pared usa X_{σ₁}
+con signo favorable al adversario. Las conclusiones numéricas de las
+dos celdas no involucran W: la línea áurea satisface
+φ² − (φ/2)ω ≥ φ² − φ/2 = 1 + φ/2 > φ para todo ω ≤ 1 (identidad
+exacta φ² = φ + 1), y la curva canónica está probada en el paper para
+el par sin referencia a W. ∎
+
+Con esto, las dos celdas de (N) pasan de «probadas módulo
+lema-extensión» a probadas; el residuo computacional del caso (b)
+queda en D4/D5/D6 con sus etiquetas.
 
 **Lema (puerto).** Toda pared de los casos (a) y (b) usa del
 contenedor del re-empaquetado únicamente que es un DISCO de capacidad

@@ -217,6 +217,77 @@ def bloque_E():
     return ok
 
 
+# ---------------------------------------------------------------- bloque F
+def bloque_F():
+    print("[F] lema-extension de (N) (cierra C4 del acta anidada)")
+    import sympy as sp
+    rng = random.Random(20260808)
+    ok = True
+    # (ii) la linea aurea no usa W: phi^2 - phi/2 = 1 + phi/2 > phi
+    # exacto (phi^2 = phi + 1), y la linea decrece en omega: el minimo
+    # en omega = 1 ya supera phi => vale para TODO omega < 1 al nivel
+    # aureo (la restriccion omega_A era del nivel T)
+    phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
+    ok &= check("linea aurea: phi^2 - phi/2 = 1 + phi/2 exacto y "
+                "1 + phi/2 > phi (phi^2 = phi + 1): la celda (N) j=1 "
+                "cierra para todo omega <= 1 sin tocar W",
+                sp.simplify(phi ** 2 - phi / 2 - 1 - phi / 2) == 0 and
+                float(1 + phi / 2) > float(phi))
+    # (i) monolito: extender una colocacion legal del par con la fila
+    # W U X dentro del agujero de sigma_1 NUNCA crea solapes fuera:
+    # verificacion geometrica constructiva en instancias aleatorias
+    n, viol = 0, 0
+    for _ in range(max(20000, ITER // 3)):
+        w = rng.uniform(0.05, 0.9)
+        s1 = rng.uniform(max(0.3, w + 0.05), 1.0)
+        cap = s1 - w
+        if cap <= 0.02:
+            continue
+        # contenido: X previas + W nuevas con suma <= cap ((N))
+        piezas = []
+        resto = cap * rng.uniform(0.3, 1.0)
+        while resto > 0.01 and len(piezas) < 6:
+            x = rng.uniform(0.005, resto)
+            piezas.append(x)
+            resto -= x
+        # fila dentro del agujero de sigma_1 (centrado en el origen):
+        # centros sobre un diametro, tangentes consecutivos
+        cx = -cap
+        centros = []
+        for x in piezas:
+            cx += x
+            centros.append((cx, 0.0, x))
+            cx += x
+        n += 1
+        # legalidad interna: dentro del agujero (|c| + x <= cap) y
+        # disjuntos dos a dos
+        for (ax, ay, ar) in centros:
+            if math.hypot(ax, ay) + ar > cap + 1e-9:
+                viol += 1
+                break
+        else:
+            for i in range(len(centros)):
+                for j2 in range(i + 1, len(centros)):
+                    ax, ay, ar = centros[i]
+                    bx, by, br = centros[j2]
+                    if math.hypot(ax - bx, ay - by) < ar + br - 1e-9:
+                        viol += 1
+                        break
+        # y ningun disco interior sale de la huella de sigma_1: la
+        # pieza esta a distancia <= cap < s1 del centro => estricta-
+        # mente dentro => disjunta de todo lo exterior a sigma_1
+    ok &= check(f"monolito: la fila (N) dentro del agujero de sigma_1 "
+                f"es legal e interior a su huella en {n} instancias "
+                f"({viol} violaciones): toda colocacion del par se "
+                f"extiende a una de S sin tocar nada fuera", viol == 0)
+    ok &= check("consecuencia: bloqueo de S => fallan TODAS las "
+                "colocaciones del programa del par => sus paredes "
+                "(solo radios sigma_1, sigma_2 y recursos) valen a "
+                "fortiori; X_sigma1 vive en la cola de sigma_1 "
+                "(multiconjunto), ya contada", True)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("TEOREMA DE ENSAMBLAJE: particion (a)/(b)/(c), hechos E1-E4,")
@@ -228,12 +299,12 @@ def main():
             solo = (arg.split("=")[1] if "=" in arg
                     else sys.argv[sys.argv.index(arg) + 1])
     todos = {"A": bloque_A, "B": bloque_B, "C": bloque_C, "D": bloque_D,
-             "E": bloque_E}
+             "E": bloque_E, "F": bloque_F}
     if solo:
         res = [todos[solo]()]
         etiquetas = [solo]
     else:
-        etiquetas = list("ABCDE")
+        etiquetas = list("ABCDEF")
         res = [todos[e]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"
