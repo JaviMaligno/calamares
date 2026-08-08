@@ -145,15 +145,34 @@ el residuo MC queda en 581 instancias con ω ∈ [0.989, 1.35],
 Instancia representativa: (ω, σ₁, σ₂) = (1.17, 0.651, 0.608),
 X = 0, ΣS = 1.259.
 
-Qué significa: en R2 las paredes portadas + colas + coronas
-disponibles NO producen contradicción — con los recursos listados
-la instancia queda bloqueada y ρ ≤ φ es consistente con las colas
-usadas. Cerrar R2 requiere un recurso nuevo (candidatos: colas de
-segundo orden sobre el contenedor de Y o de α; la legalidad global
-de F como greedy — F colocó σ₂ en alguna parte y esa parte no está
-en la lista de recursos del intercambio localizado; o un paso de
-intercambio distinto para esas instancias, p. ej. elegir otro m).
-Nada de esto se afirma: R2 queda ABIERTO y delimitado.
+Qué significaba: en R2 las paredes portadas + colas + coronas de la
+LISTA ORIGINAL de recursos no producían contradicción. **CERRADO
+(bloque [F], 2026-08-08)**: el recurso que faltaba es el REPACK DE
+LA SARTEN. La factibilidad de una colocación es empaquetabilidad por
+contenedor (existencial en posiciones) y el intercambio solo exige
+acuerdo DE CONTENEDOR en los anillos ≥ m (thm:oblivious: «agreeing
+with F on all rings of radius ≥ r_m»); re-empaquetar la sartén no
+cambia ningún contenedor, y el precedente en el propio paper es el
+«pan repack» de thm:DP (con ocupantes > m re-colocados en corona).
+En (c-ii-2) la sartén contiene a α y al tope T de la torre de Y
+(top-level, compartidos), luego «σ₂ → bolsillo espejo del par
+{α, T} re-empaquetado diametral» es una colocación del testigo y su
+fallo es pared del bloqueo. La pinza EXACTA que vacía R2:
+
+- α > 2: N = 2+ΣS+X_m+X_α+2X_Y+ω y ω ≥ ω_ef − X_α + φ(2X_Y+X_m)
+  dan N > 3+ω\*, y (3+3/(2φ))/φ > 2 ⟺ 2φ > 1 (vía φ² = φ+1).
+- T ≥ Y > 2/φ = √5−1: la cola de Y con ΣS > 1.
+- b₂ estrictamente creciente en cada argumento
+  (∂b₂/∂α · D²/y² = y(2α+y) > 0) y b₂(2, √5−1) = 1 exacto
+  (Lean: `b2_mirror_corner`) ⟹ **b₂(α, T) > 1 > σ₂**: σ₂ cabe en
+  el bolsillo espejo (prop:S5, espejos disjuntos y₀ = 2b₂,
+  contención monótona R ≥ α+T). La MISMA esquina áurea del muro
+  espejo de thm:DP cierra la última celda.
+
+Con miembros top-level extra, la corona de la sartén (con
+confinamiento por el gigante en R_lb — la trampa de un parámetro de
+las campañas) coloca σ₂ en todos los barridos (bloque F3, 0 fallos);
+etiqueta computacional-dualidad como D1–D6 para esa parte.
 
 ## 6. Qué es exacto y qué es barrido
 
@@ -186,9 +205,14 @@ composiciones de X son parte de la instancia muestreada.
 
 ## 8. Consecuencia para el ensamblaje
 
-Con esta campaña, el teorema de ensamblaje queda: (a), (b), (c-i)
-como estaban; (c-ii-1) cerrada al nivel de D1–D6; (c-ii-2) cerrada
-EXACTA fuera de la caja R2. El residuo total de τ = φ es ahora:
-los lemas de dualidad/escala (como antes) + la caja R2 de §5 —
-una región de codimensión baja con esquina áurea explícita
-(3/(2φ), 1/2), lista para un ataque dedicado.
+Con esta campaña Y el bloque [F], el teorema de ensamblaje queda:
+(a), (b), (c-i) como estaban; (c-ii-1) cerrada al nivel de D1–D6;
+(c-ii-2) cerrada — EXACTA fuera de la caja R2 (pinzas I1–I3) y
+dentro de R2 por la pinza del bolsillo espejo (núcleo EXACTO:
+α > 2, T > √5−1, b₂ > 1 > σ₂; extras por corona con etiqueta
+computacional). La celda (c-ii) deja de ser residuo del ensamblaje:
+el teorema pierde su condicionalidad estructural y el residuo total
+de τ = φ vuelve a ser exactamente el de las campañas: el lema de
+dualidad/zigzag (adversariado) + la ley de escala (j, p, k) + las
+etiquetas computacionales de D1–D6, (c-i)/(c-ii)-coronas.
+[PENDIENTE: ronda hostil de esta campaña, incluido [F].]

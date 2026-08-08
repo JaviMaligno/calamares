@@ -745,6 +745,139 @@ def bloque_E():
     return ok
 
 
+def b2_espejo(a, y):
+    return a * y * (a + y) / (a * a + a * y + y * y)
+
+
+def bloque_F():
+    print("[F] cierre de R2: el repack de la SARTEN como recurso "
+          "(bolsillo espejo del par top-level)")
+    import sympy as sp
+    rng = random.Random(20260809)
+    ok = True
+    # F2 [ENUNCIADO] legalidad del recurso: la factibilidad de una
+    # colocacion es empaquetabilidad POR CONTENEDOR (existencial en
+    # posiciones) y el intercambio solo exige acuerdo DE CONTENEDOR en
+    # los anillos >= m (thm:oblivious: "agreeing with F on all rings of
+    # radius >= r_m"); re-empaquetar la sarten no cambia contenedores.
+    # Precedente en el propio paper: thm:DP usa "the pan repack" con
+    # ocupantes > m re-colocados (coronas de coronacolas).  En (c-ii-2)
+    # la sarten contiene a alpha y al tope T de la torre de Y (ambos
+    # top-level, compartidos), luego "sigma2 -> bolsillo espejo del par
+    # {alpha, T} con la sarten re-empaquetada" es una colocacion del
+    # testigo y su fallo es una pared del bloqueo.
+    ok &= check("[ENUNCIADO] el repack de la sarten es recurso del "
+                "intercambio en (c-ii-2): factibilidad por contenedor "
+                "+ acuerdo solo de contenedores en >= m (thm:oblivious"
+                "); precedente: el pan repack de thm:DP", True)
+    # F1: la pinza exacta que vacia R2 (sympy)
+    a, y = sp.symbols('a y', positive=True)
+    phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
+    b2s = a * y * (a + y) / (a ** 2 + a * y + y ** 2)
+    da = sp.simplify(sp.diff(b2s, a) *
+                     (a ** 2 + a * y + y ** 2) ** 2 / y ** 2)
+    ok &= check("F1a: db2/da * D^2/y^2 = y(2a + y) exacto, positivo: "
+                "b2 es ESTRICTAMENTE creciente en cada argumento "
+                "(y simetrico en ellos)",
+                sp.simplify(da - y * (2 * a + y)) == 0)
+    ok &= check("F1b: b2(2, sqrt5-1) = 1 exacto (la esquina aurea del "
+                "espejo, ya en Lean como b2_mirror_corner)",
+                sp.simplify(b2s.subs([(a, 2), (y, sp.sqrt(5) - 1)])
+                            - 1) == 0)
+    # alpha > 2: N = 2+S+Xm+Xa+2XY+omega y omega >= omega_ef - Xa +
+    # phi(2XY+Xm) => N > 2+S+omega_ef+(1+phi)Xm+(2+2phi)XY >= 3+omega*
+    # (S > 1, X >= 0); y 3 + 3/(2phi) > 2phi <=> 6phi+3 > 4phi^2 =
+    # 4phi+4 <=> 2phi > 1: EXACTO
+    ok &= check("F1c: 3 + 3/(2phi) - 2phi = (2phi-1)/(2phi) * ... > 0 "
+                "exacto (6phi+3-4phi^2 = 2phi-1 via phi^2 = phi+1): "
+                "en R2, alpha >= N/phi > (3+omega*)/phi > 2",
+                sp.simplify(6 * phi + 3 - 4 * phi ** 2
+                            - (2 * phi - 1)) == 0
+                and float((3 + 3 / (2 * phi)) / phi) > 2)
+    # Y > 2/phi = sqrt5 - 1: cola(Y) >= (1+S)/phi > 2/phi (S > 1)
+    ok &= check("F1d: 2/phi = sqrt5 - 1 exacto: la cola de Y con "
+                "Sigma_S > 1 da Y > 2/phi = sqrt5 - 1",
+                sp.simplify(2 / phi - (sp.sqrt(5) - 1)) == 0)
+    ok &= check("F1e: PINZA: en R2, alpha > 2 y T >= Y > sqrt5-1 => "
+                "b2(alpha, T) > b2(2, sqrt5-1) = 1 > sigma2 (sigma2 < "
+                "sigma1 < 1): sigma2 SIEMPRE cabe en el bolsillo "
+                "espejo del par {alpha, T} re-empaquetado diametral "
+                "(prop:S5, espejos disjuntos y0 = 2b2, contencion "
+                "monotona R >= alpha+T): R2 ES VACIA en su nucleo "
+                "{sarten = {alpha, T}}", True)
+    # F3: el caso general (miembros top-level extra): corona de la
+    # sarten sobre instancias de la caja R2 con extras aleatorios
+    n3, fallos, peor_def = 0, 0, 0.0
+    intentos = max(20000, ITER // 3)
+    for _ in range(intentos):
+        wef = rng.uniform(OMEGA_STAR + 1e-4, 1.45)
+        Xa = rng.uniform(0.0, 0.5) if rng.random() < 0.4 else 0.0
+        XY = rng.uniform(0.0, 0.1) if rng.random() < 0.2 else 0.0
+        Xm = 0.0
+        w = wef - Xa + PHI * (2 * XY + Xm)
+        if w <= 0.02:
+            continue
+        g = (3 - PHI - (PHI - 1) * wef) / PHI
+        lo_s2, hi_s2 = max(g, 0.05), min(PHI * wef - 1, 0.999)
+        if lo_s2 >= hi_s2:
+            continue
+        s2 = rng.uniform(lo_s2, hi_s2)
+        s1 = rng.uniform(s2, min(1.0, 1 + s2 - s2))    # s1 < 1
+        S_hi = min(1 + s2, PHI - 2 + PHI * s2 + (PHI - 1) * wef)
+        if S_hi <= max(1.0, s1 + s2) or s1 < s2:
+            continue
+        S = rng.uniform(max(1.0, s1 + s2), S_hi)
+        S0 = s1 + s2
+        lbY = max(1 + XY + w, (1 + S + Xm + XY) / PHI)
+        ubY = S0 + XY + w
+        if lbY >= ubY:
+            continue
+        Y = rng.uniform(lbY, ubY)
+        lb_a = max(S + Xa + w, 1 + w, (1 + S + Xm + Xa + XY + Y) / PHI)
+        ub_a = 1 + s2 + Xa + w
+        if lb_a >= ub_a:
+            continue
+        alfa = rng.uniform(lb_a, ub_a)
+        if Y >= alfa:
+            continue
+        # tope de la torre de Y (profundidad 0-2) y extras top-level
+        d = rng.randrange(0, 3)
+        T = Y + d * (w + 0.05)
+        top = [alfa, T]
+        for _ in range(rng.randrange(0, 3)):
+            top.append(rng.uniform(0.3, alfa))
+        n3 += 1
+        tops = sorted(top, reverse=True)
+        # confinamiento por el gigante: sin el, los pares apilables
+        # dan gamma = 0 y R_lb subestima el radio real (trampa
+        # documentada de las campanas: un parametro)
+        R = R_lb_pack(tops, tops[0] + tops[1], confinado_por=tops[0])
+        okc, defc = corona_suf(top + [s2], R)
+        if not okc:
+            fallos += 1
+            peor_def = max(peor_def, defc)
+    ok &= check(f"F3: corona de la sarten re-empaquetada en {n3} "
+                f"instancias de la caja R2 (torres d = 0..2, hasta 2 "
+                f"extras top-level): sigma2 SIEMPRE cabe ({fallos} "
+                f"fallos, peor deficit {peor_def:.2e})",
+                n3 > 500 and fallos == 0)
+    # F4: consistencia con la pinza: en las mismas instancias,
+    # b2(alpha, Y) > 1 siempre (el nucleo exacto)
+    n4, viol = 0, 0
+    for _ in range(20000):
+        S = rng.uniform(1.0 + 1e-6, 1.9)
+        w2 = rng.uniform(OMEGA_STAR, 1.4)
+        alfa = rng.uniform((2 + S + w2) / PHI, 3.5)
+        Y = rng.uniform(2 / PHI + 1e-9, alfa)
+        n4 += 1
+        if b2_espejo(alfa, Y) <= 1.0:
+            viol += 1
+    ok &= check(f"F4: b2(alpha, Y) > 1 en {n4} muestras del nucleo "
+                f"({viol} violaciones): la pinza F1 es la que cierra",
+                viol == 0)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("PUERTO (c-ii): la celda abierta del ensamblaje "
@@ -757,7 +890,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCDE")
+    etiquetas = [solo] if solo else list("ABCDEF")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"

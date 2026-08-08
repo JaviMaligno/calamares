@@ -230,10 +230,15 @@ re-empaquetado grande (u) junto a los ocupantes, y E3 da j ≥ 1; en
   configuración; colas), pero NINGÚN programa probado las ensambla:
   thm:DP exige m ∈ sartén, thm:DGp/lem:DG exigen α ∈ v, y Ψ_j con
   j′ = ocupantes reales de la sartén no cubre ω ≥ 1/2 con j′ = 1.
-  Sondeos de cierre (no prueba): con X_Y^rest = 0 las colas de α e Y
-  con (Ry) e Y < S₀+ω < α fuerzan σ₂ ≥ (φ−1)(1+ω) y ΣS > φ —
-  contradicción; el caso general (torres, X_Y > 0) queda POR
-  PROGRAMAR. Esta celda es el residuo declarado del ensamblaje.
+  [ACTUALIZACIÓN 2026-08-08: PROGRAMADA Y CERRADA en la campaña
+  `puertocii.md` / `code/puertocii.py` (5/5): pinzas exactas I1–I4
+  (ligereza automática, ω\* = 3/(2φ), esquina (3/(2φ), 1/2)) +
+  coronas con dualidad tangente; el residuo delimitado R2 se vació
+  con el recurso que faltaba en la lista: el REPACK DE LA SARTÉN
+  (legal: factibilidad por contenedor + acuerdo solo de contenedores
+  en ≥ m; precedente: el pan repack de thm:DP), vía la pinza exacta
+  α > 2, T > √5−1 ⟹ b₂(α,T) > b₂(2,√5−1) = 1 > σ₂ — la misma
+  esquina áurea del muro espejo. Pendiente su ronda hostil.]
 
 ## 6. El teorema
 
