@@ -325,6 +325,51 @@ theorem corner_pi :
   decide +kernel
 
 /-!
+## Lema de dualidad/zigzag y ensamblaje
+(`docs/drafts/zigzag.md`, `docs/drafts/ensamblaje.md`;
+scripts `code/zigzag.py` bloque A, `code/ensamblaje.py` bloques A/F)
+-/
+
+/-- (33) DIC áurea, discriminante de Descartes CERO: con curvaturas
+`k_a = 1/φ`, `k_b = 1`, `k_w = −1/(φ+1)` (pared cóncava),
+`k_a·k_b + k_b·k_w + k_w·k_a = 0`: el bolsillo del par `{φ, 1}` en el
+disco `R = φ+1` es la tangencia crítica del modelo. [zigzag.py A] -/
+theorem descartes_disc_zero :
+    (1 / phi) * 1 + 1 * (-(1 / (phi + 1)))
+      + (-(1 / (phi + 1))) * (1 / phi) = 0 := by
+  decide +kernel
+
+/-- (34) El radio del bolsillo áureo: con disc = 0,
+`k_p = k_a + k_b + k_w = 2/φ` y el radio es `1/k_p = φ/2` — exactamente
+el `b₂(φ,1)` de la rigidez y el σ crítico del contraejemplo.
+[zigzag.py A] -/
+theorem descartes_pocket_golden :
+    1 / (1 / phi + 1 - 1 / (phi + 1)) = phi / 2 := by
+  decide +kernel
+
+/-- (35) NS-2 áurea es IGUALDAD: con `R = φ+1` y `f(x) = x/(R−x)`,
+`f(φ)·f(φ/2) + f(1)·f(φ/2) = 1` y `f(φ)·f(1) = 1` (par diametral):
+`θ(φ, φ/2) + θ(φ/2, 1) = π = θ(φ, 1)`.  El margen NS-2 se anula en
+`s = φ/2` = bolsillo de Descartes: la dicotomía hueco/muro reconoce el
+contraejemplo como su punto crítico exacto. [zigzag.py A/E] -/
+theorem ns2_golden :
+    (phi / (phi + 1 - phi)) * ((phi / 2) / (phi + 1 - phi / 2))
+      + (1 / (phi + 1 - 1)) * ((phi / 2) / (phi + 1 - phi / 2)) = 1
+    ∧ (phi / (phi + 1 - phi)) * (1 / (phi + 1 - 1)) = 1 := by
+  decide +kernel
+
+/-- (36) La línea áurea de la herencia (N): `φ² − φ/2 = 1 + φ/2` y
+`φ < 1 + φ/2`: la celda (N) con j = 1 cierra para todo `ω ≤ 1` al nivel
+áureo (lema-extensión, C4). [ensamblaje.py F] -/
+theorem golden_line_N :
+    phi ^ 2 - phi / 2 = 1 + phi / 2 ∧ phi < 1 + phi / 2 := by
+  decide +kernel
+
+/-- (37) La esquina áurea del muro espejo: `b₂(2, √5−1) = 1` exacto
+(numerador y denominador valen 8). [thm:DP (ii); ensamblaje.py A] -/
+theorem b2_mirror_corner : b2 2 (sqrt5 - 1) = 1 := by decide +kernel
+
+/-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
 
