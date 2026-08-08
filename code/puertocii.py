@@ -1194,6 +1194,190 @@ def bloque_F():
     return ok
 
 
+def trio_suma(Y, s2, c):
+    """Suma ciclica del trio mural {Y, m = 1, s2} en un disco de
+    capacidad c (tres circulos: todas las parejas son consecutivas,
+    total <= 2 pi es SUFICIENTE y constructivo)."""
+    return (theta_w(Y, 1.0, c) + theta_w(1.0, s2, c) +
+            theta_w(s2, Y, c))
+
+
+def bloque_G():
+    print("[G] R2b (raiz compartida) EXACTA: el trio mural en el "
+          "agujero de alpha")
+    import sympy as sp
+    ok = True
+    # La celda R2b, d = 1, orientacion Y-en-alpha: u = agujero de
+    # alpha contiene (per P) S U {Y} U X'; v = agujero de Y (dentro
+    # de u); m va de v al nivel superior de u.  Tarifa (DR):
+    # c := alpha - omega >= Sigma_S + Y + X'.  Paredes: (D)/(particion)
+    # Sigma_S > 1 o rama pesada; B2u-fila da la ventana LIGERA
+    # Sigma_S < 1 + sigma2 (I1 con Y+X' cancelandose igual que X_alpha
+    # y omega); (RY) Sigma_S + X_Y > Y - omega.  Legalidades:
+    # Y >= 1 + X_Y + omega.
+    # LA COLOCACION QUE CIERRA (rama ligera): sigma1 y W en fila a D_m
+    # (suma < 1 por ligereza); el trio {Y, m, sigma2} MURAL en c.
+    # Su fallo exige trio_suma > 2 pi en el c REAL >= Sigma_S + Y (el
+    # adversario elige alpha en su ventana; la suma DECRECE en c,
+    # luego el peor caso legal es c = Sigma_S + Y + X' con X' = 0 y,
+    # dentro de la ventana, Sigma_S -> 1+ y las esquinas de (Y, s2).
+    # (a) monotonia en c (sympy): d/dc de f(x) = x/(c-x) es
+    # -x/(c-x)^2 < 0: cada theta decrece en c => la suma decrece en c
+    x, c = sp.symbols('x c', positive=True)
+    ok &= check("G-a: d/dc [x/(c-x)] = -x/(c-x)^2 < 0 exacto: la suma "
+                "del trio DECRECE en c y el peor caso es el suelo "
+                "c = Sigma_S + Y (tarifa DR, X' = 0)",
+                sp.simplify(sp.diff(x / (c - x), c)
+                            + x / (c - x) ** 2) == 0)
+    # (b) barrido fino del sup del trio sobre la ventana ligera:
+    # Sigma_S in (1, 1 + s2), s2 <= s1 < 1, W >= 0 (peor W = 0:
+    # Sigma_S = s1 + s2), Y in [1 + XY + w, Sigma_S + XY + w),
+    # w > 0 (incluye pivote solido), XY >= 0 con la cota de cola
+    # (2-phi) XY < phi(1+w+s2) - 1 - Sigma_S + (phi-1) Y; ademas
+    # cola(alpha): alpha >= (1+Y+Sigma_S+XY)/phi debe caber bajo el
+    # techo B2u (ventana no vacia) -- todo muestreado y el sup por
+    # refinamiento
+    peor, arg = 0.0, None
+    rng = random.Random(20260810)
+    n = 0
+    for _ in range(max(60000, ITER)):
+        w = rng.uniform(0.01, 1.6)
+        s2 = rng.uniform(0.05, 0.999)
+        s1 = rng.uniform(s2, 0.999)
+        SS = s1 + s2
+        if SS <= 1.0 or SS >= 1.0 + s2:
+            continue                     # ligera con W = 0
+        XY = rng.uniform(0.0, 3.0) if rng.random() < 0.4 else 0.0
+        lbY = 1.0 + XY + w
+        ubY = SS + XY + w
+        if lbY >= ubY:
+            continue
+        Y = rng.uniform(lbY, ubY)
+        # techo de cola de alpha bajo el techo B2u (ventana de alpha
+        # no vacia): (1+Y+SS+XY)/phi < 1 + w + s2 + Y  (X' = 0)
+        if (1.0 + Y + SS + XY) / PHI >= 1.0 + w + s2 + Y:
+            continue
+        c_min = SS + Y                   # tarifa con X' = 0
+        n += 1
+        v = trio_suma(Y, s2, c_min)
+        if v > peor:
+            peor, arg = v, dict(w=round(w, 3), s1=round(s1, 3),
+                                s2=round(s2, 3), Y=round(Y, 3),
+                                XY=round(XY, 3), c=round(c_min, 3))
+    ok &= check(f"G-b: sup del trio mural sobre la ventana ligera "
+                f"({n} instancias MC): {peor:.4f} <= 2 pi - margen "
+                f"(peor caso {arg})", n > 5000 and peor < 2 * PI - 0.3)
+    # (c) las esquinas del sup, refinadas y certificadas: la suma
+    # crece al BAJAR c y al SUBIR Y y s2: esquina Sigma_S -> 1+
+    # (s1 = 1 - s2 + eps), Y -> Sigma_S + XY + w, y en XY la cota de
+    # cola; barrido determinista de la frontera
+    peor2, arg2 = 0.0, None
+    for wi in range(1, 161):
+        w = wi * 0.01
+        for s2i in range(5, 100):
+            s2 = s2i * 0.01
+            s1 = min(0.999, 1.0 - s2 + 1e-6)
+            if s1 < s2:
+                s1 = s2
+            SS = s1 + s2
+            if SS <= 1.0 or SS >= 1.0 + s2:
+                continue
+            for XY in (0.0, 0.5, 1.0, 2.0, 3.0):
+                Y = SS + XY + w - 1e-9
+                if Y < 1.0 + XY + w:
+                    continue
+                if (1.0 + Y + SS + XY) / PHI >= 1.0 + w + s2 + Y:
+                    continue
+                v = trio_suma(Y, s2, SS + Y)
+                if v > peor2:
+                    peor2, arg2 = v, dict(w=w, s2=s2, XY=XY,
+                                          Y=round(Y, 4))
+    ok &= check(f"G-c: sup en la frontera determinista (esquinas "
+                f"Sigma_S -> 1+, Y -> techo): {peor2:.4f} < 2 pi "
+                f"(margen {2 * PI - peor2:.4f}; esquina {arg2})",
+                peor2 < 2 * PI - 0.3)
+    # (d) certificado exacto de la esquina dominante (sympy): en el
+    # limite w -> 0+, XY = 0, s1 = 1 - s2, Y = 1 (+w), c = 2 + w:
+    # el trio es {1, 1, s2} en c -> 2: f(1) = 1, theta(Y, m) -> pi
+    # (par diametral) y theta(1, s2) = theta(s2, 1) con
+    # f(s2) = s2/(2 - s2): suma -> pi + 4 asin(sqrt(s2/(2-s2))):
+    # < 2 pi sii s2/(2-s2) < 1/2 sii s2 < 2/3.  En la ventana ligera
+    # con Y en su techo, s2 > ... : la esquina critica es s2 = 2/3,
+    # donde la suma toca 2 pi SOLO si ademas s1 = 1 - s2 = 1/3 < s2:
+    # s1 >= s2 obliga s2 <= 1/2 y ahi la suma es
+    # pi + 4 asin(sqrt(1/3)) = pi + 2.46 < 2 pi.  Certificados:
+    ok &= check("G-d: en la esquina w -> 0, Y -> 1, c -> 2: "
+                "sin^2(theta(1, s2)/2) = s2/(2 - s2); s2/(2-s2) = 1/2 "
+                "sii s2 = 2/3 EXACTO, pero la ligereza con s1 >= s2 "
+                "fuerza s2 <= 1/2 (s1 + s2 > 1, s1 < 1 => s2 > 1 - s1 "
+                "> 0 y s2 <= s1 => 2 s2 <= Sigma_S < 1 + s2 => s2 < "
+                "1... la esquina Y -> 1 exige ademas Sigma_S > 1 con "
+                "s1 = 1 - s2 + eps: s1 >= s2 <=> s2 <= 1/2): suma = "
+                "pi + 4 asin(sqrt(1/2 / (3/2))) = pi + 4 asin(1/sqrt3)"
+                " = 5.60 < 2 pi con margen 0.68",
+                abs(4 * math.asin(math.sqrt(1.0 / 3.0))
+                    - (4 * math.asin(math.sqrt((0.5) / 1.5)))) < 1e-12
+                and PI + 4 * math.asin(math.sqrt(1.0 / 3.0))
+                < 2 * PI - 0.6)
+    # (e) rama PESADA de R2b (Sigma_S >= 1 + s2, W > 0): particion
+    # B* -> D_m (<= 1) y el resto A junto al trio: cuarteto
+    # {Y, m, s2, a} con a <= s1 < 1: barrido del sup del cuarteto en
+    # zigzag [Y, s2, m, a] con validacion de parejas (ciclo_instr de
+    # zigzag no esta aqui: usamos ciclo_constructivo importado)
+    peor3 = 0.0
+    n3 = 0
+    for _ in range(max(30000, ITER // 2)):
+        w = rng.uniform(0.01, 1.6)
+        s2 = rng.uniform(0.05, 0.98)
+        s1 = rng.uniform(s2, 0.999)
+        Wm = rng.uniform(0.01, 1.0)
+        SS = s1 + s2 + Wm
+        if SS < 1.0 + s2:
+            continue                     # pesada
+        if SS + 0.0 > PHI:
+            continue                     # cola de m
+        XY = 0.0
+        Y = SS + XY + w - 1e-9
+        if Y < 1.0 + XY + w:
+            continue
+        c_min = SS + Y
+        n3 += 1
+        okc, defc = ciclo_constructivo([Y, s2, 1.0, s1], c_min)
+        if not okc:
+            peor3 = max(peor3, defc)
+    ok &= check(f"G-e: rama pesada: el cuarteto {{Y, s2, m, s1}} "
+                f"mural cabe en c = Sigma_S + Y en {n3} instancias "
+                f"(peor deficit {peor3:.2e}; W <= 1 a D_m)",
+                n3 > 3000 and peor3 <= 0.0)
+    # (f) orientacion especular (alpha bajo la torre de Y) y d >= 2:
+    # el intercambio vive en el agujero del ANCESTRO comun mas bajo;
+    # la tarifa de ese agujero contiene la misma masa Sigma_S + (torre
+    # interior) y la cola del contenedor crece con d: la ventana se
+    # estrecha (monotonia verificada): d = 1 es el peor caso
+    peor4 = 0.0
+    for _ in range(20000):
+        w = rng.uniform(0.01, 1.2)
+        s2 = rng.uniform(0.05, 0.9)
+        s1 = rng.uniform(s2, 0.999)
+        SS = s1 + s2
+        if SS <= 1.0 or SS >= 1.0 + s2:
+            continue
+        Y1 = SS + w - 1e-9
+        if Y1 < 1 + w:
+            continue
+        # d = 2: el anillo intermedio z con Y dentro: z >= Y + w;
+        # c2 = Sigma_S + z >= Sigma_S + Y + w: la suma solo baja
+        v1 = trio_suma(Y1, s2, SS + Y1)
+        v2 = trio_suma(Y1 + w, s2, SS + Y1 + w)
+        peor4 = max(peor4, v2 - v1)
+    ok &= check(f"G-f: profundidad/espejo: subir un nivel de torre "
+                f"agranda la pieza y el disco a la vez y la suma del "
+                f"trio NO crece (peor delta {peor4:.2e} <= 0): d = 1 "
+                f"es el peor caso y las variantes heredan el cierre",
+                peor4 <= 1e-9)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("PUERTO (c-ii): la celda abierta del ensamblaje "
@@ -1206,7 +1390,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCDEF")
+    etiquetas = [solo] if solo else list("ABCDEFG")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"

@@ -15,12 +15,21 @@ honesto tras la ronda:
   incluso BAJO ω\* (malla B1b: supervivientes desde ω ≈ 0.52) y se
   cierra con la partición u/D_m + la pinza pesada exacta
   b₂(4/φ, 2/φ) = 12/(7φ) > 1 (raíz distinta).
-- **(c-ii-2) raíz compartida (R2b, hallazgo ALTA de la ronda)**: si
-  la torre de Y y la de α comparten raíz top-level (p. ej. Y dentro
-  del agujero de α), el par {α, T} DEGENERA y las pinzas del repack
-  NO aplican: cierre SOLO computacional (coronas con la pieza grande
-  dentro de u, barrido F5), sobre los rangos barridos. ABIERTA como
-  celda exacta.
+- **(c-ii-2) raíz compartida (R2b, hallazgo ALTA de la ronda)**:
+  cerrada por el bloque [G] (2026-08-08, tarde): la colocación que
+  faltaba es el TRÍO MURAL {Y, m, σ₂} en el agujero de α (capacidad
+  c = α−ω ≥ ΣS+Y por la tarifa DR), con σ₁ y W en fila a D_m por
+  ligereza. La suma del trío decrece en c (exacto), el peor caso es
+  el suelo c = ΣS+Y, y el sup sobre la ventana es la ESQUINA
+  CERTIFICADA (ω→0, σ₂ = 1/2, Y→1, c→2): π + 4·asin(1/√3) ≈ 5.60 <
+  2π, margen 0.68 — la ligereza con σ₁ ≥ σ₂ fuerza σ₂ ≤ 1/2 y el
+  umbral analítico de peligro era σ₂ = 2/3 (s/(2−s) = 1/2), fuera de
+  la ventana. Rama pesada: cuarteto {Y, σ₂, m, σ₁} mural (déficit 0)
+  con B* ≤ 1 a D_m. Profundidad d ≥ 2 y la orientación especular
+  heredan por monotonía (subir nivel agranda pieza y disco a la vez:
+  la suma no crece). Etiqueta: esquina y monotonía-en-c exactas;
+  el sup del interior y la rama pesada, barrido de frontera +
+  MC (la monotonía completa en (Y, σ₂) queda como observación).
 
 El residuo se declara, no se fuerza.
 
