@@ -658,17 +658,22 @@ protection that disk geometry grants the greedy over additive
 bookkeeping, and $T$ is the exact floor of the rigid nested family
 (Theorem~\ref{thm:rigidfloor}), the proved floor of every nested
 template of Sections~\ref{sec:width}--\ref{sec:generic}, and the
-conjectured universal floor of nested exchanges (the remaining nested
+conjectured universal floor of nested exchanges (the remaining
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in full for pair profiles in
-Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}), and for larger
+Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}), for extra small
+rings by adjunction (Corollary~\ref{cor:DSpan}), and for larger
 profiles outside a single heavy cell
 (Theorems~\ref{thm:DPp} and~\ref{thm:DPr}) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
 $\omega\in(0,1)$
 via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
-$\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- and every proved floor
-of the nested exchange exceeds $T>\varphi$ with margin.
+$\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- every proved floor
+of the nested exchange exceeds $T>\varphi$ with margin, and every
+residual cell of the exchange assembly is closed computationally
+with duality-certificate backing (Appendix~\ref{app:campaign}),
+leaving open at the exact level only the shared-root port cell and
+the $(j,p,k)$ scaling laws.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -962,7 +967,7 @@ where the golden line still gives $\varphi^2-\tfrac\varphi2\omega
 \ge\varphi^2-\tfrac\varphi2=1.809>\varphi$) and at $j=3$
 ($\omega\ge0.896$, where $\Psi_3(\omega)>\Psi_3(1)=\sqrt3>\varphi$)
 matter only for pinning the nested threshold at exactly $T$. Three
-nested gaps, however, are also open \emph{at the golden level}: the
+nested gaps were also open \emph{at the golden level}: the
 $j=2$ tip for $\omega\in[\varphi/2,1)$, where the proved floor
 $\Psi_2(\omega)$ crosses $\varphi$ at $\Psi_2(\varphi/2)=\varphi$
 exactly and no other wall applies; the quantitative ``gap lemma''
@@ -970,7 +975,10 @@ exactly and no other wall applies; the quantitative ``gap lemma''
 only the combinatorial floor $\rho^*_3(\omega)$ survives (above
 $\varphi$ only for $\omega\le1-\varphi/2$); and profiles of four or
 more pieces beyond the reduction branch (and $k\ge3$ with extra
-occupants beyond it), which sit on the same combinatorial floor. Each statement in this section is backed by a verification
+occupants beyond it), which sit on the same combinatorial floor.
+All three are closed computationally, with duality-certificate
+backing and adversarial verification, in
+Appendix~\ref{app:campaign}. Each statement in this section is backed by a verification
 script and an adversarial verification report in the repository
 (Appendix~\ref{app:verifmap}).
 
@@ -1134,18 +1142,25 @@ $U_4$-based wall ($o_2<1+1/o_1$) and a pincer on the smallest node above
 $o_2$ closing the rest. Larger profiles are closed in the light,
 nested, heavy-large and heavy-$\Psi_B$ regimes of
 Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
-Open after Theorem~\ref{thm:DPr}: the single heavy cell
-$\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$,
-extra small rings, and the solid-pivot regime $\omega\ge1$ for
-$j\ge3$. (b)~\emph{Assemble the universal
-reinsertion lemma} for the nested exchange from the proved floors. The
-$j=1$ and $j=3$ width tips matter only for pinning the nested threshold
-at exactly $T$; but three nested gaps are open at the golden level
-itself (see the Status paragraph of Section~\ref{sec:generic}): the
+After Theorem~\ref{thm:DPr}, extra small rings adjoin to the profile
+(Corollary~\ref{cor:DSpan}, a complete proof), and the single heavy
+cell $\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$ and the solid-pivot regime
+$\omega\ge1$, $j\ge3$ are closed computationally with
+duality-certificate backing (Appendix~\ref{app:campaign}).
+(b)~\emph{Assemble the universal reinsertion lemma} for the nested
+exchange from the proved floors. The $j=1$ and $j=3$ width tips
+matter only for pinning the nested threshold at exactly $T$; the
+three nested gaps that were open at the golden level itself (the
 $j=2$ tip $\omega\in[\varphi/2,1)$, the quantitative gap lemma, and
-profiles of four or more pieces beyond the reduction branch. Closing
-Conjecture~\ref{conj:golden} requires those three as well as~(a), plus
-the solid-pivot regime beyond the cases proved width-free.
+profiles of four or more pieces beyond the reduction branch) are
+closed computationally in Appendix~\ref{app:campaign}, and the
+exchange assembly -- the case partition over the containers of $m$,
+the container port, and the $\alpha\notin v$ campaign -- is carried
+out there with its facts at theorem level. What remains open for a
+full proof of Conjecture~\ref{conj:golden} is exactly: an exact-level
+closure of the shared-root cell of the port (computationally closed),
+and the $(j,p,k)$ scaling laws that would convert each computational
+closure into a theorem.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -3007,6 +3022,44 @@ nested one; reports in the repository). These are computational
 closures: the per-instance certificate is theorem-backed as above,
 the swept ranges are stated, and the extension in $(j,p,k)$ rests on
 the monotonicity evidence recorded by the scripts.
+
+\paragraph{The exchange assembly.} The exchange step of
+Theorem~\ref{thm:oblivious} is assembled into a case partition
+(a theorem: containers are the unique pan or holes of rings larger
+than $m$, and $u\ne v$): (a)~$u$ is the pan -- the template of
+Theorems~\ref{thm:DP}--\ref{thm:DPr} plus the closures above;
+(b)~$u$ is the hole of a top-level $\alpha$ and $v$ is the pan -- the
+nested templates plus the closures above; (c)~the \emph{container
+port}. Assembly facts (theorems): $|S|\le1$ never blocks (a single
+$\sigma<r_m$ rows into $D_m$; with $S=\emptyset$, $m$ moves under
+$F$'s own certificate, containers of larger rings being shared);
+feasibility is per-container and positions are existential (Section~2),
+so repacking any container is a legal resource -- the pan repack of
+Theorem~\ref{thm:DP} is the precedent; and every geometric wall
+descends by antitone containment to the intrinsic disk of its
+members, so walls port to any container with the corresponding
+capacity. Porting \emph{programs} additionally needs their
+cohabitation hypotheses, which yields the closure split: if $\alpha$
+is a direct member of $v$, case~(b) is inherited verbatim with
+$R\mapsto Y-\omega$ (theorem); an extension lemma transports the
+$(N)$-heritage walls with the load travelling inside $\sigma_1$
+(monolith for placements not using $\sigma_1$'s hole, exact
+absorption of the fattened $B_3'$ in the golden-line chain). The
+genuinely new configurations -- $\alpha$ outside $v$ -- were closed
+by a dedicated campaign (script \texttt{puertocii}, 6/6, two hostile
+rounds): exact pincers reduce the light profile to a window that is
+empty for $\omega_{\mathrm{ef}}\le3/(2\varphi)$ (the corner
+degenerates at $\sigma_2=\tfrac12$ exactly), and inside the window
+the pan repack places $\sigma_2$ in the mirror pocket of the
+top-level pair, by $\alpha>2$, $T>\sqrt5-1$ and monotonicity of
+$b_2$ against the corner $b_2(2,\sqrt5-1)=1$; the heavy profile is
+closed by an exact partition pincer ($b_2(4/\varphi,2/\varphi)
+=12/(7\varphi)>1$); towers, the $Y\ge\alpha$ branch and the
+shared-root configurations (where the top-level pair degenerates)
+are closed by the corona certificates over the swept ranges. The
+honest residue of the whole program is therefore: the shared-root
+cell at the exact level (computationally closed, no exact pincer
+yet), and the $(j,p,k)$ scaling of every computational closure.
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
