@@ -1215,3 +1215,218 @@ coronanidada C3 (el suelo S₀+ω solo con el par que vive en u).
   ahora probado); (c-ii) (α ∉ v) es la celda abierta declarada del
   ensamblaje, junto con la ley de escala (j, p, k) y los lemas de
   dualidad/zigzag ya conocidos.
+
+# Acta: campaña (c-ii) y cierre de R2 (ronda hostil)
+
+Fecha: 2026-08-08. Adversario hostil sobre `code/puertocii.py`
+(bloques A–F), `docs/drafts/puertocii.md` y la ACTUALIZACIÓN de
+`docs/drafts/ensamblaje.md` §5 que declaraba (c-ii) cerrada.
+Corridas: baseline 6/6 con CC_ITER = 60000; tras las reparaciones,
+6/6 con CC_ITER = 60000 (oficial) y 6/6 con CC_ITER = 150000 y
+semillas alteradas (77260808/377/77260809/997/131, copia en
+scratchpad). Sondeos adversarios independientes en scratchpad
+(rama pesada, rama Y ≥ α, sub-celda de raíz compartida).
+
+## VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES Y RECORTES
+
+El recurso central del bloque [F] — el repack de la sartén — es
+LEGAL (A1 confirmado contra la definición del paper). Pero el
+«cierre de R2» tal como estaba enunciado era FALSO en dos frentes
+(H1, H2): la pinza del par no cubre la sub-celda de raíz compartida
+y la reducción por «ligereza automática I1» era errónea para
+perfiles con W > 0. Tras 6 reparaciones el estado honesto es:
+(c-ii) cerrada SALVO la sub-celda R2b (raíz compartida), que queda
+computacional-declarada, más el [ENUNCIADO] de legalidad del repack
+y el gap-dualidad de F3 delimitado. La frase «la celda (c-ii) deja
+de ser residuo del ensamblaje» se RETIRA.
+
+## A1 (la línea que decidía): legalidad del repack — CONFIRMADA
+
+- La definición de placement del paper (Sección 2, «Rings and
+  placements») dice literalmente: «Feasibility is a property of the
+  assignment (siblings may be rearranged freely inside their
+  container)». La factibilidad ES por contenedor y existencial en
+  posiciones; las posiciones no forman parte del dato.
+- La iteración de thm:oblivious solo requiere que P′ sea un testigo
+  factible que COINCIDA EN CONTENEDOR con F en los anillos ≥ m
+  («agreeing with F on all rings of radius ≥ r_m: the first
+  disagreement strictly shrinks»). Las frases «they touch nothing
+  else in v» y «rings larger than m, which do not move» pertenecen
+  al certificado CONSTRUCTIVO del caso superincreciente (así se
+  exhibe la factibilidad de ese P′ concreto sin re-empaquetar), no
+  a la noción de paso admisible. Un P′ que reordena posiciones
+  dentro de la sartén sin cambiar ningún contenedor es un testigo
+  válido de la misma iteración.
+- Precedentes en el propio paper y del MISMO paso de intercambio
+  bloqueado: lem:DG («full repacking is a legal resource: children
+  travel inside their parents, positions are existential»; cor:DS
+  lo reconoce como «the global repacking of the pan») y
+  thm:DP/app:pan-app (recursos: «…and the pan repack»). En (c-ii-2)
+  la sartén es un contenedor TERCERO (ni u ni v): sigue siendo
+  legal por la definición — mover σ₂ (< m) a la sartén y reordenar
+  posiciones no toca ningún contenedor de anillos ≥ m.
+- Matiz que el bloque F ya respeta tras la reparación: el repack
+  debe RE-ALOJAR a todos los miembros top-level de la sartén
+  (extras incluidos), no solo al par. F3 lo hace; F1e/F1f se
+  enuncian con la sartén = {par} y extras vía F3.
+- ETIQUETA: sigue siendo [ENUNCIADO] (la prueba formal del lema
+  «bloqueo ⟹ fallo de la colocación re-empaquetada» vive en el
+  draft/paper, no en el script). Correcto declararlo así.
+
+## Hallazgos
+
+**H1 (ALTA — REFUTA el enunciado original de [F]): sub-celda de
+raíz compartida (R2b).** F afirmaba «la sartén contiene a α y al
+tope T de la torre de Y (top-level, compartidos)». FALSO si la
+torre de Y tiene raíz α (Y — o su ancestro z — miembro directo del
+agujero de α; también en la variante especular α bajo la torre de
+Y). Es una configuración de (c-ii-2) legítima (u = agujero de α,
+v = agujero de Y ⊂ u, α ∉ v) y CONSISTENTE con todas las paredes:
+verificado con instancia concreta (ω = 1, σ = {0.75, 0.72},
+Y = 2 ∈ u, X_α = Y, α = 4.5: E4, B2u, RY, BH, D, colas y ρ ≤ φ
+todos satisfechos; sondeo del scratchpad). Ahí el par {α, T}
+degenera (T = α), la sartén puede ser {α} sola con R = α, y las
+pinzas F1e/F1f NO aplican. Además el barrido B2 con X_α ≤ 1.5 no
+podía ni rozar la sub-celda (exige X_α ≥ Y ≥ 1+ω ≈ 2).
+REPARACIÓN: bloque F5 nuevo (barrido estructural con Y o z dentro
+de u, d = 1..2, partición + corona-Y + corona-z + corona-α con la
+pieza grande dentro, en la peor capacidad α = lb(α)): 31 304
+instancias consistentes con semillas alteradas, 0 residuo — las
+coronas cierran porque E4 con Y ∈ u infla la capacidad
+(α−ω ≥ ΣS+X_α ≥ ΣS+Y). PERO el cierre es SOLO computacional y con
+alcance declarado: R2b queda ABIERTA como celda exacta y vuelve al
+residuo del ensamblaje. X_α en B2 ampliada a 3.0.
+
+**H2 (ALTA — REFUTA la «ligereza automática»): rama pesada y
+puerta (D).** I1 («E4+B2u ⟹ todo perfil de (c-ii) es ligero») es
+falsa como reducción: B2u es una rama de la DISYUNCIÓN «fila en u
+falla ∨ fila en D_m falla». En la rama pesada (ΣS ≥ 1+σ₂, solo
+W > 0) E4 hace CABER la fila {m, σ₂} en u y el atasco pasa a
+{σ₁} ∪ W: el script la despachaba como cierre ('I1-ligereza' en
+B2/C/D) — ERROR. Además la puerta «(D): S₀ > 1» estaba cableada en
+TODOS los muestreos; la pared limpia es ΣS > 1 (la forma S₀ > 1
+exige W alojada) y S₀ ≤ 1 < ΣS es perfil legítimo del bloqueo.
+Sondeo adversario: 12 021 perfiles pesados consistentes, 278
+sobreviven al reparto ingenuo. CONSECUENCIA CUANTITATIVA: la caja
+pesada R2W NO respeta la esquina áurea — malla B1b: supervivientes
+de la partición desde ω ≈ 0.525, MUY por debajo de ω* = 3/(2φ); el
+enunciado «el residuo vive en ω > ω*» solo vale para el perfil
+ligero. REPARACIÓN: (i) recurso de PARTICIÓN exacta A⊎B = S
+(subconjuntos; fila A en u junto a m, fila B ≤ 1 en D_m) con techo
+generalizado ub(α) = 1+ω+X_α+(ΣS−B*) — subsume el B2u clásico;
+(ii) muestreos sin S₀ > 1 cableado y con pesados incluidos
+(B1b/B2/C/D); (iii) pinza EXACTA nueva F1f para R2W-raíz-distinta:
+BH + pesado ⟹ N ≥ 4 ⟹ α ≥ 4/φ, T > 2/φ, y b₂(4/φ, 2/φ) =
+12/(7φ) > 1 (⟺ 289 > 245, sympy): σ₁ y σ₂ a los DOS bolsillos
+espejo (y₀ = 2b₂) y W ≤ 1 a D_m; (iv) C1 evalúa pesados en la
+corona (C1W = 0 residuo); (v) E(c) reescrito (la «expulsión de la
+rígida por I1» era vacua: σ₁ < m estricto; su límite es pesado).
+R2W delimitada: 193 instancias en 150k, ω ∈ [0.578, 1.349], todas
+con F1f aplicable.
+
+**H3 (MEDIA — anticonservador): techo de Y con S₀.** `survive_c2`
+usaba lbY < S₀+X_Y+ω y F3 muestreaba ubY = S₀+X_Y+ω, pero la pared
+(RY) es la fila de TODO S: el techo correcto es ΣS+X_Y+ω. La forma
+S₀ cerraba de más (el par {σ₁,σ₂} a v exige W alojada, que no es
+automática) y abría un agujero de muestreo en F3 (Y ∈ [S₀+X_Y+ω,
+ΣS+X_Y+ω) sin barrer). REPARADO en ambos sitios y en la caja de
+`puertocii.md` §5. El cierre algebraico I3 bajo ω* no dependía del
+techo (B1 ligero sigue con 0 violaciones).
+
+**H4 (MEDIA — la rama Y ≥ α no es «vacía»).** I2 la vacía solo si
+X_Y+ω ≤ φ; con X_Y+ω > φ la rama RESPIRA (22 403 supervivientes de
+la condición necesaria en el sondeo con X_Y ≤ 2) y la afirmación
+del mapa «donde la cierra la pinza I3 vía ω_ef» era INCORRECTA (I3
+es la rama Y < α). Su cierre real es corona-Y, computacional y solo
+sobre los rangos barridos (X_Y ≤ 1–2, ω ≤ 1.35). En el sondeo el
+bolsillo del par sale b₂ > 1 en toda la muestra, pero no hay pinza
+exacta (con X_m grande y ω chico el suelo α > 1+ω no basta).
+REPARADO el texto (script y draft); la rama queda etiquetada
+computacional.
+
+**H5 (MEDIA — F3 no barría su caja).** X_m ≡ 0, X_α ≤ 0.5,
+X_Y ≤ 0.1 frente a un residuo B2 con X_α hasta 1.5 y X_Y hasta
+1.0; más el ubY de H3; más la línea muerta
+`s1 = rng.uniform(s2, min(1.0, 1 + s2 - s2))` (el min es
+idénticamente 1.0 — no era intencional: dejaba s1 ∈ [s₂, 1) sin
+imponer S₀ > 1, lo cual resultó CORRECTO tras H2, pero por
+accidente). REPARADO: rangos ampliados (X_α ≤ 1.5, X_Y ≤ 1.0,
+X_m ≤ 0.5 muestreado), ubY con ΣS, línea limpiada, modo pesado
+añadido (647 instancias pesadas en 150k), d = 0 mantiene el tope
+mínimo T = Y.
+
+**H6 (MEDIA — gap de dualidad en F3, aflorado por las semillas
+alteradas).** Con ≥ 3 tops casi iguales (p. ej. {3.08, 3.07, 2.95,
+1.53}) el certificado angular de `R_lb_pack` no ve los bolsillos y
+subestima el radio real mínimo de los PROPIOS tops: la corona con
+la carga falla en R = R_lb (3/4535 instancias, semillas alteradas)
+aunque a ese radio los tops tampoco caben de verdad. No es un
+contraejemplo del cierre: es el hueco necesidad-angular vs radio
+real ya conocido de las campañas. REPARADO honestamente: bisección
+de R_fit y delimitación del cociente (peor observado R_fit/R_lb =
+1.0116; umbral declarado 1.15); las instancias quedan DELIMITADAS
+con el estatus de la ley de escala, no maquilladas.
+
+**H7 (BAJA — verificaciones que pasaron).** F1c re-derivada a mano:
+N = 2+ΣS+X_m+X_α+2X_Y+ω con ω = ω_ef−X_α+φ(2X_Y+X_m) da
+N = 2+ΣS+ω_ef+(1+φ)X_m+(2+2φ)X_Y (X_α se cancela exactamente,
+coeficientes positivos) > 3+ω*, y (3+ω*)/φ > 2 ⟺ 2φ > 1: OK. El
+suelo α ≥ N/φ viene de cola(α) con {m, S, X_m, X_α, Y, X_Y} y
+Y ≥ 1+X_Y+ω, válido también con Y anidada bajo α (la cola es del
+multiconjunto). Contención monótona del par diametral: R ≥ suma
+del par por el criterio exacto de dos círculos (la sartén los
+contiene), y el subdisco concéntrico hereda: OK. Controles E:
+(a)/(b)/(d)/(e) muerden ((e): 58/58 fallos al 90% de R_lb). B3
+esquina (3/(2φ), 1/2) exacta: OK (solo perfil ligero, ahora
+declarado). Los docs decían «5/5» con 6 bloques: corregido.
+
+## Reparaciones aplicadas
+
+1. `code/puertocii.py`: `survive_c2` reescrita (piezas explícitas,
+   partición u/D_m con B*, techo de Y con ΣS, sin cierre
+   'I1-ligereza'; devuelve la clase ligero/pesado); helper
+   `b_star`; `torre_c1` con techo generalizado por partición.
+2. Malla B1 partida en ligera (claim exacto intacto: 0
+   supervivientes bajo ω*) + B1b pesada (delimitación, pinza
+   F-pesada verificada nodo a nodo); B2/C/D sin S₀ > 1 cableado,
+   con X_α ≤ 3.0, y con rutas/cajas nuevas R2W y C1W.
+3. Bloque F: F2 re-enunciado (cita de la definición de placement +
+   restricción de raíz distinta); F1e restringida; F1f nueva
+   (12/(7φ) > 1 exacto); F3 reparado (H5) + gap-dualidad (H6); F5
+   nuevo (R2b, H1); F4 intacto.
+4. `docs/drafts/puertocii.md`: cabecera, §1 (paredes corregidas),
+   §2 (I1 condicional, I2 con rama respirante), §3 (B1b, R2W), §5
+   (caja R2 corregida, R2W y R2b nuevas), §6 y §8 reescritos al
+   estado honesto.
+5. `docs/drafts/ensamblaje.md` §5: bloque de ACTUALIZACIÓN
+   reescrito — (c-ii) NO desaparece del residuo: quedan R2b
+   (computacional-declarada), el [ENUNCIADO] del repack y el
+   gap-dualidad; la nota «pendiente ronda hostil» sustituida por la
+   referencia a esta acta.
+6. Copia con semillas alteradas en scratchpad (verde 6/6 a 150k):
+   el verde no depende de la semilla cableada.
+
+## Estado del script
+
+`code/puertocii.py`: 6/6 en verde. Corrida oficial CC_ITER = 60000:
+B1 1 088 541 nodos ligeros (0 bajo ω*), B1b 306 357 nodos pesados
+(5621 sobreviven, 4683 bajo ω*, 0 sin pinza F), B2 150 088
+instancias (residuo R2 = 552, 0 fuera de caja; R2W = 69, 0 sin
+pinza), C1 18 388 coronas (déficit ligero 0.0, C1W = 0), D 17 574
+enrutadas con 0 sin caso, F3 1790 con 0 gaps, F5 12 505 con 0
+residuo. Semillas alteradas CC_ITER = 150000: 6/6; B2 375 154
+(R2 = 1335, R2W = 193), C1 46 086, D 44 146, F3 4535 con 3 gaps
+≤ 1.0116, F5 31 304 con 0 residuo. Los números de residuo son
+DELIMITACIONES declaradas, no fallos.
+
+## Qué queda abierto tras esta ronda (recorte honesto)
+
+1. R2b (raíz compartida) como celda exacta: solo barrido F5
+   (d = 1..2; profundidades mayores y variante especular declaradas
+   sin barrido propio).
+2. El [ENUNCIADO] F2 (legalidad del repack como lema formal).
+3. La rama Y ≥ α con X_Y+ω > φ y las coronas: computacionales sobre
+   rangos (X ≤ 1–3, ω ≤ 1.35, k ≤ 5, j ≤ 3, d ≤ 3).
+4. El gap-dualidad de F3 (≥ 3 tops casi iguales) — mismo estatus
+   que la ley de escala.
+

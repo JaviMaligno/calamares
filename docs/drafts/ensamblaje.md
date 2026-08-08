@@ -230,15 +230,34 @@ re-empaquetado grande (u) junto a los ocupantes, y E3 da j ≥ 1; en
   configuración; colas), pero NINGÚN programa probado las ensambla:
   thm:DP exige m ∈ sartén, thm:DGp/lem:DG exigen α ∈ v, y Ψ_j con
   j′ = ocupantes reales de la sartén no cubre ω ≥ 1/2 con j′ = 1.
-  [ACTUALIZACIÓN 2026-08-08: PROGRAMADA Y CERRADA en la campaña
-  `puertocii.md` / `code/puertocii.py` (5/5): pinzas exactas I1–I4
-  (ligereza automática, ω\* = 3/(2φ), esquina (3/(2φ), 1/2)) +
-  coronas con dualidad tangente; el residuo delimitado R2 se vació
-  con el recurso que faltaba en la lista: el REPACK DE LA SARTÉN
-  (legal: factibilidad por contenedor + acuerdo solo de contenedores
-  en ≥ m; precedente: el pan repack de thm:DP), vía la pinza exacta
-  α > 2, T > √5−1 ⟹ b₂(α,T) > b₂(2,√5−1) = 1 > σ₂ — la misma
-  esquina áurea del muro espejo. Pendiente su ronda hostil.]
+  [ACTUALIZACIÓN 2026-08-08, revisada TRAS LA RONDA HOSTIL (acta
+  «campaña (c-ii) y cierre de R2» en `VEREDICTOS.md`): campaña
+  `puertocii.md` / `code/puertocii.py` (6/6 tras 6 reparaciones).
+  Estado honesto: (c-ii-1) cerrada al nivel D1–D6 (perfil pesado
+  incluido). (c-ii-2) se parte en DOS sub-celdas por la estructura
+  de raíces top-level: — RAÍZ DISTINTA (torre de α y torre de Y con
+  raíces distintas): CERRADA; exacta fuera de las cajas (I1
+  corregida a su rama ligera + partición u/D_m, I2 con su rama
+  X_Y+ω > φ declarada computacional, I3, techo de Y con ΣS) y
+  dentro de R2/R2W por el REPACK DE LA SARTÉN (legal por la
+  definición de placement del paper — «feasibility is a property of
+  the assignment» — y thm:oblivious exige acuerdo solo de
+  contenedores en ≥ m; precedentes lem:DG y el pan repack de
+  thm:DP), vía las pinzas exactas α > 2, T > √5−1 ⟹ b₂ > 1 > σ₂
+  (ligero) y N ≥ 4, b₂(4/φ, 2/φ) = 12/(7φ) > 1 (pesado, ambos
+  bolsillos); la legalidad del repack queda como [ENUNCIADO].
+  — RAÍZ COMPARTIDA (R2b: Y —o su ancestro— miembro del agujero de
+  α, o α bajo la torre de Y): el par {α, T} DEGENERA y las pinzas
+  del repack NO aplican (hallazgo ALTA de la ronda); cierre SOLO
+  computacional (F5: coronas con la pieza grande dentro de u,
+  d = 1..2, 0 residuo en los barridos); ABIERTA como celda exacta.
+  Además: el perfil pesado (ΣS ≥ 1+σ₂) NO respeta la esquina áurea
+  (caja R2W con supervivientes desde ω ≈ 0.525 < ω\*) y la antigua
+  «ligereza automática I1» era falsa para W > 0. La celda (c-ii)
+  aporta al residuo del ensamblaje: R2b (computacional-declarada) +
+  el [ENUNCIADO] de legalidad del repack + las etiquetas
+  computacionales de coronas y el gap-dualidad de F3 (delimitado,
+  estatus de ley de escala).]
 
 ## 6. El teorema
 

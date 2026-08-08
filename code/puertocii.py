@@ -36,13 +36,23 @@ COLAS (rho <= phi; multiconjunto de entrada, primera copia en empates):
   cola(z):     (1 + Sigma_S + X_m + X_alpha + alpha + X_z) <= phi*z.
 
 IDENTIDADES MOTOR (derivadas en [A], sympy):
-  I1 (ligereza automatica): E4 + B2u  =>  Sigma_S < 1 + sigma2, o sea
-     sigma1 + W < 1: en (c-ii) TODO perfil es LIGERO y el resto de S
-     (fila de suma Sigma_S - sigma2 < 1) SIEMPRE cabe en D_m: el
-     bloqueo se reduce a colocar sigma2.
+  I1 (ligereza CONDICIONAL — corregida en la ronda hostil 2026-08-08):
+     E4 + B2u-como-desigualdad  =>  Sigma_S < 1 + sigma2.  PERO B2u es
+     la rama "la fila en u falla" de una DISYUNCION: la colocacion
+     [A -> u junto a m; B -> fila en D_m] con A U B = S falla sii
+     (1 + Sigma_A + X_alpha > alpha-omega) OR (Sigma_B > 1).  En la
+     rama PESADA (Sigma_S >= 1+sigma2, solo posible con W > 0, k >= 3)
+     E4 hace caber la fila {m, sigma2} en u y el atasco es de
+     {sigma1} U W: el bloqueo NO se reduce a sigma2.  El recurso
+     correcto es la PARTICION exacta A/B (enumeracion de subconjuntos)
+     con el techo generalizado ub(alpha) = 1+omega+X_alpha+
+     (Sigma_S - B*), B* = mayor subconjunto de S con suma <= 1.
+     Con S = par (W = 0) la ligereza si es automatica (sigma1 < 1).
   I2 (colas cruzadas, rama Y >= alpha): cola(Y) con alpha dentro +
      E4 + (RY) es infactible salvo (phi-1)(X_Y+omega) >= 1: con
      X_Y = 0 exige omega >= phi (imposible, omega < 1 en anillo).
+     OJO (ronda hostil): con X_Y + omega > phi la rama RESPIRA; su
+     cierre es computacional (corona-Y / corona de la sarten), no I3.
   I3 (pinza de alpha, rama Y < alpha): cola(alpha) con Y dentro +
      Y >= 1+X_Y+omega + B2u  =>  supervivencia solo si
      Sigma_S < phi-2 + phi*s2 + (phi-1)*omega + (phi-1)*X_alpha
@@ -56,10 +66,14 @@ IDENTIDADES MOTOR (derivadas en [A], sympy):
      (X_z sin techo: la pinza no cierra sola; la corona de v con z
      engordado por su cola toma el relevo en (c-ii-1)).
 
-PROGRAMA: [A] identidades exactas; [B] (c-ii-2) con X_Y = 0 EXACTO +
-barrido MC general y delimitacion del residuo R2; [C] (c-ii-1) pinza
+PROGRAMA: [A] identidades exactas; [B] (c-ii-2) con X_Y = 0 EXACTO
+(ligero) + malla pesada B1b + barrido MC general y delimitacion de
+los residuos R2 (ligero) y R2W (pesado/S0 <= 1); [C] (c-ii-1) pinza
 (Rz)+cola(z) + corona de la sarten, torres d = 1..3, omega en (0,1) y
-pivote solido; [D] enrutado exhaustivo; [E] controles negativos.
+pivote solido, pesado incluido; [D] enrutado exhaustivo; [E] controles
+negativos; [F] repack de la sarten (pinzas F1e ligera / F1f pesada,
+SOLO raiz distinta) + [F5] sub-celda R2b de raiz compartida
+(DELIMITADA, ABIERTA).
 
 Conservadurismo: colas omiten masas opcionales salvo las declaradas;
 corona_suf/minimos heuristicos son cota superior del minimo (si una
@@ -84,34 +98,56 @@ FALLO_MIN = 1e-2    # fallo sin deficit angular cuenta como fallo pleno
 OMEGA_STAR = 3 / (2 * PHI)          # 0.92705... esquina de I3
 
 
-def survive_c2(w, s1, s2, W, Xm, Xa, XY):
-    """(c-ii-2): aplica las pinzas I1, cola(m), I2, I3 a una instancia
-    del bloqueo.  Devuelve (sobrevive, motivo_cierre_o_None).
+def b_star(piezas, cap=1.0):
+    """Mayor suma de un subconjunto de piezas <= cap (enumeracion
+    exacta, |piezas| <= 6): el mejor contenido de la fila en D_m."""
+    mejor = 0.0
+    n = len(piezas)
+    for mask in range(1 << n):
+        s = 0.0
+        for i in range(n):
+            if mask >> i & 1:
+                s += piezas[i]
+        if s <= cap + 1e-12 and s > mejor:
+            mejor = s
+    return mejor
+
+
+def survive_c2(w, s1, s2, Wp, Xm, Xa, XY):
+    """(c-ii-2): cola(m) + particion u/D_m (techo generalizado) + I2 +
+    I3 sobre una instancia del bloqueo con perfil S = {s1, s2} U Wp
+    (piezas explicitas).  Devuelve (sobrevive, motivo, ligero).
     Conservador: el adversario elige Y y alpha en sus rangos; aqui se
-    comprueba si ALGUN (Y, alpha) es consistente con paredes + colas."""
+    comprueba si ALGUN (Y, alpha) es consistente con paredes + colas.
+    CORRECCION (ronda hostil 2026-08-08): la rama pesada
+    (Sigma_S >= 1+s2) NO se despacha como cierre I1 — se ataca con la
+    particion exacta A/B: [A -> fila junto a m en u; B -> fila en D_m]
+    y el techo generalizado ub(alpha) = 1+omega+X_alpha+(Sigma_S-B*),
+    B* = mayor subconjunto de S con suma <= 1 (para toda particion con
+    Sigma_B <= 1 el bloqueo exige alpha-omega < 1+Sigma_A+X_alpha; el
+    techo activo es el de B = B*).  Con B* = S - s2 (perfil ligero,
+    S0 > 1) se recupera el B2u clasico.  Tambien corregido el techo de
+    Y: (RY) da Y < Sigma_S+X_Y+omega (fila de TODO S), no S0+..."""
+    W = sum(Wp)
     S = s1 + s2 + W
-    if S >= 1 + s2 - 1e-12:
-        return False, 'I1-ligereza'          # E4+B2u infactible
+    ligero = S < 1 + s2 - 1e-12
     if S + Xm > PHI + 1e-12:
-        return False, 'cola-m'
+        return False, 'cola-m', ligero
+    piezas = [s1, s2] + list(Wp)
+    Bs = b_star(piezas)
     # rama Y >= alpha (I2): phi*Y >= 1+S+Xm+XY+alpha+Xa (cola de Y con
     # alpha y su carga dentro), alpha >= S+Xa+omega (E4),
-    # Y < S0+XY+omega (RY con Sigma_S >= S0... conservador: usa S)
-    S0 = s1 + s2
-    ok_I2 = False
-    # techo de Y: RY => Y < S + XY + omega (fila de todo S); suelo de
-    # alpha: E4.  phi*(S+XY+w) > 1+S+Xm+XY+(S+Xa+w) es la condicion
-    # necesaria de supervivencia de la rama
-    if PHI * (S + XY + w) > 1 + S + Xm + XY + S + Xa + w + 1e-12:
-        ok_I2 = True
-    # rama Y < alpha (I3): lb(alpha) <= ub(alpha)
+    # techo de Y: RY => Y < S + XY + omega (fila de todo S)
+    ok_I2 = PHI * (S + XY + w) > 1 + S + Xm + XY + S + Xa + w + 1e-12
+    # rama Y < alpha (I3 con techo generalizado por particion)
     lbY = max(1 + XY + w, (1 + S + Xm + XY) / PHI)
     lb_a = max(S + Xa + w, 1 + w, (1 + S + Xm + Xa + XY + lbY) / PHI)
-    ub_a = 1 + s2 + Xa + w                    # B2u
-    ok_I3 = lb_a < ub_a - 1e-12 and lbY < S0 + XY + w - 1e-12
+    ub_a = 1 + (S - Bs) + Xa + w
+    ok_I3 = lb_a < ub_a - 1e-12 and lbY < S + XY + w - 1e-12
     if ok_I2 or ok_I3:
-        return True, None
-    return False, 'pinza-colas'
+        return True, None, ligero
+    return False, ('pinza-colas' if ligero else 'particion-pesada'), \
+        ligero
 
 
 def fila_en_bin(piezas, cap=1.0):
@@ -148,9 +184,14 @@ def bloque_A():
     # X_alpha y omega se CANCELAN exactamente
     resto = sp.expand((1 + s2 + Xa + w) - (S + Xa + w) - (1 + s2 - S))
     ok &= check("I1: (1+s2+Xa+w) - (S+Xa+w) = 1+s2-S identicamente "
-                "(X_alpha y omega se cancelan): E4+B2u => Sigma_S < "
-                "1+sigma2, el perfil de (c-ii) es LIGERO automatico y "
-                "S \\ {sigma2} cabe en D_m como fila (suma < 1)",
+                "(X_alpha y omega se cancelan): E4 + B2u-COMO-"
+                "DESIGUALDAD => Sigma_S < 1+sigma2.  CORRECCION de la "
+                "ronda hostil: B2u es una rama de la disyuncion "
+                "[fila en u falla] OR [fila S \\ A en D_m falla]; en "
+                "la rama PESADA (Sigma_S >= 1+sigma2, W > 0) E4 hace "
+                "CABER la fila {m, sigma2} en u y el atasco pasa a "
+                "{sigma1} U W: NO es un cierre, es la particion u/D_m "
+                "y la pinza F-pesada quienes la tratan ([B1b], [F1f])",
                 resto == 0)
     # I2: rama Y >= alpha.  cola(Y) >= (1+S+Xm+XY+alpha+Xa)/Y <= phi,
     # RY: Y < S+XY+w (fila de todo S; S0 <= Sigma_S), E4: alpha >=
@@ -164,7 +205,10 @@ def bloque_A():
                 "supervivencia exige (phi-1)(X_Y+omega) > 1, es decir "
                 "X_Y + omega > phi (1/(phi-1) = phi exacto); con "
                 "X_Y = 0 exige omega > phi: la rama es VACIA para "
-                "todo omega de anillo (omega < 1 <= phi)",
+                "todo omega de anillo (omega < 1 <= phi).  OJO (ronda "
+                "hostil): con X_Y + omega > phi la rama RESPIRA y su "
+                "cierre es SOLO computacional (corona-Y en los rangos "
+                "barridos), no una pinza exacta",
                 sp.simplify(1 / (phi - 1) - phi) == 0
                 and float(phi) > 1)
     # I3: rama Y < alpha, X = 0.  lb(alpha) = (2+S+w)/phi (cola de
@@ -262,48 +306,94 @@ def bloque_B():
           "barrido MC + delimitacion del residuo R2")
     ok = True
     rng = random.Random(20260808)
-    # --- B1: el caso X = 0 EXACTO sobre malla densa: cierre total en
-    #     omega <= omega* = 3/(2phi) y ventana I3 en omega > omega*
+    # --- B1: el caso X = 0 sobre malla densa.  LIGERO (W bajo el tope
+    #     de I1): cierre total en omega <= omega* y ventana I3 encima.
+    #     PESADO (Sigma_S >= 1+s2, W en su rango; incluye S0 <= 1 <
+    #     Sigma_S): la particion u/D_m cierra o el nodo queda en R2W
+    #     (delimitado; la pinza F-pesada del bloque [F] lo remata)
     n, viol_bajo, sobreviven_alto = 0, 0, 0
+    n_pes, pes_viven, pes_bajo, pes_sinF = 0, 0, 0, 0
+    pes_w = []
     for iw in range(1, 200):
         w = iw / 200.0                       # (0, 1)
         for is2 in range(1, 100):
             s2 = is2 / 100.0
             for is1 in range(1, 40):
                 s1 = s2 + (1 - s2) * is1 / 40.0
-                if s1 >= 1.0 or s1 + s2 <= 1.0:
+                if s1 >= 1.0:
                     continue
                 if s2 <= 1 - w:              # BH pura (X_m = 0)
                     continue
+                cap_lig = max(0.0, min(1 + s2 - (s1 + s2) - 1e-6,
+                                       (PHI - s1 - s2)))
                 for tW in (0.0, 0.5, 1.0):
-                    W = tW * max(0.0, min(1 + s2 - (s1 + s2) - 1e-6,
-                                          (PHI - s1 - s2)))
+                    W = tW * cap_lig
+                    if s1 + s2 + W <= 1.0:
+                        continue             # (D) sobre TODO S
                     n += 1
-                    viva, motivo = survive_c2(w, s1, s2, W, 0., 0., 0.)
+                    viva, motivo, lig = survive_c2(w, s1, s2,
+                                                   [W] if W else [],
+                                                   0., 0., 0.)
                     if viva and w <= OMEGA_STAR:
                         viol_bajo += 1
                     if viva:
                         sobreviven_alto += 1
-                        # la ventana I3 debe cumplirse
                         g = (3 - PHI - (PHI - 1) * w) / PHI
                         if not (g - 1e-9 < s2 < PHI * w - 1 + 1e-9):
                             viol_bajo += 1
-    ok &= check(f"B1 (X = 0, malla {n} nodos): NINGUNA instancia "
-                f"sobrevive con omega <= omega* = {OMEGA_STAR:.5f} "
-                f"({viol_bajo} violaciones) y toda superviviente "
-                f"(omega > omega*: {sobreviven_alto}) cae en la "
-                f"ventana sigma2 in (g(omega), phi*omega-1): el caso "
-                f"X = 0 queda CERRADO EXACTO bajo omega* y DELIMITADO "
-                f"encima", viol_bajo == 0 and sobreviven_alto > 0)
+                # rama PESADA: W una pieza <= s2 con sigma1+W >= 1
+                for tP in (0.0, 0.5, 1.0):
+                    Wp = min(s2, 1.0001 - s1) + tP * max(
+                        0.0, min(s2, PHI - s1 - s2)
+                        - min(s2, 1.0001 - s1))
+                    if Wp > s2 or s1 + Wp < 1.0 \
+                            or s1 + s2 + Wp > PHI:
+                        continue
+                    n_pes += 1
+                    viva, motivo, lig = survive_c2(w, s1, s2, [Wp],
+                                                   0., 0., 0.)
+                    if viva:
+                        pes_viven += 1
+                        pes_w.append(w)
+                        if w <= OMEGA_STAR:
+                            pes_bajo += 1
+                        # pinza F-pesada (raiz distinta): alpha > 4/phi
+                        # > 2, T >= Y > 2/phi, W <= 1 a D_m
+                        S = s1 + s2 + Wp
+                        lb_a = max(S + w, 1 + w, (2 + S + w) / PHI)
+                        if not (lb_a > 2.0 and Wp <= 1.0):
+                            pes_sinF += 1
+    ok &= check(f"B1 (X = 0, malla {n} nodos ligeros): NINGUNA "
+                f"instancia LIGERA sobrevive con omega <= omega* = "
+                f"{OMEGA_STAR:.5f} ({viol_bajo} violaciones) y toda "
+                f"superviviente (omega > omega*: {sobreviven_alto}) "
+                f"cae en la ventana sigma2 in (g(omega), phi*omega-1): "
+                f"el caso X = 0 LIGERO queda CERRADO EXACTO bajo "
+                f"omega* y DELIMITADO encima",
+                viol_bajo == 0 and sobreviven_alto > 0)
+    ok &= check(f"B1b (X = 0, malla PESADA {n_pes} nodos, hallazgo de "
+                f"la ronda hostil): {pes_viven} sobreviven a la "
+                f"particion u/D_m (omega in "
+                f"[{min(pes_w) if pes_w else 0:.3f}, "
+                f"{max(pes_w) if pes_w else 0:.3f}], {pes_bajo} bajo "
+                f"omega*); en TODOS la pinza F-pesada de raiz distinta "
+                f"aplica (alpha >= (2+S+w)/phi > 2 y W <= 1: "
+                f"{pes_sinF} sin pinza); la sub-celda de raiz "
+                f"compartida queda para [F5]", pes_sinF == 0)
     # --- B2: barrido MC general (X_m, X_alpha, X_Y > 0, k = 2..5,
     #     omega hasta pivote solido); supervivientes de las pinzas van
     #     a la corona del agujero de Y; el resto se DELIMITA via
-    #     omega_ef (I3d): la caja R2
+    #     omega_ef (I3d): la caja R2 (ligero) o R2W (pesado / S0 <= 1,
+    #     hallazgo de la ronda hostil).  Muestreo corregido: s1 ya NO
+    #     exige S0 > 1 (la puerta real es Sigma_S > 1: fila de TODO S
+    #     en D_m), X_alpha llega a 3.0 (la sub-celda de raiz compartida
+    #     exige X_alpha >= Y >= 1+omega)
     it = 4 * ITER
-    nb, cierres = 0, {'I1-ligereza': 0, 'cola-m': 0, 'pinza-colas': 0,
-                      'corona-Y': 0, 'corona-alpha': 0}
-    residuo = []
-    fuera_caja = 0
+    nb, cierres = 0, {'cola-m': 0, 'pinza-colas': 0,
+                      'particion-pesada': 0, 'corona-Y': 0,
+                      'corona-alpha': 0}
+    residuo, residuo_W = [], []
+    fuera_caja, resw_sinF = 0, 0
     for _ in range(it):
         w = rng.uniform(0.02, 1.35)          # incluye pivote solido
         Xm = rng.uniform(0.0, max(0.0, 1 - w)) if rng.random() < 0.5 \
@@ -311,23 +401,22 @@ def bloque_B():
         s2 = rng.uniform(0.02, 0.999)
         if s2 <= 1 - w - Xm:                 # BH: sigma2 no cabe en H_m
             continue
-        lo1 = max(s2, 1.0001 - s2)
-        if lo1 >= 0.999:
-            continue
-        s1 = rng.uniform(lo1, 0.999)         # (D): S0 > 1
+        s1 = rng.uniform(s2, 0.999)          # sin baked-in S0 > 1
         kW = rng.randrange(0, 3)
         Wp = [rng.uniform(0.01, s2) for _ in range(kW)]
         W = sum(Wp)
-        Xa = rng.uniform(0.0, 1.5) if rng.random() < 0.6 else 0.0
+        S = s1 + s2 + W
+        if S <= 1.0:                         # (D): fila de TODO S
+            continue
+        Xa = rng.uniform(0.0, 3.0) if rng.random() < 0.6 else 0.0
         XY = rng.uniform(0.0, 1.0) if rng.random() < 0.4 else 0.0
         nb += 1
-        viva, motivo = survive_c2(w, s1, s2, W, Xm, Xa, XY)
+        viva, motivo, lig = survive_c2(w, s1, s2, Wp, Xm, Xa, XY)
         if not viva:
             cierres[motivo] += 1
             continue
         # desbloqueo geometrico: corona del agujero de Y en su peor
         # capacidad (Y minimo legal; subir Y solo agranda el disco)
-        S = s1 + s2 + W
         lbY = max(1 + XY + w, (1 + S + Xm + XY) / PHI)
         piezas = [s1, s2] + Wp + compon_masa(rng, XY)
         okc, _ = corona_suf(sorted(piezas, reverse=True), lbY - w)
@@ -346,25 +435,40 @@ def bloque_B():
             if okc2:
                 cierres['corona-alpha'] += 1
                 continue
-        # residuo: debe caer en la caja R2 (forma cerrada omega_ef)
         wef = omega_ef(w, Xa, XY, Xm)
-        g = (3 - PHI - (PHI - 1) * wef) / PHI
-        en_caja = (wef > OMEGA_STAR - 1e-9
-                   and g - 1e-9 < s2 < PHI * wef - 1 + 1e-9
-                   and 1 < S < 1 + s2
-                   and S < PHI - 2 + PHI * s2 + (PHI - 1) * wef + 1e-9)
-        if not en_caja:
-            fuera_caja += 1
-        residuo.append((round(w, 3), round(wef, 3), round(s1, 3),
-                        round(s2, 3), round(W, 3), round(Xa, 3),
-                        round(XY, 3), round(Xm, 3)))
+        if lig and s1 + s2 > 1.0:
+            # residuo ligero clasico: debe caer en la caja R2
+            g = (3 - PHI - (PHI - 1) * wef) / PHI
+            en_caja = (wef > OMEGA_STAR - 1e-9
+                       and g - 1e-9 < s2 < PHI * wef - 1 + 1e-9
+                       and 1 < S < 1 + s2
+                       and S < PHI - 2 + PHI * s2
+                       + (PHI - 1) * wef + 1e-9)
+            if not en_caja:
+                fuera_caja += 1
+            residuo.append((round(w, 3), round(wef, 3), round(s1, 3),
+                            round(s2, 3), round(W, 3), round(Xa, 3),
+                            round(XY, 3), round(Xm, 3)))
+        else:
+            # residuo R2W (pesado o S0 <= 1 < Sigma_S): nueva celda de
+            # la ronda hostil; en raiz distinta lo remata la pinza
+            # F-pesada si N/phi > 2 y W cabe en D_m
+            N = 2 + S + Xm + Xa + 2 * XY + w
+            if not (N / PHI > 2.0 and W <= 1.0 + 1e-12):
+                resw_sinF += 1
+            residuo_W.append((round(w, 3), round(wef, 3),
+                              round(s1, 3), round(s2, 3),
+                              round(W, 3), round(Xa, 3),
+                              round(XY, 3), round(Xm, 3)))
     ok &= check(f"B2 (MC {nb} instancias del bloqueo): cierres = "
-                f"{cierres}; residuo = {len(residuo)} y TODO el "
-                f"residuo cae en la caja R2 {{omega_ef > omega*, "
-                f"sigma2 in (g(omega_ef), phi*omega_ef - 1), "
-                f"1 < Sigma_S < min(1+sigma2, phi-2+phi*sigma2+"
-                f"(phi-1)omega_ef)}} ({fuera_caja} fuera)",
-                fuera_caja == 0)
+                f"{cierres}; residuo ligero = {len(residuo)} y TODO "
+                f"cae en la caja R2 {{omega_ef > omega*, sigma2 in "
+                f"(g(omega_ef), phi*omega_ef - 1), 1 < Sigma_S < "
+                f"min(1+sigma2, phi-2+phi*sigma2+(phi-1)omega_ef)}} "
+                f"({fuera_caja} fuera); residuo R2W (pesado/S0<=1) = "
+                f"{len(residuo_W)}, en todos aplica la pinza F-pesada "
+                f"de raiz distinta (N/phi > 2, W <= 1: {resw_sinF} "
+                f"sin pinza)", fuera_caja == 0 and resw_sinF == 0)
     if residuo:
         ws = [r[0] for r in residuo]
         wefs = [r[1] for r in residuo]
@@ -375,6 +479,15 @@ def bloque_B():
               f"sigma2 in [{min(s2s):.3f}, {max(s2s):.3f}]")
         print(f"      ejemplo: (w, wef, s1, s2, W, Xa, XY, Xm) = "
               f"{residuo[0]}")
+    if residuo_W:
+        ws = [r[0] for r in residuo_W]
+        Wm = [r[4] for r in residuo_W]
+        print(f"      R2W DELIMITADO (pesado/S0<=1, ronda hostil): "
+              f"{len(residuo_W)} instancias; omega in "
+              f"[{min(ws):.3f}, {max(ws):.3f}], W in "
+              f"[{min(Wm):.3f}, {max(Wm):.3f}]")
+        print(f"      ejemplo: (w, wef, s1, s2, W, Xa, XY, Xm) = "
+              f"{residuo_W[0]}")
     # --- B3: la frontera del residuo es EXACTA: en omega_ef = omega*
     #     la ventana degenera al punto sigma2* = phi*omega* - 1 =
     #     3/2 - 1 = 1/2 EXACTO (esquina racional pura)
@@ -391,13 +504,19 @@ def bloque_B():
 
 
 # ---------------------------------------------------------------- bloque C
-def torre_c1(rng, w, S, Xm, Xa, s2, d, holg_t=1.0):
+def torre_c1(rng, w, S, Xm, Xa, s2, d, holg_t=1.0, piezas=None):
     """Construye la torre alpha < z < ... < t de profundidad d sobre
     el agujero de alpha, con paredes B2u/(Rz) vivas en cada nivel y
     colas acumuladas.  Devuelve (alpha, niveles, t, masa_cola_t,
-    motivo_cierre) donde motivo_cierre != None si alguna pinza cierra."""
+    motivo_cierre) donde motivo_cierre != None si alguna pinza cierra.
+    piezas (ronda hostil): perfil S explicito para el techo
+    generalizado por particion (pesado incluido); sin piezas se usa el
+    techo clasico 1+s2+Xa+w (solo valido en perfil ligero S0 > 1)."""
     lb_a = max(S + Xa + w, 1 + w, (1 + S + Xm + Xa) / PHI)
-    ub_a = 1 + s2 + Xa + w                       # B2u
+    if piezas is not None:
+        ub_a = 1 + (S - b_star(piezas)) + Xa + w
+    else:
+        ub_a = 1 + s2 + Xa + w                   # B2u clasico
     if lb_a >= ub_a - 1e-12:
         return None, None, None, None, 'pinza-alpha'
     alpha = rng.uniform(lb_a, ub_a)
@@ -426,10 +545,11 @@ def bloque_C():
     ok = True
     rng = random.Random(31)
     it = 4 * ITER
-    cierres = {'I1-ligereza': 0, 'cola-m': 0, 'pinza-alpha': 0,
+    cierres = {'cola-m': 0, 'pinza-alpha': 0,
                'pinza-z1': 0, 'pinza-z2': 0, 'pinza-z3': 0,
                'corona-v': 0}
     peor, arg, nres, nev = 0.0, None, 0, 0
+    nres_pes = []
     for _ in range(it):
         w = rng.uniform(0.02, 1.35)
         Xm = rng.uniform(0.0, max(0.0, 1 - w)) if rng.random() < 0.5 \
@@ -437,16 +557,12 @@ def bloque_C():
         s2 = rng.uniform(0.02, 0.999)
         if s2 <= 1 - w - Xm:                     # BH
             continue
-        lo1 = max(s2, 1.0001 - s2)
-        if lo1 >= 0.999:
-            continue
-        s1 = rng.uniform(lo1, 0.999)             # (D)
+        s1 = rng.uniform(s2, 0.999)              # sin baked-in S0 > 1
         kW = rng.randrange(0, 3)
         Wp = [rng.uniform(0.01, s2) for _ in range(kW)]
         W = sum(Wp)
         S = s1 + s2 + W
-        if S >= 1 + s2 - 1e-12:                  # I1: no es bloqueo
-            cierres['I1-ligereza'] += 1
+        if S <= 1.0:                             # (D): fila de TODO S
             continue
         if S + Xm > PHI:                         # cola de m
             cierres['cola-m'] += 1
@@ -454,7 +570,7 @@ def bloque_C():
         Xa = rng.uniform(0.0, 1.5) if rng.random() < 0.6 else 0.0
         d = rng.randrange(1, 4)
         alpha, niveles, t, masa_t, motivo = torre_c1(
-            rng, w, S, Xm, Xa, s2, d)
+            rng, w, S, Xm, Xa, s2, d, piezas=[s1, s2] + Wp)
         if motivo:
             cierres[motivo] += 1
             continue
@@ -469,26 +585,37 @@ def bloque_C():
         R = radio_necesario(tt, occs)
         okf, defc = desbloqueo_corona(tt, occs, [s1, s2] + Wp, R)
         nev += 1
+        ligero = S < 1 + s2 - 1e-12
         v = 0.0 if okf else max(defc, FALLO_MIN)
         if okf:
             cierres['corona-v'] += 1
-        if v > peor:
-            peor, arg = v, dict(w=round(w, 3), d=d, j=j,
-                                s=[round(s1, 3), round(s2, 3)],
-                                W=round(W, 3), Xa=round(Xa, 3),
-                                alpha=round(alpha, 3),
-                                t=round(tt, 3),
-                                o=[round(x, 3) for x in occs],
-                                R=round(R, 3))
-        if v > TOL:
-            nres += 1
+        if ligero:
+            if v > peor:
+                peor, arg = v, dict(w=round(w, 3), d=d, j=j,
+                                    s=[round(s1, 3), round(s2, 3)],
+                                    W=round(W, 3), Xa=round(Xa, 3),
+                                    alpha=round(alpha, 3),
+                                    t=round(tt, 3),
+                                    o=[round(x, 3) for x in occs],
+                                    R=round(R, 3))
+            if v > TOL:
+                nres += 1
+        elif v > TOL:
+            nres_pes.append((round(w, 3), round(s1, 3), round(s2, 3),
+                             round(W, 3), round(Xa, 3), d, j))
     marca = peor <= TOL
     ok &= check(f"C1: {nev} coronas evaluadas (torres d = 1..3, "
-                f"j = 0..3, omega hasta pivote solido); cierres = "
-                f"{cierres}; peor deficit = {peor:.2e} <= {TOL} "
-                f"(tangente en R = R_lb)", marca)
+                f"j = 0..3, omega hasta pivote solido, perfil pesado "
+                f"INCLUIDO tras la ronda hostil); cierres = "
+                f"{cierres}; peor deficit LIGERO = {peor:.2e} <= "
+                f"{TOL} (tangente en R = R_lb); residuo pesado "
+                f"C1W = {len(nres_pes)} (delimitado, no forzado)",
+                marca)
     if not marca:
         print(f"      RESIDUO C1 ({nres} casos > tol): {arg}")
+    if nres_pes:
+        print(f"      C1W (pesado sin corona): {len(nres_pes)}; "
+              f"ejemplo (w, s1, s2, W, Xa, d, j) = {nres_pes[0]}")
     # esquinas deterministas: holgura 1 (t y cascada en su minimo),
     # X's en 0 y en su tope adversario, fronteras de omega
     peor_esq, esq = 0.0, 0
@@ -541,10 +668,11 @@ def bloque_D():
         desbloqueo_corona
     ok = True
     rng = random.Random(20260809)
-    rutas = {'cerrado-I1': 0, 'cerrado-cola-m': 0,
+    rutas = {'cerrado-cola-m': 0,
              'cerrado-pinza-c2': 0, 'cerrado-pinza-torre': 0,
              'cerrado-corona-Y': 0, 'cerrado-corona-alpha': 0,
-             'cerrado-corona-v': 0, 'residuo-R2-caja': 0}
+             'cerrado-corona-v': 0, 'residuo-R2-caja': 0,
+             'residuo-R2W': 0, 'residuo-C1W': 0}
     n, sin_caso = 0, 0
     it = max(20000, ITER // 3)
     for _ in range(it):
@@ -554,28 +682,25 @@ def bloque_D():
         Xm = rng.uniform(0.0, max(0.0, 1 - w)) if rng.random() < 0.5 \
             else 0.0
         s2 = rng.uniform(max(0.02, 1 - w - Xm + 1e-4), 0.999)
-        lo1 = max(s2, 1.0001 - s2)
-        if lo1 >= 0.999:
-            continue
-        s1 = rng.uniform(lo1, 0.999)
+        s1 = rng.uniform(s2, 0.999)      # sin baked-in S0 > 1
         kW = rng.randrange(0, 3)
         Wp = [rng.uniform(0.01, s2) for _ in range(kW)]
         W = sum(Wp)
         S = s1 + s2 + W
-        Xa = rng.uniform(0.0, 1.5) if rng.random() < 0.6 else 0.0
+        if S <= 1.0:                     # (D): fila de TODO S
+            continue
+        Xa = rng.uniform(0.0, 3.0) if rng.random() < 0.6 else 0.0
         XY = rng.uniform(0.0, 1.0) if (subcaso != 'c-ii-1'
                                        and rng.random() < 0.4) else 0.0
         n += 1
-        if S >= 1 + s2 - 1e-12:
-            rutas['cerrado-I1'] += 1
-            continue
+        ligero = S < 1 + s2 - 1e-12
         if S + Xm > PHI:
             rutas['cerrado-cola-m'] += 1
             continue
         if subcaso == 'c-ii-1':
             d = rng.randrange(1, 4)
             alpha, niveles, t, _, motivo = torre_c1(
-                rng, w, S, Xm, Xa, s2, d)
+                rng, w, S, Xm, Xa, s2, d, piezas=[s1, s2] + Wp)
             if motivo:
                 rutas['cerrado-pinza-torre'] += 1
                 continue
@@ -587,18 +712,21 @@ def bloque_D():
             okf, _ = desbloqueo_corona(tt, occs, [s1, s2] + Wp, R)
             if okf:
                 rutas['cerrado-corona-v'] += 1
+            elif ligero:
+                sin_caso += 1    # (c-ii-1) ligero debe cerrar siempre
             else:
-                sin_caso += 1        # (c-ii-1) debe cerrar siempre
+                rutas['residuo-C1W'] += 1
             continue
-        # (c-ii-2): pinzas de colas cruzadas
-        viva, motivo = survive_c2(w, s1, s2, W, Xm, Xa, XY)
+        # (c-ii-2): pinzas de colas cruzadas + particion
+        viva, motivo, lig = survive_c2(w, s1, s2, Wp, Xm, Xa, XY)
         if not viva:
             rutas['cerrado-pinza-c2'] += 1
             continue
         if subcaso == 'c-ii-2-anidada':
             # alpha anidada: la pinza de su torre tambien esta
             d = rng.randrange(1, 3)
-            _, _, _, _, motivo = torre_c1(rng, w, S, Xm, Xa, s2, d)
+            _, _, _, _, motivo = torre_c1(rng, w, S, Xm, Xa, s2, d,
+                                          piezas=[s1, s2] + Wp)
             if motivo:
                 rutas['cerrado-pinza-torre'] += 1
                 continue
@@ -616,6 +744,14 @@ def bloque_D():
             if okc2:
                 rutas['cerrado-corona-alpha'] += 1
                 continue
+        if not (ligero and s1 + s2 > 1.0):
+            # nueva ruta de la ronda hostil: R2W con pinza F-pesada
+            N = 2 + S + Xm + Xa + 2 * XY + w
+            if N / PHI > 2.0 and W <= 1.0 + 1e-12:
+                rutas['residuo-R2W'] += 1
+            else:
+                sin_caso += 1
+            continue
         wef = omega_ef(w, Xa, XY, Xm)
         g = (3 - PHI - (PHI - 1) * wef) / PHI
         if (wef > OMEGA_STAR - 1e-9
@@ -626,8 +762,9 @@ def bloque_D():
         else:
             sin_caso += 1
     ok &= check(f"{n} instancias de (c-ii) enrutadas: rutas = {rutas}; "
-                f"{sin_caso} sin caso (todo cierra o cae en la caja "
-                f"R2 delimitada)", sin_caso == 0)
+                f"{sin_caso} sin caso (todo cierra o cae en una caja "
+                f"delimitada: R2 ligera, R2W pesada/S0<=1 con pinza "
+                f"F-pesada, o residuo C1W declarado)", sin_caso == 0)
     return ok
 
 
@@ -656,7 +793,7 @@ def bloque_E():
         n_sin += 1
         if S + w < 1 + s2 + w - 1e-12:       # rango de alpha sin colas
             sobreviven_sin += 1
-        viva, _ = survive_c2(w, s1, s2, 0.0, 0.0, 0.0, 0.0)
+        viva, _, _ = survive_c2(w, s1, s2, [], 0.0, 0.0, 0.0)
         if not viva:
             cerradas_con += 1
     ok &= check(f"(a) sin colas la pared es vacua: {sobreviven_sin}/"
@@ -681,15 +818,19 @@ def bloque_E():
                 f"(D) es puerta del bloqueo", viol2 == 0)
     # (c) la instancia AUREA vive en (a), no en (c-ii): su bloqueo
     # tiene u = sarten (m y el par a nivel superior); y la RIGIDA vive
-    # en (b) (v = sarten, alpha en v).  Ademas, si se intentara
-    # plantar la rigida en (c-ii), I1 la expulsa: sigma1 = m = 1 da
-    # Sigma_S >= 1 + sigma2 (E4+B2u infactible)
+    # en (b) (v = sarten, alpha en v).  CORRECCION de la ronda hostil:
+    # sigma1 = 1 = m es irrealizable en el perfil S de (c-ii) (radios
+    # ESTRICTAMENTE decrecientes: sigma1 < m); el limite sigma1 -> 1
+    # es un perfil PESADO (Sigma_S -> 1+sigma2), que ya NO se despacha
+    # por I1 sino por particion u/D_m + pinza F-pesada (antes el
+    # script lo declaraba cierre 'I1-ligereza': ERROR reparado)
     t = 0.52
     b = t * (1 + t) / (1 + t + t * t)
     s1r, s2r = 1.0, b / t
     ok &= check(f"(c) la esquina rigida (sigma1 = 1, sigma2 = "
-                f"{s2r:.4f}) NO cabe en (c-ii): Sigma_S = 1 + sigma2 "
-                f">= 1 + sigma2 viola I1 (E4+B2u): su bloqueo es del "
+                f"{s2r:.4f}) NO es un perfil de (c-ii) (sigma1 < m "
+                f"estricto); su limite sigma1 -> 1 es PESADO y va por "
+                f"particion/F-pesada, no por I1; su bloqueo es del "
                 f"caso (b), como declara el acta anidada; la familia "
                 f"aurea (j = 1, u = sarten) es del caso (a) "
                 f"(coronacolas/ensamblaje [E])",
@@ -705,7 +846,7 @@ def bloque_E():
                 s1 = s2 + (1 - s2) * is1 / 40.0
                 if s1 >= 1.0 or s1 + s2 <= 1.0 or s2 <= 1 - w:
                     continue
-                viva, _ = survive_c2(w, s1, s2, 0.0, 0., 0., 0.)
+                viva, _, _ = survive_c2(w, s1, s2, [], 0., 0., 0.)
                 if viva:
                     n4 += 1
                     if not s1 + s2 > PHI - PHI ** 2 * w - 1e-9:
@@ -756,20 +897,29 @@ def bloque_F():
     rng = random.Random(20260809)
     ok = True
     # F2 [ENUNCIADO] legalidad del recurso: la factibilidad de una
-    # colocacion es empaquetabilidad POR CONTENEDOR (existencial en
-    # posiciones) y el intercambio solo exige acuerdo DE CONTENEDOR en
-    # los anillos >= m (thm:oblivious: "agreeing with F on all rings of
-    # radius >= r_m"); re-empaquetar la sarten no cambia contenedores.
-    # Precedente en el propio paper: thm:DP usa "the pan repack" con
-    # ocupantes > m re-colocados (coronas de coronacolas).  En (c-ii-2)
-    # la sarten contiene a alpha y al tope T de la torre de Y (ambos
-    # top-level, compartidos), luego "sigma2 -> bolsillo espejo del par
-    # {alpha, T} con la sarten re-empaquetada" es una colocacion del
-    # testigo y su fallo es una pared del bloqueo.
+    # colocacion es empaquetabilidad POR CONTENEDOR -- definicion del
+    # paper (sec. Model): "Feasibility is a property of the assignment
+    # (siblings may be rearranged freely inside their container)" -- y
+    # el intercambio solo exige acuerdo DE CONTENEDOR en los anillos
+    # >= m (thm:oblivious: "agreeing with F on all rings of radius
+    # >= r_m"; el "which do not move" de esa prueba es el certificado
+    # constructivo del caso superincreciente, no una restriccion de la
+    # nocion).  Re-empaquetar la sarten no cambia contenedores.
+    # Precedentes: lem:DG ("full repacking is a legal resource:
+    # children travel inside their parents, positions are
+    # existential") y el pan repack de thm:DP -- el MISMO paso de
+    # intercambio bloqueado.  RESTRICCION (ronda hostil): la pinza del
+    # par exige que la torre de alpha y la torre de Y tengan RAICES
+    # TOP-LEVEL DISTINTAS; si comparten raiz (Y dentro de la torre de
+    # alpha o viceversa) el par degenera y el recurso no aplica: esa
+    # sub-celda es R2b y va por [F5].
     ok &= check("[ENUNCIADO] el repack de la sarten es recurso del "
                 "intercambio en (c-ii-2): factibilidad por contenedor "
-                "+ acuerdo solo de contenedores en >= m (thm:oblivious"
-                "); precedente: el pan repack de thm:DP", True)
+                "(definicion de placement del paper) + acuerdo solo de "
+                "contenedores en >= m (thm:oblivious); precedentes: "
+                "lem:DG y el pan repack de thm:DP; SOLO da el par "
+                "{raiz(alpha), raiz(Y)} si las raices son DISTINTAS "
+                "(si no: sub-celda R2b, [F5])", True)
     # F1: la pinza exacta que vacia R2 (sympy)
     a, y = sp.symbols('a y', positive=True)
     phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
@@ -798,69 +948,138 @@ def bloque_F():
     ok &= check("F1d: 2/phi = sqrt5 - 1 exacto: la cola de Y con "
                 "Sigma_S > 1 da Y > 2/phi = sqrt5 - 1",
                 sp.simplify(2 / phi - (sp.sqrt(5) - 1)) == 0)
-    ok &= check("F1e: PINZA: en R2, alpha > 2 y T >= Y > sqrt5-1 => "
-                "b2(alpha, T) > b2(2, sqrt5-1) = 1 > sigma2 (sigma2 < "
-                "sigma1 < 1): sigma2 SIEMPRE cabe en el bolsillo "
-                "espejo del par {alpha, T} re-empaquetado diametral "
-                "(prop:S5, espejos disjuntos y0 = 2b2, contencion "
-                "monotona R >= alpha+T): R2 ES VACIA en su nucleo "
-                "{sarten = {alpha, T}}", True)
+    ok &= check("F1e: PINZA (RAIZ DISTINTA): en R2, alpha > 2 y T >= "
+                "Y > sqrt5-1, raiz(alpha) >= alpha y raiz(Y) >= Y "
+                "top-level DISTINTAS => b2 > b2(2, sqrt5-1) = 1 > "
+                "sigma2: sigma2 cabe en el bolsillo espejo del par de "
+                "raices re-empaquetado diametral (prop:S5, espejos "
+                "disjuntos y0 = 2b2, contencion monotona R >= suma "
+                "del par, y S \\ {sigma2} -> D_m por ligereza): el "
+                "nucleo raiz-distinta de R2 es VACIO; la sub-celda "
+                "raiz COMPARTIDA (R2b) queda FUERA de esta pinza",
+                True)
+    # F1f (hallazgo de la ronda hostil): pinza EXACTA para el residuo
+    # PESADO R2W (raiz distinta): BH (s2 > 1-omega-X_m) + pesado
+    # (Sigma_S >= 1+s2) dan N = 2+Sigma_S+X_m+X_alpha+2X_Y+omega >=
+    # 3+s2+(1-s2) = 4, luego alpha >= N/phi >= 4/phi y T >= Y > 2/phi;
+    # b2(4/phi, 2/phi) = 12/(7phi) > 1 (<=> 17 > 7 sqrt5 <=> 289 >
+    # 245): AMBOS bolsillos espejo (y0 = 2b2) alojan sigma1 y sigma2,
+    # y W va a D_m si W <= 1 (S0 > 1 lo fuerza via cola de m)
+    ok &= check("F1f (pesado, raiz distinta): b2(4/phi, 2/phi) = "
+                "12/(7phi) > 1 exacto (289 > 245); BH + pesado dan "
+                "N >= 4, alpha >= 4/phi, T > 2/phi: sigma1 y sigma2 "
+                "van a los DOS bolsillos espejo y W <= 1 a D_m",
+                sp.simplify(
+                    (2 * phi ** -1 * 4 * phi ** -1
+                     * (4 / phi + 2 / phi))
+                    / ((4 / phi) ** 2 + 8 / phi ** 2
+                       + (2 / phi) ** 2)
+                    - 12 / (7 * phi)) == 0
+                and float(12 / (7 * phi)) > 1
+                and 17 ** 2 > 245)
     # F3: el caso general (miembros top-level extra): corona de la
-    # sarten sobre instancias de la caja R2 con extras aleatorios
-    n3, fallos, peor_def = 0, 0, 0.0
-    intentos = max(20000, ITER // 3)
+    # sarten sobre instancias de la caja R2 con extras aleatorios.
+    # REPARADO (ronda hostil): (i) techo de Y con TODO S (era S0:
+    # agujero de muestreo); (ii) X_m ya se muestrea (era 0); (iii)
+    # X_alpha hasta 1.5 y X_Y hasta 1.0 (eran 0.5/0.1: no cubrian el
+    # residuo observado de B2); (iv) linea muerta s1 = uniform(s2,
+    # min(1.0, 1+s2-s2)) limpiada; (v) modo PESADO: sigma1 y sigma2 a
+    # los dos bolsillos/corona y W <= 1 a D_m
+    n3, fallos, peor_def, n3_pes = 0, 0, 0.0, 0
+    gaps = []
+    intentos = max(60000, ITER)
     for _ in range(intentos):
         wef = rng.uniform(OMEGA_STAR + 1e-4, 1.45)
-        Xa = rng.uniform(0.0, 0.5) if rng.random() < 0.4 else 0.0
-        XY = rng.uniform(0.0, 0.1) if rng.random() < 0.2 else 0.0
-        Xm = 0.0
+        Xa = rng.uniform(0.0, 1.5) if rng.random() < 0.4 else 0.0
+        XY = rng.uniform(0.0, 1.0) if rng.random() < 0.2 else 0.0
+        Xm = rng.uniform(0.0, 0.5) if rng.random() < 0.3 else 0.0
         w = wef - Xa + PHI * (2 * XY + Xm)
-        if w <= 0.02:
+        if w <= 0.02 or Xm > max(0.0, 1 - w):
             continue
+        pesado = rng.random() < 0.35
         g = (3 - PHI - (PHI - 1) * wef) / PHI
         lo_s2, hi_s2 = max(g, 0.05), min(PHI * wef - 1, 0.999)
+        if pesado:
+            lo_s2, hi_s2 = max(0.05, 1 - w - Xm + 1e-4), 0.999
         if lo_s2 >= hi_s2:
             continue
         s2 = rng.uniform(lo_s2, hi_s2)
-        s1 = rng.uniform(s2, min(1.0, 1 + s2 - s2))    # s1 < 1
-        S_hi = min(1 + s2, PHI - 2 + PHI * s2 + (PHI - 1) * wef)
-        if S_hi <= max(1.0, s1 + s2) or s1 < s2:
+        s1 = rng.uniform(s2, 0.999)                    # s1 < 1
+        if pesado:
+            S_lo, S_hi = 1 + s2, PHI - Xm
+        else:
+            S_lo = max(1.0, s1 + s2)
+            S_hi = min(1 + s2, PHI - 2 + PHI * s2 + (PHI - 1) * wef)
+        if S_hi <= S_lo:
             continue
-        S = rng.uniform(max(1.0, s1 + s2), S_hi)
-        S0 = s1 + s2
+        S = rng.uniform(S_lo, S_hi)
+        W = S - s1 - s2
+        if W < 0 or W > 1.0:         # W -> fila en D_m
+            continue
         lbY = max(1 + XY + w, (1 + S + Xm + XY) / PHI)
-        ubY = S0 + XY + w
+        ubY = S + XY + w             # techo (RY) con TODO S
         if lbY >= ubY:
             continue
         Y = rng.uniform(lbY, ubY)
         lb_a = max(S + Xa + w, 1 + w, (1 + S + Xm + Xa + XY + Y) / PHI)
-        ub_a = 1 + s2 + Xa + w
+        ub_a = 1 + (s2 if not pesado else S - b_star([s1, s2, W])) \
+            + Xa + w
         if lb_a >= ub_a:
             continue
         alfa = rng.uniform(lb_a, ub_a)
         if Y >= alfa:
             continue
-        # tope de la torre de Y (profundidad 0-2) y extras top-level
+        # tope de la torre de Y (profundidad 0-2, minimo legal en
+        # d = 0) y extras top-level; RAIZ DISTINTA por construccion
         d = rng.randrange(0, 3)
         T = Y + d * (w + 0.05)
         top = [alfa, T]
         for _ in range(rng.randrange(0, 3)):
             top.append(rng.uniform(0.3, alfa))
         n3 += 1
+        n3_pes += 1 if pesado else 0
         tops = sorted(top, reverse=True)
         # confinamiento por el gigante: sin el, los pares apilables
         # dan gamma = 0 y R_lb subestima el radio real (trampa
         # documentada de las campanas: un parametro)
         R = R_lb_pack(tops, tops[0] + tops[1], confinado_por=tops[0])
-        okc, defc = corona_suf(top + [s2], R)
+        carga = top + ([s1, s2] if pesado else [s2])
+        okc, defc = corona_suf(carga, R)
         if not okc:
-            fallos += 1
-            peor_def = max(peor_def, defc)
+            # hueco de dualidad (hallazgo de la ronda hostil): con
+            # >= 3 tops casi iguales el certificado angular R_lb no ve
+            # los bolsillos y subestima el radio real minimo de los
+            # PROPIOS tops; se biseca R_fit = primer R donde la corona
+            # con la carga cabe y se DELIMITA el cociente R_fit/R_lb
+            # (la clausura en (R_lb, R_fit) queda sin certificar:
+            # gap-dualidad, mismo estatus que la ley de escala)
+            lo, hi = R, 2 * R
+            for _ in range(40):
+                mid = (lo + hi) / 2
+                if corona_suf(carga, mid)[0]:
+                    hi = mid
+                else:
+                    lo = mid
+            gaps.append((round(hi / R, 4),
+                         [round(x, 3) for x in tops]))
+            if hi / R > 1.15:
+                fallos += 1
+                peor_def = max(peor_def, defc)
     ok &= check(f"F3: corona de la sarten re-empaquetada en {n3} "
-                f"instancias de la caja R2 (torres d = 0..2, hasta 2 "
-                f"extras top-level): sigma2 SIEMPRE cabe ({fallos} "
-                f"fallos, peor deficit {peor_def:.2e})",
-                n3 > 500 and fallos == 0)
+                f"instancias de las cajas R2/R2W ({n3_pes} pesadas; "
+                f"torres d = 0..2 con d = 0 el minimo legal, hasta 2 "
+                f"extras top-level, X_m/X_alpha/X_Y en los rangos del "
+                f"residuo de B2): la carga de sigma cabe en R_lb "
+                f"salvo {len(gaps)} instancias de gap-dualidad "
+                f"(>= 3 tops casi iguales; R_fit/R_lb <= 1.15 en "
+                f"todas: {fallos} por encima, peor deficit "
+                f"{peor_def:.2e}); el gap queda DELIMITADO como la "
+                f"ley de escala", n3 > 500 and n3_pes > 100
+                and fallos == 0)
+    if gaps:
+        print(f"      gaps de dualidad F3: {len(gaps)}; peor "
+              f"R_fit/R_lb = {max(g[0] for g in gaps):.4f}; ejemplo "
+              f"tops = {gaps[0][1]}")
     # F4: consistencia con la pinza: en las mismas instancias,
     # b2(alpha, Y) > 1 siempre (el nucleo exacto)
     n4, viol = 0, 0
@@ -875,6 +1094,103 @@ def bloque_F():
     ok &= check(f"F4: b2(alpha, Y) > 1 en {n4} muestras del nucleo "
                 f"({viol} violaciones): la pinza F1 es la que cierra",
                 viol == 0)
+    # F5 (hallazgo ALTA de la ronda hostil): sub-celda R2b de RAIZ
+    # COMPARTIDA -- Y es miembro directo del agujero de alpha (la
+    # torre de Y tiene raiz alpha), consistente con TODAS las paredes
+    # de (c-ii-2): u = agujero de alpha, v = agujero de Y (dentro de
+    # u), alpha fuera de v.  El par {alpha, T} DEGENERA (T = alpha) y
+    # las pinzas F1e/F1f NO aplican: la sarten puede ser {alpha} sola
+    # y el adversario elige R = alpha.  Recursos restantes: particion
+    # u/D_m (con Y contando en la fila de u), corona del agujero de Y
+    # y corona del agujero de alpha con la pieza Y dentro (en la peor
+    # capacidad alpha = lb_a).  Lo que sobrevive se DELIMITA (R2b),
+    # no se fuerza.  (La variante especular -- alpha anidada bajo la
+    # torre de Y -- y las profundidades d >= 2 comparten la
+    # degeneracion y quedan DECLARADAS dentro de R2b.)
+    n5, c5 = 0, {'cola-m': 0, 'pinza-Y': 0, 'particion': 0,
+                 'corona-Y': 0, 'corona-z': 0, 'corona-alpha': 0}
+    r2b = []
+    for _ in range(max(20000, ITER // 3)):
+        w = rng.uniform(0.02, 1.35)
+        Xm = rng.uniform(0.0, max(0.0, 1 - w)) if rng.random() < 0.5 \
+            else 0.0
+        s2 = rng.uniform(0.02, 0.999)
+        if s2 <= 1 - w - Xm:                 # BH
+            continue
+        s1 = rng.uniform(s2, 0.999)
+        Wp = [rng.uniform(0.01, s2)
+              for _ in range(rng.randrange(0, 3))]
+        W = sum(Wp)
+        S = s1 + s2 + W
+        if S <= 1.0:
+            continue
+        n5 += 1
+        if S + Xm > PHI:
+            c5['cola-m'] += 1
+            continue
+        XY = rng.uniform(0.0, 1.0) if rng.random() < 0.3 else 0.0
+        Xrest = rng.uniform(0.0, 1.0) if rng.random() < 0.3 else 0.0
+        lbY = max(1 + XY + w, (1 + S + Xm + XY) / PHI)
+        ubY = S + XY + w                     # techo (RY), TODO S
+        if lbY >= ubY - 1e-12:
+            c5['pinza-Y'] += 1
+            continue
+        Y = rng.uniform(lbY, ubY)
+        # profundidad de la torre compartida: d = 1 (Y miembro directo
+        # de u) o d = 2 (Y en el agujero de z, z miembro de u)
+        d2 = rng.random() < 0.4
+        Xz = rng.uniform(0.0, 0.5) if (d2 and rng.random() < 0.5) \
+            else 0.0
+        z = Y + Xz + w if d2 else None       # suelo legal de z
+        hoja = z if d2 else Y                # el miembro grande de u
+        Xa = hoja + Xrest
+        piezas = [s1, s2] + Wp
+        lb_a = max(S + Xa + w, 1 + w, (1 + S + Xm + Xa + XY) / PHI)
+        ub_a = 1 + (S - b_star(piezas)) + Xa + w
+        if lb_a >= ub_a - 1e-12:
+            c5['particion'] += 1
+            continue
+        okc, _ = corona_suf(sorted(piezas + compon_masa(rng, XY),
+                                   reverse=True), Y - w)
+        if okc:
+            c5['corona-Y'] += 1
+            continue
+        if d2:
+            # corona del agujero de z: {Y, sigma2} U X_z en cap z-w
+            okz, _ = corona_suf(sorted([Y, s2] + compon_masa(rng, Xz),
+                                       reverse=True), z - w)
+            if okz:
+                c5['corona-z'] += 1
+                continue
+        cara = [hoja, 1.0, s2] + compon_masa(rng, Xrest)
+        if S >= 1 + s2 - 1e-12 and W <= 1.0:
+            cara = [hoja, 1.0, s1, s2] + compon_masa(rng, Xrest)
+        okc2, _ = corona_suf(sorted(cara, reverse=True), lb_a - w)
+        if okc2:
+            c5['corona-alpha'] += 1
+            continue
+        r2b.append((round(w, 3), round(s1, 3), round(s2, 3),
+                    round(W, 3), round(Y, 3), round(Xa, 3),
+                    round(XY, 3), round(Xm, 3)))
+    sanos = sum(1 for r in r2b if r[5] >= 1 + r[0] - 1e-9)
+    ok &= check(f"F5 (sub-celda R2b, raiz compartida, torres d = "
+                f"1..2): {n5} instancias estructuralmente "
+                f"consistentes; cierres = {c5}; RESIDUO R2b = "
+                f"{len(r2b)} DELIMITADO (no forzado; todo con "
+                f"X_alpha >= Y >= 1+omega: {sanos}/{len(r2b)}): las "
+                f"pinzas del par NO aplican aqui — cierre SOLO "
+                f"computacional (coronas con la pieza grande dentro "
+                f"de u) sobre los rangos barridos; profundidades "
+                f"mayores y la variante especular (alpha bajo la "
+                f"torre de Y) quedan DECLARADAS dentro de R2b",
+                n5 > 500 and sanos == len(r2b))
+    if r2b:
+        ws = [r[0] for r in r2b]
+        Ys = [r[4] for r in r2b]
+        print(f"      R2b: {len(r2b)} instancias; omega in "
+              f"[{min(ws):.3f}, {max(ws):.3f}], Y in "
+              f"[{min(Ys):.3f}, {max(Ys):.3f}]; ejemplo (w, s1, s2, "
+              f"W, Y, Xa, XY, Xm) = {r2b[0]}")
     return ok
 
 
