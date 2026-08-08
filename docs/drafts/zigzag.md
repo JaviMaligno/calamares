@@ -1,7 +1,11 @@
 # El lema de dualidad/zigzag: la construcción cíclica se auto-certifica
 
 Estado: **script 5/5 en verde** (`code/zigzag.py`, 2026-08-08),
-PRE-ADVERSARIO. Cierra el asterisco de `coronacolas.md` §4: la
+ADVERSARIADO (acta «lema de dualidad/zigzag (ronda hostil)» en
+`VEREDICTOS.md`: la inducción NS-2 quedó REFUTADA como implicación
+general y se retiró del lema; ESP se precisó — triples internos — y
+se FORTALECIÓ — margen individual por saltado, DP-adelante).
+Cierra el asterisco de `coronacolas.md` §4: la
 conversión de la evidencia MC de los seis dominios en certificados
 por-instancia con soporte de teorema, con el único residuo honesto de
 la ley de escala en (j, p) (§7).
@@ -11,7 +15,7 @@ la ley de escala en (j, p) (§7).
 El plan original pedía probar «en zigzag, el camino más largo = suma
 consecutiva» y «el zigzag realiza el mínimo». Ambas cosas son FALSAS
 en general (el script las refuta: el gap del zigzag contra el mínimo
-exhaustivo llega a 0.26-0.34 según el barrido, y una pieza
+exhaustivo llega a 0.25-0.46 según el barrido, y una pieza
 sub-bolsillo rompe la igualdad camino = suma). La versión correcta es
 más fuerte y más simple: **la
 construcción por camino más largo se auto-certifica por maximalidad**,
@@ -23,7 +27,13 @@ y el zigzag queda como heurística de arranque sin carga de prueba.
 f(x) = x/(R−x), g(s) = 2 asin(e^{s/2}). Sympy: g' = e^{s/2}/√(1−e^s)
 y (log g')' = 1/(2(1−e^s)) > 0 en s < 0: g creciente y convexa. De la
 monotonía de f: θ(a,x) crece en x — el «triángulo monótono»: si
-x ≥ mín(a,b), entonces θ(a,x) + θ(x,b) ≥ θ(a,b).
+x ≥ mín(a,b), entonces θ(a,x) + θ(x,b) ≥ θ(a,b). El capado θ = π
+(f(a)f(b) ≥ 1) no interfiere: (R−a)(R−b) − ab = R(R−a−b) exacto, así
+que f(a)f(b) ≥ 1 ⟺ R ≤ a+b — en el disco (pares con a+b ≤ R) el
+capado vive solo en la frontera de tangencia diametral (el punto
+áureo es exactamente esa frontera) y s < 0 cubre todo el interior;
+además capar solo puede SUBIR el margen NS-2, luego margen ≤ 0 sigue
+implicando margen verdadero ≤ 0 y s ≤ p.
 
 **Z2 (esquina mural, exacta).** Para un par NO apilable
 (R < máx + 2 mín) sin confinamiento, el máximo de
@@ -53,32 +63,47 @@ largo desde el origen; `ciclo_constructivo`), sea la *espina* el
 camino crítico 0 → … → k−1 más el cierre. Entonces, POR MAXIMALIDAD
 (sin hipótesis sobre tamaños ni orden):
 
-  (i)  los triples consecutivos de la espina tienen margen NS-2 ≥ 0
-       (si un atajo dominara, el camino directo sería más largo y el
-       del medio no estaría en el camino crítico);
-  (ii) toda cadena de piezas saltadas entre dos espinas a, b suma
-       ≤ θ(a,b) (el camino por las paradas sería más largo que la
-       arista usada): los saltados caben murales EN ORDEN dentro del
-       hueco del par, y por DIC cada saltado es sub-bolsillo de su
-       par;
-  (iii) total = suma cíclica de la espina en su orden inducido.
+  (i)  los triples con centro INTERNO del camino crítico tienen
+       margen NS-2 ≥ 0 (α[l] ≥ α[i] + θ(i,l) y
+       α[l] = α[i] + θ(i,j) + θ(j,l) para i → j → l de espina).
+       Los DOS triples que cruzan el cierre (k−1 → 0) NO están
+       cubiertos por maximalidad y de hecho son negativos en ~8% de
+       los ciclos aleatorios (peor ≈ −1.9): el lema no los usa (la
+       arista de cierre solo entra en el total y en el chequeo de
+       parejas);
+  (ii) cada saltado s_t entre dos espinas a = orden[i], b = orden[j]
+       cumple INDIVIDUALMENTE θ(a,s_t) + θ(s_t,b) ≤ θ(a,b) — por
+       α[t] ≥ α[i] + θ(a,s_t), α[j] ≥ α[t] + θ(s_t,b) y
+       α[j] = α[i] + θ(a,b) —, luego por DIC es sub-bolsillo de su
+       par: cabe mural en el hueco. (Esto es MÁS fuerte que la suma
+       de la cadena ≤ arista, que también vale.) La legalidad de las
+       parejas saltado-saltado y saltado-resto no necesita argumento
+       aparte: la da (iv) + el chequeo del wrap;
+  (iii) total = suma cíclica de la espina en su orden inducido;
+  (iv) DP-adelante: α[j] − α[i] ≥ θ(i,j) para TODO par i < j (por
+       definición del DP, α[j] ≥ α[i] + θ(i,j)). Consecuencia
+       (teorema): un fallo del chequeo de parejas SOLO puede venir
+       del arco largo (2π − (α[j] − α[i]) < θ(i,j), el wrap).
 
   Verificado: 4000 ciclos aleatorios (k = 4..11, órdenes zigzag y
-  aleatorios), 0 fallos en (i), (ii), (iii) y 0 violaciones DIC.
+  aleatorios), 0 fallos en (i) interno, (ii) individual y por suma,
+  (iii), (iv), y 0 saltados con s > p.
 
 **V (condición de valle — la única pieza por-dominio).** Las parejas
-espina-espina NO adyacentes deben ser legales en las posiciones del
-camino (la separación por el arco corto es la suma de aristas de
-espina, que debe ≥ θ del par; por el arco largo, 2π − d lo cubre si
-total ≤ 2π y NS del otro arco). Inducción (verificada, 1489
-instancias, 0 fallos): si TODOS los triples consecutivos del ciclo
-tienen margen NS-2 ≥ 0, la espina es todo el ciclo y todas las
-parejas son legales.
-La prueba general por división en el máximo intermedio topa con el
-caso «valle puro» (todos los intermedios menores que ambos extremos),
-que NO se cierra en general — por eso el chequeo de TODAS las parejas
-es parte de la construcción (como en el acta DPr), y V se verifica en
-cada dominio: en D1, **0 fallos de valle en 4500 instancias**.
+NO adyacentes deben ser legales en las posiciones del camino; por
+(iv), solo el arco largo (wrap) puede fallar. **V NO es reducible a
+NS-2**: la inducción «NS-2 ≥ 0 en todos los triples consecutivos ⟹
+espina = todo el ciclo y todo legal» es **FALSA** — contraejemplo
+bimodal `[0.1007, 3.007, 3.0048, 3.0142, 0.1004]`, R = 6.288959:
+márgenes cíclicos todos ≥ 0.032, total = 5.16 ≤ 2π, espina = todo el
+ciclo, y la pareja de grandes no adyacentes (3.007, 3.0142) viola el
+arco largo con déficit 0.68 (con ratios ≤ 6 el generador no pisa esa
+región: ~5.7% de violaciones con generador bimodal, de ellas ~10%
+con parejas ilegales). El chequeo constructivo RECHAZA todas las
+ilegales (0 certificaciones ilegales): la solidez no depende de
+V-general. Por eso el chequeo de TODAS las parejas es parte de la
+construcción (como en el acta DPr), y V se verifica en cada dominio:
+en D1, **0 fallos de valle en 4500 instancias**.
 
 **Z5 (dualidad).** Con lo anterior:
 
@@ -143,5 +168,15 @@ paper para los cierres computacionales.
   legal): NS-2 es necesario para la igualdad, no para la legalidad.
 - Negativo: sin cascada (ocupantes casi iguales), R_lb = 2.872 >
   o₁+o₂ = 2.55: son las colas las que permiten la corona en el par.
-- El zigzag NO siempre realiza el mínimo (gap hasta ~0.3): por eso
-  la prueba no se apoya en él.
+- El zigzag NO siempre realiza el mínimo (gap observado hasta ~0.46):
+  por eso la prueba no se apoya en él.
+- Negativo (adversario): la inducción «NS-2 consecutivo ≥ 0 ⟹ todo
+  legal» es FALSA — el contraejemplo bimodal de §2 está fijado como
+  check en el bloque B, junto con el barrido hostil (zigzag Y órdenes
+  aleatorios: las violaciones requieren grandes consecutivos, que el
+  zigzag nunca produce) y la verificación de que el chequeo
+  constructivo rechaza TODAS las instancias ilegales.
+- Negativo (adversario): los triples de la espina que cruzan el
+  CIERRE tienen margen < 0 en ~13% de los ciclos del barrido (532 de
+  4000): la maximalidad solo cubre los triples con centro interno, y
+  el lema solo usa esos.

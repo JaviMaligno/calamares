@@ -20,18 +20,27 @@ Descomposicion (version espina/maximalidad):
       pieza cabe MURAL dentro del hueco del par sin empujarlo.
   ESP (espina, por MAXIMALIDAD del camino mas largo) en la construccion
       ciclica por camino mas largo, el camino critico (espina) cumple:
-      (i) sus triples consecutivos tienen margen NS-2 >= 0 (un atajo
-      dominante alargaria el camino: contradiccion con maximalidad);
+      (i) sus triples con centro INTERNO del camino tienen margen
+      NS-2 >= 0 (un atajo dominante alargaria el camino); los DOS
+      triples que cruzan el cierre (k-1 -> 0) NO estan cubiertos y
+      pueden ser negativos (el lema no los usa);
       (ii) toda cadena de piezas saltadas entre dos espinas a, b suma
-      <= theta(a,b) (el camino por las paradas seria mas largo), luego
-      los saltados caben murales en su hueco, en orden, y por DIC cada
-      saltado es sub-bolsillo de su par;
-      (iii) el total = suma ciclica de la espina en su orden inducido.
-  V   (condicion de valle) las parejas espina-espina no adyacentes son
-      legales en las posiciones del camino mas largo (la validacion de
-      TODAS las parejas del chequeo constructivo).  Es la unica pieza
-      sin prueba general: se verifica en cada dominio (barrido) y el
-      chequeo es parte de la construccion (nunca certifica ilegal).
+      <= theta(a,b), y MAS FUERTE: cada saltado s_t individual cumple
+      theta(a,s_t) + theta(s_t,b) <= theta(a,b) (por alfa[t] >=
+      alfa[i] + theta(a,s_t), alfa[j] >= alfa[t] + theta(s_t,b),
+      alfa[j] = alfa[i] + theta(a,b)), luego por DIC cada saltado es
+      sub-bolsillo de su par: cabe mural en el hueco;
+      (iii) el total = suma ciclica de la espina en su orden inducido;
+      (iv) DP-adelante: alfa[j] - alfa[i] >= theta(i,j) para TODO
+      i < j (por definicion del DP): un fallo de parejas solo puede
+      venir del arco largo (wrap).
+  V   (condicion de valle) las parejas no adyacentes son legales en
+      las posiciones del camino mas largo; por (iv) solo el arco largo
+      puede fallar.  NO es reducible a NS-2: la induccion "NS-2 >= 0
+      consecutivo => todo legal" es FALSA (contraejemplo bimodal en
+      bloque B).  V se verifica en cada dominio (barrido) y el chequeo
+      de TODAS las parejas es parte de la construccion (nunca
+      certifica ilegal): la solidez no depende de V-general.
   Z5  (dualidad) la espina tiene <= 7 miembros en los dominios: la
       necesidad (subconjuntos, min sobre ordenes, gamma_min = theta_w
       por Z2 y NB-espina) y la construccion (exhaustiva/rica sobre
@@ -90,13 +99,17 @@ def suma_ciclica(orden, R):
 def ciclo_instr(orden, R):
     """ciclo_constructivo instrumentado: posiciones por camino mas
     largo, espina = camino critico 0 -> k-1 (+ cierre a 0).  Devuelve
-    (ok, total, espina_indices, fallo_pareja, fallo_par_espina)."""
+    (ok, total, deficit, alfa, espina_indices, fallo_pareja,
+    fallo_par_espina).  deficit = max(exceso de cierre, peor deficit
+    de pareja): 0 solo si el chequeo entero pasa (fiel al defc de
+    ciclo_constructivo: sin fallos invisibles con total <= 2 pi)."""
     k = len(orden)
     th = {}
     for i in range(k):
         for j in range(i + 1, k):
             if orden[i] + orden[j] > R + 1e-12:
-                return False, float('inf'), [], False, False
+                return False, float('inf'), float('inf'), [], [], \
+                    False, False
             th[(i, j)] = th[(j, i)] = theta_w(orden[i], orden[j], R)
     alfa = [0.0] * k
     pred = [-1] * k
@@ -115,6 +128,7 @@ def ciclo_instr(orden, R):
     fallo_pareja = False
     fallo_par_espina = False
     en_espina = set(espina)
+    deficit = max(0.0, total - 2 * PI)
     if total <= 2 * PI + 1e-9:
         for i in range(k):
             for j in range(i + 1, k):
@@ -122,22 +136,29 @@ def ciclo_instr(orden, R):
                 d = min(d, 2 * PI - d)
                 if d < th[(i, j)] - 1e-9:
                     fallo_pareja = True
+                    deficit = max(deficit, th[(i, j)] - d)
                     if i in en_espina and j in en_espina:
                         fallo_par_espina = True
     ok = total <= 2 * PI + 1e-9 and not fallo_pareja
-    return ok, total, espina, fallo_pareja, fallo_par_espina
+    return ok, total, deficit, alfa, espina, fallo_pareja, \
+        fallo_par_espina
 
 
 def corona_instr(todos, R, semilla=0):
     """corona_suf instrumentada: splits t + ordenes (zig, desc,
     barajas); devuelve el diagnostico del mejor intento.
-    (exito, exceso, espina_r, saltados_diag, fallo_V, apilables_espina)
-    con saltados_diag = lista de (cadena - arista, s - bolsillo)."""
+    (exito, deficit, espina_r, saltados_diag, fallo_V,
+    apilables_espina) con saltados_diag = lista de
+    (cadena - arista, s - bolsillo).  deficit incluye el peor fallo
+    de parejas (no solo el exceso de cierre).  FIEL a corona_suf:
+    los granos (asc[:t]) deben caber en los bolsillos de Descartes de
+    la corona como bins de fila; sin eso NO hay exito."""
     rl = random.Random(semilla)
     asc = sorted(todos)
     mejor = None
     for t in range(len(asc)):
         muro = asc[t:]
+        granos = asc[:t]
         if len(muro) < 3:
             break
         desc = sorted(muro, reverse=True)
@@ -147,18 +168,29 @@ def corona_instr(todos, R, semilla=0):
             rl.shuffle(o2)
             ordenes.append(o2)
         for orden in ordenes:
-            ok, total, esp, fV, fVe = ciclo_instr(orden, R)
-            exceso = max(0.0, total - 2 * PI)
+            ok, total, defc, alfa, esp, fV, fVe = ciclo_instr(orden, R)
+            if ok and granos:
+                kk = len(orden)
+                caps2 = sorted((bolsillo(orden[i], orden[(i + 1) % kk],
+                                         R) for i in range(kk)),
+                               reverse=True)
+                for g in sorted(granos, reverse=True):
+                    caps2.sort(reverse=True)
+                    if caps2 and g <= caps2[0] + 1e-12:
+                        caps2[0] -= g
+                    else:
+                        ok = False       # granos sin bolsillo: no hay
+                        break            # exito (como corona_suf)
             if mejor is None or (ok and not mejor[0]) or \
-               (ok == mejor[0] and exceso < mejor[1]):
-                mejor = (ok, exceso, orden, esp, fV, fVe)
+               (ok == mejor[0] and defc < mejor[1]):
+                mejor = (ok, defc, orden, esp, fV, fVe)
             if ok:
                 break
         if mejor and mejor[0]:
             break
     if mejor is None:
         return False, float('inf'), [], [], False, 0
-    ok, exceso, orden, esp, fV, fVe = mejor
+    ok, deficit, orden, esp, fV, fVe = mejor
     k = len(orden)
     espina_r = [orden[i] for i in esp]
     saltados = []
@@ -179,7 +211,7 @@ def corona_instr(todos, R, semilla=0):
                for y in range(x + 1, len(espina_r))
                if R >= max(espina_r[x], espina_r[y]) +
                2 * min(espina_r[x], espina_r[y]) - 1e-12)
-    return ok, exceso, espina_r, saltados, fVe, apil
+    return ok, deficit, espina_r, saltados, fVe, apil
 
 
 # ---------------------------------------------------------------- bloque A
@@ -208,9 +240,18 @@ def bloque_A():
     ok &= check("Z2: h(R-a, R-b) = 1 - 2 f(a) f(b) = cos theta_w exacto "
                 "(la esquina mural de la caja ES el certificado mural)",
                 sp.simplify(h_mural - cos_thw) == 0)
-    ok &= check("Z2: no apilable => R - b < a + b y R - a < a + b "
-                "(esquinas d->0 dan h -> -inf): gamma_min = theta_w",
-                True)  # R < max + 2 min <= max + min + min, trivial
+    ok &= check("Z2: (2a+b) - (a+2b) = a - b exacto: con a >= b, "
+                "R < a + 2b (no apilable) da R - b < a + b y "
+                "R - a < a + b (esquinas d->0 dan h -> -inf): "
+                "gamma_min = theta_w",
+                sp.simplify((2 * a + b) - (a + 2 * b) - (a - b)) == 0)
+    ok &= check("capado: (R-a)(R-b) - ab = R(R-a-b) exacto: "
+                "f(a) f(b) >= 1 (theta = pi) SOLO si R <= a + b -- "
+                "en el disco (pares con a + b <= R) el capado vive "
+                "solo en la frontera de tangencia diametral y la "
+                "convexidad Z1 (s < 0) cubre todo el interior",
+                sp.simplify((R - a) * (R - b) - a * b -
+                            R * (R - a - b)) == 0)
     phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
     Rg = phi + 1
     ka, kb, kw = 1 / phi, sp.Integer(1), -1 / Rg
@@ -254,9 +295,19 @@ def bloque_B():
     ok = True
     rng = random.Random(20260808)
     # (a) maximalidad: en el ciclo por camino mas largo, los triples
-    # consecutivos de la espina tienen margen >= 0, las cadenas
-    # saltadas suman <= su arista, y todo saltado es sub-bolsillo
-    n, v_triple, v_cadena, v_dic, v_total = 0, 0, 0, 0, 0
+    # con centro INTERNO del camino critico tienen margen >= 0, las
+    # cadenas saltadas suman <= su arista, CADA saltado individual
+    # tiene margen <= 0 (alfa[t] >= alfa[i] + theta(a, s_t) y
+    # alfa[j] >= alfa[t] + theta(s_t, b) con alfa[j] = alfa[i] +
+    # theta(a, b): teorema, no solo la cadena entera) y por DIC es
+    # sub-bolsillo; y el DP garantiza alfa[j] - alfa[i] >= theta(i, j)
+    # para TODO i < j (el fallo de parejas solo puede venir del arco
+    # largo/wrap).  Los DOS triples que cruzan el cierre (k-1 -> 0) NO
+    # estan cubiertos por maximalidad y PUEDEN ser negativos: se
+    # reportan como control honesto.
+    n, v_triple, v_cadena, v_marg, v_dic, v_total, v_fwd = \
+        0, 0, 0, 0, 0, 0, 0
+    cierre_neg = 0
     for _ in range(max(3000, ITER // 15)):
         k = rng.randrange(4, 12)
         desc = sorted((rng.uniform(0.2, 3.0) for _ in range(k)),
@@ -267,8 +318,13 @@ def bloque_B():
             continue
         orden = zig_de(desc) if rng.random() < 0.5 else \
             sorted(desc, key=lambda _: rng.random())
-        okc, total, esp, fV, fVe = ciclo_instr(orden, R)
+        okc, total, defc, alfa, esp, fV, fVe = ciclo_instr(orden, R)
         n += 1
+        for i in range(k):
+            for j in range(i + 1, k):
+                if alfa[j] - alfa[i] < \
+                   theta_w(orden[i], orden[j], R) - 1e-9:
+                    v_fwd += 1
         for w in range(len(esp) - 1):
             i, j = esp[w], esp[w + 1]
             a, b = orden[i], orden[j]
@@ -280,54 +336,106 @@ def bloque_B():
                 v_cadena += 1
             for t in range(i + 1, j):
                 if margen_ns2(a, orden[t], b, R) > 1e-9:
-                    pass  # el triple individual puede ser positivo si
-                    # la cadena entera aun pierde contra la arista
-                if orden[t] > bolsillo(a, b, R) + 1e-9 and \
-                   margen_ns2(a, orden[t], b, R) < -1e-12:
+                    v_marg += 1
+                if orden[t] > bolsillo(a, b, R) + 1e-9:
                     v_dic += 1
         for w in range(len(esp) - 2):
             i, j, l = esp[w], esp[w + 1], esp[w + 2]
             if margen_ns2(orden[i], orden[j], orden[l], R) < -1e-9:
                 v_triple += 1
+        if len(esp) >= 3:
+            if margen_ns2(orden[esp[-2]], orden[esp[-1]],
+                          orden[esp[0]], R) < -1e-9 or \
+               margen_ns2(orden[esp[-1]], orden[esp[0]],
+                          orden[esp[1]], R) < -1e-9:
+                cierre_neg += 1
         suma_esp = (sum(theta_w(orden[esp[w]], orden[esp[w + 1]], R)
                         for w in range(len(esp) - 1)) +
                     theta_w(orden[esp[-1]], orden[esp[0]], R))
         if abs(suma_esp - total) > 1e-9:
             v_total += 1
-    ok &= check(f"ESP: en {n} ciclos aleatorios, los triples "
-                f"consecutivos de la espina tienen margen >= 0 "
-                f"({v_triple} fallos: maximalidad), las cadenas "
+    ok &= check(f"ESP: en {n} ciclos aleatorios, los triples con "
+                f"centro interno del camino critico tienen margen "
+                f">= 0 ({v_triple} fallos: maximalidad), las cadenas "
                 f"saltadas suman <= su arista ({v_cadena} fallos) y "
                 f"total = suma ciclica de la espina ({v_total} fallos)",
                 n > 1000 and v_triple == 0 and v_cadena == 0
                 and v_total == 0)
-    ok &= check(f"DIC en espina: margen < 0 => saltado <= "
-                f"bolsillo(a, b, R) ({v_dic} violaciones)", v_dic == 0)
-    # (b) induccion: si TODOS los margenes NS-2 consecutivos son >= 0,
-    # el camino mas largo coincide con la suma consecutiva y todas las
-    # parejas son legales en las posiciones consecutivas
-    n_prem, viol = 0, 0
+    ok &= check(f"ESP fuerte: CADA saltado individual tiene margen "
+                f"NS-2 <= 0 ({v_marg} fallos) y es sub-bolsillo de su "
+                f"par de espina, s <= p(a, b, R) ({v_dic} "
+                f"violaciones): teorema por maximalidad + DIC",
+                v_marg == 0 and v_dic == 0)
+    ok &= check(f"DP-adelante: alfa[j] - alfa[i] >= theta(i, j) para "
+                f"todo i < j ({v_fwd} fallos): el fallo de parejas "
+                f"solo puede venir del arco largo (wrap)", v_fwd == 0)
+    print(f"      [info] triples del CIERRE con margen < 0: "
+          f"{cierre_neg} de {n} ciclos -- la maximalidad NO los cubre "
+          f"y el lema no los usa (la legalidad va por el chequeo de "
+          f"parejas)")
+    # (b) la induccion "NS-2 >= 0 en consecutivos => espina = todo el
+    # ciclo y todo legal" es FALSA en general: contraejemplo bimodal
+    # fijo (margenes ciclicos >= 0.03, total <= 2 pi, y la pareja de
+    # grandes no adyacentes es ilegal por el arco LARGO).  El chequeo
+    # constructivo la RECHAZA: la solidez no depende de la induccion,
+    # V va por chequeo explicito por instancia (no es reducible a
+    # NS-2 consecutivo).
+    orden_ce = [0.1007, 3.007, 3.0048, 3.0142, 0.1004]
+    R_ce = 6.288959
+    k_ce = len(orden_ce)
+    margs = [margen_ns2(orden_ce[i], orden_ce[(i + 1) % k_ce],
+                        orden_ce[(i + 2) % k_ce], R_ce)
+             for i in range(k_ce)]
+    okc, total, defc, alfa, esp, fV, fVe = ciclo_instr(orden_ce, R_ce)
+    ok &= check(f"contraejemplo a la induccion NS-2: margenes "
+                f"ciclicos todos >= {min(margs):.3f} > 0 y total = "
+                f"{total:.3f} <= 2 pi, pero la pareja de grandes no "
+                f"adyacentes viola el arco largo (deficit "
+                f"{defc:.3f}) y el chequeo la RECHAZA (ok = {okc}): "
+                f"V no es reducible a NS-2 consecutivo",
+                min(margs) > 0 and total <= 2 * PI and fV and fVe
+                and not okc and defc > 0.5)
+    # barrido hostil: el generador bimodal produce violaciones de la
+    # induccion con frecuencia; el chequeo constructivo rechaza TODAS
+    # las ilegales (solidez del constructor, la unica carga de prueba)
+    n_prem, viol_esp, viol_leg, certif_ilegal = 0, 0, 0, 0
     for _ in range(max(4000, ITER // 10)):
-        k = rng.randrange(4, 11)
-        desc = sorted((rng.uniform(0.5, 3.0) for _ in range(k)),
-                      reverse=True)
+        k = rng.randrange(4, 14)
+        if rng.random() < 0.5:
+            vals = [rng.uniform(0.5, 3.0) for _ in range(k)]
+        else:
+            vals = [rng.choice((0.1, 3.0)) * (1 + 0.01 * rng.random())
+                    for _ in range(k)]
+        desc = sorted(vals, reverse=True)
         R = (desc[0] + desc[1]) * rng.uniform(1.0001, 1.5)
         if any(desc[i] + desc[j] > R for i in range(k)
                for j in range(i + 1, k)):
             continue
-        orden = zig_de(desc)
+        # zigzag Y ordenes aleatorios: las violaciones requieren
+        # grandes consecutivos, que el zigzag nunca produce
+        if rng.random() < 0.5:
+            orden = zig_de(desc)
+        else:
+            orden = vals[:]
+            rng.shuffle(orden)
         margs = [margen_ns2(orden[i], orden[(i + 1) % k],
                             orden[(i + 2) % k], R) for i in range(k)]
         if min(margs) < 0:
             continue
         n_prem += 1
-        okc, total, esp, fV, fVe = ciclo_instr(orden, R)
-        if len(esp) != k or (total <= 2 * PI + 1e-9 and fV):
-            viol += 1
-    ok &= check(f"induccion: en {n_prem} instancias con NS-2 >= 0 en "
-                f"todos los triples consecutivos, la espina es TODO el "
-                f"ciclo y todas las parejas son legales ({viol} "
-                f"fallos)", n_prem > 200 and viol == 0)
+        okc, total, defc, alfa, esp, fV, fVe = ciclo_instr(orden, R)
+        if len(esp) != k:
+            viol_esp += 1
+        if total <= 2 * PI + 1e-9 and fV:
+            viol_leg += 1
+            if okc:
+                certif_ilegal += 1
+    ok &= check(f"induccion refutada y solidez intacta: en {n_prem} "
+                f"instancias con NS-2 >= 0 consecutivo, {viol_esp} "
+                f"espinas propias y {viol_leg} con parejas ilegales "
+                f"(la induccion NO es teorema), y el chequeo jamas "
+                f"certifica una ilegal ({certif_ilegal} = 0)",
+                n_prem > 200 and certif_ilegal == 0)
     return ok
 
 
@@ -373,8 +481,9 @@ def bloque_C():
                     peor_cad = max(peor_cad, dc)
                     peor_dic = max(peor_dic, dd)
     ok &= check(f"D1 ({n} instancias, j = 3..5, p = 4..6): la "
-                f"construccion cierra con dualidad tangente (exceso "
-                f"max {peor_exc:.2e} <= 2e-3, {fallos} fallos)",
+                f"construccion cierra con dualidad tangente (deficit "
+                f"max {peor_exc:.2e} <= 2e-3, incluye parejas y "
+                f"granos, {fallos} fallos)",
                 n > 1000 and fallos == 0 and peor_exc <= 2e-3)
     ok &= check(f"V: ninguna pareja espina-espina falla en el orden "
                 f"ganador ({fallos_V} fallos de valle)", fallos_V == 0)
@@ -503,7 +612,7 @@ def bloque_E():
     a2, b2, R2 = 2.0, 1.8, 4.0
     s_chico = 0.3 * bolsillo(a2, b2, R2)
     orden = [a2, s_chico, b2, 1.5]
-    okc, total, esp, fV, fVe = ciclo_instr(orden, R2)
+    okc, total, defc, alfa, esp, fV, fVe = ciclo_instr(orden, R2)
     m2 = margen_ns2(a2, s_chico, b2, R2)
     ok &= check(f"negativo: con s = 0.3 bolsillo (margen NS-2 = "
                 f"{m2:.4f} < 0) la espina EXCLUYE a s (queda mural en "

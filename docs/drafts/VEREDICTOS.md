@@ -798,3 +798,202 @@ formal pende del MISMO lema de dualidad/zigzag de
 lema-extensión de C4. **Caveat de alcance** (punto 2): esta campaña
 cubre v = sartén con α ∈ v a nivel superior; v = agujero con α
 anidada es del ensamblaje.
+
+---
+
+## Acta: lema de dualidad/zigzag (ronda hostil) — 2026-08-08
+
+Objeto: `code/zigzag.py` (certificados Z1/Z2/DIC/ESP/V/Z5) y
+`docs/drafts/zigzag.md` (el draft del lema), el puente
+evidencia → teorema de la campaña corona-contra-colas.
+
+### VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES
+
+El núcleo del lema resiste el asalto: solidez de la construcción
+(chequeo pasa ⟹ empaquetamiento legal), solidez de la necesidad
+(R_construct ≥ R_lb, 0 violaciones), DIC (identidad de tangencia
+verificada de forma independiente a 50-190 dígitos en régimen mucho
+más amplio que el del script), ESP por maximalidad (y más fuerte de
+lo enunciado), y la dualidad exacta en D1 (déficit 0.00e+00, ahora
+con un contador sin agujeros). Dos piezas de la periferia NO
+resistieron: la «inducción NS-2» del draft queda REFUTADA como
+implicación general (era un artefacto del generador) y el enunciado
+(i) de ESP sobrevendía los triples del cierre. Ninguna de las dos
+carga la prueba: se retiran/precisan y el lema queda en pie con
+enunciado honesto. 8 hallazgos: 2 ALTA, 2 MEDIA, 4 BAJA. Script
+reparado: **5/5 en verde** con CC_ITER=60000 y con CC_ITER=100000.
+
+### Hallazgos
+
+1. **ALTA — La «inducción NS-2» es FALSA como implicación general
+   (check de generador sesgado) — REFUTADA y retirada del lema.**
+   El draft afirmaba: «si TODOS los triples consecutivos del ciclo
+   tienen margen NS-2 ≥ 0, la espina es todo el ciclo y todas las
+   parejas son legales. Inducción (verificada, 1489 instancias,
+   0 fallos)». Los 0 fallos eran un artefacto del generador
+   (tamaños U(0.5, 3.0), ratio ≤ 6, solo orden zigzag — que nunca
+   pone dos grandes consecutivos). Contraejemplo (verificado a mano,
+   α y θ recomputados): orden = [0.1007, 3.007, 3.0048, 3.0142,
+   0.1004], R = 6.288959 — márgenes cíclicos todos ≥ 0.032, espina =
+   todo el ciclo, total = 5.161 ≤ 2π, y la pareja de grandes NO
+   adyacentes (3.007, 3.0142) es ilegal por el arco LARGO (arco
+   corto disponible 1.645 < θ = 2.328, déficit 0.683). Con
+   generador hostil (bimodal 0.1/3.0, k ≤ 15, órdenes aleatorios):
+   165 992 instancias con la premisa, 9 058 con espina propia y 907
+   con parejas ilegales. CRÍTICO PARA EL VEREDICTO: en el 100% de
+   los casos el chequeo constructivo RECHAZA la instancia ilegal
+   (ok = False) — la solidez no depende de la inducción; muere el
+   metateorema, no el certificado. Reparación: el check del bloque B
+   se invirtió a control negativo (contraejemplo fijo + barrido
+   hostil con zigzag Y barajas + verificación «0 certificaciones
+   ilegales»); el draft reescribe V sin la inducción y documenta el
+   contraejemplo.
+
+2. **ALTA — ESP (i) sobrevendido: los triples de la espina que
+   cruzan el CIERRE no están cubiertos por la maximalidad y SON
+   negativos con frecuencia.** El draft decía «los triples
+   consecutivos de la espina tienen margen NS-2 ≥ 0» sin excluir el
+   cierre k−1 → 0, y el código solo verificaba los internos
+   (`range(len(esp) - 2)`): la afirmación, leída sobre el ciclo de
+   la espina, es falsa — en 19 951 ciclos adversariales, el triple
+   (esp[−2], esp[−1], esp[0]) viola NS-2 en 1 570 casos (peor
+   −1.73) y (esp[−1], esp[0], esp[1]) en 1 219 (peor −1.94). La
+   maximalidad del camino 0 → k−1 no dice nada de la arista de
+   cierre. El lema NO usa esos triples (el cierre solo entra en el
+   total y en el chequeo de parejas), así que es sobreventa, no
+   refutación. Reparación: enunciado precisado a «triples con centro
+   INTERNO del camino crítico» (docstring, texto del check y draft)
+   y los triples del cierre se reportan como control honesto
+   ([info]: 532 negativos de 4000 ciclos).
+
+3. **MEDIA — corona_instr declaraba éxito ignorando los granos
+   (solidez latente rota respecto a corona_suf).** Para el split t,
+   corona_suf exige que los granos asc[:t] quepan en los bolsillos
+   de Descartes de la corona (bins de fila); corona_instr los
+   descartaba sin chequeo: un «éxito» con t > 0 habría certificado
+   un empaquetamiento que omite piezas, y la bisección de
+   R_construct del bloque D habría podido subestimar. Verificado
+   por replay fiel (mismo RNG compartido entre t): en los barridos
+   ACTUALES nunca se dispara (0 éxitos con t > 0 en las 4 500 de D1
+   y las 150 del bloque D: siempre gana t = 0), luego los datos
+   publicados no estaban contaminados — pero el agujero era real.
+   Reparación: corona_instr coloca los granos en los bolsillos
+   exactamente como corona_suf (first-fit descendente con resta de
+   capacidad) y solo declara éxito si caben todos.
+
+4. **MEDIA — fallos invisibles en el contador del bloque C: el
+   «exceso» ignoraba las parejas.** El conteo de fallos usaba
+   exceso = max(0, total − 2π): un orden con total ≤ 2π pero parejas
+   ilegales aparecía con exceso 0.00 y NO contaba como fallo — el
+   camino exacto por el que un «exceso 0.00e+00 sospechosamente
+   perfecto» podría mentir. Verificado por replay: en el barrido
+   actual no hay ninguno (el 0.00e+00 era genuino). Reparación:
+   ciclo_instr ahora devuelve el déficit real (máximo del exceso de
+   cierre y el peor déficit de parejas, fiel al defc de
+   ciclo_constructivo) y corona_instr/bloque C cuentan fallos sobre
+   ese déficit («incluye parejas y granos» en el texto del check).
+
+5. **BAJA (fortalecimiento) — el comentario «el triple individual
+   puede ser positivo» era FALSO: cada saltado individual es
+   sub-bolsillo por maximalidad.** Por definición del DP:
+   α[t] ≥ α[i] + θ(a, s_t), α[j] ≥ α[t] + θ(s_t, b) y
+   α[j] = α[i] + θ(a, b) (arista de espina) ⟹
+   θ(a, s_t) + θ(s_t, b) ≤ θ(a, b) para CADA saltado, no solo la
+   cadena entera; con DIC, s_t ≤ p(a, b, R). Verificado: 37 888
+   saltados en 30 000 ciclos, 0 violaciones (margen peor −5.0e-06),
+   0 casos s > p. El check del bloque B estaba debilitado a la
+   conjunción «margen < 0 Y s > p»; ahora exige margen ≤ 0 y s ≤ p
+   por separado (check «ESP fuerte»), y el draft enuncia el teorema
+   con su prueba de tres líneas.
+
+6. **BAJA (fortalecimiento) — DP-adelante: el fallo de parejas solo
+   puede venir del wrap (teorema nuevo en el enunciado).** Por
+   construcción del DP, α[j] − α[i] ≥ θ(i, j) para TODO i < j: el
+   arco corto hacia adelante está garantizado para todas las
+   parejas, y el único modo de fallo del chequeo es el arco largo
+   (2π − (α[j] − α[i]) < θ(i, j)). Verificado: 20 000 ciclos, 0
+   violaciones hacia adelante (49 413 pares con wrap potencial). El
+   contraejemplo del hallazgo 1 falla exactamente así. Añadido como
+   check (bloque B) y al draft como ESP (iv): V queda reducida a la
+   condición de arco largo.
+
+7. **BAJA — check(True) tautológico en Z2 y la duda del capado
+   θ = π, resueltos con identidades exactas.** El check «no
+   apilable ⟹ R − b < a + b» era un check(True) documentativo; se
+   sustituyó por la identidad (2a+b) − (a+2b) = a − b (sympy) que
+   cierra la cadena con a ≥ b. Y la duda de A8 («¿el capado θ = π
+   rompe la monotonía/convexidad usada?») se disuelve con
+   (R−a)(R−b) − ab = R(R−a−b) exacto: f(a)f(b) ≥ 1 ⟺ R ≤ a + b,
+   luego en el disco el capado vive SOLO en la frontera de
+   tangencia diametral (el punto áureo es exactamente esa
+   frontera); además capar solo puede subir el margen, luego
+   margen ≤ 0 sigue implicando s ≤ p. Ambas identidades añadidas al
+   bloque A y al draft.
+
+8. **BAJA — cifras del draft desincronizadas con barridos mayores.**
+   El gap del zigzag contra el mínimo exhaustivo llega a 0.459 con
+   CC_ITER=100000 (el draft decía 0.26-0.34/«~0.3»); corregido a
+   0.25-0.46/«~0.46 observado». El resto de cifras del draft
+   (3.24e-14, 4 500, 7.45e-04, exceso 0.00e+00) cuadran con la
+   salida real; la mención «1489 instancias» de la inducción se
+   retiró junto con la inducción.
+
+### Verificaciones independientes del atacante
+
+- **DIC en régimen amplio (A1)**: mpmath a 50 dígitos, 3 000
+  puntos con ratios a/b hasta 100× y R hasta ~6(a+b) (el script
+  solo prueba R ≤ 1.4(a+b)): peor |margen(p)| = 1.7e-47; p < mín(a,b)
+  en el 100% de los casos con R > a+b. Más 5 identidades DIC en
+  puntos racionales evaluadas con sympy a 60 dígitos: |margen| ≤
+  2e-190. La prueba geométrica (el círculo de Descartes es
+  mural-tangente a ambos y los ángulos murales suman) queda
+  respaldada: requiere el par (a, b) mural TANGENTE — que es
+  exactamente el par de la arista tangente que la construcción usa.
+- **Z1 (A8)**: re-derivación por g'' con sympy: g'' =
+  e^{−s}/(2(e^{−s}−1)^{3/2}) > 0 en s < 0 (comprobado también en
+  malla); el argumento del script ((log g')' > 0 con g' > 0 ⟹
+  g'' > 0) es correcto y está bien enunciado.
+- **Fidelidad del generador D1 (A4)**: cotejado línea a línea con
+  bloque_B de coronacolas.py — mismos rangos (s2 ∈ (0.01, φ−1),
+  piezas ≤ s2, s1 con σ₁+M > 1, holguras expovariate(3), 30% sin
+  holgura), misma cascada (máximo DENTRO antes de la holgura),
+  mismo confinamiento (R_lb_pack con confinado_por = o₁): réplica
+  fiel; difieren solo semilla y nº de instancias por celda.
+- **Replays de solidez (A4/A5)**: reproducción externa de
+  corona_instr (RNG compartido entre splits, fiel al break) sobre
+  las 4 500 instancias de D1 y las 150 del bloque D: 0 éxitos con
+  t > 0, 0 fallos invisibles. La comparación R_construct vs R_lb es
+  coherente (mismos conjuntos desnudos {ocupantes, m}, ambos sin
+  confinamiento en el bloque D).
+- **Inducción hostil (A3)**: 400 000 intentos, 4 modos (uniforme,
+  empates al 0.1%, bimodal 0.1/3.0, colas geométricas), k ≤ 15,
+  R hasta 1.6×: 165 992 con premisa → 9 058 espinas propias, 907
+  parejas ilegales, 0 certificadas. Contraejemplo mínimo verificado
+  a mano (hallazgo 1).
+- **Ejecuciones (A7)**: base 5/5 reproducido; tras reparaciones,
+  5/5 con CC_ITER=60000 y 5/5 con CC_ITER=100000 (D1 a 7 497
+  instancias, déficit máx 0.00e+00; solidez en 250 instancias,
+  violación 0.00e+00; la refutación de la inducción se reproduce:
+  459 espinas propias, 47 ilegales, 0 certificadas).
+
+### Reparaciones aplicadas
+
+En `code/zigzag.py`: ciclo_instr devuelve déficit real y α
+(hallazgos 4, 6); corona_instr coloca granos en bolsillos y usa el
+déficit (3, 4); bloque A con las dos identidades nuevas (7); bloque
+B con checks endurecidos (5), DP-adelante (6), triples internos +
+[info] del cierre (2), y la inducción invertida a refutación con
+contraejemplo fijo + barrido hostil (1); docstring del módulo
+actualizado (1, 2, 5, 6). En `docs/drafts/zigzag.md`: estado
+ADVERSARIADO, ESP reescrito con (i) internos, (ii) individual,
+(iv) DP-adelante, V sin inducción y con el contraejemplo, nota del
+capado en Z1, controles negativos nuevos y cifras sincronizadas
+(1, 2, 5, 6, 7, 8).
+
+**Qué es teorema y qué no, tras la ronda**: Z1, Z2, DIC, ESP
+(i)-interno/(ii)-individual/(iii)/(iv) y las dos solideces son
+teoremas (identidades sympy + argumentos de maximalidad de tres
+líneas); V y la dualidad exacta en R_lb son verificación por
+dominio (D1: 4 500-7 497 instancias, déficit y fallos 0 con el
+contador sin agujeros); la ley de escala (j, p) sigue siendo el
+asterisco declarado. La inducción NS-2 ya no forma parte del lema.
