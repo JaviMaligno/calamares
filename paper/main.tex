@@ -1199,25 +1199,36 @@ three-piece profiles and the golden deformation -- \texttt{striple}
 (5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
 \texttt{aureo} (5/5); the pan-exchange golden floor --
 \texttt{batalla2} (6/6), \texttt{microcelda} (5/5) and, for larger
-profiles, \texttt{perfilp} (5/5) and \texttt{rstar} (6/6). Several
-statements were corrected or sharpened by the adversarial round (a missing
-hypothesis in the trio frontier, a refuted ``leak'' family, the
-$\alpha\ge o_1$ case split); the reports record each incident.
+profiles, \texttt{perfilp} (5/5) and \texttt{rstar} (6/6); the
+corona-versus-tails campaign of Appendix~\ref{app:campaign} --
+\texttt{coronacolas} (5/5), \texttt{coronanidada} (5/5), the duality
+certificates \texttt{zigzag} (5/5), and the exchange-assembly
+bookkeeping \texttt{ensamblaje} (6/6) and \texttt{puertocii} (6/6).
+Several statements were corrected or sharpened by the adversarial
+rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
+family, the $\alpha\ge o_1$ case split, a refuted induction in the
+duality layer, a repaired extension lemma and case split in the
+assembly); the reports record each incident.
 
 A fourth layer is machine-checked. The repository contains a Lean~4
 development (\texttt{lean/}, core only, no \texttt{mathlib}) that formalizes
 the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$ and $(\mathbb Q[e])[d]$. Its
-twenty-two theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+thirty-seven theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
 of Theorem~\ref{thm:DP} (including $\Psi(1/2)=\Psi_B(1)=\Psi_2(\varphi/2)
 =\varphi$ and the monotonicity certificate for $g$), the Tribonacci floor
 ($P(\varphi)=-1$, the bracket $1.8392<T<1.8393$ and a certificate that $P$
-increases strictly on $[1,\infty)$), the $13/7$ corner, and the additive
-threshold family. There are no \texttt{sorry}s and no new axioms
+increases strictly on $[1,\infty)$), the $13/7$ corner, the additive
+threshold family, the pincer and boundary-corner certificates of
+Theorem~\ref{thm:DPr}, and the duality-certificate identities of
+Appendix~\ref{app:campaign} (the vanishing Descartes discriminant and
+pocket $\varphi/2$ of the golden pair, the critical margin identity,
+the $(N)$-heritage golden line and the mirror corner
+$b_2(2,\sqrt5-1)=1$). There are no \texttt{sorry}s and no new axioms
 (\texttt{\#print axioms} reports only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
 is not used, so every proof is checked by the Lean kernel. The geometric
@@ -2899,6 +2910,103 @@ that refuted and repaired two steps: the naive adjacent-arc criterion
 -- the pentagram -- and a $j\ge3$ corona that failed to re-place
 $o_3$, whence the surviving cell; report in the repository).
 \end{proof}
+
+\section{The corona-versus-tails campaign: closure of the residual cells}
+\label{app:campaign}
+
+This appendix records the machinery and the results that close the
+cells left open by Theorems~\ref{thm:DP}--\ref{thm:DPr} and by the
+Status paragraph of Section~\ref{sec:generic}. Epistemic labels are
+stated with each claim: \emph{theorem} means a written proof (with
+exact identities delegated to \texttt{sympy}/Lean);
+\emph{computational closure} means per-instance certificates over
+swept parameter ranges, with the certificate soundness proved but the
+extension to unswept $(j,p,k)$ ranges supported numerically. Every
+script below is paired with an adversarial verification report in the
+repository (\texttt{docs/drafts/VEREDICTOS.md}).
+
+\paragraph{Small rings adjoin to the profile.}
+
+\begin{corollary}[Pan exchange, extra small rings]\label{cor:DSpan}
+In the pan-exchange template, every extra ring $e<r_m$ that $P$ keeps
+in the pan adjoins the reinsertion profile: with
+$S^{+}:=S\cup\{\text{extras}\}$, Theorems~\ref{thm:DP},
+\ref{thm:DPp} and~\ref{thm:DPr} hold verbatim for $S^{+}$, and the
+residual cell of the case assignment over $S^{+}$ is again
+$\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$.
+\end{corollary}
+\begin{proof}
+Reinsertion is existential: any placement that reinserts all of
+$S^{+}$ reinserts $S$, so blocking for $S$ implies that every witness
+placement for $S^{+}$ fails, and each wall of the cited theorems --
+derived from exactly such failures, using only the radii of the
+profile members and the resources $D_m$, $H_m$, holes and the pan
+repack -- holds for the enlarged profile a fortiori. Extras inside
+holes are already counted by the hole tariffs ($X$-masses). The case
+assignment of Theorems~\ref{thm:DPp}--\ref{thm:DPr} is exhaustive
+over $S^{+}$ ($200\,000$ sampled instances, zero unassigned; script
+\texttt{coronacolas}, block C).
+\end{proof}
+
+\paragraph{The duality certificates.} The remaining cells are closed
+by a necessity/sufficiency pair sharing one wall-tangency function:
+$\sin^2(\theta(a,b)/2)=f(a)f(b)$, $f(x)=x/(R-x)$, as in
+Lemma~\ref{lem:S1}. \emph{Necessity} (a true lower bound $R_{\mathrm{lb}}$
+for the radius of any disk packing a given family): for any pair in
+any packing, the angular separation of centres satisfies
+$\cos\gamma\le h(d_a,d_b)=(d_a^2+d_b^2-(a+b)^2)/(2d_ad_b)$, whose
+maximum over the admissible box of centre distances is attained at a
+corner; for a non-stackable pair ($R<\max+2\min$) without confinement
+the binding corner is mural and $h(R-a,R-b)=1-2f(a)f(b)$ exactly, so
+$\gamma\ge\theta(a,b)$; stackable pairs are handled by subset
+certificates and by confinement ($|c|\ge2g+r-R$ when a giant $g$ is
+present), and the cyclic sum of separations in any packing is $2\pi$.
+\emph{Sufficiency} (a constructive placement at $R\ge R_{\mathrm{lb}}$):
+the cyclic corona by longest-path positions with all pairs validated
+and small rings assigned to Descartes pockets
+($k_p=k_a+k_b-1/R+2\sqrt{k_ak_b-(k_a+k_b)/R}$) as row bins. Its
+soundness is a theorem, by maximality of the longest path: every
+skipped ring $s$ between consecutive spine members $a,b$ satisfies
+$\theta(a,s)+\theta(s,b)\le\theta(a,b)$, and this margin vanishes
+\emph{exactly} at the Descartes pocket radius (the three mutually
+tangent mural circles have adjacent wall angles summing to the
+pair's), so each skipped ring sits murally inside its gap; positions
+satisfy $\alpha_j-\alpha_i\ge\theta(i,j)$ for all $i<j$ by
+construction, so only wrap-around pairs need (and receive) explicit
+validation. At the golden instance the margin is critically zero:
+$p(\varphi,1;\varphi+1)=\varphi/2$ with vanishing Descartes
+discriminant, and
+$f(\varphi)f(\varphi/2)+f(1)f(\varphi/2)=1=f(\varphi)f(1)$, so the
+counterexample of Theorem~\ref{thm:golden} is the exact critical
+point of the certificate system and is never unblocked by it
+(script \texttt{zigzag}, 5/5; the adversarial round refuted a
+stronger induction -- consecutive triple margins do not imply global
+pair legality -- and the construction therefore validates all pairs
+explicitly, as it always did).
+
+\paragraph{Closure of the residual cells.} With tails in cascade
+($\rho\le\varphi$ forces $o_k\ge(\sum_{i>k}o_i+1+\Sigma)/\varphi$,
+and $o\ge\varphi(1+\Sigma)$ at near-ties), the constructive corona at
+$R=R_{\mathrm{lb}}$ succeeds with \emph{uniform tangent duality}
+(deficit $0.0$; the boundary placement is tangent, hence legal)
+across: the heavy cell $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ of
+Theorem~\ref{thm:DPr} ($j\le5$, $p\le6$ swept, $185$k instances plus
+$4\,284$ corners, Euclidean re-validation $1500/1500$); the
+solid-pivot regime $\omega\ge1$, $j\ge3$ (no step uses the width);
+and, in the nested template of Section~\ref{sec:generic}, the three
+golden-level gaps declared in the Status paragraph -- the $j=2$ tip
+$\omega\in[\varphi/2,1)$, profiles of four or more pieces beyond the
+reduction branch, and the quantitative gap lemma (extra smalls adjoin
+as in Corollary~\ref{cor:DSpan}; the reduction re-routes through the
+corona where the light-cell inheritance fails, and sweeps directly
+with the floor $\alpha\ge\max(1+\omega,\text{true pair of }u+\omega)$
+where transport is illegitimate). Scripts \texttt{coronacolas} (5/5)
+and \texttt{coronanidada} (5/5), each with an adversarial round that
+repaired the routing (six repairs in the pan campaign, four in the
+nested one; reports in the repository). These are computational
+closures: the per-instance certificate is theorem-backed as above,
+the swept ranges are stated, and the extension in $(j,p,k)$ rests on
+the monotonicity evidence recorded by the scripts.
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
