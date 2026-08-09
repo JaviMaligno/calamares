@@ -2602,3 +2602,60 @@ reescrito (§3 corte X = 0, §4 lema con alcance honesto, §5 deltas
 de parada). **G-b/G-c/G-f certificados sobre el dominio legal
 entero; G-g ligera certificada en el corte X = 0; el resto de [G]
 permanece como barrido declarado.**
+
+---
+
+## Acta: ronda hostil de bolsillos fase 1 (`bolsillos.md`) — 2026-08-09
+
+Adversario con reproducción del 3/3, verificación simbólica
+independiente, 40 000 realizaciones del cuarteto (0 violaciones,
+peor margen −4·10⁻¹⁶ = redondeo de tangencia), esquinas (Σ → 1⁺,
+Σ = φ exacto, ω = 10⁶, holgura 10⁴, Σ_S = Σ) y 260k tuplas contra
+`_lp4`.
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES (con mejoras)
+
+La fase 1 resiste el asalto completo y sale REFORZADA:
+
+1. **[MENOR→MEJORA] El certificado queda 100% algebraico**:
+   r(u) = φu² + 2(φ−1)u + (φ−1) — tres coeficientes POSITIVOS
+   (r > 0 sin malla); g estrictamente decreciente (g′ = p′ − φ,
+   sup p′ = p′(2/φ) < φ) con mínimo EXACTO g(φ) = (3−√5)/4 =
+   φ/2 − 1/φ. APLICADO al script y draft.
+2. [MENOR] El check «p creciente» era vacuo (disyunto falso +
+   fallback trivial). REPARADO: p′·D² = 2u+1 exacto.
+3. **[MENOR, relevante] El «margen 0.003» del punto peligroso
+   j = 1 era ESPURIO**: con w* = 1/φ exacto el 4-ciclo suma 2π
+   EXACTO (consecuencia de la identidad d2) — la variedad es
+   exactamente tangente en el cierre, no «casi». REESCRITO.
+4. **[GRAVE, fase 2] `_lp4` sin los caps de wrap** (d_i ≤ 2π−θ_i
+   de los pares consecutivos): sin contraejemplo en 260k tuplas
+   pero sin prueba; y el modo k = 4 del B&B no valida el par
+   (otro, m) por el lado de chico. DOCUMENTADO como supersedido:
+   el lema del LP de arcos (arcolp.py) INCLUYE los wraps (arcos de
+   longitud n−1). El «sii» de _lp4 para las diagonales solas es
+   CORRECTO (verificado con construcción explícita + 200k vértices).
+5. [NOTA] Dos ramas en α explicitadas (u ≤ φ: q, g; α > φ:
+   p(α) > p(φ) = φ/2 > topes). APLICADO (check con p(φ) = φ/2).
+6. [NOTA] Menudencias (check(5) narrativo, parrilla R desde
+   2/φ+1 exacto). APLICADAS.
+
+**MEJORA MAYOR: la identidad d2 DEMOSTRADA en ℚ(√5)** (álgebra de
+senos): √(x₁x₂(1−x₁)(1−x₂)) = (7√5−15)/5 es cuadrado exacto y
+x₁(1−x₂)+x₂(1−x₁)+2(7√5−15)/5 = 1−x₃, con sin(A+B) = cos(C) sin
+problemas de rama: θ(φ,1/φ)+θ(1/φ,1)+θ(1,φ) = π en R = 2φ es
+TEOREMA. Añadido a Lean como (39) golden_pi_trio (kernel).
+
+RESISTEN: la realización completa de los 6 pares (construcción
+explícita, 40k instancias); la DIC en el par diametral SIN importar
+zigzag (f(s)(f(α)+f(1)) = 1 en s = p, disc ≡ 0); dominio sin techos
+de α; ligaduras conservadoras; extensión R > R_test (márgenes
+crecen, ningún uso del bolsillo fuera de R_test); las esquinas
+todas; el WIP de fase 2 vendido honestamente (salvo el 0.003).
+
+### Estado tras reparación
+
+`bolsillos.py` 3/3 (checks exactificados); `bolsillos.md`
+reescrito (certificado algebraico completo, dos ramas, tangencia
+exacta en §3); Lean 39. **El dominio j = 0 de thm:gapwritten es
+TEOREMA ALGEBRAICO con tangencia áurea.**

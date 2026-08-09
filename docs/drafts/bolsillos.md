@@ -1,8 +1,11 @@
 # El cierre por bolsillos, fase 1: el cuarteto j = 0 exacto
 
-Estado: DRAFT fase 1 (2026-08-09), PRE-ADVERSARIO. Script:
-`code/bolsillos.py` (3/3). Fase 2 (j = 1, k ≤ 2) EN CURSO con el
-diseño corregido en memoria de campaña.
+Estado: DRAFT fase 1 (2026-08-09), ADVERSARIADO (acta en
+VEREDICTOS.md: CONFIRMADO CON CORRECCIONES, con mejoras — el
+certificado quedó 100% algebraico y la identidad d2 DEMOSTRADA en
+ℚ(√5)). Script: `code/bolsillos.py` (3/3). Fase 2 (j = 1, k ≤ 2)
+EN CURSO — desbloqueada por `arcolp.md` (el LP de arcos, que
+además incluye los wraps que a `_lp4` le faltaban, hallazgo H4).
 
 ## 1. El teorema de fase 1
 
@@ -19,9 +22,14 @@ ligaduras (s′ ≤ Σ/2, w* ≤ Σ−1) y α ≥ (1+Σ)/φ (peor caso; ω, Σ_S
 holguras solo suben α y p): con Σ = φu−1,
 
     q(u) = 2u(u+1) − (φu−1)(u²+u+1) = (φ−u)·r(u) ≥ 0
-    g(u) = p(u) − (φu−2) ≥ 0.19       en u ∈ [2/φ, φ],
+    g(u) = p(u) − (φu−2) ≥ g(φ) = (3−√5)/4 = φ/2 − 1/φ
 
-con r > 0 en el intervalo (división polinómica exacta en ℚ(√5)) y
+en u ∈ [2/φ, φ], AMBAS 100% ALGEBRAICAS (mejora de la ronda
+hostil): **r(u) = φu² + 2(φ−1)u + (φ−1)** con los tres coeficientes
+positivos (r > 0 sin malla), y g estrictamente decreciente
+(g′ = p′ − φ con sup p′ = p′(2/φ) ≈ 0.30 < φ) con mínimo exacto en
+φ. Dos ramas en α (H5): para α ≤ φ mandan q y g; para α > φ,
+s′ ≤ φ/2 = p(φ) < p(α) y w* ≤ 1/φ < φ/2 < p(α) (p creciente). Y
 **q(φ) = 0 EXACTO**: la tangencia áurea — en Σ = φ con α en su
 suelo φ, el tope s′ = φ/2 = p(φ,1;φ+1), EL BOLSILLO ÁUREO DE
 thm:DP (`descartes_pocket_golden` en Lean). El punto crítico de
@@ -54,13 +62,16 @@ diagnóstico es un hallazgo matemático: el punto peligroso real de
 j = 1 es (Σ = φ, α = o₁ = φ, ambos en su suelo de cascada) — allí
 los bolsillos laterales (p(φ,1;2φ) = 0.501 < w*-cap = 1/φ) no
 albergan a w*, y el quinteto cabe SOLO con w* como MIEMBRO del
-ciclo: el 4-ciclo {φ, φ, w*, m} suma π + θ(φ,1) + θ(1/φ,1) +
-θ(φ,1/φ) ≈ 6.280 contra 2π = 6.2832 — margen 0.003, OTRA variedad
-casi-tangente del programa. Capturarla exige el **lema de
-suficiencia k = 4** (realizabilidad de un 4-ciclo con suma ≤ 2π +
-validación all-pairs vía la dicotomía sub/super-bolsillo por par —
-la extensión del argumento k = 3 de puertocii). Con ese lema, el
-certificado por caja añade el modo «w* en el ciclo» y los B&B
+ciclo: el 4-ciclo {φ, φ, w*, m} con w* = 1/φ suma EXACTAMENTE 2π
+(corrección de la ronda hostil, H3: el «margen 0.003» de la v1 era
+espurio — venía de evaluar w* = 1/φ − 10⁻³; en el cierre w* → 1/φ
+la variedad es EXACTAMENTE TANGENTE por la identidad d2, del mismo
+rango que la tangencia áurea de fase 1). Capturarla exige un
+criterio con desigualdades cerradas y all-pairs completo: **el lema
+del LP de arcos** (`arcolp.md`, que además incluye los wraps que a
+`_lp4` le faltaban — hallazgo H4 del acta) más el certificado de
+entorno del punto tangente (gradiente estricto en V). Con ambos,
+el certificado por caja añade el modo «w* en el ciclo» y los B&B
 deberían terminar. Es el siguiente paso del programa, no un
 parche.
 

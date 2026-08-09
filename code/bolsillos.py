@@ -106,10 +106,10 @@ def bloque_A():
                 sp.simplify(disc) == 0)
     p_u = u * (u + 1) / (u ** 2 + u + 1)
     dp = sp.simplify(sp.diff(p_u, u) * (u ** 2 + u + 1) ** 2)
-    ok &= check("p(u) creciente: numerador de p'(u) = "
-                f"{sp.simplify(dp)} > 0 para u > 0",
-                sp.simplify(dp - (u ** 2 + 2 * u)) == 0
-                or sp.Poly(dp, u).all_coeffs()[-1] >= 0)
+    ok &= check("p(u) creciente EXACTO (ronda hostil H2: el check "
+                "v1 era vacuo): p = 1 - 1/(u^2+u+1), numerador de "
+                "p' = 2u+1 > 0",
+                sp.simplify(dp - (2 * u + 1)) == 0)
     # (2) la desigualdad de s': q(u) >= 0 en [2/phi, phi] con
     #     q(phi) = 0 (la tangencia aurea)
     q = sp.expand(2 * u * (u + 1) - (phi * u - 1) * (u ** 2 + u + 1))
@@ -125,45 +125,50 @@ def bloque_A():
     qP = sp.Poly(q, u, extension=sp.sqrt(5))
     quo, rem = sp.div(qP, sp.Poly(phi - u, u,
                                   extension=sp.sqrt(5)))
-    rl = float(quo.eval(2 / phi))
-    rh = float(quo.eval(phi))
-    rm = min(float(quo.eval(sp.Rational(2, 1) / phi
-                            + sp.Rational(i, 40) * (phi - 2 / phi)))
-             for i in range(41))
-    ok &= check(f"q(u) = (phi - u)·r(u) EXACTO (resto de division "
-                f"{rem.as_expr()} = 0) con r > 0 en [2/phi, phi]: "
-                f"r(2/phi) = {rl:.4f}, r(phi) = {rh:.4f}, minimo en "
-                f"malla {rm:.4f} > 0 (r cuadratica con minimo "
-                f"interior acotado): q >= 0 en TODO el intervalo, "
-                f"igualdad SOLO en u = phi",
-                rem.as_expr() == 0 and rl > 0 and rh > 0 and rm > 0.5)
+    r_ex = sp.expand(quo.as_expr())
+    r_obj = phi * u ** 2 + 2 * (phi - 1) * u + (phi - 1)
+    ok &= check("q(u) = (phi - u)·r(u) EXACTO (resto 0) con "
+                "r(u) = phi u^2 + 2(phi-1)u + (phi-1) — los TRES "
+                "coeficientes POSITIVOS (ronda hostil H1: de malla "
+                "a exacto): r > 0 para TODO u > 0, luego q >= 0 en "
+                "el intervalo con igualdad SOLO en u = phi",
+                rem.as_expr() == 0
+                and sp.simplify(r_ex - sp.expand(r_obj)) == 0)
     # (3) la desigualdad de w*: g(u) = p(u) - (phi u - 2) >= 0
     g = sp.simplify(p_u - (phi * u - 2))
-    gl = float(g.subs(u, 2 / phi))
-    gh = float(g.subs(u, phi))
-    gm = min(float(g.subs(u, 2 / phi + i * (phi - 2 / phi) / 40))
-             for i in range(41))
-    ok &= check(f"w* <= Sigma - 1 = phi u - 2 <= p(u) en [2/phi, "
-                f"phi]: g(2/phi) = {gl:.4f}, g(phi) = {gh:.4f} "
-                f"(= p - 1/phi, margen 0.19), minimo en malla fina "
-                f"{gm:.4f} > 0.15: MARGEN franco (no tangente)",
-                gl > 0 and gh > 0.15 and gm > 0.15)
+    # H1 (ronda hostil): g' = p' - phi con p' = (2u+1)/D^2 y
+    # D = u^2+u+1 creciente: sup p' en [2/phi, phi] es p'(2/phi)
+    # <= 0.30 < phi => g ESTRICTAMENTE decreciente; minimo exacto
+    # g(phi) = (3-sqrt5)/4 = phi/2 - 1/phi
+    ppl = float(((2 * u + 1) / (u ** 2 + u + 1) ** 2)
+                .subs(u, 2 / phi))
+    gmin = sp.simplify(g.subs(u, phi))
+    ok &= check(f"w* <= phi u - 2 <= p(u) EXACTO en [2/phi, phi]: "
+                f"g' = p' - phi con sup p' = p'(2/phi) = {ppl:.4f} "
+                f"< phi (D creciente): g estrictamente decreciente "
+                f"y minimo g(phi) = (3-sqrt5)/4 = phi/2 - 1/phi = "
+                f"0.19098 EXACTO (sympy)",
+                ppl < float(phi)
+                and sp.simplify(gmin - (3 - sp.sqrt(5)) / 4) == 0
+                and sp.simplify(gmin - (phi / 2 - 1 / phi)) == 0)
     # (4) super-bolsillo: p(s'max, w*max; R) << 1 en el dominio
     pmax = max(bolsillo(0.809, 0.618, RR)
-               for RR in (2.24, 2.6, 3.0, 4.0, 10.0))
+               for RR in (2.0 / PHI + 1.0, 2.24, 2.6, 3.0, 4.0,
+                          10.0))
     ok &= check(f"(4) super-bolsillo de m y alpha: p(s'max, w*max) "
                 f"<= {pmax:.4f} << 1 <= m, alpha (p decrece en R: "
                 f"el peor es R minimo 2/phi + 1 = 2.24): los pares "
                 f"no consecutivos (alpha,m) y (s',w*) validan via "
                 f"NS-2 >= 0 con margen ~{1 - pmax:.2f}", pmax < 0.5)
     # (5) el acople que salva el punto aureo del error v1
-    ok &= check("(5) el ACOPLE de ligaduras (error v1 documentado): "
-                "los topes phi/2 y 1/phi NO son simultaneos — en "
-                "Sigma -> 1, s' <= 1/2 y w* <= Sigma - 1 -> 0; en "
-                "Sigma = phi, s' <= phi/2 tangente al bolsillo y "
-                "w* <= 1/phi con margen 0.19: el certificado usa "
-                "s' <= Sigma/2, w* <= Sigma - 1 EN FUNCION de u",
-                True)
+    ok &= check("(5) el ACOPLE de ligaduras (H5: DOS RAMAS en "
+                "alpha): rama u <= phi — q y g con Sigma = phi u - "
+                "1; rama alpha > phi — s' <= phi/2 = p(phi) < "
+                "p(alpha) y w* <= 1/phi < phi/2 < p(alpha) (p "
+                "creciente): ambas hermeticas; verificacion: "
+                "p(phi) = phi/2 y 1/phi < phi/2 exactos",
+                sp.simplify(p_u.subs(u, phi) - phi / 2) == 0
+                and float(1 / phi) < float(phi / 2))
     return ok
 
 
@@ -285,7 +290,13 @@ def M_apilable3(a, b, c):
 
 
 def _lp4(t12, t23, t34, t41, t13, t24):
-    """Suficiencia k = 4 (LEMA): existen separaciones d_i >= theta
+    """[WIP fase 2 — SUPERSEDIDO por code/arcolp.py] Suficiencia
+    k = 4 parcial: le FALTAN los caps de wrap de los pares
+    consecutivos (d_i <= 2 pi - theta_i; ronda hostil H4 — sin
+    contraejemplo en 260k tuplas pero sin prueba).  El lema del LP
+    de arcos los INCLUYE (los arcos de longitud n-1 son exactamente
+    los caps): usar arcolp.dual_factible.  Se conserva por el
+    enunciado historico: existen separaciones d_i >= theta
     consecutivas con suma 2 pi y ambas diagonales cubiertas por los
     DOS lados sii, con S = 2 pi - suma(theta_consec) >= 0,
       A' + A'' <= S  y  B' + B'' <= S,

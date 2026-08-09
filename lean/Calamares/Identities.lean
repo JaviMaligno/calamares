@@ -379,6 +379,29 @@ theorem strong_breathing :
       ∧ sqrt5 - (phi - 1) = phi := by
   decide +kernel
 
+/-- (39) El trío π áureo: con `f(x) = x/(2φ−x)`, los productos de
+senos cuadrados del trío `{φ, 1/φ, 1}` en `R = 2φ` son
+`x₁ = f(φ)f(1/φ) = √5−2`, `x₂ = f(1/φ)f(1) = 1−2√5/5`,
+`x₃ = f(1)f(φ) = √5/5`, y la identidad de adición de senos
+`sin(A+B) = cos C` (A, B, C = las mitades de los tres ángulos)
+se reduce a las dos igualdades algebraicas de abajo:
+`√(x₁x₂(1−x₁)(1−x₂)) = (7√5−15)/5` (cuadrado exacto, con
+`7√5 > 15`) y `x₁(1−x₂) + x₂(1−x₁) + 2·(7√5−15)/5 = 1−x₃`.
+Consecuencia: `θ(φ,1/φ) + θ(1/φ,1) + θ(1,φ) = π` EXACTO en
+`R = 2φ` — la tangencia del punto peligroso de j = 1 (bolsillos
+fase 2) y el 5-ciclo con `s′ = φ/2` en la constante de R2b.
+[bolsillos.py C(d2); acta 2026-08-09] -/
+theorem golden_pi_trio :
+    ((7 * sqrt5 - 15) / 5) ^ 2
+      = (sqrt5 - 2) * (1 - 2 * sqrt5 / 5)
+        * (3 - sqrt5) * (2 * sqrt5 / 5)
+    ∧ (sqrt5 - 2) * (2 * sqrt5 / 5)
+        + (1 - 2 * sqrt5 / 5) * (3 - sqrt5)
+        + 2 * ((7 * sqrt5 - 15) / 5)
+      = 1 - sqrt5 / 5
+    ∧ 7 * sqrt5 - 15 > 0 := by
+  decide +kernel
+
 /-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/

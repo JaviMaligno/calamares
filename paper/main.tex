@@ -1251,8 +1251,8 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
 \texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
-\texttt{optimizacion} (5/5), \texttt{repack} (5/5) and
-\texttt{r2bcert} (5/5).
+\texttt{optimizacion} (5/5), \texttt{repack} (5/5),
+\texttt{r2bcert} (5/5) and \texttt{bolsillos} (3/3).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -1264,7 +1264,7 @@ development (\texttt{lean/}, core only, no \texttt{mathlib}) that formalizes
 the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$ and $(\mathbb Q[e])[d]$. Its
-thirty-eight theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+thirty-nine theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
@@ -1277,9 +1277,11 @@ Theorem~\ref{thm:DPr}, and the duality-certificate identities of
 Appendix~\ref{app:campaign} (the vanishing Descartes discriminant and
 pocket $\varphi/2$ of the golden pair, the critical margin identity,
 the $(N)$-heritage golden line, the mirror corner
-$b_2(2,\sqrt5-1)=1$ and the strong-breathing chain
+$b_2(2,\sqrt5-1)=1$, the strong-breathing chain
 $\varphi(3-\varphi)=2\varphi-1=\sqrt5$,
-$\sqrt5-(\varphi-1)=\varphi$). There are no \texttt{sorry}s and no new axioms
+$\sqrt5-(\varphi-1)=\varphi$, and the golden $\pi$-trio identity
+behind $\theta(\varphi,1/\varphi)+\theta(1/\varphi,1)
++\theta(1,\varphi)=\pi$ at $R=2\varphi$). There are no \texttt{sorry}s and no new axioms
 (\texttt{\#print axioms} reports only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
 is not used, so every proof is checked by the Lean kernel. The geometric
@@ -3206,7 +3208,21 @@ With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
 \emph{entire nested template} of case~(b) carries written proofs for
 every $j$, every width, every profile and extras -- at the same
 epistemic standard as the pan side (one certified maximization per
-cell).
+cell). For $j=0$ the domain sweep has since been upgraded to an
+\emph{exact algebraic pocket certificate}: at $R=\alpha+1$ the
+Descartes discriminant vanishes identically and the wall pocket is
+$p(u)=u(u+1)/(u^2+u+1)$, increasing; with the coupled mass caps
+($s'\le\Sigma/2$, $w^*\le\Sigma-1$) the sub-pocket condition
+factors as $(\varphi-u)\,r(u)\ge0$ with
+$r(u)=\varphi u^2+2(\varphi-1)u+(\varphi-1)$
+positive-coefficient, so equality holds exactly at $\Sigma=\varphi$
+with $\alpha$ on its cascade floor -- where the cap
+$s'=\varphi/2$ is \emph{tangent} to the golden pocket
+$b_2(\varphi,1)=\varphi/2$ of Theorem~\ref{thm:DP}'s
+counterexample; the second cap closes with exact minimum
+$(3-\sqrt5)/4$ (script \texttt{bolsillos}, 3/3, adversarial round:
+the quartet cell is a theorem, its critical corner the golden
+pocket itself).
 
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
