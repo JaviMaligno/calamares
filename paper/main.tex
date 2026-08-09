@@ -1155,10 +1155,12 @@ Theorem~\ref{thm:DPr}).
 (b)~\emph{Assemble the universal reinsertion lemma} for the nested
 exchange from the proved floors. The $j=1$ and $j=3$ width tips
 matter only for pinning the nested threshold at exactly $T$; the
-three nested gaps that were open at the golden level itself (the
-$j=2$ tip $\omega\in[\varphi/2,1)$, the quantitative gap lemma, and
-profiles of four or more pieces beyond the reduction branch) are
-closed computationally in Appendix~\ref{app:campaign}, and the
+three nested gaps that were open at the golden level itself, the
+$j=2$ tip $\omega\in[\varphi/2,1)$ and the profiles of four or more
+pieces beyond the reduction branch now carry a written proof
+(Theorem~\ref{thm:nestedwritten}, all $j\ge2$), while the
+quantitative gap lemma ($j\le1$) keeps its computational closure in
+Appendix~\ref{app:campaign}, and the
 exchange assembly -- the case partition over the containers of $m$,
 the container port, and the $\alpha\notin v$ campaign -- is carried
 out there with its facts at theorem level; the shared-root cell
@@ -3100,6 +3102,46 @@ $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ and of the solid-pivot regime: both
 cells now carry written proofs, with a single certified maximization
 in the budget (the same epistemic standard as
 Theorem~\ref{thm:DPr}).
+
+\begin{theorem}[Nested exchange, two or more occupants,
+written]\label{thm:nestedwritten}
+In the nested template ($u$ the hole of a top-level $\alpha$, $v$
+the pan) with $j\ge2$ occupants, $\rho\le\varphi$ implies the
+exchange does not block -- for every width, every $\sigma_2$, every
+profile size and any extra small rings. \emph{Proof sketch.} The
+witness: the pan as $P$ placed it, with only $m$ leaving (its unit
+disk $D_m$ becomes vacant at top level) into $\alpha$'s hole,
+re-packed by $F$'s certificate ($m$ is the largest disagreement and
+$F$ processes decreasingly: the hole's occupants at that moment were
+exactly the shared rings above $m$); greedy row filling of $D_m$
+with the loose mass in decreasing order up to the first
+non-fitting piece $s'$; $s'$ inserted murally by
+Lemma~\ref{lem:insert}; the rest as one row-disk
+$w^*<1/\varphi$ (exact: the placed row plus $s'$ exceeds $1$ and the
+tail of $m$ is at most $\varphi$), inserted again. Two exact walls
+drive the budget: the insertand cap
+$s'\le\min(\Sigma/2,\varphi/2)$ (unconditional in $\omega$: the two
+largest loose pieces sum within both $\Sigma$ and the tail of $m$),
+and the automatic regime -- with $j+1\ge3$ top-level pieces the
+cascade forces the second largest to satisfy
+$t_2\ge(1+\Sigma)(1+\varphi)/\varphi^2=1+\Sigma\ge2$
+($\varphi^2=1+\varphi$), so $R-x\ge t_2\ge2>\varphi\ge2s'$ and
+$2>2/\varphi=2w^*$ for every piece, with margin $2-\varphi$. The
+shadow budgets stay below $2\pi$ across the domain (certified
+maximization with deterministic corners; margin $\ge1.07$). For
+$j\le1$ the second insertion dies exactly on the golden razor
+$o_1\to2/\varphi$ against $2w^*=2/\varphi$ (the shadow ratio is
+identically $1$): that strip remains with its computational closure.
+\qed
+\end{theorem}
+
+Theorem~\ref{thm:nestedwritten} supersedes the computational
+closures of the golden-level nested gaps with two or more occupants
+-- in particular the $j=2$ tip $\omega\in[\varphi/2,1)$ entirely, and
+profiles of four or more pieces beyond the reduction branch (profile
+size is mass here). The remaining nested strip $j\le1$ (the
+quantitative gap lemma's home) keeps its adversarially verified
+computational closure.
 
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
