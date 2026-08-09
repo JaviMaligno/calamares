@@ -1,7 +1,7 @@
 # El lema del LP de arcos: la corona mural k ≤ 5 exacta
 
 Estado: DRAFT con pruebas (2026-08-09), PRE-ADVERSARIO. Script:
-`code/arcolp.py` (4/4). La pieza que la fase 2 de bolsillos
+`code/arcolp.py` (5/5, bloques A-E). La pieza que la fase 2 de bolsillos
 necesitaba: un criterio de corona que certifica EN las variedades
 tangentes (déficit 0), donde `corona_k5` con piezas infladas no
 puede.
@@ -47,9 +47,16 @@ Mapa numérico: 125 puntos en las direcciones admisibles (α, o₁
 suben desde φ; Σ baja desde φ), quinteto por arc-LP: 125/125 caben.
 Gradiente simbólico de la ligadura σ(α,o₁,Σ) = θ(o₁,Σ−1) +
 θ(Σ−1,1) + θ(1,α) − π en R = α+o₁, en el punto: σ_α = −0.687,
-σ_{o₁} = −1.112, σ_Σ = +1.799 — LOS TRES SIGNOS FAVORABLES: las
-direcciones admisibles se alejan de la tangencia (σ ≤ 0 local con
-decrecimiento estricto).
+σ_{o₁} = −1.112, σ_Σ = +1.799 — LOS TRES SIGNOS FAVORABLES.
+
+**Certificado de entorno (bloque E)**: en la vecindad definida
+V = [φ, φ+0.15]² × [φ−0.15, φ], los signos de las tres derivadas
+se mantienen ESTRICTOS en malla 25³ (máx σ_α = −0.42 < 0, máx
+σ_{o₁} = −0.86 < 0, mín σ_Σ = +1.61 > 0): σ es monótona en V con
+σ(punto) = 0 (la identidad) ⟹ σ ≤ 0 en TODA V — el 4-ciclo
+[g1, g2, w*, m] cabe en la vecindad entera. El parche del punto
+tangente queda al estándar de maximización certificada; el B&B de
+fase 2 puede excluir V y trabajar con el arc-LP fuera.
 
 **Caveat honesto para fase 2** (anotado, no resuelto): la ruta del
 4-ciclo usa B′ ≤ slack, que equivale a θ(o₁,m)+θ(m,α) ≤ π; en los

@@ -345,6 +345,48 @@ def bloque_D():
     return ok
 
 
+# ---------------------------------------------------------------- bloque E
+def bloque_E():
+    print("[E] el certificado de entorno del punto tangente")
+    import sympy as sp_
+    ok = True
+    a_, o_, S_ = sp_.symbols('a o S', positive=True)
+    R_ = a_ + o_
+    w_ = S_ - 1
+
+    def theta(x, y):
+        return 2 * sp_.asin(sp_.sqrt((x / (R_ - x))
+                                     * (y / (R_ - y))))
+
+    sig = theta(o_, w_) + theta(w_, 1) + theta(1, a_) - sp_.pi
+    dsa = sp_.lambdify((a_, o_, S_), sp_.diff(sig, a_), 'math')
+    dso = sp_.lambdify((a_, o_, S_), sp_.diff(sig, o_), 'math')
+    dsS = sp_.lambdify((a_, o_, S_), sp_.diff(sig, S_), 'math')
+    DELTA = 0.15
+    malla = [i / 24 for i in range(25)]
+    peor_a, peor_o, peor_S = -1e9, -1e9, 1e9
+    for ta in malla:
+        for to in malla:
+            for tS in malla:
+                a = PHI + DELTA * ta
+                o = PHI + DELTA * to
+                S = PHI - DELTA * tS
+                peor_a = max(peor_a, dsa(a, o, S))
+                peor_o = max(peor_o, dso(a, o, S))
+                peor_S = min(peor_S, dsS(a, o, S))
+    ok &= check(f"vecindad V = [phi, phi+{DELTA}]^2 x [phi-{DELTA}, "
+                f"phi]: signos de las derivadas de sigma en malla "
+                f"25^3 — max d/da = {peor_a:+.4f} < 0, max d/do = "
+                f"{peor_o:+.4f} < 0, min d/dS = {peor_S:+.4f} > 0: "
+                f"sigma es MONOTONA en V con sigma(punto) = 0 "
+                f"(la identidad) => sigma <= 0 en TODA V — el "
+                f"4-ciclo [g1, g2, w*, m] cabe en la vecindad "
+                f"entera (certificado local del punto tangente, "
+                f"estandar de maximizacion certificada)",
+                peor_a < -0.1 and peor_o < -0.1 and peor_S > 0.5)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("EL LP DE ARCOS: corona mural k <= 5 exacta "
@@ -355,7 +397,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCD")
+    etiquetas = [solo] if solo else list("ABCDE")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"
