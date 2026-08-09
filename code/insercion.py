@@ -14,6 +14,12 @@
     presupuesto uniforme en j.
 [E] el teorema en accion: el reparto entero (m de F + sigma1 a D_m +
     dos inserciones por medida) desbloquea todas las instancias.
+[F] la rama D3 con sigma2 > phi-1 (sin sigma2 <= phi-1 disponible):
+    vacuidad exacta para sigma2 > phi/2 (masa), presupuesto
+    parametrico s = sigma2 en [phi-1, phi/2] con Sigma >= 2 sigma2.
+[G] sup del politopo cascada por OPTIMIZACION dirigida (no sondeo),
+    piezas exactas de monotonia (o2 decreciente, o1 banera con
+    limite pi), y la esquina euclidiana determinista R = o1+o2.
 """
 import math
 import os
@@ -209,6 +215,21 @@ def bloque_A():
                 "(sympy): R > 2s + x para toda pieza del presupuesto",
                 sp.simplify(2 - 2 * (phi - 1) - (4 - 2 * phi)) == 0
                 and float(4 - 2 * phi) > 0)
+    # A6 (REFUTACION DEL ENUNCIADO CON THETA MURAL, n = 1): el lema NO
+    # puede enunciarse con Sum 2 theta_R(s, x_i) < 2 pi (la version que
+    # tenia el draft): un par no apilable con x profundo cumple esa
+    # hipotesis y NO admite insercion (todo psi en conflicto). El
+    # enunciado correcto suma SOMBRAS Theta_i con R > 2s + x_i.
+    Rc, xc, sc, dc = 3.0, 2.2, 0.5, 0.1
+    hip_mural = 2 * theta_w(sc, xc, Rc) < 2 * PI
+    todo_conflicto = (Rc - sc) + dc < sc + xc     # |c_s - c_x| < w siempre
+    ok &= check(f"A6 [refutacion del enunciado mural]: R = {Rc}, "
+                f"x = {xc} a d = {dc}, s = {sc}: Sum 2 theta_R = "
+                f"{2 * theta_w(sc, xc, Rc):.3f} < 2 pi pero (R-s)+d = "
+                f"{Rc - sc + dc} < s+x = {sc + xc}: todo angulo en "
+                f"conflicto, insercion imposible: el enunciado exige "
+                f"sombras + regimen", hip_mural and todo_conflicto
+                and arco_prohibido(sc, xc, Rc, dc) >= PI - 1e-12)
     return ok
 
 
@@ -343,6 +364,47 @@ def bloque_D():
     ok &= check(f"presupuesto con holguras (j <= 11, R = o1+o2): "
                 f"sup observado = {peor2:.4f} < 2 pi (margen "
                 f"{2 * PI - peor2:.4f})", peor2 < 2 * PI - 0.1)
+    # piezas EXACTAS de monotonia (sympy) -- el estatus honesto del
+    # "sup por esquinas": (o2) el presupuesto DECRECE en o2 con el
+    # resto fijo; (o1) NO es monotono en o1: es banera (decrece y
+    # luego crece hacia el limite pi < 2 pi); el resto de direcciones
+    # queda al optimizador del bloque G.
+    import sympy as sp
+    o1, o2, s, wi = sp.symbols('o1 o2 s w_i', positive=True)
+    u = o1 + o2 - s
+    w1, w2 = s + o1, s + o2
+    # (o2): d/do2 [asin(w2/u) + asin(w1/u)] < 0  <=>
+    # (u - w2) sqrt(u^2-w1^2) < w1 sqrt(u^2-w2^2); certificado exacto:
+    # u - w2 = o1 - 2s < o1 + s = w1  y  w1^2 - w2^2 >= 0
+    c1 = sp.simplify((u - w2) - (o1 - 2 * s)) == 0
+    c2 = sp.simplify(w1 - (u - w2) - 3 * s) == 0        # gap = 3s > 0
+    c3 = sp.simplify(w1 ** 2 - w2 ** 2 -
+                     (o1 - o2) * (o1 + o2 + 2 * s)) == 0
+    ok &= check("monotonia exacta en o2: u - w2 = o1 - 2s, "
+                "w1 - (u - w2) = 3s > 0 y w1^2 - w2^2 = "
+                "(o1 - o2)(o1 + o2 + 2s) >= 0: la derivada del "
+                "presupuesto en o2 es negativa (el minimo de o2 es "
+                "el peor) -- exacto", c1 and c2 and c3)
+    # (o1): N_i^2/P^2 estrictamente decreciente en o1 (un solo cambio
+    # de signo de la derivada del presupuesto: banera) y limite pi
+    P2 = (o2 - 2 * s) / (2 * o1 + o2)
+    Q = wi ** 2 / ((u ** 2 - wi ** 2) * P2)
+    dQ = sp.together(sp.diff(Q, o1))
+    num = sp.numer(dQ)
+    den = sp.denom(dQ)
+    num_ok = sp.simplify(
+        num - 2 * wi ** 2 *
+        (s ** 2 - o1 ** 2 - o1 * o2 - o2 * s - wi ** 2)) == 0
+    den_ok = sp.simplify(
+        den - (o2 - 2 * s) * (u ** 2 - wi ** 2) ** 2) == 0
+    lim = sp.limit(2 * sp.asin(w1 / u), o1, sp.oo)
+    ok &= check("banera exacta en o1: d(N_i^2/P^2)/do1 = "
+                "2 w^2 (s^2-o1^2-o1 o2-o2 s-w^2) / "
+                "[(o2-2s)(u^2-w^2)^2] < 0 (numerador < 0 con o1 > s; "
+                "denominador > 0 en regimen o2 > 2s): a lo sumo un "
+                "cambio - -> + del gradiente; limite o1 -> oo del "
+                "presupuesto = pi < 2 pi",
+                num_ok and den_ok and lim == sp.pi)
     return ok
 
 
@@ -393,6 +455,224 @@ def bloque_E():
     return ok
 
 
+# ---------------------------------------------------------------- helpers F/G
+def sombra_o_mural(s, x, R):
+    """Cota del arco por pieza: sombra en regimen apilable, theta
+    mural si el par no es apilable (mejor cota), pi si no hay
+    regimen."""
+    u, w = R - s, s + x
+    if R < max(x, s) + 2 * min(x, s):
+        return theta_w(s, x, R)
+    if u > w:
+        return math.asin(w / u)
+    return PI
+
+
+def presupuesto_p(os_, extras, s):
+    """Presupuesto analitico de sombras en R = o1+o2 para insertar s;
+    None si alguna pieza queda fuera de regimen sombra."""
+    R = os_[0] + os_[1]
+    tot = 0.0
+    for x in os_ + extras:
+        u, w = R - s, s + x
+        if u <= w:
+            return None
+        tot += 2 * math.asin(w / u)
+    return tot
+
+
+def minimo_cascada(Sg, j):
+    os_, tot = [], 0.0
+    for _ in range(j):
+        o = max(1.0, (tot + 1.0 + Sg) / PHI, os_[-1] if os_ else 0.0)
+        os_.append(o)
+        tot += o
+    return os_[::-1]
+
+
+def cascada_factible(os_, Sg):
+    if any(os_[k] < os_[k + 1] - 1e-12 for k in range(len(os_) - 1)):
+        return False
+    tot = 0.0
+    for k in range(len(os_) - 1, -1, -1):
+        if os_[k] < (tot + 1.0 + Sg) / PHI - 1e-12 or \
+                os_[k] < 1.0 - 1e-12:
+            return False
+        tot += os_[k]
+    return True
+
+
+def optimiza_presupuesto(fun, j, Sg, os_, pasos=500, paso0=0.4):
+    """Coordinate ascent proyectado al politopo cascada (maximiza)."""
+    cur = fun(os_) or 0.0
+    step = paso0
+    for _ in range(pasos):
+        mejoro = False
+        for k in range(j):
+            for sgn in (+1.0, -1.0):
+                cand = list(os_)
+                cand[k] += sgn * step
+                if not cascada_factible(cand, Sg):
+                    continue
+                p = fun(cand)
+                if p is not None and p > cur + 1e-12:
+                    os_, cur, mejoro = cand, p, True
+        if not mejoro:
+            step *= 0.5
+            if step < 1e-7:
+                break
+    return cur, os_
+
+
+# ---------------------------------------------------------------- bloque F
+def bloque_F():
+    print("[F] la rama D3 con sigma2 > phi-1 (presupuesto parametrico)")
+    import sympy as sp
+    ok = True
+    phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
+    # F1: vacuidad por masa para sigma2 > phi/2: la cola de m contiene
+    # sigma1 + sigma2 >= 2 sigma2 > phi => rho > phi, no hay bloqueo
+    ok &= check("F1: sigma2 > phi/2 es VACIA con rho <= phi: "
+                "cola(m) >= sigma1 + sigma2 >= 2 sigma2 > phi exacto",
+                sp.simplify(2 * (phi / 2) - phi) == 0)
+    # F2: con j >= 3, o2 >= 1 + Sigma exacto: o3 >= (1+Sigma)/phi y
+    # o2 >= (o3 + 1 + Sigma)/phi >= (1+Sigma)(1+phi)/phi^2 = 1+Sigma
+    S = sp.symbols('Sigma', positive=True)
+    ok &= check("F2: o2 >= (1+Sigma)(1+phi)/phi^2 = 1 + Sigma exacto "
+                "(phi^2 = 1 + phi): el regimen sombra o2 - 2s >= "
+                "1 + Sigma - 2s >= 1 vale con Sigma >= 2s",
+                sp.simplify((1 + S) * (1 + phi) / phi ** 2 - (1 + S))
+                == 0)
+    # F3: curva parametrica s = sigma2 en [phi-1, phi/2], con la
+    # ligadura de masa Sigma >= max(1, 2s): minimos de cascada
+    peor1, peor2 = 0.0, 0.0
+    for j in range(3, 9):
+        for i in range(801):
+            s = (PHI - 1) + i * (PHI / 2 - (PHI - 1)) / 800
+            os_ = minimo_cascada(max(1.0, 2 * s), j)
+            p1 = presupuesto_p(os_, [1.0], s)
+            p2 = presupuesto_p(os_, [1.0, s], 1 / PHI)
+            if p1 is None or p2 is None:
+                peor1 = 99.0
+                break
+            peor1 = max(peor1, p1)
+            peor2 = max(peor2, p2)
+    ok &= check(f"F3: curva s en [phi-1, phi/2], Sigma = max(1, 2s), "
+                f"j = 3..8: sup p1 = {peor1:.4f}, sup p2 = "
+                f"{peor2:.4f} < 2 pi (margenes "
+                f"{2 * PI - peor1:.2f}, {2 * PI - peor2:.2f})",
+                peor1 < 2 * PI - 0.3 and peor2 < 2 * PI - 0.3)
+    # F4: sup por optimizacion dirigida sobre el politopo con la
+    # ligadura Sigma >= 2s (s tambien se optimiza)
+    rng = random.Random(SEED + 4)
+    best = 0.0
+    for j in (3, 4, 5):
+        for trial in range(max(60, ITER // 1000)):
+            s = rng.uniform(PHI - 1, PHI / 2)
+            Sg = rng.uniform(max(1.0, 2 * s), PHI)
+            holg = [1.0 + rng.expovariate(2.5) for _ in range(j)]
+            if trial % 4 == 0:
+                holg = [1.0] * j
+            os_ = cascada(None, Sg, j, holgura=holg)
+            for st in (s, PHI / 2):
+                if 2 * st > Sg + 1e-12:
+                    continue      # ligadura de masa: Sigma >= 2 sigma2
+                cur, _ = optimiza_presupuesto(
+                    lambda o: presupuesto_p(o, [1.0], st), j, Sg,
+                    list(os_))
+                best = max(best, cur)
+    ok &= check(f"F4: sup optimizado del presupuesto D3-parametrico "
+                f"(Sigma >= 2s, j <= 5): {best:.4f} < 2 pi (margen "
+                f"{2 * PI - best:.4f}); el maximo vive en la esquina "
+                f"s = phi/2, Sigma = phi, o = (phi^3, phi^2, phi)",
+                0 < best < 2 * PI - 0.3)
+    return ok
+
+
+# ---------------------------------------------------------------- bloque G
+def bloque_G():
+    print("[G] sup del politopo D1 (optimizacion) y esquina euclidiana")
+    rng = random.Random(SEED + 5)
+    ok = True
+    esquina1, esquina2 = 4.7225, 5.2644
+    s2, wst = PHI - 1, 1 / PHI
+    best1, best2 = 0.0, 0.0
+    for j in (3, 4, 5, 6, 7, 8):
+        for trial in range(max(80, ITER // 700)):
+            Sg = rng.uniform(1.0, PHI)
+            holg = [1.0 + rng.expovariate(2.0) for _ in range(j)]
+            if trial % 4 == 0:
+                holg = [1.0] * j
+            os_ = cascada(None, Sg, j, holgura=holg)
+            c1, o1v = optimiza_presupuesto(
+                lambda o: presupuesto_p(o, [1.0], s2), j, Sg,
+                list(os_))
+            best1 = max(best1, c1)
+            c2, _ = optimiza_presupuesto(
+                lambda o: presupuesto_p(o, [1.0, s2], wst), j, Sg,
+                list(os_))
+            best2 = max(best2, c2)
+            # Sigma tambien baja hacia 1 en el ascenso
+            if Sg > 1.0:
+                c1b, _ = optimiza_presupuesto(
+                    lambda o: presupuesto_p(o, [1.0], s2), j, 1.0,
+                    list(o1v))
+                best1 = max(best1, c1b)
+    ok &= check(f"G1: sup OPTIMIZADO del presupuesto sigma2 sobre el "
+                f"politopo (j <= 8, Sigma libre en [1, phi]): "
+                f"{best1:.4f} <= esquina {esquina1} (+1e-3) y < 2 pi: "
+                f"la esquina j = 3, Sigma -> 1 domina",
+                best1 < esquina1 + 1e-3 and best1 < 2 * PI - 0.3)
+    ok &= check(f"G2: idem segunda insercion w*: {best2:.4f} <= "
+                f"esquina {esquina2} (+1e-3) y < 2 pi",
+                best2 < esquina2 + 1e-3 and best2 < 2 * PI - 0.3)
+    # G3: la esquina euclidiana determinista R = o1 + o2 EXACTO:
+    # o1, o2 diametrales; o3.., m murales apinados (peor lado);
+    # sigma2 = phi-1 y w* = 1/phi se insertan, validacion euclidiana
+    n, fallos = 0, 0
+    for j in range(3, 7):
+        for Sg in (1.0, 1.2, 1.3820, PHI):
+            os_ = minimo_cascada(Sg, j)
+            R = os_[0] + os_[1]
+            resto = os_[2:] + [1.0]
+            for orden in (list(resto), list(resto)[::-1]):
+                pos = [(R - os_[0], 0.0)]
+                ang = 0.0
+                prev = os_[0]
+                cfg = [(R - os_[0], 0.0, os_[0]),
+                       (-(R - os_[1]), 0.0, os_[1])]
+                legal = True
+                for x in orden:
+                    ang += theta_w(prev, x, R) + 1e-9
+                    cx = (R - x) * math.cos(ang)
+                    cy = (R - x) * math.sin(ang)
+                    cfg.append((cx, cy, x))
+                    prev = x
+                for a in range(len(cfg)):
+                    for b in range(a + 1, len(cfg)):
+                        xa, ya, ra = cfg[a]
+                        xb, yb, rb = cfg[b]
+                        if (xa - xb) ** 2 + (ya - yb) ** 2 < \
+                                (ra + rb) ** 2 - 1e-9:
+                            legal = False
+                if not legal:
+                    continue
+                n += 1
+                p2 = inserta(cfg, s2, R)
+                if p2 is None:
+                    fallos += 1
+                    continue
+                p3 = inserta(cfg + [p2], wst, R)
+                if p3 is None:
+                    fallos += 1
+    ok &= check(f"G3: esquinas euclidianas deterministas R = o1+o2 "
+                f"exacto, murales apinados ({n} configuraciones "
+                f"legales, j = 3..6, Sigma hasta phi): sigma2 y w* "
+                f"SIEMPRE entran ({fallos} fallos)",
+                n >= 8 and fallos == 0)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("LEMA DE INSERCION POR MEDIDA Y TEOREMA D1-ESCRITO")
@@ -403,7 +683,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCDE")
+    etiquetas = [solo] if solo else list("ABCDEFG")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"

@@ -1812,3 +1812,144 @@ violaciones.
    dominio, capacidades del reparto, versión anidada) son las
    hipótesis del programa, no de este teorema; el draft las declara
    correctamente como pendientes.
+
+---
+
+## Acta 2026-08-09 — Lema de inserción y teorema D1-escrito (ronda hostil)
+
+**Objeto**: `docs/drafts/insercion.md` (Lema A + Lema B + Teorema
+D1-escrito) y `code/insercion.py`. Ataque con cálculo propio (sympy
+independiente, optimización dirigida sobre el politopo de cascada,
+contraejemplos construidos) sobre las líneas A1–A8.
+
+**Veredicto hostil: REFUTADO EL ENUNCIADO, CONFIRMADA LA PRUEBA —
+REPARADO.** El enunciado del Lema A tal como estaba escrito era
+falso; su prueba, el presupuesto y el teorema eran correctos. Se
+detectó además un hueco de hipótesis en la rama D3 (σ₂ ≤ φ−1 no
+disponible) y se cerró. El «sup por esquinas» del Lema B vendía como
+monotonía lo que no lo es; queda delimitado con piezas exactas
+nuevas y un residuo numérico declarado. Script 7/7 tras las
+reparaciones (dos bloques nuevos).
+
+### Hallazgos ALTA
+
+1. **El enunciado del Lema A era FALSO (refutación con n = 1).** El
+   draft enunciaba la hipótesis como Σ 2·θ_R(s, x_i) < 2π con θ_R el
+   ángulo MURAL de lem:S1 — pero la prueba solo soporta la SOMBRA
+   Θ_i = arcsin((s+x_i)/(R−s)) bajo el régimen R > 2s+x_i, que el
+   enunciado ni mencionaba. Contraejemplo: R = 3, x = 2.2 a
+   profundidad d = 0.1, s = 0.5: par no apilable, Σ 2θ_R = 3.34 < 2π
+   y sin embargo (R−s)+d = 2.6 < s+x = 2.7 — todo ángulo mural en
+   conflicto, inserción imposible (bloque A6 nuevo). Es exactamente
+   la «versión ingenua» que el propio control A4 del draft refuta:
+   el enunciado contradecía su prueba. REPARADO: enunciado con
+   sombras + régimen por pieza; Θ ≥ θ_R anotado como consecuencia
+   del mínimo global de h.
+2. **Hueco de hipótesis en D3: σ₂ ≤ φ−1 no está disponible.** En la
+   celda D1 la cota σ₂ ≤ φ−1 es legítima (heredada de la región de
+   thm:DPr; la rama σ₂ > φ−1 heavy la cierra thm:DPp(iii) por masa,
+   la light/anidada la cierran DPp(i)-(ii) con los dominios ω < 1 de
+   DP(iv)) — pero el teorema reclamaba también D3 = {ω ≥ 1, j ≥ 3},
+   donde light con σ₂ > φ−1 NO está cerrada por nadie (DP(iv) exige
+   ω < 1) y el presupuesto con s = σ₂ → 1 REVIENTA en el mínimo de
+   cascada de D1 (6.81 > 2π: el quiebre está en s ≈ 0.955). CERRADO
+   en dos pasos exactos+numéricos (bloque F nuevo): (i) σ₂ > φ/2 es
+   VACÍA por masa (cola(m) ≥ σ₁+σ₂ ≥ 2σ₂ > φ, exacto); (ii) en
+   σ₂ ∈ (φ−1, φ/2] la ligadura Σ ≥ 2σ₂ engorda la cascada
+   (o₂ ≥ 1+Σ ≥ 1+2s, identidad exacta φ² = 1+φ) y el presupuesto
+   paramétrico cierra: sup 4.61/4.93 < 2π, máximo en la esquina
+   s = φ/2, Σ = φ, o = (φ³, φ², φ), margen ≥ 1.36.
+
+### Hallazgos MEDIA
+
+3. **El «sup por esquinas» no era un argumento: la monotonía en o₁
+   es FALSA.** El presupuesto con R = o₁+o₂ acoplado NO decrece al
+   crecer o₁: es bañera (decrece y luego CRECE hacia el límite π).
+   Delimitado con piezas exactas nuevas (bloque D): dirección R
+   exacta (sombra decrece en R); dirección o₂ exacta (el término
+   propio (u−w₂)/√(u²−w₂²) queda dominado solo por el de o₁, pues
+   u−w₂ = o₁−2s < o₁+s = w₁ y w₂ ≤ w₁); dirección o₁ bañera exacta
+   (N_i²/P² estrictamente decreciente: numerador
+   2w²(s²−o₁²−o₁o₂−o₂s−w²) < 0, denominador (o₂−2s)(u²−w²)² > 0 ⟹
+   a lo sumo un cambio de signo − → + del gradiente) con límite
+   o₁ → ∞ igual a π < 2π exacto. Direcciones restantes (o₃.., Σ, j):
+   el presupuesto CRECE en o_k con k ≥ 3 (el sup vive en caras de la
+   cascada, no en el mínimo «per se»); queda NUMÉRICO-CERTIFICADO
+   por optimización dirigida sobre el politopo (coordinate ascent
+   proyectado, multistart, j ≤ 8): sup 4.7214 ≤ esquina 4.7225 y
+   5.2241 ≤ 5.2644 (bloque G nuevo). El draft ahora declara el
+   estatus por dirección; el cierre formal del sup es un lema de
+   optimización pendiente y así queda dicho.
+4. **La esquina del bloque C mezcla extremos incompatibles — en la
+   dirección conservadora.** (Σ → 1, s = φ−1) es infactible como
+   punto del dominio (σ₂ = φ−1 fuerza Σ ≥ 2σ₂ = 2/φ > 1); como el
+   presupuesto se evalúa en el mayorante desacoplado (s por encima,
+   Σ por debajo), la cota solo sobra. Anotado; sin cambio de valor.
+5. **Contabilidad de W' afinada (A3).** cola(m) recoge TODAS las
+   piezas < 1 — perfil, polvo, extras, M y los X de los agujeros —
+   así que W' ≤ φ − σ₁ − σ₂ − (M+X's) ≤ φ − 1 = 1/φ con los
+   descuentos ≥ 0 explícitos. El draft lo decía a medias; ahora
+   entero. Con ello σ₁+M ≤ 1 NO se usa en la construcción (M viaja
+   dentro de m) y el teorema cubre de hecho {j ≥ 3, σ₂ ≤ φ−1,
+   heavy} para toda p y todo ω: anotado como holgura del enunciado.
+
+### Hallazgos BAJA
+
+6. **v\* fuera de rango (A1-ii).** Si v\* = √(u²−w²) > R−x_i el
+   mínimo interior cae fuera de las profundidades admisibles; la
+   cota sigue válida (mínimo global minora el rango restringido) y
+   el arco real máximo es el mural θ < Θ. Aclarado en la prueba.
+7. **Generadores (A7).** El muestreador de B nunca tocaba
+   R = o₁+o₂ EXACTO (el peor R, con o₁-o₂ diametrales forzosos):
+   añadido G3 — esquinas euclidianas deterministas con murales
+   apiñados adversarialmente (25 configuraciones, j = 3..6, Σ hasta
+   φ, incluida la esquina D3 (φ³, φ², φ)): σ₂ y w* entran siempre,
+   validación euclidiana directa. El «gigante profundo» queda fuera
+   del dominio por (b') y su fenómeno está capturado por el control
+   A4.
+8. **F4 v1 evaluaba un punto infactible** (s = φ/2 con Σ < φ,
+   violando Σ ≥ 2s): cota conservadora pero mensaje impreciso;
+   corregido con la guarda de ligadura.
+
+### Verificaciones que resistieron
+
+- Ley de cosenos y dirección del signo del conflicto: identidad
+  exacta w² − |c_s−c_i|² = 2uv(cos γ − h) (sympy propio, A1).
+- h mural = cos θ_R de lem:S1 exacto; sombra ≥ θ_R (consecuencia
+  del mínimo global; verificado además en malla 20k, mínimo ≥ 0).
+- Capado: el régimen u > w da (s+x)/(R−s) < 1 — sin capar arcsin.
+- Legalidad de la colocación testigo (A4): contrastada con
+  thm:oblivious — contenedores de F y P coinciden, subárboles
+  rígidos dentro de portadores, D_m vacante por lem:row (2ª parte),
+  posiciones existenciales; σ₂/w* murales disjuntos de contenidos
+  automáticamente. El círculo-fila w* cumple lem:row con hipótesis
+  exacta (Σ radios ≤ w* ⟹ fila dentro del disco virtual).
+- Las dos inserciones: la sombra de σ₂ está contada en el
+  presupuesto de w* (bloques C y G).
+- A8 (D3): ningún paso usa ω ni H_m; D_m existe con ω ≥ 1; j = 3
+  con Σ → φ da presupuesto 4.13 < esquina (la masa ayuda).
+- Robustez: 7/7 con CC_SEED=777/CC_ITER=60000 y
+  CC_SEED=31337/CC_ITER=150000 (8 589 empaquetamientos en B, 0
+  fallos de inserción, 0 solapes euclidianos).
+
+### Reparaciones aplicadas
+
+- `docs/drafts/insercion.md`: Lema A re-enunciado (sombras +
+  régimen); control A6 (refutación del enunciado mural) añadido;
+  Lema B con procedencia de σ₂ ≤ φ−1, contabilidad completa de W',
+  estatus por dirección del sup y rama (d) para D3; Teorema con la
+  construcción paso a paso (subárboles rígidos, X_y^rest, rama
+  light de D3) y párrafo de estatus epistémico.
+- `code/insercion.py`: bloques A6 (contraejemplo del enunciado),
+  D-monotonías exactas (o₂ y bañera de o₁, sympy), F (rama D3
+  paramétrica: vacuidad, o₂ ≥ 1+Σ, curva, optimización con
+  ligadura) y G (sup por optimización dirigida + esquinas
+  euclidianas deterministas R = o₁+o₂). 7/7.
+
+**Límite declarado**: el sup del presupuesto sobre las direcciones
+no cubiertas por las piezas exactas (o₃.., Σ, j y la rama (d)) es
+evidencia numérica fuerte (esquinas de alta precisión +
+optimización dirigida + deterministas euclidianas; margen mínimo
+1.02), no teorema. El lema de optimización que lo cierre en
+general es el análogo del lema del bolsillo-φ y queda como
+siguiente pieza.
