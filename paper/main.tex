@@ -1251,7 +1251,8 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
 \texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
-\texttt{optimizacion} (5/5) and \texttt{repack} (5/5).
+\texttt{optimizacion} (5/5), \texttt{repack} (5/5) and
+\texttt{r2bcert} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3355,11 +3356,21 @@ $T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$) --
 the written theorems' occupant counts are closed by the
 geometric-tail lemma; the computational (as
 opposed to written-proof) status of the
-remaining sweeps -- the shared-root interior sweeps beyond the
-certified corner, the near-equal-tops duality gap
+remaining sweeps -- the shared-root \emph{multipiece} sweeps
+(explicit extra occupants in the corona, the heavy-profile
+partition, and the mirrored branch beyond its $X=0$ cut) plus the
+near-equal-tops duality gap
 ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) and the extras coronas
-on their swept ranges (the pan-repack legality behind the
-mirror-pocket pincers is no longer on this list: it is the
+on their swept ranges; the shared-root \emph{trio} itself is now
+certified by subdivision over its entire legal domain in the direct
+orientation -- light interior, both frontiers and every depth at
+once, via the free-leader reduction -- and over the $X=0$ cut of
+the mirrored one, where the same branch-and-bound also proves the
+mass wall $\Sigma_S\le\varphi$ \emph{necessary}: without it the
+corner $\sigma_2\to1$ is legal and its corona genuinely fails, the
+$(z,m)$ pair going exactly diametral (script \texttt{r2bcert}, 5/5,
+adversarial round; the pan-repack legality behind the
+mirror-pocket pincers is likewise no longer on this list: it is the
 realization-and-repack lemma above); and the optimization asterisk of the
 \emph{bounded-family} domain sweeps. For the shadow budgets
 themselves that asterisk is now closed: since every term of a

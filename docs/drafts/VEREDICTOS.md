@@ -2548,3 +2548,57 @@ con isometrías, bloque A re-etiquetado, D limpiado); `repack.md`
 reescrito ((a) con hipótesis inductiva e interiores, (b) con
 invariantes finos, (c) completo con el deslinde). **El [ENUNCIADO]
 F2 queda cerrado como lema probado desde la definición.**
+
+---
+
+## Acta: ronda hostil de R2b certificada (`r2bcert.md`) — 2026-08-09
+
+Adversario con reproducción del 5/5 (148/41 948 cajas exactas),
+fuzzing de la cota DR (200k cajas con puntos reales, X hasta 3, T
+hasta 10¹⁰), MC de cobertura ESP (800k tiros) y verificación de
+tarifas contra el código de [G].
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+**La rama DR es un certificado genuino y sólido**: superconjunto
+legítimo de G-b/G-c/G-f (tarifas verificadas en código), cotas de
+caja válidas (0 violaciones, 0 podas de puntos reales), cola T → ∞
+correcta, podas sin pérdida (fronteras compartidas), certifica SIN
+la pared de masa. Hallazgos:
+
+1. **[GRAVE] El alcance ESP era falso como enunciado**: certificaba
+   el corte X = 0 sobre la caja del barrido, no «las cajas legales
+   ENTERAS» — con X > 0 los TECHOS de ventana se desplazan (X = 0
+   solo es el peor para el suelo de cola(Y)): 54k configuraciones
+   legales del MC quedaban fuera del corte; y ω > 1.6 sin techo
+   legal. Sin contraejemplo (sup MC con X > 0, ω ≤ 3: 5.7379 <
+   objetivo). REPARADO: alcance reescrito; ESP fuera del corte al
+   FUERA.
+2. **[GRAVE, compartido con G-g] Las X_Y de la ESP viven en v** (la
+   corona real tiene > 3 piezas; k = 3 no aplica): el análogo
+   especular de G-b′, sin argumento escrito. REPARADO: al FUERA.
+3. [MENOR] La narrativa de E(d) acusaba en falso a G-g: G-g SÍ
+   imponía la pared (`SS+Xm > φ: continue`, ligera incluida).
+   REPARADO: el aporte real del B&B es demostrar que la pared es
+   NECESARIA para el trío ESP (la esquina σ₂ → 1 sin pared es
+   legal y la corona no cabe: par diametral exacto, disc = 0,
+   bolsillo 0.958 < σ₂) — la DR no la necesita.
+4. [MENOR] «> 13 órdenes» falso otra vez (la lección de
+   optimización): el delta de parada real es DR 5.6·10⁻³ / ESP
+   1.9·10⁻⁵ (~10 órdenes sobre float). REPARADO.
+5. [NOTA] La fórmula de bolsillo sin raíz coincide en el punto
+   (disc = 0) y en general mayora: a fortiori. Documentado.
+
+RESISTEN: dominación DR (A1), cota de caja (A2, fuzzing), cola
+T → ∞ (A3), validez de c′_lo ESP incluso con X > 0 (A4 — el
+problema era cobertura, no cota), certificado DR sin pared (A5),
+podas/partición sin pérdida y honestidad del objetivo (A6), pares
+cabiendo en ambas ramas (A7), FUERA de la DR bien rebajado (A8).
+
+### Estado tras reparación
+
+`r2bcert.py` 5/5 (E(d) y docstring corregidos); `r2bcert.md`
+reescrito (§3 corte X = 0, §4 lema con alcance honesto, §5 deltas
+de parada). **G-b/G-c/G-f certificados sobre el dominio legal
+entero; G-g ligera certificada en el corte X = 0; el resto de [G]
+permanece como barrido declarado.**

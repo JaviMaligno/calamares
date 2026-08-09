@@ -39,13 +39,24 @@ c' = 1+z el trio da pi + 4 asin(sqrt(s2/(2-s2))) = 2 pi ahi):
 para s2 > 2/3 el rescate lo da EXACTAMENTE el suelo de cola(Y) —
 el B&B resuelve ese trade-off con las dos cotas de c'.
 
-FUERA (declarado, criterio de corona multipieza, no suma): G-b'
-(X' explicitas) y G-e / G-g pesada (particion B*/A) — barridos MC
-adversariados; el analogo seria un B&B de factibilidad con el
-argumento "las mismas posiciones valen" (esquema en el draft).
+ALCANCE (reescrito en ronda hostil, hallazgos H1/H2): la rama DR
+certifica su dominio legal ENTERO (superconjunto genuino, fuzzing
+del acta: 200k cajas con puntos reales, X hasta 3, T hasta 1e10, 0
+violaciones y 0 podas de puntos reales).  La rama ESP certifica EL
+CORTE X = 0 sobre la caja del barrido (omega <= 1.6, alpha <= 3.7,
+z <= 6.5): con X > 0 los TECHOS de las ventanas se desplazan hacia
+arriba (X = 0 solo es "el peor" para el suelo de cola(Y), no para
+las ventanas) y ademas las X_Y viven en v — la corona real tiene
+mas de 3 piezas y la suficiencia k = 3 no aplica (el analogo
+especular del hallazgo G-b').  FUERA (barridos MC adversariados):
+G-b' (X' explicitas), G-e / G-g pesada (particion B*/A), y la ESP
+con X > 0 u omega > 1.6 (sup MC del acta con X > 0 y omega hasta
+3.0: 5.7379 < objetivo — el interior manda, no los bordes nuevos).
 
-Flotantes: IEEE double; margen del certificado >= 0.3 rad, > 13
-ordenes sobre el error de una suma de 3 asin.
+Flotantes: IEEE double; el margen que importa es el DELTA DE PARADA
+del max-heap (la primera caja bajo el objetivo): DR 5.6e-3, ESP
+1.9e-5 — ambos >> 1e-15 (error de una suma de 3 asin), ~10 ordenes.
+El margen 0.3 es del objetivo frente a 2 pi, no de la decision.
 
 Bloques: [A] exactos (monotonias, relajaciones, limites);
 [B] B&B rama DR; [C] B&B rama ESP; [D] coherencia con la esquina
@@ -290,14 +301,15 @@ def bloque_E():
                 f"2/3): {v:.4f} > 2 pi — el suelo de cola es el que "
                 f"rescata la banda s2 > 2/3 (umbral exacto en [A])",
                 v > 2 * PI)
-    # (d) HALLAZGO de esta certificacion: sin la pared de masa
-    #     Sigma_S <= phi (cola(m) <= phi, exacta), la esquina
-    #     s2 -> 1, Sigma_S -> 2 es alcanzable (ventanas no vacias:
-    #     Sigma_S in [2 s2, 1+s2) con ancho 1-s2 > 0) y alli la
-    #     corona {z, D_m, s2} NO cabe: z+1 = c' diametral y el
-    #     bolsillo de Descartes < s2.  El barrido G-g (0 fallos)
-    #     nunca la muestreo (medida cero en MC); la pared la
-    #     EXCLUYE: s2 <= Sigma_S/2 <= phi/2.
+    # (d) la pared de masa Sigma_S <= phi es NECESARIA para el trio
+    #     ESP (narrativa corregida en ronda hostil, H3: G-g SI
+    #     imponia la pared — puertocii.py:1520 `SS + Xm > PHI:
+    #     continue`, ligera incluida; el aporte del B&B es DEMOSTRAR
+    #     que sin ella el argumento falla: la esquina s2 -> 1,
+    #     Sigma_S -> 2 tiene ventanas no vacias y alli la corona
+    #     {z, D_m, s2} NO cabe — z+1 = c' diametral EXACTO, disc de
+    #     Descartes 0, y la formula sin raiz coincide con el
+    #     bolsillo real (en general la mayora: a fortiori))
     s2d, SSd, wd = 0.999, 1.998, 1.157
     ad = SSd + wd                      # alpha en su suelo
     zd = ad + wd                       # z en su suelo
@@ -305,13 +317,14 @@ def bloque_E():
     cd = max(1.0 + zd, colaYd - wd)
     vd = th(zd, 1.0, cd) + th(1.0, s2d, cd) + th(s2d, zd, cd)
     bolsillo = 1.0 / (1.0 / zd + 1.0 / 1.0 - 1.0 / cd)
-    ok &= check(f"(d) sin la pared Sigma_S <= phi: la esquina "
-                f"s2 = {s2d}, Sigma_S = {SSd} es real y su trio da "
-                f"{vd:.4f} > 2 pi con bolsillo b2(z, 1; c') = "
-                f"{bolsillo:.4f} < s2: la corona NO cabe alli — la "
-                f"pared de masa (exacta: cola(m) <= phi) es la que "
-                f"la excluye (s2 <= phi/2 = {PHI / 2:.4f}); el "
-                f"barrido G-g nunca la muestreo",
+    ok &= check(f"(d) la pared Sigma_S <= phi es NECESARIA para el "
+                f"trio ESP: sin ella, la esquina s2 = {s2d}, "
+                f"Sigma_S = {SSd} tiene ventanas no vacias, trio = "
+                f"{vd:.4f} > 2 pi, y la corona NO cabe (par (z, 1) "
+                f"diametral exacto y bolsillo {bolsillo:.4f} < s2). "
+                f"La DR en cambio certifica SIN la pared (Sigma_S "
+                f"< 2). G-g ya imponia la pared (exacta, cola(m) "
+                f"<= phi): esto es justificacion, no rescate",
                 vd > 2 * PI and bolsillo < s2d and SSd > PHI)
     # (c) honestidad: objetivo bajo la esquina 5.5964 no certifica
     root = (1.0, 1.2, 0.3, 0.55, 1.0, 2.0)
