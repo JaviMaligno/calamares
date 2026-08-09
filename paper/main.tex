@@ -676,10 +676,11 @@ profile and dust directions of the scaling are exact by the
 pocket-$\varphi$ lemma, and the heavy pan cells, the entire nested
 template and the container port have been upgraded to written
 proofs by the insertion, compaction and trio lemmas,
-Theorems~\ref{thm:D1written}--\ref{thm:gapwritten} and the
-hole-corona closures), leaving as the numeric core the
-occupant-count directions ($j$ of the scaling, $k$ of the hole
-coronas), both with geometrically decreasing worst budgets.
+Theorems~\ref{thm:D1written}--\ref{thm:gapwritten}, the
+hole-corona closures and the geometric-tail lemma -- the latter
+making every written shadow budget uniform in the occupant count),
+leaving as the numeric core the occupant-count direction of the
+computational scaling closures alone.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -1179,13 +1180,15 @@ hole-corona branches of the port are closed by running the nested
 template inside the hole (automatic regime for $k\ge3$ occupants,
 bounded family with the trio bound for $k\le2$, and a strong
 breathing lemma $X_{>m}+\omega>\varphi$ exact after discounting
-dust). What remains for a full proof of
-Conjecture~\ref{conj:golden} is exactly: the occupant-count
-directions (numeric: $j$ of the scaling, swept to $j\le9$ with
-exact geometric cascade growth; $k$ of the hole coronas, swept to
-$k\le14$ with decreasing worst budget), and written proofs
-replacing the remaining adversarially verified computational
-closures.
+dust). A geometric-tail lemma makes the written theorems'
+shadow budgets uniform in the occupant count (suffix masses decay
+geometrically and the leader's own cascade forbids a tight pair
+with a full tail), so their sweep caps drop out. What remains for a
+full proof of Conjecture~\ref{conj:golden} is exactly: the
+occupant-count direction $j$ of the \emph{computational} scaling
+closures (numeric, swept to $j\le9$ with exact geometric cascade
+growth), and written proofs replacing the remaining adversarially
+verified computational closures.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -1246,8 +1249,8 @@ certificates \texttt{zigzag} (5/5), and the exchange-assembly
 bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
 layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
-\texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5) and
-\texttt{coronaagujero} (5/5).
+\texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
+\texttt{coronaagujero} (5/5) and \texttt{colageometrica} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3287,8 +3290,37 @@ only $\sigma_2$ needs mural insertion), and the capacity window
 $[\Sigma_S+X_\alpha,\,1+\sigma_2+X_\alpha)$ is exact with $X_\alpha$
 cancelling (script \texttt{coronaagujero}, 5/5, adversarial round
 with zero counterexamples under 55k independent adversarial
-instances; the occupant-count direction $k$ is certified to
-$k\le14$ with the worst budget \emph{decreasing} in $k$). Finally, a
+instances).
+
+A \emph{geometric-tail lemma} then makes every one of these shadow
+budgets \emph{uniform in the occupant count}. For any cascade
+family $t_1\ge t_2\ge\dots\ge t_n$ (global tails, $\rho\le\varphi$)
+with $R\ge t_1+t_2$, regime $2s<t_2$ and $t_2\ge1+\Sigma$, the
+budget is dominated term by term by an explicit finite series: the
+suffix masses $S_i$ decay geometrically
+($S_i\ge\varphi S_{i+1}$, again $1+1/\varphi=\varphi$), each tail
+piece obeys three exact caps
+($t_{3+r}\le\min(t_2,\ S_3/\varphi^r-(1+\Sigma),\
+(S_3-1-\Sigma)/(r+1))$), a piece at rank $3+r$ drags a suffix of
+mass at least $1+\Sigma+p_{\min}$ so the series has finitely many
+terms, and -- the load-bearing link -- the cascade of $t_1$ itself
+forces $t_1\ge(t_2+S_3)/\varphi$: a heavy tail forces a large
+leader, so the tight pair and the full tail are \emph{jointly
+infeasible} (allowing both would push the majorant to $6.37>2\pi$;
+with the link its supremum over the whole box is $5.2115<2\pi$,
+attained with \emph{zero} gap at the real family
+$\{2\varphi,2,2/\varphi\}$ plus the unit disk -- the very corner
+every sweep had found). The hypothesis $t_2\ge1+\Sigma$ is forced
+by three-or-more occupants via $\varphi^2=1+\varphi$ and is exactly
+the lemma's frontier: at $n=2$ the golden razor
+($t_2\to2/\varphi$, shadow ratio identically $1$) breaks the
+budget, which is the known boundary where the bounded-family
+closures take over. Consequently the sweep caps ($j\le6$, $k\le14$,
+$k\le12$) drop out of the written theorems' statements: shadow
+coverage holds for \emph{every} occupant count (script
+\texttt{colageometrica}, 5/5, adversarial round: domination
+unbroken under ${\sim}45$k families including the theorems' own
+cascade generators). Finally, a
 \emph{pocket-$\varphi$ lemma} removes the profile- and dust-count
 directions of the scaling question exactly: at $R=o_1+o_2$ the
 Descartes discriminant of the tangent pair vanishes identically, the
@@ -3299,11 +3331,12 @@ $\le\varphi$ by the tail of $m$: the entire profile and dust row
 into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
 with the nested template verbatim and a geometric non-invasion
 check). The honest residue of the whole program is therefore: the
-numeric occupant-count directions -- $j$ of the scaling, swept to
-$j\le9$ (pan) and $j\le8$ (nested) with uniform tangent duality and
-the exact geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade
-($1+1/\varphi=\varphi$), and $k$ of the hole coronas, swept to
-$k\le14$ with the worst budget decreasing; the computational (as
+occupant-count direction $j$ of the \emph{computational} scaling
+closures only, swept to $j\le9$ (pan) and $j\le8$ (nested) with
+uniform tangent duality and the exact geometric growth
+$T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$) --
+the written theorems' occupant counts are closed by the
+geometric-tail lemma; the computational (as
 opposed to written-proof) status of the
 remaining sweeps -- the shared-root interior sweeps beyond the
 certified corner, the pan-repack legality statement behind the

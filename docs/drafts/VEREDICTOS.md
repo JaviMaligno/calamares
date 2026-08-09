@@ -2360,3 +2360,62 @@ fuerte en A(3)/E(c)); `coronaagujero.md` reescrito (§2 lema fuerte,
 estándar del programa** (exacto en ligaduras/regímenes/ventanas/
 respiración; numérico-certificado en sups; dirección k asterisco
 decreciente).
+
+---
+
+## Acta: ronda hostil del lema de la cola geométrica (`colageometrica.md`) — 2026-08-09
+
+Adversario con reproducción del 5/5, ~31 600 familias adversarias
+propias (28 809 de los generadores REALES de los teoremas), malla
+fina del sup (~2·10⁶ evaluaciones de G) y contraejemplos dirigidos.
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+La maquinaria (S)/(M)/(N)/(V) es correcta; la dominación resiste
+TODO el fuego (0 violaciones en ~45k familias: holguras 10⁴ en
+posiciones elegidas, empates exactos, Σ = φ, frontera t₃ = p_min,
+las tres cascadas reales). La esquina 5.2115 es EXACTA (G = real,
+gap 0: identidad de familia {2φ, 2, 2/φ}+D_m con los barridos de
+insercionanidada F y coronaagujero B).
+
+1. **[GRAVE] El enunciado omitía t₂ ≥ 1+Σ**: solo es teorema para
+   n ≥ 3 (cadena φ² = 1+φ); con n = 2 hay contraejemplo EXPLÍCITO
+   dentro de las hipótesis declaradas (Σ → 1, t₂ = (1+Σ)/φ,
+   t₁ = vínculo en su suelo = 1+Σ, w* = 1/φ: presupuesto 6.93 >
+   2π) — es LA NAVAJA ÁUREA j ≤ 1: la frontera del lema coincide
+   exactamente con la frontera conocida de los teoremas de
+   sombras. REPARADO: hipótesis en §1 + control E(e); los tres
+   teoremas consumidores la garantizan — la Consecuencia §4
+   sobrevive sin cambios.
+2. [MENOR] «sup G = 5.2115» como igualdad global descansaba en
+   interpolación en la banda t₂ > 10⁶. REPARADO: §1 enuncia
+   sup < 2π−0.05 con la banda acotada por fórmula (5.5237 <
+   2π−0.4); la malla del acta hasta 10⁸ converge a 4.71.
+3. [MENOR] La NOTA del bloque C decía «gap ~0.3»: el gap en la
+   esquina es 0 EXACTO (identidad de familia). REPARADO.
+4. [MENOR] La dominación solo se verificaba sobre el generador
+   propio. REPARADO: bloque B ampliado a cascada_anidada
+   (j ≤ 6, suelo 1+ω, rank barrido) y cascada_agujero (k ≤ 14),
+   0 violaciones — los suelos extra solo inflan y toda cota
+   sobrevive al inflado.
+5. [NOTA] Tolerancia del corte en frontera: con u real nunca se
+   excluye una pieza existente (cap ≥ t ≥ p_min sin tolerancia);
+   la exclusión solo ocurre en nodos de barrido infactibles.
+   Anotado en docstring.
+6. [RESISTE] (V) y los empates: el convenio de primera copia hace
+   del empate el punto de CONTACTO del vínculo ((t₂+t₂/φ)/φ = t₂
+   exacto); 0 violaciones con t₁ = t₂ y cola máxima.
+7. [RESISTE] El sup sobre la caja legítima: malla fina sin hombro
+   entre nodos; máximo 5.2115.
+8. [RESISTE] (M)/(N), extras por modo, ligadura Σ ≥ 2σ₂, alcance
+   §4 bien delimitado (solo quita topes donde hay sombras; la
+   dirección j de dualidad/escala conserva su asterisco).
+
+### Estado tras reparación
+
+`colageometrica.py` 5/5 (hipótesis, E(e), NOTA corregida, bloque B
+ampliado); `colageometrica.md` reescrito (§1 hipótesis + frontera
+navaja, §2 empates, §3 dominación ampliada, §5 estatus). **Los
+topes j ≤ 6 / k ≤ 14 / k ≤ 12 de los teoremas escritos pasan a
+redundancia empírica: los presupuestos de sombras son uniformes en
+el número de ocupantes.**

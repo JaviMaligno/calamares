@@ -34,6 +34,17 @@ Ingredientes EXACTOS:
       2asin((s+t_2)/(R-s)) con R = t_1+t_2 tiene maximo en
       max(valor en t_1 = suelo, limite pi cuando t_1 -> inf).
 
+HIPOTESIS DEL LEMA (ronda hostil 2026-08-09, hallazgo 1): ademas
+del regimen 2s < t_2, se exige t_2 >= 1+Sigma — garantizada por
+n >= 3 via la cadena phi^2 = 1+phi (t_3 >= (1+Sigma)/phi y t_2 >=
+(t_3+1+Sigma)/phi = 1+Sigma), y por los tres teoremas consumidores
+(j >= 2 => |T| >= 3; k >= 3; j >= 3).  Para n = 2 el lema es FALSO:
+la navaja aurea j <= 1 (control E(e): Sigma -> 1, t_2 = (1+Sigma)/
+phi, t_1 = 1+Sigma, w* = 1/phi da razon identica 1 y presupuesto
+6.93 > 2pi).  La frontera del lema coincide EXACTAMENTE con la
+frontera conocida de los teoremas de sombras (j <= 1 / k <= 2 usan
+familia acotada, no sombras).
+
 EL MAYORANTE G (uniforme en n): parametrizado por u = S_3 (sufijo
 de la cola, u in [1+Sigma, phi t_2]), con R = t_1 + t_2 (el peor
 por monotonia), regimen t_2 > 2s, y EL VINCULO DE CASCADA DE t_1:
@@ -101,7 +112,12 @@ def cola_dominante_u(t2, SS, u):
     max(1, (1+Sigma)/phi) (corte de existencia — sin el, la serie
     tendria infinitos terminos positivos y divergeria: control
     E(a)).  La tolerancia 1e-9 INCLUYE la frontera de igualdad
-    (t_3 = p_min exacto con t_2 en su suelo: instancia real)."""
+    (t_3 = p_min exacto con t_2 en su suelo: instancia real).
+    NOTA de tolerancia (acta, hallazgo 5): con u = u_real de una
+    familia con pieza real de rango 3+r, cap >= t_{3+r} >= p_min
+    SIN tolerancia — el corte con u real nunca excluye una pieza
+    existente; la exclusion solo ocurre en nodos de barrido
+    infeasibles (p.ej. Sigma = 1+1e-9 con u = phi t_2 exacto)."""
     p_min = max(1.0, (1.0 + SS) / PHI)
     M = u - 1.0 - SS
     doms = []
@@ -269,6 +285,57 @@ def bloque_B():
                 f"40, holguras, 3 modos de insercion): {viol} "
                 f"violaciones (peor gap {peor_gap:.6f} >= 0)",
                 n_i > 5000 and viol == 0)
+    # dominacion sobre los generadores REALES de los teoremas
+    # (acta, hallazgo 4): cascada_anidada y cascada_agujero
+    from coronanidada import cascada_anidada
+    from coronaagujero import cascada_agujero
+    n_t, viol_t = 0, 0
+    for _ in range(max(8000, ITER // 8)):
+        SS = rng.uniform(1.0 + 1e-6, PHI)
+        if rng.random() < 0.5:
+            j = rng.randrange(2, 7)
+            w = rng.uniform(0.05, 1.35)
+            holg = [1.0 + rng.expovariate(1.0) *
+                    (10 ** rng.randrange(0, 4) if rng.random() < 0.2
+                     else 1.0) for _ in range(j + 1)]
+            af, occs = cascada_anidada(SS, j, rng.randrange(j + 1),
+                                       1.0 + w, holg)
+            xs = sorted([af] + list(occs), reverse=True)
+        else:
+            k = rng.randrange(3, 15)
+            holg = [1.0 + rng.expovariate(1.0) *
+                    (10 ** rng.randrange(0, 4) if rng.random() < 0.2
+                     else 1.0) for _ in range(k)]
+            xs = cascada_agujero(SS, k, holg)
+        t1, t2 = xs[0], xs[1]
+        R = t1 + t2
+        modo = rng.randrange(3)
+        if modo == 0:
+            s = min(SS / 2, PHI / 2)
+            extra = [1.0]
+        elif modo == 1:
+            s = 1 / PHI
+            extra = [1.0, min(SS / 2, PHI / 2)]
+        else:
+            s = rng.uniform(0.05, min(0.999, SS / 2))
+            extra = [1.0]
+        if any(R - x <= 2 * s + 1e-12 for x in xs + extra):
+            continue
+        real = presupuesto(s, xs + extra, R)
+        u_real = sum(xs[2:]) + 1.0 + SS
+        g = G_u(t1, t2, SS, s, extra, u_real)
+        if g is None:
+            continue
+        n_t += 1
+        if g - real < -1e-9:
+            viol_t += 1
+    ok &= check(f"dominacion sobre las cascadas de los TEOREMAS "
+                f"({n_t} familias de cascada_anidada j <= 6 con "
+                f"suelo 1+omega/rank y cascada_agujero k <= 14, "
+                f"holguras hasta 10^4): {viol_t} violaciones — los "
+                f"suelos extra solo INFLAN piezas y toda cota de "
+                f"(S)/(M)/(V) sobrevive al inflado",
+                n_t > 3000 and viol_t == 0)
     return ok
 
 
@@ -307,9 +374,12 @@ def bloque_C():
                 f"(1, phi], 3 modos): peor = {peor:.4f} < 2pi - "
                 f"0.05 = {2 * PI - 0.05:.4f} (argmax {arg})",
                 peor < 2 * PI - 0.05)
-    print(f"      NOTA: el argmax vive en el suelo t_2 = 1+Sigma, "
-          f"Sigma -> 1 — la misma esquina critica 5.21 de los "
-          f"teoremas; G es ajustado ahi (gap ~0.3 sobre el real).")
+    print(f"      NOTA (corregida en acta): el argmax es la familia "
+          f"REAL {{2phi, 2, 2/phi}} + D_m — G = presupuesto real = "
+          f"5.2115, gap 0 EXACTO (identidad de familia con los "
+          f"barridos de insercionanidada F y coronaagujero B: "
+          f"cascada_anidada(Sigma->1, j=2, h=1) produce exactamente "
+          f"esa familia).")
     return ok
 
 
@@ -394,6 +464,23 @@ def bloque_E():
                 f"t_1 contiene t_2, la cola y m+Sigma: t_1 >= "
                 f"2phi): el vinculo no es decorativo",
                 v is not None and v > 2 * PI)
+    # (e) la hipotesis t_2 >= 1+Sigma es esencial: n = 2 (acta,
+    #     hallazgo 1 — la navaja aurea j <= 1 como frontera)
+    SSe = 1.0 + 1e-6
+    t2e = (1.0 + SSe) / PHI            # suelo de cascada n = 2
+    ue = 1.0 + SSe                     # cola vacia
+    t1e = (t2e + ue) / PHI             # vinculo en su suelo = 1+Sigma
+    se = 1 / PHI
+    ve = G_u(t1e, t2e, SSe, se, [1.0, min(SSe / 2, PHI / 2)], ue)
+    ok &= check(f"(e) SIN t_2 >= 1+Sigma (n = 2): t_2 = (1+Sigma)/"
+                f"phi = {t2e:.4f}, t_1 = 1+Sigma, w* = 1/phi da "
+                f"G = real = {ve:.4f} > 2pi — LA NAVAJA AUREA "
+                f"j <= 1 (razon identica 1): la frontera del lema "
+                f"coincide con la frontera conocida de los teoremas "
+                f"de sombras; con n >= 3 la cadena phi^2 = 1+phi "
+                f"da t_2 >= 1+Sigma y el contraejemplo es "
+                f"inalcanzable", ve is not None and ve > 2 * PI
+                and abs(t1e - (1.0 + SSe)) < 1e-9)
     return ok
 
 

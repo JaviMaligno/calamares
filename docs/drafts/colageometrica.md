@@ -1,7 +1,9 @@
 # El lema de la cola geométrica: presupuestos uniformes en n
 
-Estado: DRAFT con pruebas (2026-08-09), PRE-ADVERSARIO. Script:
-`code/colageometrica.py` (5/5). Quita los topes de ocupantes de los
+Estado: DRAFT con pruebas (2026-08-09), ADVERSARIADO (acta en
+VEREDICTOS.md, misma fecha: CONFIRMADO CON CORRECCIONES; ~45k
+familias bajo fuego, 0 violaciones de dominación; las cuatro
+reparaciones integradas). Script: `code/colageometrica.py` (5/5). Quita los topes de ocupantes de los
 presupuestos de sombras de los teoremas escritos: thm:nestedwritten
 (j ≤ 6 certificado → todo j), coronaagujero ramas 1 y 2 (k ≤ 14/12
 → todo k), y el tramo de sombras de thm:D1written. Las direcciones
@@ -11,17 +13,31 @@ j/k de los teoremas ESCRITOS dejan de ser asteriscos numéricos.
 
 **Lema.** Sea T = {t₁ ≥ t₂ ≥ … ≥ t_n} una familia de cascada con
 ρ ≤ φ (colas globales: cada tᵢ contiene en su cola a m, a la masa
-suelta Σ y a las piezas menores), R ≥ t₁+t₂, y s con 2s < t₂
-(régimen). Entonces el presupuesto de sombras de insertar s sobre
-T ∪ {D_m} ∪ extras está dominado, PARA TODO n, por el mayorante
-explícito G_u de §2 con u = S₃ (el sufijo de la cola), y
+suelta Σ y a las piezas menores), R ≥ t₁+t₂, s con 2s < t₂
+(régimen), y **t₂ ≥ 1+Σ** (hipótesis añadida por la ronda hostil —
+garantizada por n ≥ 3 vía la cadena φ² = 1+φ, y por los tres
+teoremas consumidores: j ≥ 2 ⟹ |T| ≥ 3, k ≥ 3, j ≥ 3). Entonces
+el presupuesto de sombras de insertar s sobre T ∪ {D_m} ∪ extras
+está dominado, PARA TODO n, por el mayorante explícito G_u de §2
+con u = S₃ (el sufijo de la cola), y
 
-    sup G = 5.2115 < 2π − 0.05,
+    sup G < 2π − 0.05   (numéricamente 5.2115, alcanzado en la
+    esquina; la banda t₂ → ∞ acotada por fórmula: 5.5237 < 2π−0.4),
 
-alcanzado en la esquina crítica (t₂ = 1+Σ, Σ → 1, u = φt₂,
-t₁ = 2φ, w* = 1/φ con s′ = 1/2) — exactamente la misma esquina
-5.2115 de los barridos de los teoremas: el lema demuestra que
-AQUELLA esquina es el peor caso de TODOS los n a la vez.
+con la esquina crítica (t₂ = 1+Σ, Σ → 1, u = φt₂, t₁ = 2φ,
+w* = 1/φ con s′ = 1/2) — G = presupuesto real = 5.2115 con gap 0
+EXACTO: es la familia {2φ, 2, 2/φ}+D_m de los barridos previos
+(identidad de familia, no coincidencia numérica). El lema demuestra
+que aquella esquina es el peor caso de TODOS los n a la vez.
+
+**La frontera del lema es la navaja áurea.** Sin t₂ ≥ 1+Σ el lema
+es FALSO: con n = 2, Σ → 1, t₂ = (1+Σ)/φ (cascada en igualdad),
+t₁ = (t₂+u)/φ = 1+Σ (el vínculo en su suelo), w* = 1/φ, la razón
+(s+t₁)/(R−s) es idénticamente 1 y el presupuesto da 6.93 > 2π
+(control E(e)) — exactamente la navaja j ≤ 1 ya conocida. La
+frontera del lema coincide con la frontera de los teoremas de
+sombras: donde no hay sombras (j ≤ 1, k ≤ 2) rige la familia
+acotada, no este lema.
 
 ## 2. El mayorante y sus cuatro ingredientes exactos
 
@@ -60,6 +76,14 @@ Sobre t₁ el mayorante es la bañera exacta (`insercion.md`, bloque
 G): máximo en el suelo o en el límite π (t₁ → ∞ mata las demás
 sombras vía R).
 
+**Empates (t₁ = t₂, el punto de la lupa del acta).** El convenio de
+primera copia da a la primera copia la cola que contiene a la
+segunda: con t₁ = t₂, φt₁ ≥ t₂+u obliga u ≤ t₂/φ — el par apretado
+con cola llena es infactible, y el suelo del vínculo lo reproduce
+con igualdad algebraica: (t₂ + t₂/φ)/φ = t₂ (φ² = 1+φ). El empate
+es el punto de CONTACTO del vínculo, no una fuga; el argmax además
+no vive en el empate (t₁ = 2φ > t₂ = 2).
+
 ## 3. La maximización certificada
 
 G_u evaluado sobre la caja compacta (t₂ hasta 10⁶ en malla log,
@@ -75,6 +99,13 @@ margen π).
 cascada con n hasta 40, holguras expovariate, tres modos: G ≥
 presupuesto real SIEMPRE (0 violaciones; peor gap −0.000000 — la
 instancia frontera t₃ = p_min con igualdad exacta, incluida).
+AMPLIADA (acta, hallazgo 4) a los generadores REALES de los
+teoremas: ~8k familias de `cascada_anidada` (j ≤ 6, suelo 1+ω,
+rank de α barrido, holguras hasta 10⁴) y `cascada_agujero`
+(k ≤ 14, suelo 1), 0 violaciones — los suelos extra solo INFLAN
+piezas y toda cota de (S)/(M)/(V) sobrevive al inflado (el acta
+añadió 28 809 familias más por su cuenta, 0 violaciones, peor
+G = 5.2091 ≤ 5.2115).
 
 **Controles de necesidad**: sin cascada (5 piezas iguales) la
 dominación es FALSA (real 8.84 > G 4.07) — ρ ≤ φ es hipótesis
@@ -87,8 +118,9 @@ sin vínculo de t₁ supera 2π.
 paso mural es un presupuesto de sombras sobre una familia de
 cascada — thm:nestedwritten (j ≥ 2), las dos ramas de agujero
 (k ≥ 3), thm:D1written (j ≥ 3) — la cobertura vale para TODO
-número de ocupantes: el presupuesto real está dominado por G, y
-sup G = 5.2115 < 2π − 0.05 sobre toda la caja. ∎
+número de ocupantes: cada uno garantiza la hipótesis t₂ ≥ 1+Σ
+(|T| ≥ 3 y la cadena φ² = 1+φ), el presupuesto real está dominado
+por G, y sup G < 2π − 0.05 sobre toda la caja. ∎
 
 Los topes j ≤ 6 / k ≤ 14 / k ≤ 12 de los barridos dejan de ser
 parte del enunciado: pasan a ser redundancia empírica. La dirección
@@ -100,8 +132,12 @@ asterisco propio (j ≤ 9/8 con crecimiento geométrico).
 
 Exacto (teorema): el decaimiento de sufijos (φ² = 1+φ), las tres
 cotas por término, el corte de existencia, el vínculo de cascada de
-t₁, la dominación término a término, el límite t₁ → ∞ (π), la
-hipótesis de cascada (necesaria: control). Numérico-certificado: el
+t₁ (con el análisis de empates: el convenio de primera copia hace
+del empate el punto de contacto), la dominación término a término,
+el límite t₁ → ∞ (π), la hipótesis de cascada (necesaria: control),
+la hipótesis t₂ ≥ 1+Σ (necesaria: la navaja n = 2 da 6.93 > 2π;
+implicada por n ≥ 3), y la esquina crítica con gap 0 (identidad de
+familia {2φ, 2, 2/φ}). Numérico-certificado: el
 sup de G sobre la caja compacta (malla + esquinas deterministas +
 serie límite por fórmula en t₂ → ∞) — la MISMA maximización
 certificada única que el resto del programa (el lema de
