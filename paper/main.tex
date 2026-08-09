@@ -1156,11 +1156,11 @@ Theorem~\ref{thm:DPr}).
 exchange from the proved floors. The $j=1$ and $j=3$ width tips
 matter only for pinning the nested threshold at exactly $T$; the
 three nested gaps that were open at the golden level itself, the
-$j=2$ tip $\omega\in[\varphi/2,1)$ and the profiles of four or more
-pieces beyond the reduction branch now carry a written proof
-(Theorem~\ref{thm:nestedwritten}, all $j\ge2$), while the
-quantitative gap lemma ($j\le1$) keeps its computational closure in
-Appendix~\ref{app:campaign}, and the
+$j=2$ tip $\omega\in[\varphi/2,1)$, the profiles of four or more
+pieces beyond the reduction branch, and the quantitative gap lemma
+now ALL carry written proofs (Theorems~\ref{thm:nestedwritten}
+and~\ref{thm:gapwritten}: the entire nested template, every $j$),
+and the
 exchange assembly -- the case partition over the containers of $m$,
 the container port, and the $\alpha\notin v$ campaign -- is carried
 out there with its facts at theorem level; the shared-root cell
@@ -3139,9 +3139,43 @@ Theorem~\ref{thm:nestedwritten} supersedes the computational
 closures of the golden-level nested gaps with two or more occupants
 -- in particular the $j=2$ tip $\omega\in[\varphi/2,1)$ entirely, and
 profiles of four or more pieces beyond the reduction branch (profile
-size is mass here). The remaining nested strip $j\le1$ (the
-quantitative gap lemma's home) keeps its adversarially verified
-computational closure.
+size is mass here).
+
+\begin{theorem}[Gap lemma, nested $j\le1$, written]\label{thm:gapwritten}
+In the nested template with $j\le1$ occupants, $\rho\le\varphi$
+implies the exchange does not block, for every width (solid pivot
+included), every profile and any extra small rings.
+\emph{Proof sketch.} The same witness as
+Theorem~\ref{thm:nestedwritten} except the mural step: after the
+greedy filling of $D_m$, the whole pan is re-packed as a corona of
+at most five circles $\{\alpha,(o_1),$ the unit disk carrying the
+$D_m$ row$,s',w^*\}$ -- a bounded family, so the mural criterion is
+finite and exact per instance (exhaustive over the $\le12$ cyclic
+orders, all pairs validated). The radius carries the written trio
+bound: any disk packing $\{a,b,c\}$ satisfies
+$R\ge\max(\text{pair sums},\min(R_3,M))$ unconditionally, where
+$R_3$ solves $\theta(a,b)+\theta(b,c)+\theta(c,a)=2\pi$ (the angular
+necessity, a theorem via the corner lemma and the partition of the
+circle) and $M$ is the stackability threshold $\min(\max+2\min)$ --
+a dichotomy on the real pan. On the domain the cascade floor
+$o_1\ge(1+\Sigma)/\varphi>2/\varphi$ keeps $R_3\le M$ (explicitly
+checked), with equality exactly at the golden point
+$(\alpha,o_1)=(2,2/\varphi)$, where pair sums, $R_3$ and $M$ all
+collapse to $1+\sqrt5$ and the trio sum equals $2\pi$ exactly. The
+mass ligatures $s'\le\min(\Sigma/2,\varphi/2)$ and
+$w^*<\min(1/\varphi,\Sigma-1,\Sigma-2s')$ are exact; the
+$\alpha\to\infty$ limit closes by formula
+($\pi+2\arcsin\sqrt{1/\varphi}<2\pi$, margin $1.33$); the coverage
+of the compact domain box is a certified maximization (script
+\texttt{gaplemma}, 5/5, adversarial report with two repaired
+findings). \qed
+\end{theorem}
+
+With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
+\emph{entire nested template} of case~(b) carries written proofs for
+every $j$, every width, every profile and extras -- at the same
+epistemic standard as the pan side (one certified maximization per
+cell).
 
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
