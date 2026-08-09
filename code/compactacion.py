@@ -232,6 +232,49 @@ def bloque_D():
     return ok
 
 
+def bloque_E():
+    print("[E] la proyeccion mural (la prueba de s.2): euclidiana")
+    rng = random.Random(20260811)
+    ok = True
+    n, viol = 0, 0
+    peor_hueco = 1e9
+    for _ in range(max(2000, ITER // 30)):
+        k = rng.randrange(3, 7)
+        radios = sorted((rng.uniform(0.6, 1.6) for _ in range(k)),
+                        reverse=True)
+        R_low = radios[0] + radios[1]
+        R_high = min(max(radios[i], radios[j]) +
+                     2 * min(radios[i], radios[j])
+                     for i in range(k) for j in range(k) if i < j)
+        if R_low >= R_high - 1e-6:
+            continue
+        R = rng.uniform(R_low, R_high - 1e-6)
+        pos = empaqueta_real(radios, R, rng)
+        if pos is None:
+            continue
+        n += 1
+        # proyeccion: cada circulo a la pared en su angulo real
+        proy = []
+        for x, y, r in pos:
+            a = math.atan2(y, x)
+            proy.append(((R - r) * math.cos(a), (R - r) * math.sin(a),
+                         r))
+        for i in range(k):
+            for j in range(i + 1, k):
+                xi, yi, ri = proy[i]
+                xj, yj, rj = proy[j]
+                d = math.hypot(xi - xj, yi - yj)
+                peor_hueco = min(peor_hueco, d - (ri + rj))
+                if d < ri + rj - 1e-9:
+                    viol += 1
+    ok &= check(f"proyeccion mural en {n} empaquetamientos reales "
+                f"no-apilables: TODOS los pares disyuntos tras "
+                f"proyectar ({viol} violaciones; peor holgura "
+                f"{peor_hueco:.4f} >= 0): la prueba de s.2 en accion",
+                n > 150 and viol == 0 and peor_hueco >= -1e-9)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("TEOREMA DE COMPACTACION MURAL (drafts/compactacion.md)")
@@ -241,7 +284,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCD")
+    etiquetas = [solo] if solo else list("ABCDE")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"

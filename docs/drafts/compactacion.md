@@ -19,7 +19,28 @@ f(x) = x/(R−x)). Además, en esa colocación cada pieza «saltada» por
 el camino crítico queda muralmente dentro del hueco de su par de
 espina, y es sub-bolsillo de Descartes de ese par.
 
-## 2. La prueba
+## 2. La prueba (proyección mural: tres líneas)
+
+**Colocación:** empújese cada círculo a la pared EN EL ÁNGULO REAL
+de su centro: c_i ↦ posición mural (R − r_i) · (cos ψ_i, sin ψ_i),
+con ψ_i el ángulo del centro real. [Si algún centro real está en el
+origen, su círculo es apilable con todos los demás miembros
+relevantes — excluido por hipótesis; y dos círculos no-apilables no
+comparten ángulo: γ_real > 0 por (P1).]
+
+**Legalidad:** la separación angular de cada par NO cambia (es la
+real, γ_real). Por (P1), γ_real(a,b) ≥ θ(a,b) para todo par
+no-apilable, y θ(a,b) es por definición (lem:S1) el ángulo mural
+mínimo de disyunción: dos círculos murales a separación ≥ θ(a,b)
+tienen centros a distancia ≥ a+b. Luego todos los pares son
+disyuntos. ∎
+
+No hace falta el camino más largo, ni orden alguno: la proyección
+preserva el orden cíclico real automáticamente. (P2) queda como
+COROLARIO con contenido propio — el presupuesto del certificado — y
+(P1) es el único ingrediente con prueba no trivial.
+
+## 2b. Los ingredientes en detalle
 
 Sea σ = (v₀, v₁, …, v_{k−1}) el orden cíclico de los centros del
 empaquetamiento real (ángulos crecientes) y γ_real(a,b) la
@@ -80,13 +101,18 @@ zigzag), y (P2) garantiza que el TOTAL nunca lo impide.]
 fortalecido) y por DIC es sub-bolsillo de su par: queda mural dentro
 del hueco. ∎
 
-**Nota sobre el estatus.** (P1) y (P2) son pruebas completas; la
-legalidad final la garantiza además el chequeo constructivo (que
-nunca certifica una colocación ilegal — solidez adversariada); (P2)
-asegura que el presupuesto total NUNCA es el obstáculo. El único
-resto de (P3) es redaccional (formalizar «todo fallo de wrap induce
-una subsecuencia cerrada > 2π»), verificado en el script sobre
-empaquetamientos reales aleatorios.
+**Nota sobre el estatus (revisada).** El teorema completo se prueba
+en §2 por proyección mural, con (P1) como único ingrediente no
+trivial: NO queda redacción pendiente. (P2) y (P3) se conservan
+porque tienen contenido adicional: (P2) acota el presupuesto de
+CUALQUIER subsecuencia (la versión certificado de la dualidad) y
+(P3) describe la variante por camino más largo (que produce además
+la estructura de espina/bolsillos usada por el reparto); su intento
+de prueba del wrap vía (P2) NO cierra en general (los intentos
+directos dan la desigualdad al revés) y queda documentado como
+abierto SIN carga: la proyección de §2 lo esquiva por completo, y
+para el reparto la holgura de la proyección (huecos ≥ tangencia)
+basta.
 
 ## 3. Qué cambia en el programa τ = φ
 
