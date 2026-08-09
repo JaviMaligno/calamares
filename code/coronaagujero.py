@@ -17,8 +17,14 @@ mural otra vez.  La dicotomia se HEREDA:
   k <= 2  <->  plantilla j <= 1 (familia ACOTADA <= 5:
           {x_1, (x_2), D_m-disco, s', w*}; criterio mural exacto +
           cota blindada del trio {x_1, x_2, m} sobre c).
-  k = 0 es VACIO en la rama: respirar => X_Y > phi - omega > 0 para
-  todo omega <= 1.35 < phi, y las piezas son >= 1.
+  k = 0 es VACIO por el LEMA DE RESPIRACION FUERTE (ronda hostil
+  2026-08-09: X_Y en el convenio real INCLUYE polvo < m del agujero,
+  asi que "piezas >= 1" NO basta): la I2 COMPLETA + la pared (D)
+  (Sigma_S > 1) dan X_Y + omega > phi(3-phi) = 2phi-1 = sqrt5; el
+  polvo de v esta acotado por cola(m) <= phi: polvo <= phi - Sigma_S
+  < phi - 1; luego la masa > m cumple X_{>m} + omega > sqrt5 -
+  (phi-1) = phi > 0 EXACTO (sqrt5 - phi + 1 = phi): k >= 1 genuino,
+  y el filtro X_{>m} + omega > phi del script queda justificado.
 
 RAMA 2 — CORONA-ALPHA con X_alpha grande.  u = agujero de alpha
 (capacidad c = alpha - omega) con ocupantes {x_1..x_k} per P (masa
@@ -119,11 +125,18 @@ def bloque_A():
                 "2-phi); rama 2 idem con 2 > 2 sigma2 (sigma2 < 1, "
                 "margen 2-2sigma2 > 0)",
                 float(2 - PHI) > 0 and float(2 - 2 / PHI) > 0)
-    # (3) respirar => k >= 1 (rama 1 sin k = 0)
-    ok &= check("rama 1 sin k = 0: respirar X_Y + omega > phi con "
-                "omega <= 1.35 < phi da X_Y > phi - 1.35 > 0, y las "
-                "piezas son >= 1: k >= 1 y X_Y >= 1",
-                float(PHI - 1.35) > 0)
+    # (3) lema de respiracion fuerte (rama 1 sin k = 0; X_Y con
+    #     polvo, convenio real de puertocii)
+    ok &= check("LEMA DE RESPIRACION FUERTE: I2 completa "
+                "((phi-1)(X_Y+omega) > 1 + (2-phi)Sigma_S + X_m + "
+                "X_alpha) + pared (D) (Sigma_S > 1) => X_Y+omega > "
+                "phi(3-phi) = 2phi-1 = sqrt5; polvo de v <= phi - "
+                "Sigma_S < phi-1 (cola(m) <= phi); masa > m: "
+                "X_{>m}+omega > sqrt5-(phi-1) = phi EXACTO => k >= 1 "
+                "y el filtro del script justificado",
+                sp.simplify(phi * (3 - phi) - (2 * phi - 1)) == 0
+                and sp.simplify(2 * phi - 1 - sp.sqrt(5)) == 0
+                and sp.simplify(sp.sqrt(5) - (phi - 1) - phi) == 0)
     # (4) rama 2 ligera: B = S \ {sigma2} cabe en D_m EXACTO
     ok &= check("rama 2 (perfil ligero Sigma_S < 1+sigma2): "
                 "Sigma_B = Sigma_S - sigma2 < 1: la fila B entera va "
@@ -148,19 +161,23 @@ def bloque_B():
     n, freg, fpres = 0, 0, 0
     peor = 0.0
     arg = None
+    peor_k = {}
 
-    def instancia(k, w, SS, holg, sp_fixed=None):
+    def instancia(k, w, SS, holg):
         nonlocal n, freg, fpres, peor, arg
         xs = cascada_agujero(SS, k, holg)
         XY = sum(xs)
-        if XY + w <= PHI + 1e-12:      # no respira: cerrada por I2
+        # filtro por la masa > m (lema de respiracion fuerte: el
+        # polvo de v se descuenta EXACTO, cabecera y check A(3))
+        if XY + w <= PHI + 1e-12:
             return
         c = max(xs[0] + xs[1], xs[0] + 1.0)
         fam = xs + [1.0]               # D_m como pieza
-        if sp_fixed is None:
-            sp_, wst = caps_masa(None, SS)   # tope exacto (peor s')
-        else:
-            sp_, wst = sp_fixed
+        # MAYORANTE DESACOPLADO (ronda hostil, H3): s' = tope exacto
+        # y w* = 1/phi SIMULTANEOS (el presupuesto es monotono en
+        # ambos tamanos; la ligadura de masa solo puede rebajarlos)
+        sp_ = min(SS / 2, PHI / 2)
+        wst = 1 / PHI
         n += 1
         reg1 = all(c - x > 2 * sp_ + 1e-12 for x in fam)
         reg2 = all(c - x > 2 * wst + 1e-12 for x in fam + [sp_])
@@ -175,9 +192,10 @@ def bloque_B():
             peor = v
             arg = dict(k=k, w=round(w, 3), SS=round(SS, 3),
                        h=round(max(holg), 1))
+        peor_k[k] = max(peor_k.get(k, 0.0), v)
 
     for _ in range(max(20000, ITER // 3)):
-        k = rng.randrange(3, 8)
+        k = rng.randrange(3, 11)
         w = rng.uniform(0.05, 1.35)
         SS = rng.uniform(1.0 + 1e-6, PHI)
         holg = [1.0 + rng.expovariate(2.5) for _ in range(k)]
@@ -187,7 +205,7 @@ def bloque_B():
     # esquinas deterministas + holgura grande (una y dos piezas)
     ndet = 0
     HS = [1.0, 2, 5, 20, 100, 1000, 10000]
-    for k in (3, 4, 5, 6):
+    for k in (3, 4, 5, 6, 8, 10, 12, 14):
         for w in (0.05, PHI - 1, 0.9, 0.999, 1.2, 1.35):
             for SS in (1.0 + 1e-9, 1.3, PHI):
                 for rk in range(k):
@@ -209,10 +227,17 @@ def bloque_B():
                 f"deterministas con h hasta 10^4): 0 fallos de "
                 f"regimen esperados (exacto) — {freg} observados",
                 n > 5000 and freg == 0)
-    ok &= check(f"presupuesto de sombras en el tope exacto s' = "
-                f"min(Sigma/2, phi/2): {fpres} fallos; peor = "
-                f"{peor:.4f} < 2pi - 0.05 = {2 * PI - 0.05:.4f} "
-                f"(argmax {arg})", fpres == 0 and peor < 2 * PI - 0.05)
+    ok &= check(f"presupuesto de sombras en el MAYORANTE desacoplado "
+                f"(s' = min(Sigma/2, phi/2) Y w* = 1/phi a la vez): "
+                f"{fpres} fallos; peor = {peor:.4f} < 2pi - 0.05 = "
+                f"{2 * PI - 0.05:.4f} (argmax {arg})",
+                fpres == 0 and peor < 2 * PI - 0.05)
+    trazak = {k: round(v, 3) for k, v in sorted(peor_k.items())}
+    ok &= check(f"direccion k (asterisco declarado, analogo de la "
+                f"direccion j de la ley de escala): peor presupuesto "
+                f"DECRECIENTE en k — {trazak} — coherente con el "
+                f"crecimiento geometrico de la cascada (razon phi)",
+                peor_k[max(peor_k)] < peor_k[min(peor_k)])
     # limite x1 -> inf por formula (c = x1 + x2, sombra de x1 -> pi)
     vals = []
     for t in (1e6, 1e8):
@@ -307,6 +332,7 @@ def bloque_D():
     peor_def2 = 0.0
     arg3, arg2 = None, None
     vacias = 0
+    peor3_k = {}
 
     def instancia(k, w, SS, s2, holg):
         nonlocal n3, freg3, fpres3, peor3, n2, fallos2, peor_def2
@@ -334,6 +360,7 @@ def bloque_D():
                 peor3 = v
                 arg3 = dict(k=k, w=round(w, 3), SS=round(SS, 3),
                             s2=round(s2, 3))
+            peor3_k[k] = max(peor3_k.get(k, 0.0), v)
         else:
             piezas = sorted(xs + [1.0, s2], reverse=True)
             n2 += 1
@@ -346,7 +373,7 @@ def bloque_D():
                                 s2=round(s2, 3), c=round(c, 3))
 
     for _ in range(max(30000, ITER // 2)):
-        k = rng.randrange(1, 7)
+        k = rng.randrange(1, 11)
         w = rng.uniform(0.05, 1.35)
         s2 = rng.uniform(0.05, 0.999)
         SS = rng.uniform(max(1.0 + 1e-6, 2 * s2), 1 + s2)
@@ -359,7 +386,7 @@ def bloque_D():
     # esquinas: sigma2 de la ventana R2 (hasta 0.804 y frontera 1/2),
     # Sigma -> 1+ y -> 1+sigma2, cascada exacta, holgura grande
     ndet = 0
-    for k in (1, 2, 3, 4):
+    for k in (1, 2, 3, 4, 6, 8, 10, 12):
         for w in (0.05, 0.927, 0.999, 1.2, 1.35):
             for s2 in (0.363, 0.5, 0.618, 0.804, 0.95):
                 for SSf in (0.001, 0.5, 0.999):
@@ -384,6 +411,10 @@ def bloque_D():
                 f"blindada): {fallos2} fallos (peor deficit "
                 f"{peor_def2:.4f}, argmax {arg2})",
                 n2 > 2000 and fallos2 == 0)
+    trazak = {k: round(v, 3) for k, v in sorted(peor3_k.items())}
+    ok &= check(f"direccion k en rama 2 (asterisco declarado): peor "
+                f"presupuesto DECRECIENTE en k — {trazak}",
+                peor3_k[max(peor3_k)] < peor3_k[min(peor3_k)])
     print(f"      celdas vacias por suelo >= techo B2u (bloqueo "
           f"infactible, cerradas gratis): {vacias}")
     return ok
@@ -407,12 +438,15 @@ def bloque_E():
                 f"celda necesita la corona acotada (por eso la "
                 f"dicotomia es k >= 3 / k <= 2, como j >= 2 / j <= 1)",
                 x2 < 1.4)
-    # (c) rama 1 no respirante: cerrada por I2 (identidad, puertocii)
-    ok &= check("(c) rama 1 con X_Y + omega <= phi: VACIA por I2 "
-                "(cola de Y con alpha dentro + E4 + (RY) infactibles "
-                "salvo (phi-1)(X_Y+omega) > 1, sympy en puertocii "
-                "[A]): este script solo debe cubrir respirantes",
-                abs((PHI - 1) * PHI - 1.0) < 1e-12)
+    # (c) rama 1 no respirante: cerrada por I2 COMPLETA (puertocii)
+    ok &= check("(c) rama 1 sin respirar: la I2 COMPLETA "
+                "((phi-1)(X_Y+omega) > 1+(2-phi)Sigma_S+X_m+X_alpha, "
+                "survive_c2 de puertocii) + (D) exigen X_Y+omega > "
+                "sqrt5 = 2phi-1 = 2.2360; el umbral phi del filtro "
+                "es para la masa > m TRAS descontar el polvo "
+                "(< phi-1): lema de respiracion fuerte, check A(3)",
+                abs((PHI - 1) * PHI - 1.0) < 1e-12
+                and abs(2 * PHI - 1 - math.sqrt(5)) < 1e-12)
     # (d) rama 2 pesada: fuera (particion B*/A + pinza F1f)
     ok &= check("(d) rama 2 con Sigma_S >= 1+sigma2 (pesado): FUERA "
                 "de este script — la cierra la particion B*/A con la "

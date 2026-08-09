@@ -2294,3 +2294,69 @@ sin mezcla F/P). Los suelos «solo suben» son álgebra de dos líneas
 `insercionanidada.md` actualizado (§3 holgura grande + límite, §5
 estatus); `puertoescrito.md` reescrito (dominios distinguidos,
 estándar heredado, residuo completo §3.1-6).
+
+---
+
+## Acta: ronda hostil de las dos ramas de agujero (`coronaagujero.md`) — 2026-08-09
+
+Adversario sobre el cierre de las dos ramas residuales del puerto
+(rama respirante Y ≥ α y corona-α), con reproducción del 5/5,
+55 000 instancias adversarias con semilla independiente (trade-off
+s′/w* completo, mallas sesgadas a fronteras) y sondas dedicadas
+(pseudo-contraejemplos k = 0 con polvo, banda k = 1 excluida,
+dirección k hasta 14).
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+El esqueleto resiste (plantilla anidada dentro del agujero,
+dicotomía k ≥ 3 / k ≤ 2, ventana exacta de c). **0 contraejemplos**
+bajo fuego. Dos hallazgos graves con reparación exacta:
+
+1. **[GRAVE] «k = 0 vacío porque las piezas son ≥ 1» era FALSO**:
+   X_Y en el convenio real (compon_masa, acta 2026-08-08) INCLUYE
+   polvo < m del agujero de Y. REPARADO con el **lema de
+   respiración fuerte** (exacto, verificado en sonda): I2 COMPLETA
+   ((φ−1)(X_Y+ω) > 1+(2−φ)ΣS+X_m+X_α) + pared (D) (ΣS > 1) ⟹
+   X_Y+ω > φ(3−φ) = 2φ−1 = √5; polvo ≤ φ−ΣS < φ−1 por cola(m) ≤ φ;
+   masa > m: X_{>m}+ω > √5−(φ−1) = φ EXACTO ⟹ k ≥ 1. El filtro del
+   script queda justificado sin cambio de código; los
+   pseudo-contraejemplos k = 0 con polvo VIOLAN la I2 completa (no
+   son del dominio); la banda k = 1 excluida además pasa la corona
+   (redundancia). Reescritos cabecera, A(3) y E(c) con las
+   identidades sympy φ(3−φ) = 2φ−1 = √5 y √5−(φ−1) = φ.
+2. **[GRAVE] Alcance k no declarado**: el certificado cubría
+   k ≤ 7/6 sin decirlo. REPARADO: barridos extendidos a k ≤ 14
+   (rama 1) / k ≤ 12 (rama 2) con la traza del peor presupuesto
+   DECRECIENTE (5.212 → 3.382; 3.114 → 3.106) y la dirección k
+   declarada como asterisco (análogo exacto de la dirección j de la
+   ley de escala; cola geométrica de razón φ detrás).
+3. **[MENOR] Trade-off s′/w* solo en esquina** (bloque B). REPARADO
+   con el MAYORANTE DESACOPLADO: s′ = tope Y w* = 1/φ simultáneos
+   (monotonía en ambos tamaños); peor sube a 5.2115 — exactamente
+   el suelo crítico del teorema anidado — y sigue < 2π−0.05.
+4. [NOTA] En rama 2 el suelo E4 domina siempre (ΣS+X_α ≥ 1+x₁+x₂ >
+   pares, M): ventana efectiva [ΣS+X_α, 1+σ₂+X_α) a secas. Anotado.
+5. [NOTA] Checks vacuos A(3)/E(c) reescritos con la sustancia.
+6. [NOTA a favor] Σ ≤ 1 imposible en la celda (pared (D)): el
+   barrido Σ ∈ (1, φ] no es restricción. Anotado.
+
+RESISTEN: la cola es GLOBAL (convención del paper, líneas 202-203:
+la cadena x₂ ≥ 1+Σ vale en ambos agujeros); pares y blindada
+legítimos (rama 1: P empaqueta {x's, m}; rama 2: F empaquetó
+{x's, m} simultáneos al colocar m, los > m coinciden por
+maximalidad); extras de v → Σ; X_m viaja dentro de m; régimen rama
+2 incluye m (c−1 > 2σ₂ con margen); suelos conservadores (peor c,
+holguras sobreyectivas, en rama 2 usar ΣS en la cascada debilita:
+dirección buena); E4 sin el bug Σ_S/Σ del gap lemma; el lema de
+inserción usado agnóstico a posiciones; exhaustividad de la
+partición por ramas (las exclusiones tienen cierre exacto propio).
+
+### Estado tras reparación
+
+`coronaagujero.py` 5/5 (mayorante, k extendido, lema de respiración
+fuerte en A(3)/E(c)); `coronaagujero.md` reescrito (§2 lema fuerte,
+§3 ventana efectiva, §4 alcance k explícito, §5 estatus completo).
+**Las dos ramas de `puertoescrito.md` §3.1-2 quedan CERRADAS al
+estándar del programa** (exacto en ligaduras/regímenes/ventanas/
+respiración; numérico-certificado en sups; dirección k asterisco
+decreciente).

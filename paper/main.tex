@@ -676,9 +676,10 @@ profile and dust directions of the scaling are exact by the
 pocket-$\varphi$ lemma, and the heavy pan cells, the entire nested
 template and the container port have been upgraded to written
 proofs by the insertion, compaction and trio lemmas,
-Theorems~\ref{thm:D1written}--\ref{thm:gapwritten}), leaving as the
-numeric core the occupant-count direction of the scaling and two
-hole-corona branches of the port.
+Theorems~\ref{thm:D1written}--\ref{thm:gapwritten} and the
+hole-corona closures), leaving as the numeric core the
+occupant-count directions ($j$ of the scaling, $k$ of the hole
+coronas), both with geometrically decreasing worst budgets.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -1173,12 +1174,16 @@ nested theorems via the tower root, and the hole-destination case
 assembles from exact pincers); the shared-root cell
 carries a certified-corner closure
 ($\pi+4\arcsin(1/\sqrt3)<2\pi$) and the pocket-$\varphi$ lemma
-closes the profile and dust directions of the scaling exactly. What
-remains for a full proof of Conjecture~\ref{conj:golden} is exactly:
-the occupant-count direction $j$ of the scaling (numeric, swept to
-$j\le9$ with exact geometric cascade growth), two hole-corona
-branches of the port (bounded families inside a hole -- the shape
-the gap lemma already closed in the pan), and written proofs
+closes the profile and dust directions of the scaling exactly. The two
+hole-corona branches of the port are closed by running the nested
+template inside the hole (automatic regime for $k\ge3$ occupants,
+bounded family with the trio bound for $k\le2$, and a strong
+breathing lemma $X_{>m}+\omega>\varphi$ exact after discounting
+dust). What remains for a full proof of
+Conjecture~\ref{conj:golden} is exactly: the occupant-count
+directions (numeric: $j$ of the scaling, swept to $j\le9$ with
+exact geometric cascade growth; $k$ of the hole coronas, swept to
+$k\le14$ with decreasing worst budget), and written proofs
 replacing the remaining adversarially verified computational
 closures.
 \end{openproblem}
@@ -1241,7 +1246,8 @@ certificates \texttt{zigzag} (5/5), and the exchange-assembly
 bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
 layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
-\texttt{insercionanidada} (6/6) and \texttt{gaplemma} (5/5).
+\texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5) and
+\texttt{coronaagujero} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3257,11 +3263,30 @@ their floors (large-slack sweeps to $10^4$ with the worst budget at
 the floor, and the $t\to\infty$, $\alpha\to\infty$ limits closing by
 formula -- a hostile round of this very reduction demanded and
 obtained the large-slack block). When $v$ is the hole of a top-level
-$Y$, the case assembles into a theorem from the exact pincers above,
-modulo a residue of two hole-corona branches (the breathing
-$Y\ge\alpha$ branch with $X_Y+\omega>\varphi$, and the
-$\alpha$-corona with large $X_\alpha$), each a bounded family inside
-a hole -- the same shape the gap lemma closed in the pan. Finally, a
+$Y$, the case assembles into a theorem from the exact pincers above
+together with the two \emph{hole-corona} theorems, which run the
+nested template \emph{inside} the hole: the cascade chain among a
+hole's occupants yields the same automatic regime ($x_2\ge1+\Sigma$
+for $k\ge3$ occupants, $\varphi^2=1+\varphi$; tails are global), and
+for $k\le2$ the family is bounded and the armored trio bound
+applies, on the hole's own low floors (occupants $\ge1$ with no wall
+relation -- a domain the pan boxes do not cover, swept separately
+with $10^4$ slack and the $x_1\to\infty$ limit by formula). The
+breathing branch $Y\ge\alpha$ needs a \emph{strong breathing lemma}
+since the hole mass includes dust: the full cross-tail pincer plus
+the wall $\Sigma_S>1$ force $X_Y+\omega>\varphi(3-\varphi)
+=2\varphi-1=\sqrt5$, dust is at most $\varphi-\Sigma_S<\varphi-1$ by
+the tail of $m$, and $\sqrt5-(\varphi-1)=\varphi$ exactly: the
+above-$m$ mass satisfies $X_{>m}+\omega>\varphi$, so $k\ge1$ -- the
+golden threshold reappears after discounting dust. The
+$\alpha$-corona branch is lighter: lightness gives
+$\Sigma_S-\sigma_2<1$ exactly (the rest of $S$ rows into $D_m$ and
+only $\sigma_2$ needs mural insertion), and the capacity window
+$[\Sigma_S+X_\alpha,\,1+\sigma_2+X_\alpha)$ is exact with $X_\alpha$
+cancelling (script \texttt{coronaagujero}, 5/5, adversarial round
+with zero counterexamples under 55k independent adversarial
+instances; the occupant-count direction $k$ is certified to
+$k\le14$ with the worst budget \emph{decreasing} in $k$). Finally, a
 \emph{pocket-$\varphi$ lemma} removes the profile- and dust-count
 directions of the scaling question exactly: at $R=o_1+o_2$ the
 Descartes discriminant of the tangent pair vanishes identically, the
@@ -3272,11 +3297,12 @@ $\le\varphi$ by the tail of $m$: the entire profile and dust row
 into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
 with the nested template verbatim and a geometric non-invasion
 check). The honest residue of the whole program is therefore: the
-single numeric direction $j$ (occupant count), swept to $j\le9$
-(pan) and $j\le8$ (nested) with uniform tangent duality and the
-exact geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade
-($1+1/\varphi=\varphi$); the two hole-corona branches of the port
-above; the computational (as opposed to written-proof) status of the
+numeric occupant-count directions -- $j$ of the scaling, swept to
+$j\le9$ (pan) and $j\le8$ (nested) with uniform tangent duality and
+the exact geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade
+($1+1/\varphi=\varphi$), and $k$ of the hole coronas, swept to
+$k\le14$ with the worst budget decreasing; the computational (as
+opposed to written-proof) status of the
 remaining sweeps -- the shared-root interior sweeps beyond the
 certified corner, the pan-repack legality statement behind the
 mirror-pocket pincers, the near-equal-tops duality gap

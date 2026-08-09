@@ -73,13 +73,17 @@ teorema ensamblado módulo §3.
 
 ## 3. Lo que queda computacional (el residuo, lista COMPLETA)
 
-Ramas abiertas (candidato escrito común: la jugada del gap lemma —
-familia acotada + necesidad del trío — DENTRO del agujero):
-1. (c-ii-2) rama Y ≥ α «respirando» (X_Y + ω > φ): cierre por
-   corona-Y. Familia candidata del agujero de Y: {X_Y grandes,
-   D_m-disco, σ₂}.
-2. (c-ii-2) corona-α con X_α grande (B2u como fila): ídem, familia
-   del agujero de α.
+Ramas 1-2: **CERRADAS** (2026-08-09, `coronaagujero.md` +
+`code/coronaagujero.py` 5/5, adversariado — 0 contraejemplos en 55k
+instancias): la plantilla anidada DENTRO del agujero (k ≥ 3 régimen
+automático heredado; k ≤ 2 corona acotada + trío blindado), con el
+lema de respiración fuerte (X_{>m}+ω > φ exacto tras descontar
+polvo, vía √5−(φ−1) = φ) y la ventana exacta de c en corona-α.
+Alcance k ≤ 14/12 con dirección k asterisco decreciente:
+1. ~~(c-ii-2) rama Y ≥ α «respirando»~~ CERRADA (teorema, rama
+   respirante).
+2. ~~(c-ii-2) corona-α con X_α grande~~ CERRADA (teorema, corona-α
+   con partición exacta B/{σ₂}).
 
 Estatus computacional heredado (no ramas abiertas, sino asteriscos
 de las piezas que el teorema ensambla — la ronda hostil exige
