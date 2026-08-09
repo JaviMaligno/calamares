@@ -671,9 +671,11 @@ via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
 $\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- every proved floor
 of the nested exchange exceeds $T>\varphi$ with margin, and every
 residual cell of the exchange assembly is closed computationally
-with duality-certificate backing (Appendix~\ref{app:campaign}),
-leaving open at the exact level only the shared-root port cell and
-the $(j,p,k)$ scaling laws.
+with duality-certificate backing (Appendix~\ref{app:campaign}; the
+profile and dust directions of the scaling are exact by the
+pocket-$\varphi$ lemma), leaving as the numeric core only the
+occupant-count direction of the scaling and the computational status
+of the corona closures.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -1156,11 +1158,14 @@ profiles of four or more pieces beyond the reduction branch) are
 closed computationally in Appendix~\ref{app:campaign}, and the
 exchange assembly -- the case partition over the containers of $m$,
 the container port, and the $\alpha\notin v$ campaign -- is carried
-out there with its facts at theorem level. What remains open for a
-full proof of Conjecture~\ref{conj:golden} is exactly: an exact-level
-closure of the shared-root cell of the port (computationally closed),
-and the $(j,p,k)$ scaling laws that would convert each computational
-closure into a theorem.
+out there with its facts at theorem level; the shared-root cell
+carries a certified-corner closure
+($\pi+4\arcsin(1/\sqrt3)<2\pi$) and the pocket-$\varphi$ lemma
+closes the profile and dust directions of the scaling exactly. What
+remains for a full proof of Conjecture~\ref{conj:golden} is exactly:
+the occupant-count direction $j$ of the scaling (numeric, swept to
+$j\le9$ with exact geometric cascade growth), and written proofs
+replacing the adversarially verified computational closures.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -1218,7 +1223,8 @@ profiles, \texttt{perfilp} (5/5) and \texttt{rstar} (6/6); the
 corona-versus-tails campaign of Appendix~\ref{app:campaign} --
 \texttt{coronacolas} (5/5), \texttt{coronanidada} (5/5), the duality
 certificates \texttt{zigzag} (5/5), and the exchange-assembly
-bookkeeping \texttt{ensamblaje} (6/6) and \texttt{puertocii} (6/6).
+bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
+layer \texttt{escala} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3056,10 +3062,30 @@ $b_2$ against the corner $b_2(2,\sqrt5-1)=1$; the heavy profile is
 closed by an exact partition pincer ($b_2(4/\varphi,2/\varphi)
 =12/(7\varphi)>1$); towers, the $Y\ge\alpha$ branch and the
 shared-root configurations (where the top-level pair degenerates)
-are closed by the corona certificates over the swept ranges. The
-honest residue of the whole program is therefore: the shared-root
-cell at the exact level (computationally closed, no exact pincer
-yet), and the $(j,p,k)$ scaling of every computational closure.
+are closed by a dedicated mural-trio analysis: the exchange lives in
+the hole of $\alpha$ with capacity $c=\alpha-\omega\ge\Sigma_S+Y$
+(hole tariff), the trio sum decreases in $c$ (exact), and its
+supremum over the legal window is the certified corner
+$\pi+4\arcsin(1/\sqrt3)\approx5.60<2\pi$ (margin $0.68$; lightness
+with $\sigma_1\ge\sigma_2$ forces $\sigma_2\le\tfrac12$, while the
+analytic danger threshold is $\sigma_2=\tfrac23$), with the heavy
+branch by an exact partition and the deeper/mirrored configurations
+by direct sweeps with derived tariffs. Finally, a
+\emph{pocket-$\varphi$ lemma} removes the profile- and dust-count
+directions of the scaling question exactly: at $R=o_1+o_2$ the
+Descartes discriminant of the tangent pair vanishes identically, the
+pocket radius $1/(1/o_1+1/o_2-1/(o_1+o_2))$ is monotone in
+$o_1,o_2,R$ and equals $\varphi$ \emph{exactly} at the cascade
+minimum $(2\varphi,2,2\varphi+2)$, while the total small mass is
+$\le\varphi$ by the tail of $m$: the entire profile and dust row
+into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
+with the nested template verbatim and a geometric non-invasion
+check). The honest residue of the whole program is therefore the
+single numeric direction $j$ (occupant count), swept to $j\le9$
+(pan) and $j\le8$ (nested) with uniform tangent duality and the
+exact geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade
+($1+1/\varphi=\varphi$), plus the computational (as opposed to
+written-proof) status of the corona closures themselves.
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
