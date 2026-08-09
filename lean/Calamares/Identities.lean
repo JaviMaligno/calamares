@@ -369,6 +369,16 @@ theorem golden_line_N :
 (numerador y denominador valen 8). [thm:DP (ii); ensamblaje.py A] -/
 theorem b2_mirror_corner : b2 2 (sqrt5 - 1) = 1 := by decide +kernel
 
+/-- (38) El lema de respiración fuerte (las dos ramas de agujero del
+puerto): `φ(3−φ) = 2φ−1 = √5` y `√5 − (φ−1) = φ` — la I2 completa con
+la pared `Σ_S > 1` da `X_Y + ω > √5`, el polvo se descuenta con
+`< φ−1`, y la masa `> m` conserva EXACTAMENTE el umbral áureo
+`X_{>m} + ω > φ`. [coronaagujero.py A(3)] -/
+theorem strong_breathing :
+    phi * (3 - phi) = 2 * phi - 1 ∧ 2 * phi - 1 = sqrt5
+      ∧ sqrt5 - (phi - 1) = phi := by
+  decide +kernel
+
 /-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
