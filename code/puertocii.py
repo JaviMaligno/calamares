@@ -1196,10 +1196,31 @@ def bloque_F():
 
 def trio_suma(Y, s2, c):
     """Suma ciclica del trio mural {Y, m = 1, s2} en un disco de
-    capacidad c (tres circulos: todas las parejas son consecutivas,
-    total <= 2 pi es SUFICIENTE y constructivo)."""
+    capacidad c.  SUFICIENCIA para k = 3 (ronda hostil 2026-08-08):
+    con cada theta <= pi (el cap de theta_w) y suma <= 2 pi la corona
+    de 3 SIEMPRE se realiza: las separaciones consecutivas d_k =
+    theta_k + holgura reparten 2 pi - Sigma theta >= 0, y la condicion
+    del par 'por el otro lado' (theta_k <= d_i + d_j = 2 pi - d_k)
+    se satisface poniendo la holgura en s_i + s_j, posible sii
+    theta_k <= pi.  Requiere ademas que cada par quepa (a + b <= c):
+    aqui Y+1 <= c sii Sigma_S >= 1 (pared D), s2+Y <= c sii s2 <=
+    Sigma_S, 1+s2 <= c trivial.  Cross-check contra
+    ciclo_constructivo: 29 071 trios, 0 discrepancias."""
     return (theta_w(Y, 1.0, c) + theta_w(1.0, s2, c) +
             theta_w(s2, Y, c))
+
+
+def b_star_particion(piezas, cap=1.0):
+    """(suma, resto) de la mejor particion: B* = mayor subconjunto de
+    suma <= cap (a D_m), A = piezas restantes (al muro)."""
+    mejor, mmask = 0.0, 0
+    n = len(piezas)
+    for mask in range(1 << n):
+        s = sum(piezas[i] for i in range(n) if mask >> i & 1)
+        if s <= cap + 1e-12 and s > mejor:
+            mejor, mmask = s, mask
+    A = [piezas[i] for i in range(n) if not (mmask >> i & 1)]
+    return mejor, A
 
 
 def bloque_G():
@@ -1267,10 +1288,44 @@ def bloque_G():
     ok &= check(f"G-b: sup del trio mural sobre la ventana ligera "
                 f"({n} instancias MC): {peor:.4f} <= 2 pi - margen "
                 f"(peor caso {arg})", n > 5000 and peor < 2 * PI - 0.3)
-    # (c) las esquinas del sup, refinadas y certificadas: la suma
-    # crece al BAJAR c y al SUBIR Y y s2: esquina Sigma_S -> 1+
-    # (s1 = 1 - s2 + eps), Y -> Sigma_S + XY + w, y en XY la cota de
-    # cola; barrido determinista de la frontera
+    # (b') X' > 0 EXPLICITO (hallazgo de la ronda hostil 2026-08-08):
+    # subir c por la tarifa (c = Sigma_S + Y + X') es conservador para
+    # el TRIO, pero las piezas X' tambien viven en u y deben colocarse:
+    # corona {Y, m, sigma2} U X' en el suelo c = Sigma_S + Y + X'
+    # (ventana de alpha con el techo B2u-fila 1 + s2 + Y + X' + w)
+    nX, fallosX = 0, 0
+    for _ in range(max(30000, ITER // 2)):
+        w = rng.uniform(0.01, 1.6)
+        s2 = rng.uniform(0.05, 0.999)
+        s1 = rng.uniform(s2, 0.999)
+        SS = s1 + s2
+        if SS <= 1.0 or SS >= 1.0 + s2:
+            continue
+        XY = rng.uniform(0.0, 3.0) if rng.random() < 0.3 else 0.0
+        lbY, ubY = 1.0 + XY + w, SS + XY + w
+        if lbY >= ubY:
+            continue
+        Y = rng.uniform(lbY, ubY)
+        Xp = [rng.uniform(0.01, max(0.02, Y))
+              for _ in range(rng.randrange(1, 4))]
+        SXp = sum(Xp)
+        if (1.0 + Y + SS + XY + SXp) / PHI >= 1.0 + w + s2 + Y + SXp:
+            continue
+        nX += 1
+        okc, _ = corona_suf(sorted([Y, 1.0, s2] + Xp, reverse=True),
+                            SS + Y + SXp)
+        if not okc:
+            fallosX += 1
+    ok &= check(f"G-b': rama X' > 0 (piezas explicitas en u, 1..3, "
+                f"hasta tamano Y): corona {{Y, m, sigma2}} U X' cabe "
+                f"en c = Sigma_S + Y + X' en {nX} instancias "
+                f"({fallosX} fallos)", nX > 3000 and fallosX == 0)
+    # (c) las esquinas del sup, refinadas y certificadas.  CORRECCION
+    # (ronda hostil 2026-08-08): la suma NO es monotona en Y (el peor
+    # Y es a menudo el SUELO, no el techo): se barren AMBAS fronteras
+    # de Y ademas del MC interior de G-b; la monotonia decreciente en
+    # Sigma_S con Y en su frontera si se verifico (0/20000): esquina
+    # Sigma_S -> 1+ (s1 = 1 - s2 + eps; con s2 > 1/2, s1 = s2)
     peor2, arg2 = 0.0, None
     for wi in range(1, 161):
         w = wi * 0.01
@@ -1283,17 +1338,17 @@ def bloque_G():
             if SS <= 1.0 or SS >= 1.0 + s2:
                 continue
             for XY in (0.0, 0.5, 1.0, 2.0, 3.0):
-                Y = SS + XY + w - 1e-9
-                if Y < 1.0 + XY + w:
-                    continue
-                if (1.0 + Y + SS + XY) / PHI >= 1.0 + w + s2 + Y:
-                    continue
-                v = trio_suma(Y, s2, SS + Y)
-                if v > peor2:
-                    peor2, arg2 = v, dict(w=w, s2=s2, XY=XY,
-                                          Y=round(Y, 4))
-    ok &= check(f"G-c: sup en la frontera determinista (esquinas "
-                f"Sigma_S -> 1+, Y -> techo): {peor2:.4f} < 2 pi "
+                for Y in (1.0 + XY + w + 1e-9, SS + XY + w - 1e-9):
+                    if not (1.0 + XY + w <= Y < SS + XY + w):
+                        continue
+                    if (1.0 + Y + SS + XY) / PHI >= 1.0 + w + s2 + Y:
+                        continue
+                    v = trio_suma(Y, s2, SS + Y)
+                    if v > peor2:
+                        peor2, arg2 = v, dict(w=w, s2=s2, XY=XY,
+                                              Y=round(Y, 4))
+    ok &= check(f"G-c: sup en la frontera determinista (Sigma_S -> "
+                f"1+, Y en SUELO y TECHO): {peor2:.4f} < 2 pi "
                 f"(margen {2 * PI - peor2:.4f}; esquina {arg2})",
                 peor2 < 2 * PI - 0.3)
     # (d) certificado exacto de la esquina dominante (sympy): en el
@@ -1320,61 +1375,182 @@ def bloque_G():
                 and PI + 4 * math.asin(math.sqrt(1.0 / 3.0))
                 < 2 * PI - 0.6)
     # (e) rama PESADA de R2b (Sigma_S >= 1 + s2, W > 0): particion
-    # B* -> D_m (<= 1) y el resto A junto al trio: cuarteto
-    # {Y, m, s2, a} con a <= s1 < 1: barrido del sup del cuarteto en
-    # zigzag [Y, s2, m, a] con validacion de parejas (ciclo_instr de
-    # zigzag no esta aqui: usamos ciclo_constructivo importado)
-    peor3 = 0.0
-    n3 = 0
+    # EXACTA B*/A (ronda hostil 2026-08-08: el cuarteto fijo
+    # {Y, s2, m, s1} con W monopieza <= 1 NO cubria W multipieza ni
+    # W > 1, donde B* puede contener a sigma2 y A tener varias
+    # piezas): B* -> D_m (<= 1) y el MURAL es {Y, m} U A con
+    # A = S \ B*; Y en TODO su rango (no solo el techo); corona por
+    # corona_suf (ordenes + bolsillos)
+    peor3, n3, n3w = 0.0, 0, 0
     for _ in range(max(30000, ITER // 2)):
         w = rng.uniform(0.01, 1.6)
-        s2 = rng.uniform(0.05, 0.98)
-        s1 = rng.uniform(s2, 0.999)
-        Wm = rng.uniform(0.01, 1.0)
-        SS = s1 + s2 + Wm
-        if SS < 1.0 + s2:
-            continue                     # pesada
-        if SS + 0.0 > PHI:
-            continue                     # cola de m
-        XY = 0.0
-        Y = SS + XY + w - 1e-9
-        if Y < 1.0 + XY + w:
+        modo = rng.random()
+        if modo < 0.25:                  # dirigido a W > 1
+            s2 = rng.uniform(0.05, 0.35)
+            s1 = rng.uniform(s2, 0.55)
+            kw = rng.randrange(4, 9)
+            Wp = [rng.uniform(0.5 * s2, s2) for _ in range(kw)]
+        elif modo < 0.6:
+            s2 = rng.uniform(0.05, 0.98)
+            s1 = rng.uniform(s2, 0.999)
+            Wp = [rng.uniform(0.01, min(s2, 1.0))]
+        else:
+            s2 = rng.uniform(0.05, 0.98)
+            s1 = rng.uniform(s2, 0.999)
+            kw = rng.randrange(2, 8)
+            Wp = [rng.uniform(0.3 * s2, s2) for _ in range(kw)]
+        SS = s1 + s2 + sum(Wp)
+        if SS < 1.0 + s2 or SS > PHI:
+            continue                     # pesada + cola de m
+        Y = rng.uniform(1.0 + w, SS + w - 1e-9) \
+            if 1.0 + w < SS + w else None
+        if Y is None:
             continue
+        Bs, A = b_star_particion([s1, s2] + Wp)
         c_min = SS + Y
         n3 += 1
-        okc, defc = ciclo_constructivo([Y, s2, 1.0, s1], c_min)
+        if sum(Wp) > 1.0:
+            n3w += 1
+        okc, defc = corona_suf(sorted([Y, 1.0] + A, reverse=True),
+                               c_min)
         if not okc:
             peor3 = max(peor3, defc)
-    ok &= check(f"G-e: rama pesada: el cuarteto {{Y, s2, m, s1}} "
-                f"mural cabe en c = Sigma_S + Y en {n3} instancias "
-                f"(peor deficit {peor3:.2e}; W <= 1 a D_m)",
-                n3 > 3000 and peor3 <= 0.0)
-    # (f) orientacion especular (alpha bajo la torre de Y) y d >= 2:
-    # el intercambio vive en el agujero del ANCESTRO comun mas bajo;
-    # la tarifa de ese agujero contiene la misma masa Sigma_S + (torre
-    # interior) y la cola del contenedor crece con d: la ventana se
-    # estrecha (monotonia verificada): d = 1 es el peor caso
-    peor4 = 0.0
-    for _ in range(20000):
-        w = rng.uniform(0.01, 1.2)
-        s2 = rng.uniform(0.05, 0.9)
+    ok &= check(f"G-e: rama pesada por particion exacta B*/A: el "
+                f"mural {{Y, m}} U A cabe en c = Sigma_S + Y en "
+                f"{n3} instancias ({n3w} con W > 1; peor deficit "
+                f"{peor3:.2e}; B* <= 1 a D_m)",
+                n3 > 3000 and n3w > 20 and peor3 <= 0.0)
+    # (f) profundidad d >= 2 (primera orientacion: Y en el agujero de
+    # z, z miembro directo de u).  CORRECCION (ronda hostil
+    # 2026-08-08): la "monotonia" anterior (comparar (Y, c) ->
+    # (Y+w, c+w)) es FALSA como argumento por productos: con
+    # c - z = Sigma_S constante, d/dt[f_z f_m] tiene el signo de
+    # Sigma_S - 1 > 0 y d/dt[f_z f_s2] el de Sigma_S - sigma2 > 0
+    # (sympy abajo): dos de los tres productos CRECEN al subir el
+    # nivel; el delta <= 0 observado era un hecho neto no certificado.
+    # El cierre honesto es el BARRIDO DIRECTO del nivel d = 2 en su
+    # caja legal: z in [Y+X_z+w, Y+X_z+s2+w) (suelo legal / techo por
+    # la pared (Rz): sigma2 al agujero de z junto a Y falla), trio
+    # {z, m, sigma2} en c = Sigma_S + z + X' (tarifa DR de u con z);
+    # d >= 3 repite el patron con z_k en la misma forma relativa
+    # (techo + s2 + w por nivel) y c - z_k = Sigma_S + X' constante:
+    # el sup del trio con la pieza grande LIBRE en [1+w, z_max]
+    # domina todos los niveles (mismo barrido con z muestreado libre)
+    import sympy as sp2
+    t_, Y_, S_, q_ = sp2.symbols('t Y S q', positive=True)
+    z_ = Y_ + t_
+    c_ = S_ + Y_ + t_
+    d_zm = sp2.simplify(sp2.diff((z_ / (c_ - z_)) * (1 / (c_ - 1)),
+                                 t_) * S_ * (c_ - 1) ** 2)
+    d_zs = sp2.simplify(sp2.diff((z_ / (c_ - z_)) * (q_ / (c_ - q_)),
+                                 t_) * S_ * (c_ - q_) ** 2 / q_)
+    ok &= check("G-f0 (sympy, correccion): d/dt[f_z f_m]*S(c-1)^2 = "
+                "S - 1 > 0 y d/dt[f_z f_s2]*S(c-s2)^2/s2 = S - s2 > "
+                "0: la suma del trio NO es monotona al subir nivel "
+                "(la 'herencia por monotonia' de la version previa "
+                "era falsa); el cierre de d >= 2 es el barrido G-f",
+                sp2.simplify(d_zm - (S_ - 1)) == 0
+                and sp2.simplify(d_zs - (S_ - q_)) == 0)
+    peor4, n4 = 0.0, 0
+    for _ in range(max(30000, ITER // 2)):
+        w = rng.uniform(0.01, 1.6)
+        s2 = rng.uniform(0.05, 0.999)
         s1 = rng.uniform(s2, 0.999)
         SS = s1 + s2
         if SS <= 1.0 or SS >= 1.0 + s2:
             continue
-        Y1 = SS + w - 1e-9
-        if Y1 < 1 + w:
+        XY = rng.uniform(0.0, 2.0) if rng.random() < 0.3 else 0.0
+        Xz = rng.uniform(0.0, 1.0) if rng.random() < 0.3 else 0.0
+        Xp = rng.uniform(0.0, 1.0) if rng.random() < 0.3 else 0.0
+        lbY, ubY = 1.0 + XY + w, SS + XY + w
+        if lbY >= ubY:
             continue
-        # d = 2: el anillo intermedio z con Y dentro: z >= Y + w;
-        # c2 = Sigma_S + z >= Sigma_S + Y + w: la suma solo baja
-        v1 = trio_suma(Y1, s2, SS + Y1)
-        v2 = trio_suma(Y1 + w, s2, SS + Y1 + w)
-        peor4 = max(peor4, v2 - v1)
-    ok &= check(f"G-f: profundidad/espejo: subir un nivel de torre "
-                f"agranda la pieza y el disco a la vez y la suma del "
-                f"trio NO crece (peor delta {peor4:.2e} <= 0): d = 1 "
-                f"es el peor caso y las variantes heredan el cierre",
-                peor4 <= 1e-9)
+        Y = rng.uniform(lbY, ubY)
+        if rng.random() < 0.5:
+            z = rng.uniform(Y + Xz + w, Y + Xz + s2 + w)   # d = 2
+        else:
+            z = rng.uniform(1.0 + w, Y + Xz + s2 + w + 4.0)  # libre
+        c = SS + z + Xp
+        if (1.0 + z + Xz + Y + XY + SS + Xp) / PHI \
+                >= 1.0 + w + s2 + z + Xp:
+            continue                     # ventana de alpha vacia
+        n4 += 1
+        v = trio_suma(z, s2, c)
+        peor4 = max(peor4, v)
+    ok &= check(f"G-f: barrido directo d >= 2 y pieza grande LIBRE "
+                f"({n4} instancias): sup del trio {{z, m, sigma2}} = "
+                f"{peor4:.4f} < 2 pi (margen {2 * PI - peor4:.4f})",
+                n4 > 3000 and peor4 < 2 * PI - 0.3)
+    # (g) orientacion ESPECULAR (alpha bajo la torre de Y; minimo:
+    # alpha en el agujero de z, z en el agujero de Y), NUEVA en la
+    # ronda hostil 2026-08-08 -- la version previa la despachaba con
+    # la falsa monotonia (f) sin derivar su tarifa.  Derivacion: u =
+    # agujero de alpha (recibe a m), v = agujero de Y; sigma1 y W a
+    # D_m (hueco de m en v, fila < 1 por ligereza); la pieza nueva en
+    # v es sigma2: corona {z, D_m = 1.0, sigma2} en c' = Y - omega.
+    # LEGALIDAD CLAVE: m y z CONVIVEN en v segun P (dos circulos):
+    # Y >= 1 + z + omega.  Paredes: E4-esp alpha >= Sigma_S+X'+omega;
+    # B2u-esp alpha < 1+s2+X'+omega; (Rz-esp) z < alpha+X_z+s2+omega;
+    # (RY-esp) Y < Sigma_S+z+X_Y+omega; cola(Y) >= (1+Sigma_S+X_m+
+    # alpha+X'+z+X_z+X_Y)/phi.  La suma decrece en c' (G-a): peor
+    # caso Y en su suelo.  Rama pesada: particion B*/A como en (e)
+    # con el mural {z, 1.0} U A.
+    n5g, fallos5, peor5 = 0, 0, 0.0
+    for _ in range(max(30000, ITER // 2)):
+        w = rng.uniform(0.01, 1.6)
+        s2 = rng.uniform(0.05, 0.999)
+        s1 = rng.uniform(s2, 0.999)
+        pesada = rng.random() < 0.3
+        if pesada:
+            kw = rng.randrange(1, 6)
+            Wp = [rng.uniform(0.2 * s2, s2) for _ in range(kw)]
+            SS = s1 + s2 + sum(Wp)
+            if SS < 1.0 + s2 or SS > PHI:
+                continue
+        else:
+            Wp = []
+            SS = s1 + s2
+            if SS <= 1.0 or SS >= 1.0 + s2:
+                continue
+        Xp = rng.uniform(0.0, 1.5) if rng.random() < 0.3 else 0.0
+        Xz = rng.uniform(0.0, 1.0) if rng.random() < 0.3 else 0.0
+        XY = rng.uniform(0.0, 1.5) if rng.random() < 0.3 else 0.0
+        Xm = rng.uniform(0.0, max(0.0, 1 - w)) if rng.random() < 0.3 \
+            else 0.0
+        if SS + Xm > PHI:
+            continue
+        lo_a = max(1.0 + w, SS + Xp + w)
+        hi_a = 1.0 + s2 + Xp + w
+        if not pesada and lo_a >= hi_a:
+            continue
+        if pesada:
+            Bs, A = b_star_particion([s1, s2] + Wp)
+            hi_a = 1.0 + (SS - Bs) + Xp + w
+            if lo_a >= hi_a:
+                continue
+        alpha = rng.uniform(lo_a, hi_a)
+        z = rng.uniform(alpha + Xz + w, alpha + Xz + s2 + w)
+        colaY = (1.0 + SS + Xm + alpha + Xp + z + Xz + XY) / PHI
+        lo_Y = max(z + XY + w, colaY, 1.0 + z + w)
+        hi_Y = SS + z + XY + w
+        if lo_Y >= hi_Y:
+            continue                     # pinza: no hay Y legal
+        cp = lo_Y - w + 1e-12            # peor capacidad (Y minimo)
+        n5g += 1
+        carga = [z, 1.0, s2] if not pesada else \
+            sorted([z, 1.0] + A, reverse=True)
+        okc, defc = corona_suf(carga, cp)
+        if not okc:
+            fallos5 += 1
+            peor5 = max(peor5, defc)
+    ok &= check(f"G-g: orientacion especular (tarifa derivada: "
+                f"Y >= 1+z+omega por convivencia m-z en v, suelo por "
+                f"cola(Y)): corona {{z, D_m, sigma2}} (ligera) / "
+                f"{{z, D_m}} U A (pesada, B* a D_m) en c' = Y-omega "
+                f"cabe en {n5g} instancias ({fallos5} fallos, peor "
+                f"deficit {peor5:.2e}); profundidades especulares "
+                f"mayores: mismo patron relativo, cubierto por la "
+                f"pieza libre de G-f", n5g > 3000 and fallos5 == 0)
     return ok
 
 

@@ -31,7 +31,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from coronacolas import (PHI, PI, check, cascada, R_lb_pack, corona_suf,
-                         bolsillo_descartes)
+                         bolsillo_descartes, theta_w)
+from coronanidada import cascada_anidada
 
 ITER = int(os.environ.get('CC_ITER', '60000'))
 
@@ -85,12 +86,17 @@ def bloque_A():
                 sp.simplify(m2 - 2) == 0 and
                 sp.simplify(m3 - 2 * phi) == 0)
     # (vi) la masa pequena total es < phi: cola de m con rho <= phi
+    # (ronda hostil 2026-08-08: piezas EMPATADAS con m (= 1) tambien
+    # cuentan en cola(m) por el convenio de primera copia, luego la
+    # cota masa <= phi cubre perfil con sigma1 = 1 incluido)
     ok &= check("P-K (vi): [ENUNCIADO] toda pieza de perfil/polvo/"
-                "extra es < m = 1 y su suma esta en la cola de m: "
-                "masa total <= phi * r_m = phi.  Con (iii)-(v): la "
-                "fila entera cabe en UN bolsillo del par (o1, o2) "
-                "adyacentes (lema de fila, suma <= capacidad): las "
-                "direcciones p y k son LIBRES, exacto", True)
+                "extra es <= m = 1 (los empates con m entran en "
+                "cola(m) por el convenio de primera copia) y su suma "
+                "esta en la cola de m: masa total <= phi * r_m = phi. "
+                "Con (iii)-(v): la fila entera cabe en UN bolsillo del "
+                "par (o1, o2) adyacentes (lema de fila, suma <= "
+                "capacidad): las direcciones p y k son LIBRES, exacto",
+                True)
     # (vii) crecimiento exacto de la cascada: T_{k-1} >= T_k (1+1/phi)
     # y 1 + 1/phi = phi
     ok &= check("J (vii): 1 + 1/phi = phi EXACTO: la masa acumulada "
@@ -154,7 +160,101 @@ def bloque_B():
     ok &= check(f"P-K en dominio: bolsillo(o1, o2, o1+o2) >= masa "
                 f"pequena en {n2} instancias ({viol} violaciones): "
                 f"perfil y polvo enteros a un bolsillo", viol == 0)
+    # la colocacion DEL LEMA tal cual (ronda hostil 2026-08-08): el
+    # enunciado exige (a) corona de SOLO ocupantes + m con o1, o2
+    # ADYACENTES, (b) el disco de Descartes del par LIBRE (ningun otro
+    # mural lo invade) y (c) bolsillo >= masa.  El barrido anterior
+    # (corona_suf con la carga repartida) demostraba OTRA colocacion:
+    # este check cierra el hueco enunciado-barrido.
+    n3, v_masa, v_cor, v_inv = 0, 0, 0, 0
+    for _ in range(max(1500, ITER // 40)):
+        s2 = rng.uniform(0.01, PHI - 1)
+        p_ = rng.randrange(4, 11)
+        piezas = [rng.uniform(0.005, s2) for _ in range(p_ - 2)]
+        W = sum(piezas)
+        s1 = rng.uniform(max(s2, min(1 - 1e-6, 1.001 - W)), 1.0)
+        if s1 + W <= 1.0 or s1 < s2 or s1 + s2 + W > PHI:
+            continue
+        Sigma = s1 + s2 + W
+        j = rng.randrange(3, 10)
+        holg = [1.0 + rng.expovariate(3.0) for _ in range(j)]
+        if rng.random() < 0.3:
+            holg = [1.0] * j
+        os_ = cascada(None, Sigma, j, holgura=holg)
+        R = R_lb_pack(os_ + [1.0], os_[0] + os_[1],
+                      confinado_por=os_[0])
+        n3 += 1
+        pb = bolsillo0(os_[0], os_[1], R)
+        if pb < Sigma - 1e-9:
+            v_masa += 1
+        orden = [os_[0], os_[1]] + sorted(os_[2:] + [1.0])
+        okc, alfa = _coloca_ciclo(orden, R)
+        if not okc:
+            resto = sorted(os_[2:] + [1.0], reverse=True)
+            for _2 in range(60):
+                rng.shuffle(resto)
+                okc, alfa = _coloca_ciclo([os_[0], os_[1]] + resto, R)
+                if okc:
+                    orden = [os_[0], os_[1]] + resto
+                    break
+        if not okc:
+            v_cor += 1
+            continue
+        hol = _holgura_bolsillo(orden, alfa, R, pb)
+        if hol < -1e-6:
+            v_inv += 1
+    ok &= check(f"lema TAL CUAL en {n3} instancias (j = 3..9, "
+                f"p = 4..10): corona de ocupantes+m con o1, o2 "
+                f"ADYACENTES cabe ({v_cor} fallos), el disco de "
+                f"Descartes del par queda LIBRE ({v_inv} invasiones) "
+                f"y bolsillo >= masa ({v_masa} violaciones): el "
+                f"enunciado casa con la colocacion barrida",
+                v_cor == 0 and v_inv == 0 and v_masa == 0 and n3 > 300)
     return ok
+
+
+def _coloca_ciclo(orden, R):
+    """Angulos de la corona por camino mas largo (el esquema de
+    ciclo_constructivo) validando todas las parejas; devuelve
+    (factible, alfas)."""
+    k = len(orden)
+    th = {}
+    for i in range(k):
+        for j2 in range(i + 1, k):
+            if orden[i] + orden[j2] > R + 1e-12:
+                return False, None
+            th[(i, j2)] = th[(j2, i)] = theta_w(orden[i], orden[j2], R)
+    alfa = [0.0] * k
+    for i in range(1, k):
+        alfa[i] = max(alfa[t] + th[(t, i)] for t in range(i))
+    total = alfa[-1] + th[(k - 1, 0)]
+    if total > 2 * PI + 1e-9:
+        return False, None
+    for i in range(k):
+        for j2 in range(i + 1, k):
+            d = alfa[j2] - alfa[i]
+            d = min(d, 2 * PI - d)
+            if d < th[(i, j2)] - 1e-9:
+                return False, None
+    return True, alfa
+
+
+def _holgura_bolsillo(orden, alfa, R, p):
+    """Holgura minima del disco de Descartes entre orden[0] y orden[1]
+    frente al resto de murales (>= 0: el bolsillo esta libre)."""
+    o1 = orden[0]
+    d1, dp = R - o1, R - p
+    cD = (dp * dp + d1 * d1 - (p + o1) ** 2) / (2 * dp * d1)
+    cD = max(-1.0, min(1.0, cD))
+    D = math.acos(cD)
+    beta = alfa[0] + D if alfa[1] > alfa[0] else alfa[0] - D
+    bx, by = dp * math.cos(beta), dp * math.sin(beta)
+    hol = float('inf')
+    for t in range(2, len(orden)):
+        rx = (R - orden[t]) * math.cos(alfa[t])
+        ry = (R - orden[t]) * math.sin(alfa[t])
+        hol = min(hol, math.hypot(bx - rx, by - ry) - (p + orden[t]))
+    return hol
 
 
 # ---------------------------------------------------------------- bloque C
@@ -162,9 +262,14 @@ def bloque_C():
     print("[C] anidado extendido: j = 1..8 (alpha + ocupantes)")
     ok = True
     rng = random.Random(31)
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     fallos, n = 0, 0
     peor_por_j = {}
+    # CORRECCION (ronda hostil 2026-08-08): el generador anterior usaba
+    # cascada(None, S0 + af, j), que mete af en la COLA DE TODOS los
+    # ocupantes (tambien los menores que af): inflaba o_min hasta +1.65
+    # frente a la plantilla real (anticonservador).  Ahora se usa
+    # cascada_anidada de coronanidada VERBATIM: af entra con un rank en
+    # la secuencia y solo los ocupantes MAYORES lo llevan en su cola.
     for j in range(1, 9):
         peor = 0.0
         for _ in range(max(100, ITER // 600)):
@@ -176,9 +281,12 @@ def bloque_C():
             S0 = s1 + s2
             if S0 <= 1.0:
                 continue
-            af = max(1.0 + w, S0 + w) * (1 + rng.expovariate(4.0))
-            masa = S0
-            os_ = cascada(None, masa + af, j) if j else []
+            af_floor = max(1.0 + w, S0 + w)
+            holg = [1.0 + rng.expovariate(4.0) for _ in range(j + 1)]
+            if rng.random() < 0.3:
+                holg = [1.0] * (j + 1)
+            rank = rng.randrange(j + 1)
+            af, os_ = cascada_anidada(S0, j, rank, af_floor, holg)
             todos = sorted([af] + os_ + [1.0, s2], reverse=True)
             R = R_lb_pack(todos, todos[0] + todos[1],
                           confinado_por=todos[0])
@@ -189,8 +297,9 @@ def bloque_C():
                 peor = max(peor, defc)
         peor_por_j[j] = round(peor, 5)
     ok &= check(f"anidado j = 1..8 ({n} instancias, {fallos} fallos "
-                f"con deficit > 2e-3): {peor_por_j} -- la plantilla "
-                f"anidada extiende la dualidad al triple de rango",
+                f"con deficit > 2e-3): {peor_por_j} -- plantilla "
+                f"cascada_anidada REAL (rank de alpha muestreado; la "
+                f"aproximacion previa inflaba o_min: reparada)",
                 fallos == 0)
     return ok
 

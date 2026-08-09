@@ -16,20 +16,35 @@ honesto tras la ronda:
   cierra con la partición u/D_m + la pinza pesada exacta
   b₂(4/φ, 2/φ) = 12/(7φ) > 1 (raíz distinta).
 - **(c-ii-2) raíz compartida (R2b, hallazgo ALTA de la ronda)**:
-  cerrada por el bloque [G] (2026-08-08, tarde): la colocación que
+  cerrada por el bloque [G] (2026-08-08, tarde; ADVERSARIADO Y
+  REPARADO en la 2ª ronda hostil del mismo día): la colocación que
   faltaba es el TRÍO MURAL {Y, m, σ₂} en el agujero de α (capacidad
-  c = α−ω ≥ ΣS+Y por la tarifa DR), con σ₁ y W en fila a D_m por
+  c = α−ω ≥ ΣS+Y+X′ por la tarifa DR), con σ₁ y W en fila a D_m por
   ligereza. La suma del trío decrece en c (exacto), el peor caso es
-  el suelo c = ΣS+Y, y el sup sobre la ventana es la ESQUINA
-  CERTIFICADA (ω→0, σ₂ = 1/2, Y→1, c→2): π + 4·asin(1/√3) ≈ 5.60 <
-  2π, margen 0.68 — la ligereza con σ₁ ≥ σ₂ fuerza σ₂ ≤ 1/2 y el
-  umbral analítico de peligro era σ₂ = 2/3 (s/(2−s) = 1/2), fuera de
-  la ventana. Rama pesada: cuarteto {Y, σ₂, m, σ₁} mural (déficit 0)
-  con B* ≤ 1 a D_m. Profundidad d ≥ 2 y la orientación especular
-  heredan por monotonía (subir nivel agranda pieza y disco a la vez:
-  la suma no crece). Etiqueta: esquina y monotonía-en-c exactas;
-  el sup del interior y la rama pesada, barrido de frontera +
-  MC (la monotonía completa en (Y, σ₂) queda como observación).
+  el suelo c = ΣS+Y con X′ = 0 **para el trío pelado**; la rama
+  X′ > 0 se barre APARTE con las piezas X′ explícitas en la corona
+  (G-b′, 0 fallos: subir c no bastaba como argumento, las X′ también
+  se colocan). El sup sobre la ventana es la ESQUINA CERTIFICADA
+  (ω→0, σ₂ = 1/2, Y→1, c→2): π + 4·asin(1/√3) ≈ 5.60 < 2π, margen
+  0.68 — la ligereza con σ₁ ≥ σ₂ fuerza σ₂ ≤ 1/2 y el umbral
+  analítico de peligro era σ₂ = 2/3 (s/(2−s) = 1/2), fuera de la
+  ventana. La dirección en Y NO es monótona (el peor Y puede ser el
+  suelo): G-c barre suelo y techo y G-b el interior MC. Rama pesada:
+  partición EXACTA B*/A (B* ≤ 1 a D_m, mural {Y, m} ∪ A; cubre W
+  multipieza y W > 1 — el cuarteto fijo {Y, σ₂, m, σ₁} de la 1ª
+  versión no los cubría), déficit 0. Profundidad d ≥ 2: la
+  «herencia por monotonía» de la 1ª versión era FALSA (con c−z = ΣS
+  constante, d/dt[f_z·f_m] ∝ ΣS−1 > 0, sympy G-f0): el cierre real
+  es el barrido directo del trío {z, m, σ₂} en su caja legal, con la
+  pieza grande LIBRE dominando todos los niveles (margen ≥ 1.06).
+  Orientación ESPECULAR (α bajo la torre de Y): tarifa propia
+  DERIVADA (la 1ª versión no la derivaba): la convivencia m–z en v
+  da la legalidad Y ≥ 1+z+ω, el suelo de Y lo pone cola(Y), y la
+  corona es {z, D_m, σ₂} (ligera) o {z, D_m} ∪ A (pesada) en
+  c′ = Y−ω: 0 fallos (G-g). Etiqueta: esquina, monotonía-en-c y
+  suficiencia del trío (k = 3: Σθ ≤ 2π con cada θ ≤ π y pares
+  cabiendo) exactas; el sup del interior, la rama pesada, d ≥ 2 y
+  la especular, barrido de frontera + MC.
 
 El residuo se declara, no se fuerza.
 
@@ -200,11 +215,15 @@ Cajas hermanas de la ronda hostil:
             agujero de α, o α anidada bajo la torre de Y;
             X_α ≥ Y ≥ 1+X_Y+ω }.
     — El par {α, T} DEGENERA (T = raíz = α): las pinzas F1e/F1f NO
-    aplican; la sartén puede ser {α} sola con R = α. Cierre SOLO
-    computacional (F5: coronas con la pieza grande dentro de u, en
-    la peor capacidad α = lb(α); 0 residuo en los barridos d = 1..2).
-    ABIERTA como celda exacta; profundidades mayores y la variante
-    especular declaradas dentro de ella.
+    aplican; la sartén puede ser {α} sola con R = α. Cierre por el
+    bloque [G] (trío mural {Y, m, σ₂} en el agujero de α con σ₁ y W
+    a D_m; partición B*/A en la pesada; barridos d ≥ 2 y especular
+    con tarifa propia — ver cabecera y §6): esquina certificada
+    π + 4·asin(1/√3) < 2π y déficit 0 en todos los barridos.
+    Etiqueta: computacional-con-esquina-exacta (no celda exacta
+    completa: el sup del interior, la pesada, d ≥ 2 y la especular
+    son barridos). F5 delimita la celda; [G] la cierra en los rangos
+    barridos.
 
 Esquina: (ω, σ₂) → (3/(2φ), 1/2) con X = 0. Con X = 0 el residuo
 vive solo en ω ∈ (0.927, 1) ∪ [1, ∞) (pivote sólido); con X_α > 0
@@ -282,9 +301,17 @@ computacional-dualidad como D1–D6 para toda esta parte.
   0.0 y esquinas deterministas; MISMA etiqueta que D1–D6. El
   gap-dualidad de F3 (≥ 3 tops casi iguales, R_fit/R_lb ≤ 1.012
   observado) queda DELIMITADO con el estatus de la ley de escala.
-- La sub-celda R2b (raíz compartida) es SOLO computacional (F5) y
-  además con alcance declarado (d = 1..2; profundidades mayores y
-  variante especular declaradas sin barrido propio).
+- La sub-celda R2b (raíz compartida): F5 la delimita y el bloque [G]
+  la cierra (2ª ronda hostil 2026-08-08). EXACTO en [G]: monotonía
+  en c (G-a), suficiencia del trío k = 3 (Σθ ≤ 2π con θ ≤ π por par
+  y pares cabiendo: c ≥ Y+ΣS ⟸ (D)), la esquina G-d
+  (π + 4·asin(1/√3) < 2π, σ₂ ≤ 1/2 por ligereza+σ₁ ≥ σ₂ en la
+  esquina) y la REFUTACIÓN G-f0 de la monotonía de nivel (ΣS−1 > 0).
+  BARRIDO (MC + frontera, déficit 0): sup del interior (G-b),
+  X′ > 0 explícito (G-b′), rama pesada por partición B*/A con W
+  multipieza y W > 1 (G-e), d ≥ 2 con pieza libre (G-f, margen ≥
+  1.06) y especular con tarifa derivada Y ≥ 1+z+ω (G-g). Cross-check
+  trío vs ciclo_constructivo: 29 071 casos, 0 discrepancias.
 - Controles (E): sin colas la pared es vacua (1447/1447); sin (D)
   no hay bloqueo (fila construida); la rígida no es un perfil de
   (c-ii) (σ₁ < m estricto; su límite σ₁ → 1 es pesado y va por
@@ -313,16 +340,20 @@ nivel de D1–D6 (perfil pesado incluido); (c-ii-2):
   pinzas del bolsillo espejo F1e/F1f (núcleo EXACTO módulo el
   [ENUNCIADO] de legalidad del repack F2); extras por corona con
   etiqueta computacional y el gap-dualidad de F3 delimitado.
-- sub-celda RAÍZ COMPARTIDA (R2b): cierre SOLO computacional (F5,
-  d = 1..2, 0 residuo en los barridos); ABIERTA como celda exacta.
+- sub-celda RAÍZ COMPARTIDA (R2b): cerrada por el bloque [G]
+  (esquina certificada + barridos con déficit 0 en las dos
+  orientaciones, pesada incluida); etiqueta
+  computacional-con-esquina-exacta, alcance de rangos barridos
+  (ω ≤ 1.6, X ≤ 1–3, |W| ≤ 8 piezas).
 
 La celda (c-ii) NO desaparece del todo como residuo del ensamblaje:
-se reduce a (i) R2b al nivel computacional-declarado, (ii) el
-[ENUNCIADO] F2 (legalidad del repack — anclado en la definición de
-placement del paper y en lem:DG/thm:DP, pendiente solo de
-formalización), y (iii) las etiquetas computacionales habituales.
-El residuo total de τ = φ queda: lema de dualidad/zigzag
-(adversariado) + ley de escala (j, p, k) + D1–D6 y
-(c-i)/(c-ii)-coronas + **R2b declarada**.
-[Ronda hostil de esta campaña COMPLETADA: 2026-08-08, acta en
-`VEREDICTOS.md` («Acta: campaña (c-ii) y cierre de R2»).]
+se reduce a (i) R2b al nivel computacional-con-esquina-exacta
+(bloque [G]), (ii) el [ENUNCIADO] F2 (legalidad del repack —
+anclado en la definición de placement del paper y en lem:DG/thm:DP,
+pendiente solo de formalización), y (iii) las etiquetas
+computacionales habituales. El residuo total de τ = φ queda: lema
+de dualidad/zigzag (adversariado) + ley de escala (j, p, k) +
+D1–D6 y (c-i)/(c-ii)-coronas + **R2b al nivel [G]**.
+[Rondas hostiles COMPLETADAS: 2026-08-08 («Acta: campaña (c-ii) y
+cierre de R2») y 2026-08-08 2ª («Acta: bloque G (R2b) y ley de
+escala»), ambas en `VEREDICTOS.md`.]

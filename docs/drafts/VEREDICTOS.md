@@ -1430,3 +1430,187 @@ DELIMITACIONES declaradas, no fallos.
 4. El gap-dualidad de F3 (≥ 3 tops casi iguales) — mismo estatus
    que la ley de escala.
 
+
+---
+
+# Acta: bloque G (R2b) y ley de escala (ronda hostil)
+
+Fecha: 2026-08-08 (2ª ronda hostil del día). Piezas atacadas:
+`code/puertocii.py` bloque [G] + sección R2b de
+`docs/drafts/puertocii.md`, y `code/escala.py` +
+`docs/drafts/escala.md`.
+
+## Veredicto global
+
+**CONFIRMADO CON CORRECCIONES en ambas piezas.** Ningún resultado
+central refutado: la esquina certificada de R2b
+(π + 4·asin(1/√3) < 2π) y el lema del bolsillo-φ
+(p(2φ, 2, 2φ+2) = φ) sobreviven todos los ataques. PERO una
+justificación del bloque G estaba REFUTADA (la «herencia por
+monotonía» de d ≥ 2/espejo: falsa por sympy), la orientación
+especular no tenía tarifa derivada, la rama pesada y la rama X′ > 0
+tenían agujeros de barrido, y la plantilla anidada de escala era
+anticonservadora. Todo reparado y re-ejecutado hasta verde
+(oficial 60k + semillas alteradas 60k/150k).
+
+## Hallazgos — PIEZA 1 (bloque G, R2b)
+
+**GH1 (ALTA — justificación REFUTADA, cierre reparado): la
+«monotonía» de G-f era falsa y la especular no estaba derivada.**
+G-f comparaba (Y, c) → (Y+ω, c+ω) y de su delta ≤ 0 muestral
+concluía «subir nivel no agranda la suma: d ≥ 2 y el espejo heredan
+por monotonía». Sympy la refuta como monotonía: con c − z = ΣS
+constante (la forma real del nivel: z = Y+t, c = ΣS+z),
+d/dt[f_z·f_m]·ΣS(c−1)² = ΣS−1 > 0 y
+d/dt[f_z·f_{σ₂}]·ΣS(c−σ₂)²/σ₂ = ΣS−σ₂ > 0: DOS de los tres
+productos CRECEN al subir el nivel; el delta ≤ 0 observado era un
+hecho neto no certificado (y el θ capado en π lo enmascara en la
+esquina). Peor: la orientación ESPECULAR (α bajo la torre de Y) ni
+siquiera tiene esa forma — en ella m baja a u DENTRO de la torre de
+Y y el trío {Y, m, σ₂} no existe en ningún disco común; la tarifa
+del ataque inicial (sin derivar) daba 28 748 «fallos» por par
+imposible hasta derivar la legalidad que faltaba: **m y z conviven
+en v según P ⟹ Y ≥ 1 + z + ω** (dos círculos), que es load-bearing.
+REPARACIÓN: (i) G-f0 nuevo: certificado sympy de la refutación;
+(ii) G-f reescrito como BARRIDO DIRECTO de d ≥ 2 (z en su caja
+legal [Y+X_z+ω, Y+X_z+σ₂+ω) por (Rz), c = ΣS+z+X′) más la pieza
+grande LIBRE (domina todos los niveles): sup 4.97–5.11 < 2π, margen
+≥ 1.06; (iii) G-g NUEVO: especular con tarifa derivada (legalidad
+Y ≥ 1+z+ω, suelo de Y por cola(Y) = (1+ΣS+X_m+α+X′+z+X_z+X_Y)/φ,
+techo (RY-esp) Y < ΣS+z+X_Y+ω; corona {z, D_m, σ₂} ligera /
+{z, D_m} ∪ A pesada en c′ = Y−ω, peor capacidad Y mínimo): 7k–18k
+instancias, 0 fallos. Las profundidades especulares mayores quedan
+cubiertas por el patrón relativo + pieza libre de G-f.
+
+**GH2 (MEDIA — agujero de barrido en la rama pesada).** G-e fijaba
+el cuarteto {Y, σ₂, m, σ₁} con W MONOPIEZA ≤ 1 y Y solo en su
+techo. La celda pesada admite W multipieza y W > 1 (ΣS ≤ φ deja
+W hasta ≈ 1.5 con σ₁, σ₂ chicos), donde B* puede contener a σ₂ y
+el resto A tener varias piezas: ni la colocación ni el barrido
+cubrían eso. REPARACIÓN: partición EXACTA B*/A por enumeración
+(B* → D_m, mural {Y, m} ∪ A por corona_suf), Y en todo su rango,
+muestreo dirigido a W > 1 (160 instancias en 60k): déficit 0.
+
+**GH3 (MEDIA — la rama X′ > 0 no se colocaba).** El argumento «X′
+sube c: conservador» solo vale para el trío PELADO; las piezas X′
+viven en u y también hay que colocarlas. REPARACIÓN: G-b′ nuevo con
+X′ explícito (1..3 piezas, hasta tamaño Y) en la corona
+{Y, m, σ₂} ∪ X′ con c = ΣS+Y+ΣX′: 21 815 instancias, 0 fallos.
+(El techo de la ventana de α usado es correcto: X_Y viaja DENTRO de
+Y en la fila de u — el techo B2u-fila es 1+σ₂+Y+X′+ω sin X_Y — y
+el suelo por cola omite X_m/X′: conservador.)
+
+**GH4 (BAJA — dirección de esquina imprecisa).** «La suma crece al
+subir Y y σ₂» es falsa en Y: el peor Y es a menudo el SUELO (malla
+adversaria: sup 5.554 con Y = suelo vs 5.5914 del G-c previo); el
+sup global vive en la esquina DEGENERADA suelo = techo (ω → 0,
+ΣS → 1⁺), que ambos barridos tocan. La monotonía decreciente en ΣS
+con Y en frontera sí se verifica (0/20 000), y con σ₂ > 1/2 el
+mínimo ΣS = 2σ₂ (s₁ = s₂) está barrido. REPARACIÓN: G-c barre Y en
+suelo Y techo; texto de G-c y doc corregidos.
+
+**GH5 (BAJA — verificaciones que PASARON).** (i) Suficiencia del
+trío: «Σθ ≤ 2π» a secas NO es suficiente para 3 murales en general
+— hace falta θ ≤ π por par (reparto de holgura al par opuesto) y
+que cada par quepa (a+b ≤ c). Aquí ambas valen: theta_w capa en π y
+los tres pares caben vía (D) (Y+1 ≤ c ⟺ ΣS ≥ 1; σ₂+Y ≤ c ⟺
+σ₂ ≤ ΣS; 1+σ₂ ≤ c trivial). Cross-check trío vs ciclo_constructivo:
+29 071 casos, 0 discrepancias. Docstring reparado con el argumento.
+(ii) σ₂ ≤ 1/2 en la esquina: correcto (Y → 1 exige ΣS → 1; ligera +
+σ₁ ≥ σ₂ ⟹ σ₂ ≤ 1/2); lejos de la esquina σ₂ llega a 0.999 con
+ΣS = 2σ₂, barrido y con margen. (iii) W = 0 domina la ligera
+(σ₂ ≤ (ΣS−W)/2: W > 0 solo estrecha). (iv) Rama pesada W ≤ 1 a D_m
+comprobada como B* (σ₁+W < 1 en la ligera por definición). (v) La
+malla G-b sin filtro ΣS+X_m ≤ φ es un superconjunto: conservador.
+
+**GH6 (BAJA — doc inconsistente).** `puertocii.md` decía en
+cabecera «R2b cerrada por [G]» y en §5/§6/§8 «ABIERTA como celda
+exacta / cierre SOLO computacional (F5)». REPARADO: §5/§6/§8
+reescritos al estado real (cerrada al nivel
+computacional-con-esquina-exacta por [G], alcance de rangos
+declarado) y la cabecera con las correcciones de esta ronda.
+
+## Hallazgos — PIEZA 2 (ley de escala)
+
+**EH1 (MEDIA — plantilla anidada anticonservadora).** El generador
+de [C] usaba `cascada(None, S0+af, j)`: mete α_f en la cola de
+TODOS los ocupantes, también los MENORES que α_f, que en la
+plantilla real (`cascada_anidada` de coronanidada, rank de α en la
+secuencia) no lo llevan. Medido: o_min inflado hasta +1.65
+(instancias más fáciles que las reales). REPARACIÓN: [C] usa
+`cascada_anidada` VERBATIM con rank muestreado y holguras; re-verde
+con déficit 0.0 uniforme j = 1..8 (6 400 instancias del ataque +
+corridas oficiales).
+
+**EH2 (MEDIA — hueco enunciado-barrido del lema).** El lema promete
+la colocación «perfil+polvo en fila a UN bolsillo del par (o₁, o₂)
+ADYACENTES», pero los barridos usaban corona_suf con la carga
+REPARTIDA (bolsillos genéricos, par no necesariamente adyacente):
+demostraban otra colocación. REPARACIÓN: check nuevo en [B] que
+realiza el lema TAL CUAL: corona de SOLO ocupantes+m con o₁, o₂
+adyacentes (camino más largo, todas las parejas validadas), disco
+de Descartes del par colocado GEOMÉTRICAMENTE (tangencia a o₁ y
+pared) con holgura ≥ 0 frente a todos los demás murales, y
+bolsillo ≥ masa: 687–2k instancias, 0 fallos / 0 invasiones /
+0 violaciones. El doc precisa qué es [ENUNCIADO] (lem:row,
+verificado en paper: «radii ≤ C pack inside a ball of radius C»)
+y qué es numérico (la colocación adyacente + bolsillo libre).
+
+**EH3 (BAJA — precisión de empates y bordes).** «Toda pieza < m»
+→ «≤ m»: las piezas EMPATADAS con m (= 1) entran en cola(m) por el
+convenio de primera copia, luego la cota masa ≤ φ cubre σ₁ = 1; en
+el borde masa = φ = bolsillo la fila aún cabe (lem:row es ≤).
+E3 verificado: el mínimo de la cascada es Σ → 1⁺ y crece en Σ
+(dirección buena con Σ > 1 estricto); en D3 (pivote sólido) la
+cascada es idéntica (no usa ω). Docs actualizados.
+
+**E6/G6 (corridas).** Oficial CC_ITER = 60 000: `puertocii.py` 7/7
+(G-b 43 368, G-b′ 21 815, G-e 4 301 con 160 W > 1, G-f 18 380
+margen 1.32, G-g 7 351, todo déficit 0), `escala.py` 5/5. Semillas
+alteradas (+7 en todos los Random): 150 000: 7/7 y 5/5 (G-f margen
+1.17, G-g 18 051 con 0 fallos); 60 000: 7/7 y 5/5. El verde no
+depende de la semilla.
+
+## Reparaciones aplicadas
+
+1. `code/puertocii.py` [G]: G-b′ nuevo (X′ explícito); G-c con Y en
+   suelo y techo; G-e por partición exacta B*/A con W multipieza y
+   muestreo dirigido W > 1; G-f0 nuevo (refutación sympy de la
+   monotonía); G-f reescrito (barrido directo d ≥ 2 + pieza libre);
+   G-g nuevo (especular con tarifa derivada Y ≥ 1+z+ω); docstring
+   de trio_suma con la suficiencia k = 3 completa; helper
+   b_star_particion.
+2. `code/escala.py`: [C] con `cascada_anidada` real (rank + holgura);
+   [B] check nuevo del lema tal cual (par adyacente + no-invasión
+   del bolsillo + bolsillo ≥ masa, helpers _coloca_ciclo y
+   _holgura_bolsillo); [A](vi) empates ≤ m por primera copia.
+3. `docs/drafts/puertocii.md`: cabecera R2b reescrita (correcciones
+   de esta ronda), §5 R2b, §6 y §8 coherentes con [G] y con la
+   etiqueta honesta (computacional-con-esquina-exacta).
+4. `docs/drafts/escala.md`: estado adversariado; prueba del lema con
+   empates y cita lem:row; nota de lo que el barrido demuestra
+   (colocación tal cual); corrección de la plantilla anidada; §3
+   etiquetas actualizadas.
+5. Copias con semillas alteradas en scratchpad (verdes 60k y 150k).
+
+## Estado de los scripts
+
+`code/puertocii.py`: **7/7 en verde** (oficial 60k; alteradas
+60k/150k). `code/escala.py`: **5/5 en verde** (oficial 60k;
+alteradas 60k/150k). Sin commits (según encargo).
+
+## Qué queda abierto (recorte honesto)
+
+1. R2b sigue siendo computacional-con-esquina-exacta: EXACTO son la
+   esquina G-d, la monotonía en c, la suficiencia del trío k = 3 y
+   la refutación G-f0; el sup del interior, la pesada, d ≥ 2 y la
+   especular son barridos MC/frontera sobre rangos (ω ≤ 1.6,
+   X ≤ 1–3, W ≤ 8 piezas). No hay monotonía de nivel que los
+   sustituya (G-f0 la refuta).
+2. El lema del bolsillo-φ: p/k exactos MODULO (i) lem:row
+   [ENUNCIADO del paper] y (ii) la colocación
+   adyacente-con-bolsillo-libre, que es numérica (0 invasiones en
+   los barridos) — un lema geométrico de no-invasión del bolsillo
+   de Descartes del par mayor la haría exacta.
+3. La dirección j sigue numérica (dualidad tangente en rangos
+   j ≤ 9 / j ≤ 8).
