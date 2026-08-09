@@ -1614,3 +1614,201 @@ alteradas 60k/150k). Sin commits (según encargo).
    de Descartes del par mayor la haría exacta.
 3. La dirección j sigue numérica (dualidad tangente en rangos
    j ≤ 9 / j ≤ 8).
+
+---
+
+# Acta: teorema de compactación mural (ronda hostil) — 2026-08-09
+
+Objeto: `docs/drafts/compactacion.md` (teorema + prueba §2 por
+proyección) y `code/compactacion.py` (bloques A–E). La pieza que
+convierte los cierres computacionales del programa τ = φ en prueba
+escrita.
+
+## VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES
+
+La prueba de §2 (proyección mural) RESISTE: es correcta, corta y no
+depende del wrap. (P1) fue re-derivado íntegramente con sympy por el
+atacante — todas las identidades dan 0 exacto — y el único
+ingrediente no trivial queda como teorema. Pero el draft afirmaba
+«prueba completa» con un hueco real: la cláusula de bolsillos del
+enunciado («además, cada saltada…») no estaba probada por §2, y la
+prueba escrita de (P1) omitía una de las dos aristas cero de la
+caja, la buena definición de θ y la exclusión cuantitativa del
+origen. Todo reparable con piezas ya adversariadas — reparado. La
+hipótesis se demostró TIGHT en dos direcciones (no se puede
+suprimir NI rebajar a «no-apilable respecto del mayor»: dos
+contraejemplos deterministas nuevos, uno de ellos construido en
+esta ronda). 8 hallazgos: 1 ALTA, 4 MEDIA, 3 BAJA. Script: 5/5 en
+verde en las cuatro corridas (60000 base, 60000 semilla+777,
+150000 semilla+13, 60000 final).
+
+## Hallazgos
+
+### ALTA
+
+1. **La cláusula «además» del enunciado (saltadas/sub-bolsillos) NO
+   estaba probada — el ∎ de §2 solo cerraba la legalidad.** El
+   enunciado promete que cada pieza saltada por el camino crítico
+   queda muralmente dentro del hueco de su par de espina y es
+   sub-bolsillo de Descartes; pero la proyección de §2 no define
+   espina ni camino crítico (coloca a ángulos reales), y (P3) — la
+   única sección que hablaba de saltadas — está documentada como
+   variante SIN carga con el wrap abierto. El estatus «NO queda
+   redacción pendiente» era falso para esa cláusula. NO refuta: la
+   cláusula es demostrable con piezas ya adversariadas y ninguna
+   depende del wrap: el θ-DP sobre el orden cíclico real es
+   combinatoria pura sobre los θ; ESP-individual (acta de zigzag,
+   maximalidad en tres líneas) da θ(a,s) + θ(s,b) ≤ θ(a,b) para
+   cada saltada; DIC da s ≤ p(a,b,R); y la legalidad ya probada de
+   la proyección deja a s mural dentro del hueco (ψ_s está entre
+   ψ_a y ψ_b porque la espina respeta el orden angular). REPARADO:
+   párrafo «La cláusula de bolsillos» añadido a §2 con esa prueba.
+
+### MEDIA
+
+2. **(P1): la prueba escrita solo cubría UNA de las dos aristas
+   cero.** «d_b ≤ R−b < a+b desde R < máx+2mín» justifica h → −∞
+   solo en la esquina d_a → 0; la esquina d_b → 0 necesita
+   d_a ≤ R−a < a+b ⟺ R < 2a+b, que se sigue de a ≥ b
+   (a+2b ≤ 2a+b, identidad (2a+b)−(a+2b) = a−b) pero NO estaba
+   escrito; tampoco la esquina (0,0) (h → −∞ por cualquier
+   dirección: verificado con sympy, límite direccional uniforme).
+   Además faltaba la buena definición de θ: para un par empaquetado
+   a+b ≤ |c_a−c_b| ≤ d_a+d_b ≤ 2R−a−b da a+b ≤ R (f(a)f(b) ≤ 1)
+   automáticamente — sin esa línea θ(a,b) podría no existir.
+   REPARADO: (P1) reescrito con las cuatro esquinas, la buena
+   definición y el rango [0, π] de ambos ángulos explícito.
+
+3. **La exclusión del origen era cualitativa y vaga («miembros
+   relevantes»); la verdad es cuantitativa y más fuerte.** La
+   afirmación del corchete es CIERTA (verificada: un centro en el
+   origen exige R ≥ a+2c para todo otro c; si c ≤ a eso es
+   apilable por definición; si c > a, a+2c ≥ c+2a lo da a
+   fortiori — dirección que el draft no derivaba), pero lo que
+   realmente vale es la cota del anillo: en todo par no-apilable,
+   d_a ≥ a+2b−R > 0 y d_b ≥ 2a+b−R > 0 (de d_b ≤ R−b y
+   |c_a−c_b| ≤ d_a+d_b). Ningún centro puede estar en el origen NI
+   cerca — con margen positivo explícito, que es además lo que
+   (P1) necesita para dividir por d_a d_b. El caso k = 1 (sin
+   pares: la hipótesis es vacua y el centro SÍ puede estar en el
+   origen, con ψ indefinido) no estaba cubierto: trivial (cualquier
+   ángulo mural sirve), ahora explícito. REPARADO en draft +
+   check dirigido de infactibilidad bajo la cota (0 violaciones).
+
+4. **Precisión falsa en la cita del máximo por esquinas: «un único
+   cambio de signo − → +, mínimo interior» no es el caso general.**
+   ∂h/∂d_a = (d_a² − d_b² + (a+b)²)/(2 d_a² d_b) (re-derivada:
+   numerador d_a² − (d_b² − (a+b)²)): si d_b ≤ a+b la derivada es
+   > 0 en TODA la arista (no hay extremo interior); solo si
+   d_b > a+b hay el cambio − → + con mínimo interior. La
+   conclusión (máximo por arista en los extremos ⟹ máximo de caja
+   en esquina) vale igual en ambos casos. REPARADO con la
+   dicotomía escrita.
+
+5. **El control de necesidad de la hipótesis era débil (1
+   contraejemplo MC en 25) y la tightness no estaba explorada.**
+   REPARADO con dos controles deterministas nuevos: (a') tres
+   familias anillo (central c + corona de n círculos r murales en
+   R = c+2r, coordenadas explícitas, todos los pares apilables) sin
+   NINGÚN empaquetamiento mural — en cualquier colocación mural los
+   huecos consecutivos suman 2π y cada uno es ≥ θ del par
+   adyacente (lem:S1), y aquí Σθ_ady > 2π en TODO orden cíclico
+   (peor margen 1.188): argumento de imposibilidad exacto, no MC;
+   (a'') la relajación «no-apilable respecto del mayor» NO basta:
+   contraejemplo construido en esta ronda, L = 2 mural + 7 círculos
+   0.76 murales + 1 interior en R = 3.51 — empaquetamiento real
+   explícito (holgura mínima 0.0026), pares (L,s) no-apilables
+   (3.51 < 3.52), pares (s,s) apilables, y Σθ_ady − 2π = 0.236 > 0:
+   sin mural. El enunciado es tight en ambas direcciones; ambos
+   contraejemplos documentados en §1 del draft.
+
+### BAJA
+
+6. **El muestreo por rechazo nunca visita la frontera de (P1).**
+   Peor holgura observada en E: 0.011–0.036; tangencias exactas y
+   empates de radios ausentes por construcción (medida cero).
+   REPARADO: dirigido de pares TANGENTES exactos en A (~33k–83k
+   casos por corrida, esquinas d mínimas/murales + empates a = b):
+   peor margen −7.6e-15 — toca la esquina mural γ = θ EXACTA, que
+   es donde (P1) es igualdad; y muestreadores con empates exactos
+   (prob. 0.3) y k hasta 7 en A/B/C/E.
+
+7. **(A5) Consistencia del wrap en el repo — CONFIRMADA, sin
+   dependencia oculta.** Nadie usa el wrap-por-camino-más-largo
+   como teorema: rstar.md/perfilp.md usan la dualidad de cadena
+   ABIERTA a₀ → a_{k+1} (scheduling estándar, sin wrap — eso SÍ es
+   teorema); zigzag/escala/coronacolas usan el ciclo SIEMPRE con el
+   chequeo explícito de todas las parejas (solidez condicional del
+   acta de zigzag). El texto de (P3) es honesto: intento de wrap
+   documentado como abierto SIN carga. Sin cambios de carga.
+
+8. **(A7) El esqueleto de §3 es correcto; menudencias de
+   trazabilidad.** La cadena bloqueo ⟹ F empaqueta C = {ocupantes,
+   m} en R ⟹ compactación ⟹ reparto ⟹ contradicción cuadra con el
+   paper: en el caso sartén «F places m at top level»
+   (app:pan-app, verificado textualmente) y los ocupantes son nivel
+   superior por definición: C está genuinamente empaquetado por F.
+   El draft declara con claridad que la no-apilabilidad de ESE C es
+   hipótesis por probar (pieza 1, por dominio) y que los pares
+   apilables van al reparto por casos. Añadida la cita textual de
+   app:pan-app en §3. Restos menores no tocados: rama muerta
+   `t > 1` en bloque B (t ≥ 2 siempre) y guarda d < 1e-9 en bloque
+   A inalcanzable bajo la cota del anillo (documentativos, sin
+   efecto).
+
+## Verificaciones independientes del atacante
+
+- **(P1) completo con sympy** (scratchpad `p1_sympy.py`, 8 salidas
+  exactas): cos γ = (d_a²+d_b²−L²)/(2d_a d_b) decreciente en L ⟹
+  cos γ ≤ h con L ≥ a+b (h − cos γ|_tangencia = 0); numerador de
+  ∂h/∂d_a = d_a² − (d_b²−(a+b)²) con raíz única solo si d_b > a+b;
+  límites −∞ en las tres esquinas con d → 0 (incluida (0,0) por
+  dirección arbitraria); identidad h(R−a,R−b) − (1−2f(a)f(b)) = 0;
+  y la equivalencia mural (A2): dist²(γ=θ) − (a+b)² = 0 exacto —
+  γ ≥ θ es EXACTAMENTE la disyunción proyectada, y lem:S1 del
+  paper da el «iff» con la tangencia legal (interiores disyuntos).
+- **(A3) degenerados**: tangencias reales dan γ = θ alcanzable y la
+  proyección da distancia = a+b exacta — legal (tangencia
+  permitida en hipótesis y conclusión); círculos al mismo ángulo
+  imposibles (γ ≥ θ > 0 estricto: f(a)f(b) > 0); k = 1 trivial,
+  k = 2 cubierto por la prueba general (la proyección no tiene
+  wrap).
+- **(A4)**: contraejemplo (a'') construido y verificado
+  euclidianamente (holgura par a par, contención, apilabilidades y
+  Σθ_ady — todo explícito en el script; scratchpad `a4_det.py`).
+- **(P2)**: la partición dirigida es exacta para ángulos distintos
+  (garantizados por γ > 0); verificada en 425 empaquetamientos con
+  subsecuencias aleatorias, 0 fallos.
+
+## Reparaciones aplicadas
+
+En `docs/drafts/compactacion.md`: estado → ADVERSARIADO; párrafo de
+tightness en §1 (hallazgo 5); corchete del origen cuantitativo +
+k = 1 en §2 (3); prueba de la cláusula de bolsillos en §2 (1); (P1)
+reescrito completo en §2b (2, 4); cita de app:pan-app en §3 (8).
+En `code/compactacion.py`: dirigido de tangencias exactas + cota
+del anillo en bloque A (6, 3); controles deterministas (a') y (a'')
+en bloque D (5); empates exactos y k ≤ 7 en los muestreadores (6);
+CC_SEED para corridas con semillas alteradas; docstring
+actualizado.
+
+## Estado del script
+
+5/5 en verde en las cuatro corridas: CC_ITER=60000 base (pre y post
+reparaciones), CC_ITER=60000 CC_SEED=777, CC_ITER=150000
+CC_SEED=13, y la corrida final por defecto. Cifras representativas
+(150k): (P1) 426 empaquetamientos / 1365 pares + 82 737 tangentes
+dirigidos, 0 violaciones, peor margen −7.6e-15; (P2) 425, 0 fallos;
+(P3) 437, 0 fallos; controles (a) 2/29 MC, (a') margen 1.188,
+(a'') holgura 0.0026 / margen 0.236; (E) 428 proyecciones, 0
+violaciones.
+
+## Qué queda abierto tras esta ronda (recorte honesto)
+
+1. El wrap de la variante (P3) sigue abierto — y sigue SIN carga:
+   la proyección de §2 lo esquiva y nadie en el repo lo usa como
+   teorema.
+2. Las piezas 1–3 de §3 (no-apilabilidad del C del muro por
+   dominio, capacidades del reparto, versión anidada) son las
+   hipótesis del programa, no de este teorema; el draft las declara
+   correctamente como pendientes.

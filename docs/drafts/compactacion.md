@@ -1,6 +1,11 @@
 # El teorema de compactación mural: la dualidad como prueba escrita
 
-Estado: DRAFT con prueba completa (2026-08-09), PRE-ADVERSARIO.
+Estado: ADVERSARIADO (2026-08-09, acta en VEREDICTOS.md):
+CONFIRMADO CON CORRECCIONES — la prueba de §2 resiste; (P1)
+re-derivado simbólicamente; corregidas la arista cero que faltaba y
+la exclusión del origen (ahora cuantitativa); la cláusula de
+bolsillos del enunciado ahora tiene su prueba en §2 (era un hueco:
+§2 no la probaba).
 Script: `code/compactacion.py`. Es la conversión de los cierres
 computacionales en matemática escrita: elimina R_lb, los barridos y
 la dirección j del programa τ = φ de un solo golpe.
@@ -19,14 +24,30 @@ f(x) = x/(R−x)). Además, en esa colocación cada pieza «saltada» por
 el camino crítico queda muralmente dentro del hueco de su par de
 espina, y es sub-bolsillo de Descartes de ese par.
 
+**La hipótesis es tight (ronda hostil 2026-08-09).** No puede
+suprimirse: la familia anillo (central c + corona de n círculos r
+tangentes a la pared en R = c + 2r, todos los pares apilables) es un
+empaquetamiento real explícito con Σθ_adyacentes > 2π en todo orden
+cíclico — ningún empaquetamiento mural existe. Y no puede rebajarse
+a «no-apilable respecto del mayor»: L = 2 mural + 7 círculos 0.76
+murales + 1 interior en R = 3.51 empaqueta de verdad, tiene todos
+los pares (L, s) no-apilables (3.51 < 3.52) y los (s, s) apilables,
+y Σθ_ady = 6.519 > 2π: sin mural (controles (a')/(a'') del script).
+
 ## 2. La prueba (proyección mural: tres líneas)
 
 **Colocación:** empújese cada círculo a la pared EN EL ÁNGULO REAL
 de su centro: c_i ↦ posición mural (R − r_i) · (cos ψ_i, sin ψ_i),
-con ψ_i el ángulo del centro real. [Si algún centro real está en el
-origen, su círculo es apilable con todos los demás miembros
-relevantes — excluido por hipótesis; y dos círculos no-apilables no
-comparten ángulo: γ_real > 0 por (P1).]
+con ψ_i el ángulo del centro real. [Ningún centro está en el origen,
+cuantitativamente: para todo par no-apilable {a, b} (a ≥ b),
+d_b ≤ R − b y |c_a − c_b| ≤ d_a + d_b fuerzan
+d_a ≥ (a+b) − (R−b) = a + 2b − R > 0, y simétricamente
+d_b ≥ 2a + b − R ≥ a + 2b − R > 0: los centros viven en un anillo
+con margen positivo. (La versión cualitativa: un centro en el origen
+exige R ≥ a + 2c para todo otro c, que es apilable si c ≤ a y, si
+c > a, a + 2c ≥ c + 2a lo da a fortiori.) k = 1 es trivial:
+cualquier ángulo mural sirve. Y dos círculos no comparten ángulo:
+γ_real ≥ θ > 0 por (P1).]
 
 **Legalidad:** la separación angular de cada par NO cambia (es la
 real, γ_real). Por (P1), γ_real(a,b) ≥ θ(a,b) para todo par
@@ -34,6 +55,19 @@ no-apilable, y θ(a,b) es por definición (lem:S1) el ángulo mural
 mínimo de disyunción: dos círculos murales a separación ≥ θ(a,b)
 tienen centros a distancia ≥ a+b. Luego todos los pares son
 disyuntos. ∎
+
+**La cláusula de bolsillos (el «además» del enunciado).** Sobre el
+orden cíclico real σ defínase el θ-DP (camino más largo con pesos
+θ): es combinatoria pura sobre los θ, independiente de dónde estén
+los círculos. Si la arista de espina (a, b) salta la pieza s,
+entonces (i) ψ_s está estrictamente entre ψ_a y ψ_b (la espina
+respeta el orden de σ = el orden angular real); (ii) la legalidad ya
+probada de TODAS las parejas proyectadas deja a s mural dentro del
+hueco de a y b; (iii) por maximalidad del DP,
+θ(a,s) + θ(s,b) ≤ θ(a,b) (ESP-individual, acta de zigzag: tres
+líneas, α[s] ≥ α[a] + θ(a,s), α[b] ≥ α[s] + θ(s,b),
+α[b] = α[a] + θ(a,b)), y por DIC, s ≤ p(a, b, R): sub-bolsillo de
+Descartes de su par de espina. Nada de esto usa el wrap. ∎
 
 No hace falta el camino más largo, ni orden alguno: la proyección
 preserva el orden cíclico real automáticamente. (P2) queda como
@@ -46,16 +80,26 @@ Sea σ = (v₀, v₁, …, v_{k−1}) el orden cíclico de los centros del
 empaquetamiento real (ángulos crecientes) y γ_real(a,b) la
 separación angular real de cada par.
 
-**(P1) θ ≤ γ_real par a par.** Para cualquier par {a, b} del
-empaquetamiento con distancias al centro d_a ∈ [0, R−a],
-d_b ∈ [0, R−b]: cos γ_real ≤ h(d_a, d_b) =
-(d_a² + d_b² − (a+b)²)/(2 d_a d_b), y el máximo de h sobre la caja
-se alcanza en una esquina (en cada arista, ∂h/∂d tiene un único
-cambio de signo − → +, mínimo interior: adversariado en el acta de
-coronacolas; prueba: ∂h/∂d_a = (d_a² − d_b² + (a+b)²)/(2 d_a² d_b)
-cambia de signo una vez). Para un par NO-APILABLE las esquinas con
-d → 0 dan h → −∞ (d_b ≤ R−b < a+b desde R < máx+2mín) y la esquina
-mural da h(R−a, R−b) = 1 − 2 f(a) f(b) = cos θ exacto. Luego
+**(P1) θ ≤ γ_real par a par.** Sea {a, b} un par del
+empaquetamiento, a ≥ b. Primero, θ(a,b) está bien definida:
+a+b ≤ |c_a−c_b| ≤ d_a + d_b ≤ (R−a) + (R−b) da a + b ≤ R, luego
+f(a)f(b) ≤ 1. Por la ley de cosenos y la disyunción
+|c_a − c_b| ≥ a+b: cos γ_real ≤ h(d_a, d_b) =
+(d_a² + d_b² − (a+b)²)/(2 d_a d_b) (necesita d_a, d_b > 0: dado por
+la cota del anillo de §2). El máximo de h sobre la caja
+(0, R−a] × (0, R−b] se alcanza en una esquina:
+∂h/∂d_a = (d_a² − d_b² + (a+b)²)/(2 d_a² d_b) es > 0 en toda la
+arista si d_b ≤ a+b, y si d_b > a+b cambia de signo una sola vez
+− → + (mínimo interior); en ambos casos el máximo por arista está en
+los extremos (adversariado en el acta de coronacolas y re-derivado
+con sympy en esta ronda). Para un par NO-APILABLE las tres esquinas
+con algún d → 0 dan h → −∞, porque AMBAS coordenadas quedan bajo
+a+b en toda la caja: d_b ≤ R−b < a+b ⟺ R < a+2b (= máx+2mín,
+la definición), y d_a ≤ R−a < a+b ⟺ R < 2a+b, que se sigue de
+a ≥ b (a+2b ≤ 2a+b); la esquina (0,0) da −∞ por cualquier
+dirección de entrada. La esquina mural da
+h(R−a, R−b) = 1 − 2 f(a) f(b) = cos θ exacto (identidad
+polinómica). Con γ_real, θ ∈ [0, π] y cos decreciente ahí:
 γ_real(a,b) ≥ θ(a,b) para TODO par, adyacente o no. ∎(P1)
 
 **(P2) El camino más largo está acotado por 2π.** La construcción
@@ -117,7 +161,9 @@ basta.
 ## 3. Qué cambia en el programa τ = φ
 
 La cadena corona-contra-colas queda: bloqueo ⟹ F empaqueta
-C = {ocupantes, m} en la sartén real R ⟹ (compactación, si todos
+C = {ocupantes, m} en la sartén real R (caso sartén: los ocupantes
+están a nivel superior por definición y «F places m at top level»,
+app:pan-app del paper) ⟹ (compactación, si todos
 los pares son no-apilables) C se compacta MURALMENTE en R con
 bolsillos de Descartes explícitos ⟹ el reparto (σ₁ → D_m, perfil y
 polvo a los bolsillos/carteras, lema del bolsillo-φ) desbloquea:
