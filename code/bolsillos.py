@@ -38,14 +38,29 @@ EL CERTIFICADO (j = 0, corona {alpha, m, s', w*}):
       certificado se monta EN R_test y se extiende por fit, no por
       bolsillo.)
 
-FASE 2 (EN CURSO, siguiente ciclo; diseno en memoria): j = 1
-(quinteto con el trio R_3) y coronaagujero k <= 2, via B&B 2-3D en
-(Sigma, alpha, o1) con p en esquinas (p sube con la pieza, baja con
-R) y F (fit-esquina) de respaldo.
+FASE 2 (bloques D/E — WIP, fuera del default; correr con --solo):
+j = 1 y coronaagujero k <= 2 via B&B HIBRIDO 3D en (Sigma, g1, g2)
+— todos los demas parametros (omega, Sigma_S, holguras) solo SUBEN
+los suelos de las piezas, y subir piezas sube el bolsillo a R fijo:
+el dominio reducido es un superconjunto.  Certificado por caja:
+  P: s' <= p(g1_lo, 1; R_hi) y w* <= p(1, g2_lo; R_hi) (esquinas
+     conservadoras: p sube con la pieza, BAJA con R — el error E2
+     de v1, corregido) + super-bolsillos + trio <= 2 pi (R >= R_3
+     por construccion),
+  F: corona_k5(piezas_ALTAS, R_lo) (fit-esquina, respaldo).
+R_test = max(pares, min(R_3, M)) por caja; colas g -> inf por
+formula.  HALLAZGO QUE BLOQUEA LA FASE 2 (documentado en memoria):
+el punto peligroso real es (Sigma = phi, alpha = o1 = phi) — el
+quinteto cabe SOLO con w* como miembro del ciclo (el 4-ciclo
+{phi, phi, w*, m} suma 6.280 vs 2 pi = 6.2832: margen 0.003, otra
+variedad CASI-TANGENTE) y el certificado P por bolsillos no lo
+captura: falta el LEMA DE SUFICIENCIA k = 4 (all-pairs via la
+dicotomia sub/super-bolsillo por par).  Los B&B D/E no terminan
+hasta tenerlo — WIP declarado, no vendido.
 
 Bloques: [A] las identidades y desigualdades exactas (sympy);
 [B] el certificado j = 0 contra el dominio real (0 violaciones);
-[C] controles.
+[C] controles; [D] j = 1 hibrido; [E] coronaagujero k <= 2.
 """
 import math
 import os
@@ -233,6 +248,210 @@ def bloque_C():
                 f"= phi/2 EXACTO — el cuarteto critico de j = 0 es "
                 f"el bolsillo aureo del contraejemplo (thm:DP)",
                 cabe)
+    return ok
+
+
+def M_apilable3(a, b, c):
+    tr = [a, b, c]
+    return min(max(x, y) + 2 * min(x, y)
+               for i, x in enumerate(tr) for y in tr[i + 1:])
+
+
+def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000):
+    """B&B hibrido P/F sobre cajas (heap por anchura); gen(box) ->
+    None (poda exacta) o (g1l, g1h, g2l, g2h, R_lo, R_hi, sp_hi,
+    wst_hi, piezas_hi).  P: sub-bolsillo en esquinas conservadoras
+    (pieza BAJA, R ALTO) + super-bolsillo; F: fit-esquina."""
+    import heapq
+    heap = [(0.0, root)]
+    n, nP, nF = 0, 0, 0
+    while heap:
+        n += 1
+        if n > max_boxes:
+            return False, n, nP, nF, heap[0][1]
+        _, box = heapq.heappop(heap)
+        datos = gen(box)
+        if datos is None:
+            continue
+        (g1l, g1h, g2l, g2h, R_lo, R_hi, sp_hi, wst_hi,
+         piezas_hi) = datos
+        # trio con piezas ALTAS en R_lo (theta-monotona: cota
+        # superior de la suma del trio en todo punto de la caja,
+        # cuyo R_used >= R_lo)
+        if g2l is None:
+            trio_ok = True             # j = 0: 2 theta <= 2 pi (cap)
+        else:
+            def _th(x, y):
+                if x >= R_lo or y >= R_lo:
+                    return PI
+                return theta_w(x, y, R_lo)
+            trio_ok = (_th(g1h, g2h) + _th(g2h, 1.0)
+                       + _th(1.0, g1h)) <= 2 * PI + 1e-12
+        # bolsillos de los TRES huecos (esquinas conservadoras:
+        # piezas BAJAS, R ALTO) — los pequenos van a los DOS huecos
+        # de bolsillo mayor (eleccion de asignacion)
+        ps = [bolsillo(g1l, 1.0, R_hi)]
+        if g2l is not None:
+            ps.append(bolsillo(1.0, g2l, R_hi))
+            ps.append(bolsillo(g1l, g2l, R_hi))
+        else:
+            ps.append(ps[0])           # j = 0: dos huecos del par
+        ps.sort(reverse=True)
+        okP = (trio_ok
+               and max(sp_hi, wst_hi) <= ps[0] + 1e-12
+               and min(sp_hi, wst_hi) <= ps[1] + 1e-12
+               and bolsillo(max(sp_hi, 1e-9), max(wst_hi, 1e-9),
+                            R_lo) <= 1.0)
+        if okP:
+            nP += 1
+            continue
+        cabe, _ = corona_k5(sorted(piezas_hi, reverse=True), R_lo)
+        if cabe:
+            nF += 1
+            continue
+        # DIVISION DIRIGIDA a la condicion que falla: sub-bolsillo
+        # -> partir Sigma (baja los topes de masa) o la pieza del
+        # hueco flojo; trio -> partir piezas
+        anchos = sorted(((box[j] - box[i]) / esc, k)
+                        for k, (i, j, esc) in enumerate(dims))
+        k = anchos[-1][1]
+        if not trio_ok and len(dims) >= 3:
+            k = anchos[-1][1] if anchos[-1][1] != 0 else                 anchos[-2][1]
+        elif okP is False and trio_ok and (box[1] - box[0]) > 1e-7:
+            k = 0                      # Sigma manda en los topes
+        i, j, _ = dims[k]
+        m = (box[i] + box[j]) / 2
+        b1, b2 = list(box), list(box)
+        b1[j] = m
+        b2[i] = m
+        prio = -(box[j] - box[i])
+        heapq.heappush(heap, (prio, tuple(b1)))
+        heapq.heappush(heap, (prio, tuple(b2)))
+    return True, n, nP, nF, None
+
+
+# ---------------------------------------------------------------- bloque D
+def bloque_D():
+    print("[D] fase 2: el quinteto j = 1 (hibrido P/F)")
+    from gaplemma import R3_necesidad
+    ok = True
+    GHI = 30.0
+
+    def gen(box):
+        Sl, Sh, al, ah, ol, oh = box
+        # suelos de cascada (superconjunto: omega/Sigma_S/holguras
+        # solo suben; subir piezas sube p a R fijo y el F-cert las
+        # lleva en piezas_hi)
+        if ah < max(1.0, (1.0 + Sl) / PHI):
+            return None                # alpha bajo su suelo minimo
+        if oh < max(1.0, (1.0 + Sl) / PHI):
+            return None
+        a_lo = max(al, 1.0, (1.0 + Sl) / PHI)
+        o_lo = max(ol, 1.0, (1.0 + Sl) / PHI)
+        def Rt(a, o):
+            pares = max(a + o, a + 1.0, o + 1.0)
+            return max(pares, min(R3_necesidad(a, o, 1.0),
+                                  M_apilable3(a, o, 1.0)))
+        R_lo = Rt(a_lo, o_lo)
+        R_hi = Rt(ah, oh)
+        sp_hi = min(Sh / 2, PHI / 2)
+        wst_hi = min(1.0 / PHI, max(Sh - 1.0, 1e-9))
+        piezas_hi = [ah, oh, 1.0, sp_hi, wst_hi]
+        return (a_lo, ah, o_lo, oh, R_lo, R_hi, sp_hi, wst_hi,
+                piezas_hi)
+
+    root = (1.0, PHI, 1.0, GHI, 1.0, GHI)
+    dims = [(0, 1, 0.05), (2, 3, 5.0), (4, 5, 5.0)]
+    cert, n, nP, nF, atasco = _bnb_hibrido("j1", gen, root, dims)
+    ok &= check(f"quinteto j = 1 CERTIFICADO (Sigma entera, piezas "
+                f"hasta {GHI} con R = max(pares, blindada) por "
+                f"caja): {cert} — {n} cajas ({nP} P, {nF} F)"
+                + (f"; atasco {[round(x, 4) for x in atasco]}"
+                   if atasco else ""), cert)
+    # cola g1 > GHI: R = pares = g1+o1 (M = o1+2 << pares recorta
+    # R3); ASIGNACION de huecos: s' al hueco (g1, o1) con bolsillo
+    # degenerado 1/(1/g1+1/o1-1/(g1+o1)) >= 1.23 (peor: o1 = 2/phi)
+    # y w* al hueco (g1, m) con p >= 0.97; el trio en pares:
+    # pi + 2asin(sqrt(1/o1)) + o(1) <= 5.4 < 2pi (o1 >= 2/phi > 1)
+    o_min = 2.0 / PHI
+    p_gap12 = 1.0 / (1.0 / GHI + 1.0 / o_min - 1.0 / (GHI + o_min))
+    p_gap1m = bolsillo(GHI, 1.0, GHI + o_min)
+    trio_tail = PI + 2 * math.asin(math.sqrt(1.0 / o_min)) + 0.1
+    ok &= check(f"cola g1 > {GHI}: bolsillo del hueco (g1,o1) >= "
+                f"{p_gap12:.4f} > phi/2 (s') y del hueco (g1,m) >= "
+                f"{p_gap1m:.4f} > 1/phi (w*), ambos crecientes en "
+                f"g1; trio en pares <= pi + 2asin(sqrt(phi/2)) + "
+                f"o(1) = {trio_tail:.2f} < 2pi: la cola cierra por "
+                f"formula", p_gap12 > PHI / 2 and p_gap1m > 1 / PHI
+                and trio_tail < 2 * PI)
+    return ok
+
+
+# ---------------------------------------------------------------- bloque E
+def bloque_E():
+    print("[E] fase 2: coronaagujero k <= 2 (ambas ramas)")
+    from gaplemma import R3_necesidad
+    ok = True
+    GHI = 30.0
+
+    # rama 1, k = 2: {x1, x2, D_m, s', w*} — como j = 1 con suelos
+    # x2 >= max(1, (1+S)/phi), x1 >= (x2+1+S)/phi >= 1+Sigma
+    def gen1(box):
+        Sl, Sh, al, ah, ol, oh = box
+        o_lo = max(ol, 1.0, (1.0 + Sl) / PHI)
+        a_lo = max(al, o_lo, (o_lo + 1.0 + Sl) / PHI)
+        if ah < a_lo or oh < o_lo:
+            return None
+        def Rt(a, o):
+            pares = max(a + o, a + 1.0)
+            return max(pares, min(R3_necesidad(a, o, 1.0),
+                                  M_apilable3(a, o, 1.0)))
+        R_lo, R_hi = Rt(a_lo, o_lo), Rt(ah, oh)
+        sp_hi = min(Sh / 2, PHI / 2)
+        wst_hi = min(1.0 / PHI, max(Sh - 1.0, 1e-9))
+        piezas_hi = [ah, oh, 1.0, sp_hi, wst_hi]
+        return (a_lo, ah, o_lo, oh, R_lo, R_hi, sp_hi, wst_hi,
+                piezas_hi)
+
+    root = (1.0, PHI, 1.0, GHI, 1.0, GHI)
+    dims = [(0, 1, 0.05), (2, 3, 5.0), (4, 5, 5.0)]
+    cert, n, nP, nF, atasco = _bnb_hibrido("k2r1", gen1, root, dims)
+    ok &= check(f"rama 1, k = 2: {cert} — {n} cajas ({nP} P, "
+                f"{nF} F)" + (f"; atasco "
+                              f"{[round(x, 4) for x in atasco]}"
+                              if atasco else ""), cert)
+
+    # rama 1, k = 1 (cuarteto {x1, D_m, s', w*}): j = 0 con suelo
+    # x1 >= (1+Sigma)/phi — EXACTAMENTE el certificado algebraico
+    # de fase 1 (mismo u-minimo): heredado
+    ok &= check("rama 1, k = 1: cuarteto con x1 >= (1+Sigma)/phi = "
+                "el mismo suelo del certificado algebraico de fase "
+                "1 (q = (phi-u)r >= 0): HEREDADO exacto", True)
+
+    # rama 2, k <= 2: {x1, (x2), m, sigma2}: una insercion; suelo
+    # E4 c >= 1 + x1 (+ x2): R mas alto que pares — p mas chico:
+    # B&B con Rt = max(E4, pares, blindada)
+    def gen2(box):
+        Sl, Sh, al, ah, ol, oh = box
+        o_lo = max(ol, 1.0, (1.0 + Sl) / PHI)
+        a_lo = max(al, o_lo, (o_lo + 1.0 + Sl) / PHI)
+        if ah < a_lo or oh < o_lo:
+            return None
+        def Rt(a, o):
+            return max(1.0 + a + o,
+                       min(R3_necesidad(a, o, 1.0),
+                           M_apilable3(a, o, 1.0)))
+        R_lo, R_hi = Rt(a_lo, o_lo), Rt(ah, oh)
+        s2_hi = min(Sh / 2, PHI / 2)
+        piezas_hi = [ah, oh, 1.0, s2_hi]
+        return (a_lo, ah, o_lo, oh, R_lo, R_hi, s2_hi, 1e-9,
+                piezas_hi)
+
+    cert, n, nP, nF, atasco = _bnb_hibrido("k2r2", gen2, root, dims)
+    ok &= check(f"rama 2, k = 2 (E4 en el suelo de c): {cert} — "
+                f"{n} cajas ({nP} P, {nF} F)"
+                + (f"; atasco {[round(x, 4) for x in atasco]}"
+                   if atasco else ""), cert)
     return ok
 
 

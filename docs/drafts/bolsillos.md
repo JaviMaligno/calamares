@@ -46,14 +46,23 @@ y w* → 0), no por el bolsillo grande. (E2) dp/dR < 0: el bolsillo
 SE ENCOGE con R — el certificado se monta en R_test y se extiende
 por la monotonía del fit, no del bolsillo.
 
-## 3. Fase 2 (en curso)
+## 3. Fase 2 (WIP declarado — bloques D/E fuera del default)
 
-j = 1 (quinteto con la necesidad del trío R₃) y coronaagujero
-k ≤ 2: B&B 2-3D en (Σ, α, o₁) — todos los demás parámetros solo
-mueven el suelo de α — con bolsillos en esquinas (p sube con la
-pieza a R fijo, baja con R) y el fit-esquina de respaldo; el
-déficit 0 del punto áureo (2, 2/φ) se maneja con el mismo esquema
-de acople (allí s′ ≤ 1/2 < p = 0.636 y w* → 0).
+j = 1 y k ≤ 2 vía B&B híbrido 3D en (Σ, α, o₁). Los B&B están
+implementados (`--solo D`, `--solo E`) pero NO terminan, y el
+diagnóstico es un hallazgo matemático: el punto peligroso real de
+j = 1 es (Σ = φ, α = o₁ = φ, ambos en su suelo de cascada) — allí
+los bolsillos laterales (p(φ,1;2φ) = 0.501 < w*-cap = 1/φ) no
+albergan a w*, y el quinteto cabe SOLO con w* como MIEMBRO del
+ciclo: el 4-ciclo {φ, φ, w*, m} suma π + θ(φ,1) + θ(1/φ,1) +
+θ(φ,1/φ) ≈ 6.280 contra 2π = 6.2832 — margen 0.003, OTRA variedad
+casi-tangente del programa. Capturarla exige el **lema de
+suficiencia k = 4** (realizabilidad de un 4-ciclo con suma ≤ 2π +
+validación all-pairs vía la dicotomía sub/super-bolsillo por par —
+la extensión del argumento k = 3 de puertocii). Con ese lema, el
+certificado por caja añade el modo «w* en el ciclo» y los B&B
+deberían terminar. Es el siguiente paso del programa, no un
+parche.
 
 ## 4. Estatus
 
