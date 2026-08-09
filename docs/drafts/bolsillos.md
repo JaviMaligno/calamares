@@ -54,7 +54,30 @@ y w* → 0), no por el bolsillo grande. (E2) dp/dR < 0: el bolsillo
 SE ENCOGE con R — el certificado se monta en R_test y se extiende
 por la monotonía del fit, no del bolsillo.
 
-## 3. Fase 2 (WIP declarado — bloques D/E fuera del default)
+## 3. Fase 2 (COMPLETA, v3 — pre-adversario)
+
+j = 1 y coronaagujero k ≤ 2 CERTIFICADOS por B&B 3D en (Σ, g1, g2),
+con certificados por caja en este orden: (1) exclusión de V (lema
+de entorno de arcolp); (2) bolsillos: ambos pequeños sub-bolsillo
+de dos huecos distintos del TRÍO, que cabe POR CONSTRUCCIÓN —
+R_used ≥ máx(pares, R₃), y en la banda donde R₃ manda el trío está
+EXACTAMENTE TANGENTE (variedad 2D: la razón estructural por la que
+ninguna desigualdad de esquina convergía); suficiencia k = 3
+cerrada + hecho del dominio R₃ ≤ M (heredado de gaplemma con su
+estatus de check no-suprimible); (3) F CERRADO: reducción GLOBAL de
+s′ al hueco (g1,g2) (Σ/2 ≤ 2u/3 siempre: Σ(3φ−4) ≤ 4) y el 4-ciclo
+[g1, g2, w*, m] con d₁ = π en forma cerrada — factible ⟺ −σ ≥
+máx(B₁, B₂), con B_i los déficits NS-2 de las diagonales contra el
+slack; unión bolsillo/ciclo en la dirección w*; (4) LP con testigo
+verificado (HiGHS busca, se verifica) solo en la rama rara (banda
+R₃ con w* > bolsillos; precondición pares-caben garantizada por el
+dominio); (5) fit-esquina de respaldo. Resultados: j = 1 en
+286 911 cajas (20 s), rama 1 k = 2 en 1 727, rama 2 k = 2 en
+1 333; k = 1 heredado del certificado algebraico de fase 1; colas
+g > 30 por fórmula. **Los dominios de las coronas acotadas quedan
+certificados por subdivisión ENTEROS.**
+
+## 3-bis. Historia (el WIP que precedió a v3)
 
 j = 1 y k ≤ 2 vía B&B híbrido 3D en (Σ, α, o₁). Los B&B están
 implementados (`--solo D`, `--solo E`) pero NO terminan, y el
