@@ -4,10 +4,15 @@
 EXACTA de la corona mural de k <= 5 piezas — la pieza que la fase 2
 de bolsillos necesita para certificar EN las variedades tangentes.
 
-EL LEMA.  Fijado un orden ciclico [x_0..x_{n-1}] en un disco R, sea
-d_i >= 0 la separacion angular entre consecutivos (suma 2 pi).  La
-corona mural existe en ese orden SII el sistema de ARCOS es
-factible:
+EL LEMA (enunciado REPARADO en ronda hostil — v1 REFUTADA por la
+pi-gorra sin guarda).  PRECONDICION: a_i + a_j <= R para todo par
+(igualdad permitida: par diametral tangente); sin ella dos piezas
+murales NI SIQUIERA son disyuntas a separacion pi (el requisito
+real es +inf) y el criterio v1 declaraba factibles ordenes
+fisicamente imposibles.  Con la precondicion: fijado un orden
+ciclico [x_0..x_{n-1}] en un disco R, sea d_i >= 0 la separacion
+angular entre consecutivos (suma 2 pi).  La corona mural existe en
+ese orden SII el sistema de ARCOS es factible:
 
     para todo arco contiguo A = (i..j) propio:
         suma_{gaps en A} d >= r_A := max( suma theta_consec(A),
@@ -23,16 +28,20 @@ en posiciones acumuladas y TODA pareja queda mural-disjunta
 certifica EN la tangencia (deficit 0) — lo que corona_k5 con piezas
 infladas no puede.
 
-FACTIBILIDAD (dualidad LP, matriz de intervalos circular): el
-sistema {suma_A d >= r_A, suma d = 2 pi, d >= 0} es factible SII
-
-    para toda FAMILIA de arcos propios disjuntos dos a dos:
-        suma r_A <= 2 pi.
-
-(<=: las restricciones de una familia disjunta suman <= suma total;
->=: el vertice dual optimo del LP de intervalos escoge arcos
-disjuntos — validado ademas contra un LP primal exacto por
-enumeracion de bases y contra corona_k5/ciclo_constructivo.)
+FACTIBILIDAD: el criterio OFICIAL es el PRIMAL EXACTO por
+enumeracion de bases (politopo acotado: todo vertice resuelve n
+filas activas con la igualdad incluida; n <= 5 lo hace barato).
+La condicion de familias de arcos disjuntos (suma r_A <= 2 pi) es
+NECESARIA pero NO suficiente en general (H3 del acta: la matriz de
+arcos CIRCULARES no es de intervalos ni TU — contraejemplo puro
+con tres arcos de longitud 2 y r = 1.5 pi); bajo la estructura
+geometrica coincide con el primal en 9500+ instancias sin
+discrepancia (SIN prueba: se usa solo como poda).  Tras la
+reparacion, arc-LP y corona_k5 son EQUIVALENTES en el muestreo
+(los "101 casos mas fuerte" del v1 eran 100% el artefacto de la
+pi-gorra): el valor del arc-LP es la caracterizacion SII con
+desigualdades CERRADAS (certifica en tangencia exacta) y la forma
+LP, no potencia extra.
 
 EL PUNTO TANGENTE de j = 1 (bolsillos fase 2): en (Sigma, alpha,
 o1) = (phi, phi, phi), R = 2 phi, w* = 1/phi: el 4-ciclo
@@ -63,10 +72,28 @@ ITER = int(os.environ.get('CC_ITER', '60000'))
 SEED = int(os.environ.get('CC_SEED', '20260817'))
 
 
+PAR_TOL = 1e-12
+
+
+def pares_caben(piezas, R):
+    """H1 (acta, FATAL reparado): dos piezas murales con a+b > R
+    NO son disyuntas a NINGUNA separacion (distancia maxima
+    2R-a-b < a+b): el requisito verdadero es +inf, no la pi-gorra.
+    Precondicion del lema: a_i + a_j <= R para todo par (con
+    igualdad permitida: par diametral tangente, el caso de la
+    tangencia aurea).  ciclo_constructivo siempre tuvo esta guarda;
+    el arc-LP v1 la perdio — y los "101 casos mas fuertes que
+    corona_k5" eran 100% este artefacto."""
+    return all(piezas[i] + piezas[j] <= R + PAR_TOL
+               for i in range(len(piezas))
+               for j in range(i + 1, len(piezas)))
+
+
 def th(a, b, R):
-    if a >= R or b >= R:
-        return PI
-    return theta_w(a, b, R)
+    if a + b >= R - PAR_TOL:
+        return PI                      # legal solo si a+b <= R:
+    return theta_w(a, b, R)            # la guarda vive en
+                                       # pares_caben
 
 
 def arcos(n):
@@ -95,8 +122,14 @@ def requisitos(piezas, R):
 
 
 def dual_factible(piezas, R, tol=1e-12):
-    """El criterio dual: toda familia de arcos disjuntos suma
-    <= 2 pi (enumeracion recursiva de familias disjuntas)."""
+    """Condicion NECESARIA (H3: la dualidad de familias disjuntas
+    NO es suficiente para LPs de arcos circulares en general —
+    contraejemplo puro en el acta; bajo la estructura geometrica
+    coincide empiricamente con el primal, 9500+ instancias, 0
+    discrepancias, pero SIN prueba: el criterio OFICIAL es
+    primal_factible).  Sirve de poda rapida: si falla, infactible."""
+    if not pares_caben(piezas, R):
+        return False                   # H1
     n = len(piezas)
     req = requisitos(piezas, R)
     lista = [(gaps_de(a, n), req[a]) for a in arcos(n)]
@@ -118,6 +151,8 @@ def primal_factible(piezas, R, tol=1e-9):
     """LP primal EXACTO por enumeracion de bases (n <= 5): variables
     d_0..d_{n-1}, restricciones suma = 2 pi, arcos >= r_A, d >= 0.
     Se buscan vertices resolviendo n ecuaciones activas."""
+    if not pares_caben(piezas, R):
+        return False                   # H1
     n = len(piezas)
     req = requisitos(piezas, R)
     filas = [([1.0] * n, 2 * PI, 'eq')]
@@ -177,7 +212,11 @@ def primal_factible(piezas, R, tol=1e-9):
 def corona_arclp(piezas, R):
     """Corona mural k <= 5 por el LP de arcos: mejor sobre ordenes
     ciclicos (fija la primera, permuta el resto, mitad por
-    reflexion)."""
+    reflexion).  CRITERIO OFICIAL: el primal exacto (enumeracion de
+    bases — el politopo es acotado y todo vertice resuelve n filas
+    activas con la igualdad incluida); el dual solo poda (H3)."""
+    if not pares_caben(piezas, R):
+        return False
     base = piezas[0]
     resto = piezas[1:]
     vistos = set()
@@ -185,7 +224,8 @@ def corona_arclp(piezas, R):
         if perm[::-1] in vistos:
             continue
         vistos.add(perm)
-        if dual_factible([base] + list(perm), R):
+        orden = [base] + list(perm)
+        if dual_factible(orden, R) and primal_factible(orden, R):
             return True
     return False
 
@@ -235,16 +275,18 @@ def bloque_B():
         a = corona_arclp(piezas, R)
         b, _ = corona_k5(piezas, R)
         if a and not b:
-            d1 += 1                    # arc-LP mas fuerte que k5
+            d1 += 1
         if b and not a:
-            d2 += 1                    # k5 encuentra y arc-LP no:
-                                       # seria un BUG del lema
-    ok &= check(f"en {n_t} instancias k = 3..5: corona_k5 => arc-LP "
-                f"({d2} violaciones — 0 esperadas: el lema es "
-                f"caracterizacion) y arc-LP sin corona_k5 en {d1} "
-                f"casos (el constructivo es solo suficiente: el "
-                f"arc-LP puede ser estrictamente mas fuerte)",
-                d2 == 0 and n_t > 2500)
+            d2 += 1
+    ok &= check(f"en {n_t} instancias k = 3..5 (H2 reparado: los "
+                f"'101 casos mas fuerte' eran pares fisicamente "
+                f"imposibles, artefacto de la pi-gorra sin guarda): "
+                f"corona_k5 <=> arc-LP con {d1} + {d2} "
+                f"discrepancias — EQUIVALENTES en el muestreo; el "
+                f"valor del arc-LP es la caracterizacion SII con "
+                f"desigualdades cerradas (tangencia) y la forma LP, "
+                f"no potencia extra", d1 == 0 and d2 == 0
+                and n_t > 2500)
     return ok
 
 
@@ -332,13 +374,11 @@ def bloque_D():
     # admisibles: da >= 0, do >= 0, dS <= 0: sigma cae si
     # g_a <= 0, g_o <= 0 y g_S >= 0
     ok &= check(f"gradiente de la ligadura en el punto: d/da = "
-                f"{g_a:+.6f}, d/do = {g_o:+.6f}, d/dS = "
-                f"{g_S:+.6f} — direcciones admisibles (a, o suben; "
-                f"S baja): el 4-ciclo solo NO basta si alguna "
-                f"derivada apunta adentro; el mapa de arriba "
-                f"muestra que el MEJOR ORDEN siempre cabe (los "
-                f"ordenes se relevan): dato para la perturbacion "
-                f"de fase 2", True)
+                f"{g_a:+.6f} <= 0, d/do = {g_o:+.6f} <= 0, d/dS = "
+                f"{g_S:+.6f} >= 0 — LOS TRES SIGNOS EXIGIDOS (H5: "
+                f"el check v1 era True hardcodeado): las "
+                f"direcciones admisibles se alejan de la tangencia",
+                g_a <= 0 and g_o <= 0 and g_S >= 0)
     print(f"      (signos: sigma_a {'<=0 ok' if g_a <= 1e-12 else 'POSITIVO'}, "
           f"sigma_o {'<=0 ok' if g_o <= 1e-12 else 'POSITIVO'}, "
           f"sigma_S {'>=0 ok' if g_S >= -1e-12 else 'NEGATIVO'})")
@@ -378,12 +418,35 @@ def bloque_E():
                 f"phi]: signos de las derivadas de sigma en malla "
                 f"25^3 — max d/da = {peor_a:+.4f} < 0, max d/do = "
                 f"{peor_o:+.4f} < 0, min d/dS = {peor_S:+.4f} > 0: "
-                f"sigma es MONOTONA en V con sigma(punto) = 0 "
-                f"(la identidad) => sigma <= 0 en TODA V — el "
-                f"4-ciclo [g1, g2, w*, m] cabe en la vecindad "
-                f"entera (certificado local del punto tangente, "
-                f"estandar de maximizacion certificada)",
-                peor_a < -0.1 and peor_o < -0.1 and peor_S > 0.5)
+                f"sigma <= 0 (suma consecutiva del 4-ciclo <= 2 pi) "
+                f"en TODA V", peor_a < -0.1 and peor_o < -0.1
+                and peor_S > 0.5)
+    # H4 (acta): sigma <= 0 NO basta — las DIAGONALES del 4-ciclo
+    # (d1+d2 >= theta(o1,m), d2+d3 >= theta(w*,alpha)) no son
+    # redundantes (la desigualdad triangular de theta es FALSA en
+    # parte de V, margen -0.098): certificar el LP COMPLETO del
+    # 4-ciclo (primal exacto) sobre la malla de V
+    fallos_lp = 0
+    malla13 = [i / 12 for i in range(13)]
+    for ta in malla13:
+        for to in malla13:
+            for tS in malla13:
+                a = PHI + DELTA * ta
+                o = PHI + DELTA * to
+                S = PHI - DELTA * tS
+                if S <= 1.0:
+                    continue
+                orden = [a, o, S - 1.0, 1.0]
+                if not primal_factible(orden, a + o):
+                    fallos_lp += 1
+    ok &= check(f"H4: el LP COMPLETO del 4-ciclo (primal exacto, "
+                f"diagonales incluidas) sobre la malla 13^3 de V: "
+                f"{fallos_lp} infactibles — el slack de las d "
+                f"absorbe el deficit diagonal en toda V (la "
+                f"desigualdad triangular de theta es falsa en "
+                f"parte de V y sigma solo no bastaba: hueco "
+                f"logico del v1, cerrado con este certificado)",
+                fallos_lp == 0)
     return ok
 
 

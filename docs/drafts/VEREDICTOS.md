@@ -2659,3 +2659,63 @@ todas; el WIP de fase 2 vendido honestamente (salvo el 0.003).
 reescrito (certificado algebraico completo, dos ramas, tangencia
 exacta en §3); Lean 39. **El dominio j = 0 de thm:gapwritten es
 TEOREMA ALGEBRAICO con tangencia áurea.**
+
+---
+
+## Acta: ronda hostil del lema del LP de arcos (`arcolp.md`) — 2026-08-09
+
+Adversario con reproducción del 5/5, contraejemplos ejecutados,
+clasificación completa de los «101 casos», contraejemplo LP puro a
+la dualidad, verificación FD del gradiente y sondeo del LP completo
+en V.
+
+### VEREDICTO: REFUTADO EN SU ENUNCIADO — núcleo reparado (v2)
+
+1. **[FATAL, H1] La π-gorra como REQUISITO aceptaba órdenes
+   físicamente imposibles**: pr ≥ 1 ⟺ a+b ≥ R, y con a+b > R
+   estricto el requisito real es +∞ (dos murales no son disyuntas a
+   ninguna separación). Contraejemplos: [1.5, 1.5, 0.1] en R = 2
+   (dual y primal True, corona_k5 False, solape material −2.0).
+   REPARADO: precondición «pares caben» (a_i+a_j ≤ R, igualdad
+   permitida — el caso áureo) como guarda en dual/primal/corona.
+2. **[FATAL, H2] «Estrictamente más fuerte que corona_k5 en
+   101/3000» era 100% artefacto de H1**: los 101 tenían pares
+   imposibles; tras reparar, equivalentes 3000/3000. RETRACTADO:
+   el valor del arc-LP es la caracterización SII con desigualdades
+   cerradas + la forma LP, no potencia.
+3. **[GRAVE, H3] La «dualidad LP estándar de matrices de
+   intervalos» era argumento inválido**: los arcos CIRCULARES no
+   son matriz de intervalos ni TU — contraejemplo puro (n = 3, tres
+   arcos de longitud 2 con r = 1.5π: infactible por cobertura
+   doble, invisible a familias disjuntas). REPARADO: el criterio
+   oficial es el PRIMAL EXACTO por enumeración de bases; el dual
+   queda como poda necesaria (coincide empíricamente en 9500+
+   instancias bajo la estructura geométrica, sin prueba —
+   declarado).
+4. **[GRAVE, H4] El certificado de entorno tenía hueco lógico**:
+   σ ≤ 0 no cubre las diagonales del 4-ciclo y la desigualdad
+   triangular de θ es FALSA en parte de V (margen −0.098).
+   REPARADO: el LP COMPLETO del 4-ciclo (primal exacto) sobre
+   malla 13³ de V, 0 infactibles.
+5. [MENOR, H5] El check del gradiente era True hardcodeado.
+   REPARADO: los tres signos exigidos.
+6. [RESISTE, H6] Gradiente verificado por FD (10⁻⁴); contabilidad
+   de σ correcta (θ(α,o₁) = π por frontera legal, no fantasma);
+   C/D/E no contaminados por H1 (el único par con suma = R es
+   (φ,φ), igualdad exacta legal); tolerancias de tangencia bien
+   puestas (10⁻¹² adverso rompe, m−ε mantiene); cobertura de
+   órdenes correcta (12 = 4!/2); la necesidad sin el agujero de H1
+   (en una corona genuina los pares caben automáticamente); el uso
+   con cotas de esquina queda conservador TRAS la reparación (par
+   inflado que no cabe ⟹ infactible, sin testigo en falso); paso
+   de malla razonable (rugosidad ~1.55, cambio entre nodos ~0.01
+   vs márgenes 0.42+).
+
+### Estado tras reparación
+
+`arcolp.py` 5/5 (guarda de pares, primal oficial, LP completo en
+E, signos exigidos en D, bloque B como equivalencia);
+`arcolp.md` v2 reescrito. **El lema v2 con precondición es
+caracterización exacta; la lección para fase 2: las cotas de
+esquina con la guarda son conservadoras — sin ella habrían
+certificado en falso.**
