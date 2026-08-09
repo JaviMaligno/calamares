@@ -1,74 +1,126 @@
-# Inserción por sombras en la plantilla anidada: D4-D5 escrito
+# Inserción por sombras en la plantilla anidada: teorema j ≥ 2
 
-Estado: DRAFT con pruebas (2026-08-09), PRE-ADVERSARIO. Script:
-`code/insercionanidada.py` (5/5). Espejo anidado de `insercion.md`.
+Estado: DRAFT con pruebas (2026-08-09), ADVERSARIADO (acta en
+VEREDICTOS.md, misma fecha). Script: `code/insercionanidada.py`
+(5/5). Espejo anidado de `insercion.md`.
 
 ## 1. El reparto testigo
 
 Plantilla caso (b): u = agujero de α (α top-level en la sartén),
 v = sartén; P tiene m top-level en la sartén y S en el agujero de α;
-F tiene m en el agujero de α. La colocación:
+F tiene m en el agujero de α. Masa suelta: Σ := S + extras + polvo
+(todo lo < m que hay que recolocar; si Σ ≤ 1 la fila de D_m se lo
+traga entero y el intercambio cierra: en adelante Σ ∈ (1, φ]). La
+colocación:
 
-1. La sartén según P, SIN MOVER NADA salvo m: m sale (su disco
-   unidad D_m queda vacante top-level) y entra en el agujero de α
-   según el certificado de F (el contenido > m del agujero es
-   compartido; S sale entera; subárboles rígidos — thm:oblivious).
-2. σ₁ → D_m (fila de uno, σ₁ < 1: siempre legal).
-3. σ₂ mural en la sartén por el Lema de inserción (`insercion.md`,
+1. La sartén TOP-LEVEL según P: solo m se va (su disco unidad D_m
+   queda vacante). m entra en el agujero de α y el INTERIOR del
+   agujero se recoloca según el certificado de F: cuando F colocó m,
+   los ocupantes del agujero eran exactamente los anillos > m que P
+   le asigna (m es el mayor discrepante y F procesa en orden
+   decreciente: nada < m estaba colocado aún), y F certificó ese
+   conjunto + m; cada anillo viaja con su subárbol rígido
+   (thm:oblivious). S (todo lo < m del agujero según P) sale entera;
+   el polvo/extras < m top-level de la sartén salen también.
+2. LLENADO GREEDY de D_m: fila (lem:row) con la masa suelta en orden
+   decreciente hasta la primera pieza que no cabe, s′. El peor caso
+   es (D): s′ = σ₂ con σ₁+σ₂ > 1; s′ puede ser también un extra de
+   la sartén.
+3. s′ mural en la sartén por el Lema de inserción (`insercion.md`,
    Lema A), presupuesto sobre {α, o₁..o_j, D_m como pieza de radio
-   1} a las posiciones REALES de P.
-4. El resto W' = S∖{σ₁,σ₂} + polvo + extras, de masa < 1/φ
-   (cola de m y (D): σ₁+σ₂ > 1 porque la fila del par en D_m falla),
-   como un círculo-fila w* ≤ 1/φ (lem:row), inserción de nuevo.
+   1} a las posiciones REALES de P (la cota de sombra es uniforme en
+   la profundidad; contar D_m entero cubre la fila de dentro). El
+   presupuesto crece en s: cubrir el tope min(Σ/2, φ/2) cubre todo
+   s′ posible.
+4. El resto W″ como círculo-fila w* ≤ 1/φ (lem:row), inserción de
+   nuevo con la sombra de s′ ya contada. La cota de masa es EXACTA:
+   fila colocada + s′ > 1 (la fila falló en s′) y cola(m) ≤ φ dan
+   W″ < φ − 1 = 1/φ. Esto cierra también el caso σ₁+σ₂ ≤ 1 < Σ (el
+   draft v1 lo dejaba abierto: con solo σ₁ en D_m la cota 1/φ no
+   salía).
 
-Régimen sombra (del par de la sartén de P, dos círculos exacto):
-R ≥ α + máx(o₁, 1) y R ≥ o₁+o₂ (j ≥ 2) ⟹ R − x > 2s para toda
-pieza sii s < techo de régimen; la segunda inserción exige además
-R − x > 2/φ para toda pieza.
+## 2. Las dos paredes exactas
 
-## 2. La cobertura (medida con la cascada anidada real)
+**Tope del insertando (incondicional en ω).** El greedy mete primero
+la mayor pieza suelta ℓ₁ (< 1: siempre cabe), luego s′ ≤ ℓ₂ (segunda
+mayor). De ℓ₁+ℓ₂ ≤ Σ y ℓ₁+ℓ₂ ≤ cola(m) ≤ φ:
 
-s_cap(j, ω) := mayor s con ambos presupuestos < 2π − 0.05 sobre el
-dominio (cascada anidada con rank de α barrido y holguras; R = par
-mínimo, el peor por monotonía):
+    s′ ≤ min(Σ/2, φ/2),   exacto, para piezas de S Y para extras.
 
-- j ≥ 3: s_cap = 0.999 para TODO ω: cobertura COMPLETA (todo σ₂ < 1,
-  todo k, p — son masa).
-- j = 2: s_cap ≈ 0.95 para todo ω; la ESQUINA-MASA cubre
-  σ₂ > φ/2 cuando ω > φ−1 (σ₁+σ₂ ≥ 2σ₂ ≥ 1+ω > φ revienta la cola
-  de m; y φ/2 > φ−1 exacto: (2−φ)/2 > 0) ⟹ **D4 = {j = 2,
-  ω ∈ [φ/2, 1)} CUBIERTA ENTERA**; para ω ≤ φ−1 queda la franja
-  σ₂ ∈ [~0.95, 1) DECLARADA.
-- j ≤ 1: NO cubierto — la segunda inserción muere en la navaja
-  exacta o₁ = (1+Σ)/φ → 2/φ contra su régimen 2w* = 2/φ (¡el mismo
-  punto crítico áureo!): territorio de D6, declarado.
+Sin condición alguna en ω — la versión v1 (2σ₂ ≥ 1+ω > φ sii
+ω > φ−1) era innecesariamente débil y declaraba una franja
+{j = 2, ω ≤ φ−1, σ₂ ∈ [0.95, 1)} que en realidad es vacía por masa.
+D4 = {j = 2, ω ∈ [φ/2, 1)} queda subsumida (φ/2 > φ−1 exacto). La
+cota (α−ω)/2 del par del testigo dentro del agujero NO se usa (no
+vale para extras).
+
+**Régimen automático (j ≥ 2, uniforme).** Sea T = {α, o₁..o_j} el
+top-level ≥ m de la sartén, |T| = j+1 ≥ 3, ordenado t₁ ≥ t₂ ≥ t₃…
+La cascada con ρ ≤ φ (convenio de primera copia, adversariado en la
+sartén; toda la masa suelta y m están bajo cada t):
+
+    t₃ ≥ (1+Σ)/φ,   t₂ ≥ (t₃+1+Σ)/φ ≥ (1+Σ)(1+φ)/φ² = 1+Σ ≥ 2
+
+(identidad φ² = 1+φ). El par de P (dos círculos en un disco sii la
+suma de radios cabe) da R ≥ t₁+t₂, luego para TODA pieza x del
+presupuesto: R − x ≥ R − t₁ ≥ t₂ ≥ 2 > φ ≥ 2s′ y 2 > 2/φ = 2w*.
+Ambos regímenes son estrictos con margen 2−φ, sin usar
+α ≥ σ₁+σ₂+ω. El viejo régimen «s < (1+ω)/2» descansaba en la
+premisa o₁ ≥ 1+ω, que NO es una necesidad de los ocupantes (solo α
+admite a m en su agujero); el lema automático lo reemplaza y lo
+mejora.
+
+## 3. La cobertura (medida con la cascada anidada real)
+
+Con las dos paredes, el único requisito restante es el PRESUPUESTO:
+ambas sumas de sombras < 2π en s = s′ y en w* = 1/φ. Medido por
+instancia (bisección s_cap con `cascada_anidada` real, suelo honesto
+α ≥ 1+ω, rank de α barrido, holguras + esquinas deterministas con
+holgura 1 exacta, Σ → 1⁺, Σ = φ, ranks extremos; R = par mínimo, el
+peor por monotonía; margen 0.05):
+
+- j ≥ 2: presupuestos bajo 2π − 0.05 hasta el objetivo por instancia
+  min(Σ/2, φ/2) — el tope exacto de s′ — con CERO fallos (s_cap
+  observados ≥ 0.94 en j = 2, 0.999 en j ≥ 3): cobertura COMPLETA
+  en todo ω, todo σ₂ y todos los extras.
+- j ≤ 1: NO cubierto — muere por PRESUPUESTO en la navaja exacta
+  o₁ = (1+Σ)/φ → 2/φ contra el régimen de w*, 2w* = 2/φ: la razón
+  (w*+α)/(R−w*) = (α+1/φ)/(α+2/φ−1/φ) = 1 IDÉNTICA en α (¡el mismo
+  punto crítico áureo!), arcsin → π/2 y la sola α come π: territorio
+  de D6, declarado.
 
 **Teorema (anidado-escrito, j ≥ 2).** En la plantilla anidada con
 j ≥ 2 ocupantes, ρ ≤ φ implica que el intercambio no se bloquea,
-para todo perfil (k, p libres por masa) y:
-- j ≥ 3: todo ω y todo σ₂;
-- j = 2: todo ω > φ−1 (en particular D4 entera); y σ₂ ≲ 0.95 si
-  ω ≤ φ−1.
-Prueba: el reparto de §1; la legalidad de (1)-(2) es exacta; (3)-(4)
-por el Lema A con el presupuesto certificado (mismo estándar que
-thm:D1written: una maximización certificada por celda). ∎
+para todo ω, todo σ₂, todo perfil (k, p libres por masa) y todos los
+extras/polvo de la sartén.
+Prueba: el reparto de §1; la legalidad de (1)-(2) es exacta
+(certificado de F + maximalidad de m + lem:row); las paredes de §2
+son exactas; (3)-(4) por el Lema A con el presupuesto certificado
+(mismo estándar que thm:D1written: una maximización certificada por
+celda). ∎
 
-D5 (k ≥ 4 fuera de la rama de reducción) queda absorbido en los
-rangos cubiertos: el tamaño del perfil no aparece.
+D4 y D5 (k ≥ 4 fuera de la rama de reducción) quedan absorbidas en
+el teorema: ni ω ni el tamaño del perfil aparecen.
 
-## 3. Franjas declaradas (pinza dedicada pendiente)
+## 4. Franja declarada (pinza dedicada pendiente)
 
-{j ≤ 1} (D6: j = 0 con smalls, j = 1 con la navaja) y
-{j = 2, ω ≤ φ−1, σ₂ ∈ [s_cap, 1)}. Ambas siguen cerradas
-computacionalmente por la campaña `coronanidada` (adversariada);
-convertirlas exige repartos dedicados (candidatos: H_m para W' con
-ω < 1/2; partición de w* en dos círculos bajo el régimen; la pinza
-I3-anidada de las campañas como techo de dominio).
+{j ≤ 1} entera (D6: j = 0 con smalls; j = 1 con la navaja). Sigue
+cerrada computacionalmente por la campaña `coronanidada`
+(adversariada); convertirla exige repartos dedicados (candidatos:
+H_m para W″ con ω < 1/2; partición de w* en dos círculos bajo el
+régimen; la pinza I3-anidada de las campañas como techo de dominio).
 
-## 4. Estatus
+## 5. Estatus
 
-Exacto: legalidad del reparto (certificado de F + D_m + lem:row),
-(D), esquina-masa (2σ₂ ≥ 1+ω > φ ⟺ ω > φ−1), régimen por pares.
-Numérico-certificado: los s_cap (bisección por instancia sobre el
-dominio muestreado con márgenes ≥ 0.05). Controles: sin la necesidad
-de par el presupuesto revienta; la esquina-masa es tight en ω = φ−1.
+Exacto: legalidad del reparto (certificado de F + maximalidad de m +
+D_m + llenado greedy con lem:row), cota W″ < 1/φ, tope del
+insertando s′ ≤ min(Σ/2, φ/2) (incondicional), régimen automático
+j ≥ 2 (cadena t₂ ≥ 1+Σ con φ² = 1+φ; margen 2−φ), navaja j = 1
+(razón idéntica 1). Numérico-certificado: los presupuestos < 2π
+sobre el dominio muestreado (bisección por instancia + esquinas
+deterministas, margen ≥ 0.05); el cierre formal del sup es el mismo
+lema de optimización pendiente que en `insercion.md`. Controles: sin
+la necesidad de par el presupuesto revienta; el tope es tight en
+s′ = φ/2 (cola(m) = φ exacta, ℓ₁ = ℓ₂ = φ/2) y sigue en régimen con
+margen 2−φ; el lema de régimen se valida en el muestreo (0 fallos
+esperados y observados).

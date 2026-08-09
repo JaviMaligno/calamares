@@ -1953,3 +1953,166 @@ optimización dirigida + deterministas euclidianas; margen mínimo
 1.02), no teorema. El lema de optimización que lo cierre en
 general es el análogo del lema del bolsillo-φ y queda como
 siguiente pieza.
+
+---
+
+## Acta 2026-08-09 — Inserción anidada j ≥ 2 (ronda hostil)
+
+**Objeto**: `docs/drafts/insercionanidada.md` (teorema
+anidado-escrito, inserción por sombras en la plantilla anidada) y
+`code/insercionanidada.py`. Ataque sobre las líneas A1–A7 con
+cálculo propio (sympy independiente, sonda de ascenso coordinado
+sobre el politopo de cascada, análisis de casos del régimen).
+
+**Veredicto hostil: REFUTADA LA COBERTURA TAL COMO ESTABA ESCRITA —
+REPARADA Y FORTALECIDA.** El teorema v1 era a la vez incorrecto en
+un flanco (vendía j = 2, ω ≤ φ−1 hasta σ₂ ≈ 0.95 con un régimen
+declarado (1+ω)/2 que no lo soportaba, apoyado en la premisa falsa
+o₁ ≥ 1+ω) y débil en otro (la franja declarada
+{j = 2, ω ≤ φ−1, σ₂ ∈ [0.95, 1)} es VACÍA por masa). Tenía además
+dos huecos de reparto (σ₁+σ₂ ≤ 1 < Σ sin cota 1/φ; s′ = extra sin
+pared ni régimen). Tras las reparaciones el teorema queda MÁS
+FUERTE: j ≥ 2 COMPLETO (todo ω, todo σ₂, todo perfil, extras
+incluidos); la única franja declarada es {j ≤ 1}. Script 5/5 en
+todas las corridas.
+
+### Hallazgos ALTA
+
+1. **El régimen del enunciado descansaba en la premisa injustificada
+   o₁ ≥ 1+ω.** Los ocupantes no tienen relación alguna con la pared
+   de α (solo α admite a m en su agujero: α ≥ 1+ω). Con la premisa
+   caída, el techo declarado s < (1+ω)/2 quedaba sin soporte, y el
+   teorema afirmaba cubrir j = 2, ω ≤ φ−1 hasta σ₂ ≈ 0.95 — por
+   encima de su propio techo (1+ω)/2 ≤ φ/2 < 0.95: inconsistencia
+   interna (bloque A v1 lo daba por [ENUNCIADO] sin verificar).
+   REPARADO con un lema exacto MÁS FUERTE (régimen automático,
+   j ≥ 2): con |T| = j+1 ≥ 3 piezas top-level {α, o₁..o_j}, la
+   cascada (convenio de primera copia, heredado de la sartén) da
+   t₃ ≥ (1+Σ)/φ y t₂ ≥ (t₃+1+Σ)/φ ≥ (1+Σ)(1+φ)/φ² = 1+Σ ≥ 2
+   (identidad φ² = 1+φ, sympy); el par de P da R ≥ t₁+t₂, luego
+   R − x ≥ t₂ ≥ 2 > φ ≥ 2s′ y 2 > 2/φ = 2w* para TODA pieza del
+   presupuesto: ambos regímenes estrictos con margen 2−φ, uniformes
+   en ω, sin usar siquiera α ≥ σ₁+σ₂+ω. Validado además en el
+   muestreo (0 fallos en ~17k instancias j ≥ 2).
+2. **Hueco de reparto: σ₁+σ₂ ≤ 1 < Σ.** El testigo v1 (σ₁ → D_m,
+   σ₂ mural) solo daba W′ < 1/φ vía (D) σ₁+σ₂ > 1; si el par cabe
+   en D_m pero Σ > 1, la cota 1/φ del círculo-fila no salía y el
+   teorema no cerraba esa rama. REPARADO: LLENADO GREEDY de D_m
+   (fila decreciente hasta la primera pieza que no cabe, s′); por
+   construcción fila + s′ > 1 y cola(m) ≤ φ dan W″ < φ−1 = 1/φ
+   EXACTO; (D) pasa de hipótesis a peor caso (s′ = σ₂), y el
+   presupuesto de s′ ≤ σ₂ queda cubierto por monotonía en s.
+3. **Hueco de reparto: s′ puede ser un EXTRA de la sartén.** El
+   draft v1 barría polvo/extras a w* pero presupuestaba solo σ₂ con
+   la cota (α−ω)/2 del par del agujero — que NO vale para extras
+   (viven en v, no en u). Un extra grande como primer no-cabe del
+   greedy quedaba sin pared, sin régimen y fuera del objetivo
+   medido. REPARADO: tope EXACTO uniforme s′ ≤ ℓ₂ ≤ min(Σ/2, φ/2)
+   (ℓ₁ entra primero; ℓ₁+ℓ₂ ≤ Σ y ℓ₁+ℓ₂ ≤ cola(m) ≤ φ), válido
+   para piezas de S y extras por igual; el régimen automático del
+   hallazgo 1 cubre 2s′ ≤ φ < 2 sin distinguir procedencia; el
+   bloque B mide la cobertura hasta ese tope por instancia.
+
+### Hallazgos MEDIA
+
+4. **La esquina-masa estaba mal atribuida y la franja mal
+   delimitada.** σ₂ > φ/2 (en general s′ > min(Σ/2, φ/2)) es vacía
+   SIN condición en ω: 2σ₂ > φ ≥ cola(m), exacto. El draft la
+   condicionaba a ω > φ−1 (vía 2σ₂ ≥ 1+ω) y por eso declaraba la
+   franja {j = 2, ω ≤ φ−1, σ₂ ∈ [0.95, 1)} — VACÍA por masa
+   (φ/2 < 0.95): se declaraba como pendiente una región que no
+   existe, mientras el hueco real del viejo régimen (σ₂ ∈
+   ((1+ω)/2, φ/2]) quedaba sin nombrar. Con los hallazgos 1 y 3,
+   j = 2 queda COMPLETO para todo ω y la franja declarada se reduce
+   a {j ≤ 1}. D4 y D5 subsumidas; el borde ω = φ−1 desaparece del
+   enunciado (el tope tight es ahora s′ = φ/2 con cola(m) = φ
+   exacta, cubierto con margen 2−φ).
+5. **Generador del bloque B con suelo espurio α ≥ Σ+ω.** No es una
+   necesidad (la suma de radios de un empaquetamiento no está
+   acotada por el radio del disco): excluía instancias legales con
+   1+ω ≤ α < Σ+ω, en dirección NO conservadora (la sombra de α
+   crece con α pero R = par también: ambiguo). REPARADO: suelo
+   honesto α ≥ 1+ω (la cola de α la pone `cascada_anidada`);
+   esquinas deterministas añadidas (holgura 1 exacta con empates de
+   cascada, Σ → 1⁺, Σ = φ, ranks extremos de α, ω hasta 0.05 y
+   0.999; 816 configuraciones); cobertura POR INSTANCIA hasta el
+   tope (17 359 instancias j ≥ 2, 0 fallos) en vez de solo la celda
+   D4.
+6. **Paso (1) impreciso: «sin mover nada salvo m».** Los anillos
+   > m del agujero de α SÍ se recolocan (interior del agujero,
+   según el certificado de F — posiciones de F ≠ posiciones de P), y
+   polvo/extras top-level < m de la sartén también se mueven (a
+   D_m/w*). La legalidad en sí RESISTIÓ el contraste con
+   thm:oblivious (~303-341): m es el mayor discrepante ⟹ cuando F
+   colocó m nada < m estaba colocado y los ocupantes > m del
+   agujero coinciden en F y P por maximalidad; F certificó ese
+   conjunto + m; subárboles rígidos; el interior no toca la sartén.
+   Redacción reparada en draft y docstring.
+
+### Hallazgos BAJA
+
+7. **Bloque C con cascada local inflada** (suelo 1+ω en ocupantes,
+   heredando la premisa falsa del hallazgo 1) y rango de s2 del
+   viejo régimen; además contaba como obligatorias inserciones
+   fuera del presupuesto del Lema A. REPARADO: suelo 1.0, s2 hasta
+   el tope min(Σ/2, φ/2), guardas de régimen Y de presupuesto
+   (2 090 empaquetamientos, 0 fallos en ambas inserciones).
+8. **La navaja j = 1 se verificó y es EXACTA y más limpia de lo
+   vendido**: con o₁ = 2/φ y R = α+o₁, la razón de la sombra de α
+   para w* = 1/φ es (α+1/φ)/(α+2/φ−1/φ) = 1 IDÉNTICA en α (sympy):
+   el régimen falla con igualdad en el límite Σ → 1 y la sola α
+   come π. La franja {j ≤ 1} está bien declarada y no se vende de
+   más (el teorema exige j ≥ 2); anotado que muere por PRESUPUESTO
+   (para Σ > 1 el régimen estricto sobrevive con margen (Σ−1)/φ,
+   pero el presupuesto revienta cerca de la esquina). E(a) se
+   mantiene como control de dirección (sin el par, la sombra de α
+   incluye π); E(b) actualizado al tope nuevo.
+
+### Verificaciones que resistieron
+
+- Legalidad del intercambio (A1): certificado de F + maximalidad de
+  m + orden decreciente, contrastado línea a línea con
+  thm:oblivious; S sale entera; X_α^{>m} compartido; m coexiste con
+  ellos por el certificado; M viaja dentro de m; D_m queda vacante
+  top-level per P.
+- Presupuesto de σ₂ (A2): posiciones reales de P; D_m contado
+  entero (radio 1) es conservador (cubre a σ₁ y a la fila); la cota
+  de sombra es uniforme en la profundidad (Lema A); R ≥ α+máx(o₁,1)
+  y R ≥ o₁+o₂ son necesidades de par exactas (dos círculos).
+- La segunda inserción comprueba su régimen y suma la sombra de s′
+  (bisección y cobertura, bloque B; euclidiano, bloque C).
+- s_cap medidos estables: j = 2 ≥ 0.949, j ≥ 3 = 0.999, en las
+  tres semillas; sonda hostil independiente (ascenso coordinado
+  sobre holguras/Σ/ω/rank, multistart): sup del presupuesto en el
+  objetivo 5.2115 (j = 2) y 4.5649 (j = 3), margen ≥ 1.07 sobre 2π.
+- D5: k y p no aparecen (W″ < 1/φ como un solo círculo-fila): masa,
+  no cantidad.
+
+### Reparaciones aplicadas
+
+- `docs/drafts/insercionanidada.md`: reescrito — reparto con
+  llenado greedy y extras; §2 con las dos paredes exactas (tope
+  min(Σ/2, φ/2) y régimen automático t₂ ≥ 1+Σ); teorema j ≥ 2 para
+  todo ω/σ₂/perfil/extras; franja reducida a {j ≤ 1}; estatus
+  exacto vs numérico actualizado.
+- `code/insercionanidada.py`: bloque A con las identidades nuevas
+  (tope, cadena t₂ ≥ 1+Σ, W″ < 1/φ del greedy, navaja con razón
+  idéntica 1); bloque B con suelo honesto, objetivo por instancia,
+  esquinas deterministas y validación del lema de régimen; bloque C
+  con dominio corregido y guardas; bloques D-E actualizados. 5/5.
+
+### Estado del script
+
+5/5 en verde en las cuatro corridas: CC_ITER=60000 por defecto
+(seed 20260811), CC_ITER=60000 CC_SEED=777, CC_ITER=150000
+CC_SEED=31337 y la corrida final por defecto. Cifras (150k): 50 816
+instancias en B (42 461 j ≥ 2, 0 fallos de presupuesto, 0 fallos de
+régimen), 5 300 empaquetamientos euclidianos en C con 0 fallos.
+
+**Límite declarado**: los presupuestos < 2π sobre el dominio
+(bisección por instancia + esquinas deterministas + sonda hostil,
+margen ≥ 0.05 en cobertura y ≥ 1.07 en la sonda) son
+numérico-certificados, no teorema; el cierre formal del sup es el
+mismo lema de optimización pendiente que en `insercion.md`. La
+franja {j ≤ 1} queda para pinza dedicada (candidatos en el draft),
+cubierta computacionalmente por `coronanidada`.
