@@ -2116,3 +2116,121 @@ numérico-certificados, no teorema; el cierre formal del sup es el
 mismo lema de optimización pendiente que en `insercion.md`. La
 franja {j ≤ 1} queda para pinza dedicada (candidatos en el draft),
 cubierta computacionalmente por `coronanidada`.
+
+---
+
+## Acta: gap lemma j ≤ 1 (ronda hostil)
+
+Fecha: 2026-08-09. Objetivo: `docs/drafts/gaplemma.md` +
+`code/gaplemma.py` (corona directa ≤ 5 piezas, necesidad del trío,
+suelos y ligaduras de masa). Líneas A1–A7 del encargo, todas
+ejecutadas.
+
+### Veredicto
+
+**CONFIRMADO CON CORRECCIONES.** El mecanismo central (corona
+directa k ≤ 5 exacta por instancia + necesidad del trío por P1 +
+partición) sobrevive. Dos agujeros reales en la instrumentación
+—el suelo E4 con Σ total (anticonservador) y la no-apilabilidad
+afirmada sin check— reparados; con las reparaciones el barrido
+sigue en 0 fallos y aparece una estructura exacta nueva (el punto
+áureo del trío). 5/5 en verde tras reparar, estrés incluido.
+
+### Hallazgos ALTA
+
+- **A2 — Suelo E4 anticonservador (generador v1)**: el suelo
+  α ≥ Σ_S+X_α+ω usa la masa DEL AGUJERO (Σ_S), pero el generador
+  metía Σ total (S + extras + polvo). Los extras top-level de la
+  sartén no están en el agujero: el suelo real es MENOR y el
+  barrido v1 nunca visitaba α ∈ [máx(1+ω, (1+Σ+X)/φ), Σ+X+ω).
+  Reparado: Σ_S ∈ [0, Σ] independiente en B y C + esquinas con
+  Σ_S ∈ {0, Σ/2, Σ} + suelo mínimo absoluto α = (1+Σ)/φ con
+  trade-off s′/w*. Rebarrido: 0 fallos (la región nueva aguanta,
+  pero el margen real es más fino — ver MEDIA).
+- **A1 — No-apilabilidad sin verificar**: el draft decía «R₃ <
+  máx+2mín: verificado en el barrido» y el script NO lo
+  verificaba. Peor: fuera del dominio es FALSO (ej. α = 2.6,
+  o₁ = 1: R₃ = 3.628 > M = 3.0; con o₁ < 2/φ hay violaciones
+  reales). Reparado doble: (i) cota BLINDADA incondicional
+  R ≥ máx(pares, mín(R₃, M)) con M = mín par (máx+2mín)
+  (dicotomía: par apilable a R_real ⟹ R_real ≥ M), el teorema ya
+  no depende de la afirmación; (ii) CHECK explícito en bloque C:
+  en las instancias con trío activo (R₃ > pares; 346–908 por
+  corrida), R₃ ≤ M con 0 violaciones ⟹ mín(R₃, M) = R₃ en el
+  dominio.
+
+### Hallazgos MEDIA
+
+- **El punto áureo del trío (estructura exacta nueva)**: el margen
+  M − R₃ se anula EXACTAMENTE en (α, o₁) = (2, 2/φ): pr(α,o₁) = 1
+  y pr(α,m)+pr(o₁,m) = 1 (sympy; o₁ = 2/φ raíz de o₁²+2o₁−4 = 0),
+  suma del trío = 2π exacta en R = o₁+2, y además α+o₁ = o₁+2 =
+  1+√5: pares = R₃ = M colapsan (el intervalo peligroso [M, R₃)
+  es vacío justo donde el margen muere). El suelo o₁ ≥ (1+Σ)/φ >
+  2/φ es lo que mantiene R₃ ≤ M en el dominio: el check no es
+  decorativo. Documentado en §3 y check simbólico en bloque A.
+- **Margen del núcleo j = 0 sobrestimado**: el 0.021 del v1 venía
+  del suelo inflado Σ+ω. Con el suelo honesto mínimo
+  α = máx(1+ω, (1+Σ)/φ) el margen real es ≥ 0.0073 — positivo
+  pero fino. Draft y check corregidos sin maquillar.
+- **A7 — Estatus inflado**: «maximización certificada ∎» sin
+  distinguir el criterio exacto por instancia del sup muestreado.
+  Añadido §6: exacto = reparto/P1/cota blindada/punto
+  áureo/ligaduras/k ≤ 5 por instancia/límite α → ∞; el sup sobre
+  la caja es barrido + esquinas con el MISMO lema de optimización
+  pendiente que insercion/insercionanidada. La frase «la
+  plantilla anidada queda ENTERA» se mantiene con el asterisco
+  del estándar (j ∈ {0,1} ∪ j ≥ 2 sin hueco; extras en Σ ✓).
+
+### Hallazgos BAJA
+
+- **Límite α → ∞ solo 3 puntos y sin argumento**: añadida la
+  fórmula límite (θ(α,x) → 2 asin √x; el π diametral (α,1)
+  absorbe θ(α,s′) ≈ 2.24 < π por camino largo; total π +
+  2 asin √(1/φ) = 4.951 < 2π, margen 1.33) + α = 10⁴ en j = 0 y
+  j = 1 (navaja y holgura). [En la ronda, la primera cota burda
+  del adversario sumaba los dos θ de α y daba 7.19 > 2π: la
+  absorción por el camino largo es necesaria en el argumento.]
+- **W″ en esquinas j = 1**: faltaba el término Σ−1 en la ligadura
+  (solo Σ−2s′); añadido mín(1/φ, Σ−1, Σ−2s′) (draft §2 ya lo
+  enuncia completo). Las esquinas v1 eran conservadoras (w* más
+  grande), no un fallo.
+- **ω y o₁ poco barridos**: ω hasta 3.0 en los generadores (antes
+  1.4) y ω ∈ {2, 3} en esquinas; o₁ con holgura determinista
+  hasta 20 (monotonía cubierta por puntos, no supuesta); doble
+  suelo α = o₁ = (1+Σ)/φ (la esquina que el generador v1 casi no
+  tocaba). A4 verificado: 24 permutaciones ⊇ 12 órdenes cíclicos
+  de 5 piezas, exhaustivo; ciclos de 3–4 piezas idem; k ≤ 2
+  trivial por suma. A1(ii): 3 piezas = ciclo único ✓. A1(iii):
+  R₃ cota del R real de P (P empaqueta el trío top-level; θ
+  decrece en R) ✓; j = 0 sin trío: cierra con R = α+1 ✓.
+
+### Reparaciones aplicadas
+
+- `code/gaplemma.py`: generadores B/C con Σ_S ∈ [0, Σ] honesta y
+  ω ≤ 3; `M_apilable` + `R_trio_blindada` (cota incondicional);
+  check explícito de no-apilabilidad (0 violaciones en activas);
+  check simbólico del punto áureo (bloque A, sympy); esquinas
+  nuevas (Σ_S ∈ {0, Σ/2, Σ}, suelo mínimo con trade-off s′/w*,
+  doble suelo, o₁ hasta 20, α = 10⁴, ω hasta 3); límite α → ∞
+  por fórmula y también en j = 1; margen del núcleo con suelo
+  honesto; ligadura W″ completa en esquinas.
+- `docs/drafts/gaplemma.md`: §2 con Σ_S separada y ligadura W″
+  completa; §3 con la cota blindada, el check y el punto áureo;
+  §4 con el barrido honesto y el margen fino; §5 sin hueco entre
+  teoremas; §6 de estatus (exacto vs numérico-certificado).
+
+### Estado del script
+
+5/5 en verde en tres corridas: CC_ITER=60000 por defecto (seed
+20260812), CC_ITER=150000 CC_SEED=777 (50 000 instancias j = 0 +
+25 000 j = 1, 908 tríos activos, 0 violaciones, 0 fallos),
+CC_ITER=60000 CC_SEED=31337. Sonda del adversario (scratchpad):
+40k j = 0 + 30k j = 1 con suelo honesto, 0 fallos; malla fina en
+dominio 6 746 tríos activos con R₃ ≤ M siempre (margen mínimo
+0.0039 en (α, o₁) → (2, 2/φ), el punto áureo).
+
+**Límite declarado**: la corona cabe en todo el dominio es
+numérico-certificado (sup muestreado + esquinas), no teorema; el
+cierre formal es el lema de optimización pendiente común. La cota
+del trío, en cambio, queda blindada como teorema incondicional.
