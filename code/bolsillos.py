@@ -238,6 +238,33 @@ def bloque_C():
                 f"las theta (todas decrecen), no por el bolsillo",
                 bolsillo(2, 1, 3) > bolsillo(2, 1, 4)
                 > bolsillo(2, 1, 10))
+    # (d2) IDENTIDAD NUEVA (hallazgo de fase 2, verificada a 40
+    #     digitos con mpmath): theta(phi, 1/phi) + theta(1/phi, 1)
+    #     + theta(1, phi) = pi EXACTO en R = 2 phi — el 4-ciclo
+    #     {phi, phi, 1/phi, 1} del punto peligroso de j = 1 es
+    #     EXACTAMENTE tangente (suma 2 pi), y el 5-ciclo con
+    #     s' = phi/2 suma pi + 4 asin(1/sqrt3) = 5.6035..., LA
+    #     MISMA constante de la esquina de R2b (f(phi)f(phi/2) =
+    #     1/3 en R = 2 phi).  El punto peligroso de j = 1, la
+    #     esquina de R2b y el bolsillo aureo de thm:DP son la misma
+    #     geometria.
+    import math as _m
+    Rg2 = 2 * PHI
+    def _f(x):
+        return x / (Rg2 - x)
+    s_id = (2 * _m.asin(_m.sqrt(_f(PHI) * _f(1 / PHI)))
+            + 2 * _m.asin(_m.sqrt(_f(1 / PHI) * _f(1.0)))
+            + 2 * _m.asin(_m.sqrt(_f(1.0) * _f(PHI))))
+    c5 = 4 * _m.asin(_m.sqrt(_f(PHI) * _f(PHI / 2))) + s_id
+    ok &= check(f"(d2) IDENTIDAD: theta(phi,1/phi) + theta(1/phi,1)"
+                f" + theta(1,phi) = {s_id:.12f} = pi en R = 2 phi "
+                f"(tangencia exacta del 4-ciclo del punto peligroso"
+                f" j = 1); el 5-ciclo con s' = phi/2 = "
+                f"{c5:.10f} = pi + 4 asin(1/sqrt3) (la constante de"
+                f" la esquina R2b: f(phi)f(phi/2) = 1/3)",
+                abs(s_id - PI) < 1e-12
+                and abs(c5 - (PI + 4 * _m.asin(1 / _m.sqrt(3.0))))
+                < 1e-12)
     # (d) la tangencia aurea es real: en Sigma = phi, alpha = phi,
     #     s' = phi/2 EXACTO = p: la corona cabe tangente
     piezas = sorted([PHI, 1.0, PHI / 2, 1 / PHI - 1e-9],
@@ -255,6 +282,26 @@ def M_apilable3(a, b, c):
     tr = [a, b, c]
     return min(max(x, y) + 2 * min(x, y)
                for i, x in enumerate(tr) for y in tr[i + 1:])
+
+
+def _lp4(t12, t23, t34, t41, t13, t24):
+    """Suficiencia k = 4 (LEMA): existen separaciones d_i >= theta
+    consecutivas con suma 2 pi y ambas diagonales cubiertas por los
+    DOS lados sii, con S = 2 pi - suma(theta_consec) >= 0,
+      A' + A'' <= S  y  B' + B'' <= S,
+    donde A' = (t13 - t12 - t23)+, A'' = (t13 - t34 - t41)+,
+    B' = (t24 - t23 - t34)+, B'' = (t24 - t41 - t12)+ (LP de ciclo:
+    los dos pares de restricciones particionan los e_i; la
+    realizacion en distancias acumuladas valida los 6 pares:
+    4 consecutivos + 2 diagonales)."""
+    S = 2 * PI - (t12 + t23 + t34 + t41)
+    if S < -1e-12:
+        return False
+    Ap = max(0.0, t13 - t12 - t23)
+    App = max(0.0, t13 - t34 - t41)
+    Bp = max(0.0, t24 - t23 - t34)
+    Bpp = max(0.0, t24 - t41 - t12)
+    return Ap + App <= S + 1e-12 and Bp + Bpp <= S + 1e-12
 
 
 def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000):
@@ -297,11 +344,30 @@ def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000):
         else:
             ps.append(ps[0])           # j = 0: dos huecos del par
         ps.sort(reverse=True)
-        okP = (trio_ok
+        sup_ok = bolsillo(max(sp_hi, 1e-9), max(wst_hi, 1e-9),
+                          R_lo) <= 1.0
+        okP = (trio_ok and sup_ok
                and max(sp_hi, wst_hi) <= ps[0] + 1e-12
-               and min(sp_hi, wst_hi) <= ps[1] + 1e-12
-               and bolsillo(max(sp_hi, 1e-9), max(wst_hi, 1e-9),
-                            R_lo) <= 1.0)
+               and min(sp_hi, wst_hi) <= ps[1] + 1e-12)
+        # modo k = 4: un pequeno EN EL CICLO [g1, g2, chico, m] (el
+        # otro al mejor bolsillo).  theta's con piezas ALTAS en R_lo
+        # (cota monotona valida); LP de ciclo _lp4; el pequeno del
+        # bolsillo va al hueco (g1, g2) del ciclo (DIC en su gap) y
+        # los super-bolsillos validan sus pares (sup_ok, g's >= 1).
+        if not okP and g2l is not None and sup_ok:
+            def _thh(x, y):
+                if x >= R_lo or y >= R_lo:
+                    return PI
+                return theta_w(x, y, R_lo)
+            p12 = bolsillo(g1l, g2l, R_hi)
+            for chico, otro in ((wst_hi, sp_hi), (sp_hi, wst_hi)):
+                if otro > p12 + 1e-12 or chico <= 0:
+                    continue
+                if _lp4(_thh(g1h, g2h), _thh(g2h, chico),
+                        _thh(chico, 1.0), _thh(1.0, g1h),
+                        _thh(g1h, chico), _thh(g2h, 1.0)):
+                    okP = True
+                    break
         if okP:
             nP += 1
             continue
@@ -309,16 +375,9 @@ def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000):
         if cabe:
             nF += 1
             continue
-        # DIVISION DIRIGIDA a la condicion que falla: sub-bolsillo
-        # -> partir Sigma (baja los topes de masa) o la pieza del
-        # hueco flojo; trio -> partir piezas
         anchos = sorted(((box[j] - box[i]) / esc, k)
                         for k, (i, j, esc) in enumerate(dims))
         k = anchos[-1][1]
-        if not trio_ok and len(dims) >= 3:
-            k = anchos[-1][1] if anchos[-1][1] != 0 else                 anchos[-2][1]
-        elif okP is False and trio_ok and (box[1] - box[0]) > 1e-7:
-            k = 0                      # Sigma manda en los topes
         i, j, _ = dims[k]
         m = (box[i] + box[j]) / 2
         b1, b2 = list(box), list(box)
