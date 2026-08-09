@@ -1252,7 +1252,8 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
 \texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
 \texttt{optimizacion} (5/5), \texttt{repack} (5/5),
-\texttt{r2bcert} (5/5) and \texttt{bolsillos} (3/3).
+\texttt{r2bcert} (5/5), \texttt{arcolp} (5/5) and
+\texttt{bolsillos} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3220,9 +3221,36 @@ with $\alpha$ on its cascade floor -- where the cap
 $s'=\varphi/2$ is \emph{tangent} to the golden pocket
 $b_2(\varphi,1)=\varphi/2$ of Theorem~\ref{thm:DP}'s
 counterexample; the second cap closes with exact minimum
-$(3-\sqrt5)/4$ (script \texttt{bolsillos}, 3/3, adversarial round:
-the quartet cell is a theorem, its critical corner the golden
-pocket itself).
+$(3-\sqrt5)/4$ (the quartet cell is a theorem, its critical corner
+the golden pocket itself). The remaining bounded-corona domains --
+the $j=1$ quintet and the $k\le2$ hole cells -- are certified by
+subdivision as well, on two new exact tools: an \emph{arc-LP
+characterization} of small mural coronas (feasibility of the
+per-arc requirement system is equivalent to the corona, with the
+pairs-fit precondition; its disjoint-family dual serves as pruning
+and an exact base-enumeration primal as the criterion -- closed
+inequalities, so it certifies \emph{at} tangency), and a
+closed-form feasibility test for the critical $4$-cycle
+($-\sigma\ge\max(B_1,B_2)$: the two diagonal NS-$2$ deficits
+against the slack). The binding frontier turned out to be an
+entire \emph{tangent curve}: the trio sum
+$\theta(a,o)+\theta(o,1)+\theta(1,a)$ at $R=a+o$ equals $2\pi$
+exactly along a curve running from the golden point $(2,2/\varphi)$
+through $(3/2,3/2)$ -- where $\theta(3/2,1;3)=\pi/2$ exactly -- to
+its mirror image, the boundary of the trio-necessity band; on the
+curve the corona is handled \emph{by construction} (the trio is
+exactly tangent and the small pieces insert sub-pocket at zero
+angular cost), with the golden endpoints -- where pair sums, $R_3$
+and the stackability threshold all collapse -- excluded into
+certified neighbourhoods. Behind it all sits one more exact golden
+identity, kernel-checked in Lean:
+$\theta(\varphi,1/\varphi)+\theta(1/\varphi,1)+\theta(1,\varphi)
+=\pi$ at $R=2\varphi$, which makes the dangerous $4$-cycle of the
+$j=1$ cell exactly tangent and ties its $5$-cycle to the
+shared-root corner constant $\pi+4\arcsin(1/\sqrt3)$ (scripts
+\texttt{arcolp} and \texttt{bolsillos}, 5/5 each, three
+adversarial rounds -- one of which refuted and repaired the arc-LP
+statement itself).
 
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
