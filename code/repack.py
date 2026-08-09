@@ -103,12 +103,12 @@ def genera_bosque(rng, w, R, depth=0):
     """Bosque aleatorio factible: anillos top-level en la sarten,
     hijos recursivos en las bolas-agujero."""
     n = rng.randrange(1, 4) if depth == 0 else rng.randrange(0, 3)
-    radios = sorted((rng.uniform(0.25, 0.75) * R for _ in range(n)),
-                    reverse=True)
+    radios = [rng.uniform(0.25, 0.75) * R for _ in range(n)]
+    if rng.random() < 0.4:             # solidos y casi-solidos
+        radios.append(rng.uniform(0.3, 1.1) * w)   # (ronda hostil)
+    radios = sorted((r for r in radios if r <= R), reverse=True)
     hijos = []
     for r in radios:
-        if r < 3 * w:
-            continue
         a = Anillo(r)
         h = hueco(r, w)
         if depth < 3 and h > 0.1 * R and rng.random() < 0.8:
@@ -174,7 +174,9 @@ def bosque_str(hijos):
 
 # ---------------------------------------------------------------- bloque A
 def bloque_A():
-    print("[A] los pasos exactos de la induccion de realizacion")
+    print("[A] transcripcion del argumento de induccion (los pasos "
+          "por separado son triviales; la carga numerica de la "
+          "composicion esta en B/C — re-etiquetado en ronda hostil)")
     import sympy as sp
     ok = True
     r, w_, d = sp.symbols('r w d', positive=True)
@@ -228,8 +230,51 @@ def bloque_B():
         viol += verifica_padres(hijos, w, R)
     ok &= check(f"la composicion raiz-hoja realiza el bosque entero "
                 f"({n_b} bosques, {n_a} anillos, profundidad hasta "
-                f"4): {viol} violaciones de material/contencion",
+                f"4, solidos incluidos): {viol} violaciones de "
+                f"material/contencion",
                 n_b > 250 and n_a > 600 and viol == 0)
+    # sub-bloque DETERMINISTA (ronda hostil, H5): tangencias
+    # EXACTAS, solidos r <= w, micro-agujeros, rotacion/reflexion
+    w = 0.5
+    R = 4.0
+    a1, a2 = Anillo(2.0), Anillo(2.0)
+    a1.rel, a2.rel = (-2.0, 0.0), (2.0, 0.0)   # tangentes entre si
+    h1, h2 = Anillo(0.9), Anillo(0.6)          # y a la pared
+    h1.rel, h2.rel = (-0.6, 0.0), (0.9, 0.0)   # fila TANGENTE en
+    a1.hijos = [h1, h2]                        # el agujero 1.5
+    s1 = Anillo(0.4)                           # SOLIDO r <= w
+    s1.rel = (0.0, 0.0)                        # tangente interno
+    h1.hijos = [s1]
+    g1 = Anillo(0.1)                           # llena el agujero
+    g1.rel = (0.0, 0.0)                        # 0.1 de h2 EXACTO
+    h2.hijos = [g1]
+    m1 = Anillo(1.45)                          # micro-margen 0.05
+    m1.rel = (0.05, 0.0)                       # tangente interno
+    a2.hijos = [m1]
+    s2_ = Anillo(0.5)                          # solido r = w exacto
+    s2_.rel = (0.45, 0.0)                      # tangente en 0.95
+    m1.hijos = [s2_]
+    bosque = [a1, a2]
+    todos = compone(bosque)
+    v_det = verifica(todos, w, R) + verifica_padres(bosque, w, R)
+    # rotacion 45 grados + reflexion de la colocacion de a1 (otra
+    # colocacion del contenedor: las traslaciones componen, las
+    # regiones son rotacionalmente simetricas)
+    c, s = math.cos(PI / 4), math.sin(PI / 4)
+    for h in a1.hijos:
+        x, y = h.rel
+        h.rel = (c * x - s * y, s * x + c * y)
+    for h in a2.hijos:
+        h.rel = (-h.rel[0], h.rel[1])          # reflexion
+    todos = compone(bosque)
+    v_rot = verifica(todos, w, R) + verifica_padres(bosque, w, R)
+    ok &= check(f"determinista: hermanos tangentes exactos + fila "
+                f"tangente en el agujero + solidos r <= w tangentes "
+                f"internos + micro-margen 0.05 + agujero llenado "
+                f"exacto: {v_det} violaciones; tras ROTAR 45 la "
+                f"colocacion de un contenedor y REFLEJAR otra "
+                f"(isometrias como otras colocaciones): {v_rot}",
+                v_det == 0 and v_rot == 0)
     return ok
 
 
@@ -293,10 +338,8 @@ def bloque_D():
     R = alpha + o1
     s2 = 0.5
     b2 = 1 / (1 / alpha + 1 / o1 - 1 / R)  # bolsillo de Descartes
-    ca, co = (-(R - alpha), 0.0), (R - o1, 0.0)
-    # el bolsillo espejo: centro sobre el eje y por tangencias
-    # (construccion numerica: resolver por biseccion en el angulo)
-    okb = b2 > s2
+    okb = b2 > s2                      # ilustrativo: la fila F1e/F1f
+    # (formula exacta: Descartes degenerado en R = alpha+o1)
     ok &= check(f"(1) pan repack + bolsillo espejo: par diametral "
                 f"{{alpha, o1}} en R = alpha+o1 y sigma2 = {s2} < "
                 f"b2 = {b2:.3f}: el repack que las pinzas F1e/F1f "

@@ -2480,3 +2480,71 @@ exhaustiva** (≤ 5.25 en la caja principal, < 2π−0.05 globalmente):
 el «lema de optimización pendiente» de los teoremas de sombras está
 cerrado; conservan etiqueta propia los dominios de coronas acotadas
 y los cierres computacionales.
+
+---
+
+## Acta: ronda hostil del lema de realización y repack (F2, `repack.md`) — 2026-08-09
+
+Adversario con reproducción del 5/5, sondeos deterministas
+(tangencias exactas, sólidos r ≤ w, micro-agujeros 0.05, gemelos de
+igual radio, rotaciones/reflexiones de subárboles) y verificación de
+la equivalencia del chequeo (argumento del punto extremo + criterio
+analítico por arcos, 3 000 pares, 0 discrepancias).
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+El núcleo — (a) realización global por composición raíz-hoja, (b)
+repack con subárboles rígidos — es correcto y cierra el [ENUNCIADO]
+F2. Hallazgos:
+
+1. **[GRAVE] (c) mislabelaba re-asignaciones como instancias de
+   (b)**: el propio paso de intercambio y las coronas de agujero
+   CAMBIAN el bosque (m se muda; los menores se recolocan) — eso no
+   es «mismas bolas, otra colocación»: es un bosque nuevo cuya
+   legalidad la cargan los certificados por contenedor (F, fila,
+   corona, bolsillo), con (a) como paso de composición. REPARADO:
+   (c) reescrito — testigo = asignación bosque-factible +
+   colocación por contenedor con su recurso; (b) queda como caso
+   particular (pan repack, bolsillo espejo con el mismo conjunto).
+2. **[GRAVE→MENOR] Deslinde con el lema de inserción**: la
+   construcción del testigo consume posiciones reales de P (la bola
+   vacante de m, la inserción mural «sin mover nada») — posiciones
+   EXISTENCIALES: se toma una realización y se modifica contenedor
+   a contenedor; recursos posicionales y de conjunto son
+   complementarios y ambos desembocan en (a). REPARADO en (c).
+3. [MENOR] La hipótesis inductiva de (a) no estaba enunciada y
+   «disjuntos» debía ser «interiores disjuntos» (tangencias
+   legales). REPARADO: invariante explícito
+   material(subárbol) ⊂ bola, material(descendientes) ⊂
+   bola-agujero; los tres tipos de par verificados por el acta.
+4. [MENOR] Bloque A decorativo. RE-ETIQUETADO como transcripción.
+5. [MENOR] El generador filtraba r < 3w (sólidos jamás
+   ejercitados) y sin tangencias exactas. REPARADO: sólidos en el
+   generador + sub-bloque determinista (los casos del acta).
+6. [MENOR] Comentario muerto en D(1) (bisección no implementada);
+   la fórmula del bolsillo verificada por el acta (Descartes
+   degenerado exacto en R = α+o₁). LIMPIADO; D declarado
+   ilustrativo.
+7. [NOTA] ρ depende SOLO del multiconjunto (ni siquiera del
+   bosque); N, A del conjunto colocado. Separado en (b).
+8. [NOTA] Traslaciones bastan; isometrías de una colocación son
+   otras colocaciones (regiones rotacionalmente simétricas).
+   Frase añadida; rotación/reflexión verificadas (0 violaciones).
+9. [NOTA] «bit a bit» → módulo permutación de radios iguales.
+10. [NOTA] K arbitraria y dimensión d: el argumento vale verbatim
+    (solo la raíz cambia). Frase añadida — F2 cubre lo que
+    thm:oblivious reclama.
+
+RESISTE: la equivalencia del chequeo con la disyunción de
+interiores (no es «más fuerte»: imposibilidad del solape parcial
+sin cruce de circunferencias, punto extremo); tangencias exactas,
+sólidos, micro-agujeros, profundidad 4 real, gemelos: 0 violaciones
+en todos los sondeos.
+
+### Estado tras reparación
+
+`repack.py` 5/5 (sólidos en el generador, sub-bloque determinista
+con isometrías, bloque A re-etiquetado, D limpiado); `repack.md`
+reescrito ((a) con hipótesis inductiva e interiores, (b) con
+invariantes finos, (c) completo con el deslinde). **El [ENUNCIADO]
+F2 queda cerrado como lema probado desde la definición.**

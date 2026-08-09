@@ -91,8 +91,9 @@ listarlos aquí):
 3. Los barridos del bloque G de R2b al nivel
    computacional-con-esquina-exacta (rangos ω ≤ 1.6, X ≤ 1–3,
    |W| ≤ 8; la esquina del trío sí es certificada).
-4. [ENUNCIADO] F2: legalidad del repack de la sartén (del que
-   dependen las pinzas de bolsillo espejo F1e/F1f).
+4. ~~[ENUNCIADO] F2: legalidad del repack~~ CERRADO (2026-08-09,
+   `repack.md` + `code/repack.py` 5/5, adversariado): lema de
+   realización y repack probado desde la definición.
 5. El gap-dualidad de F3 (≥ 3 tops casi iguales,
    R_fit/R_lb ≤ 1.0116) y las coronas de extras top-level, sobre
    sus rangos barridos (X ≤ 3, ω ≤ 1.35, d ≤ 3, j ≤ 3).

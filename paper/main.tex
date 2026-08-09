@@ -1250,8 +1250,8 @@ bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
 layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
-\texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5) and
-\texttt{optimizacion} (5/5).
+\texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
+\texttt{optimizacion} (5/5) and \texttt{repack} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3217,8 +3217,24 @@ nested templates plus the closures above; (c)~the \emph{container
 port}. Assembly facts (theorems): $|S|\le1$ never blocks (a single
 $\sigma<r_m$ rows into $D_m$; with $S=\emptyset$, $m$ moves under
 $F$'s own certificate, containers of larger rings being shared);
-feasibility is per-container and positions are existential (Section~2),
-so repacking any container is a legal resource -- the pan repack of
+feasibility is per-container and positions are existential
+(Section~2) -- and this is now a proved \emph{realization-and-repack
+lemma}, not a gloss: any forest whose containers each carry a
+placement of their children as balls with disjoint interiors is
+realized globally by composing translations along root-to-leaf
+paths (inductive invariant: a ring's subtree stays in its ball, its
+strict descendants in its hole ball; the annulus material is
+disjoint from the hole interior; translations preserve distances,
+and any isometry of a container placement is just another
+placement), so replacing one container's placement -- subtrees
+rigid -- yields another realization of the same forest, and a
+witness with a \emph{new} assignment composes the per-container
+certificates (vacated ball, row, corona, pocket, shadow insertion)
+through the same lemma (script \texttt{repack}, 5/5, adversarial
+round: exact tangencies, solid rings and subtree isometries all
+verified, and the checker proved equivalent to material
+disjointness). Repacking any container is therefore a legal
+resource -- the pan repack of
 Theorem~\ref{thm:DP} is the precedent; and every geometric wall
 descends by antitone containment to the intrinsic disk of its
 members, so walls port to any container with the corresponding
@@ -3340,10 +3356,11 @@ the written theorems' occupant counts are closed by the
 geometric-tail lemma; the computational (as
 opposed to written-proof) status of the
 remaining sweeps -- the shared-root interior sweeps beyond the
-certified corner, the pan-repack legality statement behind the
-mirror-pocket pincers, the near-equal-tops duality gap
+certified corner, the near-equal-tops duality gap
 ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) and the extras coronas
-on their swept ranges; and the optimization asterisk of the
+on their swept ranges (the pan-repack legality behind the
+mirror-pocket pincers is no longer on this list: it is the
+realization-and-repack lemma above); and the optimization asterisk of the
 \emph{bounded-family} domain sweeps. For the shadow budgets
 themselves that asterisk is now closed: since every term of a
 shadow budget is monotone in each piece radius and in $s$, and
