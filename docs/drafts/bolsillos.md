@@ -54,7 +54,29 @@ y w* → 0), no por el bolsillo grande. (E2) dp/dR < 0: el bolsillo
 SE ENCOGE con R — el certificado se monta en R_test y se extiende
 por la monotonía del fit, no del bolsillo.
 
-## 3. Fase 2 (COMPLETA, v3 — pre-adversario)
+## 3. Fase 2 (COMPLETA, v4 — ADVERSARIADA, acta en VEREDICTOS)
+
+Reparaciones del acta integradas: (H2) la salvaguarda R₃ ≤ M es
+REAL — v2-check O guard por esquinas en la banda O exclusión W₂ del
+punto áureo del trío (2, 2/φ, Σ→1) Y SU ESPEJO (2/φ, 2) — donde
+pares = R₃ = M colapsan, disc ≡ 0 y p₁₂ = 1 exacto; el hecho
+R₃ ≤ M es MUESTREADO (gaplemma + grid 400² del acta), no
+exhaustivo — por eso la salvaguarda no es decorativa. (H1) Colas
+del bloque E implementadas (rama 1 verbatim de D; rama 2 con
+R = 1+x₁+x₂, mejor bolsillo ≥ 1.15 > φ/2 en 9 esquinas de dos
+escalas). (H3) La cola de D en la esquina CORRECTA: el bolsillo
+(g1,m) decrece vía R — ínfimo real 0.715 > 1/φ en R → ∞ (no el
+0.968 favorable), con la simetría (α, o₁) escrita. (H4) La
+«reducción global» de s′ vale EN LA RAMA R = pares (donde vive F
+cerrado); en la banda R₃ el bolsillo real lleva −2√disc y la gate
+es numérica por caja (p₁₂ en esquinas correctas). (H5) El trío de
+las colas por suma de máximos, sin «o(1)» injustificado. (H6)
+Super-bolsillos de s′ exigidos en todas las ramas. (H7) Estatus:
+los certificados de malla (V, W₂) y las tolerancias (testigo 1e-7,
+≤ +1e-12) viajan con el asterisco del programa — «certificados por
+subdivisión» significa eso, no exactitud absoluta.
+
+## 3-viejo. (v3 pre-acta, para historia)
 
 j = 1 y coronaagujero k ≤ 2 CERTIFICADOS por B&B 3D en (Σ, g1, g2),
 con certificados por caja en este orden: (1) exclusión de V (lema

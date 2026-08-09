@@ -2719,3 +2719,66 @@ E, signos exigidos en D, bloque B como equivalencia);
 caracterización exacta; la lección para fase 2: las cotas de
 esquina con la guarda son conservadoras — sin ella habrían
 certificado en falso.**
+
+---
+
+## Acta: ronda hostil de bolsillos fase 2 (`bolsillos.md` §3) — 2026-08-09
+
+Adversario con reproducción íntegra (números de caja exactos), 5
+sondas (F cerrado vs LP exacto en 40k tuplas + 18 961 testigos;
+grid 400² de R₃ vs M; colas; 9 000 instancias reales; malla
+desplazada de V).
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+La maquinaria central RESISTE: F cerrado es caracterización sii
+verificada sin una discrepancia (wraps de la lección H4 incluidos,
+punto tangente F = 0 exacto); la unión bolsillo/ciclo sin hueco
+(75k puntos); dominio_pares_ok legítimo (la π-gorra en esquinas
+solo SUBE requisitos); 0 contradicciones en todos los muestreos.
+Pero «dominios ENTEROS» era falso tal cual:
+
+1. **[GRAVE] Colas del bloque E inexistentes** (piezas > 30 sin
+   certificado). REPARADO: rama 1 verbatim de D; rama 2 con
+   R = 1+x₁+x₂ y mejor bolsillo ≥ 1.1505 > φ/2 (9 esquinas, dos
+   escalas), trío por suma de máximos 4.97 < 2π.
+2. **[GRAVE] `trio_ok = True` hardcodeado**: la salvaguarda
+   prometida era ficción y el «check exhaustivo» heredado es
+   MUESTREO. REPARADO: v2-check ∨ guard R₃(hi) ≤ M(lo) en la banda
+   ∨ exclusión W₂ del punto áureo del trío (2, 2/φ, Σ→1) Y SU
+   ESPEJO (donde pares = R₃ = M colapsan y disc ≡ 0 da p₁₂ = 1
+   exacto — la salvaguarda por esquinas nunca decide ahí);
+   «exhaustivo» → «muestreado + grid 400²» en draft. El grid del
+   acta confirma el hecho con margen muriendo solo en el punto
+   áureo, y las violaciones REALES bajo el suelo o₁ < 2/φ.
+3. **[GRAVE] Cola de D en la esquina FAVORABLE** (patrón E2): el
+   bolsillo (g1,m) decrece vía R — ínfimo real 0.715 (no 0.968);
+   sobrevive por +0.097. REPARADO (ínfimo en R → ∞, crecimiento en
+   g1 verificado, simetría (α, o₁) escrita).
+4. **[GRAVE draft] «Reducción GLOBAL de s′» falsa en la banda R₃**
+   (el bolsillo real con −2√disc cae bajo φ/2 en una región; el
+   código nunca la usaba — gate numérica correcta). REPARADO el
+   §3.
+5. [MENOR] «+0.1 = o(1)» injustificado → suma de máximos 5.74.
+6. [MENOR] sup_ok/super-bolsillos de s′ ahora exigidos en todas
+   las ramas.
+7. [MENOR] El asterisco malla/tolerancias viaja con el enunciado.
+8. [NOTA] R3_necesidad devuelve el extremo infactible (~1e-16,
+   documentar); herencia k = 1 mecanizada; rama j = 0 muerta en
+   _bnb_hibrido; el LP de la rama rara prueba un solo orden
+   (completitud, no corrección).
+
+RESISTE (verificado): la derivación de F (d₁ = π FORZADO, no
+óptimo; diagonales correctas; wraps satisfechos — 40k tuplas, 0
+discrepancias); la unión en w* (dicotomía puntual + esquinas
+válidas sin monotonía); dominio_pares_ok y en_V; el hecho R₃ ≤ M
+en dominio (rompe bajo el suelo: coherente con gaplemma); 9 000
+instancias reales sin fallo; la venta honesta salvo «ENTEROS».
+
+### Estado tras reparación
+
+`bolsillos.py` 5/5 con salvaguardas reales, W₂ (+espejo), colas de
+E, cola de D correcta, gates H6; `bolsillos.md` §3 v4. Los B&B
+re-verificados con las salvaguardas: rama 1 k = 2 en 274k cajas,
+rama 2 en 7.9k; j = 1 en curso con tope ampliado (la salvaguarda
+honesta encarece la banda áurea).

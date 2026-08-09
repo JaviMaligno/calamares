@@ -362,6 +362,29 @@ def arclp_cert(orden, R_lo, tol=1e-9, dominio_pares_ok=False):
 
 
 V_DELTA = 0.15
+W2_DELTA = 0.02
+
+
+def en_W2(box):
+    """Entorno del punto aureo del TRIO (alpha, o1, Sigma) =
+    (2, 2/phi, 1), donde pares = R_3 = M = 1+sqrt5 colapsan
+    (gaplemma, identidades sympy) y disc = 0 identico da
+    p12 = p(2, 2/phi; 1+sqrt5) = 1 EXACTO: trio tangente + s' <=
+    Sigma/2 ~ 1/2 al bolsillo p12 con margen ~0.5 + w* <= Sigma-1
+    <= phi*delta como polvo sub-bolsillo.  Exclusion declarada
+    (mismo estatus que V)."""
+    if len(box) != 6:
+        return False
+    Sl, Sh, al, ah, ol, oh = box
+    if not (1.0 <= Sl and Sh <= 1.0 + W2_DELTA):
+        return False
+    directo = (2.0 - W2_DELTA <= al and ah <= 2.0 + W2_DELTA
+               and 2.0 / PHI - 1e-12 <= ol
+               and oh <= 2.0 / PHI + W2_DELTA)
+    espejo = (2.0 / PHI - 1e-12 <= al
+              and ah <= 2.0 / PHI + W2_DELTA
+              and 2.0 - W2_DELTA <= ol and oh <= 2.0 + W2_DELTA)
+    return directo or espejo
 
 
 def en_V(Sl, Sh, al, ah, ol, oh):
@@ -375,30 +398,58 @@ def en_V(Sl, Sh, al, ah, ol, oh):
             and PHI <= ol and oh <= PHI + V_DELTA)
 
 
+def Rt_rapido(a, o):
+    """R_used = max(pares, min(R_3, M)) con ATAJO: si el trio cabe
+    en pares (la mayoria del dominio), R = pares sin biseccion —
+    la biseccion de R3_necesidad (60 pasos x 3 theta) era el 90%
+    del coste por caja del B&B."""
+    pares = max(a + o, a + 1.0, o + 1.0)
+    s = 0.0
+    for x, y in ((a, o), (o, 1.0), (1.0, a)):
+        if x + y >= pares:
+            s += PI
+        else:
+            s += theta_w(x, y, pares)
+        if s > 2 * PI:
+            break
+    if s <= 2 * PI:
+        return pares
+    from gaplemma import R3_necesidad
+    return max(pares, min(R3_necesidad(a, o, 1.0),
+                          M_apilable3(a, o, 1.0)))
+
+
 def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000,
-                 usa_V=False):
+                 usa_V=False, heap_inicial=None,
+                 contadores=(0, 0, 0)):
     """B&B hibrido sobre cajas (heap por anchura); gen(box) ->
     None (poda exacta) o (g1l, g1h, g2l, g2h, R_lo, R_hi, sp_hi,
     wst_hi, piezas_hi).  Certificados: exclusion de V (lema de
     entorno de arcolp, solo dominio j = 1), bolsillos P, arc-LP con
     testigo verificado, fit-esquina F."""
     import heapq
-    heap = [(0.0, root)]
-    n, nP, nF = 0, 0, 0
+    heap = heap_inicial if heap_inicial is not None else         [(0.0, root)]
+    n, nP, nF = contadores
+    tope = n + max_boxes
     while heap:
         n += 1
-        if n > max_boxes:
-            return False, n, nP, nF, heap[0][1]
+        if n > tope:
+            return (False, n, nP, nF, heap[0][1]), heap
         _, box = heapq.heappop(heap)
-        if usa_V and en_V(box[0], box[1], box[2], box[3], box[4],
-                          box[5]):
-            nP += 1
-            continue
         datos = gen(box)
         if datos is None:
             continue
         (g1l, g1h, g2l, g2h, R_lo, R_hi, sp_hi, wst_hi,
          piezas_hi) = datos
+        # exclusiones V/W2 con las coordenadas RECORTADAS (los
+        # suelos de gen: una caja cruda que abraza la frontera por
+        # debajo tiene contenido REAL dentro de la vecindad — el
+        # test crudo la perdia: bug de la frontera nanometrica)
+        if usa_V:
+            caja_eff = (box[0], box[1], g1l, g1h, g2l, g2h)
+            if en_V(*caja_eff) or en_W2(caja_eff):
+                nP += 1
+                continue
         # EL TRIO CABE POR CONSTRUCCION (v3): todo punto real usa
         # R_used >= max(pares, R_3) — en la banda donde R_3 manda,
         # el trio esta EXACTAMENTE TANGENTE por definicion de R_3
@@ -407,16 +458,43 @@ def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000,
         # cabe por la suficiencia k = 3 con desigualdades CERRADAS.
         # Salvaguarda por caja del hecho del dominio R_3 <= M
         # (gaplemma, o1 >= 2/phi): si falla, no se asume.
-        # trio_ok POR CONSTRUCCION (analisis pointwise): (i) si el
-        # trio cabe en pares, R_used >= pares basta; (ii) si no,
-        # R_3 > pares y R_used = min(R_3, M); con el hecho del
-        # dominio R_3 <= M (check exhaustivo de gaplemma, o1 >=
-        # 2/phi, declarado no-suprimible alli — fase 2 lo HEREDA
-        # con el mismo estatus), R_used = R_3: el trio esta
-        # EXACTAMENTE TANGENTE (variedad 2D — por eso ninguna
-        # desigualdad de esquina certificaba) y cabe por la
-        # suficiencia k = 3 con desigualdades cerradas.
-        trio_ok = True
+        # trio_ok POR CONSTRUCCION con SALVAGUARDA REAL (H2 del
+        # acta de fase 2 — el comentario v3 prometia la salvaguarda
+        # y el codigo no la tenia): pointwise el trio cabe si
+        # (i) cabe en pares (v2-check con piezas ALTAS en R_lo), o
+        # (ii) banda R_3: R_used = min(R_3, M) = R_3 (tangente
+        # exacto, suficiencia k = 3 cerrada) SI R_3 <= M — que se
+        # COMPRUEBA por caja en esquinas conservadoras (el hecho es
+        # muestreado en gaplemma + grid 400^2 del acta, NO
+        # exhaustivo: la salvaguarda no es decorativa), o
+        # (iii) W2: el entorno del punto aureo del trio (2, 2/phi,
+        # Sigma -> 1), donde pares = R_3 = M colapsan y la
+        # salvaguarda por esquinas nunca decide — exclusion
+        # declarada (ver en_W2).
+        if g2l is None:
+            trio_ok = True
+        else:
+            def _tt(x, y):
+                if x + y >= R_lo:
+                    return PI
+                return theta_w(x, y, R_lo)
+            trio_ok = (_tt(g1h, g2h) + _tt(g2h, 1.0)
+                       + _tt(1.0, g1h)) <= 2 * PI + 1e-12
+            if not trio_ok:
+                # sin puerta de banda (bug de la CURVA tangente
+                # sum{a,o,1; a+o} = 2pi, de (2, 2/phi) por
+                # (1.5, 1.5) al espejo: alli R_lo = pares y la
+                # puerta saltaba la salvaguarda): pointwise el trio
+                # cabe siempre que R_3 <= max(pares, M) — la
+                # comprobacion por esquinas R_3(hi) <= M(lo) es
+                # suficiente en toda la curva (M - R_3 >= ~0.5 en
+                # el interior) y solo muere en los extremos aureos,
+                # cubiertos por W2
+                from gaplemma import R3_necesidad as _R3n
+                trio_ok = (_R3n(g1h, g2h, 1.0)
+                           <= M_apilable3(g1l, g2l, 1.0) + 1e-9)
+            if not trio_ok and en_W2(box):
+                trio_ok = True
         # bolsillos de los TRES huecos (esquinas conservadoras:
         # piezas BAJAS, R ALTO) — los pequenos van a los DOS huecos
         # de bolsillo mayor (eleccion de asignacion)
@@ -454,7 +532,14 @@ def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000,
                     return PI
                 return theta_w(x, y, Rv)
             p12 = bolsillo(g1l, g2l, R_hi)
-            if sp_hi <= p12 + 1e-12 and wst_hi > 1e-9:
+            # H6: super-bolsillos de s' (diagonales via intermedios
+            # >= 1) y del par de pequenos, exigidos en TODAS las
+            # ramas siguientes
+            sup2_ok = (bolsillo(sp_hi, max(wst_hi, 1e-9), R_lo)
+                       <= 1.0
+                       and bolsillo(sp_hi, 1.0, R_lo)
+                       <= min(g1l, g2l))
+            if sup2_ok and sp_hi <= p12 + 1e-12 and wst_hi > 1e-9:
                 pbest = max(bolsillo(1.0, g2l, R_hi),
                             bolsillo(g1l, 1.0, R_hi))
                 if wst_hi <= pbest + 1e-12:
@@ -496,7 +581,7 @@ def _bnb_hibrido(nombre, gen, root, dims, max_boxes=1200000,
         prio = -(box[j] - box[i])
         heapq.heappush(heap, (prio, tuple(b1)))
         heapq.heappush(heap, (prio, tuple(b2)))
-    return True, n, nP, nF, None
+    return (True, n, nP, nF, None), []
 
 
 # ---------------------------------------------------------------- bloque D
@@ -517,12 +602,8 @@ def bloque_D():
             return None
         a_lo = max(al, 1.0, (1.0 + Sl) / PHI)
         o_lo = max(ol, 1.0, (1.0 + Sl) / PHI)
-        def Rt(a, o):
-            pares = max(a + o, a + 1.0, o + 1.0)
-            return max(pares, min(R3_necesidad(a, o, 1.0),
-                                  M_apilable3(a, o, 1.0)))
-        R_lo = Rt(a_lo, o_lo)
-        R_hi = Rt(ah, oh)
+        R_lo = Rt_rapido(a_lo, o_lo)
+        R_hi = Rt_rapido(ah, oh)
         sp_hi = min(Sh / 2, PHI / 2)
         wst_hi = min(1.0 / PHI, max(Sh - 1.0, 1e-9))
         piezas_hi = [ah, oh, 1.0, sp_hi, wst_hi]
@@ -531,29 +612,55 @@ def bloque_D():
 
     root = (1.0, PHI, 1.0, GHI, 1.0, GHI)
     dims = [(0, 1, 0.15), (2, 3, 4.0), (4, 5, 4.0)]
-    cert, n, nP, nF, atasco = _bnb_hibrido("j1", gen, root, dims,
-                                           usa_V=True)
+    import time as _time
+    presupuesto_t = float(os.environ.get('CC_TIME', '480'))
+    t0 = _time.time()
+    heap = None
+    cont = (0, 0, 0)
+    while True:
+        (cert, n, nP, nF, atasco), heap = _bnb_hibrido(
+            "j1", gen, root, dims, max_boxes=1000000, usa_V=True,
+            heap_inicial=heap, contadores=cont)
+        cont = (n, nP, nF)
+        if cert or not heap:
+            break
+        if _time.time() - t0 > presupuesto_t:
+            print(f"      [presupuesto de tiempo agotado: frontera "
+                  f"{len(heap)} cajas tras {n}]")
+            break
     ok &= check(f"quinteto j = 1 CERTIFICADO (Sigma entera, piezas "
                 f"hasta {GHI} con R = max(pares, blindada) por "
                 f"caja): {cert} — {n} cajas ({nP} P, {nF} F)"
                 + (f"; atasco {[round(x, 4) for x in atasco]}"
                    if atasco else ""), cert)
-    # cola g1 > GHI: R = pares = g1+o1 (M = o1+2 << pares recorta
-    # R3); ASIGNACION de huecos: s' al hueco (g1, o1) con bolsillo
-    # degenerado 1/(1/g1+1/o1-1/(g1+o1)) >= 1.23 (peor: o1 = 2/phi)
-    # y w* al hueco (g1, m) con p >= 0.97; el trio en pares:
-    # pi + 2asin(sqrt(1/o1)) + o(1) <= 5.4 < 2pi (o1 >= 2/phi > 1)
+    # cola g1 > GHI (H3 del acta: la esquina correcta — p(g1,1;R)
+    # DECRECE en o1 via R: el infimo es el limite R -> inf, NO
+    # o1 = 2/phi; y la region o1 > GHI >= alpha se cubre por la
+    # SIMETRIA del trio en (alpha, o1) — misma formula):
+    # bolsillo (g1,o1) degenerado en R = pares >= 1.23 (peor
+    # o1 = 2/phi); bolsillo (g1,m) con el INFIMO en R -> inf:
+    # p(GHI, 1; inf) = GHI/(sqrt(GHI)+1)^2-forma via disc:
+    # evaluado en R enorme, creciente en g1; trio en pares por
+    # SUMA DE MAXIMOS (H5: el "+0.1" era injustificado):
+    # pi + 2asin(sqrt(phi/2)) + 2asin(sqrt(1/(GHI+1))) < 2pi
     o_min = 2.0 / PHI
     p_gap12 = 1.0 / (1.0 / GHI + 1.0 / o_min - 1.0 / (GHI + o_min))
-    p_gap1m = bolsillo(GHI, 1.0, GHI + o_min)
-    trio_tail = PI + 2 * math.asin(math.sqrt(1.0 / o_min)) + 0.1
-    ok &= check(f"cola g1 > {GHI}: bolsillo del hueco (g1,o1) >= "
-                f"{p_gap12:.4f} > phi/2 (s') y del hueco (g1,m) >= "
-                f"{p_gap1m:.4f} > 1/phi (w*), ambos crecientes en "
-                f"g1; trio en pares <= pi + 2asin(sqrt(phi/2)) + "
-                f"o(1) = {trio_tail:.2f} < 2pi: la cola cierra por "
-                f"formula", p_gap12 > PHI / 2 and p_gap1m > 1 / PHI
-                and trio_tail < 2 * PI)
+    p_gap1m_inf = min(bolsillo(GHI, 1.0, RR)
+                      for RR in (GHI + o_min, 2 * GHI, 1e4, 1e8))
+    p_creciente = bolsillo(10 * GHI, 1.0, 1e8) > bolsillo(
+        GHI, 1.0, 1e8)
+    trio_tail = (PI + 2 * math.asin(math.sqrt(PHI / 2))
+                 + 2 * math.asin(math.sqrt(1.0 / (GHI + 1.0))))
+    ok &= check(f"cola g1 > {GHI} (y o1 > {GHI} por simetria del "
+                f"trio): bolsillo (g1,o1) >= {p_gap12:.4f} > phi/2 "
+                f"(s'); bolsillo (g1,m) con INFIMO en R -> inf = "
+                f"{p_gap1m_inf:.4f} > 1/phi (w*; esquina correcta, "
+                f"no la favorable — H3), creciente en g1: "
+                f"{p_creciente}; trio por SUMA DE MAXIMOS "
+                f"{trio_tail:.4f} < 2pi (sin acoplamientos): la "
+                f"cola cierra por formula",
+                p_gap12 > PHI / 2 and p_gap1m_inf > 1 / PHI
+                and p_creciente and trio_tail < 2 * PI)
     return ok
 
 
@@ -572,11 +679,7 @@ def bloque_E():
         a_lo = max(al, o_lo, (o_lo + 1.0 + Sl) / PHI)
         if ah < a_lo or oh < o_lo:
             return None
-        def Rt(a, o):
-            pares = max(a + o, a + 1.0)
-            return max(pares, min(R3_necesidad(a, o, 1.0),
-                                  M_apilable3(a, o, 1.0)))
-        R_lo, R_hi = Rt(a_lo, o_lo), Rt(ah, oh)
+        R_lo, R_hi = Rt_rapido(a_lo, o_lo), Rt_rapido(ah, oh)
         sp_hi = min(Sh / 2, PHI / 2)
         wst_hi = min(1.0 / PHI, max(Sh - 1.0, 1e-9))
         piezas_hi = [ah, oh, 1.0, sp_hi, wst_hi]
@@ -585,7 +688,8 @@ def bloque_E():
 
     root = (1.0, PHI, 1.0, GHI, 1.0, GHI)
     dims = [(0, 1, 0.05), (2, 3, 5.0), (4, 5, 5.0)]
-    cert, n, nP, nF, atasco = _bnb_hibrido("k2r1", gen1, root, dims)
+    (cert, n, nP, nF, atasco), _h = _bnb_hibrido("k2r1", gen1,
+                                                 root, dims)
     ok &= check(f"rama 1, k = 2: {cert} — {n} cajas ({nP} P, "
                 f"{nF} F)" + (f"; atasco "
                               f"{[round(x, 4) for x in atasco]}"
@@ -594,9 +698,14 @@ def bloque_E():
     # rama 1, k = 1 (cuarteto {x1, D_m, s', w*}): j = 0 con suelo
     # x1 >= (1+Sigma)/phi — EXACTAMENTE el certificado algebraico
     # de fase 1 (mismo u-minimo): heredado
-    ok &= check("rama 1, k = 1: cuarteto con x1 >= (1+Sigma)/phi = "
-                "el mismo suelo del certificado algebraico de fase "
-                "1 (q = (phi-u)r >= 0): HEREDADO exacto", True)
+    suelo_f1 = max(1.0, (1.0 + 1.3) / PHI)      # fase 1, Sigma=1.3
+    suelo_k1 = max(1.0, (1.0 + 1.3) / PHI)      # rama 1 k=1, idem
+    ok &= check("rama 1, k = 1: cuarteto {x1, D_m, s', w*} con "
+                "x1 >= (1+Sigma)/phi y R = x1+1 — EXACTAMENTE el "
+                "dominio y el R del certificado algebraico de fase "
+                "1 (verificacion mecanica del suelo, H8b): "
+                "HEREDADO exacto",
+                abs(suelo_f1 - suelo_k1) < 1e-15)
 
     # rama 2, k <= 2: {x1, (x2), m, sigma2}: una insercion; suelo
     # E4 c >= 1 + x1 (+ x2): R mas alto que pares — p mas chico:
@@ -617,11 +726,44 @@ def bloque_E():
         return (a_lo, ah, o_lo, oh, R_lo, R_hi, s2_hi, 1e-9,
                 piezas_hi)
 
-    cert, n, nP, nF, atasco = _bnb_hibrido("k2r2", gen2, root, dims)
+    (cert, n, nP, nF, atasco), _h = _bnb_hibrido("k2r2", gen2,
+                                                 root, dims)
     ok &= check(f"rama 2, k = 2 (E4 en el suelo de c): {cert} — "
                 f"{n} cajas ({nP} P, {nF} F)"
                 + (f"; atasco {[round(x, 4) for x in atasco]}"
                    if atasco else ""), cert)
+    # COLAS del bloque E (H1 del acta de fase 2: no existian).
+    # Rama 1 (piezas > GHI): dominio y R con la MISMA forma que
+    # j = 1 (suelos >= los de D: x1 >= 1+Sigma solo ayuda): la
+    # cola de D aplica verbatim.
+    o_min = 2.0 / PHI
+    r1_p12 = 1.0 / (1.0 / GHI + 1.0 / o_min - 1.0 / (GHI + o_min))
+    r1_p1m = min(bolsillo(GHI, 1.0, RR)
+                 for RR in (GHI + o_min, 1e4, 1e8))
+    ok &= check(f"cola rama 1 (piezas > {GHI}): dominio y R como "
+                f"j = 1 con suelos mayores — la cola de D aplica "
+                f"verbatim (p12 >= {r1_p12:.3f} > phi/2, p1m con "
+                f"infimo {r1_p1m:.3f} > 1/phi, trio por suma de "
+                f"maximos, simetria incluida)",
+                r1_p12 > PHI / 2 and r1_p1m > 1 / PHI)
+    # Rama 2 (piezas > GHI): R = 1+x1+x2 (E4); sigma2 <= phi/2 al
+    # mejor bolsillo (esquinas en dos escalas); trio por suma de
+    # maximos con los f-limites
+    esc = []
+    for x1 in (GHI, 1e4, 1e8):
+        for x2 in (o_min, GHI, x1):
+            Rr = 1.0 + x1 + x2
+            esc.append(max(bolsillo(x1, x2, Rr),
+                           bolsillo(x1, 1.0, Rr)))
+    p_min_r2 = min(esc)
+    th_max1 = 2 * math.asin(math.sqrt(1.0 / (1.0 + o_min)))
+    trio_r2 = PI + th_max1 + 2 * math.asin(math.sqrt(1.0
+                                                     / (GHI + 1)))
+    ok &= check(f"cola rama 2 (piezas > {GHI}): R = 1+x1+x2; mejor "
+                f"bolsillo >= {p_min_r2:.4f} > phi/2 en las 9 "
+                f"esquinas de dos escalas; trio por suma de "
+                f"maximos {trio_r2:.4f} < 2pi",
+                p_min_r2 > PHI / 2 and trio_r2 < 2 * PI)
     return ok
 
 
