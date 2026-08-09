@@ -38,9 +38,16 @@ min(Sigma/2, phi/2), extra D_m = 1) — que ademas MAYORA el modo
 sigma2 (misma s_hi por la ligadura sigma2 <= Sigma/2 <= phi/2 y
 mismos extras: bloque A); modo 2 (w* = 1/phi, extras D_m y s').
 
-Flotantes: sin redondeo dirigido (IEEE double); los margenes
-certificados (>= 0.9 rad) superan el error de redondeo en > 12
-ordenes de magnitud.  Declarado en el draft.
+Flotantes (redaccion reparada en ronda hostil): sin redondeo
+dirigido (IEEE double).  La caja principal (donde vive el argmax)
+se certifica a OBJETIVO FUERTE 5.25 y la cola normalizada a
+2pi - 0.05 con cota final 6.0408: TODA caja final tiene cota
+computada <= max(5.25, 6.0408) = 6.0408, margen 0.19 rad frente a
+2pi - 0.05 — mas de 12 ordenes sobre el error de redondeo de una
+suma de ~20 asin (~1e-14).  (La version v1 certificaba B a
+2pi - 0.05 directamente y la decision de parada quedaba a 5e-5 del
+objetivo: el certificado era correcto pero la frase de los "12
+ordenes" era falsa; subir el objetivo de B a 5.25 la compra.)
 
 Bloques: [A] monotonias y reducciones exactas (sympy); [B] el
 branch-and-bound principal (t2 <= 1000); [C] la cola t2 > 1000
@@ -57,6 +64,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from coronacolas import PHI, PI, check
 
 OBJ = 2 * PI - 0.05                    # el objetivo a certificar
+OBJ_F = 5.25                           # objetivo FUERTE de la caja
+                                       # principal (ronda hostil,
+                                       # hallazgo 3: compra margen
+                                       # 0.98 rad frente a OBJ)
 
 
 def term_ub(x_hi, R_lo, s_hi):
@@ -80,8 +91,13 @@ def doms_ub(t2_hi, S_lo, u_hi):
     r = 0
     while True:
         cap = u_hi / PHI ** r - (1.0 + S_lo)
-        if cap < p_min - 1e-9 or r > 200:
+        if cap < p_min - 1e-9:
             break
+        if r > 200:
+            # inalcanzable con t2 <= 1000 (r_max = 13; r = 200
+            # exigiria u ~ 1.9e42); truncar EN SILENCIO dejaria de
+            # ser cota — fuera del dominio: reventar (ronda hostil)
+            raise RuntimeError("doms_ub fuera del dominio t2 <= 1000")
         out.append(min(t2_hi, cap, M / (r + 1)))
         r += 1
     return out
@@ -208,17 +224,20 @@ def bloque_A():
 
 # ---------------------------------------------------------------- bloque B
 def bloque_B():
-    print("[B] branch-and-bound principal (2 <= t2 <= 1000)")
+    print("[B] branch-and-bound principal (2 <= t2 <= 1000), "
+          "objetivo FUERTE 5.25")
     ok = True
     for modo in (1, 2):
         root = (2.0, 1000.0, 1.0, PHI, 2.0, PHI * 1000.0,
                 2.0, None)
-        cert, peor, n = branch_and_bound(root, modo, OBJ)
-        ok &= check(f"modo {modo}: sup G < 2pi - 0.05 = {OBJ:.4f} "
-                    f"CERTIFICADO sobre la caja entera (t2 hasta "
-                    f"1000, u hasta phi t2, t1 hasta inf via "
-                    f"pi-gorra): {cert}, cota final {peor:.4f}, "
-                    f"{n} cajas", cert and peor < OBJ)
+        cert, peor, n = branch_and_bound(root, modo, OBJ_F)
+        ok &= check(f"modo {modo}: sup G <= {OBJ_F} CERTIFICADO "
+                    f"sobre la caja principal (t2 hasta 1000, u "
+                    f"hasta phi t2, t1 hasta inf via pi-gorra): "
+                    f"{cert}, cota final {peor:.4f}, {n} cajas — "
+                    f"margen 2pi - 0.05 - 5.25 = "
+                    f"{OBJ - OBJ_F:.4f} rad, > 12 ordenes sobre el "
+                    f"error float", cert and peor < OBJ_F)
     return ok
 
 
@@ -233,11 +252,22 @@ def bloque_C():
     def cola_norm_ub(al, ah, upl, uph):
         """Cota del G normalizado en la caja (a = t1/t2, u' = u/t2):
         lider pi-gorra si ah = None; dominantes d'_r <= min(1,
-        u'/phi^r, u'/(r+1)) (60 terminos + resto analitico con
-        asin(x) <= pi x/2 y cola geometrica)."""
+        u'/phi^r, u'/(r+1)) (60 terminos + resto analitico).
+        VINCULO NORMALIZADO (reparado en ronda hostil, hallazgo 1):
+        a >= (1 + u')/phi — el "t2" del vinculo se normaliza a 1
+        EXACTO, no a al; la version con (al + upl)/phi sobreestimaba
+        R y NO era cota superior (deficit hasta 0.39 rad en cajas
+        con al > 1: control E(c)).
+        RESTO ANALITICO (justificacion reparada, hallazgo 2): los
+        terminos reales r >= 60 solo existen si t2 >= ~3 phi^59, y
+        su parte sigma real cumple sigma_real*(N-60) <=
+        (phi/2) log_phi(phi t2/3)/t2, DECRECIENTE en t2 >= 1000,
+        con sup < 1e-13 << sigma*40: el "40" del codigo sobra por
+        11 ordenes; la parte de piezas es geometrica de razon 1/phi
+        con asin(x) <= pi x/2."""
         if ah is not None and ah < max(1.0, (1.0 + upl) / PHI) - 1e-12:
             return None                # vinculo normalizado
-        Rl = max(al, (al + upl) / PHI) + 1.0
+        Rl = max(al, (1.0 + upl) / PHI) + 1.0
         d = Rl - sigma
 
         def t(xh):
@@ -351,6 +381,37 @@ def bloque_E():
                 f"{peor:.4f} >= 5.2115): el certificado no es "
                 f"vacuo, muerde exactamente en el sup",
                 not cert and peor >= 5.2115 - 1e-6)
+    # (c) la version ROTA del suelo normalizado (hallazgo 1 del
+    #     acta) NO era cota superior: en la caja a in [1.7, 1.75],
+    #     u' in [1.55, phi] el punto real (a = 1.7, u' = phi) la
+    #     supera en ~0.39 rad
+    T2 = 1000.0
+    sigma = (PHI / 2) / T2
+    al, ah, upl, uph = 1.7, 1.75, 1.55, PHI
+
+    def norm_val(Rl, a_num, up_num):
+        d = Rl - sigma
+
+        def t(xh):
+            w = sigma + xh
+            return PI if d <= w else 2 * math.asin(w / d)
+        total = t(a_num) + t(1.0)
+        for r in range(60):
+            total += t(min(1.0, up_num / PHI ** r,
+                           up_num / (r + 1)))
+        return total
+    Rl_rota = max(al, (al + upl) / PHI) + 1.0
+    cota_rota = norm_val(Rl_rota, ah, uph)
+    R_punto = 1.7 + 1.0                # punto real: a = 1.7 >=
+    val_punto = norm_val(R_punto, 1.7, PHI)  # (1+phi)/phi = phi OK
+    ok &= check(f"(c) la version rota del vinculo normalizado "
+                f"((al+upl)/phi en vez de (1+upl)/phi) daba cota "
+                f"{cota_rota:.4f} < valor real en un punto DE la "
+                f"caja {val_punto:.4f} (deficit "
+                f"{val_punto - cota_rota:.3f} rad): no era cota — "
+                f"reparada; el certificado v1 sobrevivio porque "
+                f"ninguna caja evaluada la activaba (instrumentado "
+                f"en acta)", cota_rota < val_punto - 0.3)
     return ok
 
 

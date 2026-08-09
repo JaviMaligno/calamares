@@ -1,7 +1,9 @@
 # El lema de optimización: sup G < 2π − 0.05 certificado
 
-Estado: DRAFT con pruebas (2026-08-09), PRE-ADVERSARIO. Script:
-`code/optimizacion.py` (5/5). Es el último asterisco estructural de
+Estado: DRAFT con pruebas (2026-08-09), ADVERSARIADO (acta en
+VEREDICTOS.md, misma fecha: CONFIRMADO CON CORRECCIONES; fuzzing
+de 64 840 evaluaciones sin violaciones de cota; las cuatro
+reparaciones integradas). Script: `code/optimizacion.py` (5/5). Es el último asterisco estructural de
 los teoremas de sombras: el sup del mayorante G del lema de la cola
 geométrica deja de ser un barrido muestreado y pasa a estar
 CERTIFICADO por branch-and-bound con cotas de esquina (aritmética
@@ -42,16 +44,30 @@ mayorado por el modo 1 (misma s_hi = mín(Σ/2, φ/2) por la ligadura
   σ = s/t₂ ≤ (φ/2)/1000, dominantes d′_r ≤ mín(1, u′/φ^r,
   u′/(r+1)) (soltar el −(1+Σ)/t₂ solo agranda: cota válida), serie
   truncada a 60 términos + resto analítico (asin(x) ≤ πx/2 y cola
-  geométrica de razón 1/φ). B&B 2D: 9 cajas bastan (cota 6.04).
+  geométrica de razón 1/φ). B&B 2D: 9 cajas bastan (cota 6.0408).
+  DOS REPARACIONES de la ronda hostil aquí: (i) el suelo del
+  vínculo normalizado es a ≥ (1+u′)/φ — el «t₂» del vínculo se
+  normaliza a 1 EXACTO, no a a_lo; la versión v1 con (a_lo+u′_lo)/φ
+  sobreestimaba R y NO era cota superior (déficit hasta 0.47 rad en
+  cajas con a_lo > 1, control E(c); el certificado v1 sobrevivió
+  solo porque ninguna caja evaluada activaba el bug — instrumentado
+  en acta). (ii) El «40» del resto: los términos reales r ≥ 60 solo
+  existen si t₂ ≳ 3φ⁵⁹, y su parte σ cumple σ_real·(N−60) ≤
+  (φ/2)·log_φ(φt₂/3)/t₂, DECRECIENTE en t₂ ≥ 1000, con sup < 10⁻¹³
+  ≪ σ·40: el conteo real es logarítmico pero σ_real decae como
+  1/t₂ — el acoplamiento no escrito era la justificación; ahora
+  está escrito (verificado por el acta hasta t₂ = 10¹⁰⁰).
 
 ## 3. Resultado
 
 **Lema (optimización de sups de sombras).** sup G < 2π − 0.05 sobre
-la caja entera de hipótesis del lema de la cola geométrica.
-*Certificado*: B&B con cotas de esquina — modo 1: 880 cajas;
-modo 2: 881 cajas; cola t₂ > 1000: 9 cajas. Cada caja de la
-subdivisión final tiene cota superior < 2π − 0.05 y la unión de las
-cajas cubre el dominio entero (las podadas no contienen puntos
+la caja entera de hipótesis del lema de la cola geométrica; en la
+caja principal (t₂ ≤ 1000, donde vive el argmax), sup G ≤ 5.25.
+*Certificado*: B&B con cotas de esquina — caja principal a objetivo
+FUERTE 5.25 (modo 1: 4 495 cajas; modo 2: 5 126); cola t₂ > 1000 a
+2π − 0.05 (9 cajas, cota 6.0408). Toda caja final tiene cota
+computada ≤ máx(5.25, 6.0408) = 6.0408, y la unión de las cajas
+cubre el dominio entero (las podadas no contienen puntos
 reales). ∎
 
 **Ajuste**: la caja diminuta alrededor del argmax (t₂ = 2, Σ = 1,
@@ -80,9 +96,15 @@ se muestrea — certificarlo exigiría un B&B sobre la
 factibilidad constructiva, otra naturaleza); (ii) los cierres
 computacionales (dualidad/escala, barridos G de R2b, F2, F3).
 
-Flotantes: IEEE double sin redondeo dirigido; los márgenes
-certificados superan el error de redondeo en más de 12 órdenes de
-magnitud. Declarado.
+Flotantes (redacción reparada por el acta): IEEE double sin
+redondeo dirigido. El margen del CERTIFICADO frente a 2π − 0.05 es
+0.19 rad (la cota máxima entre cajas finales, 6.0408) y 0.98 rad en
+la caja principal (5.25) — más de 12 órdenes sobre el error de
+redondeo de una suma de ~20 asin (~10⁻¹⁴). La v1 certificaba la
+caja principal directamente a 2π−0.05 y la decisión de parada
+quedaba a 5·10⁻⁵ del objetivo: el certificado era correcto (5·10⁻⁵
+≫ 10⁻¹⁴, ~9 órdenes) pero la frase de «los márgenes ≥ 0.9 rad» era
+falsa tal como estaba escrita; el objetivo fuerte 5.25 la compra.
 
 ## 5. Estatus
 

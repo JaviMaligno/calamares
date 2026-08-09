@@ -2419,3 +2419,64 @@ navaja, §2 empates, §3 dominación ampliada, §5 estatus). **Los
 topes j ≤ 6 / k ≤ 14 / k ≤ 12 de los teoremas escritos pasan a
 redundancia empírica: los presupuestos de sombras son uniformes en
 el número de ocupantes.**
+
+---
+
+## Acta: ronda hostil del lema de optimización (`optimizacion.md`) — 2026-08-09
+
+Adversario con reproducción del 5/5, instrumentación del B&B,
+fuzzing de la cota de caja (64 840 puntos reales contra cajas
+aleatorias), contraejemplos a la forma normalizada, análisis del
+resto analítico hasta t₂ = 10¹⁰⁰ y objetivos intermedios.
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+El resultado (sup G < 2π − 0.05) es verdadero y el B&B principal es
+sólido (cota de caja válida coordenada a coordenada, podas sin
+fugas — 0 violaciones en el fuzzing, peor gap +2.3·10⁻⁸ —,
+terminación temprana correcta por max-heap). Tres reparaciones:
+
+1. **[GRAVE] El suelo del vínculo normalizado del bloque C no era
+   cota superior**: usaba (a_lo+u′_lo)/φ en vez de (1+u′_lo)/φ (el
+   «t₂» del vínculo se normaliza a 1 exacto) — déficit de hasta
+   0.47 rad en cajas con a_lo > 1. El certificado v1 sobrevivió
+   solo porque ninguna caja evaluada activaba el bug (instrumentado:
+   0 cajas activas en la corrida real). REPARADO (una línea) +
+   control E(c) que demuestra la violación de la versión rota.
+2. **[GRAVE] El «40» del resto analítico no estaba justificado** (y
+   la fórmula escrita fallaría desde t₂ ≈ 10²⁰ con σ uniforme): la
+   justificación real es el acoplamiento σ_real·(N−60) ≤
+   (φ/2)·log_φ(φt₂/3)/t₂ < 10⁻¹³, decreciente en t₂ (el conteo es
+   log pero σ decae como 1/t₂). REPARADO en docstring y draft;
+   verificado por el acta hasta t₂ = 10¹⁰⁰ (suma real ≤ 9.3·10⁻¹³).
+3. **[GRAVE en redacción] La frase de flotantes era falsa**: el
+   margen de la decisión de parada era 5·10⁻⁵ (no «≥ 0.9 rad, 12
+   órdenes») por la terminación temprana. REPARADO subiendo la
+   caja principal al objetivo FUERTE 5.25 (4 495/5 126 cajas,
+   verificado viable por el propio adversario): ahora TODA caja
+   final tiene cota ≤ máx(5.25, 6.0408) y el margen real frente a
+   2π−0.05 es 0.19-0.98 rad, > 12 órdenes de verdad.
+4. [MENOR] El guard r > 200 truncaba en silencio (subestimación
+   potencial fuera del dominio). REPARADO: raise.
+
+RESISTEN: la cota de esquina del B&B principal (la mezcla Σ_hi/Σ_lo
+es válida — ningún factor usa Σ en direcciones opuestas); las tres
+podas (sin fugas, verificado con esquinas); la terminación temprana
+(invariante de heap); la reducción de modos (contra los tres
+consumidores reales: el patrón es siempre «una inserción, luego w*
+con la insertada como pieza» — no existe presupuesto con σ₂ y s′
+simultáneos bajo w*); objetivos intermedios coherentes (5.25/5.5/
+6.0 certifican; 5.20 se atasca en 5.2115 exacto); T₂ = 1000 no es
+frágil (con 10⁴ también certifica); el alcance §4 es honesto.
+
+### Estado tras reparación
+
+`optimizacion.py` 5/5 (vínculo normalizado reparado, objetivo
+fuerte 5.25, raise en el guard, control E(c));
+`optimizacion.md` reescrito (§2 reparaciones, §3 certificado
+fuerte, flotantes honestos). **Los sups de presupuestos de sombras
+de los teoremas escritos quedan CERTIFICADOS por subdivisión
+exhaustiva** (≤ 5.25 en la caja principal, < 2π−0.05 globalmente):
+el «lema de optimización pendiente» de los teoremas de sombras está
+cerrado; conservan etiqueta propia los dominios de coronas acotadas
+y los cierres computacionales.

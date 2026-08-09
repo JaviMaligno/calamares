@@ -1250,7 +1250,8 @@ bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
 layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{compactacion} (5/5), \texttt{insercion} (7/7),
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
-\texttt{coronaagujero} (5/5) and \texttt{colageometrica} (5/5).
+\texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5) and
+\texttt{optimizacion} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3342,10 +3343,22 @@ remaining sweeps -- the shared-root interior sweeps beyond the
 certified corner, the pan-repack legality statement behind the
 mirror-pocket pincers, the near-equal-tops duality gap
 ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) and the extras coronas
-on their swept ranges; and the optimization lemma that would upgrade
-every certified maximization to a formal supremum (common to all the
-written theorems, optional at the accepted standard of
-Theorem~\ref{thm:DPr}).
+on their swept ranges; and the optimization asterisk of the
+\emph{bounded-family} domain sweeps. For the shadow budgets
+themselves that asterisk is now closed: since every term of a
+shadow budget is monotone in each piece radius and in $s$, and
+antitone in $R$, corner evaluation gives a valid upper bound on any
+box, and an exhaustive branch-and-bound over the majorant's
+hypothesis box (with the exact prunings $t_2\ge1+\Sigma$,
+$u\le\varphi t_2$ and the $t_1$-link, the $\pi$-cap for
+$t_1\to\infty$, and a normalized form with an analytic geometric
+remainder for $t_2>10^3$) \emph{certifies}
+$\sup G\le5.25$ on the principal box and $<2\pi-0.05$ globally --
+margins $0.98$ and $0.19$ radians, twelve orders of magnitude above
+IEEE rounding (script \texttt{optimizacion}, 5/5, adversarial round
+with a repaired normalized-link bound and a certified-honesty
+control: tightening the target below the true supremum $5.2115$
+makes the branch-and-bound stall at exactly that value).
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
