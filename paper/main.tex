@@ -673,9 +673,10 @@ of the nested exchange exceeds $T>\varphi$ with margin, and every
 residual cell of the exchange assembly is closed computationally
 with duality-certificate backing (Appendix~\ref{app:campaign}; the
 profile and dust directions of the scaling are exact by the
-pocket-$\varphi$ lemma), leaving as the numeric core only the
-occupant-count direction of the scaling and the computational status
-of the corona closures.
+pocket-$\varphi$ lemma, and the heavy pan cells have been upgraded
+to written proofs by the insertion lemma,
+Theorem~\ref{thm:D1written}), leaving as the numeric core the
+corona closures of the nested and port domains.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -1147,8 +1148,10 @@ Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
 After Theorem~\ref{thm:DPr}, extra small rings adjoin to the profile
 (Corollary~\ref{cor:DSpan}, a complete proof), and the single heavy
 cell $\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$ and the solid-pivot regime
-$\omega\ge1$, $j\ge3$ are closed computationally with
-duality-certificate backing (Appendix~\ref{app:campaign}).
+$\omega\ge1$, $j\ge3$ now carry \emph{written proofs}
+(Theorem~\ref{thm:D1written}, via the insertion lemma, with a single
+certified maximization -- the same standard as
+Theorem~\ref{thm:DPr}).
 (b)~\emph{Assemble the universal reinsertion lemma} for the nested
 exchange from the proved floors. The $j=1$ and $j=3$ width tips
 matter only for pinning the nested threshold at exactly $T$; the
@@ -3028,6 +3031,75 @@ nested one; reports in the repository). These are computational
 closures: the per-instance certificate is theorem-backed as above,
 the swept ranges are stated, and the extension in $(j,p,k)$ rests on
 the monotonicity evidence recorded by the scripts.
+
+\paragraph{From computational closure to written proof: the
+insertion lemma.} Two later results upgrade the central pan cells
+from computational closure to written mathematics.
+
+\begin{lemma}[Mural compaction]\label{lem:compact}
+If a family $C$ packs in the disk $R$ and every pair of $C$ is
+non-stackable ($R<\max+2\min$), then $C$ packs murally in $R$:
+pushing every circle to the wall at the angle of its true centre is
+legal. \emph{Proof.} Angular separations are unchanged; for any pair
+in any packing, $\cos\gamma\le h(d_a,d_b)$ with the box maximum at
+the mural corner $h(R-a,R-b)=1-2f(a)f(b)=\cos\theta$ (the corners
+with a vanishing coordinate give $h\to-\infty$ for non-stackable
+pairs, whose centres live in an annulus of positive margin
+$d_a\ge a+2b-R$), so $\gamma\ge\theta(a,b)$, which is exactly mural
+disjointness. The hypothesis is tight in two directions (a central
+ring family, and a family non-stackable only against its largest
+member, both packable but not murally). \qed
+\end{lemma}
+
+\begin{lemma}[Insertion by shadows]\label{lem:insert}
+Let $P$ pack $F=\{x_i\}$ in $R$ and let $s$ satisfy the regime
+$R>2s+x_i$ for every $i$. If
+$\sum_i2\arcsin\bigl((s+x_i)/(R-s)\bigr)<2\pi$, then $s$ inserts
+murally into $P$ without moving any piece. \emph{Proof.} The
+forbidden arc of $x_i$ at any depth $d_i$ has half-width
+$\arccos h(R-s,d_i)$, and on $v\in(0,\infty)$ the map
+$v\mapsto h(R-s,v)$ has the single interior minimum
+$v^*=\sqrt{u^2-w^2}$ ($u=R-s$, $w=s+x_i$) with
+$h(u,v^*)=\sqrt{u^2-w^2}/u=\cos\arcsin(w/u)$ exactly: the shadow
+$\arcsin((s+x_i)/(R-s))$ bounds every arc uniformly in depth. If the
+shadows sum below $2\pi$, a free angle exists. Without the regime
+the statement fails (a deep piece of a non-stackable pair forbids
+arcs up to $\pi$); the two regimes are mutually exclusive. \qed
+\end{lemma}
+
+\begin{theorem}[The heavy pan cells, written]\label{thm:D1written}
+In the cell $\{j\ge3,\ \sigma_2\le\varphi-1,\ \sigma_1+\sigma_2>1\}$
+of the pan exchange -- for every profile size $p$, every small-ring
+count and every width, including the solid pivot $\omega\ge1$
+(where the branch $\sigma_2>\varphi-1$ is also closed:
+$\sigma_2>\varphi/2$ is empty by mass, $2\sigma_2>\varphi$, and
+$\sigma_2\in(\varphi-1,\varphi/2]$ by the parametric budget with
+$\Sigma\ge2\sigma_2$) -- $\rho\le\varphi$ implies the exchange does
+not block. \emph{Proof sketch.} The witness placement: the pan
+exactly as $F$ certified it when placing $m$ (occupants with their
+$P$-subtrees rigid, $m$ with $M$ inside, $D_m$ vacated in the
+carrier's hole); $\sigma_1\to D_m$ (single row); $\sigma_2$ inserted
+by Lemma~\ref{lem:insert}; the remaining small mass
+$W'\le\varphi-\sigma_1-\sigma_2<1/\varphi$ (tail of $m$ plus the
+wall $(D)$) as one row-disk (Lemma~\ref{lem:row}) inserted again by
+Lemma~\ref{lem:insert}. The shadow regime holds across the domain
+($o_2-2s\ge4-2\varphi>0$ exactly), and the budget of shadows at
+$R=o_1+o_2$ (shadows decrease in $R$) is bounded by its cascade
+corner $j=3$, $(2\varphi,2,2/\varphi,1)$: $4.7225$ and $5.2644$
+against $2\pi$, margins $1.56$ and $1.02$; the $o_2$-direction is
+exactly monotone, the $o_1$-direction is an exact bathtub with limit
+$\pi<2\pi$, the geometric tail decay $T_k\ge\varphi T_{k+1}$ removes
+$j$, and the remaining directions carry a certified directed
+maximization (script \texttt{insercion}, 7/7, with its adversarial
+report -- which refuted and repaired the naive statement of
+Lemma~\ref{lem:insert} with mural angles in place of shadows). \qed
+\end{theorem}
+
+This supersedes the computational closure of
+$\{p\ge4,\sigma_1+M\le1,j\ge3\}$ and of the solid-pivot regime: both
+cells now carry written proofs, with a single certified maximization
+in the budget (the same epistemic standard as
+Theorem~\ref{thm:DPr}).
 
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
