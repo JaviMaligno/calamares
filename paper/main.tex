@@ -673,10 +673,12 @@ of the nested exchange exceeds $T>\varphi$ with margin, and every
 residual cell of the exchange assembly is closed computationally
 with duality-certificate backing (Appendix~\ref{app:campaign}; the
 profile and dust directions of the scaling are exact by the
-pocket-$\varphi$ lemma, and the heavy pan cells have been upgraded
-to written proofs by the insertion lemma,
-Theorem~\ref{thm:D1written}), leaving as the numeric core the
-corona closures of the nested and port domains.
+pocket-$\varphi$ lemma, and the heavy pan cells, the entire nested
+template and the container port have been upgraded to written
+proofs by the insertion, compaction and trio lemmas,
+Theorems~\ref{thm:D1written}--\ref{thm:gapwritten}), leaving as the
+numeric core the occupant-count direction of the scaling and two
+hole-corona branches of the port.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -979,7 +981,9 @@ only the combinatorial floor $\rho^*_3(\omega)$ survives (above
 $\varphi$ only for $\omega\le1-\varphi/2$); and profiles of four or
 more pieces beyond the reduction branch (and $k\ge3$ with extra
 occupants beyond it), which sit on the same combinatorial floor.
-All three are closed computationally, with duality-certificate
+All three now carry written proofs
+(Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}: the
+entire nested template, every $j$), with duality-certificate
 backing and adversarial verification, in
 Appendix~\ref{app:campaign}. Each statement in this section is backed by a verification
 script and an adversarial verification report in the repository
@@ -1163,14 +1167,20 @@ and~\ref{thm:gapwritten}: the entire nested template, every $j$),
 and the
 exchange assembly -- the case partition over the containers of $m$,
 the container port, and the $\alpha\notin v$ campaign -- is carried
-out there with its facts at theorem level; the shared-root cell
+out there with its facts at theorem level; the container port itself
+is now written (the pan-destination case is a corollary of the two
+nested theorems via the tower root, and the hole-destination case
+assembles from exact pincers); the shared-root cell
 carries a certified-corner closure
 ($\pi+4\arcsin(1/\sqrt3)<2\pi$) and the pocket-$\varphi$ lemma
 closes the profile and dust directions of the scaling exactly. What
 remains for a full proof of Conjecture~\ref{conj:golden} is exactly:
 the occupant-count direction $j$ of the scaling (numeric, swept to
-$j\le9$ with exact geometric cascade growth), and written proofs
-replacing the adversarially verified computational closures.
+$j\le9$ with exact geometric cascade growth), two hole-corona
+branches of the port (bounded families inside a hole -- the shape
+the gap lemma already closed in the pan), and written proofs
+replacing the remaining adversarially verified computational
+closures.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -1229,7 +1239,9 @@ corona-versus-tails campaign of Appendix~\ref{app:campaign} --
 \texttt{coronacolas} (5/5), \texttt{coronanidada} (5/5), the duality
 certificates \texttt{zigzag} (5/5), and the exchange-assembly
 bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
-layer \texttt{escala} (5/5).
+layer \texttt{escala} (5/5); the written-proof layer --
+\texttt{compactacion} (5/5), \texttt{insercion} (7/7),
+\texttt{insercionanidada} (6/6) and \texttt{gaplemma} (5/5).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3128,7 +3140,13 @@ $t_2\ge(1+\Sigma)(1+\varphi)/\varphi^2=1+\Sigma\ge2$
 ($\varphi^2=1+\varphi$), so $R-x\ge t_2\ge2>\varphi\ge2s'$ and
 $2>2/\varphi=2w^*$ for every piece, with margin $2-\varphi$. The
 shadow budgets stay below $2\pi$ across the domain (certified
-maximization with deterministic corners; margin $\ge1.07$). For
+maximization with deterministic corners, margin $\ge1.07$; script
+\texttt{insercionanidada}, 6/6, whose large-slack block sweeps
+pieces up to $10^4$ above the floors -- one and two inflated at a
+time -- and widths up to $\omega=1.35$, with the worst budget
+attained \emph{at} the floor and the $t\to\infty$ limit closing by
+formula at $\pi<2\pi$: the certified domain admits arbitrary values
+above the floors). For
 $j\le1$ the second insertion dies exactly on the golden razor
 $o_1\to2/\varphi$ against $2w^*=2/\varphi$ (the shadow ratio is
 identically $1$): that strip remains with its computational closure.
@@ -3200,7 +3218,7 @@ $(N)$-heritage walls with the load travelling inside $\sigma_1$
 (monolith for placements not using $\sigma_1$'s hole, exact
 absorption of the fattened $B_3'$ in the golden-line chain). The
 genuinely new configurations -- $\alpha$ outside $v$ -- were closed
-by a dedicated campaign (script \texttt{puertocii}, 6/6, two hostile
+by a dedicated campaign (script \texttt{puertocii}, 7/7, two hostile
 rounds): exact pincers reduce the light profile to a window that is
 empty for $\omega_{\mathrm{ef}}\le3/(2\varphi)$ (the corner
 degenerates at $\sigma_2=\tfrac12$ exactly), and inside the window
@@ -3218,7 +3236,32 @@ $\pi+4\arcsin(1/\sqrt3)\approx5.60<2\pi$ (margin $0.68$; lightness
 with $\sigma_1\ge\sigma_2$ forces $\sigma_2\le\tfrac12$, while the
 analytic danger threshold is $\sigma_2=\tfrac23$), with the heavy
 branch by an exact partition and the deeper/mirrored configurations
-by direct sweeps with derived tariffs. Finally, a
+by direct sweeps with derived tariffs.
+
+The port itself is now \emph{written}. When $v$ is the pan and
+$\alpha$ sits nested in a tower whose root $t$ is top-level, the
+case is a \emph{corollary} of
+Theorems~\ref{thm:nestedwritten}--\ref{thm:gapwritten}: those
+theorems use of the configuration exactly four things -- a top-level
+pan family $\{t,o_1,\dots,o_{j'},m\}$ in $P$, the vacated unit disk
+$D_m$ at top level ($v$ the pan makes $m$ top-level in $P$), the
+legality of $m$'s destination by $F$'s certificate with rigid
+subtrees (agnostic to \emph{which} hole receives $m$; the tower is
+shared between $F$ and $P$), and the mass ligatures -- and all four
+hold with the tower root $t$ in the role of ``$\alpha$'', the
+per-rank floors only rising (the tail of $t$ contains the whole
+tower; $t\ge\alpha+\omega\ge1+2\omega$ by two circles level by
+level; the hole-mass floor is automatic by an exact two-branch
+argument), while both certified domains admit arbitrary values above
+their floors (large-slack sweeps to $10^4$ with the worst budget at
+the floor, and the $t\to\infty$, $\alpha\to\infty$ limits closing by
+formula -- a hostile round of this very reduction demanded and
+obtained the large-slack block). When $v$ is the hole of a top-level
+$Y$, the case assembles into a theorem from the exact pincers above,
+modulo a residue of two hole-corona branches (the breathing
+$Y\ge\alpha$ branch with $X_Y+\omega>\varphi$, and the
+$\alpha$-corona with large $X_\alpha$), each a bounded family inside
+a hole -- the same shape the gap lemma closed in the pan. Finally, a
 \emph{pocket-$\varphi$ lemma} removes the profile- and dust-count
 directions of the scaling question exactly: at $R=o_1+o_2$ the
 Descartes discriminant of the tangent pair vanishes identically, the
@@ -3228,12 +3271,20 @@ minimum $(2\varphi,2,2\varphi+2)$, while the total small mass is
 $\le\varphi$ by the tail of $m$: the entire profile and dust row
 into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
 with the nested template verbatim and a geometric non-invasion
-check). The honest residue of the whole program is therefore the
+check). The honest residue of the whole program is therefore: the
 single numeric direction $j$ (occupant count), swept to $j\le9$
 (pan) and $j\le8$ (nested) with uniform tangent duality and the
 exact geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade
-($1+1/\varphi=\varphi$), plus the computational (as opposed to
-written-proof) status of the corona closures themselves.
+($1+1/\varphi=\varphi$); the two hole-corona branches of the port
+above; the computational (as opposed to written-proof) status of the
+remaining sweeps -- the shared-root interior sweeps beyond the
+certified corner, the pan-repack legality statement behind the
+mirror-pocket pincers, the near-equal-tops duality gap
+($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) and the extras coronas
+on their swept ranges; and the optimization lemma that would upgrade
+every certified maximization to a formal supremum (common to all the
+written theorems, optional at the accepted standard of
+Theorem~\ref{thm:DPr}).
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 

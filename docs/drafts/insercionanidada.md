@@ -1,8 +1,9 @@
 # Inserción por sombras en la plantilla anidada: teorema j ≥ 2
 
 Estado: DRAFT con pruebas (2026-08-09), ADVERSARIADO (acta en
-VEREDICTOS.md, misma fecha). Script: `code/insercionanidada.py`
-(5/5). Espejo anidado de `insercion.md`.
+VEREDICTOS.md, misma fecha; segunda ronda vía el puerto escrito,
+misma fecha: bloque F añadido). Script: `code/insercionanidada.py`
+(6/6). Espejo anidado de `insercion.md`.
 
 ## 1. El reparto testigo
 
@@ -83,6 +84,17 @@ peor por monotonía; margen 0.05):
   min(Σ/2, φ/2) — el tope exacto de s′ — con CERO fallos (s_cap
   observados ≥ 0.94 en j = 2, 0.999 en j ≥ 3): cobertura COMPLETA
   en todo ω, todo σ₂ y todos los extras.
+- Holgura GRANDE (bloque F, exigido por la ronda hostil del puerto):
+  piezas hasta 10⁴ sobre el suelo (una y dos infladas a la vez, rank
+  barrido, MC log-uniforme), ω hasta 1.35 (pivote sólido incluido —
+  ω entra solo vía el suelo 1+ω), 0 fallos de régimen (t₂ ≥ 1+Σ es
+  exacto e independiente de holguras) y peor presupuesto 5.2115 EN
+  EL SUELO h = 1: inflar solo ayuda. Límite t → ∞ POR FÓRMULA: con
+  R = t+t₂, la sombra de t → π (razón → 1, régimen t₂−2s ≥ 2−φ
+  exacto) y las demás → 0: presupuesto → π < 2π, margen π (análogo
+  del bloque D de `gaplemma.py`). Con esto el dominio admite valores
+  ARBITRARIOS sobre los suelos — lo que necesita (c-ii-1), donde la
+  raíz t de la torre viene inflada por la torre entera.
 - j ≤ 1: NO cubierto — muere por PRESUPUESTO en la navaja exacta
   o₁ = (1+Σ)/φ → 2/φ contra el régimen de w*, 2w* = 2/φ: la razón
   (w*+α)/(R−w*) = (α+1/φ)/(α+2/φ−1/φ) = 1 IDÉNTICA en α (¡el mismo
@@ -116,10 +128,14 @@ Exacto: legalidad del reparto (certificado de F + maximalidad de m +
 D_m + llenado greedy con lem:row), cota W″ < 1/φ, tope del
 insertando s′ ≤ min(Σ/2, φ/2) (incondicional), régimen automático
 j ≥ 2 (cadena t₂ ≥ 1+Σ con φ² = 1+φ; margen 2−φ), navaja j = 1
-(razón idéntica 1). Numérico-certificado: los presupuestos < 2π
-sobre el dominio muestreado (bisección por instancia + esquinas
-deterministas, margen ≥ 0.05); el cierre formal del sup es el mismo
-lema de optimización pendiente que en `insercion.md`. Controles: sin
+(razón idéntica 1), límite t → ∞ (por fórmula, margen π), suelo
+t ≥ Σ_S+ω automático en raíces de torre (sympy, dos ramas: ω ≥ φ−1
+vía 1+2ω; ω < φ−1 vía cascada con Σ+ω ≤ 2φ−1 < 2φ).
+Numérico-certificado: los presupuestos < 2π sobre el dominio
+muestreado (bisección por instancia + esquinas deterministas +
+holgura grande hasta 10⁴ con ω hasta 1.35, margen ≥ 0.05); el
+cierre formal del sup es el mismo lema de optimización pendiente
+que en `insercion.md`. Controles: sin
 la necesidad de par el presupuesto revienta; el tope es tight en
 s′ = φ/2 (cola(m) = φ exacta, ℓ₁ = ℓ₂ = φ/2) y sigue en régimen con
 margen 2−φ; el lema de régimen se valida en el muestreo (0 fallos

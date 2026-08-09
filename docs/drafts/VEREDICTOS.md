@@ -2234,3 +2234,63 @@ dominio 6 746 tríos activos con R₃ ≤ M siempre (margen mínimo
 numérico-certificado (sup muestreado + esquinas), no teorema; el
 cierre formal es el lema de optimización pendiente común. La cota
 del trío, en cambio, queda blindada como teorema incondicional.
+
+---
+
+## Acta: ronda hostil del puerto escrito (`puertoescrito.md`) — 2026-08-09
+
+Adversario sobre el draft del puerto ((c-ii) como teoremas), con
+lectura con lupa de los dos teoremas anidados, `puertocii.md`,
+`ensamblaje.md`, los tres scripts y sonda numérica propia
+(4 866 nodos, holgura de t hasta 10⁴, ω hasta 1.35, doble inflado).
+
+### VEREDICTO: CONFIRMADO CON CORRECCIONES
+
+El núcleo de §1 RESISTE: la lista de 4 ingredientes agota lo que
+usan thm:nestedwritten y thm:gapwritten (búsqueda con lupa: el tope
+s′ y W″ son masa pura; el régimen automático solo usa |T| ≥ 3; la
+cota (α−ω)/2 no se usa; el trío de gaplemma vale con t verbatim y
+la blindada es incondicional por instancia; E4 entra con Σ_S libre;
+sin mezcla F/P). Los suelos «solo suben» son álgebra de dos líneas
+(verificado sympy).
+
+### Hallazgos y reparaciones
+
+1. **[GRAVE] «Holguras libres y límite α → ∞» era FALSO para
+   `insercionanidada`**: holgura expovariate (~≤ 6×), sin límite
+   t → ∞ — justo lo que (c-ii-1) tensiona (t inflada por la torre).
+   La sonda del adversario: 0 fallos, máximo 5.2115 EN EL SUELO
+   h = 1 (inflar solo ayuda; límite → π). REPARADO: bloque F en
+   `insercionanidada.py` (6/6) — F0 suelo t ≥ Σ_S+ω por dos ramas
+   sympy; F1 régimen bajo holgura arbitraria (9 088 instancias,
+   h ≤ 10⁴, ω ≤ 1.35, dobles infladas, 0 fallos); F2 peor
+   presupuesto 5.2115 en el suelo; F3 límite t → ∞ por fórmula
+   (→ π, margen π). §1 reescrito distinguiendo los dos dominios.
+2. **[GRAVE] El «módulo §3» de §2 omitía hojas**: los barridos del
+   bloque G de R2b (computacional-con-esquina-exacta, no pinzas),
+   [ENUNCIADO] F2 (legalidad del repack, del que dependen F1e/F1f),
+   el gap-dualidad de F3 y los rangos de las coronas. REPARADO: §3
+   ampliado a lista completa (2 ramas abiertas + 4 asteriscos
+   heredados).
+3. **[MENOR] Etiquetas infladas**: «COROLARIO»/«TEOREMA» heredan el
+   estándar §6 (numérico-certificado en el sup). REPARADO: estándar
+   heredado explícito en el corolario y el teorema.
+4. **[MENOR] ω ≥ 1 no barrido en insercionanidada** (≤ 0.999 vs
+   1.35 de puertocii). REPARADO: bloque F barre ω hasta 1.35 (ω
+   entra solo vía el suelo 1+ω; línea en el draft).
+5. **[MENOR] Redacción de suelos**: lo que hace falta (y VALE) es
+   que t y los o_i satisfacen los suelos POR RANGO; t ≥ Σ_S+ω sale
+   automático (dos ramas: ω ≥ φ−1 vía 1+2ω; ω < φ−1 vía cascada
+   con Σ+ω ≤ 2φ−1 < 2φ). REPARADO en §1 + F0.
+6. [NOTA] Script exigido y especificado — es el bloque F (el
+   esqueleto fue la sonda del adversario).
+7. [RESISTE] Ingredientes completos, sin mezcla F/P (ver arriba).
+8. [NOTA] Las dos ramas residuales coinciden con H4 y B2u-fila de
+   las actas: bien delimitadas.
+
+### Estado tras reparación
+
+`insercionanidada.py` 6/6 en verde (bloque F nuevo);
+`insercionanidada.md` actualizado (§3 holgura grande + límite, §5
+estatus); `puertoescrito.md` reescrito (dominios distinguidos,
+estándar heredado, residuo completo §3.1-6).

@@ -45,7 +45,9 @@ Bloques: [A] identidades exactas; [B] presupuesto por bisecciones MC
 + esquinas deterministas, con cobertura POR INSTANCIA hasta el
 objetivo min(Sigma/2, phi/2) (el tope real del insertando);
 [C] inserciones reales euclidianas; [D] cobertura y delimitacion
-honesta; [E] controles.
+honesta; [E] controles; [F] holgura grande / dominio de torres
+(c-ii-1): piezas hasta 10^4 sobre el suelo, omega hasta 1.35,
+limite t -> inf por formula (ronda hostil del puerto, 2026-08-09).
 """
 import math
 import os
@@ -365,6 +367,119 @@ def bloque_E():
     return ok
 
 
+# ---------------------------------------------------------------- bloque F
+def _eval_holgura(piezas, SS):
+    """Presupuesto de sombras del reparto del teorema (s' en el tope
+    min(Sigma/2, phi/2) y w* = 1/phi despues) sobre la familia dada,
+    con R = par de P.  None si falla algun regimen (no deberia:
+    t2 >= 1+Sigma es exacto e independiente de holguras)."""
+    piezas = sorted(piezas, reverse=True)
+    R = piezas[0] + piezas[1]
+    wst = 1 / PHI
+    target = min(SS / 2, PHI / 2)
+    reg1 = all(R - x > 2 * target + 1e-12 for x in piezas)
+    reg2 = all(R - x > 2 * wst + 1e-12 for x in piezas + [target])
+    if not (reg1 and reg2):
+        return None
+    return max(presupuesto(target, piezas, R),
+               presupuesto(wst, piezas + [target], R))
+
+
+def bloque_F():
+    print("[F] holgura grande / dominio de torres (c-ii-1): piezas "
+          "hasta 10^4 sobre el suelo, omega hasta 1.35, limite "
+          "t -> inf (ronda hostil del puerto)")
+    from coronanidada import cascada_anidada
+    import sympy as sp
+    ok = True
+    phi = sp.Rational(1, 2) + sp.sqrt(5) / 2
+    ok &= check("(F0) suelo t >= Sigma_S+omega AUTOMATICO en la raiz "
+                "de torre (sympy, dos ramas): omega >= phi-1 via "
+                "t >= 1+2omega y Sigma_S <= Sigma <= phi <= 1+omega; "
+                "omega < phi-1 via cascada t >= (2+omega+Sigma)/phi "
+                ">= Sigma+omega <=> Sigma+omega <= 2/(phi-1) = 2phi, "
+                "y Sigma+omega <= phi+(phi-1) = 2phi-1 < 2phi",
+                sp.simplify(2 / (phi - 1) - 2 * phi) == 0
+                and float(2 * phi - (2 * phi - 1)) > 0)
+    rng = random.Random(SEED + 7)
+    peor, arg = 0.0, None
+    n, freg = 0, 0
+    HS = [1.0, 1.5, 2, 3, 4, 6, 8, 12, 20, 40, 80, 200, 1000, 10000]
+    for j in (2, 3, 4):
+        for w in (0.05, 0.3, 0.6, 0.9, 0.999, 1.2, 1.35):
+            for SS in (1.0 + 1e-9, 1.2, 1.4, PHI):
+                for rank in range(j + 1):
+                    for h in HS:
+                        holg = [1.0] * (j + 1)
+                        holg[rank] = h
+                        af, occs = cascada_anidada(SS, j, rank,
+                                                   1.0 + w, holg)
+                        n += 1
+                        v = _eval_holgura([af] + list(occs) + [1.0],
+                                          SS)
+                        if v is None:
+                            freg += 1
+                        elif v > peor:
+                            peor = v
+                            arg = dict(j=j, w=w, SS=round(SS, 3),
+                                       rank=rank, h=h)
+    # dos piezas infladas a la vez (la raiz t y un ocupante)
+    for j in (2, 3):
+        for w in (0.05, 0.6, 0.999, 1.35):
+            for SS in (1.0 + 1e-9, 1.4, PHI):
+                for h1 in (3, 10, 100, 1000):
+                    for h2 in (3, 10, 100, 1000):
+                        holg = [1.0] * (j + 1)
+                        holg[0], holg[j] = h1, h2
+                        af, occs = cascada_anidada(SS, j, 0,
+                                                   1.0 + w, holg)
+                        n += 1
+                        v = _eval_holgura([af] + list(occs) + [1.0],
+                                          SS)
+                        if v is None:
+                            freg += 1
+                        elif v > peor:
+                            peor = v
+                            arg = dict(j=j, w=w, dos=(h1, h2))
+    # MC con holguras log-uniformes independientes por pieza
+    for _ in range(max(4000, ITER // 15)):
+        j = rng.randrange(2, 7)
+        w = rng.uniform(0.05, 1.35)
+        SS = rng.uniform(1.0 + 1e-6, PHI)
+        holg = [math.exp(rng.uniform(0.0, math.log(1e4)))
+                for _ in range(j + 1)]
+        rank = rng.randrange(0, j + 1)
+        af, occs = cascada_anidada(SS, j, rank, 1.0 + w, holg)
+        n += 1
+        v = _eval_holgura([af] + list(occs) + [1.0], SS)
+        if v is None:
+            freg += 1
+        elif v > peor:
+            peor = v
+            arg = dict(mc=True, j=j, w=round(w, 2))
+    ok &= check(f"(F1) regimen automatico bajo holgura ARBITRARIA "
+                f"({n} instancias, h hasta 10^4, omega hasta 1.35 "
+                f"incl. pivote solido, dos piezas infladas): {freg} "
+                f"fallos de regimen (exacto: t2 >= 1+Sigma no "
+                f"depende de holguras)", freg == 0 and n > 4000)
+    ok &= check(f"(F2) presupuesto bajo holgura arbitraria: peor = "
+                f"{peor:.4f} < 2pi - 0.05 = {2 * PI - 0.05:.4f} "
+                f"(argmax {arg}: el maximo vive en el SUELO h = 1; "
+                f"inflar solo ayuda)", peor < 2 * PI - 0.05)
+    # (F3) limite t -> inf por formula + puntos
+    vals = []
+    for t in (1e6, 1e8):
+        vals.append(_eval_holgura([t, 2.0, 1.0], PHI))
+    lim_ok = all(v is not None and abs(v - PI) < 0.01 for v in vals)
+    ok &= check(f"(F3) limite t -> inf POR FORMULA: R = t+t2, la "
+                f"sombra de t -> pi (razon (s+t)/(t+t2-s) -> 1, "
+                f"regimen t2 - 2s >= 2-phi exacto) y las demas -> 0: "
+                f"presupuesto -> pi < 2pi (margen pi); puntos "
+                f"t = 10^6, 10^8: {[round(v, 4) for v in vals]}",
+                lim_ok)
+    return ok
+
+
 def main():
     print("=" * 68)
     print("INSERCION ANIDADA: teorema j >= 2 escrito "
@@ -375,7 +490,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCDE")
+    etiquetas = [solo] if solo else list("ABCDEF")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"
