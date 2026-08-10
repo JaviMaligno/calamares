@@ -2782,3 +2782,66 @@ E, cola de D correcta, gates H6; `bolsillos.md` §3 v4. Los B&B
 re-verificados con las salvaguardas: rama 1 k = 2 en 274k cajas,
 rama 2 en 7.9k; j = 1 en curso con tope ampliado (la salvaguarda
 honesta encarece la banda áurea).
+
+---
+
+## Acta: ronda hostil de la re-delimitación F3 (`f3cierre.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: REFUTADO como «cierre», rescatado como lema
+condicional con dominio honesto.
+
+Referee hostil sobre `f3cierre.py` v1 (4/4) + `f3cierre.md` v1.
+Evidencia ejecutada (ataque reproducible, semillas 20260818/20260814).
+
+### Derribos
+
+1. **[GRAVE] Transferencia al dominio real FALSA**: el generador
+   real del F3 (puertocii) produce instancias de gap cuyos tops
+   tienen parejas APILABLES al radio exacto (3/3 medidas) — la
+   hipótesis de no-apilabilidad del teorema falla en el 100% de las
+   instancias reales de gap: «R_real ≥ R_arcLP(tops) es TEOREMA»
+   NO cubre la celda F3 real. El «60/60 no apilables» era artefacto
+   del generador sintético (ratio 0.9-1.0).
+2. **[GRAVE] «≤ 1.030» refutado por la esquina del propio dominio**:
+   4 tops 0.9 + 2 granos 0.55 da ratio 1.0816 (cadena diametral
+   top-grano-top = 2.35 exacto); 3×0.9+2×0.55 da 1.0603. El gate
+   1.05 del bloque B fallaba en la esquina de su propio dominio; 60
+   muestras uniformes no la pisaron. Supremo real ≥ 8.2%.
+3. **[GRAVE] Narrativa «1.0116 = dos cotas flojas» sin soporte**: en
+   el dominio sintético las dos cotas viejas son TENSAS (R_lb sobre
+   tops = radio exacto; R_fit = radio exacto 25/25); el check D(a)
+   era True hardcodeado y lo medido (0/25 sobrestimaciones)
+   contradecía su propio texto. El 1.0116 vive en el dominio real —
+   donde el teorema no llega.
+4. **[MEDIO] Justificación de granos falsa**: «un grano siempre es
+   apilable tras un top» — contraejemplo: top 0.9 + grano 0.55 ⟹
+   top+2·grano = 2.0 > R_ex = 1.939. La irrelevancia real es por
+   borrado monótono.
+5. **[MEDIO] Disciplina de lados/tolerancias**: enunciados de
+   necesidad citaban el lado hi (suficiencia); banda ~1e-9 del
+   primal con signo favorable-a-factible sin declarar (medida:
+   True en R₃*−1e-10, False desde 1e-9); el déficit «~1e-10» del
+   bloque D(c) está DENTRO de la banda.
+6. **[MEDIO] n = 6 fuera del acta del arc-LP** (validado k = 3..5);
+   deriva de definición del R_lb viejo (sobre carga, no sobre tops
+   como puertocii); granos escalan por t0 (cociente hasta 0.61, no
+   0.55).
+
+RESISTE: la composición compactación∘arc-LP (dirección correcta:
+orden heredado ⟹ mín sobre órdenes; monotonía en R), la sanity
+clásica genuina (1+2/√3, 1+√2 en tangencia), la precondición
+pares-caben en toda la bisección, la resolución 2⁻⁴² de la
+bisección, la lógica de la dicotomía por instancia (R_ex vs M con
+el lado seguro).
+
+### Estado tras reparación (v2, 5/5)
+
+Lema CONDICIONAL con dominio honesto: malla determinista de 16
+esquinas (supremo 1.0816 certificado como esquina), R_lb viejo con
+la definición de puertocii + vigilancia de ambos lados (tenso
+60/60), D(a) con condición real (sobre == 0: narrativa retirada),
+lados lo/hi separados + banda del primal declarada y medida en A,
+bloque E nuevo: (e1) generador real reproducido — 3/3 instancias de
+gap con tops apilables, el residuo 1.0116 PERMANECE con dos vías
+declaradas; (e2) acta del arc-LP extendida a k = 6 (dual-y-primal
+vs LP directo HiGHS, 60 sistemas 31/29, 0 discrepancias).

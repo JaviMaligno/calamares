@@ -1252,8 +1252,11 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
 \texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
 \texttt{optimizacion} (5/5), \texttt{repack} (5/5),
-\texttt{r2bcert} (5/5), \texttt{arcolp} (5/5) and
-\texttt{bolsillos} (5/5).
+\texttt{r2bcert} (5/5), \texttt{arcolp} (5/5),
+\texttt{bolsillos} (5/5) and \texttt{f3cierre} (5/5, the
+conditional duality lemma; its adversarial round refuted a stronger
+closure claim and extended the arc-LP validation to $k=6$ against an
+independent LP solver).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3404,8 +3407,22 @@ remaining sweeps -- the shared-root \emph{multipiece} sweeps
 (explicit extra occupants in the corona, the heavy-profile
 partition, and the mirrored branch beyond its $X=0$ cut) plus the
 near-equal-tops duality gap
-($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) and the extras coronas
-on their swept ranges; the shared-root \emph{trio} itself is now
+($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$ -- now re-delimited by
+a \emph{conditional duality lemma}: for families whose pairs are all
+non-stackable at the radius in play, the arc-LP radius of
+Appendix~\ref{app:campaign} is the exact minimal mural-corona radius
+on both sides, by compactification for necessity and the closed
+arc-LP for sufficiency, reproducing the classical equal-circle
+optima $1+2/\sqrt3$ and $1+\sqrt2$ at tangency; on the synthetic
+non-stackable domain the true load-versus-tops interval has corner
+supremum $1.082$, certified over a deterministic corner mesh, but
+the real near-equal-tops instances have \emph{stackable} top pairs
+and remain outside the lemma, so the $1.0116$ residue stands there,
+with two declared routes: non-stackable top subsets, or real pan
+mass added to the necessity through the cascade of tails; script
+\texttt{f3cierre}, 5/5, adversarial round -- which refuted the
+first ``closure'' claim and its sampled $1.030$ bound) and the
+extras coronas on their swept ranges; the shared-root \emph{trio} itself is now
 certified by subdivision over its entire legal domain in the direct
 orientation -- light interior, both frontiers and every depth at
 once, via the free-leader reduction -- and over the $X=0$ cut of
