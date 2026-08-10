@@ -2958,3 +2958,57 @@ Lema (i)-(iv) exacto en ℚ(√5) (candidato a Lean); bloque de polvo
 con el orden monótono explícito; lado degenerado correcto sin
 dependencia del accidente; G-e 501 cajas vistas / 109 certificadas;
 G-g pesada X=0 re-verificada tras las reparaciones.
+
+---
+
+## Acta: ronda hostil de la variedad ESP X_Y > 0 (`espxy.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. El hallazgo central
+sobrevive al asalto: álgebra exacta verificada A MANO (las seis
+identidades), refutación sound y robusta (déficit 0.51 rad, no
+marginal), región legal (réplica exacta de semilla + paredes
+omitidas comprobadas post-hoc: 0 violaciones), protección áurea de
+σ₂ real con margen (min z = 2.84 ≫ φ; 2M muestras, 0 puntos con
+σ₂ > x*). La trampa gorda del encargo (fila de D_m vs (BH)) se
+disuelve: D_m (hueco unidad en v, cap 1) y H_m (agujero propio de
+m, cap 1−ω−X_m) son recursos distintos.
+
+### Regalos del referee
+
+- **x*(φ) = φ/2 EXACTO** — el mecanismo de la protección de σ₂:
+  z > φ ⟺ x*(z) > φ/2 ≥ σ₂ (no el umbral difuso «z ≥ 1.9»).
+- φ(3−φ) = √5 (el umbral de no-rescate en x = 0 es la constante
+  de respiración fuerte).
+- Barrido con ω libre: min z = 2.84, min ω = 0.906 en la zona sin
+  rescate; la caja ω ∈ [0.9, 1.6] del generador era esencialmente
+  exacta por casualidad.
+
+### Correcciones exigidas (aplicadas)
+
+1. (BH) y (Bσ₁) son paredes del BLOQUEO y el generador no las
+   comprobaba (se cumplían por suerte estructural de la caja, 0/300
+   violadas): añadidas por construcción.
+2. C(c) era TAUTOLOGÍA (2z+2+2x > 2c′ ⟺ x > 0 con c′ = 1+z por
+   construcción — gate que no puede fallar, E2 disfrazado):
+   eliminado y reetiquetado como corolario trivial; texto roto de
+   C(b) arreglado.
+3. El «4/300» del draft era cifra huérfana (el script no lo mide):
+   retirado; «300/300» anotado como dependiente de semilla (gate
+   > 80%).
+4. x*(φ) = φ/2 enunciado como el mecanismo (reparación 4).
+5. Lado x ≥ 1 rebajado a MODEL-CONDITIONAL (pieza ≥ r_m fuera del
+   convenio de X_Y = polvo < m; tarifa de cola sin derivar; banda
+   finísima: 0.005 en z = 4).
+6. Código muerto retirado (cabe_trio, rama xs ≥ 1); D-1 reetiquetado
+   como malla orientativa sin gate ficticio.
+7. Nota de alcance: la parte ω ≥ 1 de la variedad cae en régimen de
+   pivote sólido (posible cobertura por DPr j ≥ 3, pendiente —
+   reduciría la variedad a ω ∈ (0.9, 1)).
+
+### Estado tras reparación (v2, 5/5)
+
+La celda ESP X_Y > 0 pasa de «declarada fuera» a variedad peligrosa
+DELIMITADA con frontera exacta: x* = p(z,1;1+z) = z(z+1)/(z²+z+1)
+(el bolsillo del par diametral), anchura 1/(z²+z+1) (= 1/(2φ²) en
+z = φ), no-rescate z+ω ≥ φ(3+x−φ) (= 3φ−1 en x = 1). Tres rutas de
+cierre declaradas (simetría m↔x la más prometedora), nada hecho.
