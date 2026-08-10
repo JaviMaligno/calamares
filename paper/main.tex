@@ -1256,9 +1256,13 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{bolsillos} (5/5), \texttt{f3cierre} (5/5, the
 conditional duality lemma; its adversarial round refuted a stronger
 closure claim and extended the arc-LP validation to $k=6$ against an
-independent LP solver) and \texttt{r2bmulti} (5/5, the multipiece
+independent LP solver), \texttt{r2bmulti} (5/5, the multipiece
 certificates; its adversarial round found no soundness gap and
-corrected the domain claim to the sweep box).
+corrected the domain claim to the sweep box) and
+\texttt{areduccion} (5/5, the golden-threshold reduction lemma and
+the heavy branches; its adversarial round confirmed the algebra by
+hand, found no soundness gap, and contributed the $4t_0=\varphi-1$
+incompatibility).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3424,13 +3428,38 @@ $4$--$6$ pieces, entire $\sigma_2<1$) over the sweep box, and the
 mirrored branch beyond its $X=0$ cut in the $X_Y=0$ direction
 (shifted windows with $X_\alpha,X_z,X_m>0$, dual per-box bounds
 coupling the diametral floor $c'\ge1+z$, certified at margins both
-$0.3$ and $0.35$); the heavy-profile partition (multipiece $A$ with
-unbounded cardinality), the $X_Y>0$ mirrored corona and the sweep
-caps themselves ($X_Y\le3$, $\omega\le1.6$ -- sampling ceilings,
-not derived walls) remain sampled (script \texttt{r2bmulti}, 5/5,
-adversarial round: no soundness gap in $1\,460$ directed tests; the
-round corrected the domain claim to the sweep box and replaced the
-solver-trusting margin by the float re-verification) -- plus the
+$0.3$ and $0.35$). The heavy-profile partition -- multipiece $A$
+with \emph{unbounded} cardinality -- is closed by a
+\emph{reduction lemma with a golden threshold}, exact in
+$\mathbb{Q}(\sqrt5)$: taking $B^{*}$ the best subset of $S$ of mass
+$\le1$ (rowed into $D_m$) and $A=S\setminus B^{*}$ with
+$\beta=\Sigma B^{*}$, maximality gives $a+\beta>1$ for every
+$a\in A$, $\beta\ge\sigma_1\ge\max A$ (hence $a\le\varphi/2$), and
+\emph{at most four} pieces of $A$ exceed
+$t_0=(\varphi-1)/4=1/(4\varphi)$ -- a dichotomy at
+$\beta^{*}=(9-\sqrt5)/8$ whose critical identity
+$5t_0=\varphi-\beta^{*}$ is exact, with the twin identity
+$4t_0=\varphi-1$ making four large pieces and dust
+\emph{incompatible} -- while the remaining dust (pieces $\le t_0$,
+present only for $\beta>\beta^{*}$, mass $\mu<5t_0$) is paid by
+\emph{mass, not count}: convexity of $\arcsin$ gives
+$\theta(a,b)\le\arcsin f(a)+\arcsin f(b)$, so a monotone dust chain
+costs at most $\pi\mu/(R-t_0)$ regardless of how many pieces carry
+the mass. The heavy mural is then $\{Y\text{ or }z,m\}$ plus at
+most four large pieces plus one aggregated dust block, and the
+two-sided antipodal engine certifies both heavy branches over
+their sweep boxes (the direct one entirely; the mirrored one on
+its $X=0$ cut). What remains sampled: the $X>0$ mass of the heavy
+mirrored sweep, the $X_Y>0$ mirrored corona and the sweep caps
+themselves ($X_Y\le3$, $\omega\le1.6$ -- sampling ceilings, not
+derived walls) (scripts \texttt{r2bmulti} and \texttt{areduccion},
+5/5 each, adversarial rounds: no soundness gap -- $1\,460$ directed
+tests for the engine, hand-redone algebra and adversarial profiles
+for the lemma; the rounds corrected domain claims to the sweep
+boxes, replaced the solver-trusting margin by a float
+re-verification of the returned gap vector, fixed a degenerate
+half-circle that silently re-introduced the excluded antipodal
+pair, and contributed the $4t_0$ incompatibility) -- plus the
 near-equal-tops duality gap
 ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$ -- now re-delimited by
 a \emph{conditional duality lemma}: for families whose pairs are all

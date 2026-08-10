@@ -2902,3 +2902,59 @@ G-b′ j ≤ 3 certificada sobre la caja del barrido con s2 < 1 entera
 (59/87/139 cajas); ESP X > 0 (X_Y = 0) certificada (948 cajas, y
 1863 a margen 0.35); verificación float de toda d certificante;
 alcance honesto con los cuatro FUERA declarados.
+
+---
+
+## Acta: ronda hostil del lema de reducción de |A| (`areduccion.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. Cero grietas de
+solidez: ningún camino por el que el certificado apruebe algo falso
+(mayorantes verificados par a par en dirección pesimista;
+colocaciones físicas construidas; ninguna poda traga puntos reales
+— 600 puntos G-e + 400 G-g, 0 podados; dominios MC contenidos —
+6553 instancias G-e + 5822 G-g pesada X=0, 100% dentro de las
+raíces).
+
+### Confirmado por el referee
+
+El LEMA entero rehecho a mano (dicotomía en β* con estrictos
+correctos; b_star_particion da exactamente la maximalidad usada;
+a ≤ φ/2; 1312 perfiles adversarios en los umbrales, 0 violaciones).
+El bloque de polvo (convexidad en la dirección correcta, igualdad
+solo en la diagonal; cota independiente del orden; embedding
+atómico sound; colocación física de una cadena de 14 piezas). El
+antipodal de dos lados (tangencia θ(z,m) ≡ π en c′ = 1+z legítima
+con desigualdades cerradas; pares cruzados entre semicírculos
+dominados por los extremos). Los criterios de caja (podas exactas
+una a una; cota acoplada con signo x(1−x) ≥ 0; clamps de masa
+fantasma con los suelos correctos).
+
+### Derribos/correcciones
+
+1. **[OBLIGATORIA] Lado degenerado de _peor_camino**: con cadena
+   vacía, el arco completo de un solo gap reintroducía el par
+   antipodal «excluido» y exigía θ(0,1) ≤ π−margen — en la
+   tangencia de G-g eso era False irresoluble, y el verde de D
+   dependía del ACCIDENTE de que la bisección nunca anula un slot
+   (89/400 puntos reales tangentes daban False estructural).
+   REPARADO: cadena vacía ⟹ presupuesto 0 (el lado degenerado ES
+   el par excluido).
+2. **[REDACCIÓN] §5 sobrevendía G-g**: solo la rebanada X = 0 del
+   MC pesado queda sustituida. REPARADO.
+3. **[REDACCIÓN] «cajas» → «cajas vistas (certificadas + podas)».
+   REPARADO.
+4. **[RECOMENDADA] El orden MONÓTONO del polvo es carga real del
+   argumento** (contraejemplo no-monótono [t₀, ε, t₀] viola pares
+   saltados: sep 0.023 < θ 0.147) y solo vivía en un check.
+   REPARADO en §2.
+5. **[REFUERZO hallado por el referee] 4t₀ = φ−1 EXACTO ⟹
+   |A_big| = 4 y polvo INCOMPATIBLES** (μ < 1−β < toda pieza de
+   polvo): el mural real es ≤ 6 nodos. AÑADIDO al lema (iv) y como
+   poda exacta en ambos B&B.
+
+### Estado tras reparación (v2, 5/5)
+
+Lema (i)-(iv) exacto en ℚ(√5) (candidato a Lean); bloque de polvo
+con el orden monótono explícito; lado degenerado correcto sin
+dependencia del accidente; G-e 501 cajas vistas / 109 certificadas;
+G-g pesada X=0 re-verificada tras las reparaciones.
