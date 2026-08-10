@@ -1,9 +1,21 @@
 # La variedad del bolsillo diametral: ESP con X_Y > 0
 
+**ERRATA (2026-08-10, acta de espvals): la «variedad» de este
+draft es VACÍA bajo ρ ≤ φ** — la cola GLOBAL de m (ΣS+X_m+ΣX_Y ≤
+φ, que el generador no imponía) es incompatible con ΣS > 1 ∧
+x > x* (300/300 puntos del acta la violan, mínimo 1.96 > φ); y en
+el suelo c′ = 1+z el propio P es infactible con x > x* en v
+(rigidez del par diametral). Lo que SOBREVIVE: toda el álgebra
+exacta de §1 como GEOMETRÍA de fronteras (Lean 40-41) y la
+consecuencia positiva: toda X_Y legal ≤ φ−ΣS < 0.618 < x*(z) —
+sub-bolsillo universal, la celda se cierra por vacuidad +
+inserción. Ver `espvals.md` v2.
+
 Estado: v2 (2026-08-10), ADVERSARIADO (acta en VEREDICTOS.md:
 CONFIRMADO CON CORRECCIONES — el hallazgo sobrevive con margen;
 las 7 reparaciones aplicadas, incluida la identidad x*(φ) = φ/2
-regalada por el referee). Script: `code/espxy.py` (5/5).
+regalada por el referee; **superado por la ERRATA de arriba**).
+Script: `code/espxy.py` (5/5).
 EXPLORACIÓN Y DELIMITACIÓN, no cierre: la celda especular de R2b
 con X_Y > 0 (declarada fuera en r2bcert H2 y r2bmulti §4) contiene
 una obstrucción REAL del testigo estándar, con frontera en forma

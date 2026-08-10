@@ -3037,3 +3037,48 @@ lem:compact/lem:insert (disco arbitrario) y el precedente
 corona-α; el receptor natural de x es la SARTÉN vía el lema F2 de
 realización-y-repack (u = agujero de α no puede: su techo de
 bloqueo α < 1+σ₂+X_α+ω no admite m+x ≈ 2).
+
+---
+
+## Acta: ronda hostil del vals de las bolas vacantes (`espvals.md` v1) — 2026-08-10
+
+VEREDICTO GLOBAL: REFUTADO, con tres derribos independientes y una
+ERRATA al acta archivada de espxy.
+
+1. **[FATAL] El vals no está licenciado por F2**: el lema da por
+   contenedor O el recurso posicional (bolas vacantes sobre la
+   realización de P) O el certificado fresco (fila/corona que la
+   SUSTITUYE) — el vals exigía ambos en v (x → D_m + σ₁ → bola de x
+   + trío fresco): en modo certificado la bola de x muere con el
+   repack (σ₁ sin casa: x+σ₁ > 1.41 > 1 siempre); en modo
+   posicional σ₂ necesita inserción con presupuesto de sombras sin
+   derivar. La propia silla (iii) del draft enunciaba el principio
+   que lo mata.
+2. **[FATAL] La variedad entera es ILEGAL bajo ρ ≤ φ**: la cola
+   GLOBAL de m incluye las X_Y (ΣS+X_m+ΣX_Y ≤ φ); la variedad
+   exigía ΣS > 1 y x > 0.91: ΣS+x > 1.91 > φ. Medido: 400/400
+   (espvals B), 250/250 (núcleo) y **300/300 del acta de espxy**
+   (mínimo 1.96). ERRATA: los «300 puntos legales» de espxy no lo
+   eran; su referee dirigido comprobó las paredes listadas y nadie
+   miró cola(m) — evidencia directa para la ronda final ciega.
+3. **[FATAL] Rigidez del suelo**: en c′ = 1+z el par (z,m) es
+   tangente rígido y el hueco máximo de v es exactamente x*: P
+   mismo es infactible con x > x* en v — la obligación «corona con
+   x» era fantasma (cp = 1+z exacto en el 100% de lo muestreado).
+4. [MENOR] ω ∈ [1.003, 1.6] del núcleo era artefacto de semilla
+   (ω_min = 0.970 con 2000 puntos); la atribución del
+   estrangulamiento a cola(z) sola, incorrecta (~0.60 analítico);
+   sillas (vi)-(viii) sin listar; «97%» y rango de ω sin gate.
+
+### Estado tras el acta (v2, 5/5)
+
+`espvals.py`/`espvals.md` REESCRITOS como el documento de la
+VACUIDAD: la pared cola(m) global (incompatibilidad exacta
+ΣS+x > 1.91 > φ), la rigidez del suelo (tangencias numéricas a
+1e-8 confirman hueco = x*), y la CONSECUENCIA POSITIVA: toda X_Y
+legal ≤ φ−ΣS < 0.618 < x*(z) en todo el dominio — sub-bolsillo
+universal: la celda ESP X_Y > 0 ligera se cierra por vacuidad +
+inserción (certificación k-piezas pendiente declarada). El álgebra
+de espxy sobrevive como geometría (Lean 40-41). Lecciones: colas
+globales en toda legalidad de adversario; existencia de P en los
+suelos rígidos; los dos modos de F2 no se mezclan.
