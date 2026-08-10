@@ -1253,10 +1253,12 @@ layer \texttt{escala} (5/5); the written-proof layer --
 \texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
 \texttt{optimizacion} (5/5), \texttt{repack} (5/5),
 \texttt{r2bcert} (5/5), \texttt{arcolp} (5/5),
-\texttt{bolsillos} (5/5) and \texttt{f3cierre} (5/5, the
+\texttt{bolsillos} (5/5), \texttt{f3cierre} (5/5, the
 conditional duality lemma; its adversarial round refuted a stronger
 closure claim and extended the arc-LP validation to $k=6$ against an
-independent LP solver).
+independent LP solver) and \texttt{r2bmulti} (5/5, the multipiece
+certificates; its adversarial round found no soundness gap and
+corrected the domain claim to the sweep box).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3403,9 +3405,32 @@ $T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$) --
 the written theorems' occupant counts are closed by the
 geometric-tail lemma; the computational (as
 opposed to written-proof) status of the
-remaining sweeps -- the shared-root \emph{multipiece} sweeps
-(explicit extra occupants in the corona, the heavy-profile
-partition, and the mirrored branch beyond its $X=0$ cut) plus the
+remaining sweeps -- the shared-root \emph{multipiece} sweeps, now
+substantially certified by a pessimistic-corner engine over the
+arc-LP's sufficiency direction (valid for every $k$): a
+term-by-term majorant matrix (each wall angle bounded at its own
+corner, participants at their ceilings \emph{including} their
+contribution to the capacity, the rest at their floors -- valid
+since $\partial\theta/\partial a$ carries the sign of
+$R-a-b=\Sigma_S+\text{rest}>0$), a maximum-slack LP whose returned
+gap vector is re-verified in plain floating point, and an
+\emph{antipodal} criterion for the $\Sigma_S\to1$ edge ($Y$ and $m$
+at distance exactly $\pi$, strict by algebra, with the remaining
+pieces as an interval -- hence totally unimodular, hence exact --
+path system on one half-circle, where the circular LP's margin
+degenerates even at real points). This certifies the explicit
+extra occupants ($1$--$3$ corona pieces up to size $Y$, coronas of
+$4$--$6$ pieces, entire $\sigma_2<1$) over the sweep box, and the
+mirrored branch beyond its $X=0$ cut in the $X_Y=0$ direction
+(shifted windows with $X_\alpha,X_z,X_m>0$, dual per-box bounds
+coupling the diametral floor $c'\ge1+z$, certified at margins both
+$0.3$ and $0.35$); the heavy-profile partition (multipiece $A$ with
+unbounded cardinality), the $X_Y>0$ mirrored corona and the sweep
+caps themselves ($X_Y\le3$, $\omega\le1.6$ -- sampling ceilings,
+not derived walls) remain sampled (script \texttt{r2bmulti}, 5/5,
+adversarial round: no soundness gap in $1\,460$ directed tests; the
+round corrected the domain claim to the sweep box and replaced the
+solver-trusting margin by the float re-verification) -- plus the
 near-equal-tops duality gap
 ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$ -- now re-delimited by
 a \emph{conditional duality lemma}: for families whose pairs are all

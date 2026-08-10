@@ -2845,3 +2845,60 @@ bloque E nuevo: (e1) generador real reproducido — 3/3 instancias de
 gap con tops apilables, el residuo 1.0116 PERMANECE con dos vías
 declaradas; (e2) acta del arc-LP extendida a k = 6 (dual-y-primal
 vs LP directo HiGHS, 60 sistemas 31/29, 0 discrepancias).
+
+---
+
+## Acta: ronda hostil de la multipieza R2b (`r2bmulti.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. La matemática entera
+resiste (1460 tests dirigidos + end-to-end, 0 grietas de solidez);
+las grietas son de enunciado y dominio.
+
+### Derribos
+
+1. **[OBLIGATORIA] El «dominio legal» de G-b′ era falso**: el techo
+   Y ≤ 6.6 descansa en el tope de MUESTREO X_Y ≤ 3 de puertocii, no
+   en una pared derivada — instancia legal exhibida con X_Y = 4,
+   Y = 7.0 que pasa todas las paredes declaradas; y s2 = 0.9995
+   legal fuera de la raíz [0, 0.999]. El draft vendía
+   «superconjunto del dominio legal... TODO el dominio». REPARADO:
+   s2 < 1 ENTERA (pared real, re-certificado 59/87/139 cajas) y
+   enunciado reescrito como caja del barrido MC con X_Y > 3 y
+   ω > 1.6 declarados FUERA.
+2. **[OBLIGATORIA] «MARGEN = 1e-7 ≫ precisión ~1e-9 de HiGHS» era
+   falso en la cifra**: la banda ~1e-9 es la del primal-por-bases;
+   el error del objetivo de HiGHS en el max-t llega a +2.5e-8
+   (medido: t_true = 5e-8 → reporta 7.5e-8) y 1e-7 es exactamente
+   su tolerancia de factibilidad por defecto. REPARADO: la d
+   devuelta se verifica en FLOAT PURO (_verifica_d: holgura ≥ 5e-8
+   por arco, Σd = 2π, d ≥ 0; error float ~1e-15) — el certificado
+   ya no descansa en el solver.
+3. **[MENOR] Cita imprecisa**: f3cierre [E] validó el LP de
+   FACTIBILIDAD, no el max-t. REPARADO en textos.
+4. **[MENOR] Carga mal atribuida**: «habilitado por la validación
+   k = 6» sugería depender de la caracterización k = 6; los
+   certificados usan solo la SUFICIENCIA del arc-LP (válida para
+   todo k). REPARADO en draft y docstrings.
+
+### RESISTE (verificado por el referee)
+
+Motor por término (monotonía acoplada verificada por tipo de par;
+m fuera de la capacidad correcto en la tarifa DR; clamp s2_p sup
+exacto; 400 cajas-punto sin violación; π-gorra inofensiva por
+álgebra de pares). Criterio antipodal (exclusión de (Y,m) legítima
+— ambos lados a π exacto con θ < π estricto por álgebra; sub-camino
+≤ π automático; TU de intervalos aplica a max(Σθ_consec, θ_ext);
+400 sistemas de camino vs LP, 0 discrepancias; end-to-end con
+colocaciones construidas, 0 pares mal separados). Las dos UB de la
+ESP (UB1 acoplada válida eslabón a eslabón; UB2 con cola clampada
+válida; 6 podas exactas, 600 controles sin podas de puntos reales).
+El aterrizaje ESP es limpio, no al límite: re-ejecutado a 2π−0.35
+CERTIFICA (1863 cajas, cota 5.9331). Sin circularidad con r2bcert.
+Controles negativos reales.
+
+### Estado tras reparación (v2, 5/5)
+
+G-b′ j ≤ 3 certificada sobre la caja del barrido con s2 < 1 entera
+(59/87/139 cajas); ESP X > 0 (X_Y = 0) certificada (948 cajas, y
+1863 a margen 0.35); verificación float de toda d certificante;
+alcance honesto con los cuatro FUERA declarados.
