@@ -318,11 +318,14 @@ def bloque_D():
                 f"falsable; acta E2); la sintesis del referee: "
                 f"min z = 2.84 en la zona sin rescate (2M "
                 f"muestras con omega libre), min omega = 0.906, "
-                f"y la parte con omega >= 1 cae en regimen de "
-                f"PIVOTE SOLIDO (posible cobertura por la rama "
-                f"DPr j >= 3 — pendiente de comprobar: reduciria "
-                f"la variedad a omega en (0.9, 1))",
-                len(filas) == 6)
+                f"y la nota de pivote solido esta RESUELTA EN "
+                f"NEGATIVO (analisis 2026-08-10): D3/DPr/D1written "
+                f"son celdas del intercambio de SARTEN (caso (a), "
+                f"particion disjunta definicional; los programas "
+                f"de sarten no portan) y omega >= 1 es donde vive "
+                f"el residuo de (c-ii), no algo delegado — la "
+                f"variedad completa omega en (0.906, 1.6] queda "
+                f"ABIERTA", len(filas) == 6)
     # el lado x > 1 existe: punto con x = 1.05
     zv = 4.0
     x = 1.05

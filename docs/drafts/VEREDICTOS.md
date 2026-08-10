@@ -3012,3 +3012,28 @@ DELIMITADA con frontera exacta: x* = p(z,1;1+z) = z(z+1)/(z²+z+1)
 (el bolsillo del par diametral), anchura 1/(z²+z+1) (= 1/(2φ²) en
 z = φ), no-rescate z+ω ≥ φ(3+x−φ) (= 3φ−1 en x = 1). Tres rutas de
 cierre declaradas (simetría m↔x la más prometedora), nada hecho.
+
+### Adenda al acta de espxy (2026-08-10, mismo día): la nota 7 resuelta
+
+La «posible cobertura por pivote sólido/DPr» de la reparación 7
+queda RESUELTA EN NEGATIVO (análisis con citas, agente lector):
+D3 («pivote sólido ω ≥ 1, j ≥ 3») es una celda del CASO (a) —
+intercambio de sartén — con j = ocupantes de la cascada de sartén
+y m EN la sartén (coronacolas D3, líneas 575-602); el solid-pivot
+del paper cuelga de thm:DP/thm:D1written (pan exchange) y de la
+curva canónica (caso (b)); la partición (a)/(b)/(c) es disjunta y
+DEFINICIONAL (ensamblaje: «exactamente uno») y la portabilidad de
+programas de sartén está explícitamente prohibida (ensamblaje:
+«portabilidad de paredes ≠ cobertura de programa» — el descenso
+intrínseco exige cohabitación {o₁, m} en la sartén). En (c-ii),
+ω ≥ 1 es donde VIVE el residuo (R2 con X = 0: ω ∈ (0.927, 1) ∪
+[1, ∞)) — nunca se delegó. El pivote sólido además ayuda al
+adversario: mata H_m (X_m = 0) y la colocación BH, con D_m
+intacto. La variedad completa ω ∈ (0.906, 1.6] queda ABIERTA.
+Colateral: la variedad es el corazón de la rama I2 «que respira»
+(X_Y+ω > φ, cierre que era solo-computacional — coherente con que
+espxy la rompa); herramientas portables para la ruta m↔x:
+lem:compact/lem:insert (disco arbitrario) y el precedente
+corona-α; el receptor natural de x es la SARTÉN vía el lema F2 de
+realización-y-repack (u = agujero de α no puede: su techo de
+bloqueo α < 1+σ₂+X_α+ω no admite m+x ≈ 2).

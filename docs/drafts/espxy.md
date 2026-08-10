@@ -66,9 +66,22 @@ con X_Y > 0 necesita un testigo nuevo en la variedad.
 
 Síntesis del barrido del acta (ω libre): **min z = 2.84** y
 **min ω = 0.906** en la zona sin rescate; anchura del sliver hasta
-~0.08 ahí (1/(z²+z+1)). La parte con ω ≥ 1 cae en régimen de
-**pivote sólido** (posible cobertura por la rama DPr j ≥ 3 —
-pendiente de comprobar: reduciría la variedad a ω ∈ (0.9, 1)).
+~0.08 ahí (1/(z²+z+1)). La nota del acta sobre pivote sólido está
+RESUELTA EN NEGATIVO (análisis 2026-08-10 con citas): D3, DPr y
+thm:D1written son celdas del intercambio de SARTÉN (caso (a) del
+ensamblaje); la partición (a)/(b)/(c) es disjunta y definicional
+(ensamblaje §«exactamente uno») y los programas de sartén no
+portan (m debe cohabitar en la sartén con los j ocupantes —
+«portabilidad de paredes ≠ cobertura de programa»). En (c-ii) el
+régimen ω ≥ 1 nunca se delegó: es donde vive su residuo (R2 con
+X = 0 en ω ∈ (0.927, 1) ∪ [1, ∞)). El pivote sólido además ayuda
+al ADVERSARIO en la variedad: mata H_m (X_m = 0 forzado, la
+colocación BH desaparece) mientras D_m (hueco unidad, cap 1) queda
+intacto. La variedad completa ω ∈ (0.906, 1.6] queda ABIERTA. Dato
+estructural del análisis: la variedad vive en la rama I2 «que
+respira» (Y > z ≥ α exige X_Y+ω > φ — con x ≈ 1 y ω ≥ 0.9 se
+cumple de sobra): es el corazón de la rama que respiraba, no un
+accidente.
 
 ## 4. Rutas candidatas (bloque E; NADA hecho)
 
@@ -76,6 +89,15 @@ pendiente de comprobar: reduciría la variedad a ω ∈ (0.9, 1)).
 para el intercambio (thm:oblivious solo exige acuerdo en anillos
 ≥ r_m) — enviar x a otro contenedor y dejar la corona {z, m, σ₂}
 certificada; exige derivar la tarifa del contenedor receptor.
+Herramientas portables identificadas (análisis 2026-08-10):
+lem:compact y lem:insert están enunciados para un disco R
+ARBITRARIO (no para la sartén), y el precedente del mecanismo
+receptor existe en la campaña (el desbloqueo «corona-α»: el
+agujero de α admite corona {m, σ₂} ∪ X_α en su peor capacidad).
+OJO: u = agujero de α NO puede recibir a x junto a m en general
+(α < 1+σ₂+X_α+ω es el techo del bloqueo: m+x ≈ 2 no caben salvo
+X_α grande) — el receptor natural es la SARTÉN vía el lema de
+realización-y-repack (F2), con la holgura del pan por derivar.
 (ii) Pared nueva: con x ~ m en v, (RY) engorda: ¿el bloqueo se
 contradice solo en la variedad? (iii) Contar x en cola(Y) con
 tarifa entera (no φ-descontada) cuando x > p.
