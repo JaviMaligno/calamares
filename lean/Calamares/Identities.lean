@@ -402,6 +402,33 @@ theorem golden_pi_trio :
     ∧ 7 * sqrt5 - 15 > 0 := by
   decide +kernel
 
+/-- (40) El umbral del lema de reducción de |A| (las pesadas de R2b):
+`t₀ = (φ−1)/4 = 1/(4φ)` (por `φ(φ−1) = 1`), y con `β* = (9−√5)/8`
+las dos igualdades críticas de la dicotomía son EXACTAS:
+`5t₀ = φ − β*` (cinco piezas grandes agotan la masa de A) y
+`4t₀ = φ − 1` (cuatro grandes y polvo son incompatibles: el mural
+pesado real tiene ≤ 6 nodos). [areduccion.py A; acta 2026-08-10] -/
+theorem golden_reduction_threshold :
+    (phi - 1) / 4 = 1 / (4 * phi)
+      ∧ 5 * ((phi - 1) / 4) = phi - (9 - sqrt5) / 8
+      ∧ 4 * ((phi - 1) / 4) = phi - 1 := by
+  decide +kernel
+
+/-- (41) El bolsillo del par diametral (la variedad ESP `X_Y > 0`):
+la frontera de la corona en el suelo de convivencia es
+`x*(z) = z(z+1)/(z²+z+1)`, y en `z = φ` todo es áureo:
+`φ² + φ + 1 = 2φ²` (la anchura del sliver es `1/(2φ²)`),
+`φ(φ+1) = (φ/2)(φ²+φ+1)` (es decir `x*(φ) = φ/2` — el bolsillo
+áureo de thm:DP como frontera, y el mecanismo de la protección de
+σ₂ por la pared de masa), y `φ(4−φ) = 3φ−1` (el umbral de
+no-rescate de cola en `x = 1`; en `x = 0` es `φ(3−φ) = √5`, el
+(38)). [espxy.py A; acta 2026-08-10] -/
+theorem diametral_pocket_golden :
+    phi ^ 2 + phi + 1 = 2 * phi ^ 2
+      ∧ phi * (phi + 1) = (phi / 2) * (phi ^ 2 + phi + 1)
+      ∧ phi * (4 - phi) = 3 * phi - 1 := by
+  decide +kernel
+
 /-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
