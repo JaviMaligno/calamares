@@ -3082,3 +3082,45 @@ inserción (certificación k-piezas pendiente declarada). El álgebra
 de espxy sobrevive como geometría (Lean 40-41). Lecciones: colas
 globales en toda legalidad de adversario; existencia de P en los
 suelos rígidos; los dos modos de F2 no se mezclan.
+
+---
+
+## Acta: ronda hostil de la auditoría de colas globales (`auditcolas.md` v1) — 2026-08-10
+
+VEREDICTO GLOBAL: REFUTADO — la meta-auditoría cometía el error que
+auditaba (cola PARCIAL en reclamos de existencia). Aplicado su
+propio estándar completo, el resultado principal se INVIERTE a más
+fuerte.
+
+1. **[FATAL] «La cota inevitable es cola(m)» era falso**: toda cola
+   de pieza ≥ m es igual de inevitable (tracked menores + masa
+   total del polvo) y son las DOMINANTES: matan 30/30 gaps del F3
+   real donde cola(m) mataba 15/30. Además la banda de X ≥ 1
+   (anillo único fuera de cola(m); GAP#25 exhibido) y los dos
+   cierres del escape de granularidad bajo m (pigeonhole de masa,
+   confinamiento) faltaban.
+2. **[FATAL] El F3 real: 0/30 testigos legales** bajo legalidad
+   entera (peor cola de top 2.89-3.60 vs φ; el «2/3» del v1 era
+   artefacto de muestra 3 — la misma enfermedad que el «≤ 1.030»
+   ya refutado en el acta de f3cierre). MECANISMO ESTRUCTURAL (el
+   trío prohibido): tres piezas con las dos siguientes ≥ (φ/2)·
+   mayor violan ρ ≤ φ (2·(φ/2) = φ exacto); el gap de dualidad
+   exige ≥ 3 tops de ratio 0.9 > 0.809: gap y ρ ≤ φ incompatibles
+   en el generador. EL RESIDUO F3 REAL ES CANDIDATO FUERTE A
+   VACUIDAD → errata a f3cierre §3-4 y al pasaje del paper; el
+   1.0816 sintético queda como enunciado abstracto del arc-LP.
+3. [MEDIO] Titular infalsable (gate gap_total ≥ 3 no gateaba la
+   conclusión — patrón E2); 6/7 checks [ENUNCIADO] con True;
+   banda de X_α sin declarar (coronaagujero L105: contexto).
+4. RESISTE: la clasificación suficiencia-vs-existencia (G-b′ sound
+   confirmado; R2/B1b pre-cierre confirmado, las 581 instancias no
+   viven en el paper; ω es anchura, no pieza).
+
+### Estado tras reparación (v2, 5/5)
+
+Criterio v2 con las colas de piezas ≥ m + pigeonhole +
+confinamiento + banda X ≥ 1; lema del trío prohibido (φ/2 otra
+vez); B re-ejecutado a 30 gaps con legalidad entera: 0/30
+(reproducido: 36.384 instancias, peor exceso 1.75) con gate
+gap_legal == 0; consecuencias y deuda declaradas (el cierre formal
+de la vacuidad F3 = ciclo propio).

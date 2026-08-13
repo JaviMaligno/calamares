@@ -1,5 +1,16 @@
 # F3 re-delimitado: el lema condicional de dualidad exacta
 
+**ERRATA (2026-08-10, acta de auditcolas): el «residuo que
+permanece» de §3-§4 es candidato fuerte a VACUIDAD** — las
+instancias de gap del generador real son TODAS ρ-ilegales (0/30
+con legalidad entera: el gap de dualidad exige ≥ 3 tops de ratio
+0.9 > φ/2, y el lema del trío prohibido — cola(top mayor) ≥ 1.8 >
+φ — los mata). SOBREVIVEN: el lema condicional de dualidad exacta
+(§1), la sanity clásica y el supremo sintético 1.0816 como
+enunciado ABSTRACTO del arc-LP (no como instancia de campaña). El
+cierre formal de la vacuidad queda declarado (ciclo propio). Ver
+`auditcolas.md` v2.
+
 Estado: v2 (2026-08-10), ADVERSARIADO (acta: REFUTADO como
 «cierre», rescatado como lema condicional; reparaciones 1-6
 aplicadas). Script: `code/f3cierre.py` (5/5).
