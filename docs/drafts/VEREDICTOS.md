@@ -3124,3 +3124,52 @@ vez); B re-ejecutado a 30 gaps con legalidad entera: 0/30
 (reproducido: 36.384 instancias, peor exceso 1.75) con gate
 gap_legal == 0; consecuencias y deuda declaradas (el cierre formal
 de la vacuidad F3 = ciclo propio).
+
+---
+
+## Acta: ronda hostil de la vacuidad F3 (`f3vacio.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. El núcleo sobrevive
+todos los ataques ejecutados (~11.000 instancias adversarias),
+incluidos los dos críticos del encargo: el CONFINAMIENTO no sube
+R_lb sobre pares EN la celda (100% de 5.300+ instancias, suma
+cíclica confinada máx 4.02 < 2π; γ₁₂ = π exacto por la esquina
+h = −1), y las terceras piezas < m dan 0 gaps (1.500 instancias).
+El álgebra es exacta (disc = 0 en R = a+b; p(a,ra;(1+r)a) = q(r)a;
+q = r·x*(1/r); cúbica áurea con r* = 0.963749; identidad
+θ₁₃+θ₂₃ = π a 3.6e-15).
+
+### Derribos/correcciones (aplicadas)
+
+1. **[GORDA] El dominio declarado «α ≤ ~5.1» era FALSO**: el techo
+   real del generador es α ≤ 6.64 (réplica del loop de puertocii,
+   12.112 instancias; ub_a con ω inflada por X_Y). No rompe el
+   lema (techo 23 > 6.64) pero sí el alcance y el margen (3.46×,
+   no «> 4×»). REPARADO en todos los textos.
+2. El bloque C cubría la mitad del rango (t₁ ∈ [4.57, 5.10] de
+   facto) y no muestreaba t₃ < m ni 4 tops. REPARADO: t₁ hasta
+   6.7, modo chico (232/600), 4 tops (19/600); 0 gaps en todo.
+3. El argumento de t₄ del bloque D usaba la premisa falsa (5.1):
+   la pared que realmente fuerza polvo es cola(t₃): t₄ ≤
+   φt₃−1−ΣS, válida a toda escala. REPARADO.
+4. r* = 0.963749 (el comentario decía 0.9639); tolerancia
+   apretada a 1e-5. REPARADO.
+5. **La frontera 0.9 de la celda es EMPÍRICA** y el converso
+   «gap ⟹ celda» queda ABIERTO — con la evidencia a favor: fuera
+   de la celda (r₂ ∈ 0.60-0.90) hay t₃ legales sobre el bolsillo
+   (hasta 1.24×) pero ahí el confinamiento SUBE R_lb (hasta
+   1.0126) y corona_suf cabe en el R_lb subido: 0 gaps en 5.100
+   instancias. DECLARADO en §3.
+6. Gates: el bloque B ahora exige techo > 6.64; C gatea los modos.
+7. El retiro del 1.0116 se sostiene TRAS aplicar 1-6 con esta
+   acta. APLICADO (paper actualizado).
+8. Colateral: clamp del disc en bolsillo_descartes de coronacolas
+   (devolvía 0.0 en ~38% de pares diametrales exactos, conservador
+   pero infiel). REPARADO; humo de coronacolas en verde.
+
+### Estado tras reparación (v2, 5/5)
+
+La celda F3 es ρ-VACÍA por las dos pinzas (trío prohibido +
+sub-bolsillo forzado con techo 23 vs dominio real 6.64); el
+residuo 1.0116 RETIRADO del programa; convenio de alcance honesto
+(0.9 empírico, converso abierto, bandas fuera de vía declaradas).

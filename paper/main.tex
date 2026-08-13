@@ -1270,11 +1270,13 @@ vacuity of the diametral-pocket sliver under the global tail wall
 and the floor rigidity; its adversarial round refuted a proposed
 vacated-ball witness and supplied the missing wall, correcting the
 \texttt{espxy} report's legality claim -- the errata is recorded)
-and \texttt{auditcolas} (5/5, the global-tail audit of every
+\texttt{auditcolas} (5/5, the global-tail audit of every
 existence claim in the campaign; its adversarial round refuted a
 partial-tail first version and contributed the forbidden-triple
-mechanism that turns the near-equal-tops residue into a vacuity
-candidate).
+mechanism) and \texttt{f3vacio} (5/5, the forced-sub-pocket lemma
+closing the near-equal-tops vacuity; its adversarial round
+corrected the declared generator domain and verified the
+confinement attack on the lower bound).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -3524,14 +3526,38 @@ pieces whose second and third are $\ge(\varphi/2)\cdot$largest
 already violate $\rho\le\varphi$ (their tail sum is
 $\ge2\cdot(\varphi/2)=\varphi$ times the largest), while the
 duality gap needs at least three near-equal tops (ratio
-$0.9>\varphi/2$) -- so the old $1.0116$ residue is a strong
-vacuity candidate rather than a standing gap, with the formal
-closure (duality gap $\Rightarrow$ three comparable tops
-$\Rightarrow$ illegal) declared as its own step; scripts
-\texttt{f3cierre} and \texttt{auditcolas}, 5/5 each, adversarial
-rounds -- the first refuted the original ``closure'' claim and its
-sampled $1.030$ bound, the second refuted a partial-tail audit and
-supplied the forbidden-triple mechanism) and the
+$0.9>\varphi/2$) -- and the complementary case, a third piece too
+small for the forbidden triple, is closed by a \emph{forced
+sub-pocket} lemma: full tail legality gives
+$t_3<(\varphi-r_2)t_1-2$, the dominant pair's pocket at its pairs
+floor is $q(r_2)t_1$ with $q(r)=r(1+r)/(1+r+r^2)$ (the same
+degenerate-pocket function, scaled by the smaller piece), and
+$(\varphi-r_2)t_1-2\le q(r_2)t_1$ holds throughout
+$t_1\le2/(\varphi-r_2-q(r_2))$ -- at the cell's edge $r_2=0.9$ the
+ceiling is $23.0$, growing to infinity at the real root
+$r^{*}=0.9637$ of the golden cubic
+$r^3+(2-\varphi)r^2+(2-\varphi)r=\varphi$, while the generator's
+true domain is $t_1\le6.64$ -- so the third piece always inserts
+freely, the trio sits at its pairs floor, and (checked against the
+confinement strengthening of the lower bound, $100\%$ of $5\,300$
+cell instances) $R$ certificates match: the cell has \emph{no}
+legal instance of the phenomenon ($0$ gaps across $\sim11\,000$
+adversarial legal samples, including sub-$m$ third pieces and
+four-top profiles). The old $1.0116$ residue is therefore
+\emph{withdrawn}: $\rho\le\varphi$ itself forbids the
+configurations that carried it, and only the abstract arc-LP
+statements (the conditional duality lemma and the synthetic
+$1.082$ corner) remain, with the empirical cell boundary $0.9$ and
+the converse ``gap $\Rightarrow$ cell'' declared open (evidence in
+favour: outside the cell the confinement raises the lower bound
+exactly where a third piece exceeds the pocket, and the
+constructive corona fits at the raised bound); scripts
+\texttt{f3cierre}, \texttt{auditcolas} and \texttt{f3vacio}, 5/5
+each, adversarial rounds -- the first refuted the original
+``closure'' claim and its sampled $1.030$ bound, the second
+refuted a partial-tail audit and supplied the forbidden-triple
+mechanism, the third corrected the declared generator domain
+($6.64$, not $5.1$) and verified the confinement attack) and the
 extras coronas on their swept ranges; the shared-root \emph{trio} itself is now
 certified by subdivision over its entire legal domain in the direct
 orientation -- light interior, both frontiers and every depth at

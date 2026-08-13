@@ -182,7 +182,15 @@ def bolsillo_descartes(a, b, R):
     ka, kb, kw = 1.0 / a, 1.0 / b, -1.0 / R
     disc = ka * kb + kb * kw + kw * ka
     if disc < 0:
-        return 0.0
+        # en R = a+b el disc es 0 EXACTO y el redondeo puede darlo
+        # negativo: el clamp devuelve la forma degenerada
+        # 1/(1/a+1/b-1/R), el bolsillo verdadero del par diametral
+        # (acta f3vacio, rep. 8; antes devolvia 0.0 en ~38% de los
+        # pares diametrales exactos — conservador pero infiel)
+        if disc > -1e-12:
+            disc = 0.0
+        else:
+            return 0.0
     kp = ka + kb + kw + 2.0 * math.sqrt(disc)
     return 1.0 / kp if kp > 1e-12 else float('inf')
 
