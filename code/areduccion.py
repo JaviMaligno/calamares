@@ -99,9 +99,9 @@ def _peor_camino(cadena, tam, thmat, es_polvo, D):
         else:
             nodos.append(x)
     nodos.append(1)
-
-    def talla(v):
-        return T0 if isinstance(v, tuple) else tam[v]
+    # (codigo muerto talla() retirado — acta de espkp: llevaba T0
+    # hardcodeado y era trampa latente para topes de polvo != t0;
+    # las tallas de extremos entran SIEMPRE por thmat del llamador)
 
     def tth(u, v):
         if isinstance(u, tuple) and isinstance(v, tuple):

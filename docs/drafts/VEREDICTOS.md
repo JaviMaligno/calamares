@@ -3173,3 +3173,47 @@ La celda F3 es ρ-VACÍA por las dos pinzas (trío prohibido +
 sub-bolsillo forzado con techo 23 vs dominio real 6.64); el
 residuo 1.0116 RETIRADO del programa; convenio de alcance honesto
 (0.9 empírico, converso abierto, bandas fuera de vía declaradas).
+
+---
+
+## Acta: ronda hostil de la certificación k-piezas (`espkp.md`) — 2026-08-10
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. Cero grietas de
+solidez dentro del convenio X_Y = polvo < m: podas exactas
+(verificadas una a una), mayorantes en dirección pesimista, cota
+acoplada con el signo correcto (d/dz ∝ x(1−x) ≥ 0 con la fórmula
+real; el ruido float ~6.7e-8 en x = 1 es inocuo: thmat[0][1] es
+entrada muerta del par antipodal excluido), bloque de polvo
+CAP-GENÉRICO re-fuzzeado con el tope grande (cap = μ ≤ 0.618:
+0/6000; el contraejemplo no-monótono reescalado sigue violando: el
+orden monótono sigue siendo carga real), B&B convergente y
+reproducible (1329/483 exactos), sanity robusto a semilla (3 ×
+250/250; ~23% por corona_suf con dirección solo-suficiente
+correcta; 0 piezas sobre-bolsillo en 750). Ventanas idénticas a
+r2bmulti bloque D (adversariado) con μ como única novedad.
+
+### Correcciones exigidas (aplicadas)
+
+1. **[OBLIGATORIA, declarativa] El convenio no estaba declarado**:
+   el cierre es cierre-DENTRO-del-convenio X_Y = polvo < m; el
+   canal «ocupante ≥ r_m en v» es MODEL-CONDITIONAL con tarifa sin
+   derivar (acta espxy corr. 5, banda X ≥ 1 de auditcolas) y el
+   «queda CERRADA» en plano sobrevendía un epsilon. REPARADO en
+   bloques A/E y draft.
+2. **[RECOMENDADA] Control negativo del CERTIFICADOR** (no solo de
+   la poda): añadido — bloque con D = 4 > π → False y matriz
+   estrangulada (θ ≡ 2.5) → False.
+3. **[RECOMENDADA] Orden monótono heredado + derivación
+   cap-genérica**: explicitados en A y draft con el fuzz del acta.
+4. **[MENOR] Código muerto**: CC_ITER sin uso en espkp (retirado);
+   `talla()` con T0 hardcodeado en areduccion._peor_camino —
+   TRAMPA LATENTE si se reviviera con topes ≠ t₀ (retirada; humo
+   de areduccion A/C en verde).
+5. **[MENOR] Redacción**: «EXACTAMENTE el mural de areduccion» →
+   «comparte la forma»; término redundante z+μ+ω retirado de lo_Y.
+
+### Estado tras reparación (v2, 5/5)
+
+LA CELDA ESP X_Y > 0 LIGERA CERRADA DENTRO DEL CONVENIO (vacuidad
+de espvals + certificado k-piezas con k libre); el canal ≥ r_m y
+la pesada con X_Y > 0 declarados como residuo con vía.
