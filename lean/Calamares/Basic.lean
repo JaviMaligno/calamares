@@ -148,6 +148,37 @@ def eq (p q : Poly) : Bool := decide (norm p = norm q)
 
 end Poly
 
+/-! ### `Poly5` : (ℚ[√5])[X]
+
+Coeficientes en `Q5`, para las identidades con variable libre y
+constantes áureas (la cúbica áurea de la vacuidad F3). Mismo patrón
+que `Poly`, sin typeclasses genéricas. -/
+
+abbrev Poly5 := List Q5
+
+namespace Poly5
+
+def add : Poly5 → Poly5 → Poly5
+  | [], q => q
+  | p, [] => p
+  | c :: p, d :: q => (c + d) :: add p q
+
+def neg (p : Poly5) : Poly5 := p.map Q5.neg
+
+def sub (p q : Poly5) : Poly5 := add p (neg q)
+
+def smul (c : Q5) (p : Poly5) : Poly5 := p.map (c * ·)
+
+def mul : Poly5 → Poly5 → Poly5
+  | [], _ => []
+  | c :: p, q => add (smul c q) ((0 : Q5) :: mul p q)
+
+def norm (p : Poly5) : Poly5 := trimEnd (fun c => decide (c = (0 : Q5))) p
+
+def eq (p q : Poly5) : Bool := decide (norm p = norm q)
+
+end Poly5
+
 /-! ### `PolyZ` : ℤ[X] -/
 
 abbrev PolyZ := List Int

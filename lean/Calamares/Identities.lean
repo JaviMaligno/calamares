@@ -429,6 +429,35 @@ theorem diametral_pocket_golden :
       ∧ phi * (4 - phi) = 3 * phi - 1 := by
   decide +kernel
 
+/-- (42) El trío prohibido y la cúbica áurea (la vacuidad F3):
+(a) `2·(φ/2) = φ` — tres piezas con las dos siguientes `≥ (φ/2)·mayor`
+violan `ρ ≤ φ` (la cola de la mayor suma ya `φ` veces su radio): el
+gap de dualidad exige tres tops comparables y la cascada los prohíbe.
+(b) La identidad polinomial de la CÚBICA ÁUREA en `(ℚ[√5])[r]`:
+`r(1+r+r²) + r(1+r) − φ(1+r+r²) = r³ + (2−φ)r² + (2−φ)r − φ`
+— es decir, `r + q(r) = φ ⟺` la cúbica, con
+`q(r) = r(1+r)/(1+r+r²)` el bolsillo normalizado del par dominante
+(su raíz real `r* ≈ 0.9637` marca el techo infinito del sub-bolsillo
+forzado; `q(1) = 2/3`: conjunto (c)).
+(d) El techo en el borde de la celda: `q(9/10) = 171/271` exacto
+(`(9/10)(19/10) = (171/271)(271/100)`) y
+`φ − 9/10 − 171/271 < 25/83` con el denominador positivo — es decir
+`2/(φ − 9/10 − q(9/10)) > 166/25 = 6.64`, el dominio real del
+generador: el sub-bolsillo queda forzado en toda la celda.
+[auditcolas.py A, f3vacio.py A-B; actas 2026-08-10] -/
+theorem forbidden_triple_cubic :
+    2 * (phi / 2) = phi
+    ∧ Poly5.eq
+        (Poly5.add (Poly5.mul [0, 1] [1, 1, 1])
+          (Poly5.add [0, 1, 1]
+            (Poly5.neg (Poly5.smul phi [1, 1, 1]))))
+        [-phi, 2 - phi, 2 - phi, 1] = true
+    ∧ (1 : Q5) * (1 + 1) * 3 = (2 : Q5) * (1 + 1 + 1)
+    ∧ (9 : Q5) / 10 * (19 / 10) = (171 / 271) * (271 / 100)
+    ∧ (0 : Q5) < phi - 9 / 10 - 171 / 271
+    ∧ phi - 9 / 10 - 171 / 271 < 25 / 83 := by
+  decide +kernel
+
 /-!
 ## Umbral aditivo (modelo aditivo; scripts `code/umbral.py`, `code/frontera.py`)
 -/
