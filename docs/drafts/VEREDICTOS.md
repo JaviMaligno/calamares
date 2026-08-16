@@ -3217,3 +3217,54 @@ r2bmulti bloque D (adversariado) con μ como única novedad.
 LA CELDA ESP X_Y > 0 LIGERA CERRADA DENTRO DEL CONVENIO (vacuidad
 de espvals + certificado k-piezas con k libre); el canal ≥ r_m y
 la pesada con X_Y > 0 declarados como residuo con vía.
+
+---
+
+## Acta: ronda hostil de la pesada especular con X_Y > 0 (`esppesada.md`) — 2026-08-16
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. Cero grietas de
+solidez: las direcciones pesimistas de los tramos (crédito del
+suelo/techo del tramo, pinza vacua EXACTA), la fusión de bloques
+(cadena por masa cap-genérica), el pliegue con OR de variantes y
+la pared pesada verificadas a mano; 5/6 bandas re-ejecutadas con
+recuentos EXACTOS (la sexta, verde por el coordinador, 19809/3535);
+400 cajas-punto de instancias reales: True 400, None/False 0; el
+sanity REPARADO (con A-polvo) no destapa nada (2×200/200).
+
+### Hallazgo del referee
+
+**La frontera ΣS = 1+σ₂ exacta es VACUA**: S∖{σ₂} suma exactamente
+1 ⟹ b_star_particion da β = 1 ⟹ ventana de α = [ΣS+ω, ΣS+ω) = ∅ —
+la unión espkp (ligera, ΣS < 1+σ₂) ∪ esppesada (pesada, poda
+SSh < 1+s2l) cubre la especular con X_Y sin hueco: la frontera no
+tiene puntos.
+
+### Correcciones exigidas (aplicadas)
+
+1. **[OBLIGATORIA, fidelidad] bloque_C**: muA era código muerto —
+   la carga del sanity NO llevaba el A-polvo que la puerta
+   anunciaba. REPARADO (apolvo en la carga; verde).
+2. **[OBLIGATORIA, texto] «4 tramos» → «8 tramos»** en el
+   comentario del criterio y la puerta de bloque A (K = 8 en el
+   código). REPARADO.
+3. **[RECOMENDADA] bloque_D al estándar espkp**: añadidos la
+   matriz estrangulada y el negativo de la poda pesada (caja
+   ligera → None). REPARADO.
+4. **[RECOMENDADA, draft]** clip ΣS ≤ φ−0.02 del generador
+   declarado; la vacuidad de la frontera anotada. REPARADO.
+5. **[MENOR]** D(b) computado en vez de enunciado; tolerancia
+   1e-15 del pliegue inocua frente a MARGEN (documentada aquí).
+
+### Estado tras reparación (v2, 5/5 con B por unión de bandas)
+
+LA CELDA ESPECULAR ENTERA cerrada dentro del convenio en sus
+cortes/cajas declarados: ligera X_Y = 0 (r2bmulti), ligera
+X_Y > 0 (espkp), pesada X = 0 (areduccion), pesada X_Y > 0 (este,
+corte X_α = X_z = X_m = 0). Residuo especular: pesada con
+X_α/X_z/X_m > 0 (solo-MC), canal ocupante ≥ r_m
+(model-conditional), topes del barrido. Lecciones de ingeniería
+del ciclo: renuncia POR TRAMOS (la total crea tangencias fantasma
+donde la cola del parámetro renunciado era el rescate), pliegue
+con OR (plegar piezas medianas duplica su coste), y la pared del
+sub-caso como poda (no re-certificar caro lo que otro certificado
+ya cubre).
