@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """La pesada especular con TODAS las X > 0 (docs/drafts/
 espfinal.md): el cierre de la celda especular completa dentro del
@@ -17,7 +17,7 @@ pesada con X_alpha/X_z/X_m > 0.  DENTRO DEL CONVENIO (todas las X
   polvo.)
 
   EL CRITERIO: el de esppesada (fusion del polvo, renuncia por
-  tramos K = 8 sobre mu_Y con techo phi - SS_lo - Xm_lo - Xp_lo -
+  tramos K = 4 sobre mu_Y con techo phi - SS_lo - Xm_lo - Xp_lo -
   Xz_lo, pliegue con OR, pared pesada, cota acoplada en z) con las
   VENTANAS X de G-g pesada (adversariadas via r2bmulti bloque D y
   areduccion): alpha en [max(1+w, SS+Xp+w), 1+(SS-beta)+Xp+w);
@@ -52,7 +52,11 @@ MARG = 1e-7
 def _peor_camino2(cadena, tam, Ds):
     """Camino [0] + cadena + [1] con peso interno POR NODO de
     polvo (Ds[i] > 0 = bloque; generaliza areduccion._peor_camino,
-    cuyo D era unico).  Dual de familias disjuntas exacto (TU)."""
+    cuyo D era unico).  Dual de familias disjuntas exacto (TU).
+    NOTA (acta R4): el lado VACIO devuelve thmat[0][1] (no porta
+    la guarda 'cadena vacia => 0' del acta de areduccion) —
+    CONSERVADOR DELIBERADO: solo endurece (nunca unsound), y
+    portarla cambiaria los recuentos de todo el mapa ya barrido."""
     nodos = [0]
     for x in cadena:
         if Ds.get(x, 0.0) > 0.0:
@@ -98,7 +102,10 @@ def _peor_camino2(cadena, tam, Ds):
     return peor(0, frozenset(), 0.0)
 
 
-_THMAT = None
+_THMAT = None                          # uso INTERNO de _antipodal2
+                                       # (se asigna al entrar, antes
+                                       # de todo uso; sin threads —
+                                       # acta R5)
 
 
 def _antipodal2(tam, thmat, Ds):
@@ -195,9 +202,9 @@ def criterio_final(box):
     mu_a = mu_eff if muh > 0 else 0.0
     cap_a = T0 if mu_a > 0 else 0.0
     otros = [e for e, (_, a_h) in zip(a_effs, als) if a_h > 0]
-    # TRAMOS ANIDADOS: X_z (KZ = 4, sin dimension — su techo solo
+    # TRAMOS ANIDADOS: X_z (KZ = 2, sin dimension — su techo solo
     # entra en el clamp de la ventana de z; suelo del tramo como
-    # credito en z_lo/cola/pared del polvo) x mu_Y (K = 8).  Cada
+    # credito en z_lo/cola/pared del polvo) x mu_Y (K = 4).  Cada
     # tramo (x_lo, x_hi) x (t_lo, t_hi) es uniformemente pesimista
     # para X_z en [x_lo, x_hi] y mu_Y en [t_lo, t_hi]; la union
     # cubre todo el rango legal.  Tramo con ventana/pinza vacia =
@@ -293,7 +300,7 @@ def bloque_A():
                 "pared real es mas fina.  omega <= 1.6 SI sigue "
                 "siendo tope de barrido (omega no es polvo)", True)
     ok &= check("[ENUNCIADO] el criterio es el de esppesada "
-                "(tramos K = 8, fusion, pliegue con OR, pared "
+                "(tramos K = 4, fusion, pliegue con OR, pared "
                 "pesada, cota acoplada) con las ventanas X de G-g "
                 "pesada (alpha con +X_alpha en suelo y techo, z "
                 "con +X_z, cola con +X_m+X_alpha+X_z) y el techo "
@@ -327,7 +334,7 @@ def bloque_B():
             0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0,
             0.0, 5 * T0, xp_lo, xp_hi, 0.0, 0.0, 0.0, 0.0,
             1.0, a_max, 1.0, z_max]
-    # (X_z tampoco lleva dimension: tramos KZ = 4 en el criterio,
+    # (X_z tampoco lleva dimension: tramos KZ = 2 en el criterio,
     # con su rango [Xzl, XCAP] arrancando en el low de la raiz 0)
     exito, caja, n, cert = bnb_factible(root, criterio_final)
     ok &= check(f"PESADA ESPECULAR con TODAS las X > 0 CERTIFICADA "
@@ -354,6 +361,9 @@ def bloque_C():
                          for _ in range(p)), reverse=True)
         SS = sum(piezas)
         s2 = piezas[1]
+        # clip SS <= phi - 0.05 DECLARADO (acta R4): deja hueco al
+        # presupuesto de polvo del sanity; la legalidad plena la
+        # cubre el B&B, no este generador
         if SS < 1.0 + s2 or SS > PHI - 0.05:
             continue
         w = rng.uniform(0.01, 1.6)
@@ -428,6 +438,16 @@ def bloque_D():
     r_estr = antipodal_dos_lados([3.0, 1.0, 0.8, 0.6], mat2,
                                  [False, False, False, False],
                                  D=0.0)
+    # (a2) negativos del MOTOR NUEVO _antipodal2 (acta R3)
+    mat_n = [[0.0, 2.0, 0.3], [0.0, 0.0, 0.3], [0.0] * 3]
+    r_n1 = _antipodal2([3.0, 1.0, 0.5], mat_n, {2: 10.0})
+    mat_n2 = [[0.0, 2.5, 2.5, 2.5], [0.0, 0.0, 2.5, 2.5],
+              [0.0, 0.0, 0.0, 2.5], [0.0] * 4]
+    r_n2 = _antipodal2([3.0, 1.0, 0.8, 0.6], mat_n2, {})
+    ok &= check(f"(a2) negativos del motor nuevo _antipodal2: "
+                f"bloque con D = 10 > pi -> {r_n1}; matriz "
+                f"estrangulada -> {r_n2}",
+                r_n1 is False and r_n2 is False)
     ok &= check(f"(a) certificador negativo: D = 4 > pi -> "
                 f"{r_dpi}; matriz estrangulada -> {r_estr}",
                 r_dpi is False and r_estr is False)
@@ -442,6 +462,132 @@ def bloque_D():
     ok &= check(f"(b) la pared del polvo total poda: caja-punto "
                 f"con SS + Xp + Xz = 1.05 + 0.4 + 0.3 = 1.75 > "
                 f"phi: criterio = {r_pol} (None)", r_pol is None)
+    return ok
+
+
+# ---------------------------------------------------------------- bloque F
+EPS0 = float(os.environ.get('CC_EPS0', '0.016'))
+                                       # la franja: SS in (1, 1+eps0]
+                                       # — la reduccion vale para
+                                       # cualquier eps0 (holguras
+                                       # crecen con el)
+
+
+def criterio_lasca(box):
+    """La lasca [1, 1+eps0] x X_alpha x omega por REDUCCION DE
+    DEGENERACION: la pared pesada da sigma2 <= eps0 (S = sigma1 +
+    polvo finisimo), el greedy llena B* hasta beta >= 1 - eps0, la
+    ventana de alpha tiene ancho 1 - beta <= eps0 y la de z ancho
+    sigma2 <= eps0: todo clavado modulo eps0 y el dominio colapsa a
+    (w, Xp, Xz, muY) — 4 dims.  Holguras eps0 SIEMPRE en la
+    direccion pesimista.  None = sin puntos reales."""
+    wl, wh, Xpl, Xph, Xzl, Xzh, muyl, muyh = box
+    # pared del polvo total (SS > 1): Xp + Xz + muY <= phi - 1
+    if Xpl + Xzl + muyl > XCAP:
+        return None
+    muy_eff = min(muyh, XCAP - Xpl - Xzl)
+    if muy_eff < muyl:
+        return None
+    # ventanas degeneradas (SS in [1, 1+eps0], beta in [1-eps0, 1],
+    # delta_alpha in [0, 2 eps0], delta_z in [0, eps0])
+    a_lo = 1.0 + Xpl + wl              # SS_lo = 1, delta = 0
+    a_hi = 1.0 + EPS0 + Xph + wh + 2 * EPS0
+    z_lo = a_lo + Xzl + wl
+    z_hi = a_hi + Xzh + wh + EPS0
+    # cola de Y (X_m = 0 pesimista; mu_A <= 2 eps0 se omite en la
+    # cola — pesimista) con el credito muyl
+    cola_lo = (1.0 + 1.0 + a_lo + z_lo + muyl) / PHI
+    if cola_lo >= (1.0 + EPS0) + z_hi + muy_eff + wh:
+        return None                    # pinza de Y: sin puntos
+    c_lo = max(1.0 + z_lo, cola_lo - wh)
+    # el polvo: masa muy_eff + mu_A(<= 2 eps0); tope de pieza
+    # max(2 eps0, muy_eff) — REPARACION R1 del acta: sigma1 puede
+    # quedar EXCLUIDA de B* y caer en A con eps0 < sigma1 <=
+    # Sigma_A <= 2 eps0 (contraejemplo DP del referee): las piezas
+    # de A estan acotadas por Sigma_A <= 2 eps0, no por sigma2
+    masa = muy_eff + 2 * EPS0
+    cap = max(2 * EPS0, muy_eff)
+    variantes = ([masa], [masa / 2 + cap / 2, masa / 2 + cap / 2])
+    for bloques in variantes:
+        nodos = [z_hi, 1.0] + [cap] * len(bloques)
+        if c_lo <= max(nodos[1:] + [1.0]) + 1e-12:
+            continue
+        n = len(nodos)
+        thmat = [[0.0] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i + 1, n):
+                if i == 0:
+                    t_ac = th(z_hi, nodos[j], 1.0 + z_hi)
+                    t_gl = th(z_hi, nodos[j], c_lo) \
+                        if c_lo > z_hi + 1e-12 else PI
+                    thmat[i][j] = min(t_ac, t_gl)
+                else:
+                    thmat[i][j] = th(nodos[i], nodos[j], c_lo)
+        Ds = {2 + k: PI * b / (c_lo - cap)
+              for k, b in enumerate(bloques)}
+        if _antipodal2(nodos, thmat, Ds):
+            return True
+    return False
+
+
+def bloque_F():
+    print("[F] la lasca por reduccion de degeneracion")
+    ok = True
+    ok &= check(f"[ENUNCIADO] LA REDUCCION: en SS in (1, 1+eps0] "
+                f"(eps0 = {EPS0}) la pared pesada da sigma2 <= "
+                "eps0 "
+                "=> S = sigma1 + polvo <= eps0; el greedy de "
+                "b_star_particion llena beta >= 1 - eps0 "
+                "(granularidad del polvo <= sigma2 <= eps0); la "
+                "ventana de alpha tiene ancho 1 - beta <= eps0 y "
+                "la de z ancho sigma2 <= eps0: el dominio colapsa "
+                "a (omega, X_alpha, X_z, mu_Y) con holguras eps0 "
+                "SIEMPRE pesimistas (techos de ventana arriba, "
+                "suelos abajo, mu_A <= 2 eps0 sumado al polvo y "
+                "omitido de la cola).  OJO (acta R1): las piezas "
+                "de A estan acotadas por Sigma_A <= 2 eps0 — "
+                "sigma1 puede caer en A (contraejemplo DP del "
+                "referee) — de ahi el cap 2 eps0 del bloque",
+                True)
+    # fuzz de la premisa beta >= 1 - eps0
+    rng = random.Random(SEED + 11)
+    n_f, viol = 0, 0
+    for _ in range(6000):
+        s1 = rng.uniform(0.95, 0.999)  # la lasca real: sigma1
+                                       # grande, el resto polvo
+        SS = rng.uniform(1.0 + 1e-6, 1.0 + EPS0)
+        resto0 = SS - s1
+        if resto0 <= 0:
+            continue
+        # <= 12 piezas de polvo (b_star_particion es 2^n; el
+        # greedy real funciona con cualquier granularidad — el
+        # argumento es el llenado, no el conteo)
+        k = rng.randrange(2, 13)
+        cortes = sorted(rng.uniform(0.0, resto0)
+                        for _ in range(k - 1))
+        polvo = [b - a for a, b in zip([0.0] + cortes,
+                                       cortes + [resto0])]
+        polvo = [p for p in polvo if p > 1e-6]
+        s2 = max(polvo) if polvo else 0.0
+        if s2 > EPS0:
+            continue                   # fuera de la lasca (s2 > eps0)
+        piezas = sorted([s1] + polvo, reverse=True)
+        beta, A = b_star_particion(piezas)
+        n_f += 1
+        if beta < 1.0 - EPS0 - 1e-9 and beta < sum(piezas) - 1e-9:
+            viol += 1
+    ok &= check(f"fuzz de la premisa ({n_f} perfiles de la lasca): "
+                f"beta >= 1 - eps0 (o B* = S entera) en todos "
+                f"({viol} violaciones)", n_f >= 300 and viol == 0)
+    root = [0.0, 1.6, 0.0, XCAP, 0.0, XCAP, 0.0, XCAP]
+    exito, caja, n, cert = bnb_factible(root, criterio_lasca)
+    ok &= check(f"LA FRANJA CERTIFICADA (SS in (1, 1+{EPS0}], "
+                f"X_alpha, X_z, mu_Y y omega ENTEROS): B&B de 4 "
+                f"dims, {n} cajas vistas, {cert} certificadas — "
+                f"la singularidad de coste del barrido de 14 dims "
+                f"se disuelve por degeneracion"
+                + ("" if exito else f"; CAJA SIN RESOLVER {caja}"),
+                exito)
     return ok
 
 
@@ -473,7 +619,7 @@ def main():
         if a.startswith("--solo"):
             solo = a.split("=")[1] if "=" in a else \
                 sys.argv[sys.argv.index(a) + 1]
-    etiquetas = [solo] if solo else list("ABCDE")
+    etiquetas = [solo] if solo else list("ABCDFE")
     res = [globals()[f"bloque_{e}"]() for e in etiquetas]
     verdes = sum(1 for r in res if r)
     detalle = ", ".join(f"{e}={'OK' if r else 'FALLO'}"

@@ -3268,3 +3268,63 @@ donde la cola del parámetro renunciado era el rescate), pliegue
 con OR (plegar piezas medianas duplica su coste), y la pared del
 sub-caso como poda (no re-certificar caro lo que otro certificado
 ya cubre).
+
+---
+
+## Acta: ronda hostil de espfinal (la especular completa) — 2026-08-18
+
+VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES. Una grieta de
+solidez real y ACOTADA, una regresión de fidelidad conservadora y
+discrepancias declarativas; el resto del criterio v5 verificado en
+dirección pesimista término a término. Evidencia: F a tres ε₀
+(85/43, 83/42, 75/38), 4/6 bandas B re-ejecutadas con recuentos
+EXACTOS (DFS determinista), fuzz del greedy partible 20.000
+multiconjuntos (0 violaciones), fuzz de β con σ₁ bajos que el
+oficial no cubría (0/4000, peor 0.9964), contraejemplo DP del cap,
+negativos del motor nuevo.
+
+### La grieta (R1, reparada)
+
+**El cap del bloque F**: «piezas de A ≤ σ₂ ≤ ε₀» era FALSO — σ₁
+puede quedar EXCLUIDA de B* y caer en A con ε₀ < σ₁ ≤ ΣA ≤ 2ε₀
+(contraejemplo DP exacto del referee: 66×0.015 + 0.008 + σ₁ =
+0.0171, el óptimo único deja σ₁ fuera). cap = max(ε₀, μ_Y)
+sub-mayoraba. REPARADO: cap = max(2ε₀, μ_Y) — impacto numérico
+NULO (B&B idéntico 85/43, verificado por el referee antes de
+exigirlo).
+
+### Confirmado
+
+Pared del polvo total (X_α/X_z en la cola de m dentro del
+convenio; podas con suelos = mínimos). Bloque partible: el greedy
+|m₁−m₂| ≤ cap es TEOREMA (invariante d′ ≤ cap por inducción);
+sub-bloques M/2+cap/2 mayoran; dos bloques en un lado sound.
+X_m/X_z sin dimensión (monotonías verificadas). β ≥ 1−ε₀ TEOREMA.
+Holguras ε₀ pesimistas (a_hi con un ε₀ de sobra). Empalme exacto
+F∪B en 1.016 (IEEE). Mapa sin huecos. Sanity 200/200.
+
+### Correcciones (R2-R5, aplicadas)
+
+R2: «K = 8»/«KZ = 4» de los textos vs K = 4/KZ = 2 del código (la
+enfermedad de esppesada corr. 2, invertida). R3: negativos del
+motor nuevo _antipodal2 añadidos al bloque D (D = 10 → False,
+estrangulada → False). R4: clip ΣS ≤ φ−0.05 del sanity declarado;
+el lado vacío de _peor_camino2 documentado como CONSERVADOR
+DELIBERADO (no porta la guarda de areduccion — solo endurece — y
+portarla invalidaría los recuentos del mapa). R5: _THMAT global
+documentada (uso interno, se asigna antes de todo uso, sin
+threads; smell de la clase talla(), no agujero); constancia
+0.004 → 75 cajas (el 63 histórico era de una versión previa).
+
+### Estado tras reparación (v2)
+
+LA CELDA ESPECULAR COMPLETA CERRADA DENTRO DEL CONVENIO: ligera
+(r2bmulti + espkp) y pesada (areduccion + esppesada + espfinal)
+con todas las X de polvo en todo su rango legal — la pared del
+polvo total retira los topes de muestreo X_α ≤ 1.5 / X_z ≤ 1.
+Mapa: F (1, 1.016] × TODO en 85 cajas (reducción de degeneración,
+14 dims → 4) + seis bandas B ~32.100 cajas. Residuo especular: el
+canal ocupante ≥ r_m (model-conditional) y ω ≤ 1.6 (tope de
+barrido). Técnicas exportables: pared del polvo total, dimensiones
+eliminadas por monotonía/tramos con crédito, bloque de polvo
+partible (pesos por nodo), reducción de degeneración.
