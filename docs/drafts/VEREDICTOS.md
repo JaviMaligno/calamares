@@ -3328,3 +3328,66 @@ canal ocupante ≥ r_m (model-conditional) y ω ≤ 1.6 (tope de
 barrido). Técnicas exportables: pared del polvo total, dimensiones
 eliminadas por monotonía/tramos con crédito, bloque de polvo
 partible (pesos por nodo), reducción de degeneración.
+
+## Acta: revisión de la cirugía del párrafo-residuo (`residuo.md` + paper) — 2026-08-18
+
+**Veredicto: CONFIRMADO CON CORRECCIONES** (ningún hallazgo
+bloqueante). Ciclo editorial, no matemático: el párrafo-residuo de
+app:campaign (~210 líneas de crónica con el residuo enterrado) se
+parte en «The multipiece campaign and the vacuity closures»
+(crónica) y «The honest residue» (inventario de cinco ítems);
+draft transversal nuevo `residuo.md`. El revisor trabajó con
+criterios de rigor sin líneas de ataque dirigidas (ensayo del
+formato de la ronda final ciega).
+
+### Hallazgos (aplicados)
+
+1. (corrección) El residuo perdía el ítem del carácter
+   computacional (written-proof pendiente), que op:assembly sí
+   mantiene → cláusula final añadida con \ref{op:assembly}.
+2. (corrección) «exact over its declared box» sobredeclarado
+   (exacto = ℚ(√5)/TU en el vocabulario del paper) → «rigorous»;
+   ídem en el draft.
+3. (corrección) Ítem (iii) confundía talla con masa: el convenio
+   es POR PIEZA (< r_m); las masas las acota la cola global →
+   reescrito en paper y draft.
+4. (corrección, PREEXISTENTE de 38bc392) Paréntesis huérfano en la
+   crónica: «over their sweep boxes (the direct one entirely;…»
+   nunca cerraba (verificado por balance programático de toda la
+   región) → «(» sustituido por «--».
+5. (cosmético) Costura de los topes colgaba de la frase de la
+   celda X_Y > 0 → «the caps of the sweep boxes themselves remain
+   sampling ceilings».
+6. (cosmético) Fragmento sin verbo en la costura de los scripts F3
+   → «The scripts … passed adversarial rounds».
+7. (cosmético) «a vacuity under the global tail» sobre-específico
+   (hay vacuidades por β = 1, por trío prohibido, geométricas) →
+   «a vacuity» a secas.
+8. (anotado, deliberado) «substantially certified» → «are
+   certified»: el único cambio de fuerza real; justificado porque
+   todo lo que cubría el «substantially» vive ahora como ítems
+   (ii)-(iv) del residuo.
+9. (cosmético, draft) Etiqueta del asterisco → [abierto / tope];
+   nota de frontera empírica 0.9 en la entrada F3 de §2.
+
+### Verificaciones positivas del acta
+
+Barrido de la crónica por hedges: todo sampled/MC/open/empirical
+aterriza en algún ítem (i)-(v). El residuo pesado pre-espfinal ya
+no es residuo (espfinal lo cerró; el diff lo confirma commiteado).
+\ref{app:verifmap} resuelve; números idénticos al texto viejo y
+consistentes con op:assembly y el verifmap. Paréntesis de toda la
+región editada balancean a cero tras la reparación 4.
+
+### Estado tras reparación (v2)
+
+El inventario vivo del programa entero, en cinco ítems: (i) la
+dirección j de la escala (j ≤ 9 pan / j ≤ 8 nested); (ii) los
+topes de barrido (ω ≤ 1.6 especular, X_Y ≤ 3 del motor, extras
+coronas en sus rangos); (iii) el canal ocupante ≥ r_m
+(model-conditional, único épsilon MC de la especular); (iv) los
+enunciados abstractos del arc-LP de F3 + frontera 0.9 empírica +
+converso abierto; (v) el asterisco de optimización fuera de los
+shadow budgets. Más la dirección declarada: sustituir los
+certificados computacionales por pruebas escritas (op:assembly).
+Paper 50 pp, 0 referencias sin resolver.

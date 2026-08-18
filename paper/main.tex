@@ -3442,16 +3442,11 @@ minimum $(2\varphi,2,2\varphi+2)$, while the total small mass is
 $\le\varphi$ by the tail of $m$: the entire profile and dust row
 into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
 with the nested template verbatim and a geometric non-invasion
-check). The honest residue of the whole program is therefore: the
-occupant-count direction $j$ of the \emph{computational} scaling
-closures only, swept to $j\le9$ (pan) and $j\le8$ (nested) with
-uniform tangent duality and the exact geometric growth
-$T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$) --
-the written theorems' occupant counts are closed by the
-geometric-tail lemma; the computational (as
-opposed to written-proof) status of the
-remaining sweeps -- the shared-root \emph{multipiece} sweeps, now
-substantially certified by a pessimistic-corner engine over the
+check).
+
+\paragraph{The multipiece campaign and the vacuity closures.}
+The shared-root \emph{multipiece} sweeps are certified by a
+pessimistic-corner engine over the
 arc-LP's sufficiency direction (valid for every $k$): a
 term-by-term majorant matrix (each wall angle bounded at its own
 corner, participants at their ceilings \emph{including} their
@@ -3489,7 +3484,7 @@ costs at most $\pi\mu/(R-t_0)$ regardless of how many pieces carry
 the mass. The heavy mural is then $\{Y\text{ or }z,m\}$ plus at
 most four large pieces plus one aggregated dust block, and the
 two-sided antipodal engine certifies both heavy branches over
-their sweep boxes (the direct one entirely; the mirrored one on
+their sweep boxes -- the direct one entirely; the mirrored one on
 its $X=0$ cut; and now, closing the mirrored cell, \emph{beyond}
 that cut: within the dust convention the global pivot tail caps
 \emph{every} extra mass at once,
@@ -3569,19 +3564,17 @@ vacated-ball witness -- the
 two modes of the repack lemma, positional and fresh-certificate,
 must not be mixed in one container -- and found the missing
 global-tail wall itself; the third confirmed the certificate with
-no soundness gap and forced the convention to be declared) --
-and the sweep caps themselves ($X_Y\le3$, $\omega\le1.6$ --
-sampling ceilings, not derived walls) (scripts \texttt{r2bmulti} and \texttt{areduccion},
+no soundness gap and forced the convention to be declared); the caps of the sweep
+boxes themselves remain sampling ceilings (scripts \texttt{r2bmulti} and \texttt{areduccion},
 5/5 each, adversarial rounds: no soundness gap -- $1\,460$ directed
 tests for the engine, hand-redone algebra and adversarial profiles
 for the lemma; the rounds corrected domain claims to the sweep
 boxes, replaced the solver-trusting margin by a float
 re-verification of the returned gap vector, fixed a degenerate
 half-circle that silently re-introduced the excluded antipodal
-pair, and contributed the $4t_0$ incompatibility) -- plus the
-near-equal-tops duality gap
-($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$ -- now re-delimited by
-a \emph{conditional duality lemma}: for families whose pairs are all
+pair, and contributed the $4t_0$ incompatibility). The near-equal-tops
+duality gap ($R_{\mathrm{fit}}/R_{\mathrm{lb}}\le1.0116$) was
+first re-delimited by a \emph{conditional duality lemma}: for families whose pairs are all
 non-stackable at the radius in play, the arc-LP radius of
 Appendix~\ref{app:campaign} is the exact minimal mural-corona radius
 on both sides, by compactification for necessity and the closed
@@ -3622,15 +3615,14 @@ $1.082$ corner) remain, with the empirical cell boundary $0.9$ and
 the converse ``gap $\Rightarrow$ cell'' declared open (evidence in
 favour: outside the cell the confinement raises the lower bound
 exactly where a third piece exceeds the pocket, and the
-constructive corona fits at the raised bound); scripts
-\texttt{f3cierre}, \texttt{auditcolas} and \texttt{f3vacio}, 5/5
-each, adversarial rounds -- the first refuted the original
+constructive corona fits at the raised bound). The scripts
+\texttt{f3cierre}, \texttt{auditcolas} and \texttt{f3vacio} (5/5
+each) passed adversarial rounds: the first refuted the original
 ``closure'' claim and its sampled $1.030$ bound, the second
 refuted a partial-tail audit and supplied the forbidden-triple
 mechanism, the third corrected the declared generator domain
-($6.64$, not $5.1$) and verified the confinement attack) and the
-extras coronas on their swept ranges; the shared-root \emph{trio} itself is now
-certified by subdivision over its entire legal domain in the direct
+($6.64$, not $5.1$) and verified the confinement attack. The
+shared-root \emph{trio} itself is certified by subdivision over its entire legal domain in the direct
 orientation -- light interior, both frontiers and every depth at
 once, via the free-leader reduction -- and over the $X=0$ cut of
 the mirrored one, where the same branch-and-bound also proves the
@@ -3639,9 +3631,9 @@ corner $\sigma_2\to1$ is legal and its corona genuinely fails, the
 $(z,m)$ pair going exactly diametral (script \texttt{r2bcert}, 5/5,
 adversarial round; the pan-repack legality behind the
 mirror-pocket pincers is likewise no longer on this list: it is the
-realization-and-repack lemma above); and the optimization asterisk of the
-\emph{bounded-family} domain sweeps. For the shadow budgets
-themselves that asterisk is now closed: since every term of a
+realization-and-repack lemma above). The optimization asterisk of
+the \emph{bounded-family} domain sweeps is, for the shadow budgets
+themselves, closed: since every term of a
 shadow budget is monotone in each piece radius and in $s$, and
 antitone in $R$, corner evaluation gives a valid upper bound on any
 box, and an exhaustive branch-and-bound over the majorant's
@@ -3655,6 +3647,39 @@ IEEE rounding (script \texttt{optimizacion}, 5/5, adversarial round
 with a repaired normalized-link bound and a certified-honesty
 control: tightening the target below the true supremum $5.2115$
 makes the branch-and-bound stall at exactly that value).
+
+\paragraph{The honest residue.} After the campaign above, what
+remains open or merely sampled in the whole program is short.
+(i)~The occupant-count direction $j$ of the \emph{computational}
+scaling closures, swept to $j\le9$ (pan) and $j\le8$ (nested) with
+uniform tangent duality and the exact geometric growth
+$T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$);
+the \emph{written} theorems' occupant counts are closed by the
+geometric-tail lemma. (ii)~The sweep boxes of the subdivision
+certificates: every certificate above is rigorous over its
+declared box, and the caps of those boxes -- $\omega\le1.6$ throughout the
+mirrored branch (width is not dust, so the global pivot tail does
+not bound it) and $X_Y\le3$ in the engine's corona boxes -- are
+sampling ceilings, not derived walls; the extras coronas likewise
+hold on their swept ranges only. (iii)~The model-conditional
+occupant channel: an occupant of size $\ge r_m$ inside a
+container, whose repack tariff is not derived from the model --
+every mirrored-cell closure above is within the dust convention
+(every extra piece is dust, of size $<r_m$; the extra
+\emph{masses} are bounded by the global tail, not by $r_m$). (iv)~Of the near-equal-tops
+phenomenon, only the abstract arc-LP statements survive (the
+conditional duality lemma and the synthetic $1.082$ corner, on the
+non-stackable domain), with the empirical cell boundary $0.9$ and
+the converse ``gap $\Rightarrow$ cell'' declared open -- the cell
+itself carries no legal instance. (v)~The optimization asterisk of
+the bounded-family sweeps other than the shadow budgets, for which
+it is closed with certified margins. Everything else in this
+appendix is a written proof, an exact identity in
+$\mathbb{Q}(\sqrt5)$, a vacuity, or a subdivision certificate
+recorded in the verification map (Appendix~\ref{app:verifmap});
+replacing those computational certificates by written proofs is
+the program's declared direction (Open
+Problem~\ref{op:assembly}).
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
