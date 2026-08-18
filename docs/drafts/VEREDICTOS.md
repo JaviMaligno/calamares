@@ -3391,3 +3391,72 @@ converso abierto; (v) el asterisco de optimización fuera de los
 shadow budgets. Más la dirección declarada: sustituir los
 certificados computacionales por pruebas escritas (op:assembly).
 Paper 50 pp, 0 referencias sin resolver.
+
+## Acta: ronda hostil del canal ocupante ≥ r_m (`espcanal.md`) — 2026-08-18
+
+**VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES** — cero grietas
+de solidez en lo certificado, y EL HALLAZGO DEL REFEREE INVIRTIÓ
+EL RESIDUO: la «lámina del gemelo» V* que el ciclo declaraba
+como residuo es VACÍA, y el reclamo honesto resultó MÁS fuerte
+que el del draft. Referee con criterios de rigor sin líneas de
+ataque (formato de la ronda ciega). Recuentos re-ejecutados
+EXACTOS (banda alta 79.277/19.977/0; sanity; controles), sondas
+propias del referee (negativos de los certificadores nuevos,
+auditoría de wrap del creciente: 39.919 llamadas, 0
+certificaciones con span > π).
+
+### El hallazgo central (R1, aplicado)
+
+**LA VACUIDAD DEL GEMELO**: el convenio de primera copia hace lo
+contrario de lo que el v1 le atribuía — «the tail of a ring
+collects all later copies»: con x = r_m exacto, la cola de la
+PRIMERA copia recoge a la otra copia MÁS S y el polvo:
+1+ΣS+X > 2 > φ con la pared D. Bloqueo + ρ ≤ φ excluyen el
+empate ⟹ V* = ∅ y la banda muerta es [1, 2/φ) CERRADA (pinza
+unificada). El mismo movimiento del hecho (2) de thm:DBpp y
+cor:DV34. Los 22 puntos «de la lámina» del sanity v1 eran
+instancias ρ-ilegales (el generador no imponía la cola del
+gemelo): la «auto-confirmación» era artefacto — reescrito como
+CONTROL de la vacuidad (98/98 violan).
+
+### Lo verificado sin hallazgo (positivo)
+
+Las dos paredes del nodo son TEOREMAS (desbloqueos completos
+movimiento a movimiento contra lem:DR/lem:row/lem:DG/
+thm:oblivious; greedy pesado con σ₁ ∈ A y partición completa);
+pinza de la cola de x conservadora; pooling 27 exhaustivo con
+huecos simultáneos (contenedores disjuntos) y atomicidad
+conservadora; necesidad del creciente con monotonías en la
+dirección correcta y memoización a la baja legal; suelo_trio
+cota inferior genuina (clava 1+2/√3 a 1.1e-13); podas del B&B
+paredes verdaderas con esquinas pesimistas; acoplo
+th(x,b,z_lo+x_eff) cubierto por A5; cobertura sin huecos entre
+bandas (solapes 1.05 < 1.236, 3.227 > 3.217); Z_MAX cubre el
+techo Rz+x por álgebra ajustada (z < 1+σ₂+3ω+φ ≤ 8.227).
+
+### Correcciones (aplicadas)
+
+R1: la vacuidad del gemelo (pinza extendida al empate en ambos
+criterios; A9 reescrita: CANAL LIGERO CERRADO ENTERO; sanity
+con control 98/98; D(c) empalme por vacuidad; draft/docstring/E
+sin lámina). R2: «bloque B2» inexistente y contradicción
+A6-vs-A7 (la pesada SÍ tiene pared derivada) — alineados. R3:
+«x-en-z entera» era solo PROFUNDIDAD 1: la banda [1.236, techo)
+en torres d ≥ 2 queda DECLARADA (pinza y pared del nodo son
+posición-independientes). R4: guard de wrap en _creciente_cabe
+(la cuerda crece con el ángulo solo hasta π; empíricamente
+gratis). R5: negativos de los certificadores nuevos añadidos a
+D. R6: comentario de la pinza sobredimensionado corregido. R7:
+X_INF retirado; álgebra de Z_MAX anotada. R8: conteos del draft
+y nota del muestreo del sanity.
+
+### Estado tras reparación (v2, 5/5)
+
+LA TARIFA DEL CANAL DERIVADA (dos paredes del nodo, teoremas) y
+EL CANAL LIGERO x-EN-v Y x-EN-z (d = 1) CERRADO ENTERO, SIN
+RESIDUO — el candidato a lámina resultó otra vacuidad de
+frontera. Declarado: pesada con x (pared A7 derivada;
+certificado = fusión con espfinal), banda [1.236, techo) en
+d ≥ 2, x-en-u (exclusión estructural), k ≥ 2, ω ≤ 1.6. Técnicas
+exportables: pared del nodo, pooling del polvo, lema del
+creciente (nec+suf), pinza de la cola de x con empate.
