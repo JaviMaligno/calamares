@@ -3523,3 +3523,91 @@ d = 1) EN AMBOS PERFILES. Declarado: banda [2/φ, techo) en torres
 d ≥ 2, x-en-u (exclusión estructural), k ≥ 2, ω ≤ 1.6. Técnicas
 exportables: reducción de dimensión por pago-por-masa de la
 partición entera (β sola, cap = min(β, φ/2, ΣA)), poda β > 1/2.
+
+## Acta: ronda hostil del converso «gap ⟹ celda» (`f3converso.md` v1) — 2026-08-19
+
+**VEREDICTO GLOBAL: REFUTADO** (como «cierre en forma exacta»),
+por dos vías independientes del referee (criterios de rigor sin
+líneas de ataque):
+
+1. **[FATAL] El detector de la vía (ii) era VACUO para n ≥ 4**:
+   consumía `arcos(n)` = (inicio, LONGITUD) como extremos (i, j);
+   la tupla (1,1) daba θ(x, x) > tol siempre ⟹ True. El barrido
+   central «1.266/1.266 TODAS en la celda» era INFALSABLE (y el
+   único negativo del detector usaba n = 3 — el único caso donde
+   el bug podía devolver False).
+2. **[FATAL] El teorema v1 era FALSO tal cual**: su (i) solo
+   miraba pares apilables con t₁, pero el complemento que G2/G3
+   necesitan es «NINGÚN par apilable». 4 contraejemplos reales
+   del propio generador (re-barrido honesto del referee, 500
+   familias/147 gaps): F = [1.1203, 0.9373, 0.7599, 0.5355,
+   0.5182] (gap 2.21e-2; (0.9373, 0.5182) apilable),
+   [2.2706, 1.6876, 1.3831, 1.3029, 0.949] (1.6e-2),
+   [1.2382, 0.7896, 0.7487, 0.7301, 0.7277, 0.5954] (1.1e-2),
+   [1.5402, 0.8766, 0.7555, 0.6356, 0.6135, 0.5667] (1.1e-3).
+3. [FATAL, consecuencia] Los reclamos de [C]/[E]/§4 caían; la
+   ANATOMÍA estaba invertida (la dominante es la APILABILIDAD —
+   143/147 vía t₁ + 4 vía par no-top — no «la pareja lejana»).
+4. G3/(ii) mal anclados: deben vivir en R_mid ∈ (R_lb, R*) sobre
+   el orden de suma cíclica mínima — y ASÍ SON DEMOSTRABLES
+   (derivación del referee: sin apilables γ_min = θ_w exacto;
+   sin dominación el sistema son cajas factibles: contradicción).
+5. G2 promovible a TEOREMA por cajas (n = 3: factible ⟺ Σθ ≤ 2π).
+6. A1 «simbólica» era puntual (5 puntos); las formas cerradas
+   globales existen (residuo 0).
+7. A2 fuera de su dominio muestreado (a/R hasta 0.75 requerido) y
+   a A4 le faltaba la disjunción con no-vecinos (sale de
+   t ≤ a_min; la desigualdad triangular de θ es falsa — arcolp
+   H4) y la muralidad del bolsillo.
+8-11. B sin pelado múltiple; D(a) con otro generador y NameError
+   latente; «discrepancia 0.00» sobreleída y banda (1e-9, 2e-6]
+   sin declarar; caso |N| = 2 sin cubrir.
+
+**Lo que sobrevivió**: la solidez direccional (R_lb ≤ R_real ≤
+R_arclp; el confinamiento nunca crea gap — esquinas de gamma_min:
+para no-apilables γ_min = θ_w con CUALQUIER dmin); la definición
+de apilable (= vacuidad γ = 0); G1 por contención; y LA VÍA DE
+RESCATE derivada por el propio referee: celda (i′) ∃ par apilable
+CUALQUIERA ∨ (ii′) dominación en R_mid — 147/147 gaps del
+re-barrido en (i′). Nota de proceso: el 5/5 en verde era
+estructuralmente incapaz de detectar los fatales — el gate de
+(ii) no podía fallar.
+
+## Acta: RE-RONDA del converso (`f3converso.md` v2) — 2026-08-19
+
+**VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES.** Las 11
+reparaciones aplicadas de verdad y sin regresiones: detector
+reparado (extremos reales, dos arcos complementarios, orden de
+suma mínima, R_mid; False en radio holgado, True en el positivo
+construido [1.0, 0.15, 1.0, 0.15] a R = 2.05); los 4
+contraejemplos de la v1 caen en la celda v2 (ejecutado); A1
+re-derivada independiente (residuo 0); verificación ANALÍTICA
+extra del ancla de G3 (h creciente en la caja ⟺ a+2b > R = 
+no-apilable ⟹ γ_min = θ_w para cualquier dmin); re-barrido
+CC_ITER=800: 250/250 en celda, anatomía 100% (i′), consistente
+con el oficial 1266/4000.
+
+**H1 [MAYOR, aplicada]**: el gate de A3b era TAUTOLÓGICO
+(lp_ok = cajas_ok; el import de primal_factible muerto) — el
+reclamo era VERDADERO (contraste real del referee: 1.500 tríos,
+0 discrepancias; álgebra de cajas re-derivada: caps
+s_k ≤ 2π−2θ_k ≥ 0 suman ≥ 2π−Σθ) → gate sustituido por la
+comparación real contra primal_factible (n3b > 800, 0
+discrepancias). **H2 [aplicada]**: actas persistidas (esta
+entrada). **H3 [aplicada]**: R_lb obligatorio en en_celda.
+H4-H5 [notas]: tol = 1e-7 del detector sin margen cuantificado
+(empíricamente irrelevante); etiquetas honestas (G1 con la pata
+A2 densa declarada; la rama (ii′) predicción no ejercitada,
+declarada).
+
+### Estado tras la re-ronda (v2, 5/5)
+
+EL CONVERSO EN FORMA EXACTA v2: gap ⟹ (i′) algún par apilable
+del núcleo en R* ∨ (ii′) dominación no-adyacente en R_mid — la
+celda exacta que sustituye al 0.9 empírico. G1 teorema (A1
+global simbólica + A2 denso extendido + no-vecinos por
+t ≤ a_min); G2 TEOREMA (cajas, contraste real); G3 teorema
+re-anclado; barrido 4.000/1.266/1.266 todos (i′). La anatomía
+real del gap es la apilabilidad; la celda realista del F3 es un
+caso de (i′) y ya es vacua bajo ρ ≤ φ. El fenómeno queda
+cartografiado.
