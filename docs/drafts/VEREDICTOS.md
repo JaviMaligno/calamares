@@ -3460,3 +3460,66 @@ certificado = fusión con espfinal), banda [1.236, techo) en
 d ≥ 2, x-en-u (exclusión estructural), k ≥ 2, ω ≤ 1.6. Técnicas
 exportables: pared del nodo, pooling del polvo, lema del
 creciente (nec+suf), pinza de la cola de x con empate.
+
+## Acta: ronda hostil de la pesada del canal (`espcanalp.md`) — 2026-08-19
+
+**VEREDICTO GLOBAL: CONFIRMADO CON CORRECCIONES** — cero grietas
+de solidez en lo certificado; dos hallazgos obligatorios de
+inventario/fidelidad, ambos aplicados (H1 se resolvió CERRANDO lo
+que faltaba, no declarándolo). Referee con criterios de rigor sin
+líneas de ataque; recuentos re-ejecutados EXACTOS ([1.2, 1.4]:
+26.125/8.644 del mapa v1); sondas propias del referee: fuzz del
+teorema de reducción 0/20.000 (peor β = 0.5095 — la poda β > 1/2
+es ajustada de verdad), monotonía de la cota acoplada de x
+0/4.000, no-tautología (criterio(raíz) = False), 40/40
+cajas-punto legales.
+
+### Lo verificado sin hallazgo (positivo)
+
+LA REDUCCIÓN DE DIMENSIÓN ES TEOREMA: toda pieza de A ≤
+min(β, φ/2) — β ≥ σ₁ ≥ max(A) INCLUSO con σ₁ ∈ A (la duda de
+espfinal R1: {σ₁} es candidato a B* con σ₁ < 1), y a ≤ φ/2 por
+maximalidad (β+a > 1) + ΣS ≤ φ (ΣS ≥ β+a ≥ 2a). Esquinas
+pesimistas en los tres usos del cap; el bloque fusionado A+μ_Y
+mayora ambas familias; el greedy partible cap-genérico. Poda
+β > 1/2 exacta. Pared pesada del nodo con esquinas correctas.
+Ventanas y colas pesimistas término a término; suelo del trío
+cota inferior legítima; frontera ΣS = 1+σ₂ sin hueco con
+espcanal (el empate lo cubre este script). Cota acoplada de x
+con zl (más pesimista que z_lo: cuesta fuerza, nunca solidez).
+Sanity con gate real.
+
+### Hallazgos (aplicados)
+
+H1 [OBLIG]: la pesada x-EN-z (d = 1) no estaba ni certificada ni
+declarada (espcanal la cerró solo en ligera; este script solo en
+v) → CERTIFICADA: criterio_pesada_z nuevo (corona de v sin x — x
+viaja dentro de z —, ventanas de z corridas, cola de Y con x):
+15.571 cajas, dominio entero, 0 sin resolver. H2 [OBLIG]: la
+banda alta del mapa etiquetada [1.4, φ] pero barrida con techo
+1.62 (10.921/2.255 reproduce con 1.62, no con φ) → etiqueta real
+[1.40, 1.62] en draft. H3 [REC]: negativo dirigido del
+certificador nuevo (no-tautología: raíz de banda → False) + la
+derivación del creciente con cap < masa anotada. H4 [MENOR]:
+«suelo fino» 1−bh es más débil que el teorema β > 1/2 — 
+terminología corregida; el clamp se conserva (recuentos). H5
+[MENOR]: el sanity generaba X_z DESPUÉS de x (la pinza no veía
+todo el polvo) → X_z antes. H6 [MENOR]: Xzh muerto (herencia de
+espfinal) — anotado.
+
+COLATERAL de la reparación H1: al certificar la pesada-z apareció
+una región atascada (β ≈ 0.81, masa_A ≈ 0.26: el cap min(β, φ/2)
+= 0.809 era pesimista de más) → EL CAP FINO min(β, φ/2, ΣA)
+(exacto: una pieza no excede la masa de su multiconjunto), que la
+disolvió; mapa v RE-BARRIDO CONGELADO v2 entero con el criterio
+final: [1.0, 1.05] 51.713/11.924; [1.05, 1.1] 38.173/8.656;
+[1.1, 1.2] 20.377/7.339; [1.2, 1.4] 23.169/7.822; [1.4, 1.62]
+10.905/2.248 — total 144.337 + 15.571 (z), todo 0 sin resolver.
+
+### Estado tras reparación (v2, 5/5)
+
+EL CANAL OCUPANTE ≥ r_m CERRADO EN EL CONTENEDOR DE Y (v y torre
+d = 1) EN AMBOS PERFILES. Declarado: banda [2/φ, techo) en torres
+d ≥ 2, x-en-u (exclusión estructural), k ≥ 2, ω ≤ 1.6. Técnicas
+exportables: reducción de dimensión por pago-por-masa de la
+partición entera (β sola, cap = min(β, φ/2, ΣA)), poda β > 1/2.
