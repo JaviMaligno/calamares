@@ -3611,3 +3611,89 @@ re-anclado; barrido 4.000/1.266/1.266 todos (i′). La anatomía
 real del gap es la apilabilidad; la celda realista del F3 es un
 caso de (i′) y ya es vacua bajo ρ ≤ φ. El fenómeno queda
 cartografiado.
+
+## Acta: LA RONDA FINAL CIEGA (paper entero, 7 bloques + meta) — 2026-08-20/21
+
+**El compromiso cumplido** (memoria ronda-final-ciega, feedback de
+Javi 2026-08-10): siete referees independientes, uno por bloque
+temático del paper, CIEGOS — sin VEREDICTOS.md, sin drafts, sin
+líneas de ataque; solo el paper, el código y los 7 criterios de
+rigor genéricos (etiquetas honestas, dominios vs topes,
+direcciones de tolerancia, gates infalsables, circularidad,
+enunciado-vs-prueba, re-derivación propia). Más un META-REFEREE
+de consistencia transversal sobre las 7 actas. Actas completas
+archivadas (scratchpad de la sesión, ciega/acta_bloque1..7.md +
+acta_meta.md).
+
+**VEREDICTO GLOBAL: PUBLICABLE TRAS CORRECCIONES — CERO FATALES**
+en los 7 bloques y en el meta. Recuento consolidado deduplicado:
+0 FATALES · 11 OBLIGATORIAS · 17 RECOMENDADAS · 33 MENORES = 61
+ítems. Circularidad inter-secciones LIMPIA (barrido de \ref
+completo: cada apéndice importa solo de apéndices anteriores).
+Los siete referees re-derivaron independientemente la matemática
+sustantiva de sus bloques (sympy, racionales exactos, walkthroughs)
+y la encontraron correcta.
+
+### Los hallazgos con contenido matemático (ambos con reparación
+derivada dentro de la propia ronda)
+
+- **O2 (bloque 4)**: la prueba de thm:DP(iv) j=3 no cubría «y
+  hoja estrictamente dentro del subárbol de o₁» (la ruta Ψ₃
+  invocada es falsa si el subárbol es una cadena que termina en
+  y). Reparación del referee, verificada: (b′) dos hijos-nodo ⟹
+  hoja que evita a y ⟹ Ψ₃; (c′) cadena: la pinza corre verbatim
+  con m contado vía T_{v*} ≥ X_{v*}+1 si v* ≠ y; si v* = y,
+  contradicción y > 3 (cola de y) vs y < φ+ω < φ² (Ry + cola de
+  m). El enunciado no cambia. APLICADA + gate falsable en
+  batalla2.py (el viejo max(Ψ₃,Ψ_B) > φ era independiente de la
+  instancia).
+- **O3 (bloque 1)**: la clausura hacia abajo de la factibilidad
+  se afirmaba sin prueba. Lema de tres líneas añadido (el disco
+  del anillo retirado queda libre; los hijos no se mueven y se
+  re-parentan). APLICADA.
+
+### Convergencias entre referees independientes
+
+V3 de las gemelas infactible tal como estaba impreso (bloques 2
+Y 6: mismos déficits ~4e-4, mismos ángulos exactos 30.7535°/
+32.0103°) → sustituido por el testigo RACIONAL EXACTO
+(c_X = (8.8, √27.4176), c_Y = (8.7, −√29.5776); 14.76²/14.74²
+exactos; abscisas 10.24·55/64 y 10.26·145/171). También: 5.37→
+5.38, la cota general z > 30/7, d = 0 en S5, DSpan (B5+B7).
+
+### Patrones sistémicos detectados (nota del meta)
+
+(a) testigos/constantes impresos con redondeo inseguro — siempre
+con el enunciado verdadero detrás; (b) punteros/recuentos del
+aparato de verificación desincronizados (espfinal 6/6, Lean 45
+teoremas, rigido/tresk/cuatrok, cifras de informe no trazables —
+todo corregido o etiquetado); (c) gates que no pueden fallar —
+tercer y cuarto ejemplares del patrón ya cazado en f3converso/
+espcanalp: batalla2 (rama j=3 interior) y coronacolas C (el
+«200.000 muestras, cero sin caso» era el complemento booleano de
+su propia cascada de continues) → AMBOS sustituidos: batalla2
+con el techo (c′) por instancia (6/6 verde), coronacolas con la
+enumeración LÓGICA exhaustiva del retículo de 12 celdas
+(falsable; el residuo es exactamente la celda D1; bloque C
+verde). La exhaustividad de DSpan en el paper reescrita como la
+tricotomía lógica (O10).
+
+### Aplicación
+
+61/61 ítems aplicados (O1-O3 y los gates por el autor; el resto
+editorial por agente aplicador con verificación de compilación):
+3 pasadas de pdflatex, 0 referencias sin resolver, 52 pp. Diff:
+348 líneas en main.tex + los dos gates. Ajustes al lado seguro
+en dos cifras (η < 0.049; õ = 1.29556…).
+
+### Estatus del programa tras la ronda
+
+El paper queda con: la matemática re-derivada por siete pares de
+ojos sin anclar, cero fatales, los dos únicos huecos de prueba
+reparados, el aparato de verificación sincronizado y los cuatro
+gates-infalsables del proyecto cazados y sustituidos. La
+honestidad de etiquetado sale REFORZADA (verificada punto a
+punto por los referees 5 y 7; única sobredeclaración real: el
+«is exactly» de op:assembly, corregida). Pendiente de decisión:
+envío a arXiv (endorsement math.MG pendiente — memoria
+paper-arxiv-estado).

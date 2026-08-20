@@ -370,7 +370,15 @@ def bloque_F():
                 tiene_nodo_o1 = bool(occs[oc1][1])
                 if y_en_o1:
                     if tiene_nodo_o1:
-                        ramas = max(Psij(3, w), PsiB(w)) > PHI  # jj = 3
+                        # caso REPARADO (ronda ciega O2): con y
+                        # interior el arbol usa (b')/(c') del
+                        # paper; el gate por instancia es el
+                        # techo (c') y < phi + w (Ry + cola de
+                        # m), FALSABLE — el viejo max(Psi3, PsiB)
+                        # > PHI era independiente de la instancia
+                        ramas = (max(Psij(3, w), PsiB(w)) > PHI
+                                 and (y_r >= o1v - 1e-12
+                                      or y_r < PHI + w + 1e-9))
                     else:                     # polvo: cola de m
                         ramas = o1v - w >= 2
                 else:

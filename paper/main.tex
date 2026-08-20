@@ -104,7 +104,8 @@ Johnson~\cite{CoffmanGareyJohnson1987} proved that First Fit Decreasing is
 optimal. We are not aware of an analogue for geometric packing of disks, let
 alone with nesting. We prove one, with \emph{superincreasing} radii (each radius exceeding
 the sum of all smaller ones) playing the role of divisibility, and we
-determine exactly how far the hypothesis can be relaxed. The answer is a
+determine exactly how far the hypothesis can be relaxed in the additive
+model, bracketing the geometric threshold. The answer is a
 surprise: the additive relaxation of the model has threshold exactly $1$,
 while the geometric model resists up to (conjecturally, exactly) the
 \emph{golden ratio} -- an explicit golden family fails at
@@ -204,7 +205,12 @@ $i$, so that $\rho$ is the largest tail; ``the tail of $x$'' always
 refers to this ratio.
 The \emph{lex-max} set $L$ is defined greedily: scanning $i=1,\dots,n$,
 include $i$ whenever $(L\cap\{1,\dots,i-1\})\cup\{i\}$ is feasible.
-Since feasibility is downward closed, $L$ is the unique lexicographically
+Feasibility is \emph{downward closed}: removing a ring from a feasible
+placement leaves a feasible placement of the remaining set --- the
+removed ring's disk becomes free space, and its nested children (each
+of radius at most $r-\omega$, less than the freed disk) stay where
+they are, re-parented to the removed ring's container, so no piece
+moves. Hence $L$ is the unique lexicographically
 maximal feasible set, and the \emph{selection greedy} (add ring $i$ if the
 resulting \emph{set} remains feasible) computes it. Note that the selection
 greedy queries a \emph{set-feasibility oracle}; it is an information bound,
@@ -231,7 +237,7 @@ $p_j=-C+2\sum_{l<j}x_l+x_j$, each satisfies $|p_j|\le C-x_j$.
 \section{The superadditivity dichotomy}\label{sec:superadd}
 
 \begin{lemma}\label{lem:superadd}
-The contact area $a$ is increasing and superadditive on $(0,\infty)$:
+The contact area $a$ is strictly increasing and superadditive on $(0,\infty)$:
 $a(x)+a(y)\le a(x+y)$.
 \end{lemma}
 \begin{proof}
@@ -290,9 +296,10 @@ geometry of nested containers.
 
 \begin{proposition}[Cardinality is not rescued]\label{prop:count}
 There are superincreasing instances on which every descending greedy is
-suboptimal for $N$. Example (verified): pan $R=10$, $w=4.8$, radii
+suboptimal for $N$. Example (verified; script \texttt{superinc.py}): pan $R=10$, $w=4.8$, radii
 $\{9.95,\,5.0,\,4.3,\,0.6\}$. Greedy places $\{9.95,5.0\}$ ($N=2$, optimal
-area), while $\{5.0,4.3,0.6\}$ packs in a row in the pan ($N=3$).
+area; no step offers a choice of container, so all placement rules coincide),
+while $\{5.0,4.3,0.6\}$ packs in a row in the pan ($N=3$).
 The obstruction is structural: $N$ corresponds to $v\equiv1$, which is not
 superadditive, and Lemma~\ref{lem:lexdom} fails for it.
 \end{proposition}
@@ -301,11 +308,14 @@ superadditive, and Lemma~\ref{lem:lexdom} fails for it.
 \label{sec:oblivious}
 
 \begin{theorem}[Placement rule irrelevance]\label{thm:oblivious}
-Let the radii be superincreasing (weakly: $r_i\ge\sum_{j>i}r_j$ suffices) and
+Let the radii be superincreasing (weakly: $r_i\ge\sum_{j>i}r_j$ suffices;
+under the weak hypothesis the dominance of Lemma~\ref{lem:lexdom} holds with
+non-strict inequality, which is enough for optimality) and
 let $K\subset\R^d$ be an arbitrary container. Every descending greedy, with an
 \emph{arbitrary} rule for choosing among feasible containers, places exactly
 the lex-max feasible set. In particular best fit (place in the feasible
-container of smallest capacity), worst fit (largest capacity) and random
+container of smallest capacity, defined for a general container as the radius
+of its largest inscribed ball), worst fit (largest capacity) and random
 placement are all optimal for every positive, strictly increasing,
 superadditive objective.
 \end{theorem}
@@ -347,8 +357,11 @@ superincreasingness. Nothing refers to the shape of $K$ or the dimension:
 the theorem covers rectangular pans (griddles) and spherical shells nested in
 arbitrary containers in $\R^d$ verbatim. Computational corroboration of the
 strongest consequence: on $100$ random superincreasing instances, best-fit,
-worst-fit and random placement produced identical, optimal outcomes without
-exception.
+worst-fit and random placement produced optimal (hence, by
+Lemma~\ref{lem:lexdom}, identical) outcomes without exception (script
+\texttt{test\_oblivious.py}; beyond the exact one-circle, two-circle and row
+criteria its feasibility oracle is a heuristic packer with restarts -- a
+sampling caveat of the corroboration, not an ingredient of the proof).
 \end{remark}
 
 \section{Sharpness: the \texorpdfstring{$n=4$}{n=4} transition and twin instances}\label{sec:sharp}
@@ -398,7 +411,11 @@ $\{10,\,5,\,4.9,\,4.8\}$ (all four form the lex-max set, witnessed by the pan
 pair $\{10,5\}$ at exact tangency and the hole pair $\{4.9,4.8\}$ filling the
 hole $9.7$ exactly), best fit nests the $5$, forces the $4.9$ into the pan,
 and blocks the $4.8$ everywhere by Lemma~\ref{lem:cap} and the exact two-circle
-conditions; worst fit places all four (Figure~\ref{fig:n4}).
+conditions; worst fit places all four (Figure~\ref{fig:n4}). (The worst-fit
+run also uses that $\{10,5,z\}$ does not pack in the pan for $z\in\{4.9,4.8\}$:
+the pan pair is diametrically rigid and the rescaled pocket of
+Proposition~\ref{prop:S5} is $10\,b(1/2)=30/7\approx4.286<z$; the count of
+four is in any case robust to either oracle answer.)
 \end{theorem}
 
 \begin{figure}[ht]
@@ -429,13 +446,25 @@ rigorously: $\{10,4.99,4.50\}$ does not pack in the disk of radius $15$ (cap
 confinement as in Lemma~\ref{lem:cap} yields $|c_X-c_Y|\le8.80<9.49$), and the
 pan pair $\{10,5\}$ is diametrically rigid, whence no third circle of radius
 $\ge4.7$ fits (confinement again: for $z=4.76$,
-$|c_z-c_B|\le\sqrt{204.86-20\cdot8.8}\le5.37<9.76$). Packability of
+$|c_z-c_B|\le\sqrt{204.86-20\cdot8.8}\le5.38<9.76$; in general
+$|c_z-c_B|^2\le z^2-130z+625<(5+z)^2$ for every $z>30/7$, so the claim holds
+for all $z\ge4.7$). Packability of
 $\{10,4.76,4.74\}$ in radius $15$ is exhibited by an explicit boundary
 configuration (angles $180^\circ$, $30.8^\circ$, $-32.0^\circ$; all pairwise
 constraints verified). The key phenomenon enabling the twins is that
 triple-packability is \emph{not monotone in the sum}: the unbalanced pair
 $\{4.99,4.50\}$ (sum $9.49$) fails beside the $10$ while the balanced pair
 $\{4.76,4.74\}$ (sum $9.50$) succeeds.
+The four executions, every step after the decisive one forced (a single
+feasible container or none): in $I_1$, nesting the $5$ sends the $4.99$ to the
+pan ($5+4.99>9.495$) and blocks the $4.50$ everywhere (pan by the triple
+fact, hole by $5+4.50>9.495$, nesting by capacity) -- three rings -- while
+the $5$ in the pan sends both $4.99$ and $4.50$ to the hole
+($4.99+4.50=9.49\le9.495$) -- all four; in $I_2$, nesting the $5$ sends
+$4.76$ and $4.74$ to the pan (the explicit boundary configuration) -- all
+four -- while the $5$ in the pan blocks the pan for both ($\ge4.7$), nests
+the $4.76$ alone and blocks the $4.74$ ($4.76+4.74=9.50>9.495$) -- three
+rings. See Appendix~\ref{app:verif}.
 \end{proof}
 
 \begin{remark}
@@ -473,7 +502,7 @@ $r_3+r_4>s$; $r_2+r_4>r_1-w$ since $w>r_1/4$; $r_4>r_2-w$ likewise).
 The three tail ratios are $(2s+\delta)/r_1=1+\delta/r_1$,
 $(s+\delta)/s=1+2\delta/r_1$ and $r_4/r_3<1$, so
 $\rho=1+2\delta/r_1\le1+\varepsilon$; verified instances reach
-$\rho=1.03$ and $1.02$.
+$\rho=1.03$ and $1.02$ (script \texttt{umbral.py}).
 \end{theorem}
 
 The four-ring counterexample family carries a genuine floor at the Tribonacci
@@ -563,8 +592,7 @@ For every $\omega\in(1-\varphi/2,\ \varphi-1)=(0.1910,0.6180)$ and every
 \min\Bigl(\tfrac{T-\varphi}{3},\ \tfrac{\varphi/2-\omega}{2},\
 \tfrac{4\sqrt5-8-\varphi/2}{2}\Bigr)
 \]
-(all three bounds positive on the window; the middle one is read as
-$(\varphi-\omega-\varphi/2)/2$ when it is the binding constraint on
+(all three bounds positive on the window; the middle one enforces
 $s_1\le\varphi-\omega$), the instance
 \[
 R=\varphi+1,\qquad w=\omega,\qquad
@@ -615,7 +643,9 @@ $s_1$ nor $s_2$ fits the pan; the hole of $\varphi$ admits one of them
 but not both ($s_1+s_2=\varphi+3\varepsilon>\varphi-\omega$, two-circle
 exact); the hole of $m$ admits neither
 ($s_2>1-\omega\iff\omega>1-\tfrac\varphi2-\varepsilon$); and
-$s_2$ cannot nest in $s_1$; and $s_1$ fits alone in the hole of
+$s_2$ cannot nest in $s_1$ (nesting would require
+$\omega\le s_1-s_2=\varepsilon$, while
+$\omega>1-\tfrac\varphi2>\varepsilon^\ast$); and $s_1$ fits alone in the hole of
 $\varphi$ ($s_1\le\varphi-\omega$, via $\varepsilon^\ast$), which is
 where the greedy puts it before $s_2$ is stranded. An exhaustive
 placement tree confirms the count: three rings with $1$ in the pan,
@@ -630,8 +660,8 @@ with $2\varepsilon+\eta=\rho_0-\varphi$ and $0<\eta<\rho_0-\varphi$
 small. The dominant tail is $s_1+s_2=\rho_0$ exactly. All walls hold
 explicitly: $s_1<1$ and the corona certificate $s_1<4(\sqrt5-2)$, since
 $s_1=\varphi/2+\tfrac{\rho_0-\varphi}{2}+\tfrac\eta2
-<\varphi/2+\tfrac{T-\varphi}{2}+\tfrac\eta2=0.9195\ldots+\tfrac\eta2
-<0.9443$ for $\eta$ small; $s_2>\varphi/2=0.809>0.7=1-\omega$ ($H_m$
+<\varphi/2+\tfrac{T-\varphi}{2}+\tfrac\eta2=0.9196\ldots+\tfrac\eta2
+<0.9443$ for $\eta<0.049$; $s_2>\varphi/2=0.809>0.7=1-\omega$ ($H_m$
 blocked); $s_1+s_2=\rho_0>\varphi>\varphi-\omega$ (the hole of
 $\varphi$ rejects the pair); $s_2>s_1-\omega$ (their gap is
 $\eta<0.3=\omega$, so no nesting); and $s_1\le\varphi-\omega=1.318$
@@ -671,7 +701,9 @@ via $\Psi_B(1)=\varphi$, and the strict-leaf ladder with
 $\Psi_1(\tfrac12)=\Psi_2(\varphi/2)=\varphi$ -- every proved floor
 of the nested exchange exceeds $T>\varphi$ with margin, and every
 residual cell of the exchange assembly is closed computationally
-with duality-certificate backing (Appendix~\ref{app:campaign}; the
+with duality-certificate backing, within the swept boxes and up to
+the residue inventoried at the close of
+Appendix~\ref{app:campaign} (the
 profile and dust directions of the scaling are exact by the
 pocket-$\varphi$ lemma, and the heavy pan cells, the entire nested
 template and the container port have been upgraded to written
@@ -679,8 +711,9 @@ proofs by the insertion, compaction and trio lemmas,
 Theorems~\ref{thm:D1written}--\ref{thm:gapwritten}, the
 hole-corona closures and the geometric-tail lemma -- the latter
 making every written shadow budget uniform in the occupant count),
-leaving as the numeric core the occupant-count direction of the
-computational scaling closures alone.
+leaving the five-item inventory of the honest-residue paragraph,
+whose numeric core is the occupant-count direction of the
+computational scaling closures.
 \end{conjecture}
 
 \section{The width program: profile thresholds and the \texorpdfstring{$13/7$}{13/7} corner}
@@ -827,7 +860,8 @@ $\ \theta$-infeasibility $\iff T_c(x)+T_c(y)\le\tau_R=c/\sqrt{AR}$.
 The pocket generalizes to $b_R(A)=ARc/(AR+c^2)$, increasing in $R$, and the
 frontier slope identity $\kappa=\sqrt{g_c(y)/g_c(x)}$, $g_c(s)=s^3(c-s)$, is
 uniform in $R$. Without the hypothesis $A\ge\min(x,y)$ the equivalence is
-false (an explicit counterexample pins the failure region exactly), a fact
+false (an explicit pointwise counterexample witnesses the failure; the
+failure region is swept by script), a fact
 found by adversarial verification (Lemma~\ref{lem:DU}).
 
 \paragraph{An exact corona criterion.}
@@ -880,7 +914,9 @@ occupancy at any depth,
 \[
 \rho\;>\;\Psi(\omega)\;=\;(1-\omega)+\sqrt{(1-\omega)^2+1} ,
 \]
-the metallic mean of $2(1-\omega)$: $\Psi(0)=1+\sqrt2$ is the silver ratio,
+the metallic mean of $2(1-\omega)$ (we write $\Psi\equiv\Psi_1$
+interchangeably: it is the $j=1$ member of the ladder $\Psi_j$ below):
+$\Psi(0)=1+\sqrt2$ is the silver ratio,
 $\Psi(1/4)=2$ exactly, and $\Psi>T$ iff $\omega<(T-1)^2/2=0.3522$.
 Allowing $m$ itself to carry children splits by an evacuation dichotomy into
 the same bound and a second metallic mean, the root of
@@ -942,14 +978,14 @@ Proposition~\ref{prop:DPsij}, Corollary~\ref{cor:DS}).
 Larger reinsertion profiles are \emph{cheaper} for the adversary in pure
 nest accounting ($\rho^*_3\le\rho^*_2$), but in the canonical template the
 geometry reverses the sign: blocking with $S=\{\sigma_1\ge\sigma_2\ge
-\sigma_3\}$ and arbitrary occupancy of $H_m$ forces
+\sigma_3\}\subset(\omega,1)$ and arbitrary occupancy of $H_m$ forces
 $\rho>\max\bigl(\Phi(\omega),\tfrac{13}7\bigr)$ for \emph{all} $\omega$,
 with no exceptional branch. If $\sigma_3\le\sigma_1-\omega$ then $\sigma_3$ (the \emph{dust}) rides
 inside $\sigma_1$ and the pair program is inherited wall by wall
 (the $13/7$ corner bound applies); if nothing nests and the trio
 $\{\alpha,\sigma_1,\sigma_2\}$ has no corona, the witness chain gives
 $\sigma_1+\sigma_2\ge1+b(\alpha)\ge\Phi(\omega)$; and if the trio
-\emph{does} pack, Lemma $U_4$ read backwards forces the \emph{zigzag}
+\emph{does} pack, the $U_4$ criterion read backwards forces the \emph{zigzag}
 certificate to fail, and the zigzag implies exactly $\sigma_2>b(\alpha)$
 -- the Descartes pocket by a third route, via
 $\sin^2\!A+\sin^2\!B>1$. Crossing that wall with the witness capacity
@@ -997,7 +1033,8 @@ Contact area behaves like $2\pi w\sum r_i$ minus a per-ring penalty
 $\pi w^2$; cardinality counts rings. With uniform width the hole of a large
 ring is large, so nesting usually reconciles the two objectives, and the
 divergence survives only marginally: small rings that fit $k$ times in the pan
-but $k-1$ times in the large ring's hole. The minimal instance is
+but at most $k-2$ times in the large ring's hole (with $k-1$ in the hole the
+two objectives tie). A minimal instance (four rings; three never diverge) is
 $R=10$, $w=1$, radii $\{9.0,\,4.2,\,4.2,\,4.2\}$: the area optimum is the
 $9.0$ with one nested $4.2$ ($N=2$, $A\approx76.7$), the cardinality optimum
 the three $4.2$'s ($N=3$, $A\approx69.7$). Figure~\ref{fig:phase} maps the
@@ -1058,7 +1095,7 @@ Reduce from \textsc{Equal-Cardinality Partition}: given positive integers
 $a_1,\dots,a_n$, $n$ even, with $\sum_i a_i=2B$, decide whether some $S$
 with $|S|=n/2$ has $\sum_{S}a_i=B$. (This variant is NP-hard: from a
 \textsc{Partition} instance $b_1,\dots,b_m$ with $\sum_i b_i=2B_0$, take
-$K>\sum_i b_i$ and the $2m$ numbers $b_1+K,\dots,b_m+K,K,\dots,K$ ($m$
+any integer $K\ge1$ and the $2m$ numbers $b_1+K,\dots,b_m+K,K,\dots,K$ ($m$
 copies of $K$); an $m$-subset with $t$ items of the first kind has sum
 $mK+\sum_{\mathrm{chosen}}b_i$, so $m$-subsets of sum $mK+B_0$ correspond
 exactly to subsets of the original instance of sum $B_0$, of any size,
@@ -1087,8 +1124,10 @@ partition.
 
 Superincreasing radii eliminate exactly this combinatorial layer --
 precisely as in the superincreasing knapsack~\cite{Gupte2016} -- leaving
-only the geometric one: by Theorem~\ref{thm:selection}, the area optimum
-then reduces to $n$ calls to a sibling-packing feasibility oracle. Useful
+only the geometric one: by Theorem~\ref{thm:oblivious}, the area optimum
+then reduces to at most $O(n^2)$ sibling-packing feasibility queries (per
+ring, one per currently open container), or $n$ calls to the stronger
+oracle ``does the current placement admit ring $i$''. Useful
 blackboxes for the remaining geometry include the critical-density theorem
 for disks in a disk (any family of total area at most half the container's
 packs, and $1/2$ is tight)~\cite{FeketeKeldenichScheffer2019} and Split
@@ -1128,7 +1167,9 @@ configurations.
 
 \emph{(e) Objectives.} Theorem~\ref{thm:selection} covers every positive,
 strictly increasing, superadditive value; weighted counts and concave values
-fall outside and, by Proposition~\ref{prop:count}, genuinely so.
+fall outside and -- at least for the pure count $v\equiv1$, itself both a
+weighted count and concave -- genuinely so, by
+Proposition~\ref{prop:count}.
 
 \section{Open problems}\label{sec:open}
 
@@ -1146,9 +1187,10 @@ $\omega\in(0,1)$
 (a \emph{strict leaf} yields the $\Psi_B$ program and
 $\Psi_B(1)=\varphi$ exactly); and for the remaining branch through the
 strict-leaf ladder ($\Psi_1(\tfrac12)=\varphi$,
-$\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with a
-$U_4$-based wall ($o_2<1+1/o_1$) and a pincer on the smallest node above
-$o_2$ closing the rest. Larger profiles are closed in the light,
+$\Psi_2(\varphi/2)=\varphi$, $\Psi_3(1)=\sqrt3>\varphi$), with the rest
+of $j=3$ closed by a case tree on $(o_2,o_1)$, the carrier wall (Ry),
+strict-leaf counts and a pincer on the smallest node above
+$o_2$. Larger profiles are closed in the light,
 nested, heavy-large and heavy-$\Psi_B$ regimes of
 Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
 After Theorem~\ref{thm:DPr}, extra small rings adjoin to the profile
@@ -1184,15 +1226,23 @@ dust). A geometric-tail lemma makes the written theorems'
 shadow budgets uniform in the occupant count (suffix masses decay
 geometrically and the leader's own cascade forbids a tight pair
 with a full tail), so their sweep caps drop out. What remains for a
-full proof of Conjecture~\ref{conj:golden} is exactly: the
-occupant-count direction $j$ of the \emph{computational} scaling
-closures (numeric, swept to $j\le9$ with exact geometric cascade
-growth), and written proofs replacing the remaining adversarially
+full proof of Conjecture~\ref{conj:golden} is exactly the five-item
+inventory of the honest-residue paragraph closing
+Appendix~\ref{app:campaign}: the occupant-count direction $j$ of the
+\emph{computational} scaling closures (numeric, swept to $j\le9$ with
+exact geometric cascade growth), the sampling ceilings of the sweep
+boxes ($\omega\le1.6$ mirrored, $X_Y\le3$ in the engine), the mid band
+at tower depth $\ge2$ and the structural exclusion left of the occupant
+channel (the one model-conditional piece), the sampled support of the
+closed F3 converse, the optimization asterisk outside the shadow
+budgets -- and written proofs replacing the remaining adversarially
 verified computational closures.
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
-Can a placement rule with access to the full input attain the lex-max set with
+For arbitrary (non-superincreasing) radii -- under superincreasing radii
+Section~\ref{sec:hardness} answers affirmatively -- can a placement rule
+with access to the full input attain the lex-max set with
 polynomially many calls to a sibling-packing oracle, or is there a
 complexity-theoretic obstruction?
 \end{openproblem}
@@ -1224,17 +1274,22 @@ substitute for proof.
 Every theorem of Sections~\ref{sec:threshold}--\ref{sec:generic} is backed in
 the accompanying repository by (i) a self-contained draft with complete
 proofs, (ii) a verification script whose blocks separate exact symbolic
-identities (\texttt{sympy}) from numerical sweeps, all green, and (iii) an
+identities (\texttt{sympy}) from numerical sweeps, all green (a few blocks
+are declared explorations or statements of convention and cannot fail;
+the scripts label them as such), and (iii) an
 \emph{adversarial verification report}: an independent rederivation of each
 result from its statement alone, followed by an audit and directed attacks.
 The correspondence, as ``verified claims (script blocks)'', is:
-Theorem~\ref{thm:rigidfloor} -- \texttt{suelo\_rigido}, 10/10 claims
+Theorem~\ref{thm:additive} -- \texttt{umbral} (reproduces the
+$\rho=1.03$ and $1.02$ instances);
+Theorem~\ref{thm:rigidfloor} -- \texttt{rigido} (draft
+\texttt{suelo\_rigido}), 10/10 claims
 (7 blocks); slack pans and the universal trio frontier --
 \texttt{universal} (5/5 blocks); the $\kappa$ identity -- \texttt{h1},
 6/6 claims (5/5 blocks); the width curve and Theorem~\ref{thm:corner} --
 \texttt{grosor} 8/8 claims, \texttt{esquina} 6/6 claims (5/5 blocks);
-profile thresholds -- \texttt{perfil\_tres}, \texttt{cuatro}
-(\texttt{cuatrok} 5/5 blocks); the corona criterion -- \texttt{corona}
+profile thresholds -- \texttt{tresk} (draft \texttt{perfil\_tres}) and
+\texttt{cuatrok} (draft \texttt{cuatro}; 5/5 blocks); the corona criterion -- \texttt{corona}
 (5/5 blocks); occupant walls, the opposite-disk lemma and the metallic
 floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
 double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
@@ -1285,7 +1340,7 @@ model-conditional channel to be declared) and \texttt{esppesada}
 eight-segment waiver; its adversarial round found no soundness
 gap, re-ran five of the six bands with exact counts, repaired the
 sanity's dead dust and contributed the vacuity of the
-$\Sigma_S=1+\sigma_2$ boundary), \texttt{espfinal} (5/5, the
+$\Sigma_S=1+\sigma_2$ boundary), \texttt{espfinal} (6/6, the
 heavy mirrored branch with \emph{all} dusts free, closing the
 mirrored cell; its adversarial round found and repaired one
 surgical gap in the degeneracy strip's dust cap, proved the
@@ -1319,7 +1374,7 @@ the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$, $(\mathbb Q[e])[d]$ and
 $(\mathbb Q[\sqrt5])[r]$. Its
-forty-two theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+forty-five theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
@@ -1491,7 +1546,8 @@ $|c_1-c_t|\ge1+t$; the triangle inequality forces equality throughout, so
 up to rotation $c_1=(-t,0)$, $c_t=(1,0)$.
 \emph{Sufficiency.} The pocket circle tangent to the wall and to both has
 radius $b(t)$; any $q\le b(t)$ placed concentrically inside it works.
-\emph{Necessity.} Let $X$ be the center of $q$, $d=|X|>0$, and $\gamma$ the
+\emph{Necessity.} Let $X$ be the center of $q$ and $d=|X|$; if $d=0$ then
+$|X-c_1|=t<1+q$, infeasible, so $d>0$. Let $\gamma$ be the
 angle between $X$ and $(1,0)$. Disjointness reads
 $d^2+t^2+2dt\cos\gamma\ge(1+q)^2$ and $d^2+1-2d\cos\gamma\ge(t+q)^2$, which
 bound $\cos\gamma$ from below and above; compatibility of the two bounds
@@ -1513,7 +1569,9 @@ $E\subseteq D$ be the packable set. Then:
 \textup{(2)} $E$ is closed in $D$;
 \textup{(3)} for fixed $t,q$, the set $\{p\in[q,t]:(t,p,q)\in E\}$ is empty
 or a closed interval $[q,p_{\max}]$ with the maximum attained; in
-particular, if $(t,t,q)\notin E$, then $(t,p,q)\notin E$ for all
+particular, if $(t,t,q)\notin E$, then (when the interval is nonempty;
+if it is empty every $p$ is infeasible and any $\delta$ serves)
+$(t,p,q)\notin E$ for all
 $p\in(p_{\max},t]$ -- the infeasibility of the rigid corner propagates to
 $\delta:=t-p\in[0,\delta_0)$, $\delta_0=t-p_{\max}>0$.
 \end{lemma}
@@ -1689,11 +1747,12 @@ On the branch $s_1\le\tfrac12+\omega$ ($Q=1$),
 $h(s_1)=\max(s_1+1,1/s_1)$ decreases until the crossing $s_1^2+s_1=1$,
 i.e.\ $s_1=1/\varphi$ where $h=\varphi$, and increases after; the branch
 minimum sits at $s_1^*=\min(\beta,\tfrac12+\omega,1/\varphi)$. Comparing
-(exact crossings): for $\omega\le\omega_1:=\tfrac{\sqrt5-2}{2}$ the infimum
+(exact crossings): for $\omega\le\omega_\varphi:=\tfrac{\sqrt5-2}{2}$ the infimum
 is $\tfrac{2}{1+2\omega}$ (the crossing
 $\tfrac{2}{1+2\omega}=\tfrac32+\omega$ is $2\omega^2+4\omega-\tfrac12=0$,
-positive root $\omega_1$); for
-$\omega_1\le\omega\le1-1/\varphi$ it is $\varphi$; for
+positive root $\omega_\varphi$; this local symbol is unrelated to the root
+$\omega_1$ of Proposition~\ref{prop:Ccurve}); for
+$\omega_\varphi\le\omega\le1-1/\varphi$ it is $\varphi$; for
 $1-1/\varphi\le\omega<\tfrac12$ it is
 $\max(2-\omega,1/\beta)=1/\beta\ge2\beta$: dominated by case (i). For
 $\omega\ge\tfrac12$ case (iv) is empty ($s_2+s_3\le2\beta<1$). The lower
@@ -1712,8 +1771,11 @@ $\rho^*_k(\omega)=\rho^*_3(\omega)$ for every $k\ge3$ and every
 $\omega\in(0,1)$.
 \end{proposition}
 \begin{proof}
-$(\le)$ Dust: append $k-3$ rings $\delta\to0$ to any blocked three-ring
-witness. $(\ge)$ Let $S$ be non-reinsertable with $k$ rings and
+$(\le)$ Dust: append $k-3$ superdecreasing rings
+$\delta,\delta^2,\dots,\delta^{k-3}$ with $\delta\to0$ to any blocked
+three-ring witness (superdecreasing, so that every dust tail also tends to
+$0$ and $\rho_{\mathrm{needed}}$ tends to that of the witness).
+$(\ge)$ Let $S$ be non-reinsertable with $k$ rings and
 $\rho:=\rho_{\mathrm{needed}}(S)$.
 
 \emph{Step 0.} The row of all of $S$ in $A$ fails: $\sum S>1$, so $\rho>1$;
@@ -1771,7 +1833,7 @@ contradicting $\rho<2\beta<2$.
 For $\omega<\omega_T=\tfrac1T-\tfrac12$ no profile of any size blocks the
 exchange step with $\rho<T$; for $\omega>\omega_T$ the witness
 $\{\tfrac12+\omega,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ blocks with
-$\rho=\tfrac{2}{1+2\omega}<T$. \qed
+$\rho$ arbitrarily close to $\tfrac{2}{1+2\omega}<T$. \qed
 \end{corollary}
 
 \subsection{The blocking frontier of the canonical trio}\label{app:frontier}
@@ -1847,7 +1909,8 @@ $h(1)=t^{-1}(\sigma)=b(\alpha)$.
 On the frontier, for every $\alpha>1$ and $\sigma_1<1$,
 \[
 \kappa:=-\frac{\partial h}{\partial\sigma_1}
-=\sqrt{\frac{g(\sigma_2)}{g(\sigma_1)}},\qquad g(s)=s^3(1-s),
+=\sqrt{\frac{g(\sigma_2)}{g(\sigma_1)}},\qquad g(s)=s^3(1-s)
+\ \text{(notation local to this subsection)},
 \qquad\text{and}\qquad\kappa\ge1,
 \]
 with equality iff $\sigma_1=\sigma_2=s^*$.
@@ -1943,7 +2006,12 @@ $\alpha\ge T_{1+\omega}$; $b$ is strictly increasing
 ($b'=(2\alpha+1)/(\alpha^2+\alpha+1)^2$), so the infimum over admissible
 $\alpha$ is $1+b(T_{1+\omega})=T_{1+\omega}-\omega$ (the cubic identity
 with equality), approached by $\sigma_1=1-\varepsilon$,
-$\sigma_2=b(\alpha)+\varepsilon'$. The derivative: implicit
+$\sigma_2=b(\alpha)+\varepsilon'$ -- a genuine blocking: the rigidity of
+Proposition~\ref{prop:S5} at $\sigma_1=1$ and the propagation of
+Lemma~\ref{lem:S6a}(3), written for the corner $\omega=\tfrac17$ in the
+proof of Theorem~\ref{thm:corner}, apply verbatim at $\alpha=T_{1+\omega}$
+for every $\omega\in[\tfrac17,0.30]$ ($\alpha\ge2$ keeps the disk
+diametrally full). The derivative: implicit
 differentiation of $\alpha^3=(1+\omega)(\alpha^2+\alpha+1)$ and
 substitution of $1+\omega=\alpha^3/(\alpha^2+\alpha+1)$ reduce the
 numerator of $d\alpha/d\omega-1$ to $2\alpha+1$ (symbolic identity).
@@ -2007,7 +2075,9 @@ are both negative.
 \end{proof}
 
 \begin{proposition}[The exact curve]\label{prop:Ccurve}
-For $\omega\in(0,0.30]$, the proved lower bound for
+For $\omega\in(0,0.30]$ (the cap $0.30$ is a convenient working
+restriction of the statement, not a structural obstruction:
+$T_{1+\omega}<2+\omega$ holds identically), the proved lower bound for
 $T_{\mathrm{can}}$ is
 \[
 T_{\mathrm{can}}(\omega)\ \ge\
@@ -2023,7 +2093,8 @@ $\alpha_m(\omega)\in(1,2]$ is the unique root of
 $t(\alpha-1)+t(1-\omega)=\Theta(\alpha)$, an algebraic function of degree
 $6$ (its polynomial $P(\alpha,\omega)$, of bidegree $(6,2)$, is
 irreducible over $\mathbb Q[\alpha,\omega]$). Equality holds on the witness
-branch and at the corner; on the other two branches the matching upper
+branch (the family is genuine as in Proposition~\ref{prop:Cwitness}) and at
+the corner; on the other two branches the matching upper
 bound inherits the angular-criterion caveat.
 \end{proposition}
 \begin{proof}
@@ -2048,7 +2119,9 @@ against the cubic) and case (a) needs $b(\alpha)\ge1-\omega$, impossible
 $S_0^b(\alpha)=1-\omega+t^{-1}(\Theta-t(1-\omega))$, increasing in $\alpha$,
 and (W) is equivalent to
 $\Xi(\alpha):=\Theta(\alpha)-t(\alpha-1)\ge t(1-\omega)$ with $\Xi$
-strictly increasing on $(1,2]$, $\Xi(1^+)=-\infty$ and
+strictly increasing on $(1,2]$ (the claim reduces to the polynomial
+inequality $(\alpha(\alpha+1))^3>(2\alpha+1)^2(\alpha-1)^3(2-\alpha)$,
+which has no root in $(1,2)$), $\Xi(1^+)=-\infty$ and
 $\Xi(2)=t(\tfrac67)\ge t(1-\omega)\iff\omega\le\tfrac17$: the admissible
 $\alpha$ form $[\alpha_m,2]$ and the minimum is
 $S_0^b(\alpha_m)=\alpha_m-\omega$ ((W) with equality). For
@@ -2117,23 +2190,28 @@ non-packable by the \emph{rigidity} of Proposition~\ref{prop:S5}
 (the disk $R=\alpha+1$ is diametrically full; rescale by $t=1/\alpha$) --
 not merely by the angular criterion -- and the infeasibility propagates
 from $\sigma_1=1$ to $\sigma_1=1-\varepsilon$ by
-Lemma~\ref{lem:S6a}(3) for all small $\varepsilon$. Then
+Lemma~\ref{lem:S6a}(3) for all small $\varepsilon$ (shrinking
+$\varepsilon$ below the propagation radius $\delta_0$ of that lemma if
+needed; any smaller $\varepsilon$ serves). Then
 $\rho=\alpha-\omega-\varepsilon/2\to\tfrac{13}7$.
 \end{proof}
 
 \begin{remark}[Fine structure]\label{rem:Cbump}
 The curve is not monotone on $(0,\tfrac17]$: differentiating the defining
-equation of $\alpha_m$ at the junction and using the exact coincidence of
-the leading terms ($(\alpha-1)^3(2-\alpha)=(1-\omega_1)^3\omega_1$ at
-$\alpha=2-\omega_1$) gives
-$V'(\omega_1^+)=c_0/(r'-c_0)>0$ (numerically $+0.0721$): $\omega_1$ is a
+equation of $\alpha_m$ at the junction (where $\alpha=2-\omega_1$, so the
+leading terms $(\alpha-1)^3(2-\alpha)$ and $(1-\omega_1)^3\omega_1$ agree
+by direct substitution) gives
+$V'(\omega_1^+)>0$ (numerically $+0.0721$, by implicit differentiation of
+$P$): $\omega_1$ is a
 \emph{local minimum} of $T_{\mathrm{can}}$, followed by a local maximum at
 $\omega_{\mathrm{peak}}=0.0444700$ (the unique root in
 $(\omega_1,\tfrac17)$ -- by Sturm -- of an explicit degree-8 factor $R_8$
 of the resultant of $P$ and $P_\alpha+P_\omega$), a bump of height
 $1.1\cdot10^{-4}$, before descending to the corner. $T_{\mathrm{can}}$ has
 two local minima, $\omega_1$ and $\tfrac17$, and the global one is the
-corner.
+corner. (The computational claims of this appendix -- the exact root
+isolation of $Q_5$, the degree-8 factor $R_8$ and the bump height -- are
+reproduced by \texttt{code/esquina.py} and \texttt{code/grosor.py}.)
 \end{remark}
 
 \section{Complete proofs for generic containers}\label{app:genericproofs}
@@ -2154,7 +2232,10 @@ whose sibling groups pack). A \emph{node} is any ring of radius $\ge1$
 that is an occupant of $v$ other than $\alpha$ \emph{and} $m$, or is
 nested (at any depth) inside such an occupant; nodes and their descendants live outside
 $m$. Unless stated otherwise, blocked-exchange walls are closures of
-strict inequalities, as in Appendix~\ref{app:widthproofs}.
+strict inequalities, as in Appendix~\ref{app:widthproofs}. Throughout
+this appendix and Appendix~\ref{app:campaign} we use the
+\emph{first-copy convention}: ties among equal radii are broken by index,
+so the tail of a ring collects all later copies.
 
 \subsection{The universal frontier and the corona criterion}
 \label{app:corona-app}
@@ -2162,7 +2243,9 @@ strict inequalities, as in Appendix~\ref{app:widthproofs}.
 \begin{lemma}[Universal frontier]\label{lem:DU}
 Let $\{A,x,y\}$ be wall-tangent in a disk of arbitrary radius $R$, in the
 interior domain $A+x,A+y,x+y<R$. Set $c:=R-A$,
-$T_c(x):=\sqrt{(c-x)/x}$ and $\tau_R:=c/\sqrt{AR}$. If $A\ge\min(x,y)$,
+$T_c(x):=\sqrt{(c-x)/x}$ (a function symbol local to the corona
+criterion, unrelated to the deformed Tribonacci root $T_{1+\omega}$ of
+Appendix~\ref{app:widthproofs}) and $\tau_R:=c/\sqrt{AR}$. If $A\ge\min(x,y)$,
 then
 \[
 F=\theta(A,x)+\theta(A,y)+\theta(x,y)\ \ge\ 2\pi
@@ -2198,7 +2281,8 @@ primitive of $-c/(2\sqrt{g_c})$.
 
 \begin{lemma}[Gap system]\label{lem:Dgaps}
 A \emph{corona} of $\{a_1,\dots,a_k\}$ in the disk $R$ (all $k$ circles
-wall-tangent) with cyclic order $\pi$ exists iff the linear system
+wall-tangent; all pairs admissible, $a_i+a_j\le R$, so that every
+$\theta_{ij}$ is defined) with cyclic order $\pi$ exists iff the linear system
 \[
 \theta_{ij}\ \le\ S_j-S_i\ \le\ 2\pi-\theta_{ij}
 \qquad(1\le i<j\le k,\ S_1=0)
@@ -2262,7 +2346,7 @@ achieved by the zigzag order $(a_1,a_3,a_2,a_4)$.
 \begin{proof}
 With $\sigma_i:=\log f(a_i)$ (decreasing) one has
 $\theta(a_i,a_j)=g(\sigma_i+\sigma_j)$ for $g(s)=2\arcsin(e^{s/2})$ on
-$s\le0$, with
+$s\le0$ (a notation local to this proof), with
 $g''(s)=e^{-s}/\bigl(2(e^{-s}-1)^{3/2}\bigr)>0$: $g$ is convex and
 increasing (continuity at $s=0$ by passage to the limit). The three
 matchings have pair-sums $\{\sigma_1+\sigma_2,\sigma_3+\sigma_4\}$,
@@ -2272,7 +2356,7 @@ majorizes the other two; convexity turns majorization into the claimed
 maximality.
 \end{proof}
 
-\begin{theorem}[Lemma $U_4$: global criterion, two inequalities]
+\begin{theorem}[The $U_4$ criterion: global, two inequalities]
 \label{thm:DU4}
 $\{a_1\ge a_2\ge a_3\ge a_4\}$ admits a corona in the disk $R$ (all pairs
 admissible) iff
@@ -2347,9 +2431,8 @@ Blocking in the free-hole template with $j\ge1$ extra occupants implies
 \]
 \end{proposition}
 \begin{proof}
-The tail of $o_1$ contains $\{o_2,\dots,o_j,m,\sigma_1,\sigma_2\}$ (ties
-among equal radii are broken by index, so the tail of a ring collects all
-later copies: the \emph{first-copy convention}). By (Bo), $\sigma_1\ge\sigma_2>o_1-\omega$,
+The tail of $o_1$ contains $\{o_2,\dots,o_j,m,\sigma_1,\sigma_2\}$ (the
+first-copy convention of the preamble). By (Bo), $\sigma_1\ge\sigma_2>o_1-\omega$,
 and each $o_i\ge1$:
 $\rho\ge\bigl((j-1)+1+\sigma_1+\sigma_2\bigr)/o_1
 >\bigl(j+2(o_1-\omega)\bigr)/o_1=2+(j-2\omega)/o_1$. If $\omega\le j/2$
@@ -2550,19 +2633,24 @@ the denominator), so $f_1$ is concave in $\alpha$ and minimized at the
 endpoints; and
 $D^2-\alpha o_1^2(o_1+2\alpha)=(\alpha+o_1)(\alpha^3+\alpha^2o_1+o_1^3)>0$
 gives $\alpha\,\partial b_2/\partial\alpha<o_1$, so $f_2$ is strictly
-decreasing in $\alpha$. For $o_1\in(g,\tilde o]$ ($\tilde o=1.29558\dots$;
+decreasing in $\alpha$. For $o_1\in(g,\tilde o]$ ($\tilde o=1.29556\dots$,
+the root of $c_{20}$ below;
 any order of $\alpha,o_1$, only (I) used): at $\alpha=A_{\max}$,
 $f_1-\mathrm{curve}=c_{10}(o_1)+\omega(1/g-1/o_1)$ with the
-$\omega$-coefficient $\ge0$ and $c_{10}\ge0$ on $[g,o^\ast=1.5958]$, with
+$\omega$-coefficient $\ge0$ and $c_{10}\ge0$ on $[g,o^\ast]$,
+$o^\ast=1.59557\dots$ the root of $c_{10}$, with
 the exact identity $f_1\equiv\mathrm{curve}$ at $o_1=g$ (the golden
 corner, for all $\omega$); at $\alpha=1+\omega$,
 $f_1\ge\mathrm{curve}$ on $[g,o^\ast]\times[0,1]$ with contact only at
 $(g,\omega\to1)$. For $o_1>\tilde o$ with $\alpha\ge o_1$ (forcing
 $o_1\le\tfrac32$, since $A_{\max}$ is decreasing with
 $A_{\max}(\tfrac32)=\tfrac32$ exactly; also $A_{\max}(g)=2$,
-$A_{\max}(2)=g$ -- the corner is self-dual): $f_2\ge f_2(A_{\max})
-=c_{20}(o_1)+\omega\,c_{21}(o_1)$ with $c_{21}\ge0$ for $o_1\le2$ and
-$c_{20}\ge0$ on $[\tilde o,\tfrac32]$. For $o_1>\tilde o$ with
+$A_{\max}(2)=g$ -- the corner is self-dual): $f_2\ge f_2(A_{\max})$ and
+$f_2(A_{\max})-\mathrm{curve}=c_{20}(o_1)+\omega\,c_{21}(o_1)$ with
+$c_{21}\ge0$ for $o_1\le2$ and
+$c_{20}\ge0$ on $[\tilde o,\tfrac32]$ (the sign certificates
+$c_{10}\ge0$, $c_{20}\ge0$, $c_{21}\ge0$ are computer-assisted
+one-variable root isolations). For $o_1>\tilde o$ with
 $\alpha<o_1$ (a region requiring $\omega<\tfrac12$: it needs
 $1+\omega\le\alpha<o_1<N_1(\omega)$, and $N_1(\tfrac12)=\tfrac32$ exactly
 with $N_1$ decreasing, where $b_2(1+\omega,N_1)=1$): if the children of
@@ -2664,7 +2752,8 @@ the pan -- incompatible with using $D_m$ or the evacuation, both of which
 pin $\alpha$. The witness gives (W) $\sigma_1+\sigma_2\le\alpha-\omega$.
 
 \begin{theorem}[Three pieces; the zigzag pays]\label{thm:DT3}
-Blocking with $S$ a triple and arbitrary $M$ implies
+Blocking with $S$ a triple in $(\omega,1)$ (as in the preamble above) and
+arbitrary $M$ implies
 $\rho>\max\bigl(\Phi(\omega),\tfrac{13}7\bigr)$ for all
 $\omega\in(0,1)$; in the zigzag branch below, $\rho>\tfrac{17}7$.
 \end{theorem}
@@ -2685,7 +2774,10 @@ $\sigma_1+\sigma_2\ge1+b(\alpha)$, $\alpha\ge T_{1+\omega}$ and
 $\rho\ge\sigma_1+\sigma_2\ge\Phi(\omega)>T$. Moreover: if
 $\sigma_2>1-\omega$, the program (B1)+(B2)+(B4)+(W) is exactly that of
 Theorem~\ref{thm:corner}, whose lower bound gives
-$\sigma_1+\sigma_2>\tfrac{13}7$; if instead $\sigma_1+M>1$ and $\sigma_3>\omega$, then (BH) gives
+$\rho\ge\max\bigl(\sigma_1+\sigma_2,
+\tfrac{1+\sigma_1+\sigma_2+\sigma_3}{\alpha}\bigr)
+\ge\max\bigl(\sigma_1+\sigma_2,\tfrac{1+\sigma_1+\sigma_2}{\alpha}\bigr)
+\ge T_{\mathrm{can}}(\omega)\ge\tfrac{13}7$; if instead $\sigma_1+M>1$ and $\sigma_3>\omega$, then (BH) gives
 $\rho\ge\sigma_1+\sigma_2+\sigma_3+M>\sigma_1+(1-\omega)+\omega
 =1+\sigma_1\ge1+\Phi(\omega)/2\ge1+T/2=1.9196>\tfrac{13}7$.
 
@@ -2784,7 +2876,7 @@ containment, $R\ge o_1+1$) not in the disk $o_1+1$, where
 $\{o_1,1\}$ is rigid: $\sigma_i>b(o_1)$ by
 Proposition~\ref{prop:S5}. The tails give
 $\rho>\max\bigl(2b(o_1),\,(1+2b(o_1))/o_1\bigr)$; $b$ is increasing,
-$g(A)=(1+2b)/A$ decreasing (the certificate
+$g(A)=(1+2b)/A$ (notation local to this proof) decreasing (the certificate
 $(3A^2+3A+1)(A^2+A+1)-2A(2A+1)$ has positive coefficients), and the
 crossing $2b(A)A=1+2b(A)$ factors as $(A^2-A-1)(2A+1)$: unique positive
 root $A=\varphi$, value $\varphi$ ($2b(\varphi)=\varphi$,
@@ -2831,17 +2923,34 @@ $o_1\ge3$ with the node/dust dichotomy on $o_1$'s hole content: a node
 makes $y$'s subtree or $o_1$'s contribute a third strict leaf
 ($\Psi_3$), dust lands in $m$'s tail. In detail, for $o_1\ge3$: if
 $y=o_1$, (Ry) gives $X_1\ge o_1-\omega-S_0>0$ (as $S_0<2\le o_1-\omega$);
-a node inside makes $y$ a non-leaf, whence $jj=3$ and $\Psi_3$ applies,
+a node inside makes $y$ a non-leaf, whence $k=3$ and $\Psi_3$ applies,
 while pure dust lives in $m$'s tail and
 $\rho\ge S_0+X_1\ge o_1-\omega\ge2$. If $y$ lies in another
 occupant's subtree and is not a leaf, its subtree supplies the third
-strict leaf ($jj=3$); if $y$ is a leaf and $\omega<\varphi/2$,
+strict leaf ($k=3$); if $y$ is a leaf and $\omega<\varphi/2$,
 $\Psi_2>\varphi$; and if $y$ is a leaf, $\omega\ge\varphi/2$ and
 $\sigma_2>\omega$, then
-$\rho\ge\sigma_1+\sigma_2>2\omega\ge\varphi$. What survives is
+$\rho\ge\sigma_1+\sigma_2>2\omega\ge\varphi$. If $y$ lies
+\emph{strictly inside} $o_1$'s subtree and is a leaf, two sub-cases
+close it: if some node of that subtree has two node children, one of
+its two disjoint subtrees avoids $y$ and contributes a strict leaf,
+and $o_2$'s and $o_3$'s subtrees (neither containing $y$) contribute
+the other two: $\Psi_3$. Otherwise the subtree is a chain
+$o_1\supset v_1\supset\dots\supset y$ and the pincer below runs with
+$V$ defined as there: if $v^{*}\ne y$ the argument is verbatim ---
+(Bo) holds at every node of the chain other than $y$, and $m$, now
+inside $v^{*}$'s subtree (it sits in $y$'s hole), is counted through
+$T_{v^{*}}\ge X_{v^{*}}+1$ instead of externally, which reassembles
+(C1) unchanged; if $v^{*}=y$, the tail of $y$ contains
+$o_2,o_3,m,\sigma_1,\sigma_2$, so
+$\varphi y>o_2+3\ge3/\varphi+3=3\varphi$ gives $y>3$, while (Ry) plus
+the tail of $m$ give
+$y-\omega<\sigma_1+\sigma_2+X_y^{\mathrm{rest}}\le\rho\le\varphi$, so
+$y<\varphi+\omega<\varphi^2<3$: contradiction. What survives is
 $y$ a leaf outside $o_1$'s subtree, closed by the pincer below.
 
-\emph{The pincer (closes $y$ a leaf outside $o_1$'s subtree).} Here
+\emph{The pincer (closes $y$ a leaf outside $o_1$'s subtree; the
+interior-chain case above reuses it as noted).} Here
 $o_2\ge3/\varphi$, and no width, solid-disk or $o_1$ hypothesis is
 needed: it suffices that $s:=\sigma_2+\omega<2$, which holds since
 $\sigma_2\le1$ (the profile consists of rings smaller than $m$) and
@@ -2958,7 +3067,10 @@ $\sigma_2\leftrightarrow\sigma_3$ mirror force either
 $\{o_1,o_2,m,\sigma_3\}$ not to repack -- by containment to the disk
 $o_1+o_2$ and Proposition~\ref{prop:S5}, $b_2(o_1,o_2)<1$, the
 mirror-pocket wall of case (ii) of Theorem~\ref{thm:DP}, whose
-optimization ports with fatter tails ($1+\Sigma>2+\sigma_2$) -- or
+optimization ports with fatter tails ($1+\Sigma>2+\sigma_2$; the mixed
+case, $\{o_1,o_2,m,\sigma_3\}$ repacking while $\{o_1,o_2,m,\sigma_2\}$
+does not, lands on the same wall, since $\sigma_2\le1$ forces
+$b_2(o_1,o_2)<1$) -- or
 $\sigma_2,\sigma_3>1-\omega$, and then
 $\rho\ge\Sigma>1+\sigma_2>2-\omega$ closes $\omega<2-\varphi$. (Only
 $j=2$: non-packability is not inherited by subsets, so the containment
@@ -3041,9 +3153,20 @@ stated with each claim: \emph{theorem} means a written proof (with
 exact identities delegated to \texttt{sympy}/Lean);
 \emph{computational closure} means per-instance certificates over
 swept parameter ranges, with the certificate soundness proved but the
-extension to unswept $(j,p,k)$ ranges supported numerically. Every
+extension to unswept $(j,p,k)$ ranges supported numerically.
+Throughout, \emph{certified maximization} means the standard of
+Theorem~\ref{thm:DPr} -- directed grid-plus-refinement with exact
+per-instance criteria, not interval arithmetic; its optimization
+asterisk is item (v) of the honest residue below -- while
+\emph{certified} without qualification is reserved for
+branch-and-bound bounds valid box by box. Every
 script below is paired with an adversarial verification report in the
-repository (\texttt{docs/drafts/VEREDICTOS.md}).
+repository (\texttt{docs/drafts/VEREDICTOS.md}). Instance and family
+totals attributed below to adversarial rounds (e.g.\ the
+${\sim}45$k-family, $55$k-instance, $20\,000$-fuzz and
+$1\,460$-test figures) are \emph{report figures} from those rounds;
+a default run of the published scripts uses smaller budgets and
+prints correspondingly smaller totals.
 
 \paragraph{Small rings adjoin to the profile.}
 
@@ -3064,8 +3187,10 @@ profile members and the resources $D_m$, $H_m$, holes and the pan
 repack -- holds for the enlarged profile a fortiori. Extras inside
 holes are already counted by the hole tariffs ($X$-masses). The case
 assignment of Theorems~\ref{thm:DPp}--\ref{thm:DPr} is exhaustive
-over $S^{+}$ ($200\,000$ sampled instances, zero unassigned; script
-\texttt{coronacolas}, block C).
+over $S^{+}$ by the finite case trichotomy on
+$(|S^{+}|,\ j,\ \sigma_1+M)$: the cited cases cover $|S^{+}|=3$ for
+every $j$, $|S^{+}|\ge4$ with $j\le2$, and $|S^{+}|\ge4$ with
+$\sigma_1+M>1$, and the complement is exactly the residual cell.
 \end{proof}
 
 \paragraph{The duality certificates.} The remaining cells are closed
@@ -3108,10 +3233,12 @@ explicitly, as it always did).
 ($\rho\le\varphi$ forces $o_k\ge(\sum_{i>k}o_i+1+\Sigma)/\varphi$,
 and $o\ge\varphi(1+\Sigma)$ at near-ties), the constructive corona at
 $R=R_{\mathrm{lb}}$ succeeds with \emph{uniform tangent duality}
-(deficit $0.0$; the boundary placement is tangent, hence legal)
+(deficit $0.0$ within the $2\cdot10^{-3}$ bisection tolerance of
+$R_{\mathrm{lb}}$, with the complementary probe that the deficit
+strictly decreases in $R$; the boundary placement is tangent, hence
+legal)
 across: the heavy cell $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ of
-Theorem~\ref{thm:DPr} ($j\le5$, $p\le6$ swept, $185$k instances plus
-$4\,284$ corners, Euclidean re-validation $1500/1500$); the
+Theorem~\ref{thm:DPr} ($j\le5$, $p\le6$ swept); the
 solid-pivot regime $\omega\ge1$, $j\ge3$ (no step uses the width);
 and, in the nested template of Section~\ref{sec:generic}, the three
 golden-level gaps declared in the Status paragraph -- the $j=2$ tip
@@ -3309,7 +3436,7 @@ exactly tangent and the small pieces insert sub-pocket at zero
 angular cost), with the golden endpoints -- where pair sums, $R_3$
 and the stackability threshold all collapse -- excluded into
 certified neighbourhoods. Behind it all sits one more exact golden
-identity, kernel-checked in Lean:
+identity whose algebraic core is kernel-checked in Lean:
 $\theta(\varphi,1/\varphi)+\theta(1/\varphi,1)+\theta(1,\varphi)
 =\pi$ at $R=2\varphi$, which makes the dangerous $4$-cycle of the
 $j=1$ cell exactly tangent and ties its $5$-cycle to the
@@ -3381,7 +3508,7 @@ The port itself is now \emph{written}. When $v$ is the pan and
 $\alpha$ sits nested in a tower whose root $t$ is top-level, the
 case is a \emph{corollary} of
 Theorems~\ref{thm:nestedwritten}--\ref{thm:gapwritten}: those
-theorems use of the configuration exactly four things -- a top-level
+theorems use, of the configuration, exactly four things -- a top-level
 pan family $\{t,o_1,\dots,o_{j'},m\}$ in $P$, the vacated unit disk
 $D_m$ at top level ($v$ the pan makes $m$ top-level in $P$), the
 legality of $m$'s destination by $F$'s certificate with rigid
@@ -3537,7 +3664,8 @@ the diametral pair} (degenerate form, exact at $R=a+b$; the
 would-be sliver $x\in(p,1)$ has width $1/(z^2+z+1)$ --
 $1/(2\varphi^2)$ at $z=\varphi$, where also
 $p(\varphi,1;\varphi+1)=\varphi/2$ exactly, the golden pocket of
-Theorem~\ref{thm:DP}'s counterexample); a first adversarial round
+Theorem~\ref{thm:DP}'s counterexample, already met as the critical
+point of the duality certificates above); a first adversarial round
 confirmed this algebra by hand, and a second one then proved the
 sliver \emph{vacuous}: the global tail of the pivot counts every
 smaller piece, so $\Sigma_S+X_m+\Sigma X_Y\le\varphi$, which is
@@ -3569,7 +3697,8 @@ hole and the row $S\setminus\{\sigma_2\}<1$ fills $m$'s vacated
 disk; nothing else moves), and in \emph{every} profile
 $x<\omega+\Sigma_S-1+\sigma_1+X_x$ (a greedy partition of $S$
 sends $B$ into $x$'s hole and $A\le1$ to the row) -- and the
-light channel is \emph{closed entirely}: the exact tie $x=r_m$
+light channel is \emph{closed entirely on $v$ and on the depth-one
+tower cut}: the exact tie $x=r_m$
 is $\rho$-illegal (the first-copy convention makes the first
 copy's tail collect the twin \emph{plus} all of $S$ and the
 dust, $\ge1+\Sigma_S>2>\varphi$ -- the referee's find, which
@@ -3645,7 +3774,7 @@ on both sides, by compactification for necessity and the closed
 arc-LP for sufficiency, reproducing the classical equal-circle
 optima $1+2/\sqrt3$ and $1+\sqrt2$ at tangency; on the synthetic
 non-stackable domain the true load-versus-tops interval has corner
-supremum $1.082$, certified over a deterministic corner mesh --
+supremum $1.082$, evaluated over a deterministic corner mesh --
 now an \emph{abstract} arc-LP statement: a subsequent global-tail
 audit showed that every sampled gap instance of the realistic
 generator is $\rho$-illegal ($0/30$ under the full tail
@@ -3695,10 +3824,13 @@ condition; and without stackable pairs the corner analysis of
 the cyclic engine gives $\gamma_{\min}=\theta_w$ exactly, so
 non-domination would make the system feasible below $R^{*}$).
 Across $4\,000$ sampled families every one of the $1\,266$
-certified gaps lands in the exact cell -- all of them via the
+certified gaps (gap-certification threshold $2\cdot10^{-6}$; the
+band $(10^{-9},2\cdot10^{-6}]$ is declared unswept) lands in the
+exact cell -- all of them via the
 stackable-pair route: the true anatomy of the duality gap is a
 stackable grain that fails to peel, not the near-equal tops
-themselves (a peeled four-equal-tops family has \emph{no} gap).
+themselves (a peeled four-equal-tops family has \emph{no} gap;
+script \texttt{f3converso}, 5/5).
 The scripts
 \texttt{f3cierre}, \texttt{auditcolas} and \texttt{f3vacio} (5/5
 each) passed adversarial rounds: the first refuted the original
@@ -3800,14 +3932,20 @@ $|c_z-c_B|^2=|c_z|^2-20\,c_z\!\cdot\!u+100\le(15-z)^2-20\,c_z\!\cdot\!u+100$,
 giving $|c_z-c_B|\le5.38<9.76$ and $\le5.60<9.74$ respectively.
 
 \paragraph{(V3) $\{10,\,4.76,\,4.74\}$ packs in a disk of radius 15.}
-Explicit boundary configuration: $c_A=(-5,0)$,
-\begin{align*}
-c_X&=10.24(\cos30.77^\circ,\ \sin30.77^\circ)\approx(8.799,\,5.238),\\
-c_Y&=10.26(\cos32.02^\circ,\ -\sin32.02^\circ)\approx(8.700,\,-5.440).
-\end{align*}
-Then $|c_A|=5$, $|c_X|=10.24=15-4.76$, $|c_Y|=10.26=15-4.74$ (all inside);
-$|c_A-c_X|=14.76$ and $|c_A-c_Y|=14.74$ (exact tangencies, chosen via the
-boundary angles); and $|c_X-c_Y|\approx10.68\ge9.50$ with ample margin.
+Explicit boundary configuration, rational-exact: $c_A=(-5,0)$,
+\[
+c_X=\bigl(8.8,\ \sqrt{27.4176}\,\bigr),\qquad
+c_Y=\bigl(8.7,\ -\sqrt{29.5776}\,\bigr).
+\]
+Then $|c_A|=5$; $|c_X|^2=77.44+27.4176=104.8576=10.24^2$ and
+$|c_Y|^2=75.69+29.5776=105.2676=10.26^2$, so $|c_X|=15-4.76$ and
+$|c_Y|=15-4.74$ (both on the boundary; the abscissas are the exact
+tangency values $10.24\cdot\tfrac{55}{64}=8.8$ and
+$10.26\cdot\tfrac{145}{171}=8.7$);
+$|c_A-c_X|^2=13.8^2+27.4176=217.8576=14.76^2$ and
+$|c_A-c_Y|^2=13.7^2+29.5776=217.2676=14.74^2$ (exact tangencies); and
+$|c_X-c_Y|^2=0.01+(\sqrt{27.4176}+\sqrt{29.5776})^2>113.9>9.50^2=90.25$
+with ample margin.
 
 \paragraph{(V4) Hole facts.} The hole of the $10$ has radius $9.495$;
 $4.99+4.50=9.49\le9.495$ (the pair fits, two-circle exact) while

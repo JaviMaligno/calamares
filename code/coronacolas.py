@@ -530,49 +530,45 @@ def bloque_C():
     # misma celda D1 (p+ >= 4, sigma1+M <= 1, j >= 3).
     print("      [enunciado] todo extra e < m se adjunta como pieza de "
           "perfil (legalidad existencial del re-empaquetado)")
-    # contabilidad: la trichotomia ligero/anidado/pesado esta bien
-    # definida para S+ y la asignacion de casos de DPp cubre
-    rng = random.Random(17)
-    n, sin_caso = 0, 0
-    for _ in range(200000):
-        p_ = rng.randrange(2, 5)
-        S = sorted((rng.uniform(0.02, 0.999) for _ in range(p_)),
-                   reverse=True)
-        ne = rng.randrange(1, 5)
-        extras = [rng.uniform(0.02, 0.999) for _ in range(ne)]
-        Sp = sorted(S + extras, reverse=True)
-        w = rng.uniform(0.05, 0.95)
-        Xs1 = rng.uniform(0.0, max(0.0, Sp[0] - w))
-        M = rng.uniform(0.0, 1.0)
-        j = rng.randrange(1, 5)
-        n += 1
-        s1, s2 = Sp[0], Sp[1]
-        W = sum(Sp[2:])
-        if s1 + W <= 1.0:
-            continue                        # (L)
-        if W + Xs1 <= s1 - w:
-            continue                        # (N)
-        if s2 > PHI - 1:
-            continue                        # (H1)
-        if s1 + M > 1.0 and j >= 2:
-            continue                        # (H2-PsiB)
-        if len(Sp) == 3 and j == 1:
-            continue                        # espejos
-        if len(Sp) == 3 and j == 2:
-            continue                        # swap/DPr
-        if len(Sp) == 3 and j >= 3:
-            continue                        # DPr (pinza-con-Sigma)
-        if len(Sp) >= 4 and j <= 2:
-            continue                        # DPr coronas/frontera
-        if len(Sp) >= 4 and s1 + M > 1.0 and j == 1:
-            continue                        # C2 de DPr
-        # lo que queda debe ser exactamente la celda D1
-        if not (len(Sp) >= 4 and s1 + M <= 1.0 and j >= 3):
-            sin_caso += 1
-    ok &= check(f"{n} instancias con extras: la asignacion de casos de "
-                f"DP-p/DPr sobre S+ es exhaustiva y el residuo es "
-                f"exactamente la celda D1 ({sin_caso} sin caso)",
-                sin_caso == 0)
+    # contabilidad (REPARADA, ronda ciega O10): la exhaustividad de
+    # la asignacion de casos es un hecho LOGICO sobre el reticulo
+    # de predicados (|S+|, sigma1+M, j) — no empirico.  El gate
+    # viejo (200.000 muestras, «cero sin caso») era un complemento
+    # booleano de la propia cascada de continues: tautologico.
+    # Ahora: enumeracion EXHAUSTIVA del producto de predicados con
+    # el mapeo de casos explicito; falsable (una celda del
+    # reticulo sin caso, o con dos, falla).
+    casos = {}
+    n = 0
+    for tam in ("3", ">=4"):
+        for pesada in (False, True):        # sigma1 + M > 1
+            for jv in ("1", "2", ">=3"):
+                n += 1
+                celda = (tam, pesada, jv)
+                quien = []
+                if pesada and jv in ("2", ">=3"):
+                    quien.append("H2-PsiB")
+                if tam == "3" and jv == "1":
+                    quien.append("espejos")
+                if tam == "3" and jv == "2":
+                    quien.append("swap/DPr")
+                if tam == "3" and jv == ">=3":
+                    quien.append("DPr-pinza")
+                if tam == ">=4" and jv in ("1", "2"):
+                    quien.append("DPr-coronas")
+                if tam == ">=4" and pesada and jv == "1":
+                    quien.append("C2-DPr")
+                if tam == ">=4" and not pesada and jv == ">=3":
+                    quien.append("celda-D1")
+                casos[celda] = quien
+    sin_caso = sum(1 for q in casos.values() if not q)
+    d1 = [c for c, q in casos.items() if "celda-D1" in q]
+    ok &= check(f"tricotomia de DP-p/DPr sobre S+ EXHAUSTIVA por "
+                f"enumeracion logica: {n} celdas del reticulo "
+                f"(|S+|, pesada, j), {sin_caso} sin caso "
+                f"asignado, y el residuo no-cubierto-por-teorema "
+                f"es exactamente la celda D1 = {d1}",
+                sin_caso == 0 and d1 == [(">=4", False, ">=3")])
     print("      [enunciado] D2 se reduce a D1: los extras solo cambian "
           "p+ y las masas")
     return ok
