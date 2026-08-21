@@ -3451,19 +3451,22 @@ mass ligatures $s'\le\min(\Sigma/2,\varphi/2)$ and
 $w^*<\min(1/\varphi,\Sigma-1,\Sigma-2s')$ are exact; the
 $\alpha\to\infty$ limit closes by formula
 ($\pi+2\arcsin\sqrt{1/\varphi}<2\pi$, margin $1.33$); the coverage
-of the compact domain box is a grid-based directed maximization
-with exact per-instance criteria (script \texttt{gaplemma}, 5/5,
-adversarial report with two repaired findings; it carries the
-optimization asterisk -- upgrading it to a box certificate in the
-style of \texttt{rstarcert} is the natural continuation). \qed
+of the compact domain box was historically a grid-based directed
+maximization with exact per-instance criteria (script
+\texttt{gaplemma}, 5/5, adversarial report with two repaired
+findings), since superseded by the pocket certificates below: an
+exact algebraic theorem for $j=0$ and a box-by-box subdivision
+certificate for $j=1$, so no optimization asterisk remains in this
+cell. \qed
 \end{theorem}
 
 With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
 \emph{entire nested template} of case~(b) carries written proofs for
 every $j$, every width, every profile and extras -- at the same
-epistemic standard as the pan side (one grid-based maximization per
-cell, each carrying the optimization asterisk; the central pan
-maximization is now box-certified by \texttt{rstarcert}). For $j=0$ the domain sweep has since been upgraded to an
+epistemic standard as the pan side (the central pan maximization is
+box-certified by \texttt{rstarcert}; the one maximization still
+carrying the optimization asterisk is the budget direction of
+Theorem~\ref{thm:D1written}). For $j=0$ the domain sweep has since been upgraded to an
 \emph{exact algebraic pocket certificate}: at $R=\alpha+1$ the
 Descartes discriminant vanishes identically and the wall pocket is
 $p(u)=u(u+1)/(u^2+u+1)$, increasing; with the coupled mass caps
@@ -3957,7 +3960,10 @@ empirical $0.9$), its supporting sweep remaining sampled and the
 domination branch an unexercised prediction -- and the realistic
 cell itself carries no legal instance. (v)~The optimization asterisk of
 the bounded-family sweeps other than the shadow budgets, for which
-it is closed with certified margins. Everything else in this
+it is closed with certified margins; after the pocket certificates
+of the nested cells and the \texttt{rstarcert} wall, its one
+remaining carrier is the directed maximization inside the budget of
+Theorem~\ref{thm:D1written} (script \texttt{insercion}). Everything else in this
 appendix is a written proof, an exact identity in
 $\mathbb{Q}(\sqrt5)$, a vacuity, or a subdivision certificate
 recorded in the verification map (Appendix~\ref{app:verifmap});

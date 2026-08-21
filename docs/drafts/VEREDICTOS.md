@@ -3764,3 +3764,35 @@ auditoría exhaustiva de verbos río abajo (punto 4 del review;
 parcialmente cubierta por la ciega y esta tanda); lemas de
 dominio adicionales en DGp/DP (punto 7; parcialmente cubierto
 por R7 de la ciega).
+
+
+## gaplemmacert.py — NOTA DE CICLO (contraste, sin acta): el endurecimiento pedido YA EXISTIA
+
+Fecha: 2026-08-21. El «endurecimiento 2/3» del peer review externo
+(subir gaplemma.py a certificado de caja) se ejecuto COMPLETO —
+cuarteto j = 0 analitico via h(alpha) = x*(alpha) - (phi alpha - 1)/2
+con raiz real unica alpha = phi; quinteto j = 1 por B&B fuera de la
+banda de la variedad F(alpha, o1) = alpha o1 (alpha+o1-1) - alpha^2
+- o1^2 = 0; colas en 1 caja por el cap del limite monotono
+(estable donde R - o pierde precision float); 5/5 — y AL TERMINAR
+se descubrio que el endurecimiento ya existia: la campana de
+bolsillos (2dff09c/13630f5/4b0fede, tres rondas adversariales,
+Lean 39) habia cerrado exactamente esa celda, con la MISMA
+matematica (q(u) = (phi-u) r(u) equivale a h; la banda F es la
+curva tangente del trio de fase 2, alli CERTIFICADA por
+construccion — mas fuerte que declararla). Cadena del error: el
+ciclo del peer review (1e34fe9), con el contexto comprimido, puso
+a thm:gapwritten el asterisco de optimizacion CONTRADICIENDO el
+parrafo siguiente del propio paper («For j=0 the domain sweep has
+since been upgraded...»). REPARACION: paper corregido (el teorema
+remite a los pocket certificates, sin asterisco; el unico portador
+del asterisco queda nombrado: la maximizacion del budget de
+thm:D1written / insercion); gaplemmacert.py se conserva como
+CONTRASTE INDEPENDIENTE (dos convergencias por tecnicas distintas
+sobre la misma celda), docstring y bloque E re-anclados, sin claim
+propio en el paper y por eso sin ronda adversarial propia. El
+referee lanzado para este ciclo se cancelo al descubrir la
+redundancia. LECCION OPERATIVA (5o caso del patron de contexto):
+antes de re-etiquetar un teorema o abrir un «endurecimiento»,
+grep del paper ENTERO por la celda y git log de los scripts que
+la tocan — el resumen de sesion no es el repositorio.
