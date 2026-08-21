@@ -3796,3 +3796,74 @@ redundancia. LECCION OPERATIVA (5o caso del patron de contexto):
 antes de re-etiquetar un teorema o abrir un «endurecimiento»,
 grep del paper ENTERO por la celda y git log de los scripts que
 la tocan — el resumen de sesion no es el repositorio.
+
+
+## insercioncert.py — CONFIRMADO CON CORRECCIONES (ronda adversarial, cero grietas de solidez)
+
+Fecha: 2026-08-21. El endurecimiento 3/3 del peer review: el
+presupuesto de sombras de thm:D1written (ambas inserciones) sube de
+maximizacion dirigida (insercion.py bloque G, asterisco) a
+CERTIFICADO POR SUBDIVISION sobre el politopo cascada COMPLETO —
+todos los j >= 3 a la vez via la reduccion masa+cuerda (n <= m y la
+cuerda de convexidad de asin), 4 variables agregadas (Sigma, m, o2,
+o1), B&B principal 149/173 cajas + 7 celdas de cola por caps de
+limite (sin tope de barrido). El referee re-derivo la reduccion, los
+mayorantes y la rama homogenea de forma independiente, ejecuto 5/5 y
+corrio 5 sondas propias (~21.000 comparaciones, j hasta 30, m hasta
+3000, y un conjunto MAS ANCHO que el politopo real con o_k libres:
+0 violaciones; sup real por ascenso = 4.7225/5.2644 EXACTAMENTE las
+esquinas historicas j = 3).
+
+HALLAZGOS: H1 (MAYOR, reparado): la esquina de t1 en la rama
+homogenea (l2b = l2_lo con suelo1 creciente en lambda2) no estaba
+cubierta por los gates A5/A7 — es correcta por una MONOTONIA
+ACOPLADA a lo largo de v2 que el referee derivo (dz1/d rho < 0 en
+ambos regimenes del max del suelo), y la esquina esta TENSA (holgura
+-2.7e-15 en 4000 celdas: el sup real la toca). Reparacion: gate A8
+con las dos derivadas acopladas simbolicas, verde. H2 (MENOR,
+aplicado): paper sincronizado — thm:D1written con el certificado,
+el residuo (v) cerrado entero, verifmap con los tres scripts nuevos,
+op:assembly actualizado. H3 (NOTA): float sin intervalos, estandar
+rstarcert, margen >> error libm. H4 (NOTA, aplicado): assert de
+booleano estricto en el criterio (el motor descarta None en
+silencio) y docstring de la masa corregido a (1+s) m_hi/u_lo.
+H5-H6: re-derivaciones punto por punto y sondas, todas confirmadas.
+
+
+## goldencert.py — CONFIRMADO CON CORRECCIONES (1 FATAL en el certificado embarcado, reparado y re-verificado)
+
+Fecha: 2026-08-21. Los tres parches de malla de la rama B de thm:DGp
+(bolsillo.py bloque F) suben a exacto/certificado: L1 (c10 >= 0 en
+[g, o*], c20 >= 0 en [o~, 3/2]) por racionalizacion del radical +
+Sturm racional exacto sobre el conjugado en Q[o] — o* = 1.59556948 y
+o~ = 1.29556359 pasan de estimaciones de malla a RAICES ALGEBRAICAS
+EXACTAS; L2 (f1a >= 0 en [g, q*] x [0, 1], contacto unico en (g, 1)
+con gradiente (1/4, -sqrt5/4)) por B&B con el contacto tratado por
+monotonia local; L3 (el parche del hueco alpha < o1) por B&B +
+cierre elemental m1.
+
+HALLAZGOS: H1 (FATAL, reparado): el minorante del bloque C
+transcribia 1 - w donde el numerador real es 1 - 2w + 2b2 — NO era
+minorante (exceso +w/o), las 16 cajas aceptadas no estaban
+justificadas y el tratamiento del contacto era CODIGO MUERTO (nunca
+se invocaba); el referee verifico la reparacion de un token: 529
+cajas, 0 sin resolver, 1 caja via contacto con holguras amplias.
+El enunciado L2 en si era verdadero (malla de control del referee
+251x201 sin negativos). SEXTO caso del patron certificado-que-no-
+certifica: un typo en el mayorante puede validar un B&B entero —
+el control es SIEMPRE contrastar el mayorante contra la funcion en
+cajas-punto (el bloque D de insercioncert lo hace; goldencert C no
+lo hacia). H2 (MAYOR, reparado): «superset [o~, 3.5] x [0, 1/2]»
+era falso — N1(w) -> inf con w -> 0 (N1(1/100) = 9.61); anadido
+L3b: para o >= 3.5 la propia m1 da 4 > curva + 1/4; paper con la
+clausula. H3 (MAYOR, reparado): el margen «Lipschitz» muestreado
+x1.5 sustituido por la cota rigurosa del referee (B <= 12.31 por
+esquinas de racionales, margen B h/2; la caja de contacto pasa con
+mo - Bh/2 = +0.044). H4 (MENOR, reparado): signo_exacto sin
+nsimplify/evalf — sp.sign sobre el valor algebraico exacto con
+assert. H5 (MENOR, reparado): literales de o*/o~ corregidos
+(1e-8). H6: la artilleria que NO perforo — direccion segura de la
+racionalizacion, denominadores positivos globales (nuevo gate B1b),
+A_max rama correcta y autodual, b2 creciente en ambos argumentos,
+c21 = phi/2 - 1/A_max >= 0 sii A_max >= g (elemental de verdad),
+sondas de 100k/50k puntos limpias. Re-run tras reparaciones: 5/5.

@@ -1272,9 +1272,9 @@ exact geometric cascade growth), the sampling ceilings of the sweep
 boxes ($\omega\le1.6$ mirrored, $X_Y\le3$ in the engine), the mid band
 at tower depth $\ge2$ and the structural exclusion left of the occupant
 channel (the one model-conditional piece), the sampled support of the
-closed F3 converse, the optimization asterisk outside the shadow
-budgets -- and written proofs replacing the remaining adversarially
-verified computational closures.
+closed F3 converse -- and written proofs replacing the remaining
+adversarially verified computational closures (the optimization
+asterisk itself is now closed throughout, item (v) of the residue).
 \end{openproblem}
 
 \begin{openproblem}\label{op:oracle}
@@ -1406,8 +1406,16 @@ analytic tails, $71$ boxes, upgrading DPr's central grid
 maximization), \texttt{divergencia3} (5/5, the $2\to3$ divergence
 transition: the two-ring lemma, the rational-exact three-ring
 counterexample owed to that review, and the width-threshold
-sweep), and \texttt{franja} (the phase-diagram figure generator,
-$w=1$ family).
+sweep), \texttt{franja} (the phase-diagram figure generator,
+$w=1$ family), \texttt{insercioncert} (5/5, the box certificate of
+the D1 shadow-budget polytope -- mass-and-chord reduction over
+every occupant count, corner majorants, monotone-limit tails;
+adversarial round: one coupled-corner gate added),
+\texttt{goldencert} (5/5, the branch-B golden-line patches upgraded
+to exact Sturm root isolation and box certificates with the contact
+handled by local monotonicity), and \texttt{gaplemmacert} (5/5, an
+independent cross-derivation of the gap-lemma cell converging with
+the pocket certificates; contrast only, no claim of its own).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -2697,18 +2705,31 @@ $A_{\max}(2)=g$ -- the corner is self-dual): $f_2\ge f_2(A_{\max})$ and
 $f_2(A_{\max})-\mathrm{curve}=c_{20}(o_1)+\omega\,c_{21}(o_1)$ with
 $c_{21}\ge0$ for $o_1\le2$ and
 $c_{20}\ge0$ on $[\tilde o,\tfrac32]$ (the sign certificates
-$c_{10}\ge0$, $c_{20}\ge0$, $c_{21}\ge0$ are computer-assisted
-one-variable root isolations). For $o_1>\tilde o$ with
+$c_{10}\ge0$, $c_{20}\ge0$ are \emph{exact}: after isolating the
+radical $\sqrt{o_1^2+2o_1-3}$ the numerators are linear in it, their
+zero sets rationalize to polynomials in $\mathbb{Q}[o_1]$, and exact
+Sturm isolation shows the only roots in range are the golden corner
+$g$ and the endpoints themselves -- so $o^\ast$ and $\tilde o$ are
+exact algebraic numbers, the sign is constant between roots, and one
+exact rational sample settles it; $c_{21}\ge0$ is the linear-in-$\omega$
+coefficient, elementary; script \texttt{goldencert}, 5/5). For $o_1>\tilde o$ with
 $\alpha<o_1$ (a region requiring $\omega<\tfrac12$: it needs
 $1+\omega\le\alpha<o_1<N_1(\omega)$, and $N_1(\tfrac12)=\tfrac32$ exactly
 with $N_1$ decreasing, where $b_2(1+\omega,N_1)=1$): if the children of
 $o_1$ are all $<1$, the two $\alpha$-free bounds
 $\rho>1+o_1-\omega$ (tail of $m$: $\sigma_1+M>1$ and Bo$''$) and
 $\rho>1+\bigl(2-\omega+2b_2(1+\omega,o_1)\bigr)/o_1$ (tail of $o_1$, which
-now contains $\alpha$; Bo$''$, (B3$'$), (W) cancel $\alpha$, and
+now contains $\alpha$; Bo$''$, (B3$'$), (W) cancel~$\alpha$, and
 Lemma~\ref{lem:DG} applies with $\alpha\ge1+\omega$) have
-$\max\ge\mathrm{curve}+0.307$ throughout the region (certified on a grid
-with symbolic endpoints); if $o_1$ has a node child we are in branch B
+$\max\ge\mathrm{curve}+\tfrac14$ on
+$[\tilde o,3.5]\times[0,\tfrac12]$, box-certified by subdivision with
+corner minorants, while for $o_1\ge3.5$ the first bound alone already
+gives $1+o_1-\omega\ge4>\mathrm{curve}+\tfrac14$ -- together they
+cover the whole region, whose $o_1$-extent $N_1(\omega)$ is unbounded
+as $\omega\to0$ (script \texttt{goldencert}; the companion bound
+$f_1\ge\mathrm{curve}$ on $[g,o^\ast]\times[0,1]$ at $\alpha=1+\omega$
+is box-certified as well, its single tangency at $(g,\omega\to1)$
+handled by certified local monotonicity around the contact); if $o_1$ has a node child we are in branch B
 with $\omega<\tfrac12$, and Theorem~\ref{thm:DBpp} gives
 $\rho>\Psi_B(\omega)>\Psi_B(\tfrac12)=2>T$ ($\Psi_B(\tfrac12)=2$ exact).
 \end{proof}
@@ -3213,9 +3234,10 @@ products against $f_{o_1}$ are capped by their monotone limits
 $x/o_2$, so no sweep ceiling is needed) drives a branch-and-bound
 that certifies $\sup g<\pi$ over the \emph{continuous} unbounded
 domain in $71$ boxes plus two analytic tail regimes (script
-\texttt{rstarcert}, 5/5). Remaining grid-based maximizations retain
-the historical label and the optimization asterisk, item (v) of the
-honest residue below; \emph{certified} without qualification is
+\texttt{rstarcert}, 5/5); the remaining carriers of the historical
+label have since been upgraded as well -- see item (v) of the
+honest residue below, now closed throughout. \emph{Certified}
+without qualification is
 reserved for branch-and-bound bounds valid box by box. Every
 script below is paired with an adversarial verification report in the
 repository (\texttt{docs/drafts/VEREDICTOS.md}). Instance and family
@@ -3369,18 +3391,28 @@ corner $j=3$, $(2\varphi,2,2/\varphi,1)$: $4.7225$ and $5.2644$
 against $2\pi$, margins $1.56$ and $1.02$; the $o_2$-direction is
 exactly monotone, the $o_1$-direction is an exact bathtub with limit
 $\pi<2\pi$, the geometric tail decay $T_k\ge\varphi T_{k+1}$ removes
-$j$, and the remaining directions carry a certified directed
-maximization (script \texttt{insercion}, 7/7, with its adversarial
-report -- which refuted and repaired the naive statement of
+$j$ -- and the whole cascade polytope is now \emph{box-certified} at
+once: grouping the $k\ge3$ occupants by their mass $m$ and count
+$n\le m$, the convexity chord of $\arcsin$ ($\arcsin(z)/z$
+increasing) bounds their total shadow by
+$C(z_{\max})\,(1{+}s)\,m/u$, the polytope collapses to four
+aggregated variables, and a branch-and-bound with corner majorants
+and monotone-limit caps (no sweep ceiling) certifies $\sup p<2\pi$
+for both insertions over every occupant count and unbounded slack
+($149$ and $173$ boxes plus closed tail cells; script
+\texttt{insercioncert}, 5/5, adversarial round -- one coupled-corner
+gate added on its finding; it supersedes the historical directed
+maximization of script \texttt{insercion}, 7/7, whose adversarial
+report had refuted and repaired the naive statement of
 Lemma~\ref{lem:insert} with mural angles in place of shadows). \qed
 \end{theorem}
 
 This supersedes the computational closure of
 $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ and of the solid-pivot regime: both
-cells now carry written proofs, with a single grid-based directed
-maximization in the budget (the historical DPr standard; it carries
-the optimization asterisk of the honest residue, unlike the C3.3
-wall, which is now box-certified by \texttt{rstarcert}).
+cells now carry written proofs, with the budget maximization
+box-certified by \texttt{insercioncert} (as the C3.3
+wall is by \texttt{rstarcert}): no optimization asterisk remains in
+these cells.
 
 \begin{theorem}[Nested exchange, two or more occupants,
 written]\label{thm:nestedwritten}
@@ -3464,9 +3496,8 @@ With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
 \emph{entire nested template} of case~(b) carries written proofs for
 every $j$, every width, every profile and extras -- at the same
 epistemic standard as the pan side (the central pan maximization is
-box-certified by \texttt{rstarcert}; the one maximization still
-carrying the optimization asterisk is the budget direction of
-Theorem~\ref{thm:D1written}). For $j=0$ the domain sweep has since been upgraded to an
+box-certified by \texttt{rstarcert}, the D1 budget by
+\texttt{insercioncert}). For $j=0$ the domain sweep has since been upgraded to an
 \emph{exact algebraic pocket certificate}: at $R=\alpha+1$ the
 Descartes discriminant vanishes identically and the wall pocket is
 $p(u)=u(u+1)/(u^2+u+1)$, increasing; with the coupled mass caps
@@ -3958,12 +3989,15 @@ cell'' is now closed in exact form (peeling plus the
 stackable-pair/non-adjacent-domination dichotomy, replacing the
 empirical $0.9$), its supporting sweep remaining sampled and the
 domination branch an unexercised prediction -- and the realistic
-cell itself carries no legal instance. (v)~The optimization asterisk of
-the bounded-family sweeps other than the shadow budgets, for which
-it is closed with certified margins; after the pocket certificates
-of the nested cells and the \texttt{rstarcert} wall, its one
-remaining carrier is the directed maximization inside the budget of
-Theorem~\ref{thm:D1written} (script \texttt{insercion}). Everything else in this
+cell itself carries no legal instance. (v)~The optimization
+asterisk of the bounded-family sweeps is now \emph{closed
+throughout}: the shadow budgets with certified margins (script
+\texttt{optimizacion}), the gap-lemma cell by the pocket
+certificates, the golden-line branch-B patches by exact Sturm
+isolation and box certificates (script \texttt{goldencert}), and
+the D1 cascade budget by \texttt{insercioncert}; what those
+computational certificates still are not is \emph{written} proofs,
+the program direction of Open Problem~\ref{op:assembly}. Everything else in this
 appendix is a written proof, an exact identity in
 $\mathbb{Q}(\sqrt5)$, a vacuity, or a subdivision certificate
 recorded in the verification map (Appendix~\ref{app:verifmap});
