@@ -1,0 +1,11 @@
+# Entorno de verificacion congelado (peer review externo 2026-08-21,
+# punto 12).  Los scripts se han ejecutado con:
+#   Python 3.13.7 (Windows 11, x86-64)
+# El unico solver es scipy.optimize.linprog (method="highs", el HiGHS
+# empaquetado en SciPy); toda salida de solver se RE-VERIFICA en float
+# puro con holguras explicitas (r2bmulti._verifica_d, adversariado) —
+# ningun certificado descansa solo en la tolerancia del solver.
+numpy==2.2.6
+scipy==1.16.3
+sympy==1.14.0
+matplotlib==3.10.7

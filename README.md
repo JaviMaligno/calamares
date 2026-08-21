@@ -9,7 +9,7 @@ Investigación sobre el empaquetamiento de aros (anillos de grosor w) con anidam
 - `docs/generalizaciones.md` — todas las generalizaciones anotadas, con estado y primeras preguntas.
 - `docs/reinsercion.md` — lema de reinserción: la parte combinatoria del umbral de Tribonacci, cerrada con cota exacta, y la parte geométrica aislada (mínimo en la razón áurea).
 - `figures/` — divergencia área/número, diagrama de fases, contraejemplo n = 4.
-- `lean/` — formalización en Lean 4 (core, sin mathlib) de la capa de certificados exactos: 22 teoremas sobre ℚ y ℚ[√5] (aritmética áurea del contraejemplo, certificados de los medios metálicos, suelo Tribonacci con encajonamiento y monotonía, esquina 13/7, umbral aditivo). Cero `sorry`, cero axiomas nuevos, sin `native_decide`. Comando: `cd lean && lake build`. La geometría de empaquetamiento NO está formalizada — véase `lean/README.md`.
+- `lean/` — formalización en Lean 4 (core, sin mathlib) de la capa de certificados exactos: 45 teoremas sobre ℚ y ℚ[√5] (aritmética áurea del contraejemplo, certificados de los medios metálicos, suelo Tribonacci con encajonamiento y monotonía, esquina 13/7, umbral aditivo). Cero `sorry`, cero axiomas nuevos, sin `native_decide`. Comando: `cd lean && lake build`. La geometría de empaquetamiento NO está formalizada — véase `lean/README.md`.
 - `code/` — scripts de verificación reproducibles (Python; dependencias: numpy, scipy, sympy, matplotlib — véase `code/requirements.txt`). Comando único: `python code/run_all.py` (~33 min; `--quick` omite `cuadrado.py`, `perfilp.py` y `rstar.py`, ~8 min); código de salida 0 sólo si todo está en verde.
 
 ## Mapa de verificación (qué script respalda cada afirmación)

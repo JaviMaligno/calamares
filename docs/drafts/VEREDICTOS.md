@@ -3697,3 +3697,70 @@ punto por los referees 5 y 7; única sobredeclaración real: el
 «is exactly» de op:assembly, corregida). Pendiente de decisión:
 envío a arXiv (endorsement math.MG pendiente — memoria
 paper-arxiv-estado).
+
+## Acta: el peer review externo (codex) y su ciclo de reparación — 2026-08-21
+
+**El encargo de Javi**: peer review externo por otro modelo (codex
+CLI, sandbox de solo lectura), con la instrucción de no penalizar
+longitud y centrarse en rigor, legibilidad, reproducibilidad y
+novedad. **Veredicto del reviewer: REVISIONES MAYORES** (no
+rechazo: «resultados originales, elegantes y potencialmente
+publicables»). Informe completo en
+docs/reviews/codex-peer-review-2026-08-21.md.
+
+### Los dos cargos mayores y su resolución
+
+1. **«Three never diverge» ERA FALSO** — el reviewer exhibió la
+   divergencia con TRES anillos (R = 10, w = 9/2,
+   {8, 101/20, 99/20}: el par diametral cabe, nada convive con el
+   8, y a(8) = 207π/4 > 198π/4): verificado EXACTO en racionales.
+   Un hallazgo que ni las rondas dirigidas ni la ronda ciega de 7
+   referees vieron (anchura grande, fuera de las retículas).
+   REPARADO: lema «dos nunca divergen» (exhaustivo lógico) +
+   contraejemplo exacto + la instancia de 4 re-etiquetada como la
+   mínima DEL MECANISMO DEL AGUJERO (el régimen w = 1 del diagrama
+   de fases, ahora con su dominio declarado y franja.py citado)
+   — script nuevo divergencia3.py (5/5), con la cartografía
+   muestreada del umbral de anchura (aparece desde w/R ≈ 0.26).
+2. **Las «certified maximization» por malla no prueban un sup
+   continuo** — ENDURECIDO donde más importa: la maximización
+   CENTRAL (la pared de corona de C3.3, el sup que cierra el
+   régimen pesado de thm:DPr) subida a certificado por
+   subdivisión: mayorante de esquina EXACTO (cada f-factor
+   monótono por coordenadas; los productos contra f_o1 capados
+   por sus límites monótonos x/o₂ — sin tope de barrido) + B&B:
+   sup g < π sobre el dominio continuo NO ACOTADO en 71 cajas +
+   dos regímenes de cola analítica — script rstarcert.py (5/5;
+   el mayorante coincide con g en cajas-punto: ajustado; margen
+   0.79). Las maximizaciones restantes (gaplemma, insercion)
+   RE-ETIQUETADAS honestamente como grid-based con el asterisco
+   de optimización, y su endurecimiento al estilo rstarcert
+   declarado como continuación natural.
+
+### El resto aplicado
+
+Reproducibilidad: run_all.py con el perfil --campaign (el
+manifiesto COMPLETO del verifmap, bandas incluidas — el reviewer
+cazó que los 18 scripts del runner no cubrían la campaña y la
+nota del autor prometía «every verification»); requirements.txt
+con versiones fijadas (Python 3.13.7, numpy 2.2.6, scipy 1.16.3,
+sympy 1.14.0, matplotlib 3.10.7) y la nota del solver
+(linprog/HiGHS siempre re-verificado en float); READMEs de Lean
+sincronizados (45 teoremas; el raíz decía 22 y lean/README 32).
+Bibliografía: Chen-Tang-Song-Zeng-Peng-Liu (CIE 2018, greedy de
+círculos iguales; autores verificados contra Semantic Scholar) +
+el párrafo de la intro distinguiendo heurísticas de garantías.
+Ccurve renombrada «lower-bound curve; exact on the witness
+branch»; el pentagrama k = 5 con su script citado como
+comprobación; la reducción NP racionalizada (dividir por π);
+la frase del abstract separando niveles epistémicos; el verbo
+«verified as a theorem by fuzz» → «re-derived independently and
+probed by fuzz».
+
+### Declarado como continuación
+
+Endurecimiento de gaplemma/insercion al estilo rstarcert;
+auditoría exhaustiva de verbos río abajo (punto 4 del review;
+parcialmente cubierta por la ciega y esta tanda); lemas de
+dominio adicionales en DGp/DP (punto 7; parcialmente cubierto
+por R7 de la ciega).

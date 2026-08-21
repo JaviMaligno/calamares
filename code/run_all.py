@@ -26,24 +26,80 @@ SCRIPTS = [
 # Scripts lentos que --quick omite.
 SLOW = ("cuadrado.py", "perfilp.py", "rstar.py")
 
+# --campaign: EL MANIFIESTO COMPLETO (peer review externo 2026-08-21,
+# punto 5: run_all debia cubrir TODO el mapa de verificacion, no 18
+# scripts).  Cada entrada es (script, [dict de env por invocacion]) —
+# los scripts por bandas se invocan una vez por banda del mapa
+# congelado de su draft.  Duracion total estimada: 3-6 h; los runs
+# largos se benefician de ejecutar por tandas.
+CAMPAIGN = [
+    ("superinc.py", [{}]), ("test_oblivious.py", [{}]),
+    ("umbral.py", [{}]), ("gemelas.py", [{}]),
+    ("minima.py", [{}]), ("escala.py", [{}]),
+    ("colageometrica.py", [{}]), ("arcolp.py", [{}]),
+    ("compactacion.py", [{}]), ("insercion.py", [{}]),
+    ("insercionanidada.py", [{}]), ("gaplemma.py", [{}]),
+    ("ensamblaje.py", [{}]), ("puertocii.py", [{}]),
+    ("coronacolas.py", [{}]), ("coronaagujero.py", [{}]),
+    ("coronanidada.py", [{}]), ("optimizacion.py", [{}]),
+    ("r2bcert.py", [{}]), ("r2bmulti.py", [{}]),
+    ("areduccion.py", [{}]), ("espxy.py", [{}]),
+    ("espvals.py", [{}]), ("auditcolas.py", [{}]),
+    ("f3cierre.py", [{}]), ("f3vacio.py", [{}]),
+    ("espkp.py", [{}]),
+    ("esppesada.py", [{"CC_SS_LO": lo, "CC_SS_HI": hi}
+                      for lo, hi in (("1.016", "1.025"),
+                                     ("1.025", "1.05"),
+                                     ("1.05", "1.1"),
+                                     ("1.1", "1.2"),
+                                     ("1.2", "1.4"),
+                                     ("1.4", "1.62"))]),
+    ("espfinal.py", [{"CC_SS_LO": lo, "CC_SS_HI": hi}
+                     for lo, hi in (("1.016", "1.025"),
+                                    ("1.025", "1.05"),
+                                    ("1.05", "1.1"),
+                                    ("1.1", "1.2"),
+                                    ("1.2", "1.4"),
+                                    ("1.4", "1.62"))]),
+    ("espcanal.py", [{}]),
+    ("espcanalp.py", [{"CC_SSLO": lo, "CC_SSHI": hi}
+                      for lo, hi in (("1.0", "1.05"),
+                                     ("1.05", "1.1"),
+                                     ("1.1", "1.2"),
+                                     ("1.2", "1.4"),
+                                     ("1.4", "1.62"))]),
+    ("f3converso.py", [{}]),
+    ("rstarcert.py", [{}]), ("divergencia3.py", [{}]),
+]
+
 def main():
     quick = "--quick" in sys.argv
+    campaign = "--campaign" in sys.argv
     scripts = [x for x in SCRIPTS if not (quick and x in SLOW)]
     base = os.path.dirname(os.path.abspath(__file__))
     root = os.path.dirname(base)
     ok_all = True
     results = []
-    for name in scripts:
+    tareas = [(name, {}) for name in scripts]
+    if campaign:
+        for name, envs in CAMPAIGN:
+            for env in envs:
+                tareas.append((name, env))
+    for name, extra_env in tareas:
         path = os.path.join(base, name)
         if not os.path.exists(path):
             results.append((name, "AUSENTE", False))
             ok_all = False
             continue
         t0 = time.time()
+        env_full = dict(os.environ, **extra_env)
         proc = subprocess.run([sys.executable, path], cwd=root,
-                              capture_output=True, text=True)
+                              capture_output=True, text=True,
+                              env=env_full)
         out = proc.stdout + proc.stderr
         dt = time.time() - t0
+        if extra_env:
+            name = f"{name} {extra_env}"
         resumen = None
         for line in out.splitlines():
             if "RESUMEN" in line or "resumen" in line.lower():

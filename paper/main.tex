@@ -27,9 +27,12 @@ every numerical claim, together with extended proofs and the verification
 reports cited in the appendix, are available in the accompanying repository,
 \url{https://github.com/JaviMaligno/calamares}. This version of the
 manuscript corresponds to release \texttt{v1-arxiv} of that repository;
-\texttt{python code/run\_all.py} reproduces every verification, and
-\texttt{lake build} in \texttt{lean/} rechecks the formalized
-certificates.}}
+\texttt{python code/run\_all.py --campaign} reproduces every
+verification in the map (band-by-band, several hours);
+\texttt{--full} covers the core-theorem scripts in about $35$
+minutes, and \texttt{lake build} in \texttt{lean/} rechecks the
+formalized certificates. \texttt{requirements.txt} pins the exact
+environment.}}
 % Sin fecha en el cuerpo: en arXiv la estampa el propio servidor (v1 y cada
 % revision), y \today se evaluaria a la fecha en que arXiv compila, que no
 % controlamos. La version del manuscrito se identifica por el release del
@@ -78,7 +81,12 @@ minimum $13/7$, closed-form profile thresholds, and blocking walls
 for generic containers with metallic-mean floors -- and complement it with
 a phase diagram for the divergence of the objectives and a decoupling of
 hardness into a geometric layer and a combinatorial (subset-sum) layer, of
-which superincreasingness eliminates exactly the latter.
+which superincreasingness eliminates exactly the latter. The main
+theorems above carry complete written proofs; the threshold program
+additionally uses computer-assisted closures, and every such statement
+carries its epistemic label (proved, box-certified, grid-swept, or
+sampled), with a verification map pairing each computational claim
+with its script.
 \end{abstract}
 
 \section{Introduction}
@@ -93,10 +101,17 @@ with recursive nesting, a circular-container relative of the
 Tavares~\cite{PedrosoCunhaTavares2016} to model the ``telescoping'' of tubes in
 shipping containers, and solved exactly by Gleixner, Maher, M\"uller and
 Pedroso~\cite{Gleixner2020}. That literature is algorithmic: it packs a fixed
-set of rings into as few rectangular containers as possible. Here we ask
+set of rings into as few rectangular containers as possible, and its
+methods -- like the greedy and GRASP procedures for RCPP and the greedy
+heuristics for equal circles in a circular
+container~\cite{PedrosoCunhaTavares2016,ChenEtAl2018} -- are
+\emph{heuristics}: they propose placements without guarantees of
+optimality or of independence from the placement rule. Here we ask
 structural questions instead: which objectives the natural greedy
-algorithm optimizes, when the choice of \emph{where} to put each ring
-is irrelevant, and which conditions on the radii govern the answers.
+algorithm \emph{provably} optimizes, when the choice of \emph{where} to
+put each ring is provably irrelevant, and which conditions on the radii
+govern the answers; to our knowledge no guarantee of this
+placement-independence kind appears in the circle-packing literature.
 
 Our starting point is a classical phenomenon in one dimension. For bin packing
 with \emph{divisible} item sizes, Coffman, Garey and
@@ -208,7 +223,7 @@ include $i$ whenever $(L\cap\{1,\dots,i-1\})\cup\{i\}$ is feasible.
 Feasibility is \emph{downward closed}: removing a ring from a feasible
 placement leaves a feasible placement of the remaining set --- the
 removed ring's disk becomes free space, and its nested children (each
-of radius at most $r-\omega$, less than the freed disk) stay where
+of radius at most $r-w$, less than the freed disk) stay where
 they are, re-parented to the removed ring's container, so no piece
 moves. Hence $L$ is the unique lexicographically
 maximal feasible set, and the \emph{selection greedy} (add ring $i$ if the
@@ -1030,16 +1045,36 @@ script and an adversarial verification report in the repository
 \section{The two objectives diverge: a phase diagram}\label{sec:divergence}
 
 Contact area behaves like $2\pi w\sum r_i$ minus a per-ring penalty
-$\pi w^2$; cardinality counts rings. With uniform width the hole of a large
-ring is large, so nesting usually reconciles the two objectives, and the
-divergence survives only marginally: small rings that fit $k$ times in the pan
-but at most $k-2$ times in the large ring's hole (with $k-1$ in the hole the
-two objectives tie). A minimal instance (four rings; three never diverge) is
-$R=10$, $w=1$, radii $\{9.0,\,4.2,\,4.2,\,4.2\}$: the area optimum is the
-$9.0$ with one nested $4.2$ ($N=2$, $A\approx76.7$), the cardinality optimum
-the three $4.2$'s ($N=3$, $A\approx69.7$). Figure~\ref{fig:phase} maps the
-divergence region for the family ``one large ring $b$ plus unlimited equal
-small rings of radius $s$'': a staircase governed by the proved optimal thresholds
+$\pi w^2$; cardinality counts rings. \emph{Divergence} means the area
+optimum has strictly smaller cardinality than the cardinality maximum.
+Two rings never diverge: if both fit together the full set is optimal
+for both objectives (area is strictly increasing under inclusion), and
+otherwise every feasible set has at most one ring, a cardinality the
+area optimum attains. Three rings can already diverge --- a
+correction owed to an external review, replacing an earlier claim
+that four were needed: at $R=10$, $w=9/2$, radii
+$\{8,\,101/20,\,99/20\}$ (rational-exact; script
+\texttt{divergencia3}, 5/5), the small pair is exactly diametral
+($101/20+99/20=10$), nothing coexists with or nests in the $8$ (its
+hole has radius $7/2<99/20$), and the areas compare as
+$a(8)=\tfrac{207}{4}\pi>\tfrac{198}{4}\pi=a(101/20)+a(99/20)$: the
+area optimum is the single $8$ while cardinality prefers the pair.
+The mechanism is pure superadditivity at large width, where holes die
+and the problem degenerates to circle packing; sampling places the
+onset of three-ring divergence near $w/R\approx0.26$ for this family
+(swept, not a proved threshold). In the \emph{nesting-active} regime
+the divergence survives only marginally: small rings that fit $k$
+times in the pan but at most $k-2$ times in the large ring's hole
+(with $k-1$ in the hole the two objectives tie), and the minimal
+instance of this hole mechanism has four rings:
+$R=10$, $w=1$, radii $\{9.0,\,4.2,\,4.2,\,4.2\}$ --- the area optimum
+is the $9.0$ with one nested $4.2$ ($N=2$, $A\approx76.7$), the
+cardinality optimum the three $4.2$'s ($N=3$, $A\approx69.7$).
+Figure~\ref{fig:phase} maps the divergence region for the family
+``one large ring $b$ plus unlimited equal small rings of radius
+$s$'' \emph{at width $w=1$, $R=10$} (the regime of the hole
+mechanism; script \texttt{franja}, which generates the figure): a
+staircase governed by the proved optimal thresholds
 for $n$ equal circles in a disk~\cite{GLNO1998,Pirl1969,Melissen1994,%
 Fodor1999,EkanayakeLaFountain2024}; its upper edge is exactly the three-circle
 threshold $0.4641R$.
@@ -1102,6 +1137,9 @@ exactly to subsets of the original instance of sum $B_0$, of any size,
 padded to cardinality $m$ with $K$-items.) Fix any width $w>0$, set $M=3B$, pick
 $\delta\in\bigl(\tfrac{w}{3B},\tfrac{w}{2B}\bigr)$, and take radii
 $r_i=\delta(a_i+M)$ with pan capacity $R^{+}=\delta\bigl(\tfrac n2M+B\bigr)$.
+Dividing the area inequality by $\pi$ and choosing $\delta$ rational
+in the interval makes every datum of the instance rational, so the
+reduction is fully formal.
 All radii lie in $[3B\delta,\,5B\delta]$, so $r_i>w$ (each is a genuine
 ring, $a(r)=2\pi wr-\pi w^2$) and $r_{\max}-r_{\min}=2B\delta<w$ (no
 nesting): feasibility is exactly $\sum_S r_i\le R^{+}$. Write $s=|S|$ and
@@ -1361,7 +1399,15 @@ draft -- a vacuous constraint detector and an incomplete cell,
 with four live counterexamples -- and derived the repaired cell;
 the re-round confirmed all eleven repairs, verified the
 counterexamples now land inside, and caught one tautological
-gate whose claim it then proved for real).
+gate whose claim it then proved for real). Following the external
+peer review: \texttt{rstarcert} (5/5, the box certificate of the
+C3.3 corona wall -- corner majorant plus branch-and-bound plus
+analytic tails, $71$ boxes, upgrading DPr's central grid
+maximization), \texttt{divergencia3} (5/5, the $2\to3$ divergence
+transition: the two-ring lemma, the rational-exact three-ring
+counterexample owed to that review, and the width-threshold
+sweep), and \texttt{franja} (the phase-diagram figure generator,
+$w=1$ family).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -1966,7 +2012,7 @@ whose numerator has the single positive root $T_{1+\omega}$ (Descartes'
 rule); $T_1=T$.
 \end{proof}
 
-\subsection{Positive width: the exact curve and the \texorpdfstring{$13/7$}{13/7} corner}
+\subsection{Positive width: the lower-bound curve and the \texorpdfstring{$13/7$}{13/7} corner}
 \label{app:corner}
 
 The full blocking program of the canonical template adds the remaining
@@ -2027,7 +2073,7 @@ $\omega_\times=0.0754315\dots$ of $2\omega^3-10\omega^2+14\omega-1$, giving
 the uniform floor
 $T_{\mathrm{can}}(\omega)\ge2(\alpha_\times-1)=T+0.00985\dots$ for
 $\omega\in(0,0.30]$ -- already enough for ``width only raises the floor''.
-The exact curve is finer. For fixed $\alpha$, pass to the coordinate
+The full curve is finer. For fixed $\alpha$, pass to the coordinate
 $t_i=t(\sigma_i)$, where (B1) becomes \emph{linear}
 (Lemma~\ref{lem:CF}): $t_1+t_2\le\Theta(\alpha):=t(b(\alpha))$, and the
 walls read $t_2\le\tau_c:=t(c)$, $c:=\max(c_2,c_4)$. If $\alpha>2+\omega$
@@ -2074,7 +2120,8 @@ $dS_0/d\alpha=\tau_4'\,(-2)\bigl[\sqrt{G(\tau_4)}-\sqrt{G(t_1)}\bigr]
 are both negative.
 \end{proof}
 
-\begin{proposition}[The exact curve]\label{prop:Ccurve}
+\begin{proposition}[The lower-bound curve; exact on the witness
+branch]\label{prop:Ccurve}
 For $\omega\in(0,0.30]$ (the cap $0.30$ is a convenient working
 restriction of the statement, not a structural obstruction:
 $T_{1+\omega}<2+\omega$ holds identically), the proved lower bound for
@@ -2386,7 +2433,8 @@ exact criterion for arbitrary $\theta$; for \emph{geometric} $\theta$
 (rank-one matrices $\sin^2(\theta_{ij}/2)=f_if_j$) the identity
 $\prod_Df_if_j=\prod_{\text{sides}}f_if_j=(\prod f_i)^2$ obstructs the
 pattern and the best value found is $7.556$ against the $4\pi=12.57$
-needed; its redundancy for geometric $\theta$ is stated as a conjecture in
+needed (the $84$-cycle enumeration and the dominance checks are
+reproduced by script 	exttt{corona}, a computational check); its redundancy for geometric $\theta$ is stated as a conjecture in
 the repository and is \emph{not used}: lower bounds only ever use the
 unconditional direction of Lemma~\ref{lem:Dsubset}. For $k\ge5$ the
 subset quantifier does not commute with the order quantifier (explicit
@@ -3154,12 +3202,21 @@ exact identities delegated to \texttt{sympy}/Lean);
 \emph{computational closure} means per-instance certificates over
 swept parameter ranges, with the certificate soundness proved but the
 extension to unswept $(j,p,k)$ ranges supported numerically.
-Throughout, \emph{certified maximization} means the standard of
-Theorem~\ref{thm:DPr} -- directed grid-plus-refinement with exact
-per-instance criteria, not interval arithmetic; its optimization
-asterisk is item (v) of the honest residue below -- while
-\emph{certified} without qualification is reserved for
-branch-and-bound bounds valid box by box. Every
+Throughout, \emph{certified maximization} historically meant the
+standard of Theorem~\ref{thm:DPr} -- directed grid-plus-refinement
+with exact per-instance criteria, not interval arithmetic. Following
+an external review, the \emph{central} such maximization (the corona
+wall of cell C3.3, the supremum that closes the heaviest DPr regime)
+has been upgraded to a genuine box-by-box certificate: an exact
+corner majorant (each $f$-factor is coordinatewise monotone, and the
+products against $f_{o_1}$ are capped by their monotone limits
+$x/o_2$, so no sweep ceiling is needed) drives a branch-and-bound
+that certifies $\sup g<\pi$ over the \emph{continuous} unbounded
+domain in $71$ boxes plus two analytic tail regimes (script
+\texttt{rstarcert}, 5/5). Remaining grid-based maximizations retain
+the historical label and the optimization asterisk, item (v) of the
+honest residue below; \emph{certified} without qualification is
+reserved for branch-and-bound bounds valid box by box. Every
 script below is paired with an adversarial verification report in the
 repository (\texttt{docs/drafts/VEREDICTOS.md}). Instance and family
 totals attributed below to adversarial rounds (e.g.\ the
@@ -3320,9 +3377,10 @@ Lemma~\ref{lem:insert} with mural angles in place of shadows). \qed
 
 This supersedes the computational closure of
 $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ and of the solid-pivot regime: both
-cells now carry written proofs, with a single certified maximization
-in the budget (the same epistemic standard as
-Theorem~\ref{thm:DPr}).
+cells now carry written proofs, with a single grid-based directed
+maximization in the budget (the historical DPr standard; it carries
+the optimization asterisk of the honest residue, unlike the C3.3
+wall, which is now box-certified by \texttt{rstarcert}).
 
 \begin{theorem}[Nested exchange, two or more occupants,
 written]\label{thm:nestedwritten}
@@ -3393,16 +3451,19 @@ mass ligatures $s'\le\min(\Sigma/2,\varphi/2)$ and
 $w^*<\min(1/\varphi,\Sigma-1,\Sigma-2s')$ are exact; the
 $\alpha\to\infty$ limit closes by formula
 ($\pi+2\arcsin\sqrt{1/\varphi}<2\pi$, margin $1.33$); the coverage
-of the compact domain box is a certified maximization (script
-\texttt{gaplemma}, 5/5, adversarial report with two repaired
-findings). \qed
+of the compact domain box is a grid-based directed maximization
+with exact per-instance criteria (script \texttt{gaplemma}, 5/5,
+adversarial report with two repaired findings; it carries the
+optimization asterisk -- upgrading it to a box certificate in the
+style of \texttt{rstarcert} is the natural continuation). \qed
 \end{theorem}
 
 With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
 \emph{entire nested template} of case~(b) carries written proofs for
 every $j$, every width, every profile and extras -- at the same
-epistemic standard as the pan side (one certified maximization per
-cell). For $j=0$ the domain sweep has since been upgraded to an
+epistemic standard as the pan side (one grid-based maximization per
+cell, each carrying the optimization asterisk; the central pan
+maximization is now box-certified by \texttt{rstarcert}). For $j=0$ the domain sweep has since been upgraded to an
 \emph{exact algebraic pocket certificate}: at $R=\alpha+1$ the
 Descartes discriminant vanishes identically and the wall pocket is
 $p(u)=u(u+1)/(u^2+u+1)$, increasing; with the coupled mass caps
@@ -3732,8 +3793,8 @@ $1-\beta$, so $\sigma_1>1-\beta$ with $\sigma_1\le\beta$)
 dissolves a phantom fine-dust band: five $\Sigma_S$-bands
 ($144\,337$ boxes) plus the tower cut ($15\,571$ boxes) certify
 the heavy channel entirely (script \texttt{espcanalp}, 5/5,
-adversarial round: the referee verified the reduction as a
-theorem by $20\,000$-instance fuzz, and found the uncovered
+adversarial round: the referee re-derived the reduction theorem
+independently and probed it with $20\,000$-instance fuzz, and found the uncovered
 tower cut and a mislabeled band edge, both repaired -- the tower
 cut is now \emph{certified}, not declared); what remains of the
 channel is the mid band at tower depth $\ge2$ and the structural
@@ -3958,6 +4019,12 @@ J.~P. Pedroso, S.~Cunha, J.~N. Tavares.
 Recursive circle packing problems.
 \emph{International Transactions in Operational Research} 23(1--2):355--368,
 2016.
+
+\bibitem{ChenEtAl2018}
+M.~Chen, X.~Tang, T.~Song, Z.~Zeng, X.~Peng, S.~Liu.
+Greedy heuristic algorithm for packing equal circles into a circular
+container.
+\emph{Computers \& Industrial Engineering} 119:114--120, 2018.
 
 \bibitem{Gleixner2020}
 A.~Gleixner, S.~J. Maher, B.~M\"uller, J.~P. Pedroso.

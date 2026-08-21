@@ -54,7 +54,7 @@ formaliza el esqueleto algebraico exacto que esos argumentos consumen.
   aritmética completa; el orden del encaje real con √5 > 0 (`Q5.posb`,
   decidible); polinomios como listas de coeficientes ascendentes: `Poly`
   (ℚ[X]), `PolyZ` (ℤ[X]) y `Poly2` ((ℚ[e])[d]).
-- `Calamares/Identities.lean` — los teoremas 1–32.
+- `Calamares/Identities.lean` — los teoremas 1–45 (la tabla de abajo cubre 1–32; los lotes posteriores — `golden_reduction_threshold`, `diametral_pocket_golden`, `forbidden_triple_cubic` y las identidades de la campaña corona-contra-colas hasta `additive_family` — están documentados en el propio fichero, con sus controles negativos y `#print axioms` limpios).
 - `Calamares.lean` — raíz de la librería.
 
 Nota técnica: `decide` a secas se atasca con `Rat` (el elaborador no reduce
