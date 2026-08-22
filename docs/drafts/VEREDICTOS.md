@@ -3932,3 +3932,40 @@ derivado); H7 contraste de caps del regimen II anadido al bloque C
 banda_matriz sigue valida con caps (theta real < pi sii SS+Sx > 1,
 independiente de la matriz).  Sin agujero j = 0 (rama DR de r2bcert
 con T libre).  Re-run tras reparaciones: 5/5.
+
+
+## esptorre.py — CONFIRMADO CON CORRECCIONES (certificado solido; el control y el alcance reparados)
+
+Fecha: 2026-08-22. La banda media del canal ocupante a profundidad
+de torre d >= 2 (residuo (iii)) cerrada para el PERFIL LIGERO y
+torres-CADENA, dentro del convenio.  La reduccion ingenua a d = 1
+con ocupante t_1 FALLA (los children de t_1 contienen x >= r_m, no
+polvo: el techo del nodo y el de la ventana de z se rompen — la
+grieta se cazo en el diseno, antes de la ronda); el cierre correcto
+certifica d >= 2 DIRECTO: la torre como masa M >= x + omega solo en
+suelos favorables (tres apariciones auditadas), t_1 >= x + omega en
+la convivencia, y la ventana de z SIN TECHO cubierta por B&B finito
+[1, 40] + cola z >= 40 por caps de limite (2asin(sqrt pieza) via
+c >= 1 + z).  Ambas ramas certifican en 1 caja — y el referee
+verifico que las 1-caja son REALES: thmat de la raiz reconstruido a
+mano (reparto {sigma2}|{polvo} con margen 0.39 rad; el reparto de
+un solo lado FALLA: el motor discrimina), falsable (piezas x2 ->
+False), 500 torres en-celda con corona exacta y 0 violaciones,
+200k comprobaciones de caps.  H3: la pinza RY es correcta (el RHS
+es el techo de la ventana de Y por children — la torre son
+descendientes de z y no suma; el LHS cuenta toda la cola por la
+first-copy convention).
+
+CORRECCIONES APLICADAS: H1 el control D(a) era casi vacuo (196/200
+None: pinza de x no respetada, z pegado al suelo con ventana de Y
+vacia — patron control-que-no-controla) -> regenerado EN-CELDA
+(alpha en su ventana con holgura < 1+s2-SS, x sobre su pinza, z
+sobre el umbral RY, SS <= phi por la pared global, un tercio en la
+cola z; None sobre punto legal cuenta como violacion): 300/300.
+H2 el alcance del bloque E estaba inflado -> la PESADA (espcanalp)
+rebajada a continuacion declarada (su criterio conserva el techo
+d = 1; la cirugia de torre no esta implementada alli) y
+restaurados los residuos omitidos: omega <= 1.6 de esta celda
+(la tecnica de espomegacola no aplicada aqui) y torres con RAMAS
+(bajo el k >= 2 no-anidados de espcanal A6).  H5: docstring de
+cajas-no-puntos y x_eff muerta eliminada.
