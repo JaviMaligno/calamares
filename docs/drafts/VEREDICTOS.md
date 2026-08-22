@@ -4008,3 +4008,32 @@ fix destapo); H5 cosmetico del enunciado A3 (el cap fino).  Con
 esptorre (ligera) + esto (pesada): LA BANDA MEDIA DEL CANAL A
 d >= 2 CERRADA EN AMBOS PERFILES para torres-cadena, dentro del
 convenio.
+
+
+## r2bpool.py — NOTA DE CICLO (exploracion sin claim): j >= 4 en G-b' colinda con el lema de |A|
+
+Fecha: 2026-08-22. Intento de cerrar el ultimo tope de conteo del
+residuo (ii) (G-b' con j <= 3) por POOLING: las piezas X' plegadas
+en bloques por masa con un peso NUEVO mas fino — LA CUERDA DE FILA:
+una fila de piezas <= cap en capacidad c consume arco <=
+[2 asin(z)/z] * m/(c - cap) con z = cap/(c-cap) (por arco(r) <=
+2 asin(r/(c-r)), la desigualdad del semi-angulo theta(a,b) <=
+asin f_a + asin f_b y la cuerda de convexidad de asin) — lema
+exportable que mejora el pi m/(c-cap) historico en ~35% con cap
+moderado.  Funcionan: los caps uniformes en Y, el refinamiento
+th(Y_hi, a, c_lo) para Y acotado, y los regimenes con piezas
+pequenas o resto diminuto.
+
+EL OBSTACULO ESTRUCTURAL (resultado negativo informativo): la
+banda POCAS-GRANDES (Mr ~ x_1 repartido en 1-3 piezas comparables
+a x_1) no se certifica ni con bloques (cap ~ x_1 => theta(Y, B) ~
+pi/2 y peso ~ 1: los lados exceden pi aunque la corona real quepa
+holgada) ni con explicitas (el numero de grandes no esta acotado).
+Es EXACTAMENTE el «lema de reduccion de |A|» que r2bmulti [E]
+declaro faltante para G-e/G-g pesadas.  CONCLUSION: el tope j <= 3
+de G-b' no es un tope trivial — colinda con ese abierto declarado;
+su cierre es un ciclo mayor (jerarquia explicitas <= K +
+cadena-cuerda + fila con la banda de transicion).  El paper ya
+declara j <= 3 como eleccion del MC: nada que cambiar.  El script
+queda como exploracion (gates A verdes; B&B parciales con las
+cajas de la banda documentadas), sin ronda (no soporta claim).
