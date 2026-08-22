@@ -3867,3 +3867,68 @@ racionalizacion, denominadores positivos globales (nuevo gate B1b),
 A_max rama correcta y autodual, b2 creciente en ambos argumentos,
 c21 = phi/2 - 1/A_max >= 0 sii A_max >= g (elemental de verdad),
 sondas de 100k/50k puntos limpias. Re-run tras reparaciones: 5/5.
+
+
+## espomegacola.py — CONFIRMADO (0 fatales, 0 mayores; 2 menores aplicados)
+
+Fecha: 2026-08-22. La cola de anchura omega > 1.6 de la celda PESADA
+ESPECULAR certificada ENTERA: el tope de barrido omega <= 1.6 del
+residuo (ii) deja de ser tope en esta celda.  Arquitectura: las
+ventanas de espfinal son omega-lineales (alpha >= max(1, SS+Xp) +
+omega, z >= ... + 2 omega), el contenedor cumple c >= 1 + z (teorema
+del par {z, m}), y cada termino se mayora UNIFORME en omega — el
+rapido por el cap del limite th(z, x, c) <= 2 asin(sqrt x) (p =
+zx/(1+z-x) crece en z hacia x, para x <= 1), los lentos con
+c_floor = 1 + z_min(W0), el polvo con X_m = 0 exacto (omega > 1) y
+un solo tramo pesimista.  B&B de 9 dims lentas: 23 cajas.  El par
+(z, m) asintoticamente diametral se codifica thmat[0][1] = 0
+(tangencia legal no estricta — la MISMA reparacion ya adversariada
+de areduccion._peor_camino, que espfinal decidio no portar por
+conservadurismo).
+
+El referee re-derivo los seis flancos (ventanas, teorema del par,
+caps, el 0 del par linea a linea en _peor_camino2, conservadurismo
+del tramo unico, cobertura de perfil identica a espfinal) y corrio
+600 cajas-punto x 4 anchuras con corona exacta + 20.000 puntos del
+cap (peor holgura +2.4e-6: el cap es el limite, ajustado) + busqueda
+dirigida del margen (0.0073 rad > 0 en el rincon SS -> 1 con polvo
+maximo).  0 violaciones.  MENORES aplicados: el recuento de
+dimensiones (9, no 10) y try/finally en el negativo D; typo del
+docstring.  NOTA para el paper: citar el cap como LIMITE (holgura
+asintotica 0), no como cota holgada.
+
+
+## r2bcolas.py — CONFIRMADO (cero grietas de solidez; 2 deudas del motor y 2 notas, aplicadas)
+
+Fecha: 2026-08-22. La cola Y > 6.6 de G-b' (el tope de muestreo
+X_Y <= 3 del residuo (ii)) certificada ENTERA en DOS REGIMENES: la
+parametrizacion homogenea rho = x/Y NO separa las saturaciones (con
+x finito el par (Y, m) va diametral; con x ~ Y lo hace (Y, x): dos
+pi excluyentes que un solo mayorante mezcla — el primer B&B se atasco
+exactamente ahi).  Regimen I (todas las x <= 6.6): caps uniformes en
+Y (p(Y, lenta) crece hacia k/(SS+Sx); (Y, x) <= x/(SS+Sx) via
+c - x >= Y; lentos con c(Y1)), B&B con los motores de r2bmulti
+(117/791/3329 cajas por j; la saturacion SS -> 1 la absorbe el par
+analitico de banda_matriz, que NO lee thmat[0][1] — verificado linea
+a linea).  Regimen II (x_max > 6.6 => Y >= x_max > 6.6): UNA
+comprobacion cerrada por j con caps constantes (cruzados <= 1/2 y
+1/4 — la cota (x_i, x_l) <= 1/4 es TENSA: 1.0466 vs pi/3 — y
+lentas < 1/(1+6.6)), par (Y, x_max) antipodal con tangencia
+asintotica legal.
+
+Sondas del referee: ~29.000 comparaciones (60.931 puntos interiores
+del regimen I con holgura minima 2.6e-4; 24.000 del regimen II
+incluyendo x_max = Y exacto y j = 3 con las tres x = Y, holgura
+0.0099; colocacion explicita del testigo verificada; 5.500
+instancias adversariales de corona real: siempre cabe), 0
+violaciones.  DEUDAS APLICADAS: H1 el lado vacio de _antipodal_cola
+era imposible por diseno (req = pi del par) — exencion del par
+antipodal anadida (conservador-ruidoso, no unsound); H2 gate
+CRUZADO de lados anadido (la solidez que el referee demostro fuera
+del codigo: sep(u, v) >= min-extremo(u) + min-extremo(v)); H4 el
+conteo j <= 3 declarado en E como dominio heredado del MC (no
+derivado); H7 contraste de caps del regimen II anadido al bloque C
+(8000 puntos).  H5: la exclusion analitica del par (Y, m) de
+banda_matriz sigue valida con caps (theta real < pi sii SS+Sx > 1,
+independiente de la matriz).  Sin agujero j = 0 (rama DR de r2bcert
+con T libre).  Re-run tras reparaciones: 5/5.
