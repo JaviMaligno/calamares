@@ -69,7 +69,7 @@ CAMPAIGN = [
                                      ("1.2", "1.4"),
                                      ("1.4", "1.62"))]),
     ("f3converso.py", [{}]),
-    ("rstarcert.py", [{}]), ("divergencia3.py", [{}]), ("gaplemmacert.py", [{}]), ("insercioncert.py", [{}]), ("goldencert.py", [{}]), ("espomegacola.py", [{}]), ("r2bcolas.py", [{}]), ("esptorre.py", [{}]), ("esptorrep.py", [{}]),
+    ("rstarcert.py", [{}]), ("divergencia3.py", [{}]), ("gaplemmacert.py", [{}]), ("insercioncert.py", [{}]), ("goldencert.py", [{}]), ("espomegacola.py", [{}]), ("r2bcolas.py", [{}]), ("esptorre.py", [{}]), ("esptorrep.py", [{}]), ("espomegacanal.py", [{"CC_CELDA": "a"}, {"CC_CELDA": "b"}, {"CC_CELDA": "c", "CC_WLO": "20", "CC_WHI": "40", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "17", "CC_WHI": "20", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "14", "CC_WHI": "17", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "11", "CC_WHI": "14", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "8", "CC_WHI": "11", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "6", "CC_WHI": "8", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "4.5", "CC_WHI": "6", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "3.5", "CC_WHI": "4.5", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "2.7", "CC_WHI": "3.5", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "2.1", "CC_WHI": "2.7", "CC_EPS": "1e-2"}, {"CC_CELDA": "c", "CC_WLO": "1.6", "CC_WHI": "2.1", "CC_EPS": "1e-2"}, {"CC_CELDA": "d"}, {"CC_CELDA": "e"}, {"CC_CELDA": "f"}, {"CC_CELDA": "g"}, {"CC_CELDA": "h"}]),
 ]
 
 def main():

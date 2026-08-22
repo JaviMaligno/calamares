@@ -4037,3 +4037,45 @@ cadena-cuerda + fila con la banda de transicion).  El paper ya
 declara j <= 3 como eleccion del MC: nada que cambiar.  El script
 queda como exploracion (gates A verdes; B&B parciales con las
 cajas de la banda documentadas), sin ronda (no soporta claim).
+
+
+## espomegacanal.py — REFUTADO EN PRIMERA RONDA -> REPARADO -> RE-RONDA CONFIRMADO CON CORRECCIONES
+
+Fecha: 2026-08-22. LA COLA DE LA ANCHURA omega > 1.6 DE LAS SEIS
+CELDAS DEL CANAL (el ultimo tope de barrido heredado, dentro del
+convenio): tramo medio [1.6, 40] re-ejecutando los criterios
+existentes (la afirmacion central — son OMEGA-GENERICOS, el 1.6
+vivia solo en los roots — CONFIRMADA por ambas rondas con auditoria
+linea a linea) + cola omega >= 40 por argumentos autonomos de caps.
+
+PRIMERA RONDA (REFUTADO como cierre; la matematica sobrevive): H1
+FATAL — el techo del root de z en las celdas x-EN-z copiaba la
+formula historica 2 omega cuando la ventana legal lleva +x_eff ~
+omega (escala 3 omega): puntos en-celda con omega >= 27.6 jamas
+visitados (evidencia ejecutada: omega = 35, z = 91.5 > 85.5, True);
+H2 FATAL — las torres perdian z > Z1 = 40 del tramo medio (sus
+crit_cola nunca re-ejecutados con omega > 1.6; evidencia: omega =
+2, z = 45, True); H3 caps del resto de C(a) no mayorantes; H4 C(b)
+apelaba a certificados inexistentes; H5 C(c) sin gate.  OCTAVO
+caso del patron de agujeros de cobertura: al extender un root,
+recomputar los techos LEGALES de las ventanas (no copiar las
+formulas del root historico).
+
+REPARACIONES: Z_MAXZ = 127.13 a escala 3 omega (b: 1 caja; d: 293);
+celdas g/h = las colas z de las torres con omega en [1.6, 40] (1
+caja cada); bloque C reescrito con los caps correctos (1/z_lo) y
+gates computados.  RE-RONDA (CONFIRMADO CON CORRECCIONES): el
+techo puntual derivado independientemente (125.85/125.35 <
+127.13), las dimensiones de los roots g/h verificadas contra los
+unpacks (20 valores exactos, con controles de sensibilidad que
+descartan el certifica-basura), la cobertura del plano (omega, z)
+sin hueco, los caps de C re-derivados, y 1000 sondas en las
+franjas de los agujeros (500 en z [85, 121] con omega [25, 40];
+500 torres con z [40, 90]): todo verde.  Menores aplicados:
+recuentos del docstring (293, g/h), el estatus E sin apelaciones
+(margenes reales 0.397/0.82/0.62), y las peores esquinas
+LITERALES en C(b)/C(c) (cap <= phi/2, masa <= phi - 1/2, dos
+lentas por lado: 2.322 y 2.525 — los valores que el referee midio).
+Agregado final: (a) 1.62M cajas; (b) 1; (c) ~3.3M en 11 bandas
+eps 1e-2; (d) 293; (e) 1; (f) 31; (g) 1; (h) 1 — todas 0 sin
+resolver.  Manifiesto campaign con las 17 invocaciones.
