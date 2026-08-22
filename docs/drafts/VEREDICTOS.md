@@ -3969,3 +3969,42 @@ restaurados los residuos omitidos: omega <= 1.6 de esta celda
 (la tecnica de espomegacola no aplicada aqui) y torres con RAMAS
 (bajo el k >= 2 no-anidados de espcanal A6).  H5: docstring de
 cajas-no-puntos y x_eff muerta eliminada.
+
+
+## esptorrep.py — CONFIRMADO (cero grietas; 2 menores del control aplicados)
+
+Fecha: 2026-08-22. LA TORRE PROFUNDA PESADA: la banda media del
+canal a d >= 2 en el perfil pesado, cerrada con la cirugia de torre
+de esptorre sobre espcanalp.criterio_pesada_z.  El referee verifico
+la FIDELIDAD de la cirugia linea a linea (el diff es exactamente lo
+declarado: M_lo en las dos colas, convivencia via t_1, techo de z
+retirado con sus x_hi_z/x_eff que solo lo alimentaban, rama de cola
+con caps; ninguna pieza retirada de mas), la pared pesada del nodo
+sobre el x del fondo (children = polvo, valida a toda profundidad;
+omitir z/alpha/torre de la cola global solo SOBRE-estima X_x:
+conservador), la pinza RY (RHS por children — la torre no suma;
+LHS suelo valido con +x+M por first-copy; en la cola la pinza se
+desactiva: nunca reclama vacuidad), las direcciones de M (todas
+suelos legitimos; mu_y_max sin restar x/M es correcto-conservador:
+x y los t no son polvo), los caps de la corona pesada (<= 1
+siempre; exceso del cap numerico 0.0 exacto en malla z hasta 1e7),
+la no-vacuidad de los B&B (la 1-caja de la cola: los 8 tramos
+kz x kseg reconstruidos a mano — la variante de UN bloque falla en
+los 8 y la de DOS certifica: el motor discrimina; falsable por
+masa x2, c estrangulado y th x1.6; censo: 393/440 por motor, 47
+por vacuidad sana de ventanas), la cobertura de la raiz (X_TOP =
+3.227 > 3.218 el techo puntual; A_MAX cubre; s2 <= 0.618 real en
+la pesada), y el empalme sin huecos (el empate SS = 1 + s2 lo
+cubre este script; las bandas de x muertas a toda profundidad por
+pinza/pared).  Sondas: 400 puntos con S REAL construida
+(b_star_particion) y X > 0 en 318, 150 coronas fisicas verificadas
+(arc-LP/corona_suf/creciente): 0 violaciones.
+
+MENORES APLICADOS: H1 el generador del bloque C muestreaba beta
+abstracta -> S real via b_star_particion (como espcanalp C); H2 el
+bloque C no ejercitaba X > 0 -> X's aleatorias bajo el presupuesto
+global (y el suelo de alpha corregido con +Xp, que el replay del
+fix destapo); H5 cosmetico del enunciado A3 (el cap fino).  Con
+esptorre (ligera) + esto (pesada): LA BANDA MEDIA DEL CANAL A
+d >= 2 CERRADA EN AMBOS PERFILES para torres-cadena, dentro del
+convenio.

@@ -69,7 +69,7 @@ CAMPAIGN = [
                                      ("1.2", "1.4"),
                                      ("1.4", "1.62"))]),
     ("f3converso.py", [{}]),
-    ("rstarcert.py", [{}]), ("divergencia3.py", [{}]), ("gaplemmacert.py", [{}]), ("insercioncert.py", [{}]), ("goldencert.py", [{}]), ("espomegacola.py", [{}]), ("r2bcolas.py", [{}]), ("esptorre.py", [{}]),
+    ("rstarcert.py", [{}]), ("divergencia3.py", [{}]), ("gaplemmacert.py", [{}]), ("insercioncert.py", [{}]), ("goldencert.py", [{}]), ("espomegacola.py", [{}]), ("r2bcolas.py", [{}]), ("esptorre.py", [{}]), ("esptorrep.py", [{}]),
 ]
 
 def main():
