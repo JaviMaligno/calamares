@@ -4135,3 +4135,36 @@ pendiente): motor de dos lados con pares cruzados explicitos
 gate de factibilidad f f < 1 + A1 como condicion operativa +
 topes de C(a) declarados o derivados + control B(d) hostil.
 lemaA.py queda como BORRADOR REFUTADO-EN-REPARACION, sin claim.
+
+
+## lemaA.py fase 1-bis — RE-RONDA: el MOTOR NUEVO CONFIRMADO; C(a) refutada otra vez (motor viejo olvidado) y reparada segun prescripcion
+
+Fecha: 2026-08-23. LA RE-RONDA confirmo el motor de colocacion
+(_coloca_y_verifica + _motor_dos_lados: suficiencia constructiva
+completa) con artilleria seria: unit-test de sep() (3000 pares,
+error max 4.4e-16), barrido de la region hostil (120 coronas x
+1112 instancias con ORACULO LP EXACTO calibrado sobre los
+contraejemplos de la primera acta), 3 piezas P, pares casi-pi,
+bloques pesados y 150 casos-borde por biseccion en c: CERO
+contraejemplos nuevos (peor margen +0.018).  Los tres negativos
+del acta caen.  A1 operativo honesto; topes de C(a) declarados;
+B(d) hostil correcto; spot-check transversal: espfinal._certifica
+y esptorrep._certifica_z cumplen la precondicion (intermedios
+< 1 <= polos).
+
+PERO C(a) SEGUIA USANDO EL MOTOR VIEJO (_corona_slots_capY llamaba
+a _antipodal2 — negligencia de la reparacion): el referee
+re-ejecuto el B&B real y encontro 5 cajas certificadas SIN
+respaldo (oraculo LP: t* = -0.015 a -0.050; el triangulo {Y,
+slot 6.6, slot 4.66} consume 5.75 de 6.28 rad y el resto no cabe
+— el par cruzado (slot, slot) jamas mirado).  El claim en si
+sobrevive (105.560 instancias reales oraculadas: peor t* = +0.50).
+REPARADO segun la prescripcion del acta: _corona_slots_capY
+decidida por _motor_dos_lados con dos colocaciones OR ((Y, m) y
+(Y, slot_1) con la exencion EN-CELDA pr(Y, x1) < 1 — el parametro
+`exento` deja de ser codigo muerto), el B&B re-subdivide las
+cajas antes irrecuperables y pasa; E retitulado (fase 1-bis,
+«complementa»).  Run final 5/5 con el motor confirmado decidiendo
+TODO.  LECCION (segunda del ciclo): al reparar un motor, grep de
+TODOS los llamadores del viejo — la funcion especializada quedo
+sin migrar y el docstring afirmaba lo que el codigo no hacia.

@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""BORRADOR REFUTADO-EN-REPARACION (SIN CLAIM): la fase 1 del
-lema de reduccion de |A| fue REFUTADA en su ronda adversarial
-(acta en VEREDICTOS, 2026-08-23) — NO usar corona_slots como
-certificado.
+"""FASE 1-BIS del lema de reduccion de |A| (REPARADA tras el
+REFUTADO de la fase 1; pendiente de RE-RONDA): el motor de
+reparto se sustituyo por LA SUFICIENCIA CONSTRUCTIVA COMPLETA
+(_coloca_y_verifica: colocacion antipodal explicita con
+posiciones acumuladas y verificacion circular de TODOS los pares
+— consecutivos, no adyacentes y CRUZADOS — mas el gate de pares
+factibles): los dos agujeros del acta (H1 pares cruzados, H2
+pi-gorra) quedan cerrados por construccion y sus contraejemplos
+son negativos fijos del bloque B.
 
-EL VEREDICTO: el motor certifica coronas infeasibles.
-Contraejemplo: corona_slots(P=[74.2, 0.1], M=51, cap=25.5, c=100)
-= True con el A legal {25.5, 25.5} INFEASIBLE (prueba exacta de
-ventana; LP de arcos infactible en todos los ordenes).  CAUSA:
-_antipodal2 verifica caminos por lado y cubre los pares CRUZADOS
-solo bajo la precondicion implicita «los polos mayoran en f a los
-intermedios» — cierta en todos los usos historicos (polvo < m,
-auditados) y VIOLADA por los slots (grandes con polo m = 1).
-Segundo agujero: la pi-gorra tapa pares de P imposibles (falta el
-gate f f < 1).  Tercero: el enunciado A1 (M < c) es falso como
-teorema (M real hasta ~ pi c); el gate es conservador pero el
-regimen M >= c queda fuera sin declarar.  Cuarto: los topes
-M in [0.05, 13.2] de la aplicacion C(a) eran topes de barrido con
-justificacion espuria.
+LA HISTORIA (acta en VEREDICTOS, 2026-08-23): la fase 1
+entregaba la corona reducida a espfinal._antipodal2, cuyo esquema
+de caminos por lado cubre los pares cruzados SOLO bajo la
+precondicion implicita «los polos mayoran en f a los
+intermedios» (cierta en los usos historicos: polvo < m) — los
+slots la violaban y el motor certificaba coronas infeasibles
+(contraejemplo exacto en el acta).  Reparaciones de esta fase:
+motor nuevo, A1 reescrito como GATE operativo (M < c no es
+teorema: el regimen M >= c queda declarado fuera), los topes
+M in [0.05, 13.2] de la aplicacion C(a) DECLARADOS como dominio
+de barrido, control B(d) HOSTIL en la region del acta, codigo
+muerto retirado.
 
 LO QUE SOBREVIVE (verificado por el referee): los slots
 ESCALONADOS (r_i <= (M - (g - i) t)/i con asignacion ordenada),
@@ -58,12 +61,117 @@ def _cuerda(cap, c):
     return (2.0 * math.asin(z) / z) / (c - cap)
 
 
+def _coloca_y_verifica(nodos, thmat, Ds, lado_a, lado_b,
+                       exento=None):
+    """SUFICIENCIA CONSTRUCTIVA COMPLETA (fase 1-bis, la
+    reparacion del acta): coloca el par (0, 1) antipodal (0 en
+    angulo 0, 1 en pi), el lado A en (0, pi) y el B en (pi, 2pi),
+    con separaciones consecutivas EXACTAS thmat (los bloques
+    ocupan ademas su peso interno Ds), y VERIFICA todos los pares
+    — consecutivos, no adyacentes del mismo lado y CRUZADOS — por
+    separacion circular real.  Sin precondiciones: el agujero H1
+    del acta (pares cruzados no mirados) queda cerrado por
+    construccion.  `exento` = par con separacion garantizada por
+    la celda (p.ej. tangencia asintotica): se salta SU chequeo."""
+    n = len(nodos)
+    # gate H2: ningun par imposible (theta clampada a pi) salvo
+    # el par antipodal exento o el (0,1) si su requisito cabe
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (i, j) == (0, 1) or (exento is not None
+                                    and (i, j) == exento):
+                continue
+            if thmat[i][j] >= PI - 1e-12:
+                return False
+    pos = {0: 0.0, 1: PI}
+    # lado A: 0 -> a1 -> ... -> 1 en (0, pi)
+    ang = 0.0
+    prev = 0
+    for k in lado_a:
+        ang += thmat[prev][k]
+        pos[k] = ang
+        if k in Ds:
+            ang += Ds[k]               # el bloque ocupa [pos, ang]
+        prev = k
+    if ang + thmat[prev][1] > PI + 1e-12:
+        return False
+    # lado B: 0 -> b1 -> ... -> 1 en (2pi, pi) descendente
+    ang = 2.0 * PI
+    prev = 0
+    for k in lado_b:
+        ang -= thmat[prev][k]
+        pos[k] = ang
+        if k in Ds:
+            ang -= Ds[k]
+        prev = k
+    if ang - thmat[prev][1] < PI - 1e-12:
+        return False
+    # verificacion COMPLETA de pares por separacion circular; los
+    # bloques como intervalos [pos, pos + D] (lado A) o
+    # [pos - D, pos] (lado B)
+    def intervalo(k):
+        if k not in Ds:
+            return (pos[k], pos[k])
+        if k in lado_a:
+            return (pos[k], pos[k] + Ds[k])
+        return (pos[k] - Ds[k], pos[k])
+
+    def sep(k1, k2):
+        a1, b1 = intervalo(k1)
+        a2, b2 = intervalo(k2)
+        # distancia circular minima entre los intervalos
+        cands = []
+        for x in (a1, b1):
+            for y in (a2, b2):
+                d = abs(x - y) % (2.0 * PI)
+                cands.append(min(d, 2.0 * PI - d))
+        if a1 <= a2 <= b1 or a1 <= b2 <= b1                 or a2 <= a1 <= b2:
+            return 0.0
+        return min(cands)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (i, j) == (0, 1) or (exento is not None
+                                    and (i, j) == exento):
+                continue
+            if thmat[i][j] > sep(i, j) + 1e-12:
+                return False
+    return True
+
+
+def _motor_dos_lados(nodos, thmat, Ds, exento=None):
+    """Reparto en dos lados + permutaciones, decidido por
+    _coloca_y_verifica (todos los pares mirados).  El par (0, 1)
+    antipodal; requisito del par: thmat[0][1] <= pi (no estricto
+    con la colocacion a pi exacto; si thmat[0][1] = pi por
+    clamp de par imposible, el gate H2 de la celda debe haberlo
+    excluido — aqui se exige <= pi - MARG salvo exencion)."""
+    if exento != (0, 1) and thmat[0][1] > PI - 1e-9:
+        return False
+    resto = list(range(2, len(nodos)))
+    for mask in range(1 << len(resto)):
+        lado_a = [r for t, r in enumerate(resto) if mask >> t & 1]
+        lado_b = [r for t, r in enumerate(resto)
+                  if not mask >> t & 1]
+        vistos = 0
+        for pa in itertools.permutations(lado_a):
+            for pb in itertools.permutations(lado_b):
+                vistos += 1
+                if vistos > 60:
+                    break
+                if _coloca_y_verifica(nodos, thmat, Ds,
+                                      list(pa), list(pb),
+                                      exento=exento):
+                    return True
+            if vistos > 60:
+                break
+    return False
+
+
 def _corona_una(P, slots, M_p, cap_p, c_lo, par):
     """Una variante concreta: P + slots + 2 bloques(masa M_p) con
-    la colocacion antipodal del par de indices `par` de los nodos
-    no-bloque.  El RADIO del nodo-bloque es min(cap_p, M_p):
-    ninguna pieza del bloque excede su masa (un bloque de masa
-    diminuta no puede pesar como una pieza de radio cap)."""
+    la colocacion antipodal del par `par`.  Motor: la suficiencia
+    constructiva completa (fase 1-bis)."""
     cap_p = min(cap_p, max(M_p, 1e-9))
     peso_lado = _cuerda(cap_p, c_lo) * (M_p / 2.0 + cap_p / 2.0)
     base = list(P) + list(slots)
@@ -81,7 +189,7 @@ def _corona_una(P, slots, M_p, cap_p, c_lo, par):
                              min(nodos[j], 1e8), c_lo)
             thmat[j][i] = thmat[i][j]
     Ds = {nb0: peso_lado, nb0 + 1: peso_lado}
-    return _antipodal2(nodos, thmat, Ds)
+    return _motor_dos_lados(nodos, thmat, Ds)
 
 
 def corona_slots(P, M_hi, cap_hi, c_lo, K=K_CORTE,
@@ -136,19 +244,15 @@ def bloque_A():
     print("[A] el lema de slots y sus gates")
     import sympy as sp
     ok = True
-    ok &= check("[ENUNCIADO] (A1) LA COTA UNIVERSAL DE CARDINAL: "
-                "en una corona de capacidad c, la masa mural M "
-                "cabe dentro del contenedor: M < c SIEMPRE "
-                "(cada pieza r consume cuerda >= 2r sen(theta/2) "
-                "> 0 del perimetro y la suma de radios de "
-                "piezas interiores-disjuntas de un disco de "
-                "radio c es < c... la forma usada: las piezas de "
-                "una corona mural son disjuntas dentro del disco "
-                "de radio c, luego la suma de sus radios a lo "
-                "largo de un diametro es < c; el gate operativo: "
-                "corona_slots RECHAZA M >= c).  Con el corte "
-                "t = c/K: las piezas > t son a lo sumo "
-                "floor(M/t) <= K - 1", True)
+    ok &= check("[ENUNCIADO] (A1) LA COTA DE CARDINAL, "
+                "OPERATIVA (acta H3: «M < c en toda corona» es "
+                "FALSO como teorema — M real puede llegar a "
+                "~ pi c con muchas piezas diminutas): el lema "
+                "opera BAJO EL GATE M_hi < c_lo (corona_slots "
+                "rechaza el resto: el regimen M >= c queda FUERA "
+                "del lema y DECLARADO); bajo el gate, las piezas "
+                "> t = c/K son a lo sumo floor(M_hi/t) <= K - 1 "
+                "(aritmetica, correcta)", True)
     # A2: los slots mayoran (monotonia)
     ok &= check("(A2) SLOTS AL TECHO: theta_w crece en las piezas "
                 "(r2bmulti A, adversariado): una pieza real "
@@ -204,6 +308,15 @@ def bloque_B():
     ok &= check(f"(a) LA BANDA POCAS-GRANDES (Y = x_1 = 20, "
                 f"resto ~ x_1, la que tumbo r2bpool): "
                 f"corona_slots certifica ({r})", r is True)
+    # LOS CONTRAEJEMPLOS DEL ACTA como negativos fijos
+    rH1 = corona_slots([74.2, 0.1], 51.0, 25.5, 100.0)
+    rH1b = corona_slots([70.426, 1.360], 58.1, 29.046, 100.0)
+    rH2 = corona_slots([2.0, 2.0], 0.5, 0.25, 3.9)
+    ok &= check(f"(a2) LOS CONTRAEJEMPLOS DEL ACTA (H1: pares "
+                f"cruzados; H1b: barrido hostil; H2: par "
+                f"imposible bajo la pi-gorra) RECHAZADOS por el "
+                f"motor de colocacion: {rH1}, {rH1b}, {rH2}",
+                rH1 is False and rH1b is False and rH2 is False)
     # negativo: masa imposible
     r3 = corona_slots([2.0, 1.0], 3.4, 0.9, 3.2)
     ok &= check(f"(b) masa 3.4 >= c = 3.2: rechazado ({r3})",
@@ -213,43 +326,56 @@ def bloque_B():
     ok &= check(f"(c) {{2, 1, 0.95}} + A(masa 0.9, cap 0.9) en "
                 f"c = 3.25 (el par 2+1 llena el diametro): "
                 f"rechazado ({r4})", r4 is False)
-    # contraste: slots vs corona real en instancias aleatorias
+    # contraste HOSTIL (acta H5: el control anterior no
+    # muestreaba la region peligrosa): P0 dominante ~ 0.55-0.8 c,
+    # cap grande 0.15-0.35 c — la region donde el motor viejo
+    # certificaba infeasibles a razon ~1/60 —, mas los
+    # multiconjuntos adversariales (pocas grandes al cap, g = n_g
+    # exacto, piezas justo sobre t)
     import random
     from coronacolas import corona_suf
-    rng = random.Random(SEED)
+    rng = random.Random(777)
     n_p, viol = 0, 0
-    for _ in range(4000):
+    for _ in range(20000):
         if n_p >= 300:
             break
-        nP = rng.randrange(2, 4)
-        P = sorted((rng.uniform(0.5, 3.0) for _ in range(nP)),
-                   reverse=True)
-        j = rng.randrange(1, 9)
-        cap = rng.uniform(0.1, 2.0)
-        xs = [rng.uniform(0.05, cap) for _ in range(j)]
-        M = sum(xs)
-        c = sum(P) + M + rng.uniform(1.0, 4.0)
-        if not corona_slots(P, M, cap, c):
-            continue                   # el lema no certifica esta
+        c = rng.uniform(10.0, 120.0)
+        P0 = rng.uniform(0.55, 0.80) * c
+        P1 = rng.uniform(0.05, 2.0)
+        cap = rng.uniform(0.15, 0.35) * c
+        M = rng.uniform(cap, min(0.95 * c, 3.0 * cap))
+        if not corona_slots([P0, P1], M, cap, c):
+            continue
         n_p += 1
-        piezas = sorted(P + xs, reverse=True)
-        if not corona_suf(piezas, c + 1e-9)[0]:
-            viol += 1
-    ok &= check(f"(d) {n_p} coronas certificadas por el lema: la "
-                f"corona real (corona_suf, con el A concreto) "
-                f"cabe en TODAS (violaciones {viol}) — el lema "
-                f"nunca certifica de mas", n_p >= 150 and viol == 0)
+        # multiconjuntos adversariales concretos bajo (M, cap)
+        for xs in ([cap, cap] if 2 * cap <= M else [cap],
+                   [cap] + [min(cap, M - cap)]
+                   if M > cap else [M],
+                   [M / 3.0] * 3):
+            xs = [x for x in xs if x > 1e-9]
+            if not xs or sum(xs) > M + 1e-9                     or max(xs) > cap + 1e-9:
+                continue
+            piezas = sorted([P0, P1] + xs, reverse=True)
+            if not corona_suf(piezas, c + 1e-9)[0]:
+                viol += 1
+    ok &= check(f"(d) contraste HOSTIL (region del acta: P0 "
+                f"dominante, cap grande): {n_p} coronas "
+                f"certificadas x multiconjuntos adversariales; "
+                f"violaciones {viol}", n_p >= 100 and viol == 0)
     return ok
 
 
 # ---------------------------------------------------------------- bloque C
 def _corona_slots_capY(s2_p, SSl, M_lo, M_hi, cap_hi, c_lo,
                        Y_hi=None):
-    """corona_slots especializada para la corona {Y, m, sigma2} U
-    A de G-b' con LA FILA Y POR CAPS DE LIMITE (r2bcolas A1: el
-    producto contra Y crece en Y hacia a/(SS + M)): uniforme en Y
-    — cubre la cola Y de golpe.  Y_hi (si finito) refina con
-    th(Y_hi, a, c_lo)."""
+    """corona_slots especializada para {Y, m, sigma2} U A de
+    G-b' con LA FILA Y POR CAPS DE LIMITE (r2bcolas A1) — FASE
+    1-BIS: decidida por el MOTOR DE COLOCACION (_motor_dos_lados;
+    el acta de la re-ronda cazo que esta funcion seguia llamando
+    a _antipodal2, el motor refutado — 5 cajas del B&B carecian
+    de respaldo).  Dos colocaciones OR: par (Y, m) y par
+    (Y, slot_1) con la exencion EN-CELDA (pr(Y, x1) < 1 estricto:
+    x1 <= M y x1 <= Y — verificado en la primera acta)."""
     K = K_CORTE
     if M_hi >= c_lo:
         return False
@@ -266,59 +392,39 @@ def _corona_slots_capY(s2_p, SSl, M_lo, M_hi, cap_hi, c_lo,
 
     for g in range(n_g + 1):
         M_p = max(0.0, M_hi - g * t)
-        # SLOTS ESCALONADOS: la i-esima pieza mayor cumple
-        # r_i <= (M - (g - i) t)/i (las i mayores pesan >= i r_i
-        # y las g - i menores > t): cada slot mayora su pieza
-        # por posicion (asignacion ordenada, monotonia)
         slots_g = [min(cap_hi, (M_hi - (g - i) * t) / i)
                    for i in range(1, g + 1)]
         cap_p = min(cap_p0, max(M_p, 1e-9))
         peso = _cuerda(cap_p, c_lo) * (M_p / 2.0 + cap_p / 2.0)
-        # nodos: [Y(virtual), m, s2] + slots + [B, B]
-        resto = [1.0, s2_p] + slots_g + [cap_p, cap_p]
-        nb0 = 1 + len(resto) - 2
-        nodos = [1e9] + resto
-        n = len(nodos)
-        thmat = [[0.0] * n for _ in range(n)]
-        for i in range(n):
-            for j in range(i + 1, n):
-                if i == 0:
-                    thmat[i][j] = fila_Y(nodos[j])
-                else:
-                    thmat[i][j] = th(min(nodos[i], 1e8),
-                                     min(nodos[j], 1e8), c_lo)
-                thmat[j][i] = thmat[i][j]
-        Ds = {nb0: peso, nb0 + 1: peso}
-        if _antipodal2(nodos, thmat, Ds):
-            continue
-        if g >= 1:
-            # colocacion alternativa: el par (Y, slot_1)
-            # ANTIPODAL con exencion de tangencia (el requisito
-            # th(Y, slot) <= pi siempre por el clamp y la
-            # separacion colocada es pi exacto: legal no
-            # estricto — el estandar adversariado de
-            # espomegacola/r2bcolas); nodos reordenados para que
-            # el par sea (0, 1) del motor y thmat[0][1] = 0
-            nodos2 = [1e9, slots_g[0], 1.0, s2_p] \
-                + slots_g[1:] + [cap_p, cap_p]
-            n2 = len(nodos2)
-            nb2 = n2 - 2
-            th2 = [[0.0] * n2 for _ in range(n2)]
-            for i in range(n2):
-                for j in range(i + 1, n2):
-                    if i == 0 and j == 1:
-                        th2[i][j] = 0.0
-                    elif i == 0:
-                        th2[i][j] = fila_Y(nodos2[j])
+
+        def _prueba(orden_base, exento):
+            # orden_base: nodos no-bloque con el par en (0, 1);
+            # la fila del nodo Y (identificado como 1e9) va por
+            # caps de limite
+            nodos = list(orden_base) + [cap_p, cap_p]
+            nb0 = len(orden_base)
+            n = len(nodos)
+            thmat = [[0.0] * n for _ in range(n)]
+            for i in range(n):
+                for j in range(i + 1, n):
+                    if nodos[i] >= 1e8 or nodos[j] >= 1e8:
+                        otro = nodos[j] if nodos[i] >= 1e8                             else nodos[i]
+                        thmat[i][j] = fila_Y(otro)
                     else:
-                        th2[i][j] = th(min(nodos2[i], 1e8),
-                                       min(nodos2[j], 1e8),
-                                       c_lo)
-                    th2[j][i] = th2[i][j]
-            Ds2 = {nb2: peso, nb2 + 1: peso}
-            if _antipodal2(nodos2, th2, Ds2):
-                continue
-        return False
+                        thmat[i][j] = th(nodos[i], nodos[j],
+                                         c_lo)
+                    thmat[j][i] = thmat[i][j]
+            Ds = {nb0: peso, nb0 + 1: peso}
+            return _motor_dos_lados(nodos, thmat, Ds,
+                                    exento=exento)
+
+        base1 = [1e9, 1.0, s2_p] + slots_g
+        ok_g = _prueba(base1, None)
+        if not ok_g and g >= 1:
+            base2 = [1e9, slots_g[0], 1.0, s2_p] + slots_g[1:]
+            ok_g = _prueba(base2, (0, 1))
+        if not ok_g:
+            return False
     return True
 
 
@@ -328,23 +434,6 @@ def bloque_C():
     ok = True
     V_T = math.log(64.0)
     Y1C = 6.6
-
-    def crit_slots_YG(box):
-        """Regimen Y >= Y1C: caja (s2, SS, uM); la fila Y por
-        limites (uniforme en Y, cola Y incluida)."""
-        s2l, s2h, SSl, SSh, uml, umh = box
-        if SSh <= 1.0 or SSl > PHI:
-            return None
-        if SSl >= 1.0 + s2h:
-            return None
-        if 2.0 * s2l > SSh:
-            return None
-        s2_p = min(s2h, SSh / 2.0)
-        M_lo, M_hi = math.exp(uml), math.exp(umh)
-        cap = M_hi                     # x <= Y: cap <= min(M, Y)
-        c_lo = max(SSl, 1.0) + Y1C + M_lo
-        return _corona_slots_capY(s2_p, max(SSl, 1.0), M_lo,
-                                  M_hi, cap, c_lo)
 
     def crit_slots_Yc(box):
         """Regimen Y in [1, Y1C]: caja (s2, SS, uY, uM) compacta
@@ -368,10 +457,13 @@ def bloque_C():
               math.log(0.05), math.log(2.0 * Y1C)]
     exito2, caja2, n2, cert2 = bnb_factible(root_c, crit_slots_Yc,
                                             eps=2e-3)
-    ok &= check(f"(a) G-b' con Y in [1, {Y1C}] y CARDINAL LIBRE "
-                f"(M <= 2 Y1C: x <= Y y M < c): {n2} cajas, "
-                f"{cert2} certificadas — EXTIENDE r2bmulti (que "
-                f"certificaba j <= 3) a todo j en su rango de Y"
+    ok &= check(f"(a) G-b' con Y in [1, {Y1C}] y cardinal libre "
+                f"EN EL DOMINIO DECLARADO M in [0.05, 13.2] "
+                f"(acta H4: AMBOS topes son de barrido, no "
+                f"paredes — M no esta acotada por el modelo; el "
+                f"claim COMPLEMENTA r2bmulti, que cubria j <= 3 "
+                f"con M <= 3Y <= 19.8, sin contenerlo): {n2} "
+                f"cajas, {cert2} certificadas"
                 + ("" if exito2 else f"; SIN RESOLVER {caja2}"),
                 exito2)
     ok &= check("[ENUNCIADO] (b) FASE 2 DECLARADA: Y > 6.6 con "
@@ -406,19 +498,22 @@ def bloque_D():
 def bloque_E():
     print("[E] estatus")
     return check(
-        "[ENUNCIADO] FASE 1 DEL LEMA DE |A| CERRADA: el LEMA DE "
-        "SLOTS (grandes <= K - 1 por la cota universal M < c, "
+        "[ENUNCIADO] FASE 1-BIS DEL LEMA DE |A|: el LEMA DE "
+        "SLOTS (grandes <= K - 1 bajo el gate operativo M < c, "
         "slots ESCALONADOS r_i <= (M - (g - i) t)/i por "
         "monotonia, pequenas por greedy-halving + cuerda de "
-        "fila) elimina el cardinal con nodos fijos; el motor "
-        "corona_slots es sound (negativos B(b)/B(c), que "
-        "cazaron el cabe_matriz-sin-pesos y los bloques "
-        "fantasma) y nunca certifica de mas (300 contrastes "
-        "con corona_suf).  APLICACION CERTIFICADA: G-b' con "
-        "cardinal LIBRE en Y in [1, 6.6] (extiende r2bmulti).  "
-        "FASE 2 (declarada): Y > 6.6 y k >= 2 — el producto "
-        "regimenes homogeneos x slots; G-e/G-g pesadas como "
-        "destino final del lema", True)
+        "fila) elimina el cardinal con nodos fijos; el motor es "
+        "LA SUFICIENCIA CONSTRUCTIVA COMPLETA (_coloca_y_"
+        "verifica: todos los pares mirados, cruzados incluidos, "
+        "con gate de pares factibles — los contraejemplos de "
+        "las dos actas son negativos fijos) y el control B(d) "
+        "muestrea la region hostil.  APLICACION CERTIFICADA: "
+        "G-b' con cardinal libre en Y in [1, 6.6], dominio "
+        "declarado M in [0.05, 13.2] (COMPLEMENTA r2bmulti, sin "
+        "contenerlo), decidida por el motor nuevo.  FASE 2 "
+        "(declarada): Y > 6.6, k >= 2, M fuera de [0.05, 13.2] "
+        "— el producto regimenes homogeneos x slots; G-e/G-g "
+        "pesadas como destino final del lema", True)
 
 
 def main():
