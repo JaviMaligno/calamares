@@ -4258,3 +4258,76 @@ RUN FINAL: lemaA2 6/6 (R-I 1243/535, R-II 1789/797, R-III 53/23
 (exencion = thmat 0) no se filtran; los gates de uniformidad
 (H4) deben distinguir el caso estructural (cap <= t) del
 censado (saturacion) — el gate ingenuo mata certificados sanos.
+
+================================================================
+ACTA — FASE 3a DEL LEMA DE |A|: G-e / G-g PESADAS (lemaA3.py) —
+PRIMERA RONDA REFUTADO EL CIERRE EJECUTADO -> REPARADO -> RE-RONDA
+DE FIDELIDAD CONFIRMADA (cero grietas residuales)
+================================================================
+
+Fecha: 2026-08-23. EL CLAIM: las celdas pesadas G-e y G-g del
+ensamblaje (declaradas FUERA en r2bmulti, cubiertas solo por el
+MC de puertocii (e)/(g)) certificadas por B&B: el mural {Y, m} U A
+(c = SS + Y) y {z, D_m} U A (c' >= 1 + z) con |A| SIN COTA, y
+Y/z SIN TECHO (los techos del MC heredaban w <= 1.6; aqui colas
+por fila de limites).
+
+LA MATEMATICA NUEVA (ambas piezas CONFIRMADAS por el referee con
+derivacion propia): (1) EL GATE DE LA PARTICION — con A no vacio,
+b = masa(B*) > 1/2, toda pieza a de A cumple a <= min(b, SS - b)
+<= SS/2 <= phi/2 y masa(A) = SS - b (derivado de la maximalidad
+de B*; 450 particiones adversariales estructuradas, B* sin la
+pieza mayor incluido: 0 violaciones); b COMO DIMENSION del B&B
+(el acoplamiento b/|A|/masa/cap: el conservador plano no
+cierra).  (2) EL LEMA DE LA CADENA DORADA — el lado {a} entre z
+y m con c' = 1 + z cabe sii asin sqrt(p1) + asin sqrt(p2) <=
+pi/2 sii p1 + p2 <= 1 (x^2 + y^2 <= 1) sii (1-a)(z^2+z) >= a;
+con a <= SS/2 y z >= SS (pared E4-esp real, verificada) se
+reduce a SS^2 - SS - 1 <= 0, es decir SS <= PHI EXACTO: la
+pared de la familia ES el caso de tangencia (SS = phi, a =
+phi/2, z = phi, tangencia exacta legal).  LEMA POR PUNTO: las
+cotas van atadas al MISMO SS de cada punto real — la variante
+k = 1 no evalua nada por caja (la evaluacion por esquinas
+mezcla a_max con z_min y rompe la tangencia por epsilon: ese
+fue el atasco de diseno, resuelto al reconocer el lema).
+(3) ESCALONES POR MASA: la pieza i-esima de k piezas de suma M
+es <= M/i (variantes AND por |A| = k).
+
+LA PRIMERA RONDA REFUTO EL CIERRE EJECUTADO (H1 FATAL): en la
+variante k >= 6, cap_b = min(cap_k, masa_A/6) — pero masa_A/6
+solo acota la pieza SEXTA: las cinco mayores solo estan
+acotadas por cap_6 = masa_A - 5(1-b).  Contraejemplo legal del
+referee: S = {0.95, 0.4, 5 x 0.0501} (b = 0.95, |A| = 6, pieza
+0.4 modelada a cap ~0.11) EN HOJA CERTIFICADA de ambos B&B —
+la banda b > 0.876 que es exactamente el punto de venta del
+claim (|A| sin cota).  La VERDAD no fue refutada (0 violaciones
+de corona_suf en ~1640 contrastes, banda incluida).  REPARACION
+DE UNA LINEA: cap_b = cap_k.  H2 MENOR: docstring de crit_Gg
+contradecia el codigo (decia "verificado numericamente por
+caja" del k = 1 analitico) — corregido.  H3/H4 NOTAS
+consignadas (falsabilidad solo via _asin2; rama masa <= 0 vacua
+en la pesada).
+
+LA RE-RONDA DE FIDELIDAD: diff cotejado linea a linea (solo lo
+prescrito), el contraejemplo H1 ahora en hojas con cap_6 =
+0.743/0.524 >= 0.4, runs identicos (G-e 877/421, G-g 6645/3034),
+200 instancias dirigidas |A| = 6..10 en b > 0.876 localizadas
+end-to-end en hojas certificadas con corona_suf verde (400
+coronas, 0 violaciones).  VEREDICTO FINAL: CONFIRMADO.
+
+Lo que ademas AGUANTO en la primera ronda: la exencion (Y, m) de
+G-e (ff crece hacia 1/SS < 1), las filas por limites con sus
+colas (crit_Ge no lee uyh — cola Y genuinamente uniforme,
+verificado programaticamente), la cobertura (roots
+superconjunto, coincidencia exacta con el objeto barrido de
+puertocii: c = SS + Y y cp >= 1 + z), y 800 puntos end-to-end
+sobre 69 hojas certificadas distintas.
+
+PAPER: el item "extras coronas on swept ranges" del residuo (ii)
+reescrito — los murales pesados quedan certificados sin techos
+(queda solo la ESP especular del engine en sus rangos); verifmap
+con lemaA3; la seccion del ensamblaje menciona la
+re-certificacion.  LECCION (undecima del patron): un cap "por
+posicion" (masa/i) solo mayora la pieza de ESA posicion — al
+agregarlo a un bloque, el cap del bloque es el de la PRIMERA
+pieza que puede caer en el, no el de la ultima.
