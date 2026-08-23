@@ -4168,3 +4168,93 @@ cajas antes irrecuperables y pasa; E retitulado (fase 1-bis,
 TODO.  LECCION (segunda del ciclo): al reparar un motor, grep de
 TODOS los llamadores del viejo — la funcion especializada quedo
 sin migrar y el docstring afirmaba lo que el codigo no hacia.
+
+================================================================
+ACTA — FASE 2 DEL LEMA DE |A|: G-b' COMPLETO (lemaA2.py + motor
+compartido lemaA.py) — RONDA CONFIRMADA CON CORRECCIONES +
+VERIFICACION DIRIGIDA CONFIRMADA (R1 aplicado)
+================================================================
+
+Fecha: 2026-08-23. EL CLAIM: G-b' certificado para todo Y >= 1,
+toda masa M > 0, todo cardinal (j >= 1; j = 0 es el baseline
+r2bmulti) — el conteo j <= 3 del residuo (ii) DEJA DE SER TOPE.
+Composicion: fase 1-bis (Y <= 6.6, M in [0.05, 13.2]) + R-I
+(Y >= 6.6, piezas <= 6.6; fila por limites, M de 0 a la cola)
++ R-II (x_max > 6.6; B&B (s2, SS, uq, uv)) + R-III (flecos
+M < 0.05 y M > 13.2 de Y <= 6.6).
+
+DOS UNSOUND AUTOCAZADOS ANTES DE LA RONDA (declarados): (1) el
+"factor cuadratico" p_GB = mq/(1+q_lo)^2 era ANTICONSERVADOR
+(grande/(c-cap) solo <= 1 cuando Y >> x; el cap sound es lineal)
+— 53 cajas certificadas con el descartadas; (2) la colocacion
+CICLO SIMPLE (nueva en el motor: _coloca_ciclo, para coronas
+holgadas donde el par antipodal desperdicia) corria con pares
+exentos leyendo thmat[0][1] = 0 como requisito real — guard
+`exento is None`. De paso el ciclo descubrio que el negativo
+B(c) historico de lemaA era FACTIBLE de verdad (el motor viejo
+lo rechazaba por limitacion): sustituido por un infeasible
+probado ({1.5 x2} + A(3, 1.5) en c = 3.55: suma ciclica 6.57 >
+2pi, sin pares imposibles, los 3 ordenes ciclicos equivalentes).
+
+LA CLAVE DE R-II: la dimension v = Y/x_max. Sin ella los caps
+grande-resto no bajan de mq/(1+q_lo) (tight en Y >> x) y q ~ 2
+no cabe; con ella todos los pares usan p = [a/(c-b)][b/(c-a)]
+con las paredes c - x >= x(v+q), c - cap >= x(v+q+1-mq), c - Y
+>= SS + x(1+q) — nueve cotas re-derivadas por el referee, todas
+correctas, mezcla de esquinas conservadora. El par (Y, x_max)
+lleva su theta REAL (ciclo disponible) salvo clamp (q_lo ~ 0:
+exencion antipodal del gate A2, estricta SIN apelar al clamp).
+Slots por VARIANTES AND EN g (masa de bloques <= Mr - g t2) con
+D = min(cuerda mq con ratio <= 1/2 uniforme, cuerda t2 con z =
+1/(K-1)).
+
+RONDA 1 (CONFIRMADO CON CORRECCIONES): 0 certificados falsos —
+~1500 coronas reales (300 banda dura v in [1,3] x q in [1,4] +
+555 muestreadas DENTRO de 100 cajas certificadas + 31
+infeasibles probados contra el ciclo): 0 violaciones. H1 MAYOR:
+hueco real M in (0, 1e-3) en R-I (fila con M_lo subestima el
+sup para M_real < M_lo — deficit 1e-5 >> tol). H2 MAYOR: la
+soundness de _corona_capY sin el gate M < c descansaba en tres
+argumentos NO ESCRITOS que el referee derivo: (i) K-copias
+(c_real > K p => f_real < 1/(K-1)), (ii) ratio 1/2 de cola
+exige c_lo >= 6.72 (condicion de regimen: R-I 7.6, R-III gordo
+15.2), (iii) mayorizacion no-cola = 36 l^2 - 59 l + 25 >= 0
+(disc -119 < 0). H3: etiqueta E(b) no describia el test. H4:
+M-uniformidad de la cola descansaba en saturacion de facto.
+H5: M_lo = 1e-6 de R-III chico sound solo por Y <= 6.6. H6:
+j = 0 fuera del dominio, declarar.
+
+REPARACIONES + LO QUE DESTAPARON: M_lo = 0 en la banda inferior
+(fila a/SS sup uniforme) CLAMPA el par (Y, m) a pi en la esquina
+SS -> 1 — cerrado con la EXENCION (Y, m) NUEVA (gate: ff =
+Y/((SS+M)(SS+Y+M-1)) < 1 ESTRICTO en todo G-b' porque SS+M > 1 y
+SS+Y+M-1 > Y), colocacion OR de respaldo en _corona_capY. Los
+flags cola_inf (M-uniforme, exige saturacion H4 o cap_hi <= t
+ESTRUCTURAL) y via_cola (peso ratio-uniforme, gate 6.72)
+separados — el gate H4 ingenuo (n_g = K-1 siempre) rechazaba
+las colas con cap_hi < t legitimas. E(c) nuevo: falsabilidad
+real de crit_RII (caja dura q ~ 2, v ~ 1 certifica; thetas x2
+rechaza).
+
+VERIFICACION DIRIGIDA (CONFIRMADO + R1 OBLIGATORIO): la
+exencion (Y, m) atacada sin exito — convencion del modelo
+verificada en r2bmulti.criterio_gbp (c = SS + Y + M con m y s2
+DENTRO de SS... sus aportes a c son via SS; c - 1 y c - Y
+exactos), expansion simbolica (Y+u)(u+1) - Y = Yu + u^2 + u > 0,
+barrido hostil sup ff = 1 - 1e-12, sonda 300 coronas esquina
+dura (SS - 1 <= 2e-3, M <= 1e-3, Y hasta 100): 0 violaciones,
+theta(Y, m) max 3.117 < pi. R1 (MAYOR, LATENTE): borde x cola en
+crit_RI daba M_hi = 0.0 (certificado degenerado True demostrado
+sobre caja artificial); NO EXPLOTADO en el B&B ejecutado (las
+1243 cajas instrumentadas: 0 borde+cola — proteccion accidental
+por orden de particion) — gate aplicado (False, no None: la
+caja tiene puntos legales). El peso literal de la banda M_lo=0
+es sound sin monotonia (mayora masa <= M_hi; nota R3 comentada).
+
+RUN FINAL: lemaA2 6/6 (R-I 1243/535, R-II 1789/797, R-III 53/23
++ 355/148), lemaA 5/5 (motor con ciclo + guard). LECCIONES
+(novena y decima del patron): al anhadir una via al motor
+(ciclo), auditar que las CONVENCIONES de las vias existentes
+(exencion = thmat 0) no se filtran; los gates de uniformidad
+(H4) deben distinguir el caso estructural (cap <= t) del
+censado (saturacion) — el gate ingenuo mata certificados sanos.

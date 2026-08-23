@@ -139,6 +139,60 @@ def _coloca_y_verifica(nodos, thmat, Ds, lado_a, lado_b,
     return True
 
 
+def _coloca_ciclo(nodos, thmat, Ds, orden):
+    """Colocacion en CICLO SIMPLE (sin par antipodal): los nodos
+    en el orden dado sobre el circulo con separaciones
+    consecutivas = thmat (los bloques ocupan ademas su Ds), suma
+    total <= 2 pi, y TODOS los pares verificados por separacion
+    circular.  Otra suficiencia del repertorio (para coronas
+    holgadas donde forzar un par a pi desperdicia).  SIN
+    exenciones: la exencion de tangencia pertenece a la
+    colocacion ANTIPODAL (donde la separacion del par es pi
+    exacto); aqui todo par se verifica — y ninguno puede estar
+    clampado a pi (gate)."""
+    n = len(nodos)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if thmat[i][j] >= PI - 1e-12:
+                return False
+    pos = {}
+    ang = 0.0
+    prev = None
+    for k in orden:
+        if prev is not None:
+            ang += thmat[prev][k]
+        pos[k] = ang
+        if k in Ds:
+            ang += Ds[k]
+        prev = k
+    total = ang + thmat[orden[-1]][orden[0]]
+    if total > 2.0 * PI + 1e-12:
+        return False
+
+    def intervalo(k):
+        if k not in Ds:
+            return (pos[k], pos[k])
+        return (pos[k], pos[k] + Ds[k])
+
+    def sep(k1, k2):
+        a1, b1 = intervalo(k1)
+        a2, b2 = intervalo(k2)
+        cands = []
+        for x in (a1, b1):
+            for y in (a2, b2):
+                d = abs(x - y) % (2.0 * PI)
+                cands.append(min(d, 2.0 * PI - d))
+        if a1 <= a2 <= b1 or a1 <= b2 <= b1 or a2 <= a1 <= b2:
+            return 0.0
+        return min(cands)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            if thmat[i][j] > sep(i, j) + 1e-12:
+                return False
+    return True
+
+
 def _motor_dos_lados(nodos, thmat, Ds, exento=None):
     """Reparto en dos lados + permutaciones, decidido por
     _coloca_y_verifica (todos los pares mirados).  El par (0, 1)
@@ -148,6 +202,21 @@ def _motor_dos_lados(nodos, thmat, Ds, exento=None):
     excluido — aqui se exige <= pi - MARG salvo exencion)."""
     if exento != (0, 1) and thmat[0][1] > PI - 1e-9:
         return False
+    # primero la colocacion en CICLO SIMPLE (barata y decisiva
+    # cuando la corona es holgada) — SOLO sin exenciones: un par
+    # exento lleva thmat = 0 como convencion de la colocacion
+    # antipodal (su separacion garantizada es pi), y el ciclo
+    # leeria ese 0 como requisito real (unsound)
+    if exento is None:
+        n_n = len(nodos)
+        idx = sorted(range(n_n),
+                     key=lambda i: -min(nodos[i], 1e8))
+        ordenes_c = [list(range(n_n)),
+                     idx,
+                     idx[0::2] + idx[1::2][::-1]]
+        for oc in ordenes_c:
+            if _coloca_ciclo(nodos, thmat, Ds, oc):
+                return True
     resto = list(range(2, len(nodos)))
     for mask in range(1 << len(resto)):
         lado_a = [r for t, r in enumerate(resto) if mask >> t & 1]
@@ -321,11 +390,18 @@ def bloque_B():
     r3 = corona_slots([2.0, 1.0], 3.4, 0.9, 3.2)
     ok &= check(f"(b) masa 3.4 >= c = 3.2: rechazado ({r3})",
                 r3 is False)
-    # negativo: corona apretada real
-    r4 = corona_slots([2.0, 1.0, 0.95], 0.9, 0.9, 3.25)
-    ok &= check(f"(c) {{2, 1, 0.95}} + A(masa 0.9, cap 0.9) en "
-                f"c = 3.25 (el par 2+1 llena el diametro): "
-                f"rechazado ({r4})", r4 is False)
+    # negativo: corona GENUINAMENTE infeasible (la version
+    # anterior {2, 1, 0.95} + A(0.9) en c = 3.25 resulto
+    # FACTIBLE por ciclo simple — el motor viejo la rechazaba
+    # por limitacion, no por infeasibilidad; el nuevo con
+    # _coloca_ciclo la certifica correctamente): cuatro piezas
+    # de 1.5 en c = 3.55 tienen suma ciclica 4 x 1.6416 = 6.57 >
+    # 2 pi sin ningun par imposible — infeasible con prueba
+    r4 = corona_slots([1.5, 1.5], 3.0, 1.5, 3.55)
+    ok &= check(f"(c) {{1.5, 1.5}} + A(masa 3, cap 1.5) en "
+                f"c = 3.55 (suma ciclica de 4 x th = 6.57 > "
+                f"2 pi, infeasible probado): rechazado ({r4})",
+                r4 is False)
     # contraste HOSTIL (acta H5: el control anterior no
     # muestreaba la region peligrosa): P0 dominante ~ 0.55-0.8 c,
     # cap grande 0.15-0.35 c — la region donde el motor viejo

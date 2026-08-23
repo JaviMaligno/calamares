@@ -1268,9 +1268,10 @@ full proof of Conjecture~\ref{conj:golden} is exactly the five-item
 inventory of the honest-residue paragraph closing
 Appendix~\ref{app:campaign}: the occupant-count direction $j$ of the
 \emph{computational} scaling closures (numeric, swept to $j\le9$ with
-exact geometric cascade growth), the piece-count $j\le3$ of the
-G-b$'$ extras (the width and mass ceilings $\omega\le1.6$ and
-$X_Y\le3$ are now removed by the tail certificates
+exact geometric cascade growth; the piece-count $j\le3$ of the
+G-b$'$ extras is now removed outright by the slot-reduction lemma,
+scripts \texttt{lemaA}/\texttt{lemaA2}, after the width and mass
+ceilings fell to the tail certificates
 \texttt{espomegacola} and \texttt{r2bcolas}), the mid band
 at tower depth $\ge2$ and the structural exclusion left of the occupant
 channel (the one model-conditional piece), the sampled support of the
@@ -1434,7 +1435,17 @@ line and probed with real subset partitions), and
 channel cells; its first adversarial round \emph{refuted} the
 executed closure -- two coverage gaps in the extended sweep
 roots -- and the repaired version was confirmed by a re-round
-with the point ceilings re-derived independently).
+with the point ceilings re-derived independently),
+\texttt{lemaA} (5/5, the slot-reduction lemma with the full
+constructive placement engine; its first round refuted the
+original dispatch engine -- crossed pairs unchecked under an
+implicit precondition -- and the rebuilt engine was confirmed
+against an exact LP oracle, with the unmigrated caller caught in
+the re-round), and \texttt{lemaA2} (6/6, G-b$'$ over all $Y$,
+all mass and all piece counts, removing the $j\le3$ ceiling;
+two rounds -- confirmed with corrections, then a directed
+verification of the repairs -- with zero false certificates and
+two author-caught unsound caps repaired before refereeing).
 Several statements were corrected or sharpened by the adversarial
 rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
 family, the $\alpha\ge o_1$ case split, a refuted induction in the
@@ -4002,9 +4013,21 @@ $\omega>1.6$) in the engine's G-b$'$ corona boxes (script
 \texttt{r2bcolas} -- two regimes: fixed pieces with caps uniform in
 $Y$, and $x_{\max}>6.6$ closed outright with constant caps around
 the asymptotically diametral pair; both 5/5, adversarial rounds
-with no soundness gap). What remains in this item: the piece-count
-$j\le3$ of the G-b$'$ extras (a sampling choice of the underlying
-MC, declared), and the extras coronas
+with no soundness gap). The piece-count $j\le3$ of the G-b$'$
+extras is now removed as well by the \emph{slot-reduction lemma}
+(scripts \texttt{lemaA}, the staggered-slot engine with the full
+constructive placement sufficiency -- antipodal and simple-cycle
+placements, all pairs verified -- confirmed against an exact LP
+oracle, and \texttt{lemaA2}, the G-b$'$ closure over all $Y\ge1$,
+all mass $M>0$ and all piece counts $j\ge1$: three homogeneous
+regimes partitioned by $x_{\max}$ with the ratio dimensions
+$q=M_r/x_{\max}$ and $v=Y/x_{\max}$, $(v,q)$-symmetric pair caps,
+AND-variants over the count of above-cutoff pieces, and proven
+antipodal exemptions for the always-coexisting pairs $(Y,x_{\max})$
+and $(Y,m)$; both scripts green, two adversarial rounds -- the
+second a directed verification of the repairs -- with zero false
+certificates over $\sim$1{,}800 real-corona probes; $j=0$ is the
+r2bmulti baseline). What remains in this item: the extras coronas
 hold on their swept ranges only. (iii)~What remains of the
 occupant channel ($\ge r_m$ inside $Y$'s container): its tariff
 is now \emph{derived} (the two node walls) and the channel
