@@ -4079,3 +4079,59 @@ lentas por lado: 2.322 y 2.525 — los valores que el referee midio).
 Agregado final: (a) 1.62M cajas; (b) 1; (c) ~3.3M en 11 bandas
 eps 1e-2; (d) 293; (e) 1; (f) 31; (g) 1; (h) 1 — todas 0 sin
 resolver.  Manifiesto campaign con las 17 invocaciones.
+
+
+## lemaA.py (fase 1 del lema de |A|) — REFUTADO (dos agujeros de solidez del ESLABON FINAL; la matematica nueva sobrevive; hallazgo transversal sobre _antipodal2)
+
+Fecha: 2026-08-23. EL VEREDICTO: el motor corona_slots certifica
+coronas DEMOSTRABLEMENTE infeasibles.  Contraejemplo reproducible:
+corona_slots(P=[74.2, 0.1], M=51, cap=25.5, c=100) = True, pero el
+A legal {25.5, 25.5} da una corona INFEASIBLE con prueba exacta
+(la ventana opuesta a P0 mide 0.501 rad y el par de 25.5 exige
+0.699; el sistema de arcos es infactible por LP en TODOS los
+ordenes).  No aislado: el barrido hostil del referee encontro
+violaciones a razon ~1/60 certificadas en la region P0 ~ 0.7c.
+
+H1 (FATAL, LA CAUSA RAIZ — HALLAZGO TRANSVERSAL): _antipodal2
+(espfinal) verifica caminos POR LADO entre los polos (0, 1) y
+cubre los pares CRUZADOS solo si vale theta(u,v) <= theta(u,polo)
++ theta(polo,v) — cierto SOLO cuando el polo mayora en f a los
+intermedios.  PRECONDICION IMPLICITA bajo la que el motor fue
+adversariado: en espfinal/esppesada/esptorre(p)/espomegacola/
+espomegacanal los intermedios son polvo/piezas < 1 <= polos
+(auditoria de usos: todas las coronas historicas la cumplen; en
+r2bcolas el gate CRUZADO de su acta H2 la cubre explicitamente).
+El lema de slots la VIOLA por construccion (slots hasta cap
+grandes con polo m = 1): tercer bug del estilo
+representacion-que-no-representa.  H2 (GRAVE, independiente): la
+pi-gorra de th tapa pares de P imposibles (f f >= 1) cuando ambos
+lados son no vacios: corona_slots(P=[2, 2], M=0.5, cap=0.25,
+c=3.9) = True con el par (2, 2) incapaz de coexistir — el motor
+generico necesita el gate de factibilidad de pares que
+criterio_gbp si declaraba en su celda.  H3 (GRAVE): el enunciado
+A1 «M < c en toda corona» es FALSO como teorema (3000 piezas de
+0.01 en c = 10: M = 30, colocacion legal; el maximo real escala
+~ pi c): el gate operativo es conservador pero el claim de
+completitud cae — el regimen M in [c, ~pi c) queda fuera y debe
+declararse.  H4 (GRAVE): el tope M <= 13.2 de la aplicacion C(a)
+era un TOPE DE BARRIDO con justificacion espuria («M < c» es
+vacia en G-b': c = SS+Y+M), mas un suelo M >= 0.05 silencioso; y
+el «extiende r2bmulti» sobrevendia (r2bmulti llegaba a M = 19.8
+en j <= 3).  H5: el control B(d) no muestreaba la region hostil
+(NOVENO caso del patron control-que-no-controla — los controles
+deben muestrear ADVERSARIALMENTE la region donde el mecanismo
+nuevo puede fallar, no distribuciones comodas).  H6: codigo
+muerto crit_slots_YG.
+
+LO QUE SOBREVIVE (verificado a mano por el referee, sin
+objecion): los SLOTS ESCALONADOS (r_i <= (M-(g-i)t)/i, asignacion
+ordenada mayorando entrada a entrada), la CUERDA DE FILA entera,
+el greedy-halving, los radios-nodo ligados a masa, la fila Y de
+la aplicacion y la estructura AND-sobre-g / OR-de-colocaciones —
+la matematica nueva es correcta; lo roto es ENTREGARLA a
+_antipodal2 fuera de su precondicion.  REPARACION (fase 1-bis,
+pendiente): motor de dos lados con pares cruzados explicitos
+(extender el _antipodal_cola de r2bcolas, que ya los gatea) +
+gate de factibilidad f f < 1 + A1 como condicion operativa +
+topes de C(a) declarados o derivados + control B(d) hostil.
+lemaA.py queda como BORRADOR REFUTADO-EN-REPARACION, sin claim.
