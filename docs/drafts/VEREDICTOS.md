@@ -4331,3 +4331,97 @@ re-certificacion.  LECCION (undecima del patron): un cap "por
 posicion" (masa/i) solo mayora la pieza de ESA posicion — al
 agregarlo a un bloque, el cap del bloque es el de la PRIMERA
 pieza que puede caer en el, no el de la ultima.
+
+================================================================
+ACTA — FASE 3b DEL LEMA DE |A|: K >= 2 ANILLOS DEL CANAL LIGERO
+(lemaA4.py) — TRES VUELTAS ADVERSARIALES: CONFIRMADO CON
+CORRECCIONES tras DOS REFUTADOS intermedios
+================================================================
+
+Fecha: 2026-08-26. EL CLAIM FINAL (tras el ciclo de rondas): la
+ESP ligera con k >= 2 anillos extra >= r_m en el contenedor de Y
+queda CERTIFICADA por B&B en OMEGA IN [0, 1.05] con extras de v
+HOJA (children = polvo) y Wz <= 34 (anidados en z, torres
+incluidas); RESIDUOS DECLARADOS Y SONDADOS (~1450 sondas
+corona_suf en total, 0 violaciones): la banda omega in [1.05,
+1.6] entera, los extras-PADRE (anidados dentro de extras de v),
+la cola Wz > 34 (por dominio del root), la cola omega > 1.6
+(patron espomegacanal) y la pesada (pared A7).
+
+EL APARATO: 11 dims (w, s2, SS, Xp, Xz, Xm, a, z, mu, Wv, Wz)
+con masas de extras como dimensiones; x_floor = (1+SS+X+mu)/phi
+(pinza de la cola de x, posicion-independiente) y T = s2+w+X_x
+(pared del nodo para hojas) acotan cada extra; variantes AND por
+j_v con escalones por masa y sub-bandas adaptativas de x_2
+ligadas (el techo de x_1 baja con la banda de x_2 — sin el
+ligamiento el par (z, x_1) clampaba espuriamente); j >= 6 por
+BLOQUES PUROS (cap = min(T, Wv - 5 x_floor): la PRIMERA pieza
+que puede caer, leccion 11); cola Wv W-uniforme con peso C max(
+phi/2, r(W_0)) (H5: el sup del ratio NO es el limite); LA COTA
+ACOPLADA POR EXTREMOS (gate A6, nueva): con c(z) = (K+z)/phi -
+omega, log p solo tiene minimos interiores (S' = 2 beta gamma /
+((c-a)(c-z)) > 0 en todo punto critico) — el sup de p esta en
+los extremos de z, y para pares (z, extra) tambien en los del
+extra (4 esquinas, min de familias); EL MINI-MOTOR _motor_rapido
+para coronas n >= 8 (ciclo + repartos greedy: el pleno con 2^n
+masks x perms costaba segundos/caja — probar menos colocaciones
+solo pierde suficiencia).
+
+LAS TRES VUELTAS (la historia integra):
+VUELTA 1 (REFUTADO): H1 FATAL — la banda declarada con `wh >=
+1.4` (TECHO de caja) tragaba enteras las 4 bandas del manifiesto
+con techo 1.4 (verdes vacuas: "1 caja, 0 certificadas"); H2
+FATAL — el techo T solo se deriva para extras HOJA (espcanal A3:
+children del minimal = polvo): un extra PADRE tiene X_x >= 1 y
+excede T; contraejemplo exacto (T = 1.518, padre 2.34 con
+anidado 1.35) en caja podada por FALSA VACUIDAD (j_min > j_max).
+VUELTA 2 (REFUTADO): mi reparacion R3 de la cola Wz usaba
+box-test por TECHO (`Wzh >= 34 -> None`) y el ROOT [0, 34] lo
+cumplia: LAS 18 BANDAS REPORTADAS VERDES ERAN VACUAS (el mismo
+patron techo-vs-suelo de H1, cometido por mi al reparar) — el
+referee lo cazo cotejando que el run reportado era imposible
+con el codigo en disco.  H4: con T_ext = T + Wz honesto, el
+rincon cola-Wv con padres no cerraba; H5: el peso de cola
+asumia sup = limite.
+DECISIONES FINALES: (a) el claim EXCLUYE los padres (la opcion
+alternativa que el propio referee prescribio en R2) — todo
+extra de v es hoja y T es correcto; (b) el corte estable en
+omega puro 1.05 (la "lamina" de saturacion diametral — par
+(z, x_1) al piso de capacidad con bolsillos reales de
+centesimas — reaparecio en 15+ iteraciones de delimitacion a
+CADA j como extras-contra-el-techo con z chico: box congelado,
+caracterizacion estructural, version-padre y apretura multi-j
+derivaron todas; el corte por suelo wl es el unico estable);
+(c) la variante j >= 6 reescrita a bloques puros (la de
+5-escalones + bloques doble-contaba ~1.5 Wv).
+VUELTA 3 (CONFIRMADO CON CORRECCIONES): la variante de bloques
+puros verificada sound (cap mayora x_1 para todo j >= 6 hoja);
+H3 por dominio verificado (el root de z 42.698 cubre exacto el
+techo Rz con Wz <= 34); H4 regresion certificada; H5 sound en
+el manifiesto (el caso kink exige z_lo > 18.9 y alli r < phi/2
+— nota en el codigo); la vacuidad j_min > j_max ahora legitima
+(sin configs hoja); 5 bandas reproducidas con conteos + A 6/6,
+C 3/3, D.  Correcciones aplicadas: guard de _cuerda en la rama
+no-cola (peso negativo alcanzable solo fuera del manifiesto),
+textos A2/A5/header/check-B alineados al claim final.
+
+MANIFIESTO FINAL (12 bandas, todas verdes con el codigo final):
+Wv {[0,4],[4,8],[8,12]} x omega {[0,0.4],[0.4,0.8],[0.8,1.05]}
+(9) + Wv [12,34] x omega {[0,0.8],[0.8,1.05]} (2) + la banda
+declarada [0,34] x [1.05,1.6] (1).  Conteos del referee:
+[0,4]x[0,0.4] 1463/476; [4,8]x[0.4,0.8] 4707/1659;
+[8,12]x[0.8,1.05] 24071/7305; [12,34]x[0,0.8] 843/265;
+[12,34]x[0.8,1.05] 1089/364.
+
+LECCIONES (12-15 del patron): (12) el box-test de una
+declaracion SIEMPRE por SUELO — el techo dispara sobre el root
+(cometido DOS veces en el mismo ciclo, la segunda al reparar la
+primera); (13) una pared derivada para el caso minimal (T con
+children-polvo) NO se hereda al caso anidado — auditar la
+precondicion de cada pared al extender el dominio; (14) mezclar
+escalones-al-techo con bloques de masa residual doble-cuenta;
+(15) el coste del motor pleno explota con n >= 8 nodos y un
+mini-motor greedy es sound por perdida-de-suficiencia.  El
+patron transversal de la campana (verdes-vacuos) suma su caso
+mas instructivo: NUNCA reportar bandas verdes sin mirar el
+conteo de certificadas.
