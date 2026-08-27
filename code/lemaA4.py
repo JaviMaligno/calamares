@@ -53,8 +53,10 @@ cubre — el octavo patron; Wz <= 34 certificado).
 
 ALCANCE DECLARADO: perfil LIGERO; extras de v HOJAS (los
 padres declarados, R2b); Wz <= 34 (por dominio, H3); OMEGA IN
-[0, 1.05] CERTIFICADO y omega in [1.05, 1.6] DECLARADO (la
-banda entera — historia en _en_lamina; la cola omega > 1.6
+[0, 1.15] CERTIFICADO (el tramo [1.05, 1.15] cierra con la
+maquinaria de la fase 3b — el motor-bolsillo del ciclo 3c es
+sound pero inerte: 0 decisiones, acta 3c) y omega in [1.15,
+1.6] DECLARADO (historia en _en_lamina; la cola omega > 1.6
 sigue el patron espomegacanal); x en u EXCLUIDO estructural
 (lem:DBo); la PESADA con su pared A7 como continuacion.
 k <= 1 es espcanal.
@@ -67,7 +69,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from coronacolas import PHI, PI, check
+from coronacolas import PHI, PI, check, bolsillo_descartes
 from r2bmulti import th, bnb_factible
 from lemaA import (_motor_dos_lados, _cuerda, _asin2,
                    _coloca_ciclo, _coloca_y_verifica)
@@ -76,6 +78,7 @@ from espcanal import (techo_nodo, suelo_trio, W_MAX, XP_MAX,
 
 SEED = int(os.environ.get('CC_SEED', '20260823'))
 W_TOP = 34.0
+W_CORTE = float(os.environ.get('CC_WCORTE', '1.15'))
 
 # LA BANDA DECLARADA (residuo de este ciclo, historia en el
 # docstring de _en_lamina y en el acta): omega in [1.05, 1.6]
@@ -103,8 +106,84 @@ def _en_lamina(SSh, s2h, s2l, x_floor, Wvl, Wvh, Wzh, muh,
     LIMPIAS: 0 cajas en L), [1.05, 1.6] declarado — el mismo
     tipo de recorte que el tope omega <= 1.6 del MC historico,
     con la verdad sondada (bloque C: lamina + banda, 0
-    violaciones de corona_suf)."""
-    return wl >= 1.05 - 1e-12
+    violaciones de corona_suf).  CICLO 3c: el corte sube de
+    1.05 a 1.15 (CC_WCORTE configurable) — LA ATRIBUCION
+    HONESTA (acta 3c): la franja [1.05, 1.15] cierra CON LA
+    MAQUINARIA DE LA FASE 3b (bloques puros, cotas por
+    extremos...), que nunca se habia re-testado ahi tras la
+    tercera vuelta; el motor-bolsillo (_prueba_bolsillo),
+    sound y auditado, resulto INERTE (0 cajas decididas en
+    ~52k llamadas instrumentadas por el referee: el grano
+    m = 1 exige 1/sqrt(z_lo) + 1/sqrt(x1_lo) <= 1, fuera de
+    las ventanas que fallan) y queda como via adicional
+    documentada.  [1.15, 1.6] sigue declarado ([8, 12] x
+    [1.15, 1.25] reaparece la familia multi-j; el resto es
+    coste de maquina, no matematica)."""
+    return wl >= W_CORTE - 1e-12
+
+
+def _bolsillo_inf(a_lo, b_lo):
+    """Cota INFERIOR del bolsillo de Descartes entre dos
+    murales y la pared, valida para TODO R y toda separacion:
+    (i) el bolsillo de Descartes decrece en R (dkp/dkw = 1 +
+    (ka+kb)/sqrt(disc) > 0 y kw = -1/R crece en R): el infimo
+    sobre R >= c_lo es el limite R -> oo, kp = (1/sqrt(a) +
+    1/sqrt(b))^2; (ii) crece en los radios murales: se evalua
+    con los SUELOS (a_lo, b_lo) — los murales reales >= suelos
+    dejan hueco mayor; (iii) el bolsillo de la tangencia minora
+    el de cualquier separacion >= theta (el lema de corona_suf
+    / bolsillo.py, adversariado en su campana)."""
+    if a_lo <= 1e-9 or b_lo <= 1e-9:
+        return 0.0
+    kp = (1.0 / math.sqrt(a_lo) + 1.0 / math.sqrt(b_lo)) ** 2
+    return 1.0 / kp
+
+
+def _prueba_bolsillo(nodos, nodos_lo, thmat, Ds, granos_idx):
+    """Variante-BOLSILLO del motor (ciclo 3c — la carencia que
+    las tres vueltas de la fase 3b identificaron: las coronas
+    de la banda declarada caben metiendo m en el hueco de
+    Descartes entre z y x_1, la colocacion de corona_suf que
+    el motor mural no representa).  Los nodos de `granos_idx`
+    salen de la corona; el MURO restante se coloca por el
+    CICLO (ordenes canonicos; sin exencion — un par saturado
+    a pi lo tolera el presupuesto 2 pi del ciclo); los granos
+    (con sus radios-TECHO) se asignan a los bolsillos de los
+    pares CONSECUTIVOS de la colocacion, con capacidades
+    _bolsillo_inf sobre los SUELOS (esquema de corona_suf:
+    varios granos por bolsillo restando del cap)."""
+    n = len(nodos)
+    muro = [i for i in range(n) if i not in granos_idx]
+    if len(muro) < 3:
+        return False
+    sub = [nodos[i] for i in muro]
+    sub_lo = [nodos_lo[i] for i in muro]
+    m_n = len(muro)
+    sub_th = [[thmat[muro[i]][muro[j]] for j in range(m_n)]
+              for i in range(m_n)]
+    sub_Ds = {i: Ds[muro[i]] for i in range(m_n)
+              if muro[i] in Ds}
+    granos = sorted((nodos[g] for g in granos_idx),
+                    reverse=True)
+    idx = sorted(range(m_n), key=lambda i: -min(sub[i], 1e8))
+    for orden in (idx, list(range(m_n))):
+        if not _coloca_ciclo(sub, sub_th, sub_Ds, orden):
+            continue
+        caps = sorted((_bolsillo_inf(
+            sub_lo[orden[i]],
+            sub_lo[orden[(i + 1) % m_n]])
+            for i in range(m_n)), reverse=True)
+        ok_g = True
+        for g in granos:
+            caps.sort(reverse=True)
+            if caps and g <= caps[0] + 1e-12:
+                caps[0] -= g
+            else:
+                ok_g = False
+                break
+        if ok_g:
+            return True
+    return False
 
 
 def _motor_rapido(nodos, thmat, Ds, exento=None):
@@ -402,7 +481,8 @@ def crit_k2(box):
         # la exencion incondicional bloquea el CICLO); al
         # clampar, la antipodal es legal por el suelo
         # diametral (c' >= z + x_1 o c' >= 1 + z)
-        if thmat[0][1] >= PI - 1e-9:
+        th01 = thmat[0][1]
+        if th01 >= PI - 1e-9:
             thmat[0][1] = 0.0
             thmat[1][0] = 0.0
             ex_eff = (0, 1)
@@ -410,7 +490,33 @@ def crit_k2(box):
             ex_eff = None
         motor = (_motor_rapido if n >= 8
                  else _motor_dos_lados)
-        return motor(nodos, thmat, Ds, exento=ex_eff)
+        if motor(nodos, thmat, Ds, exento=ex_eff):
+            return True
+        # VARIANTE-BOLSILLO (ciclo 3c): el ciclo tolera el par
+        # saturado — restaurar el requisito real (el clamp pi
+        # vale como requisito en el ciclo: sumar pi cabe en el
+        # presupuesto 2 pi si el resto lo deja)
+        thmat[0][1] = th01
+        thmat[1][0] = th01
+        # suelos por nodo: z, x1 (si 1 <= j <= 5), m, s2,
+        # escalones (x_floor), bloques (0: no aportan hueco)
+        if 1 <= j <= 5:
+            nodos_lo = ([z_lo, x1_lo, 1.0, max(s2l, 0.0)]
+                        + [x_floor] * (len(nodos) - 4))
+        else:
+            nodos_lo = ([z_lo, 1.0, max(s2l, 0.0)]
+                        + [0.0] * (len(nodos) - 3))
+        for k2 in range(len(nodos)):
+            if k2 in Ds:
+                nodos_lo[k2] = 0.0
+        i_m = 1 if not (1 <= j <= 5) else 2
+        i_s2 = i_m + 1
+        candidatos = [{i_m, i_s2}, {i_m}]
+        for granos_idx in candidatos:
+            if _prueba_bolsillo(nodos, nodos_lo, thmat, Ds,
+                                granos_idx):
+                return True
+        return False
 
     for j in js:
         if j == 0:
@@ -625,6 +731,33 @@ def bloque_A():
         "el sup tambien es de extremo: el min de las tres "
         "familias mayora",
         ident == 0 and resto == 0)
+    # A7: el motor-bolsillo (ciclo 3c) — la cota _bolsillo_inf
+    R_, a7a, a7b = sp.symbols('R a7a a7b', positive=True)
+    ka7, kb7, kw7 = 1 / a7a, 1 / a7b, -1 / R_
+    disc7 = ka7 * kb7 + kw7 * (ka7 + kb7)
+    kp7 = ka7 + kb7 + kw7 + 2 * sp.sqrt(disc7)
+    kw_s = sp.Symbol('kw', negative=True)
+    kp_kw = ka7 + kb7 + kw_s + 2 * sp.sqrt(
+        ka7 * kb7 + kw_s * (ka7 + kb7))
+    dkp = sp.simplify(sp.diff(kp_kw, kw_s)
+                      - (1 + (ka7 + kb7) / sp.sqrt(
+                          ka7 * kb7 + kw_s * (ka7 + kb7))))
+    lim7 = sp.simplify(sp.limit(kp7, R_, sp.oo)
+                       - (1 / sp.sqrt(a7a)
+                          + 1 / sp.sqrt(a7b)) ** 2)
+    ok &= check(
+        "(A7) EL MOTOR-BOLSILLO (ciclo 3c): _bolsillo_inf = "
+        "1/(1/sqrt(a)+1/sqrt(b))^2 es el limite R -> oo del "
+        "bolsillo de Descartes [sympy] y lo MINORA para todo "
+        "R (dkp/dkw = 1 + (ka+kb)/sqrt(disc) > 0 [sympy], "
+        "kw = -1/R crece en R: kp crece, el bolsillo 1/kp "
+        "decrece); crece en los radios murales (suelos "
+        "minoran) y la tangencia minora toda separacion >= "
+        "theta (re-derivado por el referee: sep(grano, q) >= "
+        "theta_w(bolsillo, q)).  ACTA 3c: sound e INERTE (0 "
+        "decisiones en ~52k llamadas instrumentadas): la "
+        "franja [1.05, 1.15] la cierra la maquinaria 3b",
+        dkp == 0 and lim7 == 0)
     return ok
 
 
@@ -652,7 +785,7 @@ def bloque_B():
     exito, caja, n, cert = bnb_factible(root, crit_k2, eps=eps)
     return check(f"k >= 2 certificado FUERA DE LA LAMINA L "
                  f"(declarada; {LAMINA_N[0]} cajas en L = "
-                 f"la banda omega in [1.05, 1.6] declarada; "
+                 f"la banda omega in [{W_CORTE}, 1.6] declarada; "
                  f"la cola Wz > 34 va POR DOMINIO del root) — "
                  f"extras de v HOJA y anidados en z, Wv in [{wv_lo}, "
                  f"{wv_hi}], omega in [{w_lo}, {w_hi}], s2 in "
@@ -802,13 +935,16 @@ def bloque_D():
     return check(
         "[ENUNCIADO] FASE 3b DEL LEMA DE |A|: k >= 2 anillos "
         "extra del canal ligero certificados en OMEGA IN "
-        "[0, 1.05] con extras de v HOJA y Wz <= 34 (masas "
+        "[0, 1.15] con extras de v HOJA y Wz <= 34 (el tramo "
+        "[1.05, 1.15] con la maquinaria de la fase 3b, "
+        "re-testada en el ciclo 3c; el motor-bolsillo es "
+        "sound pero inerte — 0 decisiones; masas "
         "Wv/Wz como dimensiones, cola Wv W-uniforme, variantes "
         "j_v con escalones por masa, j >= 6 por bloques puros, "
         "sub-bandas adaptativas de x_2, cotas acopladas por "
         "extremos A6 y el motor de colocacion).  RESIDUOS "
         "DECLARADOS Y SONDADOS (corona_suf 0 violaciones): la "
-        "banda omega in [1.05, 1.6] entera (el nucleo: el par "
+        "banda omega in [1.15, 1.6] entera (el nucleo: el par "
         "(z, x_1) diametral-saturado con la capacidad al piso "
         "y extras contra el techo del nodo a cada j — las "
         "coronas reales caben con margenes de centesimas "

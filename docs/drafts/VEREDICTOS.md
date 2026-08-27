@@ -4425,3 +4425,60 @@ mini-motor greedy es sound por perdida-de-suficiencia.  El
 patron transversal de la campana (verdes-vacuos) suma su caso
 mas instructivo: NUNCA reportar bandas verdes sin mirar el
 conteo de certificadas.
+
+================================================================
+ACTA — CICLO 3c DEL LEMA DE |A|: EL MOTOR-BOLSILLO Y LA SUBIDA
+DEL CORTE A OMEGA <= 1.15 (lemaA4.py) — CONFIRMADO CON
+CORRECCIONES (con una leccion de atribucion)
+================================================================
+
+Fecha: 2026-08-26. OBJETIVO: encoger la banda declarada omega
+[1.05, 1.6] de la fase 3b con la carencia que sus tres vueltas
+identificaron — las colocaciones de BOLSILLO (m al hueco de
+Descartes entre murales, lo que corona_suf hace y el motor
+mural no representaba).
+
+LO CONSTRUIDO: _bolsillo_inf(a_lo, b_lo) = 1/(1/sqrt(a) +
+1/sqrt(b))^2 — cota inferior del bolsillo de Descartes valida
+para TODO R y toda separacion (tres monotonias: dkp/dkw = 1 +
+(ka+kb)/sqrt(disc) > 0 con kw = -1/R => el infimo es R -> oo;
+crece en los radios murales => suelos; la tangencia minora toda
+separacion >= theta — re-derivada por el referee: sep(grano, q)
+>= theta_w(bolsillo, q)); _prueba_bolsillo (granos {m, s2}/{m} a
+techo, muro por ciclo tolerando el par saturado, bolsillos de
+los pares consecutivos con el esquema de resta de corona_suf);
+gate A7 con sympy.
+
+EL RESULTADO MEDIDO: el corte de la banda declarada sube de
+1.05 a 1.15 (4 bandas nuevas verdes: Wv {[0,4],[4,8],[8,12],
+[12,34]} x omega [1.05,1.15]; ademas [1.05,1.25] cierra salvo
+Wv [8,12], donde la familia multi-j reaparece en [1.15,1.25];
+la franja [1.25,1.4] es coste puro de maquina — 12.8k cajas/
+400s sin fugas, kills sistematicos).
+
+LA LECCION DE LA RONDA (hallazgo central del referee, MAYOR de
+honestidad): la atribucion era FALSA — instrumento la via
+bolsillo y NO DECIDIO NI UNA CAJA (0 exitos en ~52k llamadas;
+contrafactual con la via deshabilitada: conteos IDENTICOS).
+La franja [1.05, 1.15] cierra con LA MAQUINARIA DE LA FASE 3b
+(bloques puros, cotas por extremos), que nunca se habia
+re-testado ahi tras la tercera vuelta — el corte 1.05 era un
+artefacto historico.  Diagnostico de la inercia: el grano
+m = 1 exige 1/sqrt(z_lo) + 1/sqrt(x1_lo) <= 1, imposible en
+las ventanas que fallan (haria falta z_lo >= 40).  EL MOTOR SE
+QUEDA (sound, auditado a fondo: monotonias re-derivadas,
+disyuncion del grano con murales no adyacentes probada en el
+limite half-plane, resta multigrano justificada via fila
+diametral dentro del disco-bolsillo, falsabilidad unitaria
+verde) como via documentada-inerte.  Correcciones aplicadas:
+la atribucion honesta en header/D/_en_lamina, el check B con
+W_CORTE interpolado, el gate A7.
+
+Reproduccion del referee: 4 bandas nuevas con conteos
+(6479/1866, 3509/959, 23305/6864, 905/301) + declarada (1
+caja) + A/C/D verdes; 150 sondas de verdad en la franja nueva
+(0 violaciones).  LECCION 16 del patron: al mejorar la
+maquinaria, RE-TESTAR los recortes declarados antiguos (el
+corte era un artefacto); LECCION 17: toda atribucion causal de
+un cierre a un mecanismo nuevo se INSTRUMENTA (0 decisiones =
+narrativa falsa aunque el resultado sea verdadero).
