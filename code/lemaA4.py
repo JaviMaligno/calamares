@@ -79,6 +79,11 @@ from espcanal import (techo_nodo, suelo_trio, W_MAX, XP_MAX,
 SEED = int(os.environ.get('CC_SEED', '20260823'))
 W_TOP = 34.0
 W_CORTE = float(os.environ.get('CC_WCORTE', '1.15'))
+# CC_PADRES=1 (experimental, ciclo 3d): reactivar T_ext = T + Wz
+# (la pared del padre, sound por la 2a vuelta) para re-testar el
+# residuo de los extras-padre contra la maquinaria mejorada
+# (leccion 16: los recortes antiguos pueden ser artefactos)
+PADRES = os.environ.get('CC_PADRES', '0') == '1'
 
 # LA BANDA DECLARADA (residuo de este ciclo, historia en el
 # docstring de _en_lamina y en el acta): omega in [1.05, 1.6]
@@ -119,6 +124,16 @@ def _en_lamina(SSh, s2h, s2l, x_floor, Wvl, Wvh, Wzh, muh,
     documentada.  [1.15, 1.6] sigue declarado ([8, 12] x
     [1.15, 1.25] reaparece la familia multi-j; el resto es
     coste de maquina, no matematica)."""
+    if PADRES:
+        # EL CLAIM-PADRES (ciclo 3d, medido): extras anidados
+        # en extras de v INCLUIDOS para omega <= 1.05 y Wv <=
+        # 8 (con Wz <= 34); declarado: Wv > 8 o omega > 1.05
+        # (la familia padre-grande-como-z de Wv altas no
+        # cierra en presupuesto; [8,12]/[12,34] con Wz <= 4
+        # verdes como sobre-verificacion no reclamada).
+        # Declaracion por SUELOS (leccion 12)
+        return (wl >= 1.05 - 1e-12
+                or Wvl >= 8.0 - 1e-12)
     return wl >= W_CORTE - 1e-12
 
 
@@ -275,7 +290,8 @@ def crit_k2(box):
     # quedan DECLARADAS como residuo — la prescripcion
     # alternativa del acta, sondada en C (357 coronas con
     # padre > T, 0 violaciones del referee + las de C(a))
-    T_ext = T
+    T_ext = (T + (min(Wzh, 1e9) if Wzh > 1e-12 else 0.0)
+             if PADRES else T)
     x_floor = (1.0 + SSl + Xml + Xpl + Xzl + mul) / PHI
     if x_floor >= T_ext:
         return None                    # ningun extra legal
@@ -328,7 +344,8 @@ def crit_k2(box):
     # llevan T_ext y el resto T — sin esto los escalones
     # sobre-mayoran (todas las piezas a T_ext) y las bandas de
     # Wv alta no cierran
-    n_padres = 0                       # claim de hojas (R2b)
+    n_padres = (int(min(Wzh, 1e9) / x_floor + 1e-12)
+                if PADRES else 0)
 
     def techo_esc(i):
         return T_ext if i <= n_padres else T
@@ -413,12 +430,45 @@ def crit_k2(box):
             # bloques doble-contaba: escalones al techo + masa
             # residual sumaban ~1.5x Wv y la suma no cerraba).
             # El cap del bloque = el techo de la PRIMERA pieza
-            # que puede caer en el (leccion 11): min(T, Wv -
-            # 5 x_floor) — todas las piezas van a los bloques
-            cap_f = min(techo_esc(1),
+            # que puede caer en el (leccion 11).  CON PADRES
+            # (ciclo 3d): los n_padres van como NODOS
+            # explicitos (escalon min(T_ext, Wv/i)) y los
+            # bloques quedan de HOJAS: cap = min(T, Wv/(n_p+1))
+            # — sin esto el bloque cargaba el cap del padre
+            # (4.3) y el peso rozaba
+            n_p6 = min(n_padres, 3)
+            # con j >= 6 piezas, CADA una tiene >= 5
+            # companeras >= x_floor: toda pieza <= Wv - 5
+            # x_floor (sin esta resta el escalon-padre subia
+            # a Wv entero)
+            tope6 = max(x_floor,
+                        min(Wv_hi, 1e9) - 5.0 * x_floor)
+            # el escalon-padre i-esimo con j >= 6: i copias
+            # >= p_i y las otras >= 6 - i >= x_floor:
+            # p_i <= (Wv - (6 - i) x_floor)/i
+            padres_esc = [max(x_floor,
+                              min(T_ext, tope6,
+                                  (min(Wv_hi, 1e9)
+                                   - (6 - i) * x_floor) / i))
+                          for i in range(1, n_p6 + 1)]
+            # ACTA 3d H1 (FATAL reparado): el cap del bloque es
+            # techo_esc(n_p6 + 1) — la pieza (n_p6+1)-esima
+            # puede ser OTRO PADRE (> T) cuando n_padres >
+            # n_p6; la version min(T, ...) no la mayoraba
+            # (exhibit del referee: 6 padres de 1.31 con cap
+            # 1.068 en caja certificada)
+            cap_f = min(techo_esc(n_p6 + 1),
                         max(x_floor,
+                            min(Wv_hi, 1e9) / (n_p6 + 1.0)
+                            if n_p6 else
                             min(Wv_hi, 1e9) - 5.0 * x_floor))
-            masa_f = min(Wv_hi, 1e9)
+            if not n_p6:
+                cap_f = min(techo_esc(1),
+                            max(x_floor,
+                                min(Wv_hi, 1e9)
+                                - 5.0 * x_floor))
+            masa_f = max(0.0, min(Wv_hi, 1e9)
+                         - n_p6 * x_floor)
             if cola_v:
                 # cola de masa: el ratio r(W) = (masa_f/2 +
                 # cap_f/2)/(c'(W) - cap_f) tiende a phi/2 pero
@@ -452,6 +502,8 @@ def crit_k2(box):
         nodos = list(base)
         if 2 <= j <= 5:
             nodos += fila[1:]
+        elif j == 6 and n_p6:
+            nodos += padres_esc    # los padres como nodos
         Ds = {}
         for capb, pesob in bloques:
             Ds[len(nodos)] = pesob
@@ -541,8 +593,11 @@ def crit_k2(box):
                          min(Wv_hi, 1e9) / i)
                      for i in range(1, j + 1)]
             if any(f < x_floor - 1e-9 for f in fila0):
-                ok_all = False
-                break
+                # variante j IMPOSIBLE (algun escalon con
+                # techo < x_floor: no existen j piezas asi —
+                # p.ej. x_floor > T con las hojas agotadas):
+                # vacuidad legitima POR CONTEO, se salta
+                continue
         else:
             # j >= 6: BLOQUES PUROS (sin escalones-nodos ni
             # bisecion de x_2 — ver _prueba): corona {z, m,
@@ -574,8 +629,7 @@ def crit_k2(box):
         # los extras 2..j son <= x2b — AND sobre las bandas
         x2_top = fila0[1]
         if x2_top < x_floor - 1e-9:
-            ok_all = False
-            break
+            continue                   # variante j imposible
         # BISECCION ADAPTATIVA de x_2 (la frontera
         # exencion/no-exencion del par (z, x_1) puede caer
         # dentro de cualquier banda fija y matarla por
@@ -784,10 +838,15 @@ def bloque_B():
     LAMINA_N[0] = 0
     exito, caja, n, cert = bnb_factible(root, crit_k2, eps=eps)
     return check(f"k >= 2 certificado FUERA DE LA LAMINA L "
-                 f"(declarada; {LAMINA_N[0]} cajas en L = "
-                 f"la banda omega in [{W_CORTE}, 1.6] declarada; "
-                 f"la cola Wz > 34 va POR DOMINIO del root) — "
-                 f"extras de v HOJA y anidados en z, Wv in [{wv_lo}, "
+                 f"(declarada; {LAMINA_N[0]} cajas en L; "
+                 + (f"CLAIM-PADRES: anidados-en-extras "
+                    f"INCLUIDOS, dominio omega <= 1.05 y "
+                    f"Wv <= 8, declarado el resto; "
+                    if PADRES else
+                    f"claim de HOJAS: banda omega in "
+                    f"[{W_CORTE}, 1.6] declarada; ")
+                 + f"la cola Wz > 34 va POR DOMINIO del root) "
+                 f"— Wv in [{wv_lo}, "
                  f"{wv_hi}], omega in [{w_lo}, {w_hi}], s2 in "
                  f"[{s2_lo}, {s2_hi}], cola Wv W-uniforme, "
                  f"Wz <= 34 por dominio, j_v por variantes: "
@@ -821,7 +880,13 @@ def bloque_C():
         k = rng.randrange(2, 6)
         xs = sorted([rng.uniform(x_floor, T)
                      for _ in range(k)], reverse=True)
-        jv = rng.randrange(0, k + 1)
+        # ciclo 3d: 30% de las sondas con un extra PADRE (otro
+        # extra anidado DENTRO de un extra de v: el padre pesa
+        # anidado + omega + holgura y puede exceder T)
+        if rng.random() < 0.3 and len(xs) >= 2:
+            xs[0] = xs[1] + w + rng.uniform(0.05, 0.4)
+            xs = sorted(xs, reverse=True)
+        jv = rng.randrange(1, k + 1)
         Wv_list = xs[:jv]
         alpha = rng.uniform(max(1.0 + w, SS + w),
                             1.0 + s2 + w + 0.5)
@@ -942,15 +1007,21 @@ def bloque_D():
         "Wv/Wz como dimensiones, cola Wv W-uniforme, variantes "
         "j_v con escalones por masa, j >= 6 por bloques puros, "
         "sub-bandas adaptativas de x_2, cotas acopladas por "
-        "extremos A6 y el motor de colocacion).  RESIDUOS "
-        "DECLARADOS Y SONDADOS (corona_suf 0 violaciones): la "
-        "banda omega in [1.15, 1.6] entera (el nucleo: el par "
-        "(z, x_1) diametral-saturado con la capacidad al piso "
-        "y extras contra el techo del nodo a cada j — las "
-        "coronas reales caben con margenes de centesimas "
+        "extremos A6 y el motor de colocacion).  EL CLAIM "
+        "DUAL (ciclo 3d): con CC_PADRES=1 los anidados-en-"
+        "extras quedan INCLUIDOS para omega <= 1.05 y Wv <= 8 "
+        "(6 bandas verdes con Wz completo; T_ext = T + Wz "
+        "sound de la 2a vuelta, padres-nodo en j >= 6 con cap "
+        "techo_esc(n_p6+1) — el FATAL H1 del acta 3d "
+        "reparado —, vacuidades por conteo confirmadas).  "
+        "RESIDUOS DECLARADOS Y SONDADOS (corona_suf 0 "
+        "violaciones): los padres con Wv > 8 u omega > 1.05, "
+        "la banda omega in [1.15, 1.6] entera (el nucleo: el "
+        "par (z, x_1) diametral-saturado con la capacidad al "
+        "piso y extras contra el techo del nodo a cada j — "
+        "las coronas reales caben con margenes de centesimas "
         "usando BOLSILLOS que el motor no representa; el "
-        "patron de la sabana V* de espcanal), los extras "
-        "anidados en extras de v (padres, acta H-A), la cola "
+        "patron de la sabana V* de espcanal), la cola "
         "Wz > 34 (por dominio), la cola omega > 1.6 (patron "
         "espomegacanal) y la pesada (pared A7) como "
         "continuaciones", True)

@@ -4482,3 +4482,93 @@ maquinaria, RE-TESTAR los recortes declarados antiguos (el
 corte era un artefacto); LECCION 17: toda atribucion causal de
 un cierre a un mecanismo nuevo se INSTRUMENTA (0 decisiones =
 narrativa falsa aunque el resultado sea verdadero).
+
+================================================================
+ACTA — CICLO 3d DEL LEMA DE |A|: EL RE-TEST DE LOS PADRES Y EL
+CLAIM DUAL (lemaA4.py) — CONFIRMADO CON CORRECCIONES (un FATAL
+posicional refutado, reparado en una linea y cotejado)
+================================================================
+
+Fecha: 2026-08-28. OBJETIVO: atacar los residuos declarados del
+ciclo 3c aplicando la LECCION 16 (al mejorar la maquinaria,
+re-testar los recortes declarados antiguos). El candidato: los
+extras-PADRE (extras anidados en extras de v), declarados desde
+la segunda vuelta de la fase 3b (opcion b del referee: claim de
+hojas). La maquinaria del 3b/3c (T_ext = T + Wz de la segunda
+vuelta, variantes por conteo, bloques puros) nunca se habia
+re-apuntado a ellos.
+
+LO CONSTRUIDO (modo CC_PADRES=1, aditivo, hojas intactas):
+- La lamina de declaracion cambia a (omega > 1.05 O Wv > 8):
+  el claim-padres vive en omega <= 1.05 y Wv <= 8 (Wz <= 34
+  por dominio del root, como en hojas).
+- techo_esc(i) = T_ext si i <= n_padres sino T, con
+  n_padres = floor(Wz_hi / x_floor): las primeras posiciones
+  pueden ser padres (cota T_ext), las demas son hojas (T).
+- j_min por acumulacion de techo_esc; variantes j imposibles
+  por conteo -> VACUIDAD (continue), no fallo.
+- j >= 6: padres-nodo explicitos (hasta n_p6 = min(n_padres, 3))
+  + bloques de hojas.
+- Bloque C(a) con 30% de configs padre; ~400 sondas de verdad
+  padre del referee (claim + residuos), 0 violaciones.
+
+LA RONDA (quinta de lemaA4; dos caidas de sesion del referee —
+limite de gasto y reinicio del proceso — documentadas; sus notas
+integras en el scratchpad sobrevivieron ambas):
+
+H1 FATAL (REFUTADO -> REPARADO -> COTEJADO): en j >= 6 con
+n_padres > n_p6 = 3, la pieza (n_p6+1)-esima puede ser un PADRE
+(> T), pero el resto tras los padres-nodo se capaba con
+cap_f = min(T, ...): el mayorante no cubria. Exhibit del referee
+(probe7): caja certificada del dominio del claim con config real
+legal de 6 padres ~1.31 > cap_f = 1.068 (anidados legales,
+Wz en caja, verdad corona_suf verificada). ES LA LECCION 11
+APLICADA A PADRES: un cap por posicion solo mayora la pieza de
+ESA posicion — y "posicion de hoja" no mayora un padre.
+REPARACION (prescripcion del referee, una linea):
+cap_f = min(techo_esc(n_p6 + 1), max(x_floor, Wv_hi/(n_p6+1)
+si n_p6 sino Wv_hi - 5 x_floor)). ARGUMENTO POSICIONAL (el
+referee lo hizo suyo): p_4 <= Wv/4 (cuarta en orden decreciente,
+incondicional) y p_4 <= techo_esc(4) (si p_4 > T hay 4 padres,
+luego techo_esc(4) = T_ext) — min de dos mayorantes, sound.
+COTEJO: probe7b (el rincon del exhibit contra el criterio en
+disco: cierra n=55 cert=20, tainted-check contra el cap nuevo =
+0 — el referee precisa que ese 0 es garantia ANALITICA del cap
+nuevo, test de regresion y no evidencia independiente); el
+exhibit exacto certifica ahora con cap 2.0 >= 1.36; busqueda
+adversarial propia del referee 200k cajas x configs j = 6..9
+con bordes n_p6 = 3 y n_padres = 4: exceso maximo de pieza
+sobre cap_f = 0.000000; rincon extremo Wz [28,34]
+(n_padres ~ 27) cierra.
+
+CONFIRMADOS SIN CORRECCION: las vacuidades por conteo y el j_min
+por acumulacion (derivacion posicional propia del referee); la
+invariancia de hojas (con PADRES=0 el fix es un no-op
+demostrable: n_p6 = 0 fuerza la rama antigua; bandas de control
+[12,34]x[1.05,1.15] 905/301 y [0,4]x[1.05,1.15] 6479/1866
+IDENTICAS al 3c, verificadas por el referee y el coordinador);
+los textos B/D del claim dual (dominio honesto, la atribucion
+del 3c preservada).
+
+RUN FINAL (codigo final, las 6 bandas del manifiesto padres,
+todas verdes): [0,4]x[0,0.4] 2355/849; [0,4]x[0.4,0.8]
+4133/1400; [0,4]x[0.8,1.05] 5073/1469; [4,8]x[0,0.4]
+46033/18729 (la banda del exhibit, re-corrida tras el fix);
+[4,8]x[0.4,0.8] 37113/13911; [4,8]x[0.8,1.05] 24651/8956.
+Las bandas fuera del rincon del fix conservan sus conteos
+pre-fix (no-op verificado por conteo identico). A 7/7, C 3/3
+(con 30% padres), D verde.
+
+VEREDICTO DEL REFEREE: CONFIRMADO CON CORRECCIONES. El claim
+dual queda: HOJAS omega <= 1.15 / Wz <= 34 (16 bandas, sin
+cambio) + PADRES omega <= 1.05 y Wv <= 8 y Wz <= 34 (6 bandas
+nuevas). RESIDUOS DECLARADOS Y SONDADOS: padres con Wv > 8 u
+omega > 1.05; la banda omega [1.15, 1.6]; Wz > 34; omega > 1.6;
+la pesada.
+
+LECCIONES: la 16 RINDE (el residuo-padres era en gran parte un
+artefacto de no re-apuntar T_ext); la 11 tiene una variante de
+TIPO, no solo de posicion (un cap "de hoja" en una posicion que
+puede ocupar un padre es el mismo error); los conteos identicos
+pre/post-fix fuera del rincon son la verificacion barata de que
+un fix es local.
