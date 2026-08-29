@@ -4683,3 +4683,97 @@ de la maquinaria nueva.  El flag queda documentado (default 0:
 los conteos del manifiesto no cambian; sound — auditado como
 parte del 3e, donde TROZOS = COLAZ).
 ----------------------------------------------------------------
+
+================================================================
+ACTA — CICLO 3g DEL LEMA DE |A|: EL TRAMO OMEGA > 1.6 DE k >= 2
+(lemaA4.py, modo CC_OMEGA=1) — PROVISIONAL: claim parcial verde
+con el cotejo del coordinador; EL SELLO ADVERSARIAL PENDIENTE
+(el referee cayo por limite semanal de gasto, reset 2026-09-02)
+================================================================
+
+Fecha: 2026-08-29. OBJETIVO: el residuo omega > 1.6 del canal
+k >= 2 (el patron espomegacanal como esperanza heredada).
+
+EL CLAIM (PROVISIONAL hasta el sello): k >= 2 HOJAS con omega
+in [1.6, 2], j_v <= 1 (Wv < 2 x_floor - 0.1; el resto de la
+masa k >= 2 anidado en z via Wz <= 34), certificado por bandas:
+[1.6, 1.75] x Wv [0, 4] eps 3e-2 = 149575/15294; [1.75, 2] x
+Wv [0, 4] x s2 {[0.45, 1), [0, 0.45]} eps 4e-2 = 340027/75593
+y 398697/59617; Wv [4, 34] x [1.6, 2] = 1 caja TODA EN L (con
+x_floor <= (1+phi)/phi = 1.618, Wvl >= 3.14 es siempre lamina:
+la cobertura de Wv alto y su cola es la declaracion).
+Sobre-verificacion no reclamada: [2, 2.3] x s2 [0.45, 1) verde
+1255241/347710.
+
+LOS DOS HALLAZGOS (el valor central del ciclo):
+1. LA LAMINA ES OMEGA-INVARIANTE: la caja mala de CADA banda
+   omega > 1.6 es la MISMA familia x_2 -> x_1 con c' al suelo
+   z + x_1 del tramo [1.15, 1.6] (diagnostico probe3g +
+   asintotica z ~ 2w, x_i ~ T ~ w: el ratio del par -> 1
+   exacto).  EL RESIDUO SE UNIFICA: j_v >= 2 es UNA lamina
+   para todo omega > 1.15, no dos residuos.  El patron
+   espomegacanal NO porta a k >= 2 (en k <= 1 el unico extra
+   es el par exento; con dos, el segundo par diametral no
+   tiene donde ir).
+2. EN EL TRAMO ALTO EL SUELO-PAR ES IRREALIZABLE en parte del
+   dominio: 67/228 sondas j_v >= 2 con Y al suelo-par NO caben
+   por corona_suf (todas caben con holgura 1.2; 0 violaciones
+   de verdad).  El suelo real de Y es la capacidad c* del
+   CONJUNTO {z, x_1, x_2, m, s2} — una pared de NECESIDAD
+   (min sobre ordenes circulares de sum theta_w consecutivos
+   > 2 pi => la corona no cabe => c' real mayor) que el
+   criterio no conoce.  ES LA CONTINUACION NATURAL: la pared
+   c* cerraria la lamina unificada donde muerde.
+
+LA CONSTRUCCION: roots escalados con w_hi (a_top = 2 + XP_MAX
++ w_hi, z_top = a_top + XZ_MAX + 1 + w_hi + wz_hi — la clase
+de gap "3 omega" que la primera ronda de espomegacanal cazo);
+crit_k2 omega-generico (auditado: X_m clampada, ventanas +w,
+techo_nodo, c_lo — nada asume w <= 1.6); lamina por SUELO
+Wvl >= 2 x_floor - 0.1 (margen 0.1: la frontera es movil; las
+cajas con Wvh < 2 x_floor certifican por vacuidad de conteo
+del j = 2 — sin huecos de cobertura); y LA EXENCION MOVIL del
+motor (cambio global): el clamp UNICO de la fila 0 se exenta
+sea cual sea el nodo (la antipodal es legal por convivencia
+c' >= z + x para todo circulo de v, c' >= 1 + z para m — la
+misma justificacion del par (0,1); swap del nodo al indice 1
+porque la colocacion antipodal del motor es (0,1) fija); DOS
+clamps = False honesto (dos antipodales del mismo z se
+solapan); bloques excluidos; bolsillo omitido con swap.
+
+LA RONDA (interrumpida): el referee verifico la REGRESION
+COLAZ intacta y lanzo la reproduccion de la banda-claim antes
+de caer por el limite semanal de gasto de la cuenta (tercera
+caida de la campana; esta no recuperable hasta 2026-09-02).
+EL COTEJO DEL COORDINADOR (documentado, pendiente de sello):
+- El FATAL-potencial (la exencion movil es cambio de motor
+  global: conteos del manifiesto stale?): 4 bandas de
+  regresion IDENTICAS — hojas [12,34]x[1.05,1.15] 905/301,
+  [0,4]x[1.05,1.15] 6479/1866, [4,8]x[1.05,1.15] 3509/959
+  (las duras del corte, donde mas dispararia) + COLAZ por el
+  referee.  El manifiesto NO esta stale.
+- Soundness de la exencion movil: el indice 0 es z en toda
+  variante; los nodos exentables (extras, m, s2, escalones
+  padre) conviven todos con z en v; bloques excluidos por
+  jj not in Ds; el swap intercambia filas Y columnas
+  (simetria preservada).
+- Cobertura de la lamina por suelo: declarar por suelo nunca
+  deja huecos (toda hoja del arbol o declara o certifica).
+- Roots: a <= 1 + s2 + Xp + w <= a_top; z <= a + Xz + s2 + w
+  + Wz <= z_top.  Re-derivados.
+RESIDUOS DECLARADOS Y SONDADOS (a4: 0 violaciones de verdad):
+la lamina j_v >= 2 UNIFICADA (todo omega > 1.15), omega > 2
+con j_v <= 1 (coste de maquina), el cruzado omega > 1.6 con
+Wz > 34, los padres fuera de su dominio, la pesada.
+
+PENDIENTE AL RESET (2026-09-02): el sello del referee sobre
+(1) la exencion movil (abuso de swap, convivencia), (2) la
+reproduccion de bandas, (3) el hallazgo c* con generador
+propio.  EL PAPER Y EL TAG v1-arxiv NO SE TOCAN hasta el
+sello — el bundle arXiv queda en el estado sellado del 3e.
+
+LECCION 19: un residuo heredado con nombre de patron
+("espomegacanal") no es un plan — el patron puede NO portar
+(k <= 1 vs k >= 2 difieren en un par diametral); y cuando dos
+residuos comparten la caja mala, unificarlos es mas valioso
+que cerrar un tramo mas.

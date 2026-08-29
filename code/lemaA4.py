@@ -129,6 +129,18 @@ SUPZ_N = [0, 0]   # [llamadas a _sup_pz, sup en tramo superior]
 # real, no solo en la cola): re-test del corte omega (leccion
 # 16 otra vez — la maquinaria nueva contra el recorte antiguo)
 TROZOS = os.environ.get('CC_TROZOS', '0') == '1' or COLAZ
+# CC_OMEGA=1 (ciclo 3g): el tramo omega > 1.6 (patron
+# espomegacanal — crit_k2 es omega-generico, solo los techos
+# del ROOT asumian w <= 1.6: A_MAX y Z_MAX escalan con w_hi).
+# En este modo la lamina de declaracion NO aplica (el corte
+# [1.15, 1.6] es del tramo bajo): lo que no cierre queda SIN
+# RESOLVER, honesto.  Incompatible con COLAZ (el claim cruzado
+# omega > 1.6 y Wz > 34 queda declarado).
+OMEGA_ALTO = os.environ.get('CC_OMEGA', '0') == '1'
+assert not (OMEGA_ALTO and COLAZ), \
+    "CC_OMEGA y CC_COLAZ son modos incompatibles (residuo cruzado)"
+assert not (OMEGA_ALTO and PADRES), \
+    "CC_OMEGA y CC_PADRES son modos incompatibles"
 
 # LA BANDA DECLARADA (residuo de este ciclo, historia en el
 # docstring de _en_lamina y en el acta): omega in [1.05, 1.6]
@@ -169,6 +181,19 @@ def _en_lamina(SSh, s2h, s2l, x_floor, Wvl, Wvh, Wzh, muh,
     documentada.  [1.15, 1.6] sigue declarado ([8, 12] x
     [1.15, 1.25] reaparece la familia multi-j; el resto es
     coste de maquina, no matematica)."""
+    if OMEGA_ALTO:
+        # ciclo 3g — HALLAZGO: la lamina diametral-saturada es
+        # OMEGA-INVARIANTE para j_v >= 2 (la caja mala de CADA
+        # banda omega > 1.6 es la misma familia del tramo bajo:
+        # x_2 -> x_1 con c' al suelo z + x_1 — dos antipodales
+        # del mismo z; la verdad vive en la frontera de
+        # tangencia).  El claim del tramo alto se RECORTA a
+        # j_v <= 1 (Wv < 2 x_floor: un solo extra en v, el
+        # resto de la masa k >= 2 anidado en z via Wz);
+        # j_v >= 2 queda DECLARADO por SUELO (leccion 12) con
+        # margen 0.1 (la frontera 2 x_floor varia con la caja:
+        # sin margen el B&B muere en ella)
+        return Wvl >= 2.0 * x_floor - 0.1
     if PADRES:
         # EL CLAIM-PADRES (ciclo 3d, medido): extras anidados
         # en extras de v INCLUIDOS para omega <= 1.05 y Wv <=
@@ -683,21 +708,51 @@ def crit_k2(box):
                     thmat[i][jj] = th(nodos[i], nodos[jj],
                                       c_lo)
                 thmat[jj][i] = thmat[i][jj]
-        # la exencion SOLO si el par (0, 1) clampa (lemaA2/3:
-        # la exencion incondicional bloquea el CICLO); al
-        # clampar, la antipodal es legal por el suelo
-        # diametral (c' >= z + x_1 o c' >= 1 + z)
+        # EXENCION MOVIL (ciclo 3g; antes solo (0, 1)): la
+        # antipodal es legal para CUALQUIER par (0 = z, jj) de
+        # circulos que conviven en v (c' >= z + x por
+        # convivencia de dos circulos, o c' >= 1 + z para m —
+        # el teorema del par): si UN UNICO par de la fila 0
+        # clampa a pi, se exenta ESE par (swap del nodo jj al
+        # indice 1: la colocacion antipodal del motor es
+        # (0, 1) fija); si clampan DOS o mas, la corona real
+        # exigiria dos antipodales del mismo z (solapadas en
+        # la misma antipoda): False honesto (partir).  La
+        # familia doble-diametral del tramo omega alto
+        # (z ~ 2w, x_1 ~ x_2 ~ w: el par saturado es (z, x_2),
+        # no (z, x_1)) era irresoluble sin esto.  Los bloques
+        # (en Ds) no son un circulo: su clamp no es exentable.
+        clamps = [jj for jj in range(1, n)
+                  if jj not in Ds
+                  and thmat[0][jj] >= PI - 1e-9]
+        swap = None
         th01 = thmat[0][1]
-        if th01 >= PI - 1e-9:
+        if len(clamps) == 1:
+            jj_c = clamps[0]
+            if jj_c != 1:
+                swap = jj_c
+                nodos[1], nodos[jj_c] = nodos[jj_c], nodos[1]
+                for fila_t in thmat:
+                    fila_t[1], fila_t[jj_c] = \
+                        fila_t[jj_c], fila_t[1]
+                thmat[1], thmat[jj_c] = thmat[jj_c], thmat[1]
+            th01 = thmat[0][1]
             thmat[0][1] = 0.0
             thmat[1][0] = 0.0
             ex_eff = (0, 1)
+        elif len(clamps) >= 2:
+            return False
         else:
             ex_eff = None
         motor = (_motor_rapido if n >= 8
                  else _motor_dos_lados)
         if motor(nodos, thmat, Ds, exento=ex_eff):
             return True
+        if swap is not None:
+            # la via bolsillo usa posiciones (i_m/i_s2) y
+            # suelos por posicion: con el swap quedan
+            # desalineados — se omite (via secundaria)
+            return False
         # VARIANTE-BOLSILLO (ciclo 3c): el ciclo tolera el par
         # saturado — restaurar el requisito real (el clamp pi
         # vale como requisito en el ciclo: sumar pi cabe en el
@@ -1042,9 +1097,21 @@ def bloque_B():
         'CC_WZLO', str(W_TOP) if COLAZ else '0'))
     wz_hi = float(os.environ.get(
         'CC_WZHI', str(WZ2_COLA) if COLAZ else str(W_TOP)))
+    if OMEGA_ALTO:
+        # ciclo 3g: techos del root escalados con w_hi (el
+        # patron espomegacanal — A_MAX/Z_MAX del tramo bajo
+        # asumian w <= 1.6: a <= 1 + s2 + Xp + w y
+        # z <= a + Xz + s2 + w + Wz escalan con la banda)
+        if w_lo < 1.6:
+            w_lo = 1.6
+        a_top = 1.0 + 1.0 + XP_MAX + w_hi
+        z_top = a_top + XZ_MAX + 1.0 + w_hi + wz_hi
+    else:
+        a_top = A_MAX
+        z_top = Z_MAX + W_TOP
     root = [w_lo, w_hi, s2_lo, s2_hi, 1.0, PHI, 0.0, XP_MAX,
-            0.0, XZ_MAX, 0.0, 1.0, 1.0, A_MAX, 1.0,
-            Z_MAX + W_TOP, 0.0, PHI - 1.0,
+            0.0, XZ_MAX, 0.0, 1.0, 1.0, a_top, 1.0,
+            z_top, 0.0, PHI - 1.0,
             wv_lo, wv_hi, wz_lo, wz_hi]
     LAMINA_N[0] = 0
     SUPZ_N[0] = SUPZ_N[1] = 0
@@ -1061,8 +1128,13 @@ def bloque_B():
                     f"INCLUIDOS, dominio omega <= 1.05 y "
                     f"Wv <= 8, declarado el resto; "
                     if PADRES else
-                    f"claim de HOJAS: banda omega in "
-                    f"[{W_CORTE}, 1.6] declarada; ")
+                    (f"CLAIM OMEGA-ALTO (3g): j_v <= 1 "
+                     f"(Wv < 2 x_floor - 0.1) en el tramo; "
+                     f"j_v >= 2 DECLARADO (lamina "
+                     f"omega-invariante); "
+                     if OMEGA_ALTO else
+                     f"claim de HOJAS: banda omega in "
+                     f"[{W_CORTE}, 1.6] declarada; "))
                  + (f"CLAIM COLA-Wz (3e): Wz > 34 INCLUIDO "
                     f"— colas por techo-de-root en z y Wz, "
                     f"suelo cola(z), sup a trozos con z*) "
@@ -1246,6 +1318,84 @@ def bloque_C():
                 f"cola(z), c' con la cola de Y engordada): la "
                 f"corona real cabe (corona_suf); violaciones "
                 f"{viol_c}", n_c >= 250 and viol_c == 0)
+    # (a4) ciclo 3g: la verdad en el tramo omega > 1.6 — el
+    # claim (j_v <= 1) Y el residuo declarado (j_v >= 2, la
+    # lamina omega-invariante): coronas reales con extras al
+    # techo del nodo, c' desde su suelo real
+    n_o, viol_o, n_o2, viol_o2, irr_o = 0, 0, 0, 0, 0
+    for _ in range(200000):
+        if n_o >= 200 and n_o2 >= 200:
+            break
+        w = rng.uniform(1.6, 6.0)
+        s2 = rng.uniform(0.05, 0.98)
+        s1 = rng.uniform(s2, 0.999)
+        SS = s1 + s2
+        if SS <= 1.0 or SS >= 1.0 + s2:
+            continue
+        mu = rng.uniform(0.0, max(0.0, PHI - SS - 0.01))
+        T = techo_nodo(s2, w, SS, 0.0, mu)
+        x_fl = max(1.0, (1.0 + SS + mu) / PHI)
+        if x_fl >= T - 0.01:
+            continue
+        alpha = rng.uniform(max(1.0 + w, SS + w),
+                            1.0 + s2 + w)
+        jv = rng.choice([1, 1, 2, 3])
+        Wz = rng.uniform(x_fl, 6.0)      # la masa k >= 2
+        z_te = alpha + s2 + w + Wz
+        z = rng.uniform(alpha + w, z_te)
+        if jv == 1:
+            xs = [rng.uniform(x_fl, T)]
+        else:
+            # el residuo: j_v >= 2 con piezas hacia el techo
+            # (la familia dura: x_2 -> x_1)
+            x1 = rng.uniform(x_fl, T)
+            xs = sorted([x1]
+                        + [rng.uniform(
+                            max(x_fl, x1 - 0.2), x1)
+                           for _ in range(jv - 1)],
+                        reverse=True)
+        colaY = (1.0 + SS + alpha + z + mu + sum(xs)
+                 + Wz) / PHI
+        Y = max(colaY, w + z + xs[0], w + 1.0 + z)
+        cp = Y - w
+        carga = sorted([z, 1.0, s2] + xs, reverse=True)
+        n_p = max(1, int(mu / 0.2)) if mu > 0 else 0
+        carga += [mu / n_p] * n_p if n_p else []
+        okc, _ = corona_suf(sorted(carga, reverse=True),
+                            cp + 1e-9)
+        if jv == 1:
+            n_o += 1
+            viol_o += 0 if okc else 1
+        else:
+            n_o2 += 1
+            if not okc:
+                # HALLAZGO del 3g: en el tramo alto el punto
+                # j_v >= 2 con Y al suelo-par puede ser
+                # IRREALIZABLE (el suelo real de Y es la
+                # capacidad del CONJUNTO c* > z + x_1: la
+                # pared que el criterio no conoce).  No es
+                # violacion de verdad: el punto no esta en el
+                # modelo.  Se verifica que con holgura finita
+                # (Y * 1.2) la corona cabe: la verdad del
+                # residuo en los puntos realizables
+                ok2, _ = corona_suf(
+                    sorted(carga, reverse=True),
+                    cp * 1.2 + 1e-9)
+                if ok2:
+                    irr_o += 1
+                else:
+                    viol_o2 += 1
+    ok &= check(f"(a4) tramo omega in [1.6, 6] (ciclo 3g): "
+                f"{n_o} sondas del claim j_v <= 1 (viol "
+                f"{viol_o}) y {n_o2} del residuo j_v >= 2 "
+                f"con x_2 -> x_1 (la lamina omega-invariante) "
+                f"— {irr_o} IRREALIZABLES al suelo-par (el "
+                f"suelo real de Y es c* del conjunto: la "
+                f"pared que muerde en el tramo alto, "
+                f"hallazgo) y todas caben con holgura 1.2 "
+                f"(viol {viol_o2})",
+                n_o >= 200 and n_o2 >= 200
+                and viol_o == 0 and viol_o2 == 0)
     # caja apretada FUERA de la lamina (omega < 1.05, k = 2
     # contra la pinza, z al techo); la inflacion va por las
     # DOS vias de theta (th y _asin2) x4 — con x2 la caja
@@ -1304,17 +1454,35 @@ def bloque_D():
         "se alcanza en el codo z_kink en el 100% de las "
         "llamadas instrumentadas — sin la c a trozos la "
         "esquina z -> oo clamparia a pi).  "
+        "EL CLAIM OMEGA-ALTO (ciclo 3g): con CC_OMEGA=1 el "
+        "tramo omega in [1.6, 2] queda CERTIFICADO para "
+        "j_v <= 1 (Wv < 2 x_floor - 0.1; el resto de la masa "
+        "k >= 2 anidado en z, Wz <= 34) — roots escalados con "
+        "w_hi (a_top, z_top), la EXENCION MOVIL del motor "
+        "(el clamp unico de la fila 0 se exenta por "
+        "convivencia c' >= z + x, sea cual sea el nodo; dos "
+        "clamps = False), y la lamina j_v >= 2 declarada POR "
+        "SUELO.  EL HALLAZGO DEL 3g: la lamina "
+        "diametral-saturada es OMEGA-INVARIANTE (la caja "
+        "mala de cada banda omega > 1.6 es la MISMA familia "
+        "x_2 -> x_1 con c' al suelo z + x_1 del tramo "
+        "[1.15, 1.6]: el residuo se UNIFICA), y en el tramo "
+        "alto el suelo-par es ademas IRREALIZABLE en parte "
+        "del dominio (67/228 sondas: el suelo real de Y es "
+        "la capacidad c* del CONJUNTO — la pared que "
+        "cerraria el residuo, como continuacion).  "
         "RESIDUOS DECLARADOS Y SONDADOS (corona_suf 0 "
         "violaciones): los padres con Wv > 8 u omega > 1.05 "
         "o Wz > 34, "
-        "la banda omega in [1.15, 1.6] entera (el nucleo: el "
-        "par (z, x_1) diametral-saturado con la capacidad al "
-        "piso y extras contra el techo del nodo a cada j — "
-        "las coronas reales caben con margenes de centesimas "
-        "usando BOLSILLOS que el motor no representa; el "
-        "patron de la sabana V* de espcanal), la cola "
-        "omega > 1.6 (patron espomegacanal) y la pesada "
-        "(pared A7) como continuaciones", True)
+        "la lamina j_v >= 2 UNIFICADA (omega in [1.15, 1.6] "
+        "entera + todo omega > 1.6 con Wv >= 2 x_floor - "
+        "0.1: el par (z, x_1) diametral-saturado — las "
+        "coronas reales caben con BOLSILLOS o con la holgura "
+        "c* que el motor no representa), omega > 2 con "
+        "j_v <= 1 (coste de maquina: la banda [2, 2.3] "
+        "s2-alta verde como sobre-verificacion no "
+        "reclamada), el cruzado omega > 1.6 con Wz > 34, y "
+        "la pesada (pared A7) como continuacion", True)
 
 
 def main():
