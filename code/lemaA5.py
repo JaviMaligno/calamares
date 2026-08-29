@@ -61,7 +61,13 @@ W_TOP = 34.0
 W_CORTE = float(os.environ.get('CC_WCORTE', '1.15'))
 XP_MAX, XZ_MAX = 1.5, 1.0
 W_MAX = 1.6
-A_MAX_P = 1.0 + 0.999 + XP_MAX + W_MAX      # a <= 1+(SS-b)+Xp+w
+# techo de (SS - b) en a_hi = 1 + (SS-b) + Xp + w: masa_A <=
+# 2 phi / 3 = 1.0787 (MENOR del sello 3h, derivacion del
+# referee: |A| (1 - b) < masa_A <= min(|A| b, phi - b), el
+# extremo en b = phi/3 con |A| = 2 — NO 0.999: el techo viejo
+# cubria el claim solo por el slack W_MAX - W_CORTE)
+MASA_A_MAX = 1.079
+A_MAX_P = 1.0 + MASA_A_MAX + XP_MAX + W_MAX
 Z_MAX_P = A_MAX_P + XZ_MAX + 0.999 + W_MAX  # sin Wz
 LAMINA_N = [0]
 

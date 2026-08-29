@@ -84,7 +84,8 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from coronacolas import PHI, PI, check, bolsillo_descartes
+from coronacolas import (PHI, PI, check, bolsillo_descartes,
+                         cabe_algun_orden)
 from r2bmulti import th, bnb_factible
 from lemaA import (_motor_dos_lados, _cuerda, _asin2,
                    _coloca_ciclo, _coloca_y_verifica)
@@ -157,34 +158,31 @@ CSTAR = os.environ.get('CC_CSTAR', '0') == '1'
 CSTAR_N = [0, 0, 0]   # [rescates intentados, exitosos, vacuidades]
 
 
-def _cstar_refuta(radios, c):
-    """True si el conjunto NO cabe en capacidad c: min sobre
-    ordenes circulares de sum theta_w(consecutivos) > 2 pi.
-    n <= 6: min exacto por permutaciones ((n-1)!/2); n > 6: la
-    cota inferior TSP-half (sum_i dos-menores-de-i / 2) — cota
-    inferior del min: si ella > 2 pi, el min tambien."""
+def _cria_thw(radios, c):
+    """PRE-CRIBA barata (el test del 3i original, min-orden de
+    theta_w): NO es refutador sound por si solo (ignora el
+    apilamiento radial — C1 del sello), pero como FILTRO es
+    conservador en la direccion buena: si NI SIQUIERA el
+    theta_w-min-orden supera 2 pi, no se llama al confirmador
+    caro (cabe_algun_orden refuta un SUPERconjunto de casos
+    solo por el confinamiento; el filtro solo AHORRA llamadas
+    — un caso confinamiento-refutable que el filtro deja pasar
+    se pierde como rescate: menos pared, sound)."""
     import itertools
     n = len(radios)
-    if n < 3:
-        return False
     thm = [[0.0] * n for _ in range(n)]
     for i in range(n):
         for j in range(i + 1, n):
             thm[i][j] = thm[j][i] = th(radios[i], radios[j], c)
     if n <= 6:
-        mejor = 1e18
-        resto = list(range(1, n))
-        for perm in itertools.permutations(resto):
+        for perm in itertools.permutations(range(1, n)):
             if perm[0] > perm[-1]:
-                continue               # reflexion: la mitad
+                continue
             orden = (0,) + perm
-            s = sum(thm[orden[i]][orden[(i + 1) % n]]
-                    for i in range(n))
-            if s < mejor:
-                mejor = s
-                if mejor <= 2.0 * PI + 1e-12:
-                    return False
-        return mejor > 2.0 * PI + 1e-12
+            if sum(thm[orden[i]][orden[(i + 1) % n]]
+                   for i in range(n)) <= 2.0 * PI + 1e-12:
+                return False
+        return True
     tot = 0.0
     for i in range(n):
         fila = sorted(thm[i][j] for j in range(n) if j != i)
@@ -192,16 +190,35 @@ def _cstar_refuta(radios, c):
     return tot > 2.0 * PI + 1e-12
 
 
+def _cstar_refuta(radios, c):
+    """True si el conjunto NO cabe en capacidad c.  SELLO 3i
+    C1: el test por theta_w consecutivas era FALSO como lema
+    general (dos circulos se APILAN radialmente — gamma real
+    0 — cuando c >= r1 + 2 r2): la refutacion la CONFIRMA el
+    aparato ADVERSARIADO del repo, cabe_algun_orden de
+    coronacolas (gamma_min con apilamiento y esquinas +
+    subconjuntos + confinamiento por el gigante, lema del
+    anillo), con confinado_por = el mayor radio (z).  La
+    pre-criba theta_w solo decide NO-refutar (ahorro)."""
+    if len(radios) < 3:
+        return False
+    if not _cria_thw(radios, c):
+        return False
+    return not cabe_algun_orden(list(radios), c,
+                                confinado_por=max(radios))
+
+
 def _cstar_suelo(radios, c_ini, c_tope):
-    """Biseccion del c* (el minimo c no refutado); devuelve
-    c_ini si la pared no muerde en c_ini, y min(c*, c_tope)
-    si muerde (subestimar c* es sound)."""
+    """Biseccion del c* con cabe_algun_orden (el patron
+    R_lb_pack de coronacolas, con tope): devuelve c_ini si no
+    muerde; si muerde, el extremo SEGURO lo (c' real > lo);
+    subestimar c* es sound."""
     if not _cstar_refuta(radios, c_ini):
         return c_ini
     if _cstar_refuta(radios, c_tope):
         return c_tope
     lo, hi = c_ini, c_tope
-    for _ in range(22):
+    for _ in range(20):
         mid = 0.5 * (lo + hi)
         if _cstar_refuta(radios, mid):
             lo = mid
@@ -1186,6 +1203,42 @@ def bloque_A():
         "infinito no aporta candidato",
         ident8 == 0 and resto8 == 0 and raiz8 == 0
         and lim8 == 0)
+    # A9: la pared c* (ciclo 3i, corregida en el sello C1)
+    apil_viejo_falla = False
+    # el caso del apilamiento radial que refuto el test por
+    # theta_w consecutivas (C1): dos circulos con
+    # c >= r1 + 2 r2 se apilan (gamma real = 0) aunque
+    # theta_w > 0 — cabe_algun_orden lo maneja (gamma_min
+    # apilable -> 0 + subconjuntos)
+    r_apil = [3.0, 1.0, 1.0]
+    c_apil = 5.5                       # 3 + 2*1 <= 5.5: apilables
+    apil_ok = cabe_algun_orden(r_apil, c_apil,
+                               confinado_por=3.0)
+    # monotonia en c (el fundamento de la biseccion): refutado
+    # en c2 > c1 => refutado en c1
+    mono = True
+    r_t = [4.0, 2.0, 2.0, 1.5, 1.0]
+    prev = None
+    for c_t in (7.0, 7.5, 8.0, 9.0, 11.0, 14.0):
+        cabe_t = cabe_algun_orden(r_t, c_t,
+                                  confinado_por=4.0)
+        if prev is not None and prev and not cabe_t:
+            mono = False               # cabia y dejo de caber
+        prev = cabe_t
+    ok &= check(
+        "(A9) LA PARED c* (ciclo 3i, C1 del sello): la "
+        "necesidad se DELEGA en cabe_algun_orden de "
+        "coronacolas (gamma_min con apilamiento radial y "
+        "esquinas + subconjuntos + confinamiento del gigante "
+        "— aparato adversariado en su campana); el test por "
+        "theta_w consecutivas era FALSO como lema general "
+        "(el apilamiento c >= r1 + 2 r2 da gamma real 0) "
+        "[verificado: el caso apilable certifica] y la "
+        "biseccion exige monotonia en c [verificada en "
+        "barrido]; subestimar c* (extremo SEGURO lo de "
+        "R_lb_pack) es sound; el rescate re-evalua th y "
+        "cuerdas en c_st >= c_lo (ambas mayoran: decrecen "
+        "en c)", apil_ok and mono)
     return ok
 
 

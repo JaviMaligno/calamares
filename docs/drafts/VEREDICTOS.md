@@ -4944,3 +4944,89 @@ la lamina unificada j_v >= 2 de omega > 1.6 sigue (la pared
 c* NO la cierra alli: los conflictos del tramo alto son de
 presupuesto con c al suelo del trio, no del conjunto-suelo).
 PAPER Y TAG CONGELADOS (estado 3e) hasta los sellos.
+
+================================================================
+ACTA DE SELLOS — LA RONDA TRIPLE (3g, 3h, 3i): LOS TRES CICLOS
+CONFIRMADOS; EL 3i CON SELLO PLENO TRAS LAS CORRECCIONES
+================================================================
+
+Fecha: 2026-08-30 (la ronda pedida al reset adelantado del
+limite).  El referee verifico HEAD 43d18f2 (arbol limpio por
+md5/diff) y despues el re-cotejo sobre el codigo corregido.
+
+CICLO 3g — CONFIRMADO (sello): la EXENCION MOVIL es SOUND
+(permutacion del swap coherente; legalidad por tipo de nodo;
+>= 2 clamps = False conservador; SPY sobre 11261 cajas: 12099
+llamadas, 9105 exenciones, 0 matrices asimetricas); la
+regresion sellada reproducida por el referee EN HEAD (905/301,
+3509/959, 6479/1866 + COLAZ); el claim [1.6, 2] j_v <= 1 con
+[1.6,1.75] reproducida exacta y la lamina Wv >= 3.14 derivada
+por el referee; la omega-invariancia RE-DERIVADA (p = 1 exacto
+en c = z + x_1, scale-free) y el c*-irrealizable reproducido
+con SU generador (11/250 — la tasa depende del generador, el
+fenomeno es robusto).
+
+CICLO 3h — CONFIRMADO (sello): A1p (pared por-extra) con la
+estructura thm:oblivious de la ligera; T_p mayora la
+reconstruccion del referee del desbloqueo; B* <= 1 al disco
+D_m re-derivado; cap_A resuelto POR EL REFEREE con margen
+(toda pieza de A <= sigma2 <= phi - 1 < phi/2); escalones
+J_ESC = 8 sin huecos y centinela 99 correcto (el codigo hace
+lo sound; el texto del commit era impreciso); tres bandas
+reproducidas exactas (incluida la atascada 34481/10597); su
+sonda j 6..9 con particion real 160/0.  EL MENOR (A_MAX_P):
+APLICADO — MASA_A_MAX = 1.079 con la derivacion del referee
+(masa_A <= 2 phi/3, extremo en b = phi/3 con |A| = 2; el
+techo viejo 0.999 cubria el claim solo por el slack
+W_MAX - W_CORTE); el manifiesto pesada 16/16 RE-CORRIDO con
+la constante (12923/4099, 22231/8007, 18003/6099,
+31049/10606, 22185/6640, 45105/14312, 33915/10314,
+72113/23030, 23439/6931, 56321/16738, 31485/9404,
+79269/25131, 20367/5558, 42083/12081, 19193/5643,
+53495/16830) — banda 1 verificada por el referee.
+
+CICLO 3i — SELLO PLENO tras dos correcciones MAYORES:
+- C1 (derivacion): el test por theta_w consecutivas era FALSO
+  como lema general — el APILAMIENTO RADIAL (c >= r1 + 2 r2)
+  da gamma real 0.  Sin bite empirico (50k tests sinteticos +
+  el replay de la banda de rescates: 4349 refutaciones
+  reales, 0 divergencias con cabe_algun_orden — los
+  certificados estaban sanos), pero la derivacion se corrigio
+  DELEGANDO la refutacion en el aparato adversariado del repo
+  (cabe_algun_orden de coronacolas: gamma_min con apilamiento
+  + subconjuntos + confinamiento del gigante), con el GATE A9
+  nuevo (el caso apilable [3,1,1] certifica; la monotonia en
+  c de la biseccion verificada) y una PRE-CRIBA de coste
+  cuya unica salida activa es no-refutar (solo-ahorro,
+  verificado por el referee).  La franja [1.15, 1.25] ENTERA
+  re-corrida con el codigo final y REPRODUCIDA 8/8 por el
+  referee: 2771/877, 6529/1784, 2323/736, 1447/417,
+  5283/1733, 7153/1997, 10339/3191, 4903/1078.
+- C2 (acta): un tramo del acta provisional no reproducia
+  (transcripcion/invocacion no documentada) — el acta queda
+  sustituida por los conteos del binario final (arriba).
+- EL MENOR DEL RE-COTEJO (atribucion, tercera aparicion del
+  patron): los contadores de rescate del mensaje del
+  coordinador eran de la variante sin pre-criba.  DEL BINARIO
+  FINAL: [0,4] x s2 [0, 0.22] = 672 rescates / 29 exitosos
+  (identico al pre-fix: criba INTERSECCION confirmador = las
+  refutaciones viejas, coherente con el replay 4349/0);
+  s2 [0.45, 1) x omega [1.15, 1.2] = CERO rescates (la
+  biseccion interna de x_2 salva las mismas sub-bandas);
+  [4, 8] = 126/0.  Los conteos de CAJAS son identicos en los
+  tres casos: el arbol externo es robusto al mecanismo
+  interno.  LA ATRIBUCION HONESTA FINAL: la pared c* decide
+  en [0,4] x s2-bajos (29 exitosos, sin ella no cierra); en
+  el resto deciden los escalones J_ESC = 8 y la biseccion.
+LECCION 20 (de la prescripcion del referee): los contadores
+de atribucion se regeneran EN EL MISMO RUN que produce los
+conteos sellados — nunca de runs intermedios.
+
+CLAIMS SELLADOS TRAS LA RONDA TRIPLE: (1) hojas ligeras
+k >= 2 con OMEGA <= 1.25 (Wv completo con cola, Wz completo
+via 3e), lamina [1.25, 1.6] declarada; (2) omega in [1.6, 2]
+con j_v <= 1; (3) la PESADA k >= 2 completa en omega <= 1.15
+(hojas, Wz <= 34, Wv completo).  RESIDUOS: [1.25, 1.6] y la
+lamina unificada j_v >= 2 en omega > 1.6; omega > 2 (j_v <=
+1); los padres fuera de su dominio; los cruzados de Wz-cola;
+la pesada fuera de su dominio.
