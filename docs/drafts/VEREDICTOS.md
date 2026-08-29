@@ -4863,3 +4863,84 @@ agujero de D_m (portado de k = 1: re-derivar); (4) el
 generador C (la particion greedy = la real?); (5) bandas con
 conteos.  EL PAPER Y EL TAG v1-arxiv SIGUEN CONGELADOS (estado
 3e) hasta los sellos de 3g y 3h.
+
+================================================================
+ACTA — CICLO 3i DEL LEMA DE |A|: LA PARED c* DE NECESIDAD Y LA
+SUBIDA DEL CORTE A OMEGA <= 1.25 (lemaA4.py, CC_CSTAR=1) —
+PROVISIONAL (sello pendiente del 2026-09-02, con 3g y 3h)
+================================================================
+
+Fecha: 2026-08-29. OBJETIVO: la continuacion identificada en el
+3g — la pared c* del conjunto — contra la lamina j_v >= 2.
+
+LA PARED c* (la matematica nueva): los circulos {z, x_1..x_j,
+m} (y s2 si su suelo es real) DEBEN convivir en la corona de v
+del ocupante.  Con los radios a SUELO: si NINGUN orden circular
+admite sum theta_w(consecutivos; c) <= 2 pi, la corona no cabe
+en capacidad c y c' real > c.  TRES MONOTONIAS la hacen sound:
+(i) toda colocacion valida induce un orden con separaciones
+consecutivas >= theta_w y suma 2 pi (condicion NECESARIA — la
+suficiencia no se usa); (ii) radios reales >= suelos =>
+theta_w reales mayores; (iii) theta_w decrece en c => el test
+es monotono y la BISECCION da c* (subestimarlo es sound: 22
+pasos).  El test: n <= 6 el min EXACTO por permutaciones
+((n-1)!/2 <= 60, con poda temprana); n > 6 la cota inferior
+TSP-half (sum_i dos-menores-de-la-fila-i / 2 <= min sobre
+ordenes).  DOBLE USO: la VACUIDAD (si refuta en el TECHO de c'
+— la pinza RY — la variante j no tiene puntos reales: la
+corona de un ocupante real siempre cabe; el reverso
+constructivo del hallazgo 67/228 del 3g) y el RESCATE (si la
+variante falla en c_lo se re-prueba en c*: los theta del
+mayorante en c* siguen mayorando porque c' real >= c* y
+theta/cuerdas decrecen/mayoran en c).  Los suelos del
+conjunto: z_lo, max(x1_lo, x2a), x2a, x_floor x (j-2), 1.0,
+y s2l SOLO si > 1e-3 (inflar un suelo romperia la necesidad:
+se omite — omitir afloja, sound).
++ LOS ESCALONES EXACTOS J_ESC = 8 portados del 3h BAJO CSTAR
+(el bloque-cuerda j >= 6 era el fallo de la caja historica del
+corte; cada j real <= 8 con su fila AND; el centinela 9 por
+bloques solo con cola Wv).  CON CSTAR=0 EL CAMINO SELLADO
+QUEDA INTACTO: regresion 905/301 y 6479/1866 IDENTICAS.
+
+EL RESULTADO: EL CORTE DE HOJAS SUBE DE 1.15 A 1.25 — la
+franja [1.15, 1.25] ENTERA verde (CC_CSTAR=1 CC_WCORTE=1.25):
+[8,12] 2771/877; [4,8] 6529/1784; [12,34] 2323/736; [0,4] en
+tres tramos de s2 ([0.45,1) 6159/2041, [0.22,0.45] 5283/1733,
+[0,0.22] 1447/417).  Quince delimitaciones fallidas (3b), el
+3c y el 3f no la habian movido de 1.15.  SOBRE-VERIFICACION
+no reclamada: [1.25,1.4] x {[8,12] 5071/1481, [12,34]
+5613/1652} verdes; [1.25,1.4] x Wv bajas no caben en el
+presupuesto de maquina (el corte se queda en 1.25 —
+declaracion por suelo con CC_WCORTE, como siempre).
+
+LA ATRIBUCION (leccion 17, instrumentada de serie — CSTAR_N):
+- LOS ESCALONES EXACTOS deciden la mayor parte: [8,12]
+  2771/877 con CERO llamadas al rescate (la caja historica
+  del corte caia por el bloque-cuerda, no por c*).
+- LA PARED c* decide en las Wv BAJAS: [0,4] con 34-36
+  rescates exitosos (~700 intentados) en s2 altos y 29 en s2
+  bajos — sin ella esas bandas no cierran.
+- En [4,8]: 126 rescates intentados, 0 exitosos, y cierra por
+  otras vias — c* muerde pero no decide alli.
+- El coste del c* es sensible: moverlo a ultima-oportunidad
+  ROMPIO la banda buena (el rescate temprano evita miles de
+  sub-bandas); quedo temprano con biseccion abaratada.
+
+AUTO-CONTRASTE (pendiente de sello, con la lista 3g/3h):
+regresion sellada intacta; la vacuidad-techo no disparo en
+ningun run (0 en todos los contadores: la pared vacia esta
+ahi para el referee, no reclamada); sondas de la lamina (a2,
+[1.05, 1.6]) siguen verdes en C.  PUNTOS DE ATAQUE para el
+referee: (1) la necesidad del min-orden (el argumento de que
+toda colocacion induce un orden — con BLOQUES en la corona el
+conjunto c* NO los incluye: omitidos, sound); (2) el rescate
+re-evalua _prueba con c_st — verificar que TODAS las piezas
+del mayorante (cuerdas de bloques incluidas) mayoran en c_st;
+(3) la poda de reflexion en permutaciones (perm[0] >
+perm[-1]); (4) reproduccion de la franja.
+
+RESIDUO NUEVO DEL CORTE: [1.25, 1.6] (antes [1.15, 1.6]) — y
+la lamina unificada j_v >= 2 de omega > 1.6 sigue (la pared
+c* NO la cierra alli: los conflictos del tramo alto son de
+presupuesto con c al suelo del trio, no del conjunto-suelo).
+PAPER Y TAG CONGELADOS (estado 3e) hasta los sellos.

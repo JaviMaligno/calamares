@@ -137,6 +137,79 @@ TROZOS = os.environ.get('CC_TROZOS', '0') == '1' or COLAZ
 # RESOLVER, honesto.  Incompatible con COLAZ (el claim cruzado
 # omega > 1.6 y Wz > 34 queda declarado).
 OMEGA_ALTO = os.environ.get('CC_OMEGA', '0') == '1'
+# CC_CSTAR=1 (ciclo 3i): LA PARED c* DE NECESIDAD — el suelo de
+# capacidad del CONJUNTO.  Los circulos {z, x_1..x_j, m, s2}
+# DEBEN convivir en la corona de v del ocupante real: si con
+# los radios a SUELO ningun orden circular admite
+# sum theta_w(consecutivos; c) <= 2 pi, la corona no cabe en c
+# y c' real > c.  Tres monotonias la hacen sound: (i) toda
+# colocacion valida induce un orden con separaciones
+# consecutivas >= theta_w y suma 2 pi (condicion NECESARIA);
+# (ii) radios reales >= suelos => theta_w reales >= las de los
+# suelos; (iii) theta_w decrece en c => el test es monotono y
+# la biseccion da c* (subestimarlo es sound).  Doble uso: la
+# VACUIDAD (si refuta en el TECHO de c', la caja no tiene
+# puntos reales: la corona de un ocupante real siempre cabe) y
+# el RESCATE (si la variante falla en c_lo, se re-intenta en
+# c* — los theta del mayorante evaluados en c* siguen mayorando
+# los reales porque c' real >= c*).
+CSTAR = os.environ.get('CC_CSTAR', '0') == '1'
+CSTAR_N = [0, 0, 0]   # [rescates intentados, exitosos, vacuidades]
+
+
+def _cstar_refuta(radios, c):
+    """True si el conjunto NO cabe en capacidad c: min sobre
+    ordenes circulares de sum theta_w(consecutivos) > 2 pi.
+    n <= 6: min exacto por permutaciones ((n-1)!/2); n > 6: la
+    cota inferior TSP-half (sum_i dos-menores-de-i / 2) — cota
+    inferior del min: si ella > 2 pi, el min tambien."""
+    import itertools
+    n = len(radios)
+    if n < 3:
+        return False
+    thm = [[0.0] * n for _ in range(n)]
+    for i in range(n):
+        for j in range(i + 1, n):
+            thm[i][j] = thm[j][i] = th(radios[i], radios[j], c)
+    if n <= 6:
+        mejor = 1e18
+        resto = list(range(1, n))
+        for perm in itertools.permutations(resto):
+            if perm[0] > perm[-1]:
+                continue               # reflexion: la mitad
+            orden = (0,) + perm
+            s = sum(thm[orden[i]][orden[(i + 1) % n]]
+                    for i in range(n))
+            if s < mejor:
+                mejor = s
+                if mejor <= 2.0 * PI + 1e-12:
+                    return False
+        return mejor > 2.0 * PI + 1e-12
+    tot = 0.0
+    for i in range(n):
+        fila = sorted(thm[i][j] for j in range(n) if j != i)
+        tot += (fila[0] + fila[1]) / 2.0
+    return tot > 2.0 * PI + 1e-12
+
+
+def _cstar_suelo(radios, c_ini, c_tope):
+    """Biseccion del c* (el minimo c no refutado); devuelve
+    c_ini si la pared no muerde en c_ini, y min(c*, c_tope)
+    si muerde (subestimar c* es sound)."""
+    if not _cstar_refuta(radios, c_ini):
+        return c_ini
+    if _cstar_refuta(radios, c_tope):
+        return c_tope
+    lo, hi = c_ini, c_tope
+    for _ in range(22):
+        mid = 0.5 * (lo + hi)
+        if _cstar_refuta(radios, mid):
+            lo = mid
+        else:
+            hi = mid
+        if hi - lo < 1e-6 * max(1.0, lo):
+            break
+    return lo                          # el ultimo refutado
 assert not (OMEGA_ALTO and COLAZ), \
     "CC_OMEGA y CC_COLAZ son modos incompatibles (residuo cruzado)"
 assert not (OMEGA_ALTO and PADRES), \
@@ -468,9 +541,15 @@ def crit_k2(box):
     s2_p = min(s2h, SSh / 2.0)
     cap_mu = min(1.0, mu_eff) if mu_eff > 0 else 0.0
     ok_all = True
-    js = list(range(j_min, min(j_max, 5) + 1))
-    if j_max > 5:
-        js.append(6)                   # 6 = "j >= 6 por bloques"
+    # ciclo 3i (CSTAR): escalones EXACTOS hasta J_ESC = 8
+    # (la cura del 3h: el bloque-cuerda j >= 6 no cabe en
+    # cajas con pocas piezas grandes; cada j real con su
+    # fila AND, sound sin doble conteo); con CSTAR=0 el
+    # camino sellado queda intacto (J_ESC = 5)
+    J_ESC = 8 if CSTAR else 5
+    js = list(range(j_min, min(j_max, J_ESC) + 1))
+    if j_max > J_ESC:
+        js.append(J_ESC + 1)           # centinela: bloques
     # cota ACOPLADA en z para los pares con z, POR EXTREMOS
     # EXACTOS (gate A6): con c(z) = (K + z)/phi - omega, la
     # funcion p(z) = z a/((c - z)(c - a)) solo tiene MINIMOS
@@ -590,15 +669,15 @@ def crit_k2(box):
 
     def _prueba(j, c_lo, fila, x1_lo, extras_th=None):
         extras_th = extras_th or {}
-        base = [z_hi, fila[0], 1.0, s2_p] if 1 <= j <= 5 \
+        base = [z_hi, fila[0], 1.0, s2_p] if 1 <= j <= (8 if CSTAR else 5) \
             else [z_hi, 1.0, s2_p]
         bloques = []
         if mu_eff > 0:
             peso_mu = _cuerda(cap_mu, c_lo) * (mu_eff / 2.0
                                                + cap_mu / 2.0)
             bloques += [(cap_mu, peso_mu), (cap_mu, peso_mu)]
-        if j == 6:
-            # j >= 6: BLOQUES PUROS (la version 5-escalones +
+        if j == (9 if CSTAR else 6):
+            # j >= J_ESC + 1: BLOQUES PUROS (la version 5-escalones +
             # bloques doble-contaba: escalones al techo + masa
             # residual sumaban ~1.5x Wv y la suma no cerraba).
             # El cap del bloque = el techo de la PRIMERA pieza
@@ -672,9 +751,9 @@ def crit_k2(box):
                     * (masa_f / 2.0 + cap_f / 2.0)
             bloques += [(cap_f, peso_f), (cap_f, peso_f)]
         nodos = list(base)
-        if 2 <= j <= 5:
+        if 2 <= j <= (8 if CSTAR else 5):
             nodos += fila[1:]
-        elif j == 6 and n_p6:
+        elif j == (9 if CSTAR else 6) and n_p6:
             nodos += padres_esc    # los padres como nodos
         Ds = {}
         for capb, pesob in bloques:
@@ -692,7 +771,8 @@ def crit_k2(box):
                         t_ac = PI
                         t_gl = PI
                     else:
-                        piso_z = z_hi + (x1_lo if 1 <= j <= 5
+                        piso_z = z_hi + (x1_lo
+                                         if 1 <= j <= (8 if CSTAR else 5)
                                          else 1.0)
                         t_ac = th(z_hi, nodos[jj], piso_z)
                         t_gl = th(z_hi, nodos[jj], c_lo) \
@@ -761,7 +841,7 @@ def crit_k2(box):
         thmat[1][0] = th01
         # suelos por nodo: z, x1 (si 1 <= j <= 5), m, s2,
         # escalones (x_floor), bloques (0: no aportan hueco)
-        if 1 <= j <= 5:
+        if 1 <= j <= (8 if CSTAR else 5):
             nodos_lo = ([z_lo, x1_lo, 1.0, max(s2l, 0.0)]
                         + [x_floor] * (len(nodos) - 4))
         else:
@@ -790,9 +870,10 @@ def crit_k2(box):
             continue
         # ACTA R4: para la variante "j >= 6" el suelo de x_1
         # es x_floor (con j_real >= 7, Wv/6 NO minora x_1)
-        x1_lo = (max(x_floor, Wv_lo / max(j, 1)) if j <= 5
+        x1_lo = (max(x_floor, Wv_lo / max(j, 1))
+                 if j <= (8 if CSTAR else 5)
                  else x_floor)
-        if j <= 5:
+        if j <= (8 if CSTAR else 5):
             # escalones: la i-esima mayor de j piezas de suma
             # <= Wv_hi con las demas >= x_floor; el techo del
             # i-esimo es techo_esc(i) (ACTA R2 + mejora fina:
@@ -815,7 +896,8 @@ def crit_k2(box):
             c_lo6 = max(1.0 + z_lo, cola_lo - wh)
             if c_lo6 <= max(1.0, s2_p) + 1e-12:
                 return False
-            if not _prueba(6, c_lo6, [], 0.0):
+            if not _prueba(9 if CSTAR else 6, c_lo6,
+                           [], 0.0):
                 ok_all = False
                 break
             continue
@@ -876,7 +958,35 @@ def crit_k2(box):
             for t in range(1, len(fila)):
                 ext[3 + t] = ((x2a if t == 1 else x_floor),
                               resto_xi)
-            if not _prueba(j, c_lo, fila, x1_lo, ext):
+            falla = not _prueba(j, c_lo, fila, x1_lo, ext)
+            if falla and CSTAR:
+                # LA PARED c* (ciclo 3i), SOLO en la ultima
+                # oportunidad de la banda (el coste de la
+                # biseccion + permutaciones por sub-banda
+                # explotaba): los suelos del conjunto que
+                # DEBE convivir en la corona
+                radios_c = ([z_lo, max(x1_lo, x2a), x2a]
+                            + [x_floor] * max(0, j - 2)
+                            + [1.0]
+                            + ([s2l] if s2l > 1e-3 else []))
+                c_hi_y = (SSh + min(z_hi, 1e9) + mu_eff + wh
+                          + min(Wv_hi, 1e9)) - wl
+                if _cstar_refuta(radios_c, c_hi_y):
+                    # ni el TECHO de c' aloja el conjunto: la
+                    # variante j no tiene puntos reales en la
+                    # (sub)caja — vacuidad
+                    CSTAR_N[2] += 1
+                    falla = False
+                else:
+                    c_st = _cstar_suelo(radios_c, c_lo,
+                                        c_hi_y)
+                    if c_st > c_lo + 1e-9:
+                        CSTAR_N[0] += 1
+                        if _prueba(j, c_st, fila, x1_lo,
+                                   ext):
+                            CSTAR_N[1] += 1
+                            falla = False
+            if falla:
                 if x2b - x2a > max_prof:
                     mid = (x2a + x2b) / 2.0
                     pendientes.append((x2a, mid))
@@ -1122,6 +1232,12 @@ def bloque_B():
               f"superior (kink/z*)"
               + ("; CONTRAFACTUAL OFFSUELO" if OFFSUELO_3E
                  else ""))
+    if CSTAR:
+        print(f"    [3i c*] rescates {CSTAR_N[0]} "
+              f"(exitosos {CSTAR_N[1]}), vacuidades por "
+              f"techo {CSTAR_N[2]}; escalones exactos "
+              f"J_ESC = 8 activos (modo 3i: el claim corre "
+              f"con CC_WCORTE=1.25)")
     return check(f"k >= 2 certificado FUERA DE LA LAMINA L "
                  f"(declarada; {LAMINA_N[0]} cajas en L; "
                  + (f"CLAIM-PADRES: anidados-en-extras "
