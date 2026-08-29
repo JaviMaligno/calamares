@@ -47,12 +47,27 @@ LAS VENTANAS CON MASAS (heredadas de espcanal, engordadas):
 
 COLAS DE MASA: la cola Wv (>= W_TOP = 34) es W-UNIFORME
 (cola(Y) crece con W y c' crece ~ W/phi: ratio de la fila hacia
-phi/2, th en c_lo(W_lo) mayoran); la cola Wz queda DECLARADA
-(acta R3: el techo Rz de z crece con Wz y el root de z no la
-cubre — el octavo patron; Wz <= 34 certificado).
+phi/2, th en c_lo(W_lo) mayoran); la cola Wz > 34 (HOJAS) queda
+CERTIFICADA con el modo CC_COLAZ=1 (ciclo 3e — antes declarada
+por el octavo patron del acta R3): root z/Wz extendido a
+[1, Z2] x [34, phi Z2] con COLAS POR TECHO-DE-ROOT (el patron
+cola_v: la caja que toca el techo certifica el rayo), la
+cobertura del complemento por el acople del techo Rz (z <= C0 +
+Wz), la vacuidad rho (Wz + resto > phi z es ilegal: Wz cuenta
+en cola(z)) y LA C A TROZOS del gate A8: en las cajas z-cola el
+minorante de c' tiene tramo superior de pendiente 2/phi > 1
+(Wz >= z - C0), donde los criticos de log p son MAXIMOS (al
+reves que A6) con z* en forma cerrada — el sup del par (z, v)
+se alcanza en el codo z_kink (100% de llamadas instrumentadas;
+sin la c a trozos la esquina z -> oo clampa a pi).  El suelo de
+cola(z) (z >= (resto + Wz)/phi, espcanal x-en-z) esta activo
+pero resulto INERTE (contrafactual CC_3E_OFFSUELO identico —
+atribucion medida, leccion 17).
 
 ALCANCE DECLARADO: perfil LIGERO; extras de v HOJAS (los
-padres declarados, R2b); Wz <= 34 (por dominio, H3); OMEGA IN
+padres: claim 3d en omega <= 1.05, Wv <= 8, Wz <= 34; el resto
+declarado); Wz completo para HOJAS (Wz <= 34 por dominio H3 +
+la cola Wz > 34 por CC_COLAZ, ciclo 3e); OMEGA IN
 [0, 1.15] CERTIFICADO (el tramo [1.05, 1.15] cierra con la
 maquinaria de la fase 3b — el motor-bolsillo del ciclo 3c es
 sound pero inerte: 0 decisiones, acta 3c) y omega in [1.15,
@@ -84,6 +99,31 @@ W_CORTE = float(os.environ.get('CC_WCORTE', '1.15'))
 # residuo de los extras-padre contra la maquinaria mejorada
 # (leccion 16: los recortes antiguos pueden ser artefactos)
 PADRES = os.environ.get('CC_PADRES', '0') == '1'
+# CC_COLAZ=1 (ciclo 3e): la COLA Wz > 34 (hojas).  La palanca:
+# Wz es masa ANIDADA EN z => cuenta en cola(z) (espcanal x-en-z:
+# "suelo de cola(z) += x") y rho <= phi da z >= (resto + Wz)/phi
+# — el suelo de z crece con Wz.  Ademas el techo Rz da
+# Wz >= z - C0 (C0 = a + Xz + s2 + omega): en la cola, c'(z)
+# crece con pendiente 2/phi > 1 y el ratio z/c' se uniformiza
+# bajo phi/2.  El sup del par (z, v) en el tramo de pendiente
+# 2/phi NO esta en los extremos (los criticos son MAXIMOS:
+# S' = -2(c'-1)c'/((c-z)(c-v)) < 0 con c' = 2/phi > 1 — al reves
+# que A6) — esta en el critico interior z* = sqrt(D(D-v)/
+# (c'(c'-1))), forma cerrada verificada en el gate A8.
+COLAZ = os.environ.get('CC_COLAZ', '0') == '1'
+Z2_COLA = Z_MAX + W_TOP        # techo del root de z (42.698)
+WZ2_COLA = PHI * Z2_COLA       # phi * Z2: techo del root de Wz
+INF_Z = 1e18
+# el claim de la cola-Wz es de HOJAS (T_ext = T + Wz seria
+# infinito en las cajas de cola: los padres con Wz > 34 quedan
+# declarados — su claim 3d tiene Wz <= 34 en el dominio)
+assert not (COLAZ and PADRES), \
+    "CC_COLAZ y CC_PADRES son modos incompatibles"
+# instrumentacion de ATRIBUCION del 3e (leccion 17): contadores
+# de que mecanismo decide, y contrafactual OFFSUELO (solo para
+# medir — el claim corre siempre con el suelo activo)
+OFFSUELO_3E = os.environ.get('CC_3E_OFFSUELO', '0') == '1'
+SUPZ_N = [0, 0]   # [llamadas a _sup_pz, sup en tramo superior]
 
 # LA BANDA DECLARADA (residuo de este ciclo, historia en el
 # docstring de _en_lamina y en el acta): omega in [1.05, 1.6]
@@ -250,6 +290,9 @@ def crit_k2(box):
     Whi >= W_TOP marca cola de masa."""
     wl, wh, s2l, s2h, SSl, SSh, Xpl, Xph, Xzl, Xzh, Xml, Xmh, \
         al, ah, zl, zh, mul, muh, Wvl, Wvh, Wzl, Wzh = box
+    if Wzl > Wzh + 1e-12 or zl > zh + 1e-12:
+        return None                    # caja degenerada (guard
+        # cosmetico del acta 3e: bnb no las genera)
     if 2.0 * s2l > SSh:
         return None                    # s1 >= s2
     if SSl >= 1.0 + s2h:
@@ -270,9 +313,23 @@ def crit_k2(box):
     # (Z_MAX + W_TOP = 42.698) cubre exacto el techo Rz
     # (a_hi + Xz + s2 + w + Wz <= 8.698 + 34); Wz > 34 queda
     # declarado como residuo en el enunciado (octavo patron:
-    # el techo del root de z no lo cubriria)
+    # el techo del root de z no lo cubriria).  CICLO 3e
+    # (CC_COLAZ=1): ese residuo se ATACA — root Wz [34, phi*Z2]
+    # y z [1, Z2] con COLAS por techo-de-root (el patron
+    # cola_v: la caja que TOCA el techo del root certifica para
+    # todo el rayo — extension del mayorante, no declaracion):
+    # cobertura del complemento {Wz > 34} = rectangulo
+    # + z-cola (Wz >= z - C0 acopla) + vacuidad rho
+    # (Wz > phi*z - resto es ilegal: Wz cuenta en cola(z))
     Wv_hi = 1e9 if cola_v else Wvh
-    Wz_hi = Wzh
+    if COLAZ:
+        cola_wz = Wzh >= WZ2_COLA - 1e-9
+        cola_zz = zh >= Z2_COLA - 1e-9
+        Wz_hi = INF_Z if cola_wz else Wzh
+        zh_eff = INF_Z if cola_zz else zh
+    else:
+        Wz_hi = Wzh
+        zh_eff = zh
     # el techo del nodo y el suelo de la pinza acotan CADA extra
     T = techo_nodo(s2h, wh, SSl, Xml, mul)
     # ACTA R2 (FATAL de la ronda): T capa X_x por la cola
@@ -322,8 +379,22 @@ def crit_k2(box):
     # ventana de z: techo (Rz) + Wz (masa anidada en z; mayora)
     Wz_eff_techo = Wz_hi
     z_lo = max(zl, a_lo + Xzl + wl)
-    z_hi = min(zh, a_hi + Xzh + s2h + wh
-               + min(Wz_eff_techo, 1e9))
+    z_hi = min(zh_eff, a_hi + Xzh + s2h + wh
+               + min(Wz_eff_techo, INF_Z))
+    if COLAZ:
+        # suelo de cola(z) (espcanal x-en-z + rho <= phi): la
+        # masa anidada Wz y la cadena posterior (1, SS, Xm, a,
+        # Xp, Xz, mu) van DESPUES de z en el orden voraz =>
+        # cola(z) >= resto + Wz y z >= cola(z)/phi (gate A8i)
+        resto_z = (1.0 + SSl + Xml + a_lo + Xpl + Xzl + mul)
+        if not OFFSUELO_3E:
+            z_lo = max(z_lo, (resto_z + Wz_lo) / PHI)
+        # vacuidad rho: Wz + resto > phi*z_hi no cabe en la
+        # cola de z (cubre los puntos Wz > phi*Z2 del
+        # complemento: alli Wz > phi*z siempre)
+        if z_hi < INF_Z / 2.0 and \
+                Wz_lo + resto_z > PHI * z_hi + 1e-9:
+            return None
     if z_lo >= z_hi:
         return None
     # cola(Y) con TODOS los extras; techo (RY) + Wv
@@ -385,8 +456,69 @@ def crit_k2(box):
     K_base = (1.0 + SSl + Xml + a_lo + Xpl + Xzl + mul
               + Wz_lo)
     K_cola = K_base + Wv_lo
+    # CICLO 3e (COLAZ): el minorante de c(z) es lineal A TROZOS
+    # — tramo inferior (Wz >= Wz_lo, pendiente 1/phi; A6:
+    # criticos = minimos => sup en extremos) y tramo superior
+    # (Wz >= z - C0 del techo Rz, pendiente 2/phi; gate A8:
+    # criticos = MAXIMOS, S' = -2(cp-1)cp/((c-z)(c-v)) < 0 =>
+    # sup en extremos U {z* = sqrt(Dp(Dp-v)/(cp(cp-1)))}).  El
+    # extremo z -> oo tiene limite 0 (numerador ~ z, denominador
+    # ~ z^2): se omite.  c - z crece en el tramo superior y
+    # decrece en el inferior; c - v crece: los candidatos
+    # capturan tambien los minimos de los denominadores.
+    C0_z = a_hi + Xzh + s2h + wh
+    z_kink = C0_z + Wz_lo
+
+    def _sup_pz(K_par, v_par):
+        """sup_z de p = z v/((c - z)(c - v)) sobre [z_lo, z_hi]
+        con c(z) = (K_par + z + max(0, z - z_kink))/phi - wh.
+        Devuelve el ratio peor (>= 1 => clamp pi)."""
+        def _c(z_e):
+            return (K_par + z_e + max(0.0, z_e - z_kink)) \
+                / PHI - wh
+        cands = [z_lo]
+        fin_inf = min(z_hi, max(z_lo, z_kink))
+        if fin_inf > z_lo:
+            cands.append(fin_inf)
+        fin_sup = z_hi if z_hi < INF_Z / 2.0 else None
+        if z_kink < (fin_sup if fin_sup is not None
+                     else INF_Z):
+            if fin_sup is not None and fin_sup > z_kink:
+                cands.append(fin_sup)
+            if z_kink > z_lo:
+                cands.append(z_kink)
+            cp = 2.0 / PHI
+            Dp = (K_par - z_kink) / PHI - wh
+            prod = Dp * (Dp - v_par)
+            if prod > 0.0:
+                z_st = math.sqrt(prod / (cp * (cp - 1.0)))
+                if max(z_lo, z_kink) < z_st < \
+                        (fin_sup if fin_sup is not None
+                         else INF_Z):
+                    cands.append(z_st)
+        peor = 0.0
+        z_peor = z_lo
+        for z_e in cands:
+            c_e = _c(z_e)
+            d1, d2 = c_e - z_e, c_e - v_par
+            if d1 <= 1e-9 or d2 <= 1e-9:
+                return 2.0
+            p_e = z_e * v_par / (d1 * d2)
+            if p_e > peor:
+                peor, z_peor = p_e, z_e
+        SUPZ_N[0] += 1
+        if z_peor >= z_kink - 1e-12:
+            # el sup vino del codo o del tramo superior: sin
+            # la c a trozos (el codigo A6 puro con la esquina
+            # z_hi -> oo del tramo inferior) esta llamada
+            # habria clampado a pi (c - z < 0 alli)
+            SUPZ_N[1] += 1
+        return peor
 
     def th_acopl(a_p):
+        if COLAZ:
+            return _asin2(math.sqrt(min(
+                1.0, _sup_pz(K_cola, a_p))))
         peor = 0.0
         for z_e in (z_lo, z_hi):
             c_e = (K_cola + z_e) / PHI - wh
@@ -405,14 +537,24 @@ def crit_k2(box):
         esquinas (z, v).  El punto real cumple ambas: min
         sound."""
         peor_g = 0.0
-        for z_e in (z_lo, z_hi):
+        if COLAZ:
+            # A6 en v (pendiente 1/phi < 1: esquinas) x el sup
+            # a trozos en z (con la c acoplada a v_e)
             for v_e in (v_min, v_max):
-                c_e = (K_base + resto + z_e + v_e) / PHI - wh
-                d1, d2 = c_e - z_e, c_e - v_e
-                if d1 <= 1e-9 or d2 <= 1e-9:
-                    peor_g = 2.0
-                    break
-                peor_g = max(peor_g, z_e * v_e / (d1 * d2))
+                peor_g = max(peor_g,
+                             _sup_pz(K_base + resto + v_e,
+                                     v_e))
+        else:
+            for z_e in (z_lo, z_hi):
+                for v_e in (v_min, v_max):
+                    c_e = (K_base + resto + z_e + v_e) / PHI \
+                        - wh
+                    d1, d2 = c_e - z_e, c_e - v_e
+                    if d1 <= 1e-9 or d2 <= 1e-9:
+                        peor_g = 2.0
+                        break
+                    peor_g = max(peor_g,
+                                 z_e * v_e / (d1 * d2))
         t_g = _asin2(math.sqrt(min(1.0, peor_g)))
         return min(th_acopl(v_max), t_g)
 
@@ -513,11 +655,18 @@ def crit_k2(box):
         for i in range(n):
             for jj in range(i + 1, n):
                 if i == 0:
-                    piso_z = z_hi + (x1_lo if 1 <= j <= 5
-                                     else 1.0)
-                    t_ac = th(z_hi, nodos[jj], piso_z)
-                    t_gl = th(z_hi, nodos[jj], c_lo) \
-                        if c_lo > z_hi + 1e-12 else PI
+                    if z_hi >= INF_Z / 2.0:
+                        # cola z (3e): t_ac/t_gl degeneran con
+                        # z_hi infinito (piso_z absorbe x1 en
+                        # float); la acoplada t_c decide sola
+                        t_ac = PI
+                        t_gl = PI
+                    else:
+                        piso_z = z_hi + (x1_lo if 1 <= j <= 5
+                                         else 1.0)
+                        t_ac = th(z_hi, nodos[jj], piso_z)
+                        t_gl = th(z_hi, nodos[jj], c_lo) \
+                            if c_lo > z_hi + 1e-12 else PI
                     if jj in extras_th:
                         v_min, resto = extras_th[jj]
                         t_c = th_extra(v_min, nodos[jj],
@@ -812,6 +961,61 @@ def bloque_A():
         "decisiones en ~52k llamadas instrumentadas): la "
         "franja [1.05, 1.15] la cierra la maquinaria 3b",
         dkp == 0 and lim7 == 0)
+    # A8: la cola Wz (ciclo 3e) — tres piezas.  (i) el suelo de
+    # cola(z): Wz es masa ANIDADA EN z (children travel inside
+    # parents) y la cadena (1, SS, Xm, a, Xp, Xz, mu) va
+    # DESPUES de z en el orden voraz (todos < z) => cola(z) >=
+    # resto + Wz; rho <= phi da z >= (resto + Wz)/phi — la
+    # misma composicion que espcanal x-en-z ("suelo de cola(z)
+    # += x"), con Wz en el lugar de x.  (ii) el tramo superior
+    # del minorante c(z): del techo Rz (z <= C0 + Wz), Wz >=
+    # z - C0 y c = (K + 2z - z_kink')/phi - omega es lineal de
+    # pendiente cp = 2/phi > 1: en un punto critico de log p,
+    # S' = -2(cp-1)cp/((c-z)(c-v)) < 0 — solo MAXIMOS: el sup
+    # esta en extremos U {el unico critico z*}, y z* tiene
+    # forma cerrada z*^2 = Dp(Dp - v)/(cp(cp - 1)) con Dp el
+    # termino constante de c.  (iii) el extremo z -> oo tiene
+    # limite 0 (se omite de los candidatos).
+    zz, vv, Kp, ww = sp.symbols('zz vv Kp ww', positive=True)
+    cp8 = 2 / phi_s
+    Dp8 = sp.Symbol('Dp')            # termino constante de c
+    c8 = cp8 * zz + Dp8
+    p8 = zz * vv / ((c8 - zz) * (c8 - vv))
+    S8 = sp.diff(sp.log(p8), zz)
+    Sp8 = sp.diff(S8, zz)
+    b8 = cp8 - 1
+    g8 = cp8
+    ident8 = sp.simplify(Sp8 - (-1 / zz ** 2
+                                + b8 ** 2 / (c8 - zz) ** 2
+                                + g8 ** 2 / (c8 - vv) ** 2))
+    # en el critico 1/z = b/(c-z) + g/(c-v) =: A + B y
+    # S' = -(A+B)^2 + A^2 + B^2 = -2AB < 0 (b, g > 0)
+    A8_, B8_ = sp.symbols('A8 B8', positive=True)
+    resto8 = sp.expand(-(A8_ + B8_) ** 2 + A8_ ** 2
+                       + B8_ ** 2 + 2 * A8_ * B8_)
+    # la forma cerrada del critico: S = 0 sii
+    # cp(cp-1) z^2 = Dp(Dp - v)  [multiplicar en cruz]
+    S8_num = sp.together(S8)
+    num8 = sp.numer(S8_num)
+    # el numerador de S lleva el factor positivo (6 + 2 sqrt 5)
+    raiz8 = sp.simplify(num8 - (6 + 2 * sp.sqrt(5))
+                        * (Dp8 * (Dp8 - vv)
+                           - cp8 * (cp8 - 1) * zz ** 2))
+    lim8 = sp.limit(p8, zz, sp.oo)
+    ok &= check(
+        "(A8) LA COLA Wz (ciclo 3e): (i) suelo de cola(z) — "
+        "z >= (resto + Wz)/phi (composicion de espcanal "
+        "x-en-z con rho <= phi); (ii) el tramo superior "
+        "c = (2/phi) z + Dp tiene S' = -2(cp-1)cp/((c-z)"
+        "(c-v)) < 0 en todo critico [sympy: la identidad de "
+        "S' y el cuadrado -(A+B)^2 + A^2 + B^2 + 2AB = 0] — "
+        "solo MAXIMOS: sup en extremos U {z*}, con z*^2 = "
+        "Dp(Dp - v)/(cp(cp - 1)) [sympy: el numerador de S "
+        "es proporcional a Dp(Dp - v) - cp(cp - 1) z^2]; "
+        "(iii) lim p = 0 en z -> oo [sympy] — el extremo "
+        "infinito no aporta candidato",
+        ident8 == 0 and resto8 == 0 and raiz8 == 0
+        and lim8 == 0)
     return ok
 
 
@@ -829,14 +1033,23 @@ def bloque_B():
     w_hi = float(os.environ.get('CC_WHI', str(W_MAX)))
     s2_lo = float(os.environ.get('CC_S2LO', '0'))
     s2_hi = float(os.environ.get('CC_S2HI', '0.999'))
-    wz_lo = float(os.environ.get('CC_WZLO', '0'))
-    wz_hi = float(os.environ.get('CC_WZHI', str(W_TOP)))
+    wz_lo = float(os.environ.get(
+        'CC_WZLO', str(W_TOP) if COLAZ else '0'))
+    wz_hi = float(os.environ.get(
+        'CC_WZHI', str(WZ2_COLA) if COLAZ else str(W_TOP)))
     root = [w_lo, w_hi, s2_lo, s2_hi, 1.0, PHI, 0.0, XP_MAX,
             0.0, XZ_MAX, 0.0, 1.0, 1.0, A_MAX, 1.0,
             Z_MAX + W_TOP, 0.0, PHI - 1.0,
             wv_lo, wv_hi, wz_lo, wz_hi]
     LAMINA_N[0] = 0
+    SUPZ_N[0] = SUPZ_N[1] = 0
     exito, caja, n, cert = bnb_factible(root, crit_k2, eps=eps)
+    if COLAZ:
+        print(f"    [3e atribucion] _sup_pz: {SUPZ_N[0]} "
+              f"llamadas, {SUPZ_N[1]} con sup en el tramo "
+              f"superior (kink/z*)"
+              + ("; CONTRAFACTUAL OFFSUELO" if OFFSUELO_3E
+                 else ""))
     return check(f"k >= 2 certificado FUERA DE LA LAMINA L "
                  f"(declarada; {LAMINA_N[0]} cajas en L; "
                  + (f"CLAIM-PADRES: anidados-en-extras "
@@ -845,11 +1058,18 @@ def bloque_B():
                     if PADRES else
                     f"claim de HOJAS: banda omega in "
                     f"[{W_CORTE}, 1.6] declarada; ")
-                 + f"la cola Wz > 34 va POR DOMINIO del root) "
-                 f"— Wv in [{wv_lo}, "
+                 + (f"CLAIM COLA-Wz (3e): Wz > 34 INCLUIDO "
+                    f"— colas por techo-de-root en z y Wz, "
+                    f"suelo cola(z), sup a trozos con z*) "
+                    if COLAZ else
+                    f"la cola Wz > 34 va POR DOMINIO del "
+                    f"root) ")
+                 + f"— Wv in [{wv_lo}, "
                  f"{wv_hi}], omega in [{w_lo}, {w_hi}], s2 in "
                  f"[{s2_lo}, {s2_hi}], cola Wv W-uniforme, "
-                 f"Wz <= 34 por dominio, j_v por variantes: "
+                 + (f"Wz in [{wz_lo}, {wz_hi}+cola], "
+                    if COLAZ else f"Wz <= 34 por dominio, ")
+                 + f"j_v por variantes: "
                  f"{n} cajas, {cert} certificadas"
                  + ("" if exito else f"; SIN RESOLVER {caja}"),
                  exito)
@@ -968,6 +1188,59 @@ def bloque_C():
                 f"la corona real cabe siempre (corona_suf con "
                 f"bolsillos); violaciones {viol_l}",
                 n_l >= 200 and viol_l == 0)
+    # (a3) ciclo 3e: sondas de VERDAD en la cola Wz > 34 — el
+    # dominio del claim COLAZ.  La masa anidada Wz sube el
+    # suelo de z (cola(z) con rho <= phi) y la cola de Y: la
+    # corona de v es {z, 1, s2} U extras + polvo, con z y c'
+    # los de la cola
+    n_c, viol_c = 0, 0
+    for _ in range(120000):
+        if n_c >= 300:
+            break
+        w = rng.uniform(0.01, 1.15)
+        s2 = rng.uniform(0.05, 0.98)
+        s1 = rng.uniform(s2, 0.999)
+        SS = s1 + s2
+        if SS <= 1.0 or SS >= 1.0 + s2:
+            continue
+        mu = rng.uniform(0.0, max(0.0, PHI - SS - 0.01))
+        T = techo_nodo(s2, w, SS, 0.0, mu)
+        x_fl = (1.0 + SS + mu) / PHI
+        if x_fl >= T - 0.01:
+            continue
+        Wz = rng.uniform(34.0, 110.0)
+        alpha = rng.uniform(max(1.0 + w, SS + w),
+                            1.0 + s2 + w + 0.5)
+        resto = 1.0 + SS + alpha + mu
+        z_suelo = max(alpha + w, (resto + Wz) / PHI)
+        z_techo = alpha + s2 + w + Wz
+        if z_suelo >= z_techo:
+            continue
+        z = rng.uniform(z_suelo, min(z_techo,
+                                     z_suelo + 25.0))
+        if Wz > PHI * z - resto:
+            continue                   # rho-ilegal
+        k = rng.randrange(1, 5)
+        xs = sorted([rng.uniform(x_fl, T)
+                     for _ in range(k)], reverse=True)
+        colaY = (1.0 + SS + alpha + z + mu + sum(xs)
+                 + Wz) / PHI
+        Y = max(colaY, w + z + xs[0], w + 1.0 + z) \
+            + rng.uniform(0.0, 2.0)
+        cp = Y - w
+        carga = sorted([z, 1.0, s2] + xs, reverse=True)
+        n_p = max(1, int(mu / 0.2)) if mu > 0 else 0
+        carga += [mu / n_p] * n_p if n_p else []
+        carga = sorted(carga, reverse=True)
+        okc, defc = corona_suf(carga, cp + 1e-9)
+        n_c += 1
+        if not okc:
+            viol_c += 1
+    ok &= check(f"(a3) {n_c} sondas en la COLA Wz > 34 (ciclo "
+                f"3e: z >= (resto+Wz)/phi por el suelo de "
+                f"cola(z), c' con la cola de Y engordada): la "
+                f"corona real cabe (corona_suf); violaciones "
+                f"{viol_c}", n_c >= 250 and viol_c == 0)
     # caja apretada FUERA de la lamina (omega < 1.05, k = 2
     # contra la pinza, z al techo); la inflacion va por las
     # DOS vias de theta (th y _asin2) x4 — con x2 la caja
@@ -1014,17 +1287,29 @@ def bloque_D():
         "sound de la 2a vuelta, padres-nodo en j >= 6 con cap "
         "techo_esc(n_p6+1) — el FATAL H1 del acta 3d "
         "reparado —, vacuidades por conteo confirmadas).  "
+        "EL CLAIM COLA-Wz (ciclo 3e): con CC_COLAZ=1 la cola "
+        "Wz > 34 (HOJAS) queda INCLUIDA para omega <= 1.15 y "
+        "Wv completo — root z/Wz extendido con colas por "
+        "techo-de-root (el patron cola_v), techo Rz que acopla "
+        "Wz >= z - C0, vacuidad rho (Wz + resto <= phi z), "
+        "suelo de cola(z) (espcanal x-en-z; contrafactual "
+        "OFFSUELO: inerte, documentado) y la C A TROZOS del "
+        "gate A8 (tramo superior de pendiente 2/phi: criticos "
+        "maximos, z* en forma cerrada; el sup del par (z, v) "
+        "se alcanza en el codo z_kink en el 100% de las "
+        "llamadas instrumentadas — sin la c a trozos la "
+        "esquina z -> oo clamparia a pi).  "
         "RESIDUOS DECLARADOS Y SONDADOS (corona_suf 0 "
-        "violaciones): los padres con Wv > 8 u omega > 1.05, "
+        "violaciones): los padres con Wv > 8 u omega > 1.05 "
+        "o Wz > 34, "
         "la banda omega in [1.15, 1.6] entera (el nucleo: el "
         "par (z, x_1) diametral-saturado con la capacidad al "
         "piso y extras contra el techo del nodo a cada j — "
         "las coronas reales caben con margenes de centesimas "
         "usando BOLSILLOS que el motor no representa; el "
         "patron de la sabana V* de espcanal), la cola "
-        "Wz > 34 (por dominio), la cola omega > 1.6 (patron "
-        "espomegacanal) y la pesada (pared A7) como "
-        "continuaciones", True)
+        "omega > 1.6 (patron espomegacanal) y la pesada "
+        "(pared A7) como continuaciones", True)
 
 
 def main():

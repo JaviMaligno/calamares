@@ -4572,3 +4572,99 @@ TIPO, no solo de posicion (un cap "de hoja" en una posicion que
 puede ocupar un padre es el mismo error); los conteos identicos
 pre/post-fix fuera del rincon son la verificacion barata de que
 un fix es local.
+
+================================================================
+ACTA — CICLO 3e DEL LEMA DE |A|: LA COLA Wz > 34 CERTIFICADA
+(lemaA4.py, modo CC_COLAZ=1) — CONFIRMADO (sin correcciones
+obligatorias; un cosmetico aplicado)
+================================================================
+
+Fecha: 2026-08-29. OBJETIVO: el residuo del OCTAVO PATRON (acta
+R3 de la fase 3b): la cola Wz > 34 quedaba declarada porque el
+techo Rz de z crece 1:1 con Wz y el root de z no la cubre.
+
+LA MATEMATICA NUEVA:
+- LA PALANCA (del propio repo, espcanal x-en-z): Wz es masa
+  ANIDADA EN z => cuenta en cola(z), y con rho <= phi:
+  (i) suelo de cola(z): z >= (resto + Wz)/phi;
+  (ii) vacuidad rho: Wz + resto > phi z es ILEGAL — esto mata
+  TODO el sector Wz > phi Z2 con z <= Z2 (cobertura por
+  vacuidad);
+  (iii) el techo Rz acopla al reves: z <= C0 + Wz (C0 = a_hi +
+  Xz + s2 + omega <= 8.698).
+- LA C A TROZOS (la pieza central): en las cajas z-cola el
+  minorante de c'(z) es lineal a trozos — tramo inferior
+  (Wz >= Wz_lo, pendiente 1/phi; A6: criticos minimos, sup en
+  extremos) y tramo superior (Wz >= z - C0, pendiente
+  2/phi > 1) donde los criticos de log p son MAXIMOS (S' =
+  -2(cp-1)cp/((c-z)(c-v)) < 0 — el signo OPUESTO a A6: la
+  identidad -(A+B)^2 + A^2 + B^2 = -2AB) con el critico en
+  forma cerrada z*^2 = Dp(Dp - v)/(cp(cp - 1)) y limite p -> 0
+  en z -> oo.  GATE A8 nuevo (sympy: la identidad de S', el
+  cuadrado, el numerador de S = (6 + 2 sqrt 5)[Dp(Dp - v) -
+  cp(cp-1) z^2], el limite).  Candidatos del sup: z_lo,
+  min(z_hi, z_kink), z_kink, z* (si cae en el tramo), z_hi si
+  finito.  SIN la c a trozos, la esquina z -> oo del tramo
+  inferior tiene c - z < 0 y clampa a pi: nada certificaria.
+- COLAS POR TECHO-DE-ROOT (el patron cola_v aplicado a z y Wz):
+  root [1, Z2 = 42.698] x [34, phi Z2 = 69.087]; la caja que
+  toca el techo del root certifica el rayo (z_hi/Wz_hi = INF).
+  Cobertura del complemento {Wz > 34}: el rectangulo + las
+  cajas-cola (los puntos z > Z2 tienen Wz >= z - C0: la
+  ventana z_hi = min(zh_eff, C0 + Wz_hi) los liga) + la
+  vacuidad rho (Wz > phi Z2 con z <= Z2).
+- t_ac/t_gl = pi si z_hi >= INF/2 (piso_z degenera en float:
+  1e18 + x == 1e18) — la acoplada t_c decide sola.
+
+ATRIBUCION INSTRUMENTADA DESDE EL ARRANQUE (leccion 17):
+- SUPZ_N: el sup del par (z, v) se alcanza en el codo z_kink
+  en el 100% de las llamadas (75/75 por banda) — la c a trozos
+  ES el mecanismo.
+- El suelo de cola(z) resulto INERTE (contrafactual
+  CC_3E_OFFSUELO=1: bandas identicas) — queda activo y
+  documentado como refuerzo inerte en header/D.  La leccion
+  17 rinde: la palanca anunciada (el suelo) no decide; decide
+  la c a trozos + la cola de Y con Wz_lo (c' >= 36.75).
+
+LA RONDA (sexta de lemaA4; la sesion del referee se atasco
+—watchdog 600s— TRAS escribir el veredicto en sus notas):
+- A 8/8 y C 4/4 (con (a3): 300 sondas de verdad en la cola,
+  rho-legales, 0 violaciones de corona_suf) reproducidos.
+- Las 5 bandas reproducidas EXACTAS: omega {[0,0.4],[0.4,0.8],
+  [0.8,1.05],[1.05,1.15]} = 1 caja / 1 certificada (el ROOT
+  ENTERO certifica de una: la cola es holgada — z_lo >= 22.9,
+  c' >= 36.75, theta_peor ~ 0.75 rad en el codo, verificado A
+  MANO por el referee: el 1-caja es creible, no vacuo — el
+  True es de motor, j = 0 siempre pasa por _prueba);
+  [1.15, 1.6] = 1 caja / 0 certificadas con LAMINA_N = 1 (la
+  unica caja esta EN L de verdad: declarada limpia).
+- VALIDACION BRUTA de _sup_pz: 4000 escenarios aleatorios
+  (z_hi finito e infinito, kink dentro/fuera del intervalo,
+  K/v/omega variados) x grid denso de 4000 puntos por
+  escenario: 0 fallos — los candidatos son completos.
+- Verdad en los bordes de cobertura (z > Z2 o Wz > phi Z2):
+  120 sondas propias del referee + 60 doble-cola del
+  coordinador (probe3e) + 300 de C(a3): 0 violaciones.
+- Regresion hojas [12,34]x[1.05,1.15] con COLAZ=0: 905/301
+  IDENTICA (el modo es no-op fuera de si mismo) y el assert
+  COLAZ ^ PADRES funciona.
+- El MENOR autodeclarado (caja degenerada Wzl > Wzh devolvia
+  True) NO se reprodujo en la forma del referee (dio None);
+  cosmetico — bnb no genera degeneradas.  Guard anadido de
+  todos modos tras el veredicto (crit_k2 devuelve None).
+
+VEREDICTO DEL REFEREE: CONFIRMADO (sin correcciones
+obligatorias).  EL CLAIM QUEDA: k >= 2 HOJAS con Wz > 34
+certificado para omega <= 1.15 y Wv completo (con su cola
+W-uniforme); la lamina [1.15, 1.6] declarada como en hojas.
+RESIDUOS DECLARADOS Y SONDADOS: los padres fuera de su dominio
+3d (Wv > 8 u omega > 1.05 u Wz > 34), la banda omega
+[1.15, 1.6], la cola omega > 1.6, la pesada.
+
+LECCION 18: cuando el residuo es "el root no cubre", mirar si
+una LIGADURA del modelo (aqui rho <= phi via cola(z)) acota el
+sector no cubierto — la cobertura puede completarse por
+vacuidad + acople sin agrandar el barrido; y el sup de una
+cota lineal A TROZOS exige re-derivar el argumento de extremos
+POR TRAMO (el signo de S' se invierte con la pendiente > 1:
+los criticos pasan de minimos a maximos y aparece z*).
