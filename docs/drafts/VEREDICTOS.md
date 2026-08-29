@@ -4777,3 +4777,89 @@ LECCION 19: un residuo heredado con nombre de patron
 (k <= 1 vs k >= 2 difieren en un par diametral); y cuando dos
 residuos comparten la caja mala, unificarlos es mas valioso
 que cerrar un tramo mas.
+
+================================================================
+ACTA — CICLO 3h DEL LEMA DE |A|: K >= 2 DEL CANAL PESADO
+(lemaA5.py) — PROVISIONAL: 16 bandas verdes con el
+auto-contraste del coordinador; EL SELLO ADVERSARIAL PENDIENTE
+(mismo bloqueo que el 3g: limite semanal, reset 2026-09-02)
+================================================================
+
+Fecha: 2026-08-29. OBJETIVO: el ultimo residuo de CELDA del
+canal — la ESP PESADA (SS >= 1 + s2) con k >= 2 extras
+(espcanalp certifico k <= 1; k >= 2 estaba declarado con la
+pinza de colas).
+
+EL CLAIM (PROVISIONAL): k >= 2 PESADA certificada en omega in
+[0, 1.15] (lamina [1.15, 1.6] declarada POR SUELO, 1 caja en L
+limpia), extras HOJA, Wz <= 34 por dominio, Wv completo con su
+cola W-uniforme.  16/16 bandas verdes (omega {[0,0.4],
+[0.4,0.8], [0.8,1.05], [1.05,1.15]} x Wv {[0,4], [4,8],
+[8,12], [12,34]}): 12997/4124, 22301/8044, 18149/6149,
+31359/10735; 22481/6763, 45673/14576, 34481/10597,
+73939/23835; 23871/7102, 58357/17621, 32723/9883, 82467/26459;
+20489/5608, 43989/12617, 20705/6173, 56731/17741.
+NOTABLE: la pesada pasa [1.05, 1.15] LIMPIA a la primera — mas
+docil que la ligera (cuyo corte costo dos ciclos): T_p es
+generoso y z es chico (Z_MAX_P ~ 8.2 sin Wz).
+
+LA CONSTRUCCION (lemaA5.py, 12 dims: w, s2, SS, b, Xp, Xz, Xm,
+a, z, mu, Wv, Wz):
+- LA PARED PESADA POR-EXTRA (el enunciado A1p, la pieza a
+  adversariar): la derivacion A7 de espcanal (greedy A/B hacia
+  el agujero de x) aplica A CADA extra por separado — el
+  desbloqueo mueve solo B, children(x_i) y A (en fila a D_m,
+  lem:row), los demas extras no se tocan: todo extra HOJA
+  cumple x_i < T_p = omega + SS - 1 + min(b, 1) + X_x.  El
+  analogo exacto del techo T ligero (A2iii, por-extra).
+- La particion colapsada a beta (espcanalp adversariado):
+  b > 1/2, piezas de A <= min(b, phi/2), A por MASA como
+  bloques partibles en la corona; bl = max(bl, 1 - bh); la
+  corona pesada NO lleva nodo s2 (sigma2 vive en la particion;
+  B* <= 1 al agujero de D_m, patron k = 1).
+- Ventanas pesadas (a_hi = 1 + (SS - b) + Xp + omega) + el
+  aparato de lemaA4 entero (variantes AND j_v, escalones con
+  T_p, cola Wv W-uniforme, cota acoplada A6, exencion movil
+  del 3g).
+- LA PIEZA NUEVA DEL CICLO — ESCALONES EXACTOS HASTA J_ESC = 8:
+  el bloque j >= 6 por cuerda de lemaA4 NO cabe en la pesada
+  (T_p ~ 2.4 vs T ligero ~ 1.4: cap del bloque alto, la cuerda
+  paga Wv entera al cap y la banda [0.4,0.8] x [8,12] se
+  atascaba en 795k cajas); con j_max <= 8, cada j real va con
+  su fila AND de escalones exactos (sound: la variante j cubre
+  j_real = j; sin doble conteo — escalones PUROS por variante,
+  no escalones+bloques) y el centinela 99 (bloques por cuerda)
+  solo si j_max > 8 (cola Wv).  La banda atascada paso a
+  34481/10597 — mas barata ademas.
+
+AUTO-CONTRASTE DEL COORDINADOR (pendiente de sello):
+- C(a): 300 coronas pesadas reales (la familia S con ocupantes
+  W extra — SS = s1 + s2 + sum(W) >= 1 + s2, alcanzable solo
+  asi: el primer generador con S = {s1, s2} producia 0
+  instancias, corregido —, la PARTICION REAL greedy B* <= 1
+  con b > 1/2, extras repartidos v/anidados, piezas de A
+  explicitas): corona_suf 0 violaciones.
+- Verdad j_v = 6..8 (el camino nuevo de escalones): 150
+  sondas, 0 violaciones.
+- El borde b -> 0.5 decide (False conservador, sin colgarse);
+  la caja cola_v (j_max = 1e6, j = 99 activo) certifica.
+- La banda declarada [1.15, 1.6]: 1 caja, toda en L, 0
+  certificadas — declaracion limpia.
+- A 4/4 (enunciados A1p/A2p/A3p/A4p), C 2/2, D verde.
+
+RESIDUOS DECLARADOS: la lamina [1.15, 1.6] (por suelo; la
+misma familia omega-invariante del 3g se espera aqui), omega >
+1.6 (hallazgo 3g: espomegacanal no porta a k >= 2), padres
+(anidados en extras), Wz > 34 (sin el modo cola-z portado), y
+las continuaciones de la ligera.
+
+PENDIENTE AL RESET (2026-09-02), ronda adversarial completa:
+(1) LA PARED A1p por-extra (la derivacion A7 con k >= 2:
+atacar la independencia del desbloqueo respecto de los demas
+extras — es EL enunciado nuevo del ciclo); (2) los escalones
+exactos j <= 8 (sound por variante-AND? el j real = 7 con la
+fila de 7 escalones); (3) la corona sin nodo s2 y B* al
+agujero de D_m (portado de k = 1: re-derivar); (4) el
+generador C (la particion greedy = la real?); (5) bandas con
+conteos.  EL PAPER Y EL TAG v1-arxiv SIGUEN CONGELADOS (estado
+3e) hasta los sellos de 3g y 3h.
