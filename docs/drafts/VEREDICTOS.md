@@ -4668,3 +4668,18 @@ vacuidad + acople sin agrandar el barrido; y el sup de una
 cota lineal A TROZOS exige re-derivar el argumento de extremos
 POR TRAMO (el signo de S' se invierte con la pendiente > 1:
 los criticos pasan de minimos a maximos y aparece z*).
+
+----------------------------------------------------------------
+NOTA DE EXPERIMENTO (post-3e, leccion 16 aplicada otra vez): el
+flag CC_TROZOS=1 activa la C A TROZOS del 3e en modo HOJAS (el
+acople Wz >= z - C0 del techo Rz vale en TODO punto real).
+Re-test del corte: la banda [8,12] x omega [1.15,1.25] (la que
+fallaba en el 3c) NO cierra tampoco con la c a trozos — la caja
+sin resolver (omega ~ 1.24, z ~ 4.05, Wv ~ 8.5, Wz ~ 0) es la
+familia diametral-saturada de la lamina, donde z_hi ~ C0 y el
+tramo superior casi no existe.  CONFIRMA la historia del 3b: la
+franja [1.15, 1.6] es estructural/coste de maquina, no carencia
+de la maquinaria nueva.  El flag queda documentado (default 0:
+los conteos del manifiesto no cambian; sound — auditado como
+parte del 3e, donde TROZOS = COLAZ).
+----------------------------------------------------------------

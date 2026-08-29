@@ -124,6 +124,11 @@ assert not (COLAZ and PADRES), \
 # medir — el claim corre siempre con el suelo activo)
 OFFSUELO_3E = os.environ.get('CC_3E_OFFSUELO', '0') == '1'
 SUPZ_N = [0, 0]   # [llamadas a _sup_pz, sup en tramo superior]
+# CC_TROZOS=1 (experimento 3f): la C A TROZOS del 3e aplicada
+# en modo HOJAS (el techo Rz da Wz >= z - C0 en TODO punto
+# real, no solo en la cola): re-test del corte omega (leccion
+# 16 otra vez — la maquinaria nueva contra el recorte antiguo)
+TROZOS = os.environ.get('CC_TROZOS', '0') == '1' or COLAZ
 
 # LA BANDA DECLARADA (residuo de este ciclo, historia en el
 # docstring de _en_lamina y en el acta): omega in [1.05, 1.6]
@@ -516,7 +521,7 @@ def crit_k2(box):
         return peor
 
     def th_acopl(a_p):
-        if COLAZ:
+        if TROZOS:
             return _asin2(math.sqrt(min(
                 1.0, _sup_pz(K_cola, a_p))))
         peor = 0.0
@@ -537,7 +542,7 @@ def crit_k2(box):
         esquinas (z, v).  El punto real cumple ambas: min
         sound."""
         peor_g = 0.0
-        if COLAZ:
+        if TROZOS:
             # A6 en v (pendiente 1/phi < 1: esquinas) x el sup
             # a trozos en z (con la c acoplada a v_e)
             for v_e in (v_min, v_max):
