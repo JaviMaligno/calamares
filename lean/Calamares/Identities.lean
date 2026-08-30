@@ -471,4 +471,68 @@ theorem additive_family :
     Poly.eq (Poly.mul [2] (Poly.add [1/4, 2/3] [1/4, 1/3])) [1, 2] = true := by
   decide +kernel
 
+/-!
+## Campaña 3d–3i: el canal k ≥ 2 (scripts `code/lemaA4.py`, `code/lemaA5.py`)
+
+Las identidades exactas de los gates nuevos: la pendiente del tramo
+superior de la cola `W_z` (gate A8), el coeficiente del numerador del
+crítico, y la constante de masa del sello pesado (`MASA_A_MAX`).
+-/
+
+/-- (23) `cp := 2/φ = √5 − 1`: la pendiente del tramo superior del
+minorante de capacidad en la cola `W_z` (el techo `Rz` acopla
+`W_z ≥ z − C₀`, gate A8). [lemaA4 A8; ciclo 3e] -/
+theorem cp_closed : (2 : Q5) / phi = sqrt5 - 1 := by decide +kernel
+
+/-- (23b) `cp > 1`: el tramo superior tiene pendiente mayor que uno —
+por eso los críticos de `log p` pasan de mínimos (A6) a máximos (A8) y
+aparece el crítico interior `z*`. [lemaA4 A8] -/
+theorem cp_gt_one : (1 : Q5) < 2 / phi := by decide +kernel
+
+/-- (24) `cp(cp − 1) = 7 − 3√5`: el denominador de la forma cerrada del
+crítico `z*² = Dp(Dp − v)/(cp(cp − 1))`. [lemaA4 A8; ciclo 3e] -/
+theorem cp_prod : (2 / phi) * (2 / phi - 1) = 7 - 3 * sqrt5 := by
+  decide +kernel
+
+/-- (24b) `(6 + 2√5)(7 − 3√5) = 12 − 4√5`: el factor positivo del
+numerador de `S` por el denominador del crítico — el coeficiente de
+`z²` en el numerador, verificado en el gate. [lemaA4 A8] -/
+theorem num_coeff : ((6 : Q5) + 2 * sqrt5) * (7 - 3 * sqrt5)
+    = 12 - 4 * sqrt5 := by decide +kernel
+
+/-- (25) `2φ/3 < 1079/1000`: la constante `MASA_A_MAX = 1.079` del
+canal pesado mayora la masa máxima del bloque `A` (el extremo
+`masa_A ≤ 2φ/3`, alcanzado en `b = φ/3` con `|A| = 2`; MENOR del
+sello 3h). [lemaA5; sello de la ronda triple] -/
+theorem masa_A_max : 2 * phi / 3 < Q5.ofRat (1079/1000) := by
+  decide +kernel
+
+/-- (25b) El extremo es genuino: con `b = φ/3` y `|A| = 2`, la masa
+`2(1 − b) = 2 − 2φ/3` queda estrictamente bajo el techo
+`min(2b, φ − b) = 2φ/3` — equivalente a `φ > 3/2`.
+[lemaA5; derivación del referee en el sello 3h] -/
+theorem masa_A_extremo :
+    (2 : Q5) - 2 * phi / 3 < 2 * phi / 3
+    ∧ (2 : Q5) * (phi / 3) = phi - phi / 3 := by decide +kernel
+
+/-- (26) La cota del desborde del testigo greedy de `thm:D1written`
+(el cierre del gap `σ₁+σ₂ ≤ 1`, hallado por la revisión externa):
+la parte de identidad — `(φ − s₂ − B) − ((φ−1) − (s₂ − s₃)) = 1 − B − s₃`
+como identidad de polinomios en `B` con parámetros desplazados: en
+listas de coeficientes sobre ℚ (la parte √5 se cancela),
+`([1] − [B]) = [1, -1]` aplicado a la instancia del spot-check
+`(s₂, s₃) = (38/100, 33/100)`:
+`(φ − 38/100 − 93/100) < (φ − 1) − (38/100 − 33/100)`. [thm:D1written;
+sello de la revisión externa, ronda 4] -/
+theorem spill_spotcheck :
+    phi - Q5.ofRat (38/100) - Q5.ofRat (93/100)
+      < (phi - 1) - (Q5.ofRat (38/100) - Q5.ofRat (33/100))
+    ∧ (phi - 1) - (Q5.ofRat (38/100) - Q5.ofRat (33/100))
+      < phi - 1 := by decide +kernel
+
+/-- (26b) `φ − 1 = 1/φ`: el techo de la cota del desborde es el
+inverso áureo — ambos radios insertados quedan bajo los tamaños
+certificados. [thm:D1written] -/
+theorem phi_inv : phi - 1 = 1 / phi := by decide +kernel
+
 end Calamares

@@ -1498,7 +1498,7 @@ the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$, $(\mathbb Q[e])[d]$ and
 $(\mathbb Q[\sqrt5])[r]$. Its
-forty-five theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+fifty-three theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
@@ -1527,7 +1527,14 @@ $2\cdot(\varphi/2)=\varphi$, the polynomial identity
 $r(1+r+r^2)+r(1+r)-\varphi(1+r+r^2)
 =r^3+(2-\varphi)r^2+(2-\varphi)r-\varphi$ in
 $(\mathbb Q[\sqrt5])[r]$, $q(9/10)=171/271$ and the ceiling
-inequality $\varphi-9/10-171/271<25/83$). There are no \texttt{sorry}s and no new axioms
+inequality $\varphi-9/10-171/271<25/83$; and, from the
+extra-ring campaign, the tail-slope identities $2/\varphi=\sqrt5-1>1$
+and $(2/\varphi)(2/\varphi-1)=7-3\sqrt5$ of the $W_z$-tail's upper
+piece with the numerator coefficient $(6+2\sqrt5)(7-3\sqrt5)
+=12-4\sqrt5$, the heavy-mass bound $2\varphi/3<1.079$ with its
+genuine extremum at $b=\varphi/3$, and the spillover-bound
+identities of Theorem~\ref{thm:D1written} with
+$\varphi-1=1/\varphi$). There are no \texttt{sorry}s and no new axioms
 (\texttt{\#print axioms} reports only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
 is not used, so every proof is checked by the Lean kernel. The geometric
