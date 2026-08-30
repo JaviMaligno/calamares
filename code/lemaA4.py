@@ -221,7 +221,8 @@ def _cstar_refuta(radios, c):
     aparato ADVERSARIADO del repo, cabe_algun_orden de
     coronacolas (gamma_min con apilamiento y esquinas +
     subconjuntos + confinamiento por el gigante, lema del
-    anillo), con confinado_por = el mayor radio (z).  La
+    anillo), con confinado_por = el mayor radio del conjunto (z salvo
+    cajas raras con x_1 > z: max(radios) decide).  La
     pre-criba theta_w solo decide NO-refutar (ahorro)."""
     if len(radios) < 3:
         return False

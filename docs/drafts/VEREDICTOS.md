@@ -5123,3 +5123,27 @@ en [1.6, 2] con la s2-alta de [2, 2.3] como sobre-verificacion
 converse) se pospone: el referee esta dedicado a quintetocert y
 el sweep es material del programa f3, no del canal.
 ----------------------------------------------------------------
+
+================================================================
+SELLOS DEL REPASO (batch): PUNTOS 2 Y 5 SELLADOS; 4 Y 6a
+SELLADOS COMO DECLARACIONES HONESTAS
+================================================================
+Fecha: 2026-08-30/31.  (2) EL CORTE PESADO A 1.25 SELLADO: el
+conjunto-sin-s2 resuelto a favor (SUBCONJUNTO del sellado:
+omitir solo debilita — la direccion segura; la sonda muestra
+que anadir s2 puede refutar MENOS con cabe_algun_orden);
+confinado_por = max(radios) — sin bug (solo un MENOR de
+docstring, aplicado); c_hi_y formula-identico a la pinza RY;
+empiria: 35151/9846 con 3229/30, 29355/8431 EXACTAS + regresion
+CSTAR=0 12923/4099 y 53495/16830 IDENTICAS al sello 3h.  (5) EL
+CRUZADO SELLADO: cobertura completa (paredes heredadas; Z2
+creciente en w => el techo de banda mayora; colas por
+techo-de-root sin cambio semantico; Wv > 34 => lamina
+declarada); topes verificados (WZ2 = 70.384 y 83.329 cuadran);
+3 bandas EXACTAS + regresion COLAZ 1/1.  (4) DECLARACION
+SELLADA: el referee cazo y probo el tramo s2-bajo no reportado
+([1.25,1.4]x[0,4]xs2[0,0.45]: tambien agota) — la obstruccion
+cubre ambos lados de s2, no hay tramo barato sin probar.  (6a)
+atasco reproducido: declaracion honesta.  Los claims quedan:
+corte pesado omega <= 1.25; cruzado omega in [1.6, 6] x
+Wz > 34; hojas en 1.25 y [1.6, 2] (j_v <= 1) sin cambio.
