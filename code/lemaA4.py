@@ -85,7 +85,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from coronacolas import (PHI, PI, check, bolsillo_descartes,
-                         cabe_algun_orden)
+                         cabe_algun_orden,
+                         corona_suf as corona_suf_criterio)
 from r2bmulti import th, bnb_factible
 from lemaA import (_motor_dos_lados, _cuerda, _asin2,
                    _coloca_ciclo, _coloca_y_verifica)
@@ -155,6 +156,27 @@ OMEGA_ALTO = os.environ.get('CC_OMEGA', '0') == '1'
 # c* — los theta del mayorante evaluados en c* siguen mayorando
 # los reales porque c' real >= c*).
 CSTAR = os.environ.get('CC_CSTAR', '0') == '1'
+# CC_RETEST_LAMINA=1 (experimento 3j, leccion 16): en modo OMEGA
+# desactiva la declaracion de la lamina j_v >= 2 para re-testarla
+# contra la pared c* FUERTE (cabe_algun_orden con confinamiento,
+# sello 3i) — el "c* no muerde alli" del acta 3i se midio con el
+# test viejo, nunca con el fuerte
+RETEST_LAMINA = os.environ.get('CC_RETEST_LAMINA', '0') == '1'
+# CC_SUF=1 (ciclo 3j): LA VIA CORONA_SUF — el certificado
+# constructivo rico del repo (bolsillos de Descartes, ordenes,
+# tangencias exactas; el oraculo de verdad de toda la campana)
+# como via de certificacion DE ULTIMO RECURSO en el criterio:
+# si corona_suf(radios-TECHO de la variante, c_lo) coloca, la
+# sub-caja entera certifica POR CONTENCION (radios reales <=
+# techos y c' real >= c_lo: los mismos centros sirven — los
+# circulos encogidos siguen disjuntos y dentro, y el disco solo
+# crece).  Es exactamente la pieza que el acta 3c identifico
+# («las coronas reales caben con margenes de centesimas usando
+# BOLSILLOS que el motor no representa»): el filo de la lamina
+# es una tangencia multiple que corona_suf maneja de forma
+# exacta y los mayorantes angulares no.
+SUF = os.environ.get('CC_SUF', '0') == '1'
+SUF_N = [0, 0]      # [intentos, exitos]
 CSTAR_N = [0, 0, 0]   # [rescates intentados, exitosos, vacuidades]
 
 
@@ -283,6 +305,8 @@ def _en_lamina(SSh, s2h, s2l, x_floor, Wvl, Wvh, Wzh, muh,
         # j_v >= 2 queda DECLARADO por SUELO (leccion 12) con
         # margen 0.1 (la frontera 2 x_floor varia con la caja:
         # sin margen el B&B muere en ella)
+        if RETEST_LAMINA:
+            return False               # experimento 3j
         return Wvl >= 2.0 * x_floor - 0.1
     if PADRES:
         # EL CLAIM-PADRES (ciclo 3d, medido): extras anidados
@@ -1003,6 +1027,21 @@ def crit_k2(box):
                                    ext):
                             CSTAR_N[1] += 1
                             falla = False
+            if falla and SUF and z_hi < 1e8:
+                # LA VIA CORONA_SUF (3j): los radios TECHO de la
+                # variante en c_lo — True certifica la sub-caja
+                # entera por contencion; el polvo mu como piezas
+                # al cap (mayorante: piezas mas grandes)
+                SUF_N[0] += 1
+                conj = [z_hi] + list(fila) + [1.0, s2h]
+                if mu_eff > 0 and cap_mu > 0:
+                    n_mu = int(math.ceil(mu_eff / cap_mu))
+                    conj += [cap_mu] * n_mu
+                okc, _ = corona_suf_criterio(
+                    sorted(conj, reverse=True), c_lo)
+                if okc:
+                    SUF_N[1] += 1
+                    falla = False
             if falla:
                 if x2b - x2a > max_prof:
                     mid = (x2a + x2b) / 2.0
@@ -1285,6 +1324,9 @@ def bloque_B():
               f"superior (kink/z*)"
               + ("; CONTRAFACTUAL OFFSUELO" if OFFSUELO_3E
                  else ""))
+    if SUF:
+        print(f"    [3j suf] via corona_suf: {SUF_N[0]} "
+              f"intentos, {SUF_N[1]} certificaciones")
     if CSTAR:
         print(f"    [3i c*] rescates {CSTAR_N[0]} "
               f"(exitosos {CSTAR_N[1]}), vacuidades por "

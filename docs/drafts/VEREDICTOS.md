@@ -5030,3 +5030,34 @@ con j_v <= 1; (3) la PESADA k >= 2 completa en omega <= 1.15
 lamina unificada j_v >= 2 en omega > 1.6; omega > 2 (j_v <=
 1); los padres fuera de su dominio; los cruzados de Wz-cola;
 la pesada fuera de su dominio.
+
+----------------------------------------------------------------
+NOTA DE EXPERIMENTO 3j (punto 1 del repaso; negativo pero
+CONCLUYENTE): el re-test de la lamina j_v >= 2 en omega > 1.6
+con la pared c* FUERTE (cabe_algun_orden, sello 3i) y con la
+VIA CORONA_SUF nueva (certificar la sub-caja colocando los
+radios-TECHO en c_lo: sound por contencion — mismos centros al
+encoger radios y agrandar el disco).  Flags CC_RETEST_LAMINA y
+CC_SUF (aditivos, default 0).  RESULTADO en la banda piloto
+[1.6, 1.75] x Wv [4, 8]: el c* fuerte SI muerde (61 rescates
+intentados; el debil daba 0) pero 0 exitosos; la via-suf
+77.436 intentos, 0 certificaciones.  EL DIAGNOSTICO EXACTO
+(la aportacion del experimento): en el filo diametral-doble
+(z ~ 6, x_1 ~ x_2 ~ Wv/2, c' al suelo del conjunto) la
+sub-caja contiene A LA VEZ puntos reales certificables (el
+conjunto-SUELO cabe: corona_suf y cabe_algun_orden coinciden
+— el c* hace bien en no refutar) y puntos irrealizables (el
+conjunto-TECHO necesita c' ~ 5% mas: la verdad del punto duro
+exige 9.29 con c_lo 8.84).  NINGUNA necesidad-por-suelos
+refuta y NINGUNA suficiencia-por-techos certifica una caja
+asi: separar ambos exige LA FRONTERA EXACTA de factibilidad
+del conjunto corona {z, x_1, x_2, m, sigma_2} (el analogo del
+suelo_trio para el quinteto, con bolsillos) — matematica
+nueva sustancial, no un truco de criterio.  La lamina
+unificada queda declarada CON SU OBSTRUCCION CARACTERIZADA:
+es una franja-filo donde mayorante y verdad convergen
+asintoticamente (la razon profunda de las 15+ delimitaciones
+del 3b y del corte por omega puro).  Ambas vias quedan en el
+codigo (documentadas, sound, default off) como puntos de
+partida del ataque futuro.
+----------------------------------------------------------------
