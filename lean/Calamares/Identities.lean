@@ -535,4 +535,33 @@ inverso áureo — ambos radios insertados quedan bajo los tamaños
 certificados. [thm:D1written] -/
 theorem phi_inv : phi - 1 = 1 / phi := by decide +kernel
 
+/-!
+## quintetocert: el certificado sin tolerancias del quinteto j = 1
+(thm:gapwritten; script `code/quintetocert.py`)
+-/
+
+/-- (27) stack_golden: el margen del testigo apilado en el punto
+aureo (phi, phi, phi) — dist² − (w*+α)² = 1/φ³ en la forma entera
+`2φ⁴ − (φ+2)² = φ − 1`. [quintetocert P5] -/
+theorem stack_golden : (2 : Q5) * phi^4 - (phi + 2)^2 = phi - 1 := by
+  decide +kernel
+
+/-- (27b) p_half_mid: la colocacion media de m es legal en el punto
+aureo — f(φ)·f(1) en R = 2φ vale 1/√5 (`2φ − 1 = √5`), y
+1/√5 ≤ 1/2 porque √5 ≥ 2. [quintetocert P5] -/
+theorem p_half_mid : (2 : Q5) * phi - 1 = sqrt5 := by decide +kernel
+
+/-- (27c) `√5 ≥ 2` en Q5 (⟹ 1/√5 ≤ 1/2: el criterio del arco
+medio). [quintetocert P5] -/
+theorem sqrt5_ge_two : (2 : Q5) ≤ sqrt5 := by decide +kernel
+
+/-- (28) semiarc_golden: el umbral racional del semiarco vale
+exactamente m = 1 en el punto W2 — `1 + f(2/φ) + f(2) = 1 + √5` en
+R = 1+√5: `(√5−1)/2 + (√5+1)/2 + 1 = √5 + 1`. La configuracion
+critica de thm:golden reaparece como testigo tangente-legal.
+[quintetocert P6] -/
+theorem semiarc_golden :
+    (1 : Q5) + (sqrt5 - 1)/2 + (sqrt5 + 1)/2 = sqrt5 + 1 := by
+  decide +kernel
+
 end Calamares

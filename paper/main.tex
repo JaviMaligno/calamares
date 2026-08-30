@@ -1483,7 +1483,7 @@ G-b$'$ over all $Y$, mass, piece counts & \texttt{code/lemaA2.py} & 6/6; two uns
 Heavy assembly murals G-e/G-g & \texttt{code/lemaA3.py} & 5/5; a $k\ge6$ block cap repaired \\
 Light channel, $k\ge2$ extras & \texttt{code/lemaA4.py} & domain $\omega\le1.25$ (leaf extras, full nested-mass range), parents on $\omega\le1.05$, $W_v\le8$, and the $j_v\le1$ slice of $[1.6,2]$; nine rounds, four intermediate refutations repaired \\
 Heavy profile, $k\ge2$ extras & \texttt{code/lemaA5.py} & $\omega\le1.15$ over a 16-band manifest \\
-Quintet certificate of Theorem~\ref{thm:gapwritten} & \texttt{code/quintetocert.py} & 4/4; whole domain, 76{,}557 boxes, tolerance-free rational acceptance; supersedes \texttt{code/bolsillos.py} and
+Quintet certificate of Theorem~\ref{thm:gapwritten} & \texttt{code/quintetocert.py} & 4/4; whole domain, 11{,}973 boxes, tolerance-free rational acceptance, no platform hypotheses; supersedes \texttt{code/bolsillos.py} and
 \texttt{code/arcolp.py} for the $j=1$ quintet \\
 \hline
 \end{longtable}
@@ -3782,7 +3782,15 @@ $1/\varphi^{3}$ in $\mathbb Q[\sqrt5]$), and a rational
 exactly $1$ at the critical corner (the configuration of
 Theorem~\ref{thm:golden} reappearing as a tangent-legal witness)
 -- with every acceptance decided by exact rational comparisons
-(no tolerances; angle sums by outward directed intervals), and
+(no tolerances; angle sums by outward directed intervals with
+every operation rounded outward, and the arcsines evaluated by
+high-precision arithmetic on exact rational arguments, so no
+hypothesis on the platform's math library remains), together
+with a written trio lemma showing that the trio fits within the
+proved floor $R_0$: directly at the pair-sum floor when
+$\max(\alpha,o_1)\ge2$, and through $R_3\le M$ when
+$\max(\alpha,o_1)\le2$ -- both anchored at the kernel-checked
+mirror corner $b_2(2,\sqrt5-1)=1$ -- and
 the $\alpha\to\infty$ tail closed by
 the exact pocket infimum $ab/(\sqrt a+\sqrt b)^{2}$; the binding
 tangent curve of the trio sum $=2\pi$ from $(2,2/\varphi)$

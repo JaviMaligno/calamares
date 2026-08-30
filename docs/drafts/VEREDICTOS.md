@@ -5116,3 +5116,10 @@ de hojas QUEDA EN 1.25 (el sellado); [1.25, 1.6] declarado con
 la obstruccion caracterizada (3j) y el coste documentado.  Las
 Wv altas de [1.25, 1.4] siguen verdes como sobre-verificacion.
 ----------------------------------------------------------------
+PUNTO 6a: [2, 2.3] x [0, 4] x s2-baja re-intentado con el c*
+fuerte y eps 4e-2: timeout 550s de nuevo — el claim del 3g queda
+en [1.6, 2] con la s2-alta de [2, 2.3] como sobre-verificacion
+(sin cambio).  El punto 6b (upgrade del sweep sampled del
+converse) se pospone: el referee esta dedicado a quintetocert y
+el sweep es material del programa f3, no del canal.
+----------------------------------------------------------------
