@@ -113,8 +113,9 @@ PADRES = os.environ.get('CC_PADRES', '0') == '1'
 # que A6) — esta en el critico interior z* = sqrt(D(D-v)/
 # (c'(c'-1))), forma cerrada verificada en el gate A8.
 COLAZ = os.environ.get('CC_COLAZ', '0') == '1'
-Z2_COLA = Z_MAX + W_TOP        # techo del root de z (42.698)
-WZ2_COLA = PHI * Z2_COLA       # phi * Z2: techo del root de Wz
+# techos de cola MUTABLES (el cruzado OMEGA+COLAZ los reajusta
+# con el root escalado; el modo COLAZ puro usa los historicos)
+_COLA_TOPES = [Z_MAX + W_TOP, PHI * (Z_MAX + W_TOP)]
 INF_Z = 1e18
 # el claim de la cola-Wz es de HOJAS (T_ext = T + Wz seria
 # infinito en las cajas de cola: los padres con Wz > 34 quedan
@@ -249,8 +250,10 @@ def _cstar_suelo(radios, c_ini, c_tope):
         if hi - lo < 1e-6 * max(1.0, lo):
             break
     return lo                          # el ultimo refutado
-assert not (OMEGA_ALTO and COLAZ), \
-    "CC_OMEGA y CC_COLAZ son modos incompatibles (residuo cruzado)"
+# CC_OMEGA + CC_COLAZ (punto 5 del repaso): EL CRUZADO omega >
+# 1.6 con Wz > 34 — compatible: la c a trozos, el suelo cola(z)
+# y la vacuidad rho son omega-genericos; los techos de cola
+# Z2/WZ2 se reajustan con el root escalado (bloque_B)
 assert not (OMEGA_ALTO and PADRES), \
     "CC_OMEGA y CC_PADRES son modos incompatibles"
 
@@ -467,8 +470,8 @@ def crit_k2(box):
     # (Wz > phi*z - resto es ilegal: Wz cuenta en cola(z))
     Wv_hi = 1e9 if cola_v else Wvh
     if COLAZ:
-        cola_wz = Wzh >= WZ2_COLA - 1e-9
-        cola_zz = zh >= Z2_COLA - 1e-9
+        cola_wz = Wzh >= _COLA_TOPES[1] - 1e-9
+        cola_zz = zh >= _COLA_TOPES[0] - 1e-9
         Wz_hi = INF_Z if cola_wz else Wzh
         zh_eff = INF_Z if cola_zz else zh
     else:
@@ -1298,7 +1301,7 @@ def bloque_B():
     wz_lo = float(os.environ.get(
         'CC_WZLO', str(W_TOP) if COLAZ else '0'))
     wz_hi = float(os.environ.get(
-        'CC_WZHI', str(WZ2_COLA) if COLAZ else str(W_TOP)))
+        'CC_WZHI', str(_COLA_TOPES[1]) if COLAZ else str(W_TOP)))
     if OMEGA_ALTO:
         # ciclo 3g: techos del root escalados con w_hi (el
         # patron espomegacanal — A_MAX/Z_MAX del tramo bajo
@@ -1307,7 +1310,18 @@ def bloque_B():
         if w_lo < 1.6:
             w_lo = 1.6
         a_top = 1.0 + 1.0 + XP_MAX + w_hi
-        z_top = a_top + XZ_MAX + 1.0 + w_hi + wz_hi
+        if COLAZ:
+            # EL CRUZADO (punto 5): los topes de cola escalados
+            # — Z2(w) = techo Rz con Wz <= 34 y el rayo por
+            # techo-de-root encima (el patron COLAZ intacto)
+            z_base = a_top + XZ_MAX + 1.0 + w_hi
+            _COLA_TOPES[0] = z_base + W_TOP
+            _COLA_TOPES[1] = PHI * _COLA_TOPES[0]
+            z_top = _COLA_TOPES[0]
+            wz_lo = max(wz_lo, W_TOP)
+            wz_hi = _COLA_TOPES[1]
+        else:
+            z_top = a_top + XZ_MAX + 1.0 + w_hi + wz_hi
     else:
         a_top = A_MAX
         z_top = Z_MAX + W_TOP
@@ -1685,6 +1699,10 @@ def bloque_D():
         "RESIDUOS DECLARADOS Y SONDADOS (corona_suf 0 "
         "violaciones): los padres con Wv > 8 u omega > 1.05 "
         "o Wz > 34, "
+        "EL CRUZADO omega > 1.6 con Wz > 34 INCLUIDO (punto 5 "
+        "del repaso: CC_OMEGA + CC_COLAZ compatibles — los topes "
+        "de cola escalados con el root; la cola Wz hace z >= "
+        "(resto+34)/phi y el tramo alto queda holgado), "
         "la lamina j_v >= 2 UNIFICADA (omega in [1.15, 1.6] "
         "entera + todo omega > 1.6 con Wv >= 2 x_floor - "
         "0.1: el par (z, x_1) diametral-saturado — las "

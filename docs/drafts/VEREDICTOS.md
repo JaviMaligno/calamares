@@ -5076,3 +5076,43 @@ reclamada: [1.25,1.4] x [8,12] 67587/18832.  Regresion
 CSTAR=0: 12923/4099 identica (el modo sellado intacto);
 C verde.  El sello del porte va en el batch del repaso.
 ----------------------------------------------------------------
+
+----------------------------------------------------------------
+PUNTO 5 DEL REPASO — EL CRUZADO omega > 1.6 CON Wz > 34
+(lemaA4, CC_OMEGA + CC_COLAZ compatibles; PROVISIONAL, sello en
+el batch).  La incompatibilidad era un assert de prudencia, no
+matematica: la c a trozos, el suelo de cola(z) y la vacuidad rho
+son omega-genericos; el unico ajuste real es que los topes de
+cola Z2/WZ2 escalan con el root (Z2(w) = a_top + XZ_MAX + 1 +
+w_hi + 34 y WZ2 = phi Z2, topes mutables _COLA_TOPES).  EL
+HALLAZGO: el cruzado es HOLGADO — la cola Wz fuerza z >=
+(resto + 34)/phi ~ 24+ tambien en omega alto, y el tramo que en
+Wz <= 34 exigia el recorte j_v <= 1 y moria en omega > 2 por
+coste, aqui CIERRA MAS ALLA: [1.6, 2] x Wv [0, 4] = 1/1 (root
+entero), [1.6, 2] x [4, 34] = 1 caja toda en L (lamina j_v >= 2
+declarada), [2, 6] x [0, 34] = 137/41 (+6 en L).  Bandas [6, 15]
+y [15, 40]: en curso.  Regresion COLAZ puro: 1/1 identica.
+----------------------------------------------------------------
+COMPLECION DEL PUNTO 5: las bandas altas del cruzado — [6, 15] y
+[15, 40] agotan el presupuesto (2M cajas cada una, 569930 y
+551430 certificadas, SIN RESOLVER en s2 ~ 0.5 y s2 bajo resp.):
+EL CLAIM CRUZADO ES omega in [1.6, 6] x Wz > 34 (con la lamina
+j_v >= 2 declarada), y omega > 6 del cruzado queda DECLARADO por
+coste. Los certificados quintetocert aportan 4 identidades Lean
+nuevas (stack_golden, p_half_mid, sqrt5_ge_two, semiarc_golden;
+build verde, 57 teoremas).
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+PUNTO 4 DEL REPASO — [1.25, 1.6] DE HOJAS: INTENTADO Y
+DECLARADO.  Tres granularidades probadas con el aparato
+completo (CSTAR + escalones): [1.25, 1.4] x [0, 4] x s2-alto
+(550s timeout), [1.25, 1.32] x s2-alto (timeout), [1.25, 1.28]
+x s2 [0.45, 0.7] (timeout — un tramo de 0.03 x 0.25 no cabe en
+9 minutos).  El coste crece hacia el filo mas rapido de lo que
+la subdivision gana — coherente con el diagnostico 3j (la
+franja contiene la lamina-filo tambien en Wv bajas).  El corte
+de hojas QUEDA EN 1.25 (el sellado); [1.25, 1.6] declarado con
+la obstruccion caracterizada (3j) y el coste documentado.  Las
+Wv altas de [1.25, 1.4] siguen verdes como sobre-verificacion.
+----------------------------------------------------------------

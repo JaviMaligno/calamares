@@ -762,7 +762,8 @@ computational scaling closures.
 Toward Conjecture~\ref{conj:golden}, the proof of
 Theorem~\ref{thm:oblivious} localizes all difficulty in a single
 \emph{exchange step}: $m$ is the largest ring that the greedy $F$ and a
-witness $P$ place in different containers $u=c_F(m)$, $v=c_P(m)$, and the set
+witness $P$ place in different containers (so $F$ and $P$ agree
+on the placement of every ring larger than $m$) $u=c_F(m)$, $v=c_P(m)$, and the set
 $S$ of rings smaller than $m$ that $P$ keeps in $u$ must be reinserted using
 the resources freed by moving $m$ to $u$: the vacated disk $D_m$ (radius
 $r_m$), the hole $H_m$ (capacity $r_m-w$, travelling with $m$), nesting, and
@@ -1482,6 +1483,8 @@ G-b$'$ over all $Y$, mass, piece counts & \texttt{code/lemaA2.py} & 6/6; two uns
 Heavy assembly murals G-e/G-g & \texttt{code/lemaA3.py} & 5/5; a $k\ge6$ block cap repaired \\
 Light channel, $k\ge2$ extras & \texttt{code/lemaA4.py} & domain $\omega\le1.25$ (leaf extras, full nested-mass range), parents on $\omega\le1.05$, $W_v\le8$, and the $j_v\le1$ slice of $[1.6,2]$; nine rounds, four intermediate refutations repaired \\
 Heavy profile, $k\ge2$ extras & \texttt{code/lemaA5.py} & $\omega\le1.15$ over a 16-band manifest \\
+Quintet certificate of Theorem~\ref{thm:gapwritten} & \texttt{code/quintetocert.py} & 4/4; whole domain, 76{,}557 boxes, tolerance-free rational acceptance; supersedes \texttt{code/bolsillos.py} and
+\texttt{code/arcolp.py} for the $j=1$ quintet \\
 \hline
 \end{longtable}
 \end{center}
@@ -1498,7 +1501,7 @@ the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$, $(\mathbb Q[e])[d]$ and
 $(\mathbb Q[\sqrt5])[r]$. Its
-fifty-three theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+fifty-seven theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
@@ -1534,7 +1537,11 @@ piece with the numerator coefficient $(6+2\sqrt5)(7-3\sqrt5)
 =12-4\sqrt5$, the heavy-mass bound $2\varphi/3<1.079$ with its
 genuine extremum at $b=\varphi/3$, and the spillover-bound
 identities of Theorem~\ref{thm:D1written} with
-$\varphi-1=1/\varphi$). There are no \texttt{sorry}s and no new axioms
+$\varphi-1=1/\varphi$; and the exact anchors of the quintet
+certificate — the stacked-witness margin $2\varphi^4-(\varphi+2)^2
+=\varphi-1$ at the golden point, $2\varphi-1=\sqrt5$ with
+$\sqrt5\ge2$ for the mid-arc criterion, and the semiarc threshold
+collapse $1+f(2/\varphi)+f(2)=1+\sqrt5$ at $R=1+\sqrt5$). There are no \texttt{sorry}s and no new axioms
 (\texttt{\#print axioms} reports only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
 is not used, so every proof is checked by the Lean kernel. The geometric
@@ -3481,52 +3488,118 @@ arcs up to $\pi$); the two regimes are mutually exclusive. \qed
 In the cell $\{j\ge3,\ \sigma_2\le\varphi-1\}$
 of the pan exchange -- for every profile size $p$, every small-ring
 count and every width, including the solid pivot $\omega\ge1$
-(where the branch $\sigma_2>\varphi-1$ is also closed:
-$\sigma_2>\varphi/2$ is empty by mass, $2\sigma_2>\varphi$, and
-$\sigma_2\in(\varphi-1,\varphi/2]$ by the parametric budget with
-$\Sigma\ge2\sigma_2$) -- $\rho\le\varphi$ implies the exchange does
-not block. \emph{Proof sketch.} The witness placement: the pan
-exactly as $F$ certified it when placing $m$ (occupants with their
-$P$-subtrees rigid, $m$ with $M$ inside, $D_m$ vacated in the
-carrier's hole);
-$\sigma_1\to D_m$, topped up greedily with the remaining small
-pieces other than $\sigma_2$ (a single row of mass $B\le1$,
-Lemma~\ref{lem:row}); $\sigma_2$ inserted by
-Lemma~\ref{lem:insert}; the unrowed remainder $W'$ as one row-disk
-(Lemma~\ref{lem:row}) inserted again by Lemma~\ref{lem:insert}.
-In every case $W'\le1/\varphi$: if the greedy row spills, every
-unrowed piece exceeds $1-B$ yet is at most $\sigma_3\le\sigma_2$,
-so $B>1-\sigma_3$ and the tail of $m$ (total small mass
-$\le\varphi$) gives
-$W'\le\varphi-\sigma_2-B<(\varphi-1)-(\sigma_2-\sigma_3)
-\le1/\varphi$; if it does not spill, $W'=0$. Both inserted radii
-are thus $\le\varphi-1$, the sizes certified below. (When
-$\sigma_1+\sigma_2>1$ this reduces to the earlier witness, with
-$W'\le\varphi-\sigma_1-\sigma_2$ by the wall $(D)$; the greedy row
-removes the need for that wall, and with it the cell hypothesis
-$\sigma_1+\sigma_2>1$ of a previous version -- the gap, found by an
-external review, is closed by the spillover bound above.) The shadow regime holds across the domain
-($o_2-2s\ge4-2\varphi>0$ exactly), and the budget of shadows at
-$R=o_1+o_2$ (shadows decrease in $R$) is bounded by its cascade
-corner $j=3$, $(2\varphi,2,2/\varphi,1)$: $4.7225$ and $5.2644$
-against $2\pi$, margins $1.56$ and $1.02$; the $o_2$-direction is
-exactly monotone, the $o_1$-direction is an exact bathtub with limit
-$\pi<2\pi$, the geometric tail decay $T_k\ge\varphi T_{k+1}$ removes
-$j$ -- and the whole cascade polytope is now \emph{box-certified} at
-once: grouping the $k\ge3$ occupants by their mass $m$ and count
-$n\le m$, the convexity chord of $\arcsin$ ($\arcsin(z)/z$
-increasing) bounds their total shadow by
+(where the branch $\sigma_2>\varphi-1$ is also closed --
+Step~6 of the proof) -- $\rho\le\varphi$ implies the exchange does
+not block.
+\end{theorem}
+\begin{proof}
+Throughout suppose $\rho\le\varphi$. Write $T_s$ for the total mass
+of the sub-unit rings that $P$ keeps in the pan -- the profile
+$\sigma_1\ge\sigma_2\ge\dots$, the extra small rings and the pan
+dust; this is exactly the mass the exchange displaces, since hole
+contents ride inside their parents. All of it lies in the tail of
+$m$, so $T_s\le\varphi$.
+
+\emph{Step 1 (the pan).} The witness adopts $F$'s pan verbatim: the
+occupants at the positions $F$ certified when it placed $m$, each
+carrying its $P$-subtree (hole contents are interior to the parent
+disk, so outer disjointness depends only on the outer radii, which
+are the ones $F$ certified), and $m$ at $F$'s position with $M$
+riding inside. The unit disk $D_m$ is vacated in the carrier's hole,
+whose remaining content is untouched.
+
+\emph{Step 2 (the row).} Fill $D_m$ greedily: process the displaced
+pieces other than $\sigma_2$ in decreasing order, adding each piece
+while the running mass stays $\le1$. The rowed collection, of mass
+$B\le1$, packs inside the vacated unit disk without disturbing
+anything (Lemma~\ref{lem:row}); $\sigma_1<1$ enters first.
+
+\emph{Step 3 (the spillover bound).} If nothing spills, the witness
+is complete and the exchange is performed. Otherwise let $W'$ be the
+unrowed mass. Every unrowed piece $\pi$ was rejected while the
+running mass was at most $B$, so $\pi>1-B$; and, after the
+extras and dust adjoin the profile and it is re-indexed
+decreasingly (Corollary~\ref{cor:DSpan}), $\pi\le\sigma_3\le
+\sigma_2$, since $\sigma_1$ is rowed and $\sigma_2$ is reserved.
+Hence $B>1-\sigma_3$, and the tail of $m$ gives
+\[
+W'\;=\;T_s-\sigma_2-B\;<\;\varphi-\sigma_2-(1-\sigma_3)
+\;=\;(\varphi-1)-(\sigma_2-\sigma_3)\;\le\;1/\varphi .
+\]
+(When $\sigma_1+\sigma_2>1$ this recovers the earlier bound
+$W'\le\varphi-\sigma_1-\sigma_2$ through the wall $(D)$; the greedy
+row makes that wall unnecessary, which is what removes the cell
+hypothesis $\sigma_1+\sigma_2>1$ of a previous version -- the gap
+was found by an external review and is closed by the bound above.)
+The remainder packs as a single row-disk of radius $W'$
+(Lemma~\ref{lem:row}).
+
+\emph{Step 4 (regime of the insertions).} Two mural insertions
+remain: $\sigma_2\le\varphi-1$ and the $W'$-disk, $W'\le1/\varphi
+=\varphi-1$. Both go into the pan of Step~1 by
+Lemma~\ref{lem:insert}, whose hypotheses we verify on the whole
+cell. Since the insertions are needed only in the spill case,
+$T_s\ge B+\pi>1$; under $\rho\le\varphi$ the tails then cascade:
+$o_3\ge(1+T_s)/\varphi>2/\varphi$,
+$o_2\ge(o_3+1+T_s)/\varphi\ge(2/\varphi+2)/\varphi=2$ and
+$o_1\ge(o_2+o_3+1+T_s)/\varphi\ge2\varphi$ (the identity
+$(2/\varphi+2)/\varphi=2$ once more). The shadows
+$2\arcsin\bigl((s+x_i)/(R-s)\bigr)$ decrease in $R$, and the pan
+packs the disjoint pair $o_1,o_2$, so evaluating them at the floor
+$R=o_1+o_2$ majorizes. For every pan member $x_i\le o_1$ and either
+insertand $s\le\varphi-1$,
+\[
+R-x_i\;\ge\;o_2\;\ge\;2\;>\;2(\varphi-1)\;\ge\;2s ,
+\qquad o_2-2s\;\ge\;4-2\varphi\;>\;0\ \text{exactly},
+\]
+so the regime $R>2s+x_i$ of Lemma~\ref{lem:insert} holds at every
+member, including, for the second insertion, the first insertand
+($R-s_1\ge o_1+o_2-(\varphi-1)>2s_2$ a fortiori).
+
+\emph{Step 5 (the budget; the delimited certificate).} It remains
+to check that the shadow sums stay below $2\pi$ for both insertions,
+over every occupant count, every profile and dust configuration and
+the whole cell. This is the single computational step of the proof,
+and it is box-certified: grouping the $k\ge3$ occupants by their
+mass $m$ and count $n\le m$, the convexity chord of $\arcsin$
+($\arcsin(z)/z$ increasing) bounds their total shadow by
 $C(z_{\max})\,(1{+}s)\,m/u$, the polytope collapses to four
-aggregated variables, and a branch-and-bound with corner majorants
-and monotone-limit caps (no sweep ceiling) certifies $\sup p<2\pi$
-for both insertions over every occupant count and unbounded slack
-($149$ and $173$ boxes plus closed tail cells; script
-\texttt{insercioncert}, 5/5, adversarial round -- one coupled-corner
-gate added on its finding; it supersedes the historical directed
+aggregated variables, and a branch-and-bound with exact corner
+majorants and monotone-limit caps (no sweep ceiling) certifies
+$\sup<2\pi$ for both insertions over every occupant count and
+unbounded slack ($149$ and $173$ boxes plus closed tail cells;
+script \texttt{insercioncert}, 5/5, with an adversarial round that
+added one coupled-corner gate; it supersedes the directed
 maximization of script \texttt{insercion}, 7/7, whose adversarial
 report had refuted and repaired the naive statement of
-Lemma~\ref{lem:insert} with mural angles in place of shadows). \qed
-\end{theorem}
+Lemma~\ref{lem:insert} with mural angles in place of shadows). The
+occupant-count direction is removed by the geometric-tail lemma
+(suffix masses decay geometrically, $S_i\ge\varphi S_{i+1}$, and
+the leader's own cascade $t_1\ge(t_2+S_3)/\varphi$ forbids a tight
+pair with a full tail; script \texttt{colageometrica}, 5/5). The
+supremum is attained at the cascade corner $j=3$,
+$(o_1,o_2,o_3,m)=(2\varphi,2,2/\varphi,1)$ -- the floors of Step~4
+with $T_s=1$ -- where the two sums are $4.7225$ and $5.2644$
+against $2\pi$, margins $1.56$ and $1.02$; the $o_2$-direction is
+exactly monotone and the $o_1$-direction an exact bathtub with
+limit $\pi<2\pi$. With both insertions placed, all of the displaced
+mass is reinserted: the exchange is not blocked.
+
+\emph{Step 6 (the solid pivot).} For $\omega\ge1$ the branch
+$\sigma_2>\varphi-1$ also closes, so no width hypothesis remains.
+If $\sigma_2>\varphi/2$, the tail of $m$ gives
+$\rho\ge\sigma_1+\sigma_2\ge2\sigma_2>\varphi$, against
+$\rho\le\varphi$: the branch is empty by mass. If
+$\sigma_2\in(\varphi-1,\varphi/2]$, run the same witness with
+insertand $\sigma_2\le\varphi/2$: now $T_s\ge\sigma_1+\sigma_2\ge
+2\sigma_2$ fattens the cascade to
+$o_2\ge(1+2\sigma_2)(1+\varphi)/\varphi^2=1+2\sigma_2>2\sigma_2$,
+so the regime holds with margin $\ge1$, and the budget for
+insertands up to $\varphi/2$ under $T_s\ge2\sigma_2$ is part of the
+certified parametric block of \texttt{insercioncert}. No step of
+the witness uses the width: $D_m$ is a unit disk and every cap is a
+mass bound.
+\end{proof}
 
 This supersedes the computational closure of
 $\{p\ge4,\sigma_1+M\le1,j\ge3\}$ and of the solid-pivot regime: both
@@ -3540,38 +3613,83 @@ written]\label{thm:nestedwritten}
 In the nested template ($u$ the hole of a top-level $\alpha$, $v$
 the pan) with $j\ge2$ occupants, $\rho\le\varphi$ implies the
 exchange does not block -- for every width, every $\sigma_2$, every
-profile size and any extra small rings. \emph{Proof sketch.} The
-witness: the pan as $P$ placed it, with only $m$ leaving (its unit
-disk $D_m$ becomes vacant at top level) into $\alpha$'s hole,
-re-packed by $F$'s certificate ($m$ is the largest disagreement and
-$F$ processes decreasingly: the hole's occupants at that moment were
-exactly the shared rings above $m$); greedy row filling of $D_m$
-with the loose mass in decreasing order up to the first
-non-fitting piece $s'$; $s'$ inserted murally by
-Lemma~\ref{lem:insert}; the rest as one row-disk
-$w^*<1/\varphi$ (exact: the placed row plus $s'$ exceeds $1$ and the
-tail of $m$ is at most $\varphi$), inserted again. Two exact walls
-drive the budget: the insertand cap
-$s'\le\min(\Sigma/2,\varphi/2)$ (unconditional in $\omega$: the two
-largest loose pieces sum within both $\Sigma$ and the tail of $m$),
-and the automatic regime -- with $j+1\ge3$ top-level pieces the
-cascade forces the second largest to satisfy
-$t_2\ge(1+\Sigma)(1+\varphi)/\varphi^2=1+\Sigma\ge2$
-($\varphi^2=1+\varphi$), so $R-x\ge t_2\ge2>\varphi\ge2s'$ and
-$2>2/\varphi=2w^*$ for every piece, with margin $2-\varphi$. The
-shadow budgets stay below $2\pi$ across the domain (certified
-maximization with deterministic corners, margin $\ge1.07$; script
-\texttt{insercionanidada}, 6/6, whose large-slack block sweeps
-pieces up to $10^4$ above the floors -- one and two inflated at a
-time -- and widths up to $\omega=1.35$, with the worst budget
-attained \emph{at} the floor and the $t\to\infty$ limit closing by
-formula at $\pi<2\pi$: the certified domain admits arbitrary values
-above the floors). For
-$j\le1$ the second insertion dies exactly on the golden razor
-$o_1\to2/\varphi$ against $2w^*=2/\varphi$ (the shadow ratio is
-identically $1$): that strip remains with its computational closure.
-\qed
+profile size and any extra small rings.
 \end{theorem}
+\begin{proof}
+Suppose $\rho\le\varphi$. Here the exchange sends $m$ from the pan
+into $u$; the displaced mass is the sub-$m$ content that $P$ keeps
+in $u$ -- the profile, extras and dust -- of total mass $\Lambda$,
+all of it in the tail of $m$, so $\Lambda\le\varphi$.
+
+\emph{Step 1 ($m$ into $u$ by $F$'s certificate).} The exchange is
+taken at the largest disagreement, so $F$ and $P$ place every ring
+above $m$ identically; $F$ processes decreasingly, so when it
+placed $m$ into $u$ the hole contained exactly those shared rings.
+The witness starts from $P$, removes $u$'s sub-$m$ content, and
+moves $m$ -- with $M$ riding inside -- to $F$'s certified position
+in $u$: disjointness inside $u$ is $F$'s certificate on identical
+outer radii. The unit disk $D_m$ is vacated at top level.
+
+\emph{Step 2 (the row and its caps).} Fill $D_m$ greedily with the
+loose pieces in decreasing order (all are $<m=1$). If nothing
+spills the witness is complete. Otherwise let $s'$ be the first
+non-fitting piece and $B$ the mass already rowed, so $B+s'>1$ and
+in particular $\Lambda>1$. Three caps are exact. The largest loose
+piece rows first, so $s'$ is at most the second largest; the two
+largest sum within $\Lambda$ and within the tail of $m$, whence
+\[
+s'\;\le\;\min(\Lambda/2,\ \varphi/2).
+\]
+The remainder $w^{*}=\Lambda-B-s'$ satisfies $w^{*}<1/\varphi$
+($B+s'>1$ and $\Lambda\le\varphi$), and packs as one row-disk
+(Lemma~\ref{lem:row}).
+
+\emph{Step 3 (automatic regime).} With $j\ge2$ the top level holds
+$j+1\ge3$ pieces besides $m$; order them $t_1\ge t_2\ge t_3\ge
+\dots$ Under $\rho\le\varphi$ the cascade gives
+$t_3\ge(1+\Lambda)/\varphi$ and
+\[
+t_2\;\ge\;\frac{t_3+1+\Lambda}{\varphi}
+\;\ge\;\frac{(1+\Lambda)(1+\varphi)}{\varphi^{2}}
+\;=\;1+\Lambda\;\ge\;2
+\qquad(\varphi^{2}=1+\varphi).
+\]
+The pan packs the disjoint pair $t_1,t_2$, so $R\ge t_1+t_2$, and
+for every pan member $x\le t_1$,
+\[
+R-x\;\ge\;t_2\;\ge\;2\;>\;\varphi\;\ge\;2s'
+\qquad\text{and}\qquad
+2\;>\;2/\varphi\;\ge\;2w^{*},
+\]
+with margin $2-\varphi$: the regime of Lemma~\ref{lem:insert} holds
+for both insertions at every member (including, for the second, the
+first insertand: $R-s'\ge t_1+t_2-\varphi/2>2w^{*}$), uniformly in
+$\omega$ -- no step of the witness uses the width.
+
+\emph{Step 4 (insert).} Insert $s'$ murally into the pan as $P$
+placed it (only $m$ has left; Lemma~\ref{lem:insert} accepts
+arbitrary positions, since the shadow bounds every forbidden arc
+uniformly in depth), then the $w^{*}$-disk likewise.
+
+\emph{Step 5 (the budget; the delimited certificate).} The shadow
+sums stay below $2\pi$ across the domain: this is the single
+computational step, a certified maximization with deterministic
+corners and margin $\ge1.07$ (script
+\texttt{optimizacion}, 5/5 — the uniform closure over
+$t_2\ge1+\Lambda$, unbounded slack and both insertands — with
+\texttt{insercionanidada}, 6/6, as numerical contrast, whose large-slack block sweeps pieces up to $10^{4}$ above the
+cascade floors -- one and two inflated at a time -- and widths up to
+$\omega=1.35$, with the worst budget attained \emph{at} the floor
+and the $t\to\infty$ limit closing by formula at $\pi<2\pi$: the
+certified domain admits arbitrary values above the floors); the
+occupant-count caps drop by the geometric-tail lemma
+(script \texttt{colageometrica}, 5/5). With both insertions placed
+the displaced mass is reinserted: the exchange is not blocked. For
+$j\le1$ the second insertion dies exactly on the golden razor
+($o_1\to2/\varphi$ against $2w^{*}=2/\varphi$, shadow ratio
+identically $1$), which is why the hypothesis $j\ge2$ is stated:
+that strip is Theorem~\ref{thm:gapwritten}.
+\end{proof}
 
 Theorem~\ref{thm:nestedwritten} supersedes the computational
 closures of the golden-level nested gaps with two or more occupants
@@ -3583,36 +3701,102 @@ size is mass here).
 In the nested template with $j\le1$ occupants, $\rho\le\varphi$
 implies the exchange does not block, for every width (solid pivot
 included), every profile and any extra small rings.
-\emph{Proof sketch.} The same witness as
-Theorem~\ref{thm:nestedwritten} except the mural step: after the
-greedy filling of $D_m$, the whole pan is re-packed as a corona of
-at most five circles -- a corona containing $\alpha$, the optional
-occupant $o_1$, a unit disk carrying the $D_m$ row, and the two
-circles of radii $s'$ and $w^*$ -- a bounded family, so the mural criterion is
-finite and exact per instance (exhaustive over the $\le12$ cyclic
-orders, all pairs validated). The radius carries the written trio
-bound: any disk packing $\{a,b,c\}$ satisfies
-$R\ge\max(\text{pair sums},\min(R_3,M))$ unconditionally, where
-$R_3$ solves $\theta(a,b)+\theta(b,c)+\theta(c,a)=2\pi$ (the angular
-necessity, a theorem via the corner lemma and the partition of the
-circle) and $M$ is the stackability threshold $\min(\max+2\min)$ --
-a dichotomy on the real pan. On the domain the cascade floor
-$o_1\ge(1+\Sigma)/\varphi>2/\varphi$ keeps $R_3\le M$ (explicitly
-checked), with equality exactly at the golden point
-$(\alpha,o_1)=(2,2/\varphi)$, where pair sums, $R_3$ and $M$ all
-collapse to $1+\sqrt5$ and the trio sum equals $2\pi$ exactly. The
-mass ligatures $s'\le\min(\Sigma/2,\varphi/2)$ and
-$w^*<\min(1/\varphi,\Sigma-1,\Sigma-2s')$ are exact; the
-$\alpha\to\infty$ limit closes by formula
-($\pi+2\arcsin\sqrt{1/\varphi}<2\pi$, margin $1.33$); the coverage
-of the compact domain box was historically a grid-based directed
-maximization with exact per-instance criteria (script
-\texttt{gaplemma}, 5/5, adversarial report with two repaired
-findings), since superseded by the pocket certificates below: an
-exact algebraic theorem for $j=0$ and a box-by-box subdivision
-certificate for $j=1$, so no optimization asterisk remains in this
-cell. \qed
 \end{theorem}
+\begin{proof}
+Steps~1--2 are those of Theorem~\ref{thm:nestedwritten}: $m$ moves
+into $u$ by $F$'s certificate, $D_m$ is filled greedily, and either
+nothing spills (done) or the spill produces $s'$ and $w^{*}$ with
+the exact ligatures
+\[
+s'\le\min(\Lambda/2,\ \varphi/2),
+\qquad
+w^{*}<\min(1/\varphi,\ \Lambda-1),
+\qquad w^{*}\le\Lambda-2s',
+\]
+the last two because $B+s'>1$ and because the rowed mass contains
+the largest loose piece, which is $\ge s'$. With $j\le1$ the
+insertion route of Theorem~\ref{thm:nestedwritten} is not available
+(the golden razor), and the witness instead re-packs the whole top
+level from scratch as a corona of at most five circles:
+$\alpha$, the optional occupant $o_1$, a unit disk carrying the
+$D_m$ row, and the two circles $s'$ and $w^{*}$ -- a bounded
+family, decided exactly.
+
+\emph{The available radius.} The true pan radius $R$ packs $P$'s
+top level, which contains $\{\alpha,o_1,m\}$ (or $\{\alpha,m\}$),
+so $R$ is at least every pair sum; moreover any packing of a trio
+$\{a,b,c\}$ satisfies the written trio bound
+$R\ge\min(R_3,\,M)$, where $R_3$ solves
+$\theta(a,b)+\theta(b,c)+\theta(c,a)=2\pi$ and
+$M=\min(\max+2\min)$ over the pairs is the stackability threshold:
+if $R<M$, every pair is non-stackable, so by the corner lemma of
+the duality certificates each angular separation of centres is at
+least the mural angle $\theta$, and the three central separations sum to at most $2\pi$ (twice
+the extreme separation when the three centres lie in a half-plane,
+exactly $2\pi$ in the surrounding case) -- $\theta(a,b)+\theta(b,c)+\theta(c,a)\le2\pi$, i.e.\
+$R\ge R_3$ ($\theta$ decreases in $R$). The certificate below therefore works
+throughout with the proved floor
+$R_0=\max\{\text{pair sums},\ \min(R_3,M)\}$; at the golden point
+$(\alpha,o_1)=(2,2/\varphi)$, pair sums, $R_3$ and $M$ all
+collapse to $1+\sqrt5$ and the trio sum equals $2\pi$ exactly.
+
+\emph{The corona fits.} For $j=0$ this is an exact algebraic
+theorem: at $R=\alpha+1$ the Descartes discriminant of the tangent
+pair $\{\alpha,1\}$ vanishes identically, the wall pocket is
+$p(u)=u(u+1)/(u^{2}+u+1)$, increasing. Parametrize the cascade floor by
+$u=(1+\Lambda)/\varphi$, so $\Lambda=\varphi u-1$ and
+$2/\varphi<u\le\varphi$ on the domain $\Lambda\in(1,\varphi]$. With
+the coupled mass caps ($s'\le\Lambda/2$, $w^{*}\le\Lambda-1$) the
+sub-pocket condition for $s'$ reads $2p(u)\ge\Lambda$, and
+\[
+2p(u)-\Lambda=\frac{(\varphi-u)\bigl[\varphi u^{2}+2(\varphi-1)u
++(\varphi-1)\bigr]}{u^{2}+u+1}\ge0
+\]
+since the bracket has positive coefficients: the condition holds
+on all of $\Lambda\le\varphi$, with equality exactly at
+$\Lambda=\varphi$ and $\alpha$ on its cascade floor -- tangent to
+the golden pocket $b_2(\varphi,1)=\varphi/2$ of
+Theorem~\ref{thm:DP}'s counterexample. For $w^{*}$ the condition
+is $p(u)\ge\varphi u-2$, and $g(u)=p(u)-(\varphi u-2)$ is
+decreasing on the domain with
+$g(\varphi)=(3-\sqrt5)/4>0$: it holds throughout. When
+$\alpha$ exceeds its floor the pocket only widens ($p$
+increasing) and both conditions relax; the non-consecutive pair
+$(s',w^{*})$ is separated by the unit disk in the cyclic order,
+so its own tangency imposes nothing new: the quartet cell is a
+theorem. For
+$j=1$ the quintet is the single delimited computational step: it is
+box-certified over the entire domain by script
+\texttt{code/quintetocert.py} (4/4): a branch-and-bound over
+$(\Sigma,\alpha,o_1)$ with the exact ligatures of this proof, the
+radius handled through the necessity bracket
+$R_0=\max\{\text{pair sums},\min(R_3,M)\}$ in \emph{both}
+branches (the $R_3\le M$ safeguard is bracketed, not sampled),
+five closed per-box certificates -- pocket assignments, a
+row-disk merge of the two smalls, the diametral band with a
+closed-form $4$-cycle test and a range dichotomy for $w^{*}$, a
+\emph{stacked witness} that closes the golden point
+$(\varphi,\varphi,\varphi)$ algebraically (exact margin
+$1/\varphi^{3}$ in $\mathbb Q[\sqrt5]$), and a rational
+\emph{semiarc threshold} $x\le R/(1+f(a)+f(o))$ that collapses to
+exactly $1$ at the critical corner (the configuration of
+Theorem~\ref{thm:golden} reappearing as a tangent-legal witness)
+-- with every acceptance decided by exact rational comparisons
+(no tolerances; angle sums by outward directed intervals), and
+the $\alpha\to\infty$ tail closed by
+the exact pocket infimum $ab/(\sqrt a+\sqrt b)^{2}$; the binding
+tangent curve of the trio sum $=2\pi$ from $(2,2/\varphi)$
+through $(3/2,3/2)$ is covered by the same subdivision with no
+special neighbourhoods. It supersedes, for this quintet, the
+earlier arc-LP and pocket sweeps (scripts \texttt{code/arcolp.py}
+and \texttt{code/bolsillos.py}, 5/5 each, three adversarial
+rounds), which in turn superseded the directed maximization of
+script \texttt{code/gaplemma.py}. No step uses the width -- the solid
+pivot is included -- and the caps are mass bounds, so every
+profile and any extra small rings are covered. With the corona
+placed, the displaced mass is reinserted: the exchange is not
+blocked.
+\end{proof}
 
 With Theorems~\ref{thm:nestedwritten} and~\ref{thm:gapwritten}, the
 \emph{entire nested template} of case~(b) carries written proofs for
@@ -3658,9 +3842,16 @@ $\theta(\varphi,1/\varphi)+\theta(1/\varphi,1)+\theta(1,\varphi)
 =\pi$ at $R=2\varphi$, which makes the dangerous $4$-cycle of the
 $j=1$ cell exactly tangent and ties its $5$-cycle to the
 shared-root corner constant $\pi+4\arcsin(1/\sqrt3)$ (scripts
-\texttt{arcolp} and \texttt{bolsillos}, 5/5 each, three
-adversarial rounds -- one of which refuted and repaired the arc-LP
-statement itself).
+\texttt{code/arcolp.py} and \texttt{code/bolsillos.py}, 5/5 each,
+three adversarial rounds -- one of which refuted and repaired the
+arc-LP statement itself). For the $j=1$ quintet this closure is
+now superseded by the tolerance-free box certificate of script
+\texttt{code/quintetocert.py} (see the proof of
+Theorem~\ref{thm:gapwritten}): the tangent curve is covered by
+the same subdivision with no special neighbourhoods, and the
+golden endpoints are no longer excluded; \texttt{code/arcolp.py}
+and \texttt{code/bolsillos.py} remain the certificates of the
+other small-corona cells they back.
 
 \subsection*{The exchange assembly and the container port}
 
