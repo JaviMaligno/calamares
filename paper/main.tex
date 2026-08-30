@@ -5,6 +5,9 @@
 \usepackage[margin=1.1in]{geometry}
 \usepackage{hyperref}
 \usepackage{placeins}
+\usepackage{longtable}
+\usepackage{tikz}
+\usepackage{array}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -764,6 +767,40 @@ $S$ of rings smaller than $m$ that $P$ keeps in $u$ must be reinserted using
 the resources freed by moving $m$ to $u$: the vacated disk $D_m$ (radius
 $r_m$), the hole $H_m$ (capacity $r_m-w$, travelling with $m$), nesting, and
 the geometry of $v$. Normalize $r_m=1$ and $\omega=w/r_m$.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+% contenedor v (izquierda): P puso m aqui; al mover m queda D_m
+\draw[thick] (0,0) circle (2.0);
+\node at (0,2.35) {$v=c_P(m)$};
+\draw[dashed] (-0.55,-0.25) circle (1.0);
+\node at (-0.55,-0.25) {$D_m$};
+\node[align=center] at (-0.55,-1.55) {\footnotesize vacated disk\\[-2pt]\footnotesize (radius $r_m$)};
+% contenedor u (derecha): F pone m aqui; S estaba aqui con P
+\draw[thick] (6.5,0) circle (2.0);
+\node at (6.5,2.35) {$u=c_F(m)$};
+% m con su agujero H_m
+\draw[thick] (6.0,0.35) circle (1.0);
+\draw[thick] (6.0,0.35) circle (0.62);
+\node at (6.0,1.15) {\footnotesize $m$};
+\node at (6.0,0.35) {\footnotesize $H_m$};
+% S desplazado
+\draw[dashed] (7.35,-0.9) circle (0.42); \node at (7.35,-0.9) {\footnotesize $\sigma_1$};
+\draw[dashed] (6.35,-1.35) circle (0.3); \node at (6.35,-1.35) {\footnotesize $\sigma_2$};
+\draw[->, dashed] (6.6,-2.05) to[bend right=25] node[below, pos=0.6]{\footnotesize reinsertion} (0.3,-1.7);
+\node at (6.9,-2.35) {\footnotesize $S$: kept in $u$ by $P$, to be reinserted};
+% flecha m: v -> u
+\draw[->, very thick] (1.6,0.9) to[bend left=18] node[above]{$m$ moves ($H_m$ travels with it)} (4.9,0.9);
+\end{tikzpicture}
+\caption{The exchange step of Theorem~\ref{thm:oblivious}: $m$ is the
+largest ring placed differently by the greedy $F$ and a witness $P$.
+Moving $m$ to $u$ frees the vacated disk $D_m$ (radius $r_m$) in $v$
+and brings along the hole $H_m$ (capacity $r_m-w$); the set $S$ of
+smaller rings that $P$ keeps in $u$ must be reinserted using $D_m$,
+$H_m$, nesting, and the geometry of $v$.}
+\label{fig:exchange}
+\end{figure}
+
 \emph{Width convention}: unless a result explicitly states otherwise,
 throughout the exchange-step program (this section, the next, and
 Appendices~\ref{app:widthproofs} and~\ref{app:genericproofs}) we assume
@@ -824,8 +861,43 @@ $\alpha$, capacity $\alpha-\omega$; $S=\{\sigma_1\ge\sigma_2\}$ placed there
 by the witness). Blocking must defeat four resources, giving the walls
 $\sigma_2>1-\omega$ ($H_m$), $\sigma_2>\alpha-\omega-1$ ($\sigma_2$ next to
 $m$ inside $u$), $\sigma_1+\sigma_2\le\alpha-\omega$ (the witness), and
-non-packability of the triple $\{\alpha,\sigma_1,\sigma_2\}$ in the pan. Two
-structural facts organize the optimum. First, on the blocking frontier of the
+non-packability of the triple $\{\alpha,\sigma_1,\sigma_2\}$ in the pan
+(Figure~\ref{fig:canonical}).
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.85, every node/.style={font=\small}]
+% el pan (radio 2.8); alpha y m DIAMETRALES tangentes entre si y
+% a paredes opuestas (omega = 0.6 exacta: u = alpha - omega = 1.2,
+% H_m = 1 - omega = 0.4)
+\draw[very thick] (0,0) circle (2.8);
+\node at (0,3.15) {the pan ($v$): diametral pair $\{\alpha,m\}$};
+% alpha: centro (-1,0), radio 1.8; su agujero u radio 1.2
+\draw[thick] (-1,0) circle (1.8);
+\node at (-1,1.55) {\footnotesize $\alpha$};
+\draw[thick] (-1,0) circle (1.2);
+\node at (-1,0.93) {\footnotesize $u$ (cap.$\,$ $\alpha-\omega$)};
+% sigma1, sigma2 dentro de u
+\draw (-1.35,-0.2) circle (0.55); \node at (-1.35,-0.2) {\footnotesize $\sigma_1$};
+\draw (-0.45,0.25) circle (0.4); \node at (-0.45,0.25) {\footnotesize $\sigma_2$};
+% m: centro (1.8,0), radio 1; H_m radio 0.4
+\draw[thick] (1.8,0) circle (1.0);
+\draw[thick] (1.8,0) circle (0.4);
+\node at (1.8,0.68) {\footnotesize $m$};
+\node at (1.8,0) {\scriptsize $H_m$};
+\end{tikzpicture}
+\caption{The canonical template: $v$ is a diametral pan with one big
+neighbor $\alpha$; $u$ is the hole of $\alpha$ (capacity
+$\alpha-\omega$), where the witness keeps
+$S=\{\sigma_1\ge\sigma_2\}$. Blocking must defeat four resources,
+giving the walls $\sigma_2>1-\omega$ (the hole $H_m$),
+$\sigma_2>\alpha-\omega-1$ ($\sigma_2$ next to $m$ inside $u$),
+$\sigma_1+\sigma_2\le\alpha-\omega$ (the witness), and
+non-packability of the triple $\{\alpha,\sigma_1,\sigma_2\}$ in the
+pan.}
+\label{fig:canonical}
+\end{figure}
+
+Two structural facts organize the optimum. First, on the blocking frontier of the
 triple one has the closed form $t(\sigma_1)+t(\sigma_2)=t(b(\alpha))$ with
 $t(s)=\sqrt{(1-s)/s}$ (the Descartes pocket read in the $t$-coordinate), and
 the frontier slope satisfies the $\alpha$-\emph{independent} identity
@@ -984,8 +1056,9 @@ line: $\rho>T$ unconditionally for all $\omega<\omega_A$, via
 \qquad
 \omega_A\;=\;2-2(T-1)(\varphi-1)\;=\;0.962585\dots
 \]
-(the golden line itself is proved in all but one corner configuration --
-branch B with a nested node inside the occupant and $\alpha<o_1$, possible
+(the golden line itself is proved in all but one corner
+configuration -- the corner with a nested node inside the occupant
+and $\alpha<o_1$, called branch~B in the appendix, possible
 only for $\omega<\tfrac12$ -- where the proved bound is $\ge2>T$, via
 $\Psi_B(\tfrac12)=2$ exactly). The proof combines two exact facts -- $b_2$
 is concave in $\alpha$
@@ -1068,9 +1141,7 @@ optimum has strictly smaller cardinality than the cardinality maximum.
 Two rings never diverge: if both fit together the full set is optimal
 for both objectives (area is strictly increasing under inclusion), and
 otherwise every feasible set has at most one ring, a cardinality the
-area optimum attains. Three rings can already diverge --- a
-correction owed to an external review, replacing an earlier claim
-that four were needed: at $R=10$, $w=9/2$, radii
+area optimum attains. Three rings can already diverge: at $R=10$, $w=9/2$, radii
 $\{8,\,101/20,\,99/20\}$ (rational-exact; script
 \texttt{divergencia3}, 5/5), the small pair is exactly diametral
 ($101/20+99/20=10$), nothing coexists with or nests in the $8$ (its
@@ -1345,164 +1416,81 @@ substitute for proof.
 Every theorem of Sections~\ref{sec:threshold}--\ref{sec:generic} is backed in
 the accompanying repository by (i) a self-contained draft with complete
 proofs, (ii) a verification script whose blocks separate exact symbolic
-identities (\texttt{sympy}) from numerical sweeps, all checks pass (a few blocks
+identities (\texttt{sympy}) from numerical sweeps and whose checks all pass (a few blocks
 are declared explorations or statements of convention and cannot fail;
 the scripts label them as such), and (iii) an
 \emph{adversarial verification report}: an independent rederivation of each
 result from its statement alone, followed by an audit and directed attacks.
-The correspondence, as ``verified claims (script blocks)'', is:
-Theorem~\ref{thm:additive} -- \texttt{umbral} (reproduces the
-$\rho=1.03$ and $1.02$ instances);
-Theorem~\ref{thm:rigidfloor} -- \texttt{rigido} (draft
-\texttt{suelo\_rigido}), 10/10 claims
-(7 blocks); slack pans and the universal trio frontier --
-\texttt{universal} (5/5 blocks); the $\kappa$ identity -- \texttt{h1},
-6/6 claims (5/5 blocks); the width curve and Theorem~\ref{thm:corner} --
-\texttt{grosor} 8/8 claims, \texttt{esquina} 6/6 claims (5/5 blocks);
-profile thresholds -- \texttt{tresk} (draft \texttt{perfil\_tres}) and
-\texttt{cuatrok} (draft \texttt{cuatro}; 5/5 blocks); the corona criterion -- \texttt{corona}
-(5/5 blocks); occupant walls, the opposite-disk lemma and the metallic
-floors -- \texttt{ocupantes} (5/5), \texttt{bloqueadores} (6/6); the
-double-pocket wall and the golden line -- \texttt{bolsillo} (6/6);
-three-piece profiles and the golden deformation -- \texttt{striple}
-(5/5); the golden counterexample family, Theorem~\ref{thm:golden} --
-\texttt{aureo} (5/5); the pan-exchange golden floor --
-\texttt{batalla2} (6/6), \texttt{microcelda} (5/5) and, for larger
-profiles, \texttt{perfilp} (5/5) and \texttt{rstar} (6/6); the
-corona-versus-tails campaign of Appendix~\ref{app:campaign} --
-\texttt{coronacolas} (5/5), \texttt{coronanidada} (5/5), the duality
-certificates \texttt{zigzag} (5/5), and the exchange-assembly
-bookkeeping \texttt{ensamblaje} (6/6), \texttt{puertocii} (7/7) and the scaling
-layer \texttt{escala} (5/5); the written-proof layer --
-\texttt{compactacion} (5/5), \texttt{insercion} (7/7),
-\texttt{insercionanidada} (6/6), \texttt{gaplemma} (5/5),
-\texttt{coronaagujero} (5/5), \texttt{colageometrica} (5/5),
-\texttt{optimizacion} (5/5), \texttt{repack} (5/5),
-\texttt{r2bcert} (5/5), \texttt{arcolp} (5/5),
-\texttt{bolsillos} (5/5), \texttt{f3cierre} (5/5, the
-conditional duality lemma; its adversarial round refuted a stronger
-closure claim and extended the arc-LP validation to $k=6$ against an
-independent LP solver), \texttt{r2bmulti} (5/5, the multipiece
-certificates; its adversarial round found no soundness gap and
-corrected the domain claim to the sweep box) and
-\texttt{areduccion} (5/5, the golden-threshold reduction lemma and
-the heavy branches; its adversarial round confirmed the algebra by
-hand, found no soundness gap, and contributed the $4t_0=\varphi-1$
-incompatibility), \texttt{espxy} (5/5, the diametral-pocket
-geometry of the $X_Y>0$ mirrored corona; its adversarial round
-verified the algebra by hand and contributed
-$p(\varphi,1;\varphi+1)=\varphi/2$) and \texttt{espvals} (5/5, the
-vacuity of the diametral-pocket sliver under the global tail wall
-and the floor rigidity; its adversarial round refuted a proposed
-vacated-ball witness and supplied the missing wall, correcting the
-\texttt{espxy} report's legality claim -- the errata is recorded)
-\texttt{auditcolas} (5/5, the global-tail audit of every
-existence claim in the campaign; its adversarial round refuted a
-partial-tail first version and contributed the forbidden-triple
-mechanism) \texttt{f3vacio} (5/5, the forced-sub-pocket lemma
-closing the near-equal-tops vacuity; its adversarial round
-corrected the declared generator domain and verified the
-confinement attack on the lower bound) \texttt{espkp} (5/5,
-the $k$-piece dust certification closing the light mirrored
-$X_Y>0$ cell within the dust convention; its adversarial round
-found no soundness gap and forced the convention and the
-model-conditional channel to be declared) and \texttt{esppesada}
-(5/5, the heavy mirrored $X_Y>0$ closure by dust merging and the
-eight-segment waiver; its adversarial round found no soundness
-gap, re-ran five of the six bands with exact counts, repaired the
-sanity's dead dust and contributed the vacuity of the
-$\Sigma_S=1+\sigma_2$ boundary), \texttt{espfinal} (6/6, the
-heavy mirrored branch with \emph{all} dusts free, closing the
-mirrored cell; its adversarial round found and repaired one
-surgical gap in the degeneracy strip's dust cap, proved the
-greedy-halving invariant of the splittable block, and reproduced
-the band map with exact counts) \texttt{espcanal} (5/5, the
-derived tariff of the occupant channel -- the two node walls,
-the crescent lemma, the dust-pooling witness -- and the closure
-of the entire light channel; its adversarial round, run on rigor
-criteria alone, found the twin-tie vacuity that dissolved the
-declared residual sheet, re-ran the high band with exact counts,
-and audited the crescent engine's wrap regime) \texttt{espcanalp} (5/5, the heavy channel by the
-dimension-reduced mass-paid partition; its adversarial round
-verified the reduction theorem by fuzz, re-ran a band with exact
-counts, and caught the uncovered tower cut and a mislabeled band
-edge, both repaired) and \texttt{f3converso} (5/5, the exact
-converse of the duality gap; its first round \emph{refuted} the
-draft -- a vacuous constraint detector and an incomplete cell,
-with four live counterexamples -- and derived the repaired cell;
-the re-round confirmed all eleven repairs, verified the
-counterexamples now land inside, and caught one tautological
-gate whose claim it then proved for real). Following the external
-peer review: \texttt{rstarcert} (5/5, the box certificate of the
-C3.3 corona wall -- corner majorant plus branch-and-bound plus
-analytic tails, $71$ boxes, upgrading DPr's central grid
-maximization), \texttt{divergencia3} (5/5, the $2\to3$ divergence
-transition: the two-ring lemma, the rational-exact three-ring
-counterexample owed to that review, and the width-threshold
-sweep), \texttt{franja} (the phase-diagram figure generator,
-$w=1$ family), \texttt{insercioncert} (5/5, the box certificate of
-the D1 shadow-budget polytope -- mass-and-chord reduction over
-every occupant count, corner majorants, monotone-limit tails;
-adversarial round: one coupled-corner gate added),
-\texttt{goldencert} (5/5, the branch-B golden-line patches upgraded
-to exact Sturm root isolation and box certificates with the contact
-handled by local monotonicity), \texttt{gaplemmacert} (5/5, an
-independent cross-derivation of the gap-lemma cell converging with
-the pocket certificates; contrast only, no claim of its own),
-\texttt{espomegacola} (5/5, the width tail $\omega>1.6$ of the
-mirrored heavy cell, closing that sampling ceiling),
-\texttt{r2bcolas} (5/5, the $Y>6.6$ tail of the G-b$'$ corona
-boxes, closing the $X_Y\le3$ ceiling; both with adversarial
-rounds confirming no soundness gap), \texttt{esptorre} (5/5,
-the deep-tower mid band of the light occupant channel, chain
-towers; its adversarial round rebuilt the root certificate by
-hand, verified falsifiability, and had the in-cell control and
-the scope statement repaired), \texttt{esptorrep} (5/5, the
-same tower surgery on the heavy profile, closing the deep-tower
-mid band in both profiles; its round verified the surgery line by
-line and probed with real subset partitions), and
-\texttt{espomegacanal} (the width tail $\omega>1.6$ of all six
-channel cells; its first adversarial round \emph{refuted} the
-executed closure -- two coverage gaps in the extended sweep
-roots -- and the repaired version was confirmed by a re-round
-with the point ceilings re-derived independently),
-\texttt{lemaA} (5/5, the slot-reduction lemma with the full
-constructive placement engine; its first round refuted the
-original dispatch engine -- crossed pairs unchecked under an
-implicit precondition -- and the rebuilt engine was confirmed
-against an exact LP oracle, with the unmigrated caller caught in
-the re-round), and \texttt{lemaA2} (6/6, G-b$'$ over all $Y$,
-all mass and all piece counts, removing the $j\le3$ ceiling;
-two rounds -- confirmed with corrections, then a directed
-verification of the repairs -- with zero false certificates and
-two unsound caps detected and repaired before refereeing), and
-\texttt{lemaA3} (5/5, the heavy assembly murals G-e/G-g with
-$Y$, $z$ and $|A|$ all unbounded, via the partition gate and the
-golden-chain lemma whose tangency case is exactly
-$\Sigma_S=\varphi$; its first round refuted the executed
-$k\ge6$ block cap -- the majorant covered only the sixth-largest
-piece -- and the one-line repair was confirmed by a fidelity
-re-round with the band $|A|\ge6$ re-probed end to end), and
-\texttt{lemaA4} (the $k\ge2$ extra-ring cell of the light
-channel, certified on its declared domain $\omega\le1.25$ /
-leaf extras over its band manifests with the full nested-mass
-range -- $W_z\le34$ by domain, $W_z>34$ by a tail mode over a
-further 4-band manifest -- plus parent extras on
-$\omega\le1.05$, $W_v\le8$, $W_z\le34$ over a 6-band
-manifest, and the $j_v\le1$ slice of $\omega\in[1.6,2]$;
-nine adversarial rounds with four intermediate refutations
--- two box-test-by-ceiling errors, one un-inherited wall,
-one positional-cap gap for parent pieces, one necessity
-lemma replaced by delegation to the audited order-sum
-apparatus -- repaired and confirmed, with every declared
-residue truth-probed), and \texttt{lemaA5} (the heavy
-profile with $k\ge2$ extras on $\omega\le1.15$ over a
-16-band manifest; sealed in the same triple round).
+The correspondence is tabulated below; per-round narratives (each
+refutation, repair and re-verification) are recorded in the
+repository reports (\texttt{docs/drafts/VEREDICTOS.md} and the
+per-script reports); the Notes column keeps only the
+headline. Unqualified fractions count script blocks; fractions
+marked ``claims'' count verified claims.
+
+\begin{center}
+\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.30\textwidth}>{\raggedright\arraybackslash}p{0.28\textwidth}>{\raggedright\arraybackslash}p{0.33\textwidth}}
+\hline
+Result & Script(s) & Notes \\
+\hline
+\endfirsthead
+\hline
+Result & Script(s) & Notes \\
+\hline
+\endhead
+Additive threshold (Thm.~\ref{thm:additive}) & \texttt{code/umbral.py} & reproduces the $\rho=1.03$/$1.02$ instances \\
+Rigid floor (Thm.~\ref{thm:rigidfloor}) & \texttt{code/rigido.py} & 10/10 claims; draft \texttt{suelo\_rigido} \\
+Slack pans; universal trio frontier & \texttt{code/universal.py} & 5/5 \\
+$\kappa$ identity & \texttt{code/h1.py} & 6/6 claims \\
+Width curve; Thm.~\ref{thm:corner} & \texttt{code/grosor.py}, \texttt{code/esquina.py} & 8/8 and 6/6 claims \\
+Profile thresholds & \texttt{code/tresk.py}, \texttt{code/cuatrok.py} & drafts \texttt{perfil\_tres}, \texttt{cuatro} \\
+Corona criterion & \texttt{code/corona.py} & 5/5 \\
+Occupant walls; opposite disk; metallic floors & \texttt{code/ocupantes.py}, \texttt{code/bloqueadores.py} & 5/5 and 6/6 \\
+Double pocket; golden line & \texttt{code/bolsillo.py} & 6/6 \\
+Three-piece profiles; golden deformation & \texttt{code/striple.py} & 5/5 \\
+Golden family (Thm.~\ref{thm:golden}) & \texttt{code/aureo.py} & 5/5 \\
+Pan-exchange golden floor & \texttt{code/batalla2.py}, \texttt{code/microcelda.py} & 6/6 and 5/5 \\
+Larger profiles & \texttt{code/perfilp.py}, \texttt{code/rstar.py} & 5/5 and 6/6 \\
+Corona-versus-tails campaign & \texttt{code/coronacolas.py}, \texttt{code/coronanidada.py} & 5/5 each \\
+Duality certificates & \texttt{code/zigzag.py} & 5/5 \\
+Exchange assembly; container port; scaling & \texttt{code/ensamblaje.py}, \texttt{code/puertocii.py}, \texttt{code/escala.py} & 6/6, 7/7, 5/5 \\
+Written-proof layer: compaction, insertion, gap lemma, hole coronas, geometric tail, optimization, repack & \texttt{code/compactacion.py}, \texttt{code/insercion.py}, \texttt{code/insercion}\discretionary{-}{}{}\texttt{anidada.py}, \texttt{code/gaplemma.py}, \texttt{code/coronaagujero.py}, \texttt{code/colageometrica.py}, \texttt{code/optimizacion.py}, \texttt{code/repack.py} & 5/5--7/7 each \\
+Exact-arithmetic and LP layers & \texttt{code/r2bcert.py}, \texttt{code/arcolp.py}, \texttt{code/bolsillos.py} & 5/5 each \\
+Conditional duality lemma; arc-LP to $k=6$ & \texttt{code/f3cierre.py} & 5/5; round refuted a stronger closure claim \\
+Multipiece certificates & \texttt{code/r2bmulti.py} & 5/5; domain corrected to the sweep box \\
+Golden-threshold reduction; heavy branches & \texttt{code/areduccion.py} & 5/5; algebra confirmed by hand \\
+Diametral-pocket geometry ($X_Y>0$) & \texttt{code/espxy.py} & 5/5; an over-claimed legality was recorded as errata \\
+Sliver vacuity; floor rigidity & \texttt{code/espvals.py} & 5/5; round supplied a missing wall \\
+Global-tail audit & \texttt{code/auditcolas.py} & 5/5; first version refuted, repaired \\
+Forced sub-pocket (near-equal tops) & \texttt{code/f3vacio.py} & 5/5 \\
+Light mirrored $X_Y>0$ ($k$ pieces) & \texttt{code/espkp.py} & 5/5; dust convention made explicit \\
+Heavy mirrored $X_Y>0$ & \texttt{code/esppesada.py}, \texttt{code/espfinal.py} & 5/5 and 6/6; one surgical gap repaired \\
+Occupant channel (light; heavy) & \texttt{code/espcanal.py}, \texttt{code/espcanalp.py} & 5/5 each; a residual sheet dissolved, a tower cut repaired \\
+Exact duality-gap converse & \texttt{code/f3converso.py} & 5/5; first round refuted the draft, all repairs re-verified \\
+C3.3 corona wall (box certificate) & \texttt{code/rstarcert.py} & 5/5; 71 boxes \\
+$2\to3$ divergence & \texttt{code/divergencia3.py} & 5/5; rational-exact counterexample \\
+Phase-diagram figure & \texttt{code/franja.py} & generator \\
+D1 shadow budget (box certificate) & \texttt{code/insercioncert.py} & 5/5; 149+173 boxes, all occupant counts \\
+Branch-B golden-line patches & \texttt{code/goldencert.py} & 5/5; exact Sturm isolation \\
+Gap-lemma cross-derivation & \texttt{code/gaplemmacert.py} & 5/5; contrast only \\
+Width tails $\omega>1.6$; $Y>6.6$ tails & \texttt{code/espomegacola.py}, \texttt{code/r2bcolas.py} & 5/5 each \\
+Deep-tower mid band (light; heavy) & \texttt{code/esptorre.py}, \texttt{code/esptorrep.py} & 5/5 each \\
+Width tail of all six channel cells & \texttt{code/espomegacanal.py} & first round refuted two coverage gaps; repaired, re-confirmed \\
+Slot-reduction lemma; placement engine & \texttt{code/lemaA.py} & 5/5; engine rebuilt after refutation, confirmed against an LP oracle \\
+G-b$'$ over all $Y$, mass, piece counts & \texttt{code/lemaA2.py} & 6/6; two unsound caps repaired before refereeing \\
+Heavy assembly murals G-e/G-g & \texttt{code/lemaA3.py} & 5/5; a $k\ge6$ block cap repaired \\
+Light channel, $k\ge2$ extras & \texttt{code/lemaA4.py} & domain $\omega\le1.25$ (leaf extras, full nested-mass range), parents on $\omega\le1.05$, $W_v\le8$, and the $j_v\le1$ slice of $[1.6,2]$; nine rounds, four intermediate refutations repaired \\
+Heavy profile, $k\ge2$ extras & \texttt{code/lemaA5.py} & $\omega\le1.15$ over a 16-band manifest \\
+\hline
+\end{longtable}
+\end{center}
+
 Several statements were corrected or sharpened by the adversarial
-rounds (a missing hypothesis in the trio frontier, a refuted ``leak''
-family, the $\alpha\ge o_1$ case split, a refuted induction in the
-duality layer, a repaired extension lemma and case split in the
-assembly); the reports record each incident.
+rounds (a missing hypothesis in the trio frontier, a refuted
+``leak'' family, the $\alpha\ge o_1$ case split, a refuted
+induction in the duality layer, a repaired extension lemma and case
+split in the assembly); the reports record each incident.
 
 A fourth layer is machine-checked. The repository contains a Lean~4
 development (\texttt{lean/}, core only, no \texttt{mathlib}) that formalizes
@@ -1752,8 +1740,9 @@ infimum is unchanged.
 
 This appendix proves every statement of Section~\ref{sec:width}. Throughout,
 normalize $r_m=1$ and $\omega=w/r_m\in(0,1)$, and write $\beta:=1-\omega$.
-The reinsertion resources of the exchange step are the two root nests
-$A=N(1)$ (the vacated disk $D_m$) and $B=N(\beta)$ (the hole $H_m$), plus
+The reinsertion resources of the exchange step are the two root
+containers $A$ (the vacated disk $D_m$, capacity $1$) and $B$ (the
+hole $H_m$, capacity $\beta$), plus
 recursive nesting inside $S$ itself: a ring $x$ fits in the hole of a ring
 $y$ iff $x\le y-\omega$. For siblings in a disk of capacity $c$ we use:
 one circle, $s\le c$; two circles, $s+s'\le c$, which is \emph{exact}
@@ -2530,9 +2519,10 @@ For $k=5$ the subset-only criterion fails for exactly one pattern, the
 \emph{pentagram}: of the $84$ simple cycles, all with $U\ge2$ are
 count-dominated or LP-dominated except the cycle through the five
 diagonals, and adding its certificate $\sum_D\theta\le4\pi$ restores an
-exact criterion for arbitrary $\theta$; for \emph{geometric} $\theta$
-(rank-one matrices $\sin^2(\theta_{ij}/2)=f_if_j$) the identity
-$\prod_Df_if_j=\prod_{\text{sides}}f_if_j=(\prod f_i)^2$ obstructs the
+exact criterion for arbitrary $\theta$; for \emph{geometric} $\theta$ --
+separation matrices with $\sin^2(\theta_{ij}/2)=f_i f_j$ -- the identity
+$\prod_{(i,j)\in D}f_if_j=\prod_{(i,j)\in S}f_if_j=(\prod_i f_i)^2$
+(over the diagonal set $D$ and the side set $S$ of the cycle) obstructs the
 pattern and the best value found is $7.556$ against the $4\pi=12.57$
 needed (the $84$-cycle enumeration and the dominance checks are
 reproduced by script \texttt{code/corona.py}, a computational check); its redundancy for geometric $\theta$ is stated as a conjecture in
@@ -3379,7 +3369,9 @@ $|S^{+}|\ge4$ with $\sigma_1+M>1$, and the complement is exactly the
 residual cell.
 \end{proof}
 
-\paragraph{The duality certificates.} The remaining cells are closed
+\subsection*{Certified computational closures}
+
+The remaining cells are closed
 by a necessity/sufficiency pair sharing one wall-tangency function:
 $\sin^2(\theta(a,b)/2)=f(a)f(b)$, $f(x)=x/(R-x)$, as in
 Lemma~\ref{lem:S1}. \emph{Necessity} (a true lower bound $R_{\mathrm{lb}}$
@@ -3440,6 +3432,8 @@ nested one; reports in the repository). These are computational
 closures: the per-instance certificate is theorem-backed as above,
 the swept ranges are stated, and the extension in $(j,p,k)$ rests on
 the monotonicity evidence recorded by the scripts.
+
+\subsection*{Written closure theorems}
 
 \paragraph{From computational closure to written proof: the
 insertion lemma.} Two later results upgrade the central pan cells
@@ -3661,6 +3655,35 @@ shared-root corner constant $\pi+4\arcsin(1/\sqrt3)$ (scripts
 adversarial rounds -- one of which refuted and repaired the arc-LP
 statement itself).
 
+\subsection*{The exchange assembly and the container port}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[every node/.style={font=\small, align=center},
+  level distance=16mm, sibling distance=52mm]
+\node[draw, rounded corners, inner sep=5pt]
+  {exchange step: destination $u$ of $m$\\ (containers are the pan or
+   holes of rings larger than $m$; $u\ne v$)}
+  child {node[draw, rounded corners, inner sep=4pt]
+    {(a) $u$ the pan\\ \footnotesize
+     Thms.~\ref{thm:DP}--\ref{thm:DPr},\\
+     \footnotesize Cor.~\ref{cor:DSpan},
+     Thm.~\ref{thm:D1written}}}
+  child {node[draw, rounded corners, inner sep=4pt]
+    {(b) $u$ the hole of a\\ top-level $\alpha$, $v$ the pan\\
+     \footnotesize Thms.~\ref{thm:nestedwritten}--\ref{thm:gapwritten}}}
+  child {node[draw, rounded corners, inner sep=4pt]
+    {(c) the container port\\
+     \footnotesize written as a reduction\\
+     \footnotesize (this appendix)}};
+\end{tikzpicture}
+\caption{The case partition of the exchange assembly. Cases (a) and
+(b) are covered by the pan and nested theorems; case (c), the
+container port, is written as a reduction whose remaining domains are
+inventoried at the close of this appendix.}
+\label{fig:casetree}
+\end{figure}
+
 \paragraph{The exchange assembly.} The exchange step of
 Theorem~\ref{thm:oblivious} is assembled into a case partition
 (a theorem: containers are the unique pan or holes of rings larger
@@ -3807,7 +3830,9 @@ into a single pocket ($p$ and $k$ free; script \texttt{escala}, 5/5,
 with the nested template verbatim and a geometric non-invasion
 check).
 
-\paragraph{The multipiece campaign and the vacuity closures.}
+\subsection*{The multipiece campaign and the vacuity closures}
+
+
 The shared-root \emph{multipiece} sweeps are certified by a
 pessimistic-corner engine over the
 arc-LP's sufficiency direction (valid for every $k$): a
@@ -4092,167 +4117,99 @@ with a repaired normalized-link bound and a certified-honesty
 control: tightening the target below the true supremum $5.2115$
 makes the branch-and-bound stall at exactly that value).
 
-\paragraph{The honest residue.} After the campaign above, what
-remains open or merely sampled in the whole program is short.
-(i)~The occupant-count direction $j$ of the \emph{computational}
-scaling closures, swept to $j\le9$ (pan) and $j\le8$ (nested) with
-uniform tangent duality and the exact geometric growth
-$T_{k-1}\ge\varphi\,T_k$ of the cascade ($1+1/\varphi=\varphi$);
-the \emph{written} theorems' occupant counts are closed by the
-geometric-tail lemma. (ii)~The sweep boxes of the subdivision
-certificates: every certificate above is rigorous over its
-declared box. The two flagged caps are now \emph{removed} by tail
-certificates: $\omega>1.6$ throughout the mirrored heavy cell
-(script \texttt{espomegacola} -- the receiving hole satisfies
-$c\ge1+z$ and every corona term is capped uniformly in $\omega$;
-nine slow dimensions, $23$ boxes) and $Y>6.6$ (i.e.\ $X_Y>3$ or
-$\omega>1.6$) in the engine's G-b$'$ corona boxes (script
-\texttt{r2bcolas} -- two regimes: fixed pieces with caps uniform in
-$Y$, and $x_{\max}>6.6$ closed outright with constant caps around
-the asymptotically diametral pair; both 5/5, adversarial rounds
-with no soundness gap). The piece-count $j\le3$ of the G-b$'$
-extras is now removed as well by the \emph{slot-reduction lemma}
-(scripts \texttt{lemaA}, the staggered-slot engine with the full
-constructive placement sufficiency -- antipodal and simple-cycle
-placements, all pairs verified -- confirmed against an exact LP
-oracle, and \texttt{lemaA2}, the G-b$'$ closure over all $Y\ge1$,
-all mass $M>0$ and all piece counts $j\ge1$: three homogeneous
-regimes partitioned by $x_{\max}$ with the ratio dimensions
-$q=M_r/x_{\max}$ and $v=Y/x_{\max}$, $(v,q)$-symmetric pair caps,
-AND-variants over the count of above-cutoff pieces, and proven
-antipodal exemptions for the always-coexisting pairs $(Y,x_{\max})$
-and $(Y,m)$; both scripts green, two adversarial rounds -- the
-second a directed verification of the repairs -- with zero false
-certificates over $\sim$1{,}800 real-corona probes; $j=0$ is the
-r2bmulti baseline). The heavy-branch murals $\{Y,m\}\cup A$ and
-$\{z,D_m\}\cup A$ (assembly cells with $|A|$ unbounded) are now
-certified with $Y$ and $z$ \emph{unbounded} as well (script
-\texttt{lemaA3}: the partition gate $\beta>1/2$,
-$a\le\min(\beta,\Sigma_S-\beta)\le\Sigma_S/2$ with $\beta$ as a
-sweep dimension, mass-staggered piece models, and the
-\emph{golden-chain lemma} -- the side $\{a\}$ between $z$ and $m$
-at $c'=1+z$ fits iff $(1-a)(z^2+z)\ge a$, which under
-$a\le\Sigma_S/2$, $z\ge\Sigma_S$ reduces to
-$\Sigma_S^2-\Sigma_S-1\le0$, i.e.\ $\Sigma_S\le\varphi$
-\emph{exactly}: the family wall is the tangency case; its first
-adversarial round refuted the executed $k\ge6$ block cap and the
-repaired version was confirmed by a fidelity re-round). What
-remains in this item: the engine's mirrored-ESP corona boxes hold
-on their swept ranges only. (iii)~What remains of the
-occupant channel ($\ge r_m$ inside $Y$'s container): its tariff
-is now \emph{derived} (the two node walls) and the channel
-closed in both profiles on $v$ and on the depth-one tower cut;
-the mid band $x\in[2/\varphi,\sigma_2+\omega+X_x)$ at tower depth
-$\ge2$ is now closed as well for the light profile and chain
-towers (script \texttt{esptorre}, 5/5, adversarial round: the
-tower enters as mass on favourable floors only, $t_1$ in the
-coexistence floor, and the now-ceiling-less $z$-window closes by
-a monotone-limit tail -- the naive reduction to depth one fails
-because $t_1$'s children are not dust, which the script
-documents); the heavy-profile deep tower is closed by the same
-surgery on \texttt{espcanalp}'s criterion (script
-\texttt{esptorrep}, 5/5, adversarial round: the surgery verified
-line by line, both branch-and-bounds non-vacuous and falsifiable,
-in-cell probes with real subset partitions and non-zero dust
-windows) -- so the mid band at depth $\ge2$ is closed in
-\emph{both} profiles for chain towers; the channel cells'
-inherited width ceiling $\omega\le1.6$ is removed as well: the
-six channel criteria are $\omega$-generic (audited line by line
--- the ceiling lived only in the sweep roots), the mid range
+\subsection*{The extra-ring cells of the occupant channel}
+
+The occupant channel ($\ge r_m$ inside $Y$'s container) has its
+tariff \emph{derived} (the two node walls) and is closed in both
+profiles on $v$ and on the depth-one tower cut; the mid band
+$x\in[2/\varphi,\sigma_2+\omega+X_x)$ at tower depth $\ge2$ is closed
+for chain towers in both profiles (scripts
+\texttt{code/esptorre.py}, \texttt{code/esptorrep.py}: the tower
+enters as mass on favourable floors only, and the naive reduction
+to depth one fails because $t_1$'s children are not dust). The
+inherited width ceiling $\omega\le1.6$ of the channel cells is
+removed: the six criteria are $\omega$-generic, the mid range
 $\omega\in[1.6,40]$ re-runs them over extended roots ($\sim$5M
-boxes across banded runs; the first adversarial round refuted two
-coverage gaps -- the $z$-window ceiling scales as $3\omega$ in
-the nested cells, and the towers' $z$-tails had never been re-run
--- both repaired and re-refereed), and the tail $\omega\ge40$
-closes by self-contained cap arguments with margins
-$0.4$--$0.8$~rad (script \texttt{espomegacanal}, refuted--repaired
---confirmed across two rounds); the $k\ge2$ extra-ring cell of
-the light channel is now \emph{certified} for widths
-$\omega\le1.15$ with leaf extras in $v$ and nested mass
-$W_z\le34$ (script \texttt{lemaA4}: extra masses as sweep
-dimensions with a $W$-uniform tail, staggered piece models,
-pure-block variants for $j\ge6$, an endpoint-supremum coupling
-bound, and a reduced placement engine; three adversarial
-rounds -- two intermediate refutations, both of the
-ceiling-vs-floor box-test kind and one of an
-un-inherited wall precondition, all repaired -- ending
-confirmed; $\sim$1{,}450 truth probes over every declared
-residue, zero violations); a fifth round re-tested the
-parent-extras residue (extras nested inside other extras of
-$v$) against the improved machinery and \emph{certified} it
-on the domain $\omega\le1.05$, $W_v\le8$, $W_z\le34$
-(extended node walls $T+W_z$ for nestable pieces, positional
-caps for $j\ge6$; the round refuted a fatal positional-cap
-gap at the fourth piece -- a cap sound only for leaf pieces
-majorized a possible parent -- repaired and re-refereed),
-and a sixth round certified the $W_z>34$ tail for leaf
-extras on $\omega\le1.15$ (the nested mass $W_z$ counts
-toward $z$'s tail, so $\rho\le\varphi$ both bounds the
-uncovered sector by infeasibility and couples $z\le C_0+W_z$;
-the piecewise-linear lower bound on the hosting capacity then
-has an upper piece of slope $2/\varphi>1$ where the interior
-critical points of the pair bound are \emph{maxima} -- the
-reverse of the generic-slope case -- with a closed-form
-critical point, so the supremum over the unbounded $z$-ray is
-computed from finitely many candidates; instrumented
-attribution: the piecewise bound decides every call, while
-the $z$-floor refinement is verifiably inert); a triple
-seventh-to-ninth round then (a) opened the width range
-$\omega\in[1.6,2]$ for $j_v\le1$ configurations (a movable
-antipodal exemption in the placement engine -- any
-single-clamped pair $(z,\cdot)$ is exemptible by
-coexistence, not just $(z,x_1)$ -- with the finding that the
-saturated-diametral obstruction family is
-\emph{width-invariant}: the $j_v\ge2$ residues of all width
-ranges are one object), (b) certified the \emph{heavy}
-occupant profile ($\Sigma_S\ge1+\sigma_2$) with $k\ge2$
-extras on $\omega\le1.15$ over a 16-band manifest (the A7
-heavy node wall applied per-extra, the partition collapsed
-to its best-subset mass, exact ladder variants up to
-$j\le8$), and (c) raised the light-leaf width cut from
-$1.15$ to $1.25$ via a \emph{necessity} wall: the floor
-capacity $c^*$ of the mandatory corona set, computed by
-bisection over the repository's adversarially-audited
-order-sum refuter (radial stacking handled; an earlier
-consecutive-$\theta_w$ formulation was refuted by the
-referee as a general lemma -- with zero empirical bite, by
-replay -- and replaced by delegation to the audited
-apparatus), leaving as \emph{declared} residues of that
-cell the band $\omega\in[1.25,1.6]$ and the unified
-$j_v\ge2$ family for $\omega>1.6$, parent extras with
-$W_v>8$ or $\omega>1.05$ or $W_z>34$, and the heavy profile
-outside its domain (a fourth round had instrumented
-a new Descartes-pocket placement engine -- sound, fully
-audited, and empirically inert: the $[1.05,1.15]$ gain came
-from re-testing the older cut against the improved
-machinery); the remaining residue: those declared cuts,
-branched towers, and the structural
-exclusion of $u$'s content; every earlier mirrored-cell closure
-stays within the dust convention (every extra piece is dust, of
-size $<r_m$; the extra \emph{masses} are bounded by the global
-tail, not by $r_m$). (iv)~Of the near-equal-tops
-phenomenon, only the abstract arc-LP statements survive (the
-conditional duality lemma and the synthetic $1.082$ corner, on
-the non-stackable domain); the converse ``gap $\Rightarrow$
-cell'' is now closed in exact form (peeling plus the
-stackable-pair/non-adjacent-domination dichotomy, replacing the
-empirical $0.9$), its supporting sweep remaining sampled and the
-domination branch an unexercised prediction -- and the realistic
-cell itself carries no legal instance. (v)~The optimization
-asterisk of the bounded-family sweeps is now \emph{closed
-throughout}: the shadow budgets with certified margins (script
-\texttt{optimizacion}), the gap-lemma cell by the pocket
-certificates, the golden-line branch-B patches by exact Sturm
-isolation and box certificates (script \texttt{goldencert}), and
-the D1 cascade budget by \texttt{insercioncert}; what those
-computational certificates still are not is \emph{written} proofs,
-the program direction of Open Problem~\ref{op:assembly}. Everything else in this
-appendix is a written proof, an exact identity in
-$\mathbb{Q}(\sqrt5)$, a vacuity, or a subdivision certificate
-recorded in the verification map (Appendix~\ref{app:verifmap});
-replacing those computational certificates by written proofs is
-the program's declared direction (Open
-Problem~\ref{op:assembly}).
+boxes), and the tail $\omega\ge40$ closes by self-contained cap
+arguments with margins $0.4$--$0.8$~rad
+(\texttt{code/espomegacanal.py}).
+
+The $k\ge2$ extra-ring cells are certified on their declared
+domains (scripts \texttt{code/lemaA4.py} and
+\texttt{code/lemaA5.py}; nine adversarial rounds, four
+intermediate refutations repaired): \emph{light leaf extras} for
+$\omega\le1.25$ with the full nested-mass range -- $W_z\le34$ by
+domain, and the $W_z>34$ tail by a mode in which the nested mass
+counts toward $z$'s tail, so $\rho\le\varphi$ both bounds the
+uncovered sector by infeasibility and couples $z\le C_0+W_z$; the
+piecewise-linear lower bound on the hosting capacity then has an
+upper piece of slope $2/\varphi>1$ where the interior critical
+points of the pair bound are \emph{maxima} -- the reverse of the
+generic-slope case -- with a closed-form critical point, so the
+supremum over the unbounded $z$-ray is computed from finitely many
+candidates. \emph{Parent extras} (nested inside other extras of
+$v$) are certified on $\omega\le1.05$, $W_v\le8$, $W_z\le34$
+(extended node walls $T+W_z$, positional caps for $j\ge6$). The
+width range $\omega\in[1.6,2]$ is certified for $j_v\le1$
+configurations via a movable antipodal exemption in the placement
+engine (any single-clamped pair $(z,\cdot)$ is exemptible by
+coexistence), with the finding that the saturated-diametral
+obstruction family is \emph{width-invariant}: the $j_v\ge2$
+residues of all width ranges are one object. The \emph{heavy}
+profile ($\Sigma_S\ge1+\sigma_2$) with $k\ge2$ extras is
+certified on $\omega\le1.15$ over a 16-band manifest (the A7
+heavy node wall applied per-extra, the partition collapsed to its
+best-subset mass, exact ladder variants up to $j\le8$). The
+light-leaf width cut rose from $1.15$ to $1.25$ via a
+\emph{necessity} wall: the floor capacity $c^*$ of the mandatory
+corona set, computed by bisection over the repository's audited
+order-sum refuter (radial stacking handled). Every mirrored-cell
+closure stays within the dust convention (every extra piece is
+dust, of size $<r_m$; the extra \emph{masses} are bounded by the
+global tail, not by $r_m$).
+
+\subsection*{Remaining cases}
+
+After the campaign above, what remains open or merely sampled in
+the whole program is short; each item carries its epistemic label.
+\begin{enumerate}
+\item[(i)] \emph{Swept:} the occupant-count direction $j$ of the
+\emph{computational} scaling closures, swept to $j\le9$ (pan) and
+$j\le8$ (nested) with uniform tangent duality and the exact
+geometric growth $T_{k-1}\ge\varphi\,T_k$ of the cascade; the
+\emph{written} theorems' occupant counts are closed by the
+geometric-tail lemma.
+\item[(ii)] \emph{Box-certified, on declared boxes:} every
+subdivision certificate is rigorous over its declared box; the
+former width, mass and piece-count ceilings are removed by the
+tail certificates and the slot-reduction engine
+(\texttt{code/espomegacola.py}, \texttt{code/r2bcolas.py},
+\texttt{code/lemaA.py}--\texttt{code/lemaA3.py}). What remains:
+the engine's mirrored-ESP corona boxes hold on their swept ranges
+only.
+\item[(iii)] \emph{Declared residues of the extra-ring cells:}
+the band $\omega\in[1.25,1.6]$ and the width-invariant
+$j_v\ge2$ family for $\omega>1.6$; parent extras with $W_v>8$ or
+$\omega>1.05$ or $W_z>34$; the heavy profile outside
+$\omega\le1.15$; branched towers (chain towers are closed in
+both profiles); and the structural exclusion of $u$'s content (the
+one model-conditional piece). All declared residues are
+truth-probed, with zero violations.
+\item[(iv)] \emph{Sampled:} the supporting sweep of the exact
+``gap $\Rightarrow$ cell'' converse (closed in exact form;
+the domination branch is an unexercised prediction; the realistic
+cell itself carries no legal instance).
+\item[(v)] \emph{Program:} written proofs replacing the
+remaining computational certificates; their optimization
+sub-steps are closed throughout by certified budgets
+(\texttt{code/optimizacion.py}, \texttt{code/goldencert.py},
+\texttt{code/insercioncert.py}). This is the direction of Open
+Problem~\ref{op:assembly}.
+\end{enumerate}
+Everything else in this appendix is a written proof, an exact
+identity in $\mathbb{Q}(\sqrt5)$, a vacuity, or a subdivision
+certificate recorded in the verification map
+(Appendix~\ref{app:verifmap}).
 
 \section{Verification details for Theorem~\ref{thm:twins}}\label{app:verif}
 
