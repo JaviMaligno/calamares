@@ -53,12 +53,20 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from coronacolas import PHI, PI, check
 from r2bmulti import th, bnb_factible
 from lemaA import (_motor_dos_lados, _cuerda, _asin2)
-from lemaA4 import _motor_rapido
+from lemaA4 import (_motor_rapido, _cstar_refuta,
+                    _cstar_suelo)
 from espcanal import suelo_trio
 
 SEED = int(os.environ.get('CC_SEED', '20260829'))
 W_TOP = 34.0
 W_CORTE = float(os.environ.get('CC_WCORTE', '1.15'))
+# CC_CSTAR=1 (punto 2 del repaso): la pared c* del 3i (sello
+# pleno en lemaA4: cabe_algun_orden con confinamiento + biseccion,
+# pre-criba solo-ahorro) portada a la pesada — el conjunto de la
+# corona pesada NO lleva s2 (la particion lo absorbe): {z, x_1,
+# x_2, .., D_m}
+CSTAR = os.environ.get('CC_CSTAR', '0') == '1'
+CSTAR_N = [0, 0, 0]
 XP_MAX, XZ_MAX = 1.5, 1.0
 W_MAX = 1.6
 # techo de (SS - b) en a_hi = 1 + (SS-b) + Xp + w: masa_A <=
@@ -341,10 +349,26 @@ def crit_k2p(box):
             fila_b = [x1_b, min(x2b, x1_b)] \
                 + [min(f, x2b) for f in fila0[2:]]
             resto2 = (j - 2) * x_floor
-            if _prueba(j, c_lo, fila_b, x1_lo,
-                       {1: (x1_lo, x2a + resto2),
-                        2: (x2a, x1_lo + resto2)}):
+            ext_b = {1: (x1_lo, x2a + resto2),
+                     2: (x2a, x1_lo + resto2)}
+            if _prueba(j, c_lo, fila_b, x1_lo, ext_b):
                 continue
+            if CSTAR:
+                radios_c = ([z_lo, max(x1_lo, x2a), x2a]
+                            + [x_floor] * max(0, j - 2)
+                            + [1.0])
+                c_hi_y = (SSh + z_hi + mu_eff + wh
+                          + min(Wv_hi, 1e9)) - wl
+                if _cstar_refuta(radios_c, c_hi_y):
+                    CSTAR_N[2] += 1
+                    continue
+                c_st = _cstar_suelo(radios_c, c_lo, c_hi_y)
+                if c_st > c_lo + 1e-9:
+                    CSTAR_N[0] += 1
+                    if _prueba(j, c_st, fila_b, x1_lo,
+                               ext_b):
+                        CSTAR_N[1] += 1
+                        continue
             if x2b - x2a > max_prof:
                 mid = (x2a + x2b) / 2.0
                 pendientes += [(x2a, mid), (mid, x2b)]
@@ -418,6 +442,10 @@ def bloque_B():
     LAMINA_N[0] = 0
     exito, caja, n, cert = bnb_factible(root, crit_k2p,
                                         eps=eps)
+    if CSTAR:
+        print(f"    [c* pesada] rescates {CSTAR_N[0]} "
+              f"(exitosos {CSTAR_N[1]}), vacuidades "
+              f"{CSTAR_N[2]}")
     return check(
         f"k >= 2 PESADA certificada fuera de la lamina "
         f"({LAMINA_N[0]} cajas en L; claim omega in [0, "

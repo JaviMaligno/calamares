@@ -5061,3 +5061,18 @@ del 3b y del corte por omega puro).  Ambas vias quedan en el
 codigo (documentadas, sound, default off) como puntos de
 partida del ataque futuro.
 ----------------------------------------------------------------
+
+----------------------------------------------------------------
+PUNTO 2 DEL REPASO — EL CORTE PESADO SUBE A OMEGA <= 1.25
+(lemaA5.py CC_CSTAR=1; PROVISIONAL con aparato sellado — el
+porte del c* del 3i, sello pleno en lemaA4, a la pesada; el
+conjunto de la corona pesada sin s2: {z, x_1, .., D_m}).  La
+franja [1.15, 1.25] pesada ENTERA verde con CC_WCORTE=1.25:
+[0,4] 35151/9846 con 30 RESCATES c* EXITOSOS de 3229 (el mismo
+patron que la ligera: c* decide en Wv bajas); [4,8] 80221/22845
+(6474 rescates, 0 exitosos — cierra por otras vias); [8,12]
+29355/8431; [12,34] 84141/25296.  Sobre-verificacion no
+reclamada: [1.25,1.4] x [8,12] 67587/18832.  Regresion
+CSTAR=0: 12923/4099 identica (el modo sellado intacto);
+C verde.  El sello del porte va en el batch del repaso.
+----------------------------------------------------------------
