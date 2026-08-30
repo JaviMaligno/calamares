@@ -707,7 +707,8 @@ conjectured universal floor of nested exchanges (the remaining
 gaps are listed in Open Problem~\ref{op:assembly}(b)). Evidence: the pan-exchange
 $\varphi$-floor is proved in full for pair profiles in
 Theorem~\ref{thm:DP} (Appendix~\ref{app:pan-app}), for extra small
-rings by adjunction (Corollary~\ref{cor:DSpan}), and for larger
+rings by adjunction into the profile (Corollary~\ref{cor:DSpan},
+reducing them to the larger-profile theorems), and for larger
 profiles outside a single heavy cell
 (Theorems~\ref{thm:DPp} and~\ref{thm:DPr}) -- one occupant at every
 width via the golden fixed point, the evacuation branch at every
@@ -1232,7 +1233,8 @@ $o_2$. Larger profiles are closed in the light,
 nested, heavy-large and heavy-$\Psi_B$ regimes of
 Theorem~\ref{thm:DPp}, and $p=3$ with one occupant at every width.
 After Theorem~\ref{thm:DPr}, extra small rings adjoin to the profile
-(Corollary~\ref{cor:DSpan}, a complete proof), and the single heavy
+(Corollary~\ref{cor:DSpan}, by direct absorption: the enlarged pan
+profile is again a pan profile), and the single heavy
 cell $\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$ and the solid-pivot regime
 $\omega\ge1$, $j\ge3$ now carry \emph{written proofs}
 (Theorem~\ref{thm:D1written}, via the insertion lemma, with a single
@@ -1816,8 +1818,14 @@ with extremal families (as $\varepsilon\to0^+$):
 $\{\tfrac12+\omega,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ on the
 hyperbola, $\{1/\varphi,\tfrac12+\varepsilon,\tfrac12+\varepsilon\}$ on the
 golden plateau
-$\omega\in\bigl[\tfrac{\sqrt5-2}{2},1-\tfrac{\varphi}{2}\bigr]$, and
-$\{\beta+\varepsilon,\beta+\varepsilon,\delta\}$ beyond. The proof is
+$\omega\in\bigl[\tfrac{\sqrt5-2}{2},1-\tfrac{\varphi}{2}\bigr]$,
+$\{\beta+\varepsilon,\beta+\varepsilon,\delta\}$ with $\beta=1-\omega$
+on $\omega\in\bigl[1-\tfrac{\varphi}{2},\tfrac12\bigr]$ (there
+$2(\beta+\varepsilon)>1$: the pair cannot row), and
+$\{\tfrac12+\varepsilon,\tfrac12+\varepsilon,\delta\}$ for
+$\omega\ge\tfrac12$ (where $\rho^*_3=1$; the family
+$\{\beta+\varepsilon,\beta+\varepsilon,\delta\}$ rows into the unit
+disk there and no longer blocks). The proof is
 purely additive: neither case (ii) nor any three-circle geometry enters.
 \end{theorem}
 \begin{proof}
@@ -2048,8 +2056,12 @@ $\kappa^2>\tfrac{8/81}{0.0158}>6$, far from tight.
 \begin{corollary}[Minimum of $\sigma_1+\sigma_2$; Tribonacci closure]
 \label{cor:Cmin}
 For every $\alpha>1$, the minimum of $\sigma_1+\sigma_2$ over the
-non-packable region $\{F\ge2\pi,\ 0<\sigma_2\le\sigma_1\le1\}$ is
-$1+b(\alpha)$, attained at $(\sigma_1,\sigma_2)=(1,b(\alpha))$.
+region $\{F\ge2\pi,\ 0<\sigma_2\le\sigma_1\le1\}$ -- the closure of
+the non-packable locus $F>2\pi$; on the boundary $F=2\pi$ the corona
+closes with exact tangencies -- is
+$1+b(\alpha)$, attained at $(\sigma_1,\sigma_2)=(1,b(\alpha))$
+(equivalently, $1+b(\alpha)$ is the unattained infimum over
+$F>2\pi$).
 Consequently a blocking satisfying the witness wall
 $\sigma_1+\sigma_2\le\alpha-\omega$ forces $1+b(\alpha)\le\alpha-\omega$,
 i.e.\ $\alpha\ge T_{1+\omega}$ (the root of
@@ -2553,7 +2565,10 @@ is $4/(1+2\omega)$ at $o_1=\tfrac12+\omega$.
 
 \begin{corollary}[Crossings; canonical optimality]\label{cor:DV34}
 For $j=1$: $\rho>3/(1+\omega)>T$ for
-$\omega<3/T-1=3T^2-3T-4=0.6310\dots$, and combining with the fine branch,
+$\omega\le\tfrac12$ (the range where Proposition~\ref{prop:DV2}
+provides that branch; on it $3/(1+\omega)>T$ holds throughout since
+$\tfrac12<3/T-1=0.6310\dots$), and combining with the fine branch
+$\rho>4/(1+2\omega)$ for $\omega\ge\tfrac12$,
 $\rho>T$ for all $\omega<2/T-\tfrac12=2T^2-2T-\tfrac52=0.5873\dots$, with
 $\rho\ge\tfrac{13}7$ for $\omega\le\tfrac{15}{26}$. For $j\ge2$:
 $\rho>4/(1+\omega)>2>T$ for all $\omega<1$. Moreover every
@@ -2561,9 +2576,14 @@ extra-occupant blocking has $\rho>2$ for $\omega<\tfrac12$, while the
 entire canonical curve lies strictly below $2$ -- the witness branch by
 the exact identity
 $(2+\omega)^3-(1+\omega)\bigl((2+\omega)^2+(2+\omega)+1\bigr)=1>0$, i.e.\
-$T_{1+\omega}<2+\omega$, hence $\Phi(\omega)<2$ -- so adding occupants is
-strictly suboptimal for the adversary: the canonical template is the
-optimal $v$ in this class. \qed
+$T_{1+\omega}<2+\omega$, hence $\Phi(\omega)<2$ -- so on
+$\omega<\tfrac12$ adding occupants is
+strictly suboptimal for the adversary and the canonical template is
+the optimal $v$ in this class (for $j=1$ and
+$\omega\ge\tfrac12$ the proven bound $4/(1+2\omega)$ may dip below
+the canonical curve, so there the comparison is not settled by
+these inequalities; for $j\ge2$ the bound $4/(1+\omega)>2$ covers
+all widths). \qed
 \end{corollary}
 
 \subsection{Occupied holes: the opposite-disk lemma and the silver floor}
@@ -3303,25 +3323,31 @@ prints correspondingly smaller totals.
 
 \begin{corollary}[Pan exchange, extra small rings]\label{cor:DSpan}
 In the pan-exchange template, every extra ring $e<r_m$ that $P$ keeps
-in the pan adjoins the reinsertion profile: with
-$S^{+}:=S\cup\{\text{extras}\}$, Theorems~\ref{thm:DP},
-\ref{thm:DPp} and~\ref{thm:DPr} hold verbatim for $S^{+}$, and the
-residual cell of the case assignment over $S^{+}$ is again
-$\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$.
+in the pan adjoins the reinsertion profile: writing
+$S^{+}:=S\cup\{\text{extras}\}$, re-indexed decreasingly, the enlarged
+template \emph{is} the pan-exchange template with profile $S^{+}$, so
+Theorem~\ref{thm:DP} (for $|S^{+}|=2$) and
+Theorems~\ref{thm:DPp}--\ref{thm:DPr} (for $|S^{+}|\ge3$) apply to
+$S^{+}$ with their stated case assignments and $\omega$ domains, and
+the residual cell of the assignment over $S^{+}$ is again
+$\{p\ge4,\ \sigma_1+M\le1,\ j\ge3\}$ with $p=|S^{+}|$ (closed, for
+every small-ring count, by Theorem~\ref{thm:D1written}).
 \end{corollary}
 \begin{proof}
-Reinsertion is existential: any placement that reinserts all of
-$S^{+}$ reinserts $S$, so blocking for $S$ implies that every witness
-placement for $S^{+}$ fails, and each wall of the cited theorems --
-derived from exactly such failures, using only the radii of the
-profile members and the resources $D_m$, $H_m$, holes and the pan
-repack -- holds for the enlarged profile a fortiori. Extras inside
-holes are already counted by the hole tariffs ($X$-masses). The case
-assignment of Theorems~\ref{thm:DPp}--\ref{thm:DPr} is exhaustive
-over $S^{+}$ by the finite case trichotomy on
-$(|S^{+}|,\ j,\ \sigma_1+M)$: the cited cases cover $|S^{+}|=3$ for
-every $j$, $|S^{+}|\ge4$ with $j\le2$, and $|S^{+}|\ge4$ with
-$\sigma_1+M>1$, and the complement is exactly the residual cell.
+The profile of the template is by definition the multiset of sub-unit
+rings the witness keeps in the pan, ordered decreasingly, and the
+hypotheses of the cited theorems use no property of the $\sigma_i$
+beyond $\sigma_i<1$ and that placement; the extras satisfy both
+($e<r_m=1$). The enlarged template is therefore literally the template
+with profile $S^{+}$: blocking in the enlarged template \emph{is}
+blocking for $S^{+}$, and every witness placement in the cited proofs
+places all of $S^{+}$, so no implication between blocking for $S$ and
+blocking for $S^{+}$ is invoked. The case assignment
+over $(|S^{+}|,\,j,\,\sigma_1+W,\,\sigma_2,\,\sigma_1+M)$ is the
+finite trichotomy already recorded: the cited cases cover
+$|S^{+}|=3$ for every $j$, $|S^{+}|\ge4$ with $j\le2$, and
+$|S^{+}|\ge4$ with $\sigma_1+M>1$, and the complement is exactly the
+residual cell.
 \end{proof}
 
 \paragraph{The duality certificates.} The remaining cells are closed
@@ -3422,7 +3448,7 @@ arcs up to $\pi$); the two regimes are mutually exclusive. \qed
 \end{lemma}
 
 \begin{theorem}[The heavy pan cells, written]\label{thm:D1written}
-In the cell $\{j\ge3,\ \sigma_2\le\varphi-1,\ \sigma_1+\sigma_2>1\}$
+In the cell $\{j\ge3,\ \sigma_2\le\varphi-1\}$
 of the pan exchange -- for every profile size $p$, every small-ring
 count and every width, including the solid pivot $\omega\ge1$
 (where the branch $\sigma_2>\varphi-1$ is also closed:
@@ -3432,11 +3458,24 @@ $\Sigma\ge2\sigma_2$) -- $\rho\le\varphi$ implies the exchange does
 not block. \emph{Proof sketch.} The witness placement: the pan
 exactly as $F$ certified it when placing $m$ (occupants with their
 $P$-subtrees rigid, $m$ with $M$ inside, $D_m$ vacated in the
-carrier's hole); $\sigma_1\to D_m$ (single row); $\sigma_2$ inserted
-by Lemma~\ref{lem:insert}; the remaining small mass
-$W'\le\varphi-\sigma_1-\sigma_2<1/\varphi$ (tail of $m$ plus the
-wall $(D)$) as one row-disk (Lemma~\ref{lem:row}) inserted again by
-Lemma~\ref{lem:insert}. The shadow regime holds across the domain
+carrier's hole);
+$\sigma_1\to D_m$, topped up greedily with the remaining small
+pieces other than $\sigma_2$ (a single row of mass $B\le1$,
+Lemma~\ref{lem:row}); $\sigma_2$ inserted by
+Lemma~\ref{lem:insert}; the unrowed remainder $W'$ as one row-disk
+(Lemma~\ref{lem:row}) inserted again by Lemma~\ref{lem:insert}.
+In every case $W'\le1/\varphi$: if the greedy row spills, every
+unrowed piece exceeds $1-B$ yet is at most $\sigma_3\le\sigma_2$,
+so $B>1-\sigma_3$ and the tail of $m$ (total small mass
+$\le\varphi$) gives
+$W'\le\varphi-\sigma_2-B<(\varphi-1)-(\sigma_2-\sigma_3)
+\le1/\varphi$; if it does not spill, $W'=0$. Both inserted radii
+are thus $\le\varphi-1$, the sizes certified below. (When
+$\sigma_1+\sigma_2>1$ this reduces to the earlier witness, with
+$W'\le\varphi-\sigma_1-\sigma_2$ by the wall $(D)$; the greedy row
+removes the need for that wall, and with it the cell hypothesis
+$\sigma_1+\sigma_2>1$ of a previous version -- the gap, found by an
+external review, is closed by the spillover bound above.) The shadow regime holds across the domain
 ($o_2-2s\ge4-2\varphi>0$ exactly), and the budget of shadows at
 $R=o_1+o_2$ (shadows decrease in $R$) is bounded by its cascade
 corner $j=3$, $(2\varphi,2,2/\varphi,1)$: $4.7225$ and $5.2644$
@@ -3651,7 +3690,11 @@ analytic danger threshold is $\sigma_2=\tfrac23$), with the heavy
 branch by an exact partition and the deeper/mirrored configurations
 by direct sweeps with derived tariffs.
 
-The port itself is now \emph{written}. When $v$ is the pan and
+The port itself is now \emph{written as a reduction}: every case
+below is a theorem/corollary, lands in a computationally
+certified cell, or belongs to one of the residual domains
+inventoried honestly in the closing subsection. When $v$ is the
+pan and
 $\alpha$ sits nested in a tower whose root $t$ is top-level, the
 case is a \emph{corollary} of
 Theorems~\ref{thm:nestedwritten}--\ref{thm:gapwritten}: those
