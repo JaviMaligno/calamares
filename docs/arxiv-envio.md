@@ -8,11 +8,12 @@ aplicadas) está ejecutada — actas en `docs/drafts/ciega/`.
 
 ## El fichero a subir
 
-`paper/arxiv-bundle.tar.gz` — regenerado con
-`python paper/make_arxiv_bundle.py`; contiene `main.tex` +
-`figures/` (3 PNG). Verificado: compila standalone con pdflatex
-(2 pasadas), 52 páginas, 0 referencias sin resolver. Sin bibtex
-(bibliografía inline), sin paquetes exóticos.
+`arxiv-bundle.tar.gz` (raíz del repo) — regenerado con
+`python paper/make_arxiv_bundle.py` (VERIFICACION: OK); contiene
+`main.tex` + `figures/` (3 PNG). Verificado: compila standalone
+con pdflatex (2 pasadas), **60 páginas**, 0 referencias sin
+resolver, 0 overfull. Sin bibtex (bibliografía inline); usa
+`tikz`, `longtable` y `array`, todos estándar en TeX Live.
 
 ## Metadatos (copy-paste)
 
@@ -22,7 +23,8 @@ Counterexample, and a Tribonacci Floor
 
 **Authors:** Javier Aguilar Martín
 
-**Abstract:** (el del paper, líneas 42-82 de main.tex — pegarlo
+**Abstract:** (el del paper, primeras líneas de main.tex — son
+tres párrafos; pegarlo
 tal cual, quitando los saltos de línea de LaTeX; arXiv no admite
 \emph: sustituir por texto plano)
 
@@ -33,7 +35,7 @@ tal cual, quitando los saltos de línea de LaTeX; arXiv no admite
 **MSC classes:** 52C15 (primaria); 52C26, 05B40, 68W25
 
 **Comments:**
-52 pages, 3 figures. Computational verification scripts for
+60 pages, 3 figures plus 3 diagrams. Computational verification scripts for
 every numerical claim, extended proofs, adversarial verification
 reports, and Lean 4 kernel-checked certificates of the exact
 identities are available at
@@ -47,13 +49,17 @@ Cuenta de arXiv con email personal (javiecija96@gmail.com, el del
 paper). Al intentar el primer envío a math.MG, arXiv mostrará el
 código de endorsement (formato `XXXXXX`). Vías:
 
-1. Contactos académicos que publiquen en math.MG/math.CO (un
-   endorser debe haber publicado ~3-4 papers en la categoría en
-   los últimos 5 años). El mensaje útil: título + abstract + el
-   enlace al repo (los certificados Lean y los scripts hacen el
-   paper inusualmente auditable para un endorser).
-2. Si no hay endorser a mano: arXiv acepta solicitudes razonadas
-   vía moderación (más lento).
+**Candidatos identificados y verificados contra arXiv, y los dos
+emails ya redactados, en `docs/email_endorsement.md` (fichero
+privado, fuera de git).** Resumen: el endorser debe haber
+publicado en math.MG entre 3 meses y 5 años atrás; el primer
+candidato es un contacto personal del doctorado cuya área es
+metric geometry y que cumple el criterio con margen; hay un
+segundo candidato de respaldo citado en la bibliografía del
+paper. arXiv desaconseja escribir a varios a la vez.
+
+Si ninguno saliera: arXiv admite solicitudes razonadas vía
+moderación (más lento).
 
 ## Checklist final antes de subir
 
