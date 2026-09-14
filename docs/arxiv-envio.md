@@ -1,7 +1,7 @@
 # Hoja de envío a arXiv (v1)
 
-Estado: LISTO PARA ENVIAR en cuanto llegue el endorsement de
-math.MG. El manuscrito es el commit etiquetado `v1-arxiv`
+Estado: **ENDORSEMENT CONSEGUIDO (2026-09-14)**. Ya no hay
+bloqueo: se puede subir. El manuscrito es el commit etiquetado `v1-arxiv`
 (la nota de autor del paper fija esa correspondencia). La ronda
 final ciega (7 referees + meta, 0 fatales, 61 correcciones
 aplicadas) está ejecutada — actas en `docs/drafts/ciega/`.
@@ -23,10 +23,33 @@ Counterexample, and a Tribonacci Floor
 
 **Authors:** Javier Aguilar Martín
 
-**Abstract:** (el del paper, primeras líneas de main.tex — son
-tres párrafos; pegarlo
-tal cual, quitando los saltos de línea de LaTeX; arXiv no admite
-\emph: sustituir por texto plano)
+**Abstract:** ⚠ **El del paper NO cabe**: son 2954 caracteres y
+arXiv corta en 1920 (*"abstracts longer than 1920 characters will not
+be accepted"*, info.arxiv.org/help/prep.html). El del PDF se queda
+como está; solo se abrevia el campo de metadatos. Versión abreviada
+lista para pegar, **1900 caracteres**, ya en texto plano (sin
+`\emph`, sin `` ``…'' ``, sin saltos de LaTeX; el math en `$…$` lo
+renderiza arXiv):
+
+> Cada párrafo posterior al primero empieza con **un espacio**: arXiv
+> elimina los saltos de línea salvo que la línea siguiente empiece con
+> espacio en blanco. Respetar esa sangría al pegar o se fundirá todo
+> en un párrafo único.
+
+```text
+We study packings of annuli ("rings") of a common width into a disk, where a ring may nest inside the hole of a strictly larger one, a selection-oriented relative of the Recursive Circle Packing Problem. The two natural objectives, cardinality and contact area, genuinely diverge. For superincreasing radii (each exceeding the sum of all smaller ones) we prove that the descending greedy maximizes every positive, increasing, superadditive objective. Our main structural theorem shows more: the placement rule is irrelevant - any choice among feasible containers yields the lexicographically maximal feasible set, for containers of arbitrary shape and in every dimension. Both hypotheses are sharp: placement irrelevance holds for at most three rings and fails at four, and twin instances rule out every rule that is a function of the observable state.
+ Write $\rho=\max_i(\sum_{j>i}r_j)/r_i$ for the violation of superincreasingness. The additive relaxation has universal threshold exactly $\rho=1$. In the geometric model we prove, with no tangency idealization, that the rigid four-ring family has infimum exactly the Tribonacci constant $T\approx1.83929$. Yet $T$ is not the global threshold: an explicit golden family breaks placement obliviousness at $\rho=\varphi+3\varepsilon$ for every small $\varepsilon>0$, proving $\tau\le\varphi<T$ for the geometric threshold $\tau$ and refuting the natural Tribonacci-threshold conjecture. The matching bound $\tau\ge\varphi$ remains conjectural; we prove it for pair profiles and outside an explicit heavy region.
+ We also give a phase diagram for this divergence and split hardness into a geometric layer and a combinatorial (subset-sum) layer, of which superincreasingness eliminates exactly the latter. The main theorems carry complete written proofs; every computer-assisted closure carries an epistemic label and a script in the verification map.
+```
+
+Qué se recortó respecto del abstract del paper, por si hace falta
+revisarlo: el detalle del programa hacia la conjetura (la curva de
+anchura positiva con mínimo $13/7$, los umbrales de perfil en forma
+cerrada, los muros de bloqueo con suelos de medias metálicas), la
+frase sobre el valor áureo como «teorema en una dirección y abierto en
+la otra», y la enumeración de las etiquetas epistémicas (proved,
+box-certified, grid-swept, sampled). Ningún resultado desaparece: se
+pierden matices, no enunciados.
 
 **Primary category:** math.MG (Metric Geometry)
 
@@ -43,29 +66,47 @@ https://github.com/JaviMaligno/calamares (release v1-arxiv).
 
 **License:** CC BY 4.0 (recomendada) o arXiv non-exclusive.
 
-## El endorsement (el único bloqueo)
+## El endorsement — CONSEGUIDO
 
-Cuenta de arXiv con email personal (javiecija96@gmail.com, el del
-paper). Al intentar el primer envío a math.MG, arXiv mostrará el
-código de endorsement (formato `XXXXXX`). Vías:
+**2026-09-14: Ramón Flores (Universidad de Sevilla, Dpto. de Geometría
+y Topología) concedió el endorsement de math.MG.** Fue el tutor del TFG
+del autor; se le escribió el 2026-09-12 a su correo institucional y al
+personal.
 
-**Candidatos identificados y verificados contra arXiv, y los dos
-emails ya redactados, en `docs/email_endorsement.md` (fichero
-privado, fuera de git).** Resumen: el endorser debe haber
-publicado en math.MG entre 3 meses y 5 años atrás; el primer
-candidato es un contacto personal del doctorado cuya área es
-metric geometry y que cumple el criterio con margen; hay un
-segundo candidato de respaldo citado en la bibliografía del
-paper. arXiv desaconseja escribir a varios a la vez.
+Historia, por si hiciera falta repetir el proceso algún día: las tres
+primeras peticiones fueron emails en frío a especialistas de geometría
+discreta (Lemmens, Fodor, Ambrus) y **ninguna obtuvo respuesta**. La que
+funcionó fue la primera dirigida a alguien que conocía al autor. arXiv
+lo dice en su propia ayuda y conviene creerlo: se pide a quien te
+conoce.
 
-Si ninguno saliera: arXiv admite solicitudes razonadas vía
-moderación (más lento).
+**Corrección de un error que arrastraba esta hoja**: no hace falta que
+el endorser haya publicado en math.MG. Matemáticas es **un único
+dominio de endorsement** — *"most high-level subject areas … are
+currently endorsement domains, with the notable exception of physics,
+in which individual subject classes … are endorsement domains"*
+(info.arxiv.org/help/endorsement.html). Basta con 4 envíos a cualquier
+`math.*` entre 3 meses y 5 años atrás. Eso amplía muchísimo el conjunto
+de candidatos posibles y es lo que hizo viable la vía de los contactos
+personales.
+
+El detalle de la cola de candidatos y los correos, en
+`docs/email_endorsement.md` (fichero privado, fuera de git).
 
 ## Checklist final antes de subir
 
-- [ ] `git tag v1-arxiv` apunta al commit del manuscrito que se
-      sube (¡regenerar el bundle si hay commits nuevos al paper!).
-- [ ] `python paper/make_arxiv_bundle.py` → VERIFICACION: OK.
+- [x] **Endorsement de math.MG concedido** (Ramón Flores, 2026-09-14).
+- [x] `git tag v1-arxiv` apunta al commit del manuscrito que se sube:
+      `c0d1fa2`, y `git diff v1-arxiv HEAD -- paper/` está **vacío**
+      (el paper no ha cambiado desde el tag). Tag pusheado a origin.
+- [x] `python paper/make_arxiv_bundle.py` → **VERIFICACION: OK**
+      (regenerado el 2026-09-14; 1072.2 KB: `main.tex` + 3 PNG).
+- [x] PDF comprobado: **60 páginas**, 1.4 MB — coincide con el campo
+      Comments.
+- [x] Abstract abreviado a 1900 caracteres (el del paper no cabía).
+- [ ] Retomar el submission **`8015141`** (quedó a medias al pedir el
+      endorsement) o empezar uno nuevo; el endorsement va asociado a la
+      cuenta, no al submission, así que cualquiera de las dos vale.
 - [ ] El PDF de arXiv (su compilador) puede diferir levemente:
       revisar el preview del envío antes de confirmar.
 - [ ] Tras el anuncio: anotar el arXiv ID en la memoria
