@@ -1,7 +1,7 @@
 # Hoja de envío a arXiv (v1)
 
-Estado: **ENDORSEMENT CONSEGUIDO (2026-09-14)**. Ya no hay
-bloqueo: se puede subir. El manuscrito es el commit etiquetado `v1-arxiv`
+Estado: **ENVIADO el 2026-09-14**. `submit/8077477`, status
+`submitted` en la cuenta; a la espera de moderación y anuncio. El manuscrito es el commit etiquetado `v1-arxiv`
 (la nota de autor del paper fija esa correspondencia). La ronda
 final ciega (7 referees + meta, 0 fatales, 61 correcciones
 aplicadas) está ejecutada — actas en `docs/drafts/ciega/`.
@@ -104,9 +104,30 @@ El detalle de la cola de candidatos y los correos, en
 - [x] PDF comprobado: **60 páginas**, 1.4 MB — coincide con el campo
       Comments.
 - [x] Abstract abreviado a 1900 caracteres (el del paper no cabía).
-- [ ] Retomar el submission **`8015141`** (quedó a medias al pedir el
-      endorsement) o empezar uno nuevo; el endorsement va asociado a la
-      cuenta, no al submission, así que cualquiera de las dos vale.
+- [x] ~~Retomar el submission 8015141~~: **había desaparecido** de la
+      cuenta (la lista de Article Submissions estaba vacía). Se abrió uno
+      nuevo: **submission `8077477`**, https://arxiv.org/submit/8077477
+- [x] **Formulario relleno y verificado el 2026-09-14**: licencia CC BY
+      4.0, primary math.MG, cross-lists cs.CG y math.CO, MSC, comments,
+      título, autor y el abstract de 1900. arXiv convirtió el acento del
+      autor a TeX (`Mart'in`), que es lo normal.
+- [x] **arXiv compiló con pdflatex (TeX Live 2025): SUCCEEDED, 60
+      páginas, 1384162 bytes** — mismas 60 páginas que el PDF local. Log
+      limpio: solo el aviso de shell-escape de epstopdf (no se usa eps) y
+      una sustitución de fuente OMS/cmr/m/it -> cmsy. Cero referencias sin
+      resolver. Conversión a HTML accesible: Success.
+- [x] MathJax renderiza bien el math del abstract en el preview
+      (rho, varphi, varepsilon, tau <= varphi < T).
+- [x] **PDF del preview revisado por el autor y `Submit Article`
+      pulsado el 2026-09-14.** La cuenta muestra `submit/8077477`,
+      tipo `New`, status **`submitted`**.
+- [ ] **Esperar al anuncio.** Mientras esté en `submitted` el envío
+      sigue siendo editable (`Update`) y retirable (`Unsubmit`) desde
+      https://arxiv.org/user. Los envíos se congelan a las 14:00 ET de
+      cada día laborable y se anuncian a las 20:00 ET; math.MG pasa por
+      moderación, así que puede tardar más de un ciclo.
+- [ ] **Cuando llegue el arXiv ID**: anotarlo aquí, en el README del
+      repo y en la memoria (`paper-arxiv-estado`).
 - [ ] El PDF de arXiv (su compilador) puede diferir levemente:
       revisar el preview del envío antes de confirmar.
 - [ ] Tras el anuncio: anotar el arXiv ID en la memoria
