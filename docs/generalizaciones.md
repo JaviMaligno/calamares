@@ -6,6 +6,15 @@ Registro completo de las generalizaciones anotadas durante la investigación, co
 
 Los Teoremas de selección voraz y de irrelevancia de colocación bajo superincrecencia valen para **contenedor arbitrario en cualquier dimensión**: la demostración del intercambio actúa solo dentro de la bola vacante del aro movido (Lema de fila aplicado en su interior) y la factibilidad de hermanos es un oráculo de caja negra. Cubre por tanto la plancha rectangular y los tubos/cascarones esféricos en 3D — el escenario original del RCPP — sin modificación alguna. En cambio, los resultados de afilado (transición n = 4, gemelas, suelo de Tribonacci) son específicos del disco: sus análogos en cuadrado y en R³ son abiertos. Primera pregunta: ¿cuál es la constante análoga a Tribonacci para contenedor cuadrado, donde el bolsillo de Descartes se sustituye por los huecos de esquina?
 
+**SIGUIENTE PASO (anotado el 2026-09-14, tras el envío a arXiv).** Esta es la
+línea que se retoma primero. El programa concreto, en orden: (1) la constante
+análoga a Tribonacci para contenedor cuadrado, donde el bolsillo de Descartes
+se sustituye por los huecos de esquina; (2) el afilado n = 4 en R³, donde la
+bola vacante deja más grados de libertad y la transición podría moverse; (3) si
+las gemelas sobreviven fuera del disco. Lo positivo ya está cerrado y no
+necesita trabajo: lo que se generaliza es el **filo**, que hoy solo está medido
+en la sartén.
+
 ## 2. Grosor variable w_i (ABIERTA, prometedora)
 
 Con grosores por aro, un aro grande puede tener agujero pequeño, lo que destruye el "rescate por anidamiento" que con w uniforme reconcilia casi siempre las dos métricas. Efectos esperados: la franja de divergencia área/número se ensancha drásticamente (los umbrales dejan de estar acoplados a los radios); el lema de superaditividad debe reexaminarse porque a(r, w) depende de ambos; el teorema de superincrecencia sobre la selección debería sobrevivir (la dominancia lexicográfica solo usa los radios y la monotonía/superaditividad de v), pero la constante del suelo geométrico cambiará. Primeras preguntas: ¿sigue valiendo la irrelevancia de colocación superincreciente? (revisar el paso de anidamiento del intercambio: los contenedores movidos siguen siendo agujeros de aros mayores, así que sí — comprobar formalmente); ¿cómo se deforma el diagrama de fases al liberar w?
