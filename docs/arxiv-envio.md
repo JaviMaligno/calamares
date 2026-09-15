@@ -6,6 +6,28 @@ moderacion pasada sin incidencias. Verificado en la propia pagina de arXiv:
 titulo, autor, primaria math.MG y cross-lists cs.CG y math.CO, todo como se
 envio. El manuscrito es el commit etiquetado `v1-arxiv`
 
+## v2 — ENVIADA el 2026-09-15
+
+`submit/8082585` ("Replacement of 2609.15554"), estado `submitted`, a la espera
+de moderacion y anuncio.
+
+- **Fichero:** `paper/arxiv-v2-integrada.tar.gz` (959 KB, siete ficheros:
+  `main.tex`, `golden_global.tex`, `generalizations_v2.tex`, `extras_v2.tex` y
+  tres figuras PNG). arXiv lo compilo con pdflatex / TeX Live 2025: SUCCEEDED,
+  sin errores, 73 paginas. No se arrastro ningun fichero de la v1: el bundle es
+  autocontenido y NO se uso "Bring files forward from previous version".
+- **Sin cambios:** titulo, autor, licencia CC BY 4.0, primaria math.MG,
+  cross-lists cs.CG y math.CO, MSC.
+- **Abstract:** el del PDF son 2011 caracteres y arXiv corta en 1920. Se envio
+  una version de 1902. Recortes: el intercambio uniforme pasa a subordinada, Y
+  se corta en 1.6845 y "122 Lean algebraic and Cartesian theorems" queda en
+  "122 Lean theorems". Ningun enunciado desaparece.
+- **Comments:** el campo tiene un limite de 400 caracteres (no documentado en
+  el formulario hasta que lo rechaza). El texto enviado ocupa 394.
+
+Tras el anuncio de la v2: actualizar la version citada en los dos articulos del
+blog si procede, y anotar aqui el numero de version.
+
 ## El fichero a subir
 
 `arxiv-bundle.tar.gz` (raíz del repo) — regenerado con
