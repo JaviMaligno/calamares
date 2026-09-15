@@ -1,10 +1,10 @@
 # Hoja de envío a arXiv (v1)
 
-Estado: **ENVIADO el 2026-09-14**. `submit/8077477`, status
-`submitted` en la cuenta; a la espera de moderación y anuncio. El manuscrito es el commit etiquetado `v1-arxiv`
-(la nota de autor del paper fija esa correspondencia). La ronda
-final ciega (7 referees + meta, 0 fatales, 61 correcciones
-aplicadas) está ejecutada — actas en `docs/drafts/ciega/`.
+Estado: **ANUNCIADO el 2026-09-15 como [`arXiv:2609.15554`](https://arxiv.org/abs/2609.15554)**
+(DOI `10.48550/arXiv.2609.15554`). Enviado el 2026-09-14 como `submit/8077477`;
+moderacion pasada sin incidencias. Verificado en la propia pagina de arXiv:
+titulo, autor, primaria math.MG y cross-lists cs.CG y math.CO, todo como se
+envio. El manuscrito es el commit etiquetado `v1-arxiv`
 
 ## El fichero a subir
 
@@ -121,7 +121,7 @@ El detalle de la cola de candidatos y los correos, en
 - [x] **PDF del preview revisado por el autor y `Submit Article`
       pulsado el 2026-09-14.** La cuenta muestra `submit/8077477`,
       tipo `New`, status **`submitted`**.
-- [ ] **Esperar al anuncio.** Mientras esté en `submitted` el envío
+- [x] **Esperar al anuncio.** Hecho: 2026-09-15. Mientras esté en `submitted` el envío
       sigue siendo editable (`Update`) y retirable (`Unsubmit`) desde
       https://arxiv.org/user. Los envíos se congelan a las 14:00 ET de
       cada día laborable y se anuncian a las 20:00 ET; math.MG pasa por
@@ -130,5 +130,7 @@ El detalle de la cola de candidatos y los correos, en
       repo y en la memoria (`paper-arxiv-estado`).
 - [ ] El PDF de arXiv (su compilador) puede diferir levemente:
       revisar el preview del envío antes de confirmar.
-- [ ] Tras el anuncio: anotar el arXiv ID en la memoria
+- [x] Tras el anuncio: arXiv ID anotado en la memoria, en los dos articulos
+      del blog (`count-the-rings`, `proved-certified-swept-sampled`), en sus
+      hilos de X y en `src/data/publications.ts` del repo personal-website
       (paper-arxiv-estado) y en el README del repo.
