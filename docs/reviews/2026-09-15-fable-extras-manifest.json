@@ -1,0 +1,42 @@
+{
+  "prefix": "2026-09-15-fable-extras",
+  "title": "Revisión independiente: cinco aros y agujeros independientes",
+  "authorization": "El usuario autorizó expresamente el 2026-09-15: «Sí, autorizo esos cuatro archivos y extractos», respondiendo a la enumeración exacta de cinco_aros.md, grosor_variable.md, FourRing.lean y los extractos de paper/main.tex de este manifiesto. La autorización incluye su envío a Claude Code/Fable como resultados inéditos.",
+  "instructions": "Revisa adversariamente las DOS notas nuevas, NO asumas que sus teoremas son correctos. (1) cinco_aros.md propone tau_(<=5,d)=phi incluso con agujeros independientes, d>=2. Verifica coordenadas de DOS bolsillos simultáneos, signos, presiones P1/P2 y su factorización, reducción al primer fallo y alineación iterativa de padres, todos los casos del segundo y tercer aro, agujeros con hermanos mayores y transporte de subárboles, conservación del prefijo, slack de capacidades, casos omitidos, exactly-five y no consecución. Busca un contraejemplo de bosque a cada reasignación. (2) grosor_variable.md propone V1 para rho<=1 en K compacto y área con constante óptima min(1,kappa^-2-1), umbral exacto 1/sqrt(2). Verifica captura de cola, comparación con prefijo común, áreas positivas, geometría exacta del ejemplo de dos aros y familias límite, caso c=1 y unicidad. Las referencias del paper y FourRing Lean se incluyen como dependencias. Los nuevos certificados Lean están en preparación local; no se afirma formalización de bosques. Revisión estática sin herramientas: no afirmes ejecutar Python o Lean. Devuelve veredicto independiente para cada teorema (aceptar/revisión menor/revisión mayor/refutado), hallazgos con archivo/línea, argumento concreto y reparación mínima. Si aceptas F5 explica la exhaustividad de sus casos y por qué la inducción preserva legalidad. Distingue errores reales de sugerencias editoriales. No revises toda la campaña histórica ni afirmes tau universal ni novedad bibliográfica.",
+  "sources": [
+    {
+      "path": "docs/drafts/cinco_aros.md"
+    },
+    {
+      "path": "docs/drafts/grosor_variable.md"
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean"
+    },
+    {
+      "path": "paper/main.tex",
+      "ranges": [
+        [
+          236,
+          292
+        ],
+        [
+          364,
+          411
+        ],
+        [
+          423,
+          449
+        ],
+        [
+          573,
+          822
+        ],
+        [
+          1651,
+          1805
+        ]
+      ]
+    }
+  ]
+}

@@ -29,7 +29,8 @@ Counterexample, and a Tribonacci Floor}
 every numerical claim, together with extended proofs and the verification
 reports cited in the appendix, are available in the accompanying repository,
 \url{https://github.com/JaviMaligno/calamares}. This version of the
-manuscript corresponds to release \texttt{v1-arxiv} of that repository;
+manuscript is the v2 working revision of 14 September 2026, extending
+the archived release \texttt{v1-arxiv} of that repository;
 \texttt{python code/run\_all.py --campaign} reproduces every
 verification in the map (band-by-band, several hours);
 \texttt{--full} covers the core-theorem scripts in about $35$
@@ -46,54 +47,39 @@ environment.}}
 \maketitle
 
 \begin{abstract}
-We study packings of annuli (``rings'') of a common width into a disk,
-where a ring may nest inside the hole of a strictly larger one -- a
-circular, selection-oriented relative of the Recursive Circle Packing
-Problem. The two natural objectives -- the number of placed rings and
-the total contact area -- genuinely diverge: area is a superadditive
-function of the radius, cardinality is not. For \emph{superincreasing}
-radii (each exceeding the sum of all smaller ones) we prove that the
-descending greedy maximizes every positive, strictly increasing,
-superadditive objective, in any placement variant. Our main structural
-theorem shows more: the placement rule is irrelevant -- any choice
-among feasible containers yields the lexicographically maximal
-feasible set, for containers of arbitrary shape and in every
-dimension. Both hypotheses are sharp: placement irrelevance holds
-unconditionally for at most three rings and fails at four, and
-\emph{twin instances} rule out every placement rule that is a function
-of the observable state.
+We study packings of annuli of a common width, allowing each ring to
+nest inside the hole of a larger one. The objectives of maximizing
+contact area and the number of placed rings diverge: area is
+superadditive in the radius, cardinality is not. Under superincreasing
+radii, every descending greedy maximizes every positive, strictly
+increasing, superadditive objective. More strongly, any choice among
+feasible containers yields the lexicographically maximal feasible set,
+for containers of arbitrary shape in every dimension. This placement
+irrelevance holds unconditionally for at most three rings and fails
+at four in disks and squares; twin instances exclude every universal
+rule based only on the observable state.
 
-Measure the violation of superincreasingness by
-$\rho=\max_i(\sum_{j>i}r_j)/r_i$. The additive relaxation of the model
-has universal threshold exactly $\rho=1$. In the geometric model we
-prove, with no tangency idealization, that the four-ring rigid family
-of counterexamples has infimum exactly the Tribonacci constant
-$T\approx1.83929$. Yet $T$ is \emph{not} the global threshold: an
-explicit golden family (pan $\varphi+1$, radii
-$\{\varphi,1,\varphi/2+2\varepsilon,\varphi/2+\varepsilon\}$) breaks
-placement obliviousness at $\rho=\varphi+3\varepsilon$ for every small
-$\varepsilon>0$. This \emph{proves} $\tau\le\varphi<T$ for the
-geometric threshold $\tau$ and refutes the natural
-Tribonacci-threshold conjecture. For pan exchanges with pair
-profiles, the blocking floor is exactly $\varphi$; for larger
-profiles, we prove the lower bound $\rho>\varphi$ outside an
-explicit heavy region. In general, the global bound
-$\tau\ge\varphi$ remains conjectural. The golden value is thus a theorem in one direction and
-open only in the other, with $T$ the exact floor of the rigid nested
-family and the conjectured universal floor of nested exchanges.
+Write $\rho=\max_i(\sum_{j>i}r_j)/r_i$. The additive model has
+threshold exactly $1$. For disks, a rigid four-ring subfamily has
+infimum exactly the Tribonacci constant $T\approx1.83929$, but an
+explicit golden family fails at $\rho=\varphi+3\varepsilon$ for
+arbitrarily small $\varepsilon>0$. We prove the matching strict
+lower bound for every four-ring failure, establishing
+$\tau_4=\varphi$ with an unattained infimum. For arbitrary inventories
+the global bound $\tau\le\varphi<T$ is proved, while
+$\tau\ge\varphi$ remains conjectural.
 
-Toward the conjecture we develop a program that proves
-nested-exchange floors above $T$ for a hierarchy of templates: an
-exact positive-width curve with global minimum $13/7$, closed-form
-profile thresholds, and blocking walls for generic containers with
-metallic-mean floors. We complement it with a phase diagram for the
-divergence of the objectives and a decoupling of hardness into a
-geometric layer and a combinatorial (subset-sum) layer, of which
-superincreasingness eliminates exactly the latter. The main theorems
-carry complete written proofs; the threshold program additionally
-uses computer-assisted closures, and every such statement carries its
-epistemic label (proved, box-certified, grid-swept, or sampled), with
-a verification map pairing each computational claim with its script.
+A dimension-reduction lemma transfers the spherical sharpness results,
+including $\tau_{4,d}=\varphi$, to every dimension $d\ge2$.
+For square pans, a universal Cartesian confinement criterion gives
+twins and a rational approximating family proving
+$\tau_{\square}\le Y\approx1.684487745872346$, with $Y$ algebraic;
+its optimality remains open. We also develop nested-exchange floors,
+profile thresholds and a separation of geometric and combinatorial
+hardness toward the universal conjecture. Written proofs distinguish
+theorems from results limited to certified boxes or numerical samples.
+Lean checks 84 algebraic and Cartesian theorems; forests, Euclidean
+interpretation and continuity remain written arguments.
 \end{abstract}
 
 \section{Introduction}
@@ -156,6 +142,9 @@ dimension-agnostic (Section~\ref{sec:oblivious}).
 $n\le3$ rings and fails at $n=4$; twin instances with an identical prefix rule
 out every state-based placement rule, deterministic or randomized
 (Section~\ref{sec:sharp}).
+(The positive statement holds in every compact container and dimension;
+Section~\ref{sec:dimension} transfers the spherical negative results
+to every $d\ge2$.)
 (4)~\emph{Thresholds}: the additive model has universal threshold exactly
 $\rho=1$; the geometric four-ring rigid subfamily has infimum exactly the
 Tribonacci constant $T$, proved with no idealization
@@ -166,7 +155,9 @@ placement obliviousness fails at $\rho=\varphi+3\varepsilon$ for every
 small $\varepsilon>0$, which \emph{proves} $\tau\le\varphi<T$
 (Theorem~\ref{thm:golden}), and the family realizes every
 $\rho\in(\varphi,T)$ at a fixed width
-(Corollary~\ref{cor:goldencover}). The matching bound $\tau\ge\varphi$
+(Corollary~\ref{cor:goldencover}). For arbitrary inventories of at most
+four rings, Theorem~\ref{thm:fourfloor} proves $\tau_4=\varphi$,
+with no failure at the infimum. The matching bound $\tau\ge\varphi$
 is proved for pan exchanges with pair profiles
 (Theorem~\ref{thm:DP}), extended to larger profiles outside an explicit
 heavy region (Theorem~\ref{thm:DPp}), and conjectured in general
@@ -181,6 +172,8 @@ The status of the golden value, at a glance:
 Statement & Status \\
 \hline
 $\tau\le\varphi$ & proved (golden family, Theorem~\ref{thm:golden}) \\
+$\tau_4=\varphi$, infimum unattained & proved
+(Theorem~\ref{thm:fourfloor}) \\
 Pan-exchange floor for pair profiles equals $\varphi$ & proved
 (Theorem~\ref{thm:DP}) \\
 Universal lower bound $\tau\ge\varphi$ & conjectured
@@ -213,6 +206,14 @@ explicitly there and in Open Problem~\ref{op:assembly}.
 decoupling of hardness into a geometric and a combinatorial layer, the
 latter with an explicit \textsc{Partition} reduction
 (Sections~\ref{sec:divergence}--\ref{sec:hardness}).
+(8)~\emph{Shape and dimension}: sibling queries involving $k$ balls in
+a ball reduce to dimension $k-1$. This preserves the sharpness results
+and the rigid Tribonacci floor for every spherical dimension $d\ge2$.
+For square pans an exact quadrant-confinement criterion gives four-ring
+failures, state-indistinguishable twins, and a family proving
+$\tau_{\square}\le Y\approx1.684487745872346$
+(Sections~\ref{sec:dimension}--\ref{sec:squarelimit}); these results
+make no claim of an exact global square threshold.
 
 \section{Model and preliminaries}\label{sec:model}
 
@@ -403,26 +404,31 @@ sampling caveat of the corroboration, not an ingredient of the proof).
 
 \section{Sharpness: the \texorpdfstring{$n=4$}{n=4} transition and twin instances}\label{sec:sharp}
 
-\begin{proposition}[$n\le3$, disk pan]\label{prop:n3}
-For a disk pan and arbitrary radii, every descending greedy on at most three
-rings places the lex-max set.
+\begin{proposition}[$n\le3$, arbitrary container]\label{prop:n3}
+For any compact container $K\subset\R^d$, $d\ge1$, and arbitrary
+strictly decreasing radii of common positive width, every descending
+greedy on at most three rings places the lex-max set.
 \end{proposition}
 \begin{proof}
-The only branching point is ring $r_2$, when both the pan
-($r_1+r_2\le R$; two circles fit in a disk iff their radii sum to at most its
-radius) and the hole of $r_1$ ($r_2\le r_1-w$) admit it. Let $G$ be the
-greedy's set after $r_2$ and suppose $G\cup\{r_3\}$ is feasible via a witness
-$P$; we check that the greedy's placement $F$ admits $r_3$ in each of the four
-combinations of choices.
-If $F$ nested $r_2$: should $P$ nest it too, the containers of $F$ and $P$
-have identical occupants and $P$'s home for $r_3$ works in $F$; should $P$
-keep $r_2$ in the pan, then $r_1+r_2\le R$, so $r_1+r_3<R$ and $F$'s pan
-(holding only $r_1$) admits $r_3$.
-If $F$ kept $r_2$ in the pan: should $P$ do likewise, the placements agree;
-should $P$ nest $r_2$, then $r_2\le r_1-w$, hence $r_3<r_2\le r_1-w$ and $F$'s
-\emph{empty} hole of $r_1$ admits $r_3$. In every case $r_3$ is admitted, and
-rings outside the lex-max set are never admissible, so the greedy's set is the
-lex-max set.
+A ring skipped before any has been admitted cannot occur in any
+feasible set: its outer ball would have to lie in $K$, even if nested.
+Discard such rings. With at most two remaining there is no previous
+assignment choice that can obstruct admission. With three, if the second
+ring is skipped, the prefix pair is infeasible because its only possible
+parents are the root and the first ring, and both were tested. The last
+decision then involves only one previously admitted ring.
+
+It remains to consider $r_1>r_2>r_3$ with the first two admitted. Let
+$F$ be their greedy assignment and suppose a witness $P$ places all three.
+If the parent of $r_2$ agrees in $F$ and $P$, the latter's home for $r_3$
+works in $F$, since siblings may be rearranged. If $F$ nests $r_2$ but
+$P$ keeps it at the root, shrink that root ball concentrically to radius
+$r_3$: it fits beside $r_1$ in $K$, so $F$ admits $r_3$ at the root.
+If $F$ keeps $r_2$ at the root but $P$ nests it, then
+$r_3<r_2\le r_1-w$, so the empty hole of $r_1$ in $F$ admits $r_3$.
+Thus the third ring is admitted whenever the full prefix is feasible.
+Conversely every legal admission is a feasibility witness. No convexity
+or special shape of $K$ was used.
 \end{proof}
 
 \begin{lemma}[Cap confinement]\label{lem:cap}
@@ -714,6 +720,96 @@ over an interval, and the diametral tangency survives pan slack up to
 $\delta^\ast=0.0248$ (numerically, via the angular criterion). It
 does not appear in structured searches over generic radii because it lives at a
 codimension-one corner (pan tangency) that random radii never visit.
+
+\begin{theorem}[Exact threshold for four rings]\label{thm:fourfloor}
+Let $\tau_4$ denote the infimum defining $\tau$ restricted to inventories
+of at most four rings in a disk. Every failing execution on such an
+inventory has $\rho>\varphi$. Consequently $\tau_4=\varphi$, and this
+infimum is not attained at positive width and strictly decreasing radii.
+\end{theorem}
+\begin{proof}
+We first isolate the combinatorial reduction. Consider the first index
+where a greedy execution differs from the lex-max set. It skips a ring
+that is feasible together with its previously admitted set. By
+Proposition~\ref{prop:n3}, there must be at least three previously
+admitted rings: otherwise the same execution on the subinventory of
+these rings and the skipped ring would contradict that proposition.
+Previously omitted rings leave no occupants or containers in $F$,
+so the restricted execution is legal and its full inventory is feasible.
+Thus all four rings are feasible, and the execution admits the first
+three and rejects the fourth. Normalize the second radius to $1$,
+and write the radii as $A>1>p>q>0$, with scaled width $w>0$.
+Let $F$ be the greedy assignment of $A,1,p$ and $P$ a full witness.
+
+If $F$ and a full witness agree on the parent of $1$, they can also
+be made to agree on the parent of $p$: use the exchange step of
+Theorem~\ref{thm:oblivious} at $p$. The only smaller ring is $q<p$,
+so any displaced child fits in the vacated outer ball of $p$;
+if $q$ is a child of $p$, carry it with $p$. The larger parents and
+their assignments stay fixed, and the destination was certified
+when the greedy placed $p$. The resulting witness admits $q$ in
+$F$, a contradiction. Therefore every full witness places $1$
+in the opposite parent from $F$: the only choices are the root and
+the hole of $A$.
+
+Apply the exchange step at $1$, and let $S$ be the immediate
+children smaller than $1$ in its greedy destination, as assigned by
+$P$. If $S$ has at most one member, its subtree fits in the vacated
+unit ball. If $S=\{p,q\}$ and $p+q\le1$, the row lemma does the
+same. In either operation $1$ travels to its destination with its
+own subtree. This gives a full witness agreeing with $F$ on
+$1$, which was just ruled out. Hence $S=\{p,q\}$ and $p+q>1$.
+There are now exactly two cases.
+
+\emph{The greedy nests $1$ in $A$.} The witness has root pair
+$\{A,1\}$ and hole pair $\{p,q\}$ in $A$, so
+$R\ge A+1$ and $p+q\le A-w$. If the root triple $\{A,p,q\}$
+were packable as root children, nesting $1$ in $A$ (legal since
+$F$ certified $1\le A-w$) would give a full witness with
+the required parent of $1$. Thus that triple is infeasible.
+Divide all lengths by $A$: $t=1/A$, $\omega=w/A$ and
+$R/A\ge1+t$, while $\rho$ is unchanged. These are the hypotheses of
+Theorem~\ref{thm:rigidfloor}, with pan slack allowed by
+Remark~\ref{rem:slack}. Therefore $\rho>T>\varphi$.
+
+\emph{The greedy places $1$ at the root.} Now $P$ nests $1$ in
+$A$, and $p,q$ are root children. In particular $A-w\ge1$.
+In $F$, the ring $p$ must lie in the hole of $A$: if it were at the
+root or inside $1$, the empty hole of $A$ would admit $q<1$.
+Since the root pair $\{A,1\}$ is feasible, $R\ge A+1$. The exact
+diametral pocket of this pair is
+\[
+ g(A)=\frac{A(A+1)}{A^2+A+1}.
+\]
+The sufficiency direction of Proposition~\ref{prop:S5}, rescaled,
+supplies a packing of
+$\{A,1,q\}$ at radius $A+1$ whenever $q\le g(A)$; such a packing
+also works in the actual pan and is compatible with $p$ inside $A$.
+Since $q$ is rejected, $q>g(A)$. Consequently
+\[
+ \rho\ge p+q>2g(A),\qquad
+ \rho A\ge1+p+q>1+2g(A).
+\]
+Put $D=A^2+A+1>0$. The identity $\varphi^2=\varphi+1$ gives
+\begin{align*}
+ D\bigl(2g(A)-\varphi\bigr)
+  &=(A-\varphi)\bigl((2-\varphi)A+1\bigr),\\
+ D\bigl(1+2g(A)-\varphi A\bigr)
+  &=(\varphi-A)\bigl(\varphi A^2+(2\varphi-2)A+\varphi-1\bigr).
+\end{align*}
+For $A\ge\varphi$, the first identity implies $2g(A)\ge\varphi$;
+for $1<A\le\varphi$, the second implies $1+2g(A)\ge\varphi A$.
+In both cases the strict inequalities above yield $\rho>\varphi$.
+Finally Theorem~\ref{thm:golden} supplies four-ring failures with
+$\rho\downarrow\varphi$, establishing the infimum and non-attainment.
+\end{proof}
+
+The two algebraic identities and the ordered-ring implication used in
+the second case are kernel-checked in \texttt{Calamares/FourRing.lean}.
+The forest reduction and the Euclidean pocket remain written proofs.
+With five or more rings the first disagreement need not be at the
+second ring, and the displaced set need not consist of two leaves;
+the preceding reduction therefore does not close the universal problem.
 
 \begin{conjecture}[Golden threshold]\label{conj:golden}
 Placement obliviousness holds for every instance with $\rho<\varphi$;
@@ -1263,17 +1359,9 @@ Packing~\cite{FeketeMorrScheffer2019}.
 
 \section{Generalizations}\label{sec:general}
 
-The model invites several generalizations, all of which we record here both as
-context for the theorems (two of them hold with no extra work) and as a
-research program.
-
-\emph{(a) Container shape and dimension.} Theorems~\ref{thm:selection}
-and~\ref{thm:oblivious} are stated and proved for arbitrary containers in
-$\R^d$: rectangular griddles, and tubes/spherical shells in three dimensions
--- the original RCPP setting -- are covered verbatim, because the exchange
-argument acts inside the vacated ball of the moved ring only. The sharpness
-results (Section~\ref{sec:sharp}) are disk-specific; their analogues for
-squares and in $\R^3$ are open.
+The extensions of container shape and dimension below have complete
+written proofs. Other changes of the model remain research directions.
+\input{generalizations_v2}
 
 \emph{(b) Variable width.} With per-ring widths $w_i$, a large ring may have a
 small hole, which destroys the ``nesting rescue'' and should widen the
@@ -1368,15 +1456,17 @@ repository -- is removed outright by the slot-reduction lemma,
 scripts \texttt{lemaA}/\texttt{lemaA2}, after the width and mass
 ceilings fell to the tail certificates \texttt{espomegacola}
 and \texttt{r2bcolas});
-\item the mid band at tower depth $\ge2$;
+\item the extra-ring bands and branched towers listed in
+Appendix~\ref{app:campaign}; chain towers are already closed;
 \item the structural exclusion left of the occupant channel (the
 one model-conditional piece);
 \item the sampled support of the converse
 ``gap~$\Rightarrow$~cell'' statement of the near-equal-tops
 analysis (closed in exact form, its supporting sweep still
 sampled);
-\item written proofs replacing the remaining computational
-closures (their optimization sub-steps -- the former
+\item analytic replacements for the remaining computational
+closures, as an exposition goal rather than a gap in a rigorous
+certificate on its declared domain (their optimization sub-steps -- the former
 ``optimization asterisk'' -- are already closed throughout by
 certified budgets).
 \end{enumerate}
@@ -1411,6 +1501,13 @@ proof delegates an identity, an exact symbolic computation; the verification
 workflow and the numerical sweeps are quality control and evidence, never a
 substitute for proof.
 
+The v2 extensions in Theorem~\ref{thm:fourfloor} and
+Sections~\ref{sec:dimension}--\ref{sec:squarelimit} were developed with
+OpenAI Codex and reviewed independently using Claude Code/Fable.
+The dated review payload manifests and verbatim reports are in
+\texttt{docs/reviews/}. Those reviews are static; local execution of
+Lean and the rational certificates is recorded separately.
+
 \appendix
 \section{Verification map}\label{app:verifmap}
 
@@ -1440,6 +1537,24 @@ Result & Script(s) & Notes \\
 Result & Script(s) & Notes \\
 \hline
 \endhead
+Arbitrary-container $n\le3$; dimension reduction and transfer &
+\texttt{docs/drafts/} \texttt{generalizacion\_}\allowbreak
+\texttt{dimensional.md} &
+Written proofs; no packing heuristic used \\
+Four-ring threshold (Thm.~\ref{thm:fourfloor}) &
+\texttt{lean/Calamares/} \texttt{FourRing.lean} &
+Two identities and ordered-ring bound; forest reduction written \\
+Square confinement and D (Lem.~\ref{lem:squareQ}, Prop.~\ref{prop:squareD}) &
+\texttt{code/cuadrado\_} \texttt{certificado.py} &
+17 exact gates; universal Cartesian exclusion in Lean \\
+Square twins and finite improvement &
+\texttt{code/cuadrado\_} \texttt{gemelas.py},
+\texttt{cuadrado\_optimizado.py} &
+17+13 exact gates; Cartesian exclusions and witness in Lean \\
+Square limiting bound (Thm.~\ref{thm:squarelimit}) &
+\texttt{code/cuadrado\_} \texttt{limite.py} &
+39 exact gates on three rational instances; continuity written;
+three polynomial identities in Lean \\
 Additive threshold (Thm.~\ref{thm:additive}) & \texttt{code/umbral.py} & reproduces the $\rho=1.03$/$1.02$ instances \\
 Rigid floor (Thm.~\ref{thm:rigidfloor}) & \texttt{code/rigido.py} & 10/10 claims; draft \texttt{suelo\_rigido} \\
 Slack pans; universal trio frontier & \texttt{code/universal.py} & 5/5 \\
@@ -1482,7 +1597,9 @@ Slot-reduction lemma; placement engine & \texttt{code/lemaA.py} & 5/5; engine re
 G-b$'$ over all $Y$, mass, piece counts & \texttt{code/lemaA2.py} & 6/6; two unsound caps repaired before refereeing \\
 Heavy assembly murals G-e/G-g & \texttt{code/lemaA3.py} & 5/5; a $k\ge6$ block cap repaired \\
 Light channel, $k\ge2$ extras & \texttt{code/lemaA4.py} & domain $\omega\le1.25$ (leaf extras, full nested-mass range), parents on $\omega\le1.05$, $W_v\le8$, and the $j_v\le1$ slice of $[1.6,2]$; nine rounds, four intermediate refutations repaired \\
-Heavy profile, $k\ge2$ extras & \texttt{code/lemaA5.py} & $\omega\le1.15$ over a 16-band manifest \\
+Heavy profile, $k\ge2$ extras & \texttt{code/lemaA5.py} &
+$\omega\le1.25$ after the certified-corner extension; leaf extras,
+$W_z\le34$, full $W_v$ range \\
 Quintet certificate of Theorem~\ref{thm:gapwritten} & \texttt{code/quintetocert.py} & 4/4; whole domain, 11{,}973 boxes, tolerance-free rational acceptance, no platform hypotheses; supersedes \texttt{code/bolsillos.py} and
 \texttt{code/arcolp.py} for the $j=1$ quintet \\
 \hline
@@ -1501,7 +1618,7 @@ the \emph{exact-certificate layer} on which the proofs rest: arithmetic in
 $\mathbb Q$ and $\mathbb Q[\sqrt5]$ with a decidable real order, and
 polynomial identities over $\mathbb Z[A]$, $(\mathbb Q[e])[d]$ and
 $(\mathbb Q[\sqrt5])[r]$. Its
-fifty-seven theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
+original fifty-seven theorems cover the golden arithmetic of Theorem~\ref{thm:golden}
 ($\varphi^2=\varphi+1$, $b_2(\varphi,1)=\varphi/2$, the fixed point and its
 factorization, the witness certificate at $s^{*}=4(\sqrt5-2)$, the
 $\varepsilon_0$ margin and the width window), the metallic-mean certificates
@@ -1541,13 +1658,16 @@ $\varphi-1=1/\varphi$; and the exact anchors of the quintet
 certificate — the stacked-witness margin $2\varphi^4-(\varphi+2)^2
 =\varphi-1$ at the golden point, $2\varphi-1=\sqrt5$ with
 $\sqrt5\ge2$ for the mid-arc criterion, and the semiarc threshold
-collapse $1+f(2/\varphi)+f(2)=1+\sqrt5$ at $R=1+\sqrt5$). There are no \texttt{sorry}s and no new axioms
+collapse $1+f(2/\varphi)+f(2)=1+\sqrt5$ at $R=1+\sqrt5$).
+The v2 adds 24 square theorems, described in
+Section~\ref{sec:squarelimit}, and three four-ring algebraic theorems,
+for a total of 84. There are no \texttt{sorry}s and no new axioms
 (\texttt{\#print axioms} reports only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}); \texttt{native\_decide}
-is not used, so every proof is checked by the Lean kernel. The geometric
-layer proper -- corona rigidity, angular criteria, placement trees,
-evacuations -- is \emph{not} formalized and remains covered by the scripts
-and reports above.
+is not used, so every proof is checked by the Lean kernel. The square's
+Cartesian inequalities are formalized. Corona rigidity, angular
+criteria, placement trees, evacuations, dimension reduction and
+continuity remain written proofs, with supporting scripts and reports.
 
 \section{Complete proof of Theorem~\ref{thm:rigidfloor}}\label{app:rigidproof}
 
@@ -4397,19 +4517,24 @@ only.
 the band $\omega\in[1.25,1.6]$ and the width-invariant
 $j_v\ge2$ family for $\omega>1.6$; parent extras with $W_v>8$ or
 $\omega>1.05$ or $W_z>34$; the heavy profile outside
-$\omega\le1.15$; branched towers (chain towers are closed in
+$\omega\le1.25$; branched towers (chain towers are closed in
 both profiles); and the structural exclusion of $u$'s content (the
-one model-conditional piece). All declared residues are
-truth-probed, with zero violations.
+one model-conditional piece). The high-width, large-$W_z$ leaf
+branch is certified on $\omega\in[1.6,6]$, $W_z>34$, excluding
+the declared $j_v\ge2$ family; its $\omega>6$ continuation remains
+open. The low-$W_z$, $j_v\le1$ branch is certified only through
+$\omega=2$. Recorded truth probes found no violations; they do
+not establish universal coverage.
 \item[(iv)] \emph{Sampled:} the supporting sweep of the exact
 ``gap $\Rightarrow$ cell'' converse (closed in exact form;
 the domination branch is an unexercised prediction; the realistic
 cell itself carries no legal instance).
-\item[(v)] \emph{Program:} written proofs replacing the
-remaining computational certificates; their optimization
-sub-steps are closed throughout by certified budgets
-(\texttt{code/optimizacion.py}, \texttt{code/goldencert.py},
-\texttt{code/insercioncert.py}). This is the direction of Open
+\item[(v)] \emph{Exposition program:} analytic proofs replacing the
+remaining computational certificates. Their optimization budgets
+are already certified, as recorded in Appendix~\ref{app:verifmap}.
+A rigorous certificate on its
+declared domain is already a proof; replacing it is not itself a
+missing mathematical case. This is one direction of Open
 Problem~\ref{op:assembly}.
 \end{enumerate}
 Everything else in this appendix is a written proof, an exact

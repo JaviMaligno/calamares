@@ -1,0 +1,14 @@
+{
+  "prefix": "2026-09-15-fable-three-core",
+  "title": "Revisión de la prueba candidata global mediante tres discos mayores",
+  "authorization": "El usuario autorizó expresamente: «Sí, autorizo estas dos fuentes nuevas y sus dependencias», respondiendo a la enumeración de tres_mayores.md, ThreeCore.lean y las cuatro dependencias de este manifiesto. La autorización específica permite enviar este paquete inédito a Claude Code/Fable. Las otras cuatro fuentes ya pertenecen al paquete uniforme autorizado y conservan su contenido.",
+  "instructions": "Revisión matemática adversaria de una posible prueba GLOBAL, todavía candidata. Prioriza detectar un fallo real en docs/drafts/tres_mayores.md; NO supongas tau=phi ni que un cálculo Lean formaliza la geometría. Audita A: intervalos angulares, asignación de los extremos para dos radios desiguales, producto AB y signo del margen, semiplano completo y bolsillo opuesto. B: mover cada uno de TRES discos a pared por dirección común a dos semiplanos, equivalencia angular necesaria/suficiente, compacidad y mínimo estrictamente mayor que a+b cuando c>beta, todos los contactos en el mínimo y rama correcta de Descartes. C: segunda solución de Apolonio realmente contenida y disjunta, curvatura D>0 y d<=c, separación por altura, identidad de suma de radios y denominadores positivos. T3: dos casos c<=beta y c>beta, compresión de cola con e,V, uso de todas las cotas de cola, igualdad de radios, V=0. Aplicación: lista auxiliar de hermanos mayores seguida de m,m, conserva rho<=phi; tres mayores ya factibles; R0/C1/C2 y prefijo máximo para cualquier inventario. Devuelve veredicto por lema, una evaluación explícita de si la prueba cubre todo n, y errores concretos con reparación o contraejemplo. Las cuatro dependencias adjuntas provienen del paquete uniforme revisado por separado; céntrate en la prueba nueva. Revisión estática sin herramientas: no afirmes ejecutar Lean/Python. Evita una larga investigación de alternativas: entrega el dictamen y separa cualquier sugerencia de lo que hayas verificado. No afirmes novedad bibliográfica ni extensión dimensional no revisada.",
+  "sources": [
+    {"path": "docs/drafts/tres_mayores.md"},
+    {"path": "lean/Calamares/ThreeCore.lean"},
+    {"path": "docs/drafts/intercambio_uniforme.md"},
+    {"path": "docs/drafts/particion_bolsillos.md"},
+    {"path": "lean/Calamares/FourRing.lean"},
+    {"path": "lean/Calamares/PocketSplit.lean"}
+  ]
+}

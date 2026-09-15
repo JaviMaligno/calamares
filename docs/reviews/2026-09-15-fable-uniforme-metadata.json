@@ -1,0 +1,117 @@
+{
+  "model_requested": "fable",
+  "sources": [
+    {
+      "path": "docs/drafts/intercambio_uniforme.md",
+      "ranges": [
+        [
+          1,
+          173
+        ]
+      ],
+      "sha256": "a3ba4e5a1a4b7928da54a7f40567a2394c442ecb6e868f99ccb1ac85165ffd47"
+    },
+    {
+      "path": "docs/drafts/particion_bolsillos.md",
+      "ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "sha256": "dfbcd3bbce6513b236466aee01269c0b4f71100e89bc860f495cd60b30f63645"
+    },
+    {
+      "path": "docs/drafts/nucleo_uniforme.md",
+      "ranges": [
+        [
+          1,
+          291
+        ]
+      ],
+      "sha256": "18a9cb0dcb048a14edda2755fcf3fb07f76d0b760a48505d68cc67b712a173cf"
+    },
+    {
+      "path": "lean/Calamares/UniformExchange.lean",
+      "ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "sha256": "71d4b63e3fa0cab1d29ef3a85d392d6959714c17e4ae3b69200fff78822ce0ab"
+    },
+    {
+      "path": "lean/Calamares/PocketSplit.lean",
+      "ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "sha256": "824fda0fd778ef0f80f3c3414c354da3b22db4680156eac1f85e9dc9f97580d0"
+    },
+    {
+      "path": "lean/Calamares/Reservoir.lean",
+      "ranges": [
+        [
+          1,
+          121
+        ]
+      ],
+      "sha256": "9fe695265969156c69d4a72715d2cf99d15f880e97355914d0594eb4cce2b089"
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "ranges": [
+        [
+          1,
+          74
+        ]
+      ],
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b"
+    },
+    {
+      "path": "lean/Calamares/FiveRing.lean",
+      "ranges": [
+        [
+          1,
+          142
+        ]
+      ],
+      "sha256": "27376b8073e03c60d5cd7307d7a5b3e38186b00185705067936c381019615f82"
+    },
+    {
+      "path": "lean/Calamares/VariableWidth.lean",
+      "ranges": [
+        [
+          1,
+          43
+        ]
+      ],
+      "sha256": "da186ed7c9ba12da83a3568c76cf8a34b6419e475ad8104fd558ad9ae9ded3ca"
+    },
+    {
+      "path": "paper/main.tex",
+      "ranges": [
+        [
+          236,
+          292
+        ],
+        [
+          364,
+          411
+        ],
+        [
+          423,
+          449
+        ]
+      ],
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9"
+    }
+  ],
+  "prompt_sha256": "f1990d20cd0d6d0cbb697bce8f3378754c4e7d905886c238fc43326cc75cdae6",
+  "authorization": "El usuario autoriz\u00f3 expresamente el paquete exacto de diez fuentes/extractos de este manifiesto: \u00abS\u00ed, autorizo enviar ese paquete a Fable\u00bb, respondiendo a la enumeraci\u00f3n de las tres notas, cinco m\u00f3dulos Lean completos y extractos de VariableWidth.lean y paper/main.tex. Conoce que son pruebas in\u00e9ditas enviadas a Claude Code/Fable. Esta autorizaci\u00f3n concreta sigue al rechazo autom\u00e1tico de la solicitud anterior, que no lleg\u00f3 a enviarse.",
+  "pid": 2988,
+  "returncode": 4294967295
+}

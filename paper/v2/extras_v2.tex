@@ -1,0 +1,174 @@
+\subsection{Up to five rings in every spherical dimension}\label{sec:fivedim}
+
+The global proof above is stated for the plane. The following separately
+verified extension covers up to five rings in every spherical dimension;
+it uses explicit pocket constructions, not a dimension reduction for
+four or five arbitrary siblings.
+
+\begin{theorem}[Five-ring golden threshold]\label{thm:five-dim}
+In a spherical pan of any dimension $d\ge2$, with strictly decreasing
+positive outer radii and independent holes $0\le h_i<r_i$, every
+descending greedy execution on at most five rings returns the lex-max
+set when $\rho\le\varphi$. Thus $\tau_{\le5,d}=\varphi$, with
+unattained infimum. The threshold is also $\varphi$ for exactly five rings.
+\end{theorem}
+\begin{proof}
+The diametral pair and both pocket centers preceding
+Lemma~\ref{gt:arbelos} embed in every dimension $d\ge2$: all norms
+and pairwise distances remain unchanged. Two scalar consequences of
+Lemma~\ref{gt:tails} suffice. First, for $a>m>p\ge q>0$, the tail
+bounds $p+q\le\varphi m$ and $m+p+q\le\varphi a$ give
+$p+q\le2\beta(a,m)$, hence $q\le\beta(a,m)$. Second, for
+$A>B>m$ and $T>m$, the bounds $m+T\le\varphi B$ and
+$B+m+T\le\varphi A$ give $m+T\le2\beta(A,B)$, hence
+$\beta(A,B)>m$.
+
+Restrict a first disagreement with the lex-max set to the admitted
+prefix and the omitted ring, as in the proof of
+Theorem~\ref{thm:golden-global}, and align a complete witness with the
+greedy forest. A disagreement at a ring $m$ with at most one smaller
+ring is resolved by the row exchange. Only the second and third rings
+can therefore remain. Write $u$ for the destination of $m$ in the
+greedy forest and $v\ne u$ for its parent in the witness.
+
+At the second ring, write the inventory as $A>m>p>q>t$, omitting
+absent terms. The disagreement certifies both $R\ge A+m$ and
+$h_A\ge m$. If there are fewer than two smaller rings, use the row
+exchange. Otherwise the first scalar consequence above gives
+$q,t\le\beta(A,m)$. If $u$ is the root, place the diametral pair
+$A,m$ there, $p$ in the hole of $A$, and $q,t$ in its two pockets.
+If $u$ is the hole of $A$, use a phantom pair $A,m$ at the root:
+put $p$ in the phantom $m$ disk and $q,t$ in the pockets, while the
+real $m$ goes inside $A$. All smaller rings may be made leaves.
+
+At the third ring, a blocked row exchange requires exactly five
+rings $A>B>m>p>q$, with $p,q$ both immediate children of $u$ in
+the witness and $p+q>m$. In particular $m$ has no smaller descendants.
+The parents of $A,B$ already agree. If both are at the root, then
+$R\ge A+B$ and $\beta(A,B)>m$. When $u$ is the root, place $m,p$
+in its two pockets and $q$ in the disk vacated by $m$ in $v$.
+Otherwise put $p,q$ in the pockets and $m$ in its certified hole $u$.
+
+It remains that $B$ is inside $A$. If $u$ is the root, its certificate
+admits the pair $A,m$; put $q$ in one pocket and $p$ in the disk
+vacated in $v$, keeping $B$ inside $A$. If $u$ is the hole of $A$,
+do the same with the pair $B,m$ inside $A$. In both cases the first
+scalar consequence bounds $q$ by the relevant pocket radius.
+If $u$ is the hole of $B$, then $v$ is either the root or the hole
+of $A$. Use respectively the phantom pair $A,m$ in the root or
+$B,m$ in the hole of $A$, put $p$ in the phantom disk and $q$ in
+a pocket, and place the real $m$ in $B$. These cases exhaust $u\ne v$.
+All constructions preserve the larger parents and assemble locally,
+so each step increases the aligned prefix. This proves the guarantee.
+
+The four-ring family of Theorem~\ref{thm:golden} supplies the upper
+bound in every $d\ge2$, by Corollary~\ref{cor:dimsharp}. For exactly
+five rings, add a radius $\delta>0$ in the empty hole of the radius-$1$
+ring in its witness, with $\delta<\min(w,1-w,s_2)$. The fifth ring
+is processed after the existing first failure, which therefore persists.
+Its addition raises each old tail ratio by at most $\delta/s_2$.
+Let $\delta$ tend to zero together with the golden-family parameter.
+The common-width example belongs also to the independent-hole class.
+The lower bound rules out attainment in either class.
+\end{proof}
+
+\subsection{Independent holes and the exact area guarantee}\label{sec:variablewidth}
+
+Let ring $i$ have outer radius $r_i$ and inner radius $h_i$, with
+$0\le h_i<r_i$. Its area divided by $\pi$ is
+$a_i=r_i^2-h_i^2>0$. There need not be a single value function of
+outer radius representing these areas.
+
+\begin{proposition}[Independent-hole placement]\label{prop:independent}
+For arbitrary compact pans in any positive dimension, independent holes
+preserve placement obliviousness under $\rho\le1$, including equality.
+The unconditional guarantee for at most three rings also remains valid.
+\end{proposition}
+\begin{proof}
+The parent-alignment proof of Theorem~\ref{thm:oblivious} uses only
+outer radii in the row exchange. At a pivot $m$, all displaced smaller
+children have total outer radius at most $r_m$, so they and their
+subtrees fit in the outer disk or ball vacated by $m$. A hole that
+previously contained $m$ certifies enough capacity for the replacement;
+no comparison of two widths is needed. The chosen destination admits
+$m$ with its larger siblings under the greedy certificate. Parent radii
+strictly increase, so the assembly is acyclic. The same downward closure
+and maximal-prefix argument applies at equality. For at most three
+rings, the proof of Proposition~\ref{prop:n3} similarly only uses
+$r_3<r_2\le h_1$ when replacing one child by another.
+\end{proof}
+
+In a disk, Theorem~\ref{thm:golden-global} strengthens the placement
+guarantee to $\rho\le\varphi$. Neither placement statement by itself
+implies optimality of the independent-hole contact areas.
+
+\begin{lemma}[Tail capture]\label{lem:tailcapture}
+Let $L$ be the lex-max feasible set and $T_i=\sum_{j>i}r_j$.
+If $i\in L$ and $h_i\ge T_i$, then every $j>i$ belongs to $L$.
+\end{lemma}
+\begin{proof}
+In a witness of the selected prefix through $i$, its hole is empty.
+Place all later rings there as a row of outer disks. This produces a
+feasible completion containing every later index, without adding any
+previously omitted index. Lexicographic maximality gives the claim.
+\end{proof}
+
+\begin{theorem}[Sharp area factor]\label{thm:variable-area}
+Fix $0<\kappa<1$. For independent holes in any compact planar pan
+and $\rho\le\kappa$, every descending greedy execution satisfies
+\[
+ A_{\rm greedy}\ge c(\kappa) A_{\rm opt},\qquad
+ c(\kappa)=\min(1,\kappa^{-2}-1).
+\]
+For $\kappa\le1/\sqrt2$, the lex-max set is the unique area-optimal
+set. For $1/\sqrt2<\kappa<1$, the constant is best possible even for
+two rings in a disk; its infimum over positive-optimum instances is
+not attained.
+\end{theorem}
+\begin{proof}
+The greedy set is $L$ by Proposition~\ref{prop:independent}. Compare
+it with any distinct feasible set $S$. Their first difference is an
+index $i\in L\setminus S$. Let $C$ be the normalized area of their
+common prefix and $B$ the normalized area of members of $S$ after $i$.
+If $h_i\ge T_i$, Lemma~\ref{lem:tailcapture} gives $S\subsetneq L$,
+so positivity gives $A(L)>A(S)$. Otherwise
+$0\le h_i<T_i\le\kappa r_i$, and
+\[
+ B\le\sum_{j\in S,\ j>i}r_j^2\le T_i^2,\qquad
+ a_i>r_i^2-T_i^2\ge(\kappa^{-2}-1)T_i^2\ge c(\kappa)B.
+\]
+Since $C\ge0$ and $0<c(\kappa)\le1$, this yields
+$A(L)\ge C+a_i>c(\kappa)(C+B)=c(\kappa)A(S)$, with the common
+factor $\pi$ restored if desired. For $c=1$ this proves uniqueness;
+otherwise compare with an area optimum. If that optimum is $L$, the
+guarantee is immediate and its ratio is $1>c$.
+
+For sharpness when $\kappa>1/\sqrt2$, take a radius-$1$ pan and
+\[
+ (r_1,h_1)=(1,\kappa-\varepsilon),\qquad
+ (r_2,h_2)=(\kappa,0),\qquad
+ 0<\varepsilon<\kappa-\sqrt{1-\kappa^2}.
+\]
+The first outer disk fills the root, and its hole is too small for the
+second ring; no set containing both is feasible. The greedy takes the
+first, while the optimum is the second. Here $\rho=\kappa$ and
+\[
+ \frac{A_{\rm greedy}}{A_{\rm opt}}
+ =\kappa^{-2}-1+\frac{2\varepsilon}{\kappa}
+                  -\frac{\varepsilon^2}{\kappa^2}
+ \longrightarrow\kappa^{-2}-1
+\]
+from above. Both widths are positive. The strict comparison already
+proved excludes attainment of this infimum.
+\end{proof}
+
+Consequently the universal area-optimality threshold for independent
+holes is exactly $1/\sqrt2$, including its good endpoint. Under strict
+superincreasing radii alone there is no positive uniform area factor: with
+$0<e<1/4$, use pan radius $1+e$ and
+$(r_1,h_1)=(1+e,1-e)$, $(r_2,h_2)=(1,0)$. The greedy-to-optimum
+ratio is $4e$, whereas $\rho=1/(1+e)<1$. The seven theorems of
+\texttt{Calamares/VariableWidth.lean} certify the algebra, not the
+capture lemma or the geometric assembly. The five-ring proof uses the
+pocket certificates of \texttt{FiveRing.lean}; all its placements above
+are explicit.

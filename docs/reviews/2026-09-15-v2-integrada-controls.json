@@ -1,0 +1,50 @@
+[
+  {
+    "command": [
+      "C:/Python313/python.exe",
+      "code/tres_mayores.py"
+    ],
+    "returncode": 0,
+    "stdout": "{\r\n  \"scope\": \"floating_point_witness_controls_not_universal_proof\",\r\n  \"seed\": 20260915,\r\n  \"random_trials\": 10000,\r\n  \"boundary_trials\": 6,\r\n  \"cases\": {\r\n    \"diametral_pair\": 9617,\r\n    \"tangent_triple\": 389\r\n  },\r\n  \"largest_relative_violation\": 2.073254767779225e-15,\r\n  \"negative_controls\": 2\r\n}\r\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:/Python313/python.exe",
+      "code/grosor_variable.py"
+    ],
+    "returncode": 0,
+    "stdout": "kappa=7/10; guaranteed factor=1; last exact ratio=1\r\nkappa=3/4; guaranteed factor=7/9; last exact ratio=14588333/18750000\r\nkappa=9/10; guaranteed factor=19/81; last exact ratio=2113111/9000000\r\nkappa=99/100; guaranteed factor=199/9801; last exact ratio=6767/330000\r\nRESUMEN: 15/15 exact family checks passed (not a universal proof).\r\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:/Python313/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "code",
+      "-p",
+      "test_grosor_variable.py"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "...........\r\n----------------------------------------------------------------------\r\nRan 11 tests in 0.001s\r\n\r\nOK\r\n"
+  },
+  {
+    "command": [
+      "C:/Python313/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "paper",
+      "-p",
+      "test_make_arxiv_bundle.py"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "....\r\n----------------------------------------------------------------------\r\nRan 4 tests in 0.091s\r\n\r\nOK\r\n"
+  }
+]

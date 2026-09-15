@@ -1,0 +1,123 @@
+{
+  "date": "2026-09-15",
+  "external_review": "completed_minor_clarifications_addressed",
+  "model": "claude-fable-5-1",
+  "external_review_excludes": [
+    "docs/drafts/particion_bolsillos.md",
+    "lean/Calamares/PocketSplit.lean"
+  ],
+  "new_theorem_counts": {
+    "lean/Calamares/VariableWidth.lean": 7,
+    "lean/Calamares/FiveRing.lean": 11,
+    "lean/Calamares/PocketSplit.lean": 3
+  },
+  "v2_reference_checks": [
+    {
+      "path": "output/pdf/calamares_v2.pdf",
+      "sha256": "b7fc39cf16f0128dffb5837f296d2fa4b4ccf5745b36c4d823d959cddb859f07",
+      "unchanged": true
+    },
+    {
+      "path": "paper/arxiv-bundle.tar.gz",
+      "sha256": "67293a06c7a4bc5973958f9308ca62fa1e92b0bcb0757c8b6d1b572b53e33720",
+      "unchanged": true
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9",
+      "unchanged": true
+    },
+    {
+      "path": "paper/generalizations_v2.tex",
+      "sha256": "b91d33b13f7789c0aa7ac8c26c95a6e5423a9b44188f99e64639d6ac954f242d",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/Square.lean",
+      "sha256": "72ee948bb0c54a142c04ba62471cf2cbba7a340a79f2d835cc161d0f33153cf0",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareTwins.lean",
+      "sha256": "b5cea882c2e7f0f85763ee615d86f42013fdc05f2d655218e4e6b73a3bc5a5d4",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareLimit.lean",
+      "sha256": "46415b62674743e12f61e7343bf4380dd4bd3d69d52192e7ccdaa0f844d874c1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-v2-review.md",
+      "sha256": "412d22ed983c1a8c58957ffa955d2c8c279cff21b28fe347b3ba0e02c2611630",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-four-ring-review.md",
+      "sha256": "7116cbd00a5572ccbee2e96dfc2726fb5aa3885d51e4d3683628a929a99a93e1",
+      "unchanged": true
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/drafts/cinco_aros.md",
+      "sha256": "bf72c9b823bbfc3710aa4de0d389f5682f6a43187703f215c03b6990270cf823",
+      "bytes": 10203
+    },
+    {
+      "path": "docs/drafts/grosor_variable.md",
+      "sha256": "03d4c745668824f94970390c78f2e3ee5ceaa651d6a8f5d6eccfc457ba9f228b",
+      "bytes": 6493
+    },
+    {
+      "path": "docs/drafts/particion_bolsillos.md",
+      "sha256": "dfbcd3bbce6513b236466aee01269c0b4f71100e89bc860f495cd60b30f63645",
+      "bytes": 7782
+    },
+    {
+      "path": "lean/Calamares/VariableWidth.lean",
+      "sha256": "da186ed7c9ba12da83a3568c76cf8a34b6419e475ad8104fd558ad9ae9ded3ca",
+      "bytes": 3374
+    },
+    {
+      "path": "lean/Calamares/FiveRing.lean",
+      "sha256": "27376b8073e03c60d5cd7307d7a5b3e38186b00185705067936c381019615f82",
+      "bytes": 5219
+    },
+    {
+      "path": "lean/Calamares/PocketSplit.lean",
+      "sha256": "824fda0fd778ef0f80f3c3414c354da3b22db4680156eac1f85e9dc9f97580d0",
+      "bytes": 2267
+    },
+    {
+      "path": "code/grosor_variable.py",
+      "sha256": "360527638689da97f53a03ac9b0c61ed52bc5de2f8c8b0a747e2c6f328d29a82",
+      "bytes": 3559
+    },
+    {
+      "path": "code/test_grosor_variable.py",
+      "sha256": "70165a9430d47d8655f584ba348f8c3a65f4f5ec38dfba262f38c212e2257b06",
+      "bytes": 3556
+    },
+    {
+      "path": "docs/reviews/2026-09-15-extras-validation.md",
+      "sha256": "8889533114f16f68ea7fd46db834a3aa343194b1ed968b7b73ffdbe3840b384e",
+      "bytes": 5739
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-extras-review.md",
+      "sha256": "cae9ff9c6820250c4f3e407f55d5f54e69444795d8b9d74dde4f6a46dced547b",
+      "bytes": 9258
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-extras-response.md",
+      "sha256": "a3b9bf2debe1a7ff083c083f145d1fbea18bc7e56eb0e19a6ca280d5c1bb3558",
+      "bytes": 3540
+    }
+  ]
+}

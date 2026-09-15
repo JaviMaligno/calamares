@@ -1,0 +1,402 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\ph}{\varphi}
+\newcommand{\bp}{\beta}
+\title{The Golden Threshold for Greedy Packing of Nested Rings}
+\author{Javier Aguilar Mart\'in\\AGILabs}
+\date{Working supplement, 15 September 2026}
+
+\begin{document}
+\maketitle
+\begin{center}
+\small Written proof reviewed independently; algebra partially certified in Lean.
+\end{center}
+\begin{abstract}
+We prove the golden threshold for descending
+greedy packing of nested rings in a disk. The geometric ingredient is a
+three-largest-disks theorem: under golden tail bounds, a finite list of
+disks fits a circular container if and only if its three largest members
+fit. This supplies two auxiliary slots at every branching container and
+closes a parent-preserving exchange for an arbitrary finite inventory.
+The argument permits independent hole radii. Combined with the four-ring
+counterexamples approaching the golden ratio from above, the
+lower bound gives an unattained threshold $\tau=\ph$.
+Seven new Lean certificates verify algebraic steps; the Euclidean geometry
+and forest assembly remain written proofs.
+\end{abstract}
+
+\section{Model and statement}
+
+Let $r_1>\cdots>r_n>0$ be outer radii. Ring $i$ has a concentric hole
+of radius $h_i\in[0,r_i]$; its hole may be chosen independently of the
+others. Common width $w>0$ is the special case
+$h_i=\max(r_i-w,0)$. The pan is a disk of radius $R$.
+A placement is specified by a rooted forest, with the pan as a virtual
+root: the parent of each ring is the pan or a larger ring, and the outer
+disks of the immediate children of a container must pack inside it with
+disjoint interiors. Tangencies are allowed. Local packings assemble by
+translation along the forest.
+
+A descending greedy execution examines the radii in order. It accepts
+a ring whenever at least one current container can accommodate it with
+its existing children, and chooses any such container. Siblings may be
+repacked; the parents of previously accepted rings remain fixed. Let
+\[
+ \ph=\frac{1+\sqrt5}{2},\qquad
+ \rho=\max_{1\le i\le n}\frac{\sum_{j>i}r_j}{r_i},\qquad
+ \bp(a,b)=\frac{ab(a+b)}{a^2+ab+b^2}.
+\]
+Lexicographic order on feasible subinventories gives priority to including
+the largest radius at which they differ.
+
+\begin{theorem}[Uniform golden guarantee]\label{thm:global}
+If $\rho\le\ph$, every descending greedy execution returns the
+lexicographically maximum feasible subinventory. This holds for every
+finite inventory in the plane, including independent hole radii.
+\end{theorem}
+
+The proof below does not bound $n$, nor enumerate inventories of successive
+sizes. The induction parameter is the number of already aligned parents
+in an arbitrary fixed finite inventory.
+
+\section{Tail bounds and a geometric pocket}
+
+A list of disks whose radii sum to $s$ fits in a disk of radius $s$:
+place them consecutively along a diameter. This row construction may
+replace a disk envelope without changing its surrounding packing.
+
+\begin{lemma}[Two tail bounds]\label{lem:tails}
+If $p+U\le\ph m$ and $U\le\ph p$, then $U\le m$.
+If $a>b>0$, $T\le\ph b$, and $b+T\le\ph a$, then
+$T\le2\bp(a,b)$.
+\end{lemma}
+\begin{proof}
+For the first assertion,
+$(1+\ph)U\le\ph p+\ph U\le\ph^2m=(1+\ph)m$.
+For the second, normalize $b=1$, put $x=a/b>1$,
+$g=x(x+1)/(x^2+x+1)$, and write $t=T/b$. We have
+$t\le\min(\ph,\ph x-1)$. The identities
+\begin{align*}
+ 2x(x+1)-\ph(x^2+x+1)
+   &=(x-\ph)((2-\ph)x+1),\\
+ (x^2+x+1)+2x(x+1)-\ph x(x^2+x+1)
+   &=(\ph-x)\bigl(\ph x^2+(2\ph-2)x+\ph-1\bigr)
+\end{align*}
+give $2g\ge\ph$ when $x\ge\ph$, and
+$1+2g\ge\ph x$ when $1<x\le\ph$. Thus $t\le2g$ in
+both cases. Rescale by $b$.
+\end{proof}
+
+\begin{lemma}[Balanced rows]\label{lem:split}
+Let a nonempty finite list of positive radii have total $T$ and largest
+member $p$. After reserving $p$, its remaining members can be divided
+into two groups, each of total at most $T/2$.
+\end{lemma}
+\begin{proof}
+Assign each remaining member to the currently lighter group. Both load
+differences remain at most $p$, since the added member is at most $p$.
+At the end the loads $u,v$ satisfy $u+v=T-p$ and $|u-v|\le p$;
+hence $2u,2v\le T$. Each group fits its row envelope.
+\end{proof}
+
+Place disks $a\ge b>0$ in a disk of radius $a+b$, with centers
+$(-b,0)$ and $(a,0)$. The upper and lower pockets have inscribed
+disks of radius $\bp(a,b)$, each tangent to the two disks and the wall.
+Their centers are
+\[
+ \left(\frac{(a-b)(a+b)^2}{a^2+ab+b^2},\ \pm2\bp(a,b)\right).
+\]
+These coordinates verify all three tangencies and separation of the two
+pockets directly. We need a stronger fact about a single pocket.
+
+\begin{lemma}[Two unequal disks in one pocket]\label{lem:arbelos}
+If $0<r,s\le\bp(a,b)$ and $r+s\le b$, the two disks of radii
+$r,s$ fit simultaneously in the upper pocket. The lower pocket remains
+available. A zero radius may be omitted.
+\end{lemma}
+\begin{proof}
+Put $L=a+b$. A disk of radius $x\le\bp(a,b)$ tangent to the wall
+has its center in the upper half-plane at an admissible angle exactly in
+\[
+ \left[2\arcsin\sqrt{\frac{bx}{a(L-x)}},\quad
+ \pi-2\arcsin\sqrt{\frac{ax}{b(L-x)}}\right].
+\]
+The law of cosines gives the two endpoints. The interval is nonempty
+exactly when $x(a^2+b^2)\le ab(L-x)$, equivalent to $x\le\bp(a,b)$.
+Place $r$ at its lower endpoint and $s$ at its upper endpoint, and set
+\[
+ A^2=\frac{as}{b(L-s)},\qquad B^2=\frac{br}{a(L-r)},\qquad A,B\ge0.
+\]
+Their angular separation is $\pi-2\arcsin A-2\arcsin B$; the
+required separation is $2\arcsin(AB)$. It suffices that
+$A^2+B^2+3A^2B^2\le1$: this implies
+$\sqrt{1-A^2}\sqrt{1-B^2}\ge2AB$ and therefore
+$\arcsin A+\arcsin B+\arcsin(AB)\le\pi/2$.
+After multiplication by the positive denominator $ab(L-r)(L-s)$,
+the margin is
+\[
+ L^2\bigl[a(b-r-s)+(a-b)r\bigr]+(a-b)^2rs\ge0.
+\]
+The disks lie wholly above the diameter: its intersection with the
+container is covered by $a,b$, so a disk disjoint from them cannot
+cross it. The lower pocket is consequently free.
+\end{proof}
+
+\section{The minimal triple and its opposite gap}
+
+\begin{lemma}[A fully tangent minimal triple]\label{lem:minimal}
+For $a\ge b\ge c>\bp(a,b)$, the three disks admit a smallest
+containing disk of radius $R_0>a+b$, in which they are pairwise tangent
+and all tangent to the wall. With
+\[
+ A=1/a,\quad B=1/b,\quad C=1/c,\quad t=\sqrt{AB+AC+BC},
+\]
+its radius satisfies $1/R_0=2t-A-B-C$.
+\end{lemma}
+\begin{proof}
+Existence of a minimum follows by compactness, using a row as an upper
+bound. In any feasible placement of three disks, each disk can be moved
+to the wall while the other two are fixed. For its center $x$, choose
+a nonzero direction $v$ such that $(x-x_j)\cdot v\ge0$ for the
+other two centers. Two closed half-planes through the origin have such
+a common direction in the plane. Distances to both other centers are
+nondecreasing along the ray. Move to the wall and repeat for the others.
+
+For wall-tangent disks with pair sums at most $R$, let
+$\theta_{ij}\in[0,\pi]$ denote their minimum angular separation.
+Three such positions exist exactly when
+\[
+ \theta_{ab}+\theta_{ac}+\theta_{bc}\le2\pi.
+\]
+Necessity follows by summing the three directed cyclic gaps, each at
+least its corresponding minimum. Conversely choose gaps in
+$[\theta_{ij},\pi]$ summing to $2\pi$; their endpoints have sums
+at most $2\pi$ and $3\pi$, so this is possible. Each gap is then
+the smaller angle for its pair.
+
+Two-disk necessity gives $R_0\ge a+b$. At equality the two largest
+are forced into the diametral arrangement. Move $c$ to the wall while
+fixing them and use the interval in Lemma~\ref{lem:arbelos}; it would
+give $c\le\bp(a,b)$, a contradiction. Thus $R_0>a+b$. All three
+minimum angles are continuous and strictly between $0$ and $\pi$
+near $R_0$. Their sum equals $2\pi$, since a strict inequality would
+permit decreasing $R_0$. Taking these gaps realizes every tangency.
+Descartes' equation for the oriented curvatures $A,B,C,-1/R_0$ gives
+the stated formula; its other root has $1/R_0<0$.
+\end{proof}
+
+\begin{lemma}[Compensation by the other gap]\label{lem:opposite}
+In the placement of Lemma~\ref{lem:minimal}, there is a further disk
+of radius $d>0$, disjoint from all three disks and contained in the
+same container, with $c+d\ge2\bp(a,b)$.
+\end{lemma}
+\begin{proof}
+First justify the geometric existence. Invert about the tangency point
+of $a,b$. Their boundaries become parallel lines and their interiors
+become the exterior half-planes of a strip. The container interior
+becomes the exterior of a circle inscribed in the strip. A disk inside
+the strip tangent to both lines has radius equal to half its width;
+its center lies on the midline. Tangency to the image of the container
+leaves exactly two such disks, on opposite sides of that circle. They
+have disjoint interiors. The inversion center lies inside the image
+of the container circle, hence outside both solution disks; their inverse
+images are bounded disks. Inverting back gives two admissible disks in
+the original container, one being $c$ and the other denoted $d$.
+This argument identifies the two components of the free region; a
+height inequality alone would not establish their disjointness.
+
+Set $S=A+B$, $P=AB$, and $Q=S^2-P$. Then $t^2=P+SC$ and
+$c>\bp(a,b)=S/Q$ imply $SC<Q$, hence $t<S$ and $C<S$.
+The classical Descartes reflection formula for the two solutions
+tangent to $a,b$ and the wall \cite[Section 3.3]{apollonian} gives
+\[
+ D=\frac1d=2(A+B-1/R_0)-C=4S+C-4t>C>0.
+\]
+The roots are distinct because $t<S$, and inversion has exhibited
+exactly two admissible disks, so the reflection identifies the other one.
+Using $t^2=P+SC$ and the displayed expression for $D$ yields
+\[
+ Q(C+D)-2SCD=2(S-t)^2(2S+2t-C)\ge0.
+\]
+Divide by $QCD>0$ to obtain $c+d\ge2S/Q=2\bp(a,b)$.
+\end{proof}
+
+\section{Three largest disks determine local feasibility}
+
+\begin{theorem}[Three largest disks]\label{thm:three}
+Let $a>b\ge c\ge r_4\ge\cdots\ge r_n>0$, $n\ge3$, and
+suppose every tail is at most $\ph$ times its corresponding radius.
+The entire list fits a disk of radius $R$ if and only if $a,b,c$ fit.
+Equality between the smaller radii is permitted.
+\end{theorem}
+\begin{proof}
+Only sufficiency needs proof. Let $U=\sum_{j\ge4}r_j$.
+Lemma~\ref{lem:tails}, applied to $a,b$, gives
+$c+U\le2\bp(a,b)$.
+
+If $c>\bp(a,b)$, place the three largest disks in their minimum
+container $R_0\le R$. Lemma~\ref{lem:opposite} provides a disk
+of radius $d\ge2\bp(a,b)-c\ge U$ in the remaining gap. Replace
+it by a row containing all the remaining disks.
+
+If $c\le\bp(a,b)$, place $a,b$ diametrally in radius $a+b\le R$
+and place $c$ in the lower pocket. For a nonempty remaining list,
+write $e=r_4$ and $V=\sum_{j\ge5}r_j$. The two-tail assertion
+of Lemma~\ref{lem:tails}, first at $b,c$ and then at $c,e$, gives
+\[
+ e+V\le b,\qquad V\le c,\qquad e\le c\le\bp(a,b).
+\]
+Thus Lemma~\ref{lem:arbelos} places the two envelope disks $e,V$
+in the upper pocket. Replace $V$ by a row of its actual members;
+omit it when $V=0$. The empty remaining list requires no extra step.
+These envelopes construct positions; they do not replace the inventory
+in the definition of $\rho$ or in a greedy execution.
+\end{proof}
+
+\section{A uniform exchange of parents}
+
+Suppose a descending execution differs from the lexicographic maximum.
+At the first differing radius it must omit a ring of that maximum:
+the opposite difference would contradict lexicographic maximality of
+the latter. Restrict to the already admitted set $G$ and this omitted ring.
+This restricted inventory is feasible and still has $\rho\le\ph$.
+Let $F$ be its greedy forest on $G$. Among all complete witness forests
+$P$, choose one having the longest prefix of parents in agreement
+with $F$; this maximum exists because there are finitely many parent
+assignments. If all parents agree, the omitted ring can be accepted
+in $F$, contradicting rejection.
+
+Otherwise let $m$ be the largest disagreement, with destination $u$
+in $F$ and origin $v\ne u$ in $P$. Both containers are the root or
+holes of rings larger than $m$. All larger parents agree. All smaller
+rings may be reconstructed as leaves, since we only need to align
+the prefix through $m$.
+
+Write $T$ for the total radius below $m$. If $T\le m$, remove the
+smaller rings, put $m$ in $u$ using the prefix certificate from $F$,
+and place all smaller rings in a row inside the outer disk vacated
+by $m$ in $v$, preserving the larger siblings there. This aligns $m$.
+Hence assume $T>m$. Let $p<m$ be the next radius and $U=T-p$.
+The first assertion of Lemma~\ref{lem:tails} gives $U\le m$.
+
+Consider the rooted tree formed by the larger rings and the virtual
+root. The degree of a container is its number of immediate larger
+children. The following three cases cover every such tree.
+
+\paragraph{A branching container with at least three larger children.}
+Let $w$ have children $a_1>\cdots>a_k>m$, $k\ge3$. The auxiliary
+disk list
+\[
+ a_1,\ldots,a_k,m,m
+\]
+satisfies all golden tail bounds: for each $a_i$ its auxiliary tail
+is at most its original tail, because $2m<m+T$; the last two tail
+ratios are $1,0$. Its three largest disks already coexist in $w$.
+Theorem~\ref{thm:three} therefore gives two radius-$m$ slots alongside
+all the larger children.
+
+If $w\ne u$, put $p$ in one slot, a row of total $U$ in the other,
+and $m$ in $u$ using $F$. This includes $w=v$; no third slot in $w$
+is needed. If $w=u$, put $m,p$ in its slots and the row of total $U$
+in the outer disk vacated by $m$ in $v$, using $P$ there.
+
+\paragraph{A container with exactly two larger children.}
+Let its children be $a>b>m$. Their original tails imply
+$m+T\le\ph b$ and $b+m+T\le\ph a$; thus
+$m+T\le2\bp(a,b)$ by Lemma~\ref{lem:tails}. Since $T>m$,
+$\bp(a,b)>m$. The container has radius at least $a+b$, so a diametral
+placement of $a,b$ provides two radius-$m$ slots in its opposite pockets.
+Apply the preceding slot assignment. This also proves the degree-two
+criterion without a separate case enumeration.
+
+\paragraph{No branching container.}
+The larger tree is a chain with exactly one leaf container. Since
+$u\ne v$, at least one of $u,v$ has exactly one larger child $a$.
+If it is $u$, $F$ certifies the pair $a,m$ there; if it is $v$, $P$
+does so. In either case that container has radius at least $a+m$.
+The original tails give $T\le\ph m$ and $m+T\le\ph a$, hence
+$T\le2\bp(a,m)$. Reserve $p$; Lemma~\ref{lem:split} divides
+the others into two rows of total at most $T/2\le\bp(a,m)$.
+
+When using $u$, put $a,m$ there diametrally, the two rows in its
+pockets, and $p$ in the outer disk vacated by $m$ in $v$. When using
+$v$, keep $a$ there, put $p$ inside the envelope reserved for a phantom
+disk $m$, and put the two rows in the pockets; the real $m$ goes to
+$u$ using $F$.
+
+In every case the parents of all larger rings are unchanged. Local
+interior packings move with their owners. Those owners have radius
+larger than $m$, so the assembly creates no cycle even when one chosen
+container is an ancestor of another. The complete new witness agrees
+with $F$ through $m$, contrary to the maximal choice of $P$. This proves
+Theorem~\ref{thm:global}.
+
+\section{The exact threshold and verification scope}
+
+Let $\tau$ be the infimum of $\rho$ among common-positive-width disk
+instances for which some descending greedy execution misses the
+lexicographic maximum. The golden four-ring family already established
+in the companion manuscript \cite[the theorem labelled
+\texttt{thm:golden} in the source]{companion} has
+\[
+ R=\ph+1,\qquad w=0.3,\qquad
+ r=\left(\ph,1,\frac\ph2+2\varepsilon,
+                      \frac\ph2+\varepsilon\right)
+\]
+for sufficiently small $\varepsilon>0$, with
+$\rho=\ph+3\varepsilon$. All four rings fit, but placing the first
+two in the pan forces a rejection later. Consequently $\tau\le\ph$.
+
+\begin{corollary}
+Together with that previously proved upper bound,
+Theorem~\ref{thm:global} gives $\tau=\ph$, and the infimum is not
+attained. The same threshold holds for the class allowing independent
+hole radii, since that class contains the common-width family.
+\end{corollary}
+
+\paragraph{Formal and independent checks.}
+The module \texttt{Calamares/ThreeCore.lean} adds seven algebraic
+certificates: the angular margin identity and its sign, the gap-sum
+identity and its sign, an auxiliary height sign, the two envelope
+bounds, and the passage from curvature to radius inequalities. Together
+with the existing tail and partition certificates, they compile in
+Lean 4.32.2 core. The repository has 122 theorem declarations, without
+admissions or new axioms. These certificates do not formalize inversion,
+angular placement, the minimum-container argument, or forest assembly.
+
+The deterministic script \texttt{code/tres\_mayores.py} constructs
+centers and separately checks all walls and disk pairs on 10\,000
+random lists and six boundary examples. It uses no optimizer; these
+floating-point checks are not a universal proof. Claude Code/Fable
+performed two static reviews of the Spanish source proof and its
+dependencies. The final review accepted the complete universal guarantee,
+with clarifications incorporated here; it did not execute Lean or Python.
+The English exposition in this supplement was prepared locally from that
+reviewed proof, and was not separately submitted to Fable.
+The source review packets, verdicts and validation records are preserved
+in \texttt{docs/reviews/}. This supplement does not replace the frozen
+v2 manuscript or its reference bundle.
+
+\begin{thebibliography}{9}
+\raggedright
+\bibitem{apollonian}
+R.~L. Graham, J.~C. Lagarias, C.~L. Mallows, A.~R. Wilks, and C.~H. Yan,
+\emph{Apollonian Circle Packings: Geometry and Group Theory I.
+The Apollonian Group}, Discrete Comput. Geom. 34 (2005), 547--585.
+\url{https://arxiv.org/abs/math/0010298}.
+\bibitem{companion}
+J. Aguilar Mart\'in,
+\emph{Greedy Packing of Nested Rings: Placement Rules, a Golden
+Counterexample, and a Tribonacci Floor}, v2 working manuscript,
+14 September 2026. Source: \texttt{paper/main.tex}, accompanying
+repository \url{https://github.com/JaviMaligno/calamares}.
+\end{thebibliography}
+\end{document}

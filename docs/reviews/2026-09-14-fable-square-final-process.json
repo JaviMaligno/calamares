@@ -1,0 +1,18 @@
+{
+  "model_requested": "fable",
+  "cli_version": "2.1.270",
+  "source_sha256": {
+    "docs/drafts/cuadrado_certificado.md": "77eac0b3b4626658c37ea29167d46193ce3f05e2bd6f850075c10651decd9d93",
+    "code/cuadrado_certificado.py": "1db99ad4e2d8915962c0301321d06f64af52fb8d1d812c8cc37aa23e6f9b9cb4",
+    "code/test_cuadrado_certificado.py": "fb1e2e52a8ca5c98c5d0f7b141c5283fc6be271f197fe62b6737eda588f7adb4",
+    "lean/Calamares/Square.lean": "41565b7400a36f5816c7368643dae0270c69a8d5820001527cda3138c91affdf",
+    "lean/Calamares.lean": "363cf7ee2c119d71e0287993314b79dfc45b7c8c3ef5aa9c5fa0e47079b6c8ac",
+    "lean/README.md": "6b204b5110a76fbf053766882621523c5cfbc8b64d3c5e29dab60a8e9bae710d",
+    "docs/drafts/generalizacion_dimensional.md": "c2b6c5c3f542340fb0a9f9ea320327dc4242d864cb829d2a145b9f8de1d7d161",
+    "paper/main.tex": "c11f3912f39d6e0a24830facfaaa93667e717100a8866295acaa0a99f781ca7b"
+  },
+  "prompt_sha256": "4ffc35cd2b0abd1e4ca4eeacfb5582bd2c9579b625981b42933940bddd72d449",
+  "scope": "Same expressly authorized files; static continuation",
+  "pid": 2516,
+  "returncode": 0
+}

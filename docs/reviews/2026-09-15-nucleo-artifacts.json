@@ -1,0 +1,129 @@
+{
+  "date": "2026-09-15",
+  "external_review": "not_sent_not_reviewed",
+  "scope": "uniform_major_prefix_bound_and_reservoir_criteria_global_exchange_unproved",
+  "major_prefix_bound": 40,
+  "total_inventory_bound": null,
+  "new_lean_theorems": 7,
+  "library_theorems": 115,
+  "lean_build_exit_code": 0,
+  "v2_reference_checks": [
+    {
+      "path": "output/pdf/calamares_v2.pdf",
+      "sha256": "b7fc39cf16f0128dffb5837f296d2fa4b4ccf5745b36c4d823d959cddb859f07",
+      "unchanged": true
+    },
+    {
+      "path": "paper/arxiv-bundle.tar.gz",
+      "sha256": "67293a06c7a4bc5973958f9308ca62fa1e92b0bcb0757c8b6d1b572b53e33720",
+      "unchanged": true
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9",
+      "unchanged": true
+    },
+    {
+      "path": "paper/generalizations_v2.tex",
+      "sha256": "b91d33b13f7789c0aa7ac8c26c95a6e5423a9b44188f99e64639d6ac954f242d",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/Square.lean",
+      "sha256": "72ee948bb0c54a142c04ba62471cf2cbba7a340a79f2d835cc161d0f33153cf0",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareTwins.lean",
+      "sha256": "b5cea882c2e7f0f85763ee615d86f42013fdc05f2d655218e4e6b73a3bc5a5d4",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareLimit.lean",
+      "sha256": "46415b62674743e12f61e7343bf4380dd4bd3d69d52192e7ccdaa0f844d874c1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-v2-review.md",
+      "sha256": "412d22ed983c1a8c58957ffa955d2c8c279cff21b28fe347b3ba0e02c2611630",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-four-ring-review.md",
+      "sha256": "7116cbd00a5572ccbee2e96dfc2726fb5aa3885d51e4d3683628a929a99a93e1",
+      "unchanged": true
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/drafts/nucleo_uniforme.md",
+      "sha256": "18a9cb0dcb048a14edda2755fcf3fb07f76d0b760a48505d68cc67b712a173cf",
+      "bytes": 13095
+    },
+    {
+      "path": "lean/Calamares/Reservoir.lean",
+      "sha256": "9fe695265969156c69d4a72715d2cf99d15f880e97355914d0594eb4cce2b089",
+      "bytes": 4820
+    },
+    {
+      "path": "docs/plans/2026-09-15-nucleo-uniforme.md",
+      "sha256": "0f4514f9ce0dd4f008a5c420b39846f79aeb1c6067a53edd5875bb86a37fea29",
+      "bytes": 2624
+    },
+    {
+      "path": "docs/reviews/2026-09-15-nucleo-validation.md",
+      "sha256": "9286c82fd47e7e52bfa2756ab7786d91e14b9582b3063c4ea1f339cf1b6e0ce3",
+      "bytes": 4239
+    },
+    {
+      "path": "docs/reviews/2026-09-15-nucleo-lean-build.log",
+      "sha256": "2bea45c134596eb5bf8ddf6f297bbc2e7dbc4dddefc23f1234bd14e350cff7e6",
+      "bytes": 7869
+    },
+    {
+      "path": "docs/drafts/intercambio_uniforme.md",
+      "sha256": "a3ba4e5a1a4b7928da54a7f40567a2394c442ecb6e868f99ccb1ac85165ffd47",
+      "bytes": 8474
+    },
+    {
+      "path": "docs/drafts/particion_bolsillos.md",
+      "sha256": "dfbcd3bbce6513b236466aee01269c0b4f71100e89bc860f495cd60b30f63645",
+      "bytes": 7782
+    },
+    {
+      "path": "lean/Calamares/UniformExchange.lean",
+      "sha256": "71d4b63e3fa0cab1d29ef3a85d392d6959714c17e4ae3b69200fff78822ce0ab",
+      "bytes": 1830
+    },
+    {
+      "path": "lean/Calamares/PocketSplit.lean",
+      "sha256": "824fda0fd778ef0f80f3c3414c354da3b22db4680156eac1f85e9dc9f97580d0",
+      "bytes": 2267
+    },
+    {
+      "path": "lean/Calamares.lean",
+      "sha256": "cca9364463c1e379e4a6c073ff9ce02365b971b67e3d767cb00ab14af9d95813",
+      "bytes": 305
+    },
+    {
+      "path": "README.md",
+      "sha256": "ef48c7f586e19a760879ed5e01b4ed3d7400628fbee5630f0e6703797d40b2dd",
+      "bytes": 11073
+    },
+    {
+      "path": "lean/README.md",
+      "sha256": "66bf0f53458262f7f7bbab75f8868d65e2c14a81755e520028eb1125c8a03c9c",
+      "bytes": 14135
+    },
+    {
+      "path": "docs/generalizaciones.md",
+      "sha256": "24bc858d99b5fe746b797d30298544cc00bc6e71ab8dda4c4654c1bf469ee5c9",
+      "bytes": 10796
+    }
+  ]
+}

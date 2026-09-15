@@ -1,16 +1,115 @@
-# Calamares — capa de certificados exactos en Lean 4
+# Calamares — certificados exactos y exclusión cartesiana en Lean 4
 
 Formalización en Lean 4 (v4.32.2, **solo core, sin mathlib**) de la capa de
 identidades algebraicas exactas sobre la que descansan las pruebas del paper
-de empaquetamiento de anillos (`paper/main.tex`). Cero `sorry`, cero axiomas
-nuevos: todos los teoremas se demuestran con `decide +kernel` (aritmética
-exacta reducida por el kernel; verificado con `#print axioms` que solo
+de empaquetamiento de anillos (`paper/main.tex`), ampliada el 2026-09-14
+con la exclusión cartesiana universal de un trío en cuadrado.
+Cero `sorry`, cero axiomas nuevos: los certificados numéricos usan
+`decide +kernel`; las desigualdades universales de `Square.lean` usan
+pruebas de orden y `grind`, que genera términos comprobados por el kernel.
+Se ha verificado con `#print axioms` que solo
 dependen de `propext`, `Classical.choice`, `Quot.sound` — los tres axiomas
-estándar de core — y ninguno de `Lean.ofReduceBool` ni `sorryAx`).
+estándar de core — y ninguno de `Lean.ofReduceBool` ni `sorryAx`.
 
 ## Qué formaliza
 
-La **capa de certificados exactos**: las identidades de aritmética exacta en
+**Nuevo bloque del cuadrado:** `Calamares/Square.lean` demuestra que los
+discos de radios `1.845,0.844,0.841` no caben en un cuadrado de lado
+`4.8568`. `d_no_packing` cuantifica sobre todas las coordenadas en un
+anillo conmutativo linealmente ordenado y prueba las reflexiones y el
+confinamiento. No se limita a coordenadas racionales ni a una malla.
+También incluye los certificados racionales del testigo de cuatro aros,
+las paredes del voraz, `rho=337/200<X` y un control factible D'. La prueba
+escrita y el alcance exacto están en
+[`../docs/drafts/cuadrado_certificado.md`](../docs/drafts/cuadrado_certificado.md).
+
+La continuación del mismo día generaliza el Lema Q a parámetros
+arbitrarios (`Square.no_packing`, `excluded_of_conditions`).
+`Calamares/SquareTwins.lean` lo aplica a las gemelas cuadradas y al
+contraejemplo mejorado con `rho=1.68449`; también formaliza el testigo
+cartesiano del trío factible de las gemelas. Son **21 teoremas** entre
+ambos módulos. Véase
+[`../docs/drafts/cuadrado_gemelas.md`](../docs/drafts/cuadrado_gemelas.md).
+
+`Calamares/SquareLimit.lean` añade tres identidades para la cota algebraica
+`tau_cuadrado ≤ Y≈1.684487745872346`: la pared equilibrada, su norma
+polinomial y la implicación de raíz. El bloque cuadrado suma 24 teoremas,
+81 junto a los 57 anteriores. `Calamares/FourRing.lean` añade dos
+factorizaciones y `golden_balance`: en un anillo conmutativo linealmente
+ordenado, las dos presiones del bolsillo implican `rho>phi`.
+La v2 suma **84 teoremas**. La reducción del bosque para `tau_4=phi`
+está en `paper/main.tex`, `thm:fourfloor`; no está formalizada.
+La familia aproximante de Y y el argumento de
+continuidad se prueban por escrito en
+[`../docs/drafts/cuadrado_limite.md`](../docs/drafts/cuadrado_limite.md);
+no están formalizados en Lean.
+
+**Extras del 2026-09-15:** `Calamares/VariableWidth.lean` añade siete
+teoremas: masa positiva, suma de cuadrados, presión de área, comparación
+con prefijo común, escalado de la cola y las dos identidades extremales.
+`Calamares/FiveRing.lean` añade once: tres tangencias cartesianas del
+bolsillo, separación de los dos bolsillos, positividad de radios y
+denominador, y seis certificados de las presiones áureas. El total de
+la biblioteca pasa entonces a **102 teoremas**. Los 18 nuevos compilan y solo usan
+los axiomas estándar arriba indicados.
+
+Las pruebas de bosques para hasta cinco aros y de captura de cola para
+el área permanecen escritas en
+[`cinco_aros.md`](../docs/drafts/cinco_aros.md) y
+[`grosor_variable.md`](../docs/drafts/grosor_variable.md).
+Fable acepta los resultados con precisiones menores incorporadas en F5.
+Lean no formaliza
+el teorema completo `tau_(≤5,d)=phi` ni el algoritmo de selección;
+tampoco identifica un tipo concreto de números reales. Las implicaciones
+de orden son genéricas sobre anillos conmutativos linealmente ordenados;
+los radios divididos por denominadores positivos se interpretan en la
+prueba escrita.
+
+`Calamares/PocketSplit.lean` añade después tres teoremas: presión de la
+cola completa, invariante de una partición equilibrada y cota final de
+las dos sumas. El total pasa entonces a **105 teoremas**, con los mismos
+axiomas estándar. La aplicación geométrica se desarrolla en
+[`particion_bolsillos.md`](../docs/drafts/particion_bolsillos.md): alinea
+el segundo y tercer aro para colas finitas y reduce seis al cuarto aro
+con tres mayores en raíz. Fable revisó después la presión, partición
+y criterios C1/C2 como dependencias del cierre global de tres mayores.
+La clasificación de bosques no está formalizada.
+
+`Calamares/UniformExchange.lean` añade tres teoremas sobre un número
+arbitrario de sumandos representados por su masa: la presión
+`(k+1)U≤k²m`, su consecuencia `U≤m` en el corte áureo, y un control
+racional que falla en el modelo aditivo pese a satisfacer las cotas.
+Este bloque eleva el total a **108 teoremas**, todos sin admisiones. La reducción
+a un intercambio de dos aros consecutivos y el corolario para bosques
+binarios de tamaño arbitrario están escritos en
+[`intercambio_uniforme.md`](../docs/drafts/intercambio_uniforme.md).
+El intercambio con grados arbitrarios se cierra posteriormente por T3.
+
+`Calamares/Reservoir.lean` añade siete certificados para la
+[`reducción estructural uniforme`](../docs/drafts/nucleo_uniforme.md):
+cota phi<5/3, suma de cuadrados de una lista acotada, margen positivo
+para dos plazas cuando el segundo ocupante tiene radio al menos 9m,
+su expansión como desigualdad de áreas, dos plazas superiores de radio
+b/2 junto a un par diametral a,b, exclusión de seis radios en
+la franja (m,9m) y de seis aros consecutivos en una cadena sin holgura.
+Este bloque eleva el total a **115 teoremas**. El argumento escrito limita a dos
+ramificaciones, seis hojas y 40 aros mayores el intercambio residual;
+la cola puede tener longitud arbitraria. La unión de regiones prohibidas
+para centros y el recuento del árbol no están formalizados. Esta reducción
+histórica no se usa en el cierre global posterior y no tiene dictamen externo.
+
+`Calamares/ThreeCore.lean` añade siete certificados para la
+[prueba de tres mayores](../docs/drafts/tres_mayores.md):
+identidad y signo del margen angular de dos discos en un arbelos,
+identidad y signo de la suma de los huecos opuestos, signo auxiliar
+de altura, cotas de las dos envolventes de la cola
+y paso de curvaturas a radios. El total actual es **122 teoremas**.
+Fable acepta la prueba escrita completa de la garantía universal rho≤phi
+con sus dependencias. La disyunción de los dos incírculos se demuestra
+por inversión, no por el certificado auxiliar de altura. No se ha
+formalizado en Lean el teorema de empaquetamiento completo ni tau=phi.
+
+La **capa anterior de certificados exactos**: las identidades de aritmética exacta en
 ℚ y ℚ[√5] que los scripts de `code/` verifican con sympy y sobre las que se
 apoyan los teoremas del paper.
 
@@ -42,11 +141,17 @@ apoyan los teoremas del paper.
 
 ## Qué NO formaliza
 
-La **geometría de empaquetamiento**: rigidez de coronas, criterios angulares
+La **geometría general de empaquetamiento**: rigidez de coronas, criterios angulares
 θ(a,b,R), árboles de colocación del voraz, evacuaciones y bolsillos espejo.
 Esa capa está verificada por los scripts de `code/` (bloques B–E de
 `aureo.py` y `batalla2.py`, `corona.py`, `rigido.py`, …); aquí solo se
 formaliza el esqueleto algebraico exacto que esos argumentos consumen.
+Las excepciones son el criterio cartesiano paramétrico del cuadrado,
+sus exclusiones, el testigo de las gemelas y las identidades cartesianas
+de los dos bolsillos de `FiveRing.lean`, descritos arriba.
+No se ha definido en Lean un tipo de disco euclidiano ni el bosque
+del algoritmo: el puente entre desigualdades cartesianas, círculos reales
+y ejecución de best fit está escrito en la nota del cuadrado.
 
 ## Estructura
 
@@ -54,8 +159,35 @@ formaliza el esqueleto algebraico exacto que esos argumentos consumen.
   aritmética completa; el orden del encaje real con √5 > 0 (`Q5.posb`,
   decidible); polinomios como listas de coeficientes ascendentes: `Poly`
   (ℚ[X]), `PolyZ` (ℤ[X]) y `Poly2` ((ℚ[e])[d]).
-- `Calamares/Identities.lean` — los teoremas 1–45 (la tabla de abajo cubre 1–32; los lotes posteriores — `golden_reduction_threshold`, `diametral_pocket_golden`, `forbidden_triple_cubic` y las identidades de la campaña corona-contra-colas hasta `additive_family` — están documentados en el propio fichero, con sus controles negativos y `#print axioms` limpios).
+- `Calamares/Identities.lean` — 57 teoremas (la tabla de abajo cubre 1–32; los lotes posteriores — `golden_reduction_threshold`, `diametral_pocket_golden`, `forbidden_triple_cubic` y las identidades de la campaña corona-contra-colas hasta `additive_family` — están documentados en el propio fichero, con sus controles negativos y `#print axioms` limpios).
 - `Calamares.lean` — raíz de la librería.
+- `Calamares/Square.lean` — 14 teoremas: dos lemas de desigualdades,
+  exclusión normalizada y con reflexiones de D, versión paramétrica de
+  ambas exclusiones y su predicado cartesiano, certificados de D/X y
+  testigo factible D'.
+- `Calamares/SquareTwins.lean` — 7 teoremas: dos exclusiones para las
+  gemelas, su testigo factible, exclusión de la instancia mejorada y
+  tres certificados de paredes y colas.
+- `Calamares/SquareLimit.lean` — 3 identidades sobre anillos conmutativos
+  para la pared equilibrada y el polinomio de Y. Usa importaciones mínimas
+  de core; `Square.lean` tampoco necesita importar toda la biblioteca Std.
+- `Calamares/FourRing.lean` — dos identidades y una implicación ordenada
+  para el suelo áureo del caso de cuatro aros. No presupone el resultado
+  deseado: recibe la ecuación áurea, la definición multiplicada del
+  bolsillo y las dos desigualdades estrictas derivadas en la prueba escrita.
+- `Calamares/VariableWidth.lean` — siete teoremas algebraicos para la
+  garantía exacta de área con agujeros independientes.
+- `Calamares/FiveRing.lean` — once teoremas para los dos bolsillos y las
+  presiones con uno o dos aros mayores; importa `FourRing.lean`.
+- `Calamares/PocketSplit.lean` — tres teoremas para partición de colas
+  finitas; importa `FourRing.lean` y `VariableWidth.lean`.
+- `Calamares/UniformExchange.lean` — presión de dos colas consecutivas,
+  corte áureo y control del modelo aditivo. El control no es un
+  contraejemplo euclidiano.
+- `Calamares/Reservoir.lean` — siete certificados para el criterio de
+  plazas libres y las cotas de ramificación y cadenas con grosor común.
+- `Calamares/ThreeCore.lean` — siete certificados algebraicos de la
+  prueba uniforme basada en los tres discos mayores, aceptada por Fable.
 
 Nota técnica: `decide` a secas se atasca con `Rat` (el elaborador no reduce
 `Nat.gcd`, definido por recursión bien fundada); `decide +kernel` sí
@@ -104,4 +236,12 @@ funciona porque el kernel acelera `Nat.gcd` sobre literales. No hace falta
 ```bash
 cd lean
 lake build   # exit 0, sin sorry, sin warnings
+```
+
+En PowerShell, si elan no encuentra su directorio aunque esté instalado:
+
+```powershell
+$env:ELAN_HOME = 'C:\Users\Usuario\.elan'
+lake build
+lake env lean Calamares/Square.lean  # imprime los axiomas del bloque nuevo
 ```

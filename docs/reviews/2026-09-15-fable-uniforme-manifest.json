@@ -1,0 +1,18 @@
+{
+  "prefix": "2026-09-15-fable-uniforme",
+  "title": "Revisión independiente del intercambio uniforme y su núcleo",
+  "authorization": "El usuario autorizó expresamente el paquete exacto de diez fuentes/extractos de este manifiesto: «Sí, autorizo enviar ese paquete a Fable», respondiendo a la enumeración de las tres notas, cinco módulos Lean completos y extractos de VariableWidth.lean y paper/main.tex. Conoce que son pruebas inéditas enviadas a Claude Code/Fable. Esta autorización concreta sigue al rechazo automático de la solicitud anterior, que no llegó a enviarse.",
+  "instructions": "Haz una revisión matemática adversaria independiente de las tres notas de intercambio uniforme adjuntas. El resultado global tau=phi NO está demostrado y no debes darlo por supuesto. Audita: reducción por prefijo máximo, pasos A/B de intercambio adyacente y U<=m; C1/C2 y partición de cola con cualquier longitud; R0 en todas las relaciones de ancestro y z=u/z!=u; cota de área de centros prohibidos y margen R9; construcción de dos discos b/2 superiores y bolsillo inferior; franja (m,9m), recuento global de hijos no máximos, grados y hojas; cadena de seis y cota de 40 aros MAYORES, sin acotar la cola. Busca en particular un padre cambiado o un subárbol duplicado/perdido. Revisa que los teoremas Lean corresponden al álgebra usada; revisión estática, no ejecutes ni afirmes haber ejecutado Lean o Python. Devuelve veredicto separado (aceptar/revisión menor/revisión mayor/refutado) por cada paso, hallazgos con archivo y línea, y reparación concreta. Después, como INVESTIGACIÓN separada de los veredictos, estudia este candidato uniforme aún NO afirmado: dados k>=2 discos mayores a1>...>ak>m ya empaquetables en un disco R, y sum_{j>i}a_j+2m<=phi*a_i para cada i, ¿pueden empaquetarse los k mayores y DOS discos adicionales m en el mismo R, pudiendo recolocar a los mayores? Para k=2 ya sirven los bolsillos; un lema general cerraría R0 en toda ramificación, y C1 cerraría cadenas. Busca una prueba uniforme o un contraejemplo real a ESTE candidato; si solo tienes una sugerencia, márcala como tal. No enumeres inventarios n=6,7,... ni confundas fallos de un criterio suficiente con contraejemplos geométricos. Contexto original de grosor común, pero el candidato local es de discos. Se incluyen extractos del modelo y certificados de dependencias.",
+  "sources": [
+    {"path": "docs/drafts/intercambio_uniforme.md"},
+    {"path": "docs/drafts/particion_bolsillos.md"},
+    {"path": "docs/drafts/nucleo_uniforme.md"},
+    {"path": "lean/Calamares/UniformExchange.lean"},
+    {"path": "lean/Calamares/PocketSplit.lean"},
+    {"path": "lean/Calamares/Reservoir.lean"},
+    {"path": "lean/Calamares/FourRing.lean"},
+    {"path": "lean/Calamares/FiveRing.lean"},
+    {"path": "lean/Calamares/VariableWidth.lean", "ranges": [[1, 43]]},
+    {"path": "paper/main.tex", "ranges": [[236, 292], [364, 411], [423, 449]]}
+  ]
+}

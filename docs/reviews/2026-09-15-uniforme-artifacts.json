@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-15",
+  "external_review": "not_sent_not_reviewed",
+  "scope": "uniform_adjacent_swap_reduction_global_geometry_unproved",
+  "new_lean_theorems": 3,
+  "library_theorems": 108,
+  "v2_reference_checks": [
+    {
+      "path": "output/pdf/calamares_v2.pdf",
+      "sha256": "b7fc39cf16f0128dffb5837f296d2fa4b4ccf5745b36c4d823d959cddb859f07",
+      "unchanged": true
+    },
+    {
+      "path": "paper/arxiv-bundle.tar.gz",
+      "sha256": "67293a06c7a4bc5973958f9308ca62fa1e92b0bcb0757c8b6d1b572b53e33720",
+      "unchanged": true
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9",
+      "unchanged": true
+    },
+    {
+      "path": "paper/generalizations_v2.tex",
+      "sha256": "b91d33b13f7789c0aa7ac8c26c95a6e5423a9b44188f99e64639d6ac954f242d",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/Square.lean",
+      "sha256": "72ee948bb0c54a142c04ba62471cf2cbba7a340a79f2d835cc161d0f33153cf0",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareTwins.lean",
+      "sha256": "b5cea882c2e7f0f85763ee615d86f42013fdc05f2d655218e4e6b73a3bc5a5d4",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareLimit.lean",
+      "sha256": "46415b62674743e12f61e7343bf4380dd4bd3d69d52192e7ccdaa0f844d874c1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-v2-review.md",
+      "sha256": "412d22ed983c1a8c58957ffa955d2c8c279cff21b28fe347b3ba0e02c2611630",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-four-ring-review.md",
+      "sha256": "7116cbd00a5572ccbee2e96dfc2726fb5aa3885d51e4d3683628a929a99a93e1",
+      "unchanged": true
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/drafts/intercambio_uniforme.md",
+      "sha256": "cb206210a2fab57e51ba26ac01d4fccc04bac3c3090ca3f0cd3e9f65261dc6cf",
+      "bytes": 8069
+    },
+    {
+      "path": "lean/Calamares/UniformExchange.lean",
+      "sha256": "71d4b63e3fa0cab1d29ef3a85d392d6959714c17e4ae3b69200fff78822ce0ab",
+      "bytes": 1830
+    },
+    {
+      "path": "docs/plans/2026-09-15-uniforme.md",
+      "sha256": "facf49416beb51394daebff4747656ed6ed79d815cf62f973a16b9ac15e6bada",
+      "bytes": 2391
+    },
+    {
+      "path": "docs/reviews/2026-09-15-uniforme-validation.md",
+      "sha256": "3e787e32a974307fd5aaa37e8a3e3d6c30908b1bf8ac437acd22e3d0de094412",
+      "bytes": 2509
+    }
+  ]
+}

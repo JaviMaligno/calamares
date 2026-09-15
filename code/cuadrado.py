@@ -12,9 +12,9 @@ Hechos exactos del cuadrado (demostraciones en docs/drafts/cuadrado.md):
         (esquinas opuestas de las cajas de centros) y debe ser >= a + b.
 
   FILA DIAGONAL (Lema 0 cuadrado, suficiente): con los dos mayores en los
-        extremos, la fila tangente sobre la diagonal cabe cuando
+        extremos y r_1 <= s/2, la fila tangente sobre la diagonal cabe cuando
         2 sum(r) + (sqrt2 - 1)(r_1 + r_2) <= sqrt2 s   (r_1 >= r_2 >= resto);
-        en particular basta sum(r) <= (2 - sqrt2) s.
+        en particular bastan r_1 <= s/2 y sum(r) <= (2 - sqrt2) s.
 
   BOLSILLO DE ESQUINA: dado un circulo de radio a tangente a los dos lados de
         una esquina, el mayor circulo tangente a los dos lados de una esquina

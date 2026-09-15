@@ -1,0 +1,18 @@
+{
+  "prefix": "2026-09-14-fable-v2",
+  "title": "Revisión independiente de las generalizaciones para la v2",
+  "authorization": "El usuario pidió completar la v2 y seguir pidiendo verificaciones a Fable el 2026-09-14, después de autorizar expresamente el envío de fuentes a Claude Code/Fable.",
+  "instructions": "Actúa como revisor matemático adversario independiente para una v2. Se adjuntan fuentes con líneas. Revisa G2-G7 y el ejemplo 3D/2D; las gemelas cuadradas y la cota límite Y. G1, D y Q ya recibieron otra revisión, pero comprueba cualquier dependencia necesaria. No puedes ejecutar herramientas: esta revisión es estática, no afirmes haber ejecutado Python ni Lean. Comprueba especialmente: que la traslación del afín no reduce distancias; que TODOS los rechazos y testigos usados en las transferencias a dimensión superior tienen como máximo tres hermanos; las cuatro ejecuciones de las gemelas y su estado indistinguible; Q aplicado a todos los centros, su normalización, positividad y tangencias; en Y, signo de G, continuidad de TODAS las paredes, elección simultánea de perturbaciones, orden estricto, grosor positivo, testigo legal, rho dominante, aproximación racional y dirección del ínfimo. Busca activamente un contraejemplo o una hipótesis ausente. Audita el alcance de Lean; no confundas identidades con formalización completa de continuidad. No asumas novedad bibliográfica. Devuelve un informe en español: veredicto aceptar/revisión menor/revisión mayor/refutado POR BLOQUE, hallazgos reales con archivo/línea y reparación mínima, afirmaciones confirmadas con argumentos y limitaciones. Distingue errores de mejoras opcionales. Sé conciso pero fundamenta cada hallazgo. No revises los otros miles de resultados históricos del paper.",
+  "sources": [
+    {"path": "docs/drafts/generalizacion_dimensional.md", "ranges": [[1, 222]]},
+    {"path": "docs/drafts/cuadrado_gemelas.md"},
+    {"path": "docs/drafts/cuadrado_limite.md"},
+    {"path": "lean/Calamares/Square.lean"},
+    {"path": "lean/Calamares/SquareTwins.lean"},
+    {"path": "lean/Calamares/SquareLimit.lean"},
+    {"path": "code/cuadrado_gemelas.py"},
+    {"path": "code/cuadrado_optimizado.py"},
+    {"path": "code/cuadrado_limite.py"},
+    {"path": "paper/main.tex", "ranges": [[217, 292], [406, 710], [4420, 4500]]}
+  ]
+}

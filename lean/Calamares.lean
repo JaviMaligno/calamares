@@ -1,2 +1,12 @@
 import Calamares.Basic
 import Calamares.Identities
+import Calamares.Square
+import Calamares.SquareTwins
+import Calamares.SquareLimit
+import Calamares.FourRing
+import Calamares.VariableWidth
+import Calamares.FiveRing
+import Calamares.PocketSplit
+import Calamares.UniformExchange
+import Calamares.Reservoir
+import Calamares.ThreeCore

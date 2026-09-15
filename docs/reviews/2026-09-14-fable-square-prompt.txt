@@ -1,0 +1,19 @@
+Actúa como revisor matemático independiente y adversario. Modelo solicitado por el usuario: Fable. No modifiques archivos, no hagas commits, no publiques ni envíes mensajes. Devuelve el informe íntegro en español en la respuesta final. El agente principal está investigando en paralelo; no leas archivos nuevos ajenos a la lista siguiente.
+
+FASE 1: antes de leer los archivos nuevos, rederiva a partir de este enunciado y busca un contraejemplo. Modelo: aros de radios exteriores estrictamente decrecientes y grosor común w; agujero de radio max(0,r-w). Un bosque asigna cada aro a la sartén o a un aro mayor. Hermanos se recolocan libremente como discos de interiores disjuntos en su contenedor. El voraz descendente elige un contenedor factible y no cambia después el padre de los ya colocados. Best fit elige menor inradio/capacidad.
+
+Claim: cuadrado de lado s=6071/1250, w=4/25, radios {369/200,1,211/250,841/1000}. Los cuatro son factibles; best fit coloca solo tres, y rho=max de las colas divididas por el radio es 337/200. El paso no trivial es que tres discos de radios {369/200,211/250,841/1000} NO caben en el cuadrado, pese a permitirse cualquier recolocación. Examina todas las hipótesis, bordes, tangencias, objetivos y la distinción entre asignación y coordenadas. Escribe tu rederivación inicial antes de leer nuestra prueba.
+
+FASE 2: audita los siguientes archivos, a continuación de tu rederivación:
+- docs/drafts/cuadrado_certificado.md
+- code/cuadrado_certificado.py
+- code/test_cuadrado_certificado.py
+- lean/Calamares/Square.lean
+- lean/Calamares.lean y lean/README.md
+- docs/drafts/generalizacion_dimensional.md (solo Proposición G1 para n<=3)
+- paper/main.tex (modelo y los teoremas originales que se invoquen)
+Verifica correspondencia literal entre las restricciones cartesianas de Lean y los discos físicos, la normalización/reflexiones, los signos, los márgenes exactos, el testigo, todas las exclusiones de contenedores, la cola dominante, la comparación con X y los límites de lo afirmado. No des por demostrada una afirmación solo porque sus autores digan que Lean compila; comprueba qué enuncia realmente.
+
+Puedes ejecutar comandos de lectura y las comprobaciones locales necesarias, sin editar fuentes. Comandos previstos: python -m unittest discover -s code -p test_cuadrado_certificado.py -v; python code/cuadrado_certificado.py; Lean 4.32.2 está en C:/Users/Usuario/.elan/toolchains/leanprover--lean4---v4.32.2/bin/lean.exe, compilar desde lean/ el archivo Calamares/Square.lean. Solo se permiten las escrituras incidentales de caches del compilador dentro del repositorio; no instales dependencias ni cambies configuraciones. Si una herramienta está denegada, revisa estáticamente y decláralo.
+
+Informe: hallazgos por severidad con archivo/línea, mecanismo del error y corrección mínima; afirmaciones confirmadas; límites formales o de novedad; comandos efectivamente ejecutados y resultados; veredicto aceptar/revisión menor/revisión mayor/refutado. Distingue un defecto real de una ampliación opcional. No inventes fallos ni certificaciones. Sé exigente y concreto.

@@ -1,0 +1,56 @@
+{
+  "date": "2026-09-14",
+  "pdf_pages": 66,
+  "files": [
+    {
+      "path": "output/pdf/calamares_v2.pdf",
+      "sha256": "b7fc39cf16f0128dffb5837f296d2fa4b4ccf5745b36c4d823d959cddb859f07",
+      "bytes": 1575649
+    },
+    {
+      "path": "paper/arxiv-bundle.tar.gz",
+      "sha256": "67293a06c7a4bc5973958f9308ca62fa1e92b0bcb0757c8b6d1b572b53e33720",
+      "bytes": 1106108
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9",
+      "bytes": 257271
+    },
+    {
+      "path": "paper/generalizations_v2.tex",
+      "sha256": "b91d33b13f7789c0aa7ac8c26c95a6e5423a9b44188f99e64639d6ac954f242d",
+      "bytes": 15598
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "bytes": 2531
+    },
+    {
+      "path": "lean/Calamares/Square.lean",
+      "sha256": "72ee948bb0c54a142c04ba62471cf2cbba7a340a79f2d835cc161d0f33153cf0",
+      "bytes": 10701
+    },
+    {
+      "path": "lean/Calamares/SquareTwins.lean",
+      "sha256": "b5cea882c2e7f0f85763ee615d86f42013fdc05f2d655218e4e6b73a3bc5a5d4",
+      "bytes": 3490
+    },
+    {
+      "path": "lean/Calamares/SquareLimit.lean",
+      "sha256": "46415b62674743e12f61e7343bf4380dd4bd3d69d52192e7ccdaa0f844d874c1",
+      "bytes": 1136
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-v2-review.md",
+      "sha256": "412d22ed983c1a8c58957ffa955d2c8c279cff21b28fe347b3ba0e02c2611630",
+      "bytes": 8389
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-four-ring-review.md",
+      "sha256": "7116cbd00a5572ccbee2e96dfc2726fb5aa3885d51e4d3683628a929a99a93e1",
+      "bytes": 5225
+    }
+  ]
+}

@@ -17,10 +17,11 @@ import subprocess, sys, os, re, time
 
 SCRIPTS = [
     "rigido.py", "h1.py", "grosor.py", "esquina.py", "tresk.py",
-    "cuatrok.py", "universal.py", "cuadrado.py", "corona.py",
+    "cuatrok.py", "universal.py", "cuadrado.py", "cuadrado_certificado.py",
+    "cuadrado_gemelas.py", "cuadrado_optimizado.py", "cuadrado_limite.py", "corona.py",
     "ocupantes.py", "bloqueadores.py", "bolsillo.py", "striple.py",
     "aureo.py", "batalla2.py", "microcelda.py", "perfilp.py",
-    "rstar.py",
+    "rstar.py", "grosor_variable.py",
 ]
 
 # Scripts lentos que --quick omite.

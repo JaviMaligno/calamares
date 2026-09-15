@@ -1,0 +1,347 @@
+\subsection{Container shape and dimension}\label{sec:dimension}
+
+Theorems~\ref{thm:selection} and~\ref{thm:oblivious}, and now
+Proposition~\ref{prop:n3}, hold for arbitrary compact containers in
+$\R^d$. For spherical containers the negative results also transfer
+to higher dimensions, for a different reason: each relevant sibling
+query involves at most three balls.
+
+\begin{lemma}[Dimension reduction for sibling queries]\label{lem:dimreduce}
+Let $k\ge2$ and $d\ge k-1$. Balls of positive radii $a_1,\ldots,a_k$
+pack in a ball of radius $R$ in $\R^d$ if and only if they pack in
+one of the same radius in $\R^{k-1}$. A single ball fits if and only
+if its radius is at most $R$, in every positive dimension.
+\end{lemma}
+\begin{proof}
+The forward embedding from lower to higher dimension preserves all
+center distances and norms. Conversely, center the container at zero
+and let $c_1,\ldots,c_k$ be the centers of a packing. Their affine hull
+$A$ has dimension at most $k-1$. Let $q$ be the orthogonal projection
+of zero onto $A$. Since $q$ is orthogonal to $A-q$,
+\[
+ \|(c_i-q)-(c_j-q)\|=\|c_i-c_j\|\ge a_i+a_j,
+ \qquad \|c_i-q\|^2=\|c_i\|^2-\|q\|^2\le(R-a_i)^2.
+\]
+Here $R-a_i\ge0$ by the original containment. A common translation
+of the centers therefore preserves separation and does not increase
+their norms. Identify $A-q$ isometrically with a subspace of
+$\R^{k-1}$. This translates the whole affine hull; it does not project
+the individual centers onto a predetermined lower-dimensional space.
+\end{proof}
+
+\begin{corollary}[Transfer of the sharpness results]\label{cor:dimsharp}
+For spherical pans in every dimension $d\ge2$, the following hold with
+the same radii and widths as in the plane:
+\begin{enumerate}
+\item placement obliviousness holds for at most three pieces and fails
+  at four, as in Theorem~\ref{thm:n4};
+\item the twin instances of Theorem~\ref{thm:twins} exclude every
+  deterministic state-based rule, and every randomized state-based
+  rule fails on some instance with probability at least $1/2$;
+\item the rigid family of Theorem~\ref{thm:rigidfloor} has infimum
+  exactly $T$, not attained at positive width;
+\item the dimension-dependent geometric threshold satisfies
+  $1\le\tau_d\le\varphi$, and its restriction to inventories of
+  at most four rings satisfies $\tau_{4,d}=\varphi$, unattained.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+By Lemma~\ref{lem:dimreduce}, every query of at most three siblings
+in a ball has the same answer in all dimensions $d\ge2$. A fixed
+assignment forest whose containers have at most three children can
+be realized by assembling these local packings from the leaves:
+each child's entire subtree stays inside its outer ball.
+
+The positive part of (1) is Proposition~\ref{prop:n3}. Its negative
+part uses the root pair $\{10,5\}$, the hole pair $\{4.9,4.8\}$,
+and the forbidden root triple $\{10,4.9,4.8\}$. All are preserved.
+The four executions and the two witnesses of Theorem~\ref{thm:twins}
+also use only individual, pair and triple queries. The state at the
+arrival of the $5$ is identical in the two inventories, and the
+necessary choices are still opposite. If the probability of choosing
+the root is $p$, the failure probabilities are $1-p$ and $p$.
+
+In (3), conditions (F1) and (F2) are scalar, and (F3) is precisely
+a triple query. Thus the entire admissible parameter family and its
+function $\rho$ are unchanged, including the approximating sequence.
+Finally, the witness of Theorem~\ref{thm:golden} has the root triple
+$\{\varphi,s_1,s_2\}$ and the nested pivot $1$. Its failing execution
+only queries pairs and triples as well. It gives the same failures
+with $\rho=\varphi+3\varepsilon\to\varphi$. The lower bound in (4)
+is Theorem~\ref{thm:oblivious} under weak superincreasingness.
+For the four-ring lower bound, the forest reduction in
+Theorem~\ref{thm:fourfloor} is dimension-independent. Each of its
+two remaining cases uses only pairs and triples in spherical
+containers, so the rigid floor and the diametral-pocket argument
+apply unchanged. Every four-ring failure therefore still has
+$\rho>\varphi$; the golden family gives the matching infimum.
+\end{proof}
+
+The corollary does not imply $\tau_d=\tau_2$ or $\tau_d=\varphi$:
+other counterexamples may involve four or more siblings. Nor does
+monotonicity of packing feasibility in the dimension, by itself,
+give monotonicity of the threshold for failure of a greedy execution.
+
+\begin{proposition}[The first dimensional separation]\label{prop:dimfour}
+There are four distinct sibling radii that fit in the unit ball
+in $\R^3$ but not in the unit disk in $\R^2$, namely
+$\{441,440,439,438\}/1000$.
+\end{proposition}
+\begin{proof}
+Set $u=8/25$ and use the tetrahedral centers
+\[
+(u,u,u),\quad(u,-u,-u),\quad(-u,u,-u),\quad(-u,-u,u).
+\]
+Each norm squared is
+$3u^2$ and each pair distance squared is $8u^2$. Even with all
+radii enlarged to $441/1000$, containment and separation follow from
+\[
+ (1-441/1000)^2-3u^2=5281/10^6>0,\qquad
+ 8u^2-(882/1000)^2=10319/250000>0.
+\]
+For planar infeasibility, shrink all radii to $r=438/1000$.
+The centers would lie in radius $1-r$. A center at zero is impossible
+since $1-r<2r$. Otherwise two consecutive centers in angular order
+have angular separation at most $\pi/2$, so their squared distance
+is at most $2(1-r)^2<(2r)^2$; the difference is $16961/125000$.
+This contradicts separation. This is a difference of sibling
+feasibility, not a new failure of placement obliviousness.
+\end{proof}
+
+\subsection{Square pans: confinement and twin instances}\label{sec:square}
+
+Only the root changes to $[0,s]^2$; every ring's hole is still a disk.
+The capacity used by best fit at the root is its inradius $s/2$.
+The following sufficient criterion excludes all placements of a trio,
+without assuming an optimal tangency pattern.
+
+\begin{lemma}[Quadrant confinement]\label{lem:squareQ}
+Let $a\ge b\ge c>0$, $a\le s/2$, and $p\ge q\ge0$. If
+\begin{align}
+ p&\ge s/2-b, & p^2+(s-a-b)^2&<(a+b)^2,\label{eq:squareQb}\\
+ q^2+(s-a-c)^2&<(a+c)^2, &p+q&\ge s-b-c,\label{eq:squareQc}\\
+ L:=s-c-a-q&\ge0, &2L^2&<(b+c)^2,\label{eq:squareQbox}
+\end{align}
+then disks of radii $a,b,c$ do not pack in the square of side $s$.
+\end{lemma}
+\begin{proof}
+Reflect the whole packing about either midline as needed, so the
+largest center $A$ has both coordinates in $[a,s/2]$. The coordinates
+of $B,C$ lie in $[b,s-b]$ and $[c,s-c]$, respectively. Each absolute
+coordinate difference between $A$ and $B$ is at most $s-a-b$.
+If $|B_x-A_x|\le p$, the first quadratic inequality contradicts
+separation. The negative alternative $B_x-A_x<-p$ is excluded by
+$A_x-B_x\le s/2-b\le p$. Thus $B_x>A_x+p$, and likewise
+$B_y>A_y+p$, whence $A_x,A_y<s-b-p$.
+
+The same argument with the other quadratic inequality gives
+$|C_x-A_x|>q$. Its negative alternative is impossible because
+$A_x-C_x<s-b-p-c\le q$. Therefore $C_x>A_x+q$ and
+$C_y>A_y+q$. Since $p\ge q$ and $b\ge c$, both small centers lie
+in the box $[a+q,s-c]^2$. Their squared distance is at most $2L^2$,
+contradicting~\eqref{eq:squareQbox}. All separations used for
+packings are non-strict; tangencies have not been excluded.
+\end{proof}
+
+\begin{proposition}[An exact square counterexample]\label{prop:squareD}
+With side $s=4.8568$, width $w=0.16$ and radii
+$\{a,1,b,c\}=\{1.845,1,0.844,0.841\}$, all four rings fit but
+best fit places exactly three. The dominant tail is $\rho=337/200$.
+Every decimal here and below denotes the exact terminating rational.
+\end{proposition}
+\begin{proof}
+Apply Lemma~\ref{lem:squareQ} with $p=1.591$, $q=1.581$.
+The margins in its five inequalities are, in their displayed order,
+\[
+ \frac{33}{5000},\quad\frac{2079}{25000000},\quad
+ \frac{66559}{25000000},\quad\frac1{5000},\quad
+ \frac{53587423}{25000000},\qquad L=\frac{2949}{5000}.
+\]
+The witness places $a$ at $(a,a)$ and $1$ at $(s-1,s-1)$:
+$2(s-a-1)^2-(a+1)^2=16337/25000000>0$. In the hole of $a$,
+of radius $H=a-w=b+c=1.685$, place the disk of radius $b$ at
+relative center $(-c,0)$ and that of radius $c$ at $(b,0)$.
+
+Best fit instead nests $1$ in $a$, since $1\le H<s/2$.
+The disk $b$ then fits only at the root: $1+b>H$ and $b>1-w$.
+Root feasibility follows by shrinking the disk $1$ in the witness.
+At $c$, the root triple is excluded by the lemma, and all holes are
+excluded by $1+c>H$, $c>1-w$ and $c>b-w$. The tails are
+$179/123$, $337/200$, and $841/844$, so the middle one dominates.
+Together with Proposition~\ref{prop:n3}, this establishes the same
+three/four-piece transition for a square.
+\end{proof}
+
+\begin{theorem}[Square twins]\label{thm:squaretwins}
+Let $s=5.1214$, $w=0.301$, and
+\[
+ I_1=\{2,1,0.850,0.849\},\qquad
+ I_2=\{2,1,0.950,0.750\}.
+\]
+Both full inventories are feasible. In $I_1$ the pivot $1$ must be
+placed at the root for the greedy to succeed; in $I_2$ it must be
+nested in $2$. Hence no state-based rule succeeds universally, and
+every randomized state-based rule has failure probability at least
+$1/2$ on one of these instances.
+\end{theorem}
+\begin{proof}
+The hole of $2$ has radius $H=1.699$. Lemma~\ref{lem:squareQ}
+excludes $\{2,0.850,0.849\}$ using $(p,q)=(1.72,1.718)$, and
+excludes $\{2,1,0.750\}$ using $(p,q)=(2.12,1.39)$; direct rational
+substitution verifies all its inequalities. Shrinking the last disk
+therefore excludes $\{2,1,z\}$ for every $z\ge0.750$.
+On the other hand $\{2,0.950,0.750\}$ has the explicit centers
+\[
+ (2.96,2),\qquad(0.95,4.1714),\qquad(4.3714,4.3714).
+\]
+Containment is immediate. The three positive separation margins are
+\[
+\frac{1314449}{25000000},\qquad\frac{663599}{12500000},\qquad
+\frac{221399449}{25000000}.
+\]
+
+The root pair $\{2,1\}$ fits in opposite corners since
+$2(s-3)^2>9$. Shrinking its unit disk at the same center also
+packs $\{2,z\}$ for every $0<z<1$, justifying admission of the
+first small ring when the pivot is nested.
+This pair, with the two small rings inside $2$,
+witnesses $I_1$, as $0.850+0.849=H$.
+For $I_2$, use the displayed root triple and nest $1$ in $2$.
+Every small ring fits alone in $H$, but none fits there beside $1$,
+since even $1+0.750>H$. None fits in the pivot's hole of radius
+$0.699$, and the last cannot nest in the preceding small ring:
+$0.849>0.850-w$ and $0.750>0.950-w$.
+
+If the pivot is nested, both small rings are forced to the root,
+where the first triple is infeasible and the second feasible.
+If the pivot is at the root, both are excluded from the root and
+must use $H$, where only the first pair fits
+($0.950+0.750=1.700>H$). All subsequent decisions are therefore
+forced. At the pivot, the state, side, width and inventory size are
+identical. If the root is chosen with probability $p$, the failure
+probabilities are $1-p$ and $p$. The dominant tails are $1.699$ and
+$1.700$, respectively.
+\end{proof}
+
+\subsection{An algebraic upper bound for the square threshold}
+\label{sec:squarelimit}
+
+Define $\tau_{\square}$ as the infimum of $\rho$ over square-pan
+instances admitting a failing greedy execution, with side and positive
+width allowed to vary, as in the definition of $\tau$.
+
+\begin{theorem}[An approximating square family]\label{thm:squarelimit}
+Let $Y$ be the unique positive root of
+\[
+ (17+10\sqrt2)Y^2+(72+16\sqrt2)Y-(112+96\sqrt2)=0.
+\]
+Then
+\[
+ 1\le\tau_{\square}\le Y=1.684487745872346\ldots.
+\]
+There are four-ring counterexamples to best fit with strictly
+decreasing rational radii, positive rational width and rational side,
+whose values of $\rho$ tend to $Y$ from above. No optimality of $Y$
+is asserted, either globally or for all parameters of the confinement
+criterion.
+\end{theorem}
+\begin{proof}
+Put $k=\sqrt2$, $C=1+k/2$, and consider first the balanced data
+$a_0=1+t$, $b_0=c_0=t$, $s_0=C(2+t)$,
+$p_0=q_0=s_0/2-t$. The common quadratic margin is
+\[
+ G(t)=(a_0+t)^2-p_0^2-(s_0-a_0-t)^2
+ =\frac{(17+10k)t^2+(36+8k)t-(28+24k)}8.
+\]
+It is strictly increasing for $t\ge0$ and has exactly one positive
+root $t_0=Y/2$. Indeed,
+\[
+ G(21/25)=\frac{8897}{5000}-\frac{639k}{500}<0,
+ \qquad
+ G(17/20)=\frac{5953}{3200}-\frac{399k}{320}>0,
+\]
+using $7/5<k<10/7$. For $21/25<t<17/20$,
+\[
+ L_0=s_0/2-a_0=k/2+(k-2)t/4,\qquad
+ \tfrac12<\tfrac{229}{400}<L_0<\tfrac57,
+ \qquad 2L_0^2<\tfrac{50}{49}<4t^2.
+\]
+Thus containment of $a_0$, positivity of $p_0$, and the final
+confinement inequality have strict margins.
+
+Fix any $t_0<t<17/20$ and perturb by $\eta>0$:
+\begin{gather*}
+ a=1+t+2\eta,\quad m=1,\quad b=t+\eta,\quad c=t-\eta,\\
+ w=1-t+2\eta,\quad H=a-w=2t,\quad
+ s=C(a+1),\quad p=q=s/2-t.
+\end{gather*}
+At $\eta=0$ both quadratic margins equal $G(t)>0$. The strict
+inequalities just established, including $a<s/2$ and $p>0$,
+are continuous in $\eta$; finitely many such inequalities remain
+strict on some interval $0<\eta<\eta_0(t)$. The two remaining
+walls hold identically:
+\[
+ p-(s/2-b)=\eta>0,\qquad p+q-(s-b-c)=0.
+\]
+Choose also $\eta<t$, $\eta<1-t$, and $3\eta<2t-1$.
+Then $a>1>b>c>w>0$, and Lemma~\ref{lem:squareQ} excludes the
+root triple $\{a,b,c\}$.
+
+The witness places $\{a,1\}$ in opposite corners and $\{b,c\}$
+on a diameter of the large hole. Both are legal because
+$2(s-a-1)^2=(a+1)^2$, both root radii are at most $s/2$, and
+$b+c=H$. Best fit nests $1$, since $1<H<a<s/2$.
+The differences excluding the alternative holes for the two
+small rings are
+\begin{gather*}
+ 1+b-H=1-t+\eta>0,\quad 1+c-H=1-t-\eta>0,\\
+ b-(1-w)=3\eta>0,\quad c-(1-w)=\eta>0,\quad
+ c-(b-w)=1-t>0.
+\end{gather*}
+The first small ring fits at the root by shrinking the pivot in
+the witness; the last is excluded everywhere. Best fit places
+exactly three rings. Moreover
+\[
+ \frac{1+b+c}{a}=\frac{1+2t}{1+t+2\eta}<2t,
+ \qquad \frac cb<1<2t,
+\]
+where the first inequality uses $1<2t^2+4t\eta$ and $t>21/25$.
+Thus $\rho=2t\to2t_0=Y$ from above, proving the upper bound.
+The lower bound follows from Theorem~\ref{thm:oblivious}.
+
+For entirely rational instances choose rational $t\downarrow t_0$
+and then rational $\eta$ in the nonempty interval above. Replace
+$s=C(a+1)$ by a slightly larger rational and reset $p=q=s/2-t$.
+All strict inequalities persist by continuity in $s$, the two
+displayed wall identities persist exactly, and the root pair gains
+strict separation. Density of the rationals completes the construction.
+The unperturbed balanced limit itself is not a strict-radius
+counterexample and is not used as one.
+\end{proof}
+
+Eliminating the radical shows that $Y$ also satisfies
+\[
+ 89Y^4+1808Y^3+4704Y^2-9984Y-5888=0.
+\]
+The positive branch is specified by the quadratic over $\mathbb Q(\sqrt2)$,
+not by an arbitrary choice of a positive root of this quartic.
+Exact rational examples in the accompanying code attain
+$\rho=1.684488$, $1.684487746$, and $1.6844877458724$.
+These finite checks certify only those instances; the limiting bound
+uses the continuity proof above.
+
+\paragraph{Formal verification scope.}
+\texttt{Square.lean} proves Lemma~\ref{lem:squareQ} as a universal
+Cartesian exclusion over linearly ordered commutative rings, including
+the reflections. \texttt{SquareTwins.lean} proves the required twin
+exclusions and the explicit feasible triple with the same Cartesian
+predicate. \texttt{SquareLimit.lean} checks the balanced-gap and norm
+polynomial identities. These files contain 24 theorems, in addition
+to the 57 earlier algebraic certificates and the three in
+\texttt{FourRing.lean}. The Euclidean interpretation,
+assignment forests, algorithmic arguments, dimension reduction and
+continuity remain written proofs; they are not claimed as fully
+formalized Lean theorems. All new numerical checks use exact rational
+arithmetic, and all displayed decimals specifying instances are exact.
+
+\subsection{Further directions}\label{sec:furthergeneral}

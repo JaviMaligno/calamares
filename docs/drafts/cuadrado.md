@@ -1,5 +1,21 @@
 # La constante hermana de Tribonacci en la sartén cuadrada
 
+**Actualización 2026-09-14:** la instancia D de §6 ya tiene una prueba
+global de infactibilidad, formalizada en Lean, en
+[`cuadrado_certificado.md`](cuadrado_certificado.md). Se conserva
+`rho=337/200=1.685` y se amplía el lado a `6071/1250` para tener datos
+racionales. Esto demuestra `tau_cuadrado ≤ 337/200 < X` y el fallo con
+cuatro piezas. Las etiquetas `[N]` de D y de esa cota en el texto histórico
+quedan superadas por la nota nueva; no se certifican por ello la fórmula
+global de `M` ni la interpretación completa de `X` como suelo rígido.
+
+La continuación [`cuadrado_gemelas.md`](cuadrado_gemelas.md) demuestra
+gemelas en cuadrado y mejora la cota superior a `1.68449`, con el Lema Q
+paramétrico y los certificados geométricos correspondientes en Lean.
+Después, [`cuadrado_limite.md`](cuadrado_limite.md) construye una familia
+aproximante que prueba `tau_cuadrado ≤ Y≈1.684487745872346`, con continuidad
+por escrito e identidades comprobadas en Lean; no se afirma optimalidad.
+
 Documento de trabajo sobre el punto 4 de la hoja de ruta (afilados en cuadrado).
 Objetivo original: repetir el álgebra del suelo de la familia de 4 aros
 (`resultados.md` §5quater) y la escalera del lema de reinserción
@@ -57,12 +73,16 @@ suma (en el disco `a + b ≤ R` implica `a ≤ R`). En el caso de igualdad
 esquina, tangentes sobre la diagonal (la distancia máxima solo se alcanza en
 las esquinas extremas de las cajas).
 
-**Lema C2 (fila diagonal; Lema 0 cuadrado). [D]** Círculos `r₁ ≥ r₂ ≥ … ≥ r_k`
-caben en el cuadrado si, colocando los dos mayores en los extremos,
+**Lema C2 (fila diagonal; Lema 0 cuadrado). [D]** Para `k ≥ 2`, círculos
+`r₁ ≥ r₂ ≥ … ≥ r_k` con **`r₁ ≤ s/2`** caben en el cuadrado si,
+colocando los dos mayores en los extremos,
 
     2·Σrᵢ + (√2 − 1)(r₁ + r₂) ≤ √2·s.
 
-En particular basta `Σrᵢ ≤ (2−√2)·s`. *Demostración.* Fila tangente sobre la
+En particular bastan **ambas** condiciones `r₁ ≤ s/2` y
+`Σrᵢ ≤ (2−√2)·s`. La condición individual, omitida en la versión original,
+se ha añadido el 2026-09-14; sin ella falla incluso el caso de dos piezas.
+*Demostración.* Fila tangente sobre la
 diagonal con los extremos encajados en las esquinas: el primer centro a
 distancia `√2·r₁` de la esquina a lo largo de la diagonal, consecutivos a
 distancia `rᵢ + rᵢ₊₁`, el último a `√2·r₂` de la otra esquina; la longitud

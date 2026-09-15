@@ -1,0 +1,12 @@
+{
+  "scope": "floating_point_witness_controls_not_universal_proof",
+  "seed": 20260915,
+  "random_trials": 10000,
+  "boundary_trials": 6,
+  "cases": {
+    "diametral_pair": 9617,
+    "tangent_triple": 389
+  },
+  "largest_relative_violation": 2.073254767779225e-15,
+  "negative_controls": 2
+}

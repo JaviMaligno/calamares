@@ -22,3 +22,37 @@ docs/email_endorsement.md
 
 # Bundle de arXiv (regenerable: python paper/make_arxiv_bundle.py)
 paper/arxiv-bundle.tar.gz
+
+# Raw local traces and duplicated source payloads of the authorized Fable review
+/docs/reviews/2026-09-14-fable-square-*.jsonl
+/docs/reviews/2026-09-14-fable-square-*-stderr.txt
+/docs/reviews/2026-09-14-fable-square-stderr.txt
+/docs/reviews/2026-09-14-fable-square-final-prompt.txt
+/docs/reviews/2026-09-14-fable-v2-*.jsonl
+/docs/reviews/2026-09-14-fable-v2-stderr.txt
+/docs/reviews/2026-09-14-fable-v2-prompt.txt
+/docs/reviews/2026-09-14-fable-four-ring-*.jsonl
+/docs/reviews/2026-09-14-fable-four-ring-stderr.txt
+/docs/reviews/2026-09-14-fable-four-ring-prompt.txt
+/docs/reviews/2026-09-15-fable-extras-*.jsonl
+/docs/reviews/2026-09-15-fable-extras-stderr.txt
+/docs/reviews/2026-09-15-fable-extras-prompt.txt
+/docs/reviews/2026-09-15-fable-uniforme-stream.jsonl
+/docs/reviews/2026-09-15-fable-uniforme-stderr.txt
+/docs/reviews/2026-09-15-fable-uniforme-prompt.txt
+/docs/reviews/2026-09-15-fable-three-core-stream.jsonl
+/docs/reviews/2026-09-15-fable-three-core-stderr.txt
+/docs/reviews/2026-09-15-fable-three-core-prompt.txt
+/docs/reviews/2026-09-15-fable-three-core-final-stream.jsonl
+/docs/reviews/2026-09-15-fable-three-core-final-stderr.txt
+/docs/reviews/2026-09-15-fable-three-core-final-prompt.txt
+/output/pdf/golden_threshold.aux
+/output/pdf/golden_threshold.log
+/output/pdf/golden_threshold.out
+/tmp/pdfs/
+/paper/v2/*.aux
+/paper/v2/*.log
+/paper/v2/*.out
+/paper/v2/*.toc
+/paper/v2/*.pdf
+/paper/arxiv-v2-integrada.tar.gz

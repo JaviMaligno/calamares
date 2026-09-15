@@ -1,0 +1,23 @@
+{
+  "source": "paper/v2",
+  "pdf": "output/pdf/calamares_v2_integrada.pdf",
+  "latex_passes": 1,
+  "bundle": "paper/arxiv-v2-integrada.tar.gz",
+  "members": [
+    "extras_v2.tex",
+    "figures/contraejemplo_n4.png",
+    "figures/divergencia_calamares.png",
+    "figures/franja_divergencia.png",
+    "generalizations_v2.tex",
+    "golden_global.tex",
+    "main.tex"
+  ],
+  "overfull_boxes": 0,
+  "underfull_boxes": 0,
+  "latex_warnings": [],
+  "standalone_bundle_compiled": true,
+  "standalone_latex_passes": 3,
+  "standalone_directory": "tmp/pdfs/v2-bundle-ha1q74g8",
+  "pdf_sha256": "e19aa0e9bf687bb1712706f7197ec2b0e89b98270b4d1eb6668f4e2400d24b6f",
+  "bundle_sha256": "e040dfdefec31ddbd9fcf4d23c4cd1d6cebc6488bb12d68ea25e90e8b344ac9e"
+}

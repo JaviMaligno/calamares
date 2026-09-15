@@ -1,0 +1,14 @@
+{
+  "prefix": "2026-09-15-fable-three-core-final",
+  "title": "Segunda revisión de tres mayores e intercambio global",
+  "authorization": "El usuario autorizó expresamente las dos fuentes nuevas y sus cuatro dependencias del manifiesto three-core: «Sí, autorizo estas dos fuentes nuevas y sus dependencias». Este seguimiento vuelve a enviar esos mismos seis archivos, con las precisiones solicitadas por Fable incorporadas a tres_mayores.md. No añade archivos ni extractos del repositorio. La solicitud vigente del usuario pide continuar y verificar con Fable.",
+  "instructions": "Auditoría matemática estática, sin herramientas y sin afirmar ejecución de Lean/Python. ENTREGABLE: dictamen concreto de los argumentos presentes, sin investigar nuevas generalizaciones ni intentar resolver otros problemas. Una primera revisión aceptó A, B salvo explicitar llevar c a pared, el álgebra de C y T3; pidió probar la existencia/disyunción del otro incírculo y detallar las dos plazas del intercambio. La versión adjunta incorpora esas tres precisiones. Revisa la inversión del lema C, orientaciones, las dos soluciones en una franja y el retorno a discos contenidos disjuntos; se invoca expresamente la fórmula clásica de reflexión de Descartes. Revisa el reparto w=u y w!=u, incluido w=v y antecesores. A diferencia de la primera revisión, AUDITA TAMBIÉN las dependencias que efectivamente necesita el cierre: en particion_bolsillos.md §§1,2,4, las cotas de presión, partición, criterios C1/C2 y conservación de los padres mayores; en intercambio_uniforme.md, la reducción al primer fallo/prefijo máximo y el intercambio por fila si T<=m. Los pasos A/B sobre permutación adyacente NO son necesarios para el cierre con T3, solo p<m y la cota U<=m. La cota estructural de 40 mayores tampoco se usa y NO es objeto de esta revisión. No presupongas tau=phi. Indica si hay algún hueco restante en la garantía universal rho<=phi para cualquier inventario finito con radios estrictamente decrecientes, disco y agujeros independientes. La cota superior tau<=phi proviene de una familia ya revisada en v2 y no se solicita reauditarla aquí. Distingue resultado escrito de formalización algebraica parcial. Devuelve un veredicto inequívoco y una lista breve de errores reales o aclaraciones necesarias; si no los hay, dilo. Evita prolongar la revisión buscando variantes más fuertes o resultados no solicitados.",
+  "sources": [
+    {"path": "docs/drafts/tres_mayores.md"},
+    {"path": "lean/Calamares/ThreeCore.lean"},
+    {"path": "docs/drafts/intercambio_uniforme.md"},
+    {"path": "docs/drafts/particion_bolsillos.md"},
+    {"path": "lean/Calamares/FourRing.lean"},
+    {"path": "lean/Calamares/PocketSplit.lean"}
+  ]
+}

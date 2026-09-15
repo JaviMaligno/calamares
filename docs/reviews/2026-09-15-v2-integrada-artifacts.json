@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-15",
+  "pdf_pages": 73,
+  "historical_files_unchanged": [
+    "output/pdf/calamares_v2.pdf",
+    "paper/arxiv-bundle.tar.gz",
+    "paper/main.tex",
+    "paper/generalizations_v2.tex",
+    "lean/Calamares/FourRing.lean",
+    "lean/Calamares/Square.lean",
+    "lean/Calamares/SquareTwins.lean",
+    "lean/Calamares/SquareLimit.lean",
+    "docs/reviews/2026-09-14-fable-v2-review.md",
+    "docs/reviews/2026-09-14-fable-four-ring-review.md"
+  ],
+  "files": [
+    {
+      "path": "paper/v2/extras_v2.tex",
+      "sha256": "f1cc217174c11dd006456bf122984112c2f9e8c67db78f5dc0776299d1fa600f",
+      "bytes": 8791
+    },
+    {
+      "path": "paper/v2/figures/contraejemplo_n4.png",
+      "sha256": "5747e05f5c491701966d040d9e6ee8d3a563a07b93c325bec41f14c917e226ea",
+      "bytes": 163133
+    },
+    {
+      "path": "paper/v2/figures/divergencia_calamares.png",
+      "sha256": "b8bb563b0ec9290b316f92d4e1dc10fe3ab8617bdc122a5cb881dc252474ec27",
+      "bytes": 174011
+    },
+    {
+      "path": "paper/v2/figures/franja_divergencia.png",
+      "sha256": "95d8c80df209176466697700295d89205961a2673b2fa0cd6b71c8c896710829",
+      "bytes": 570350
+    },
+    {
+      "path": "paper/v2/generalizations_v2.tex",
+      "sha256": "3b55cf19ea2b257898ab358f7d5f721fda8e98bb63a69038fad370deeeebcc33",
+      "bytes": 15539
+    },
+    {
+      "path": "paper/v2/golden_global.tex",
+      "sha256": "e9c2f394ad6cc36cd7d05c0792c52c9e73afa106769f33b6c95a75211ff383cf",
+      "bytes": 14190
+    },
+    {
+      "path": "paper/v2/main.tex",
+      "sha256": "4ac37446351d531c9f897f87a8aef522542f0dda6b3d48068f658a7fc3d1c5b0",
+      "bytes": 250334
+    },
+    {
+      "path": "output/pdf/calamares_v2_integrada.pdf",
+      "sha256": "e19aa0e9bf687bb1712706f7197ec2b0e89b98270b4d1eb6668f4e2400d24b6f",
+      "bytes": 1591195
+    },
+    {
+      "path": "paper/arxiv-v2-integrada.tar.gz",
+      "sha256": "e040dfdefec31ddbd9fcf4d23c4cd1d6cebc6488bb12d68ea25e90e8b344ac9e",
+      "bytes": 982139
+    },
+    {
+      "path": "paper/build_v2.py",
+      "sha256": "937fafe2fd079ea4ab2f1d365026b2babeeea3ad5546b484b4cc7a1e0582fcdf",
+      "bytes": 3975
+    },
+    {
+      "path": "paper/render_v2_figures.py",
+      "sha256": "7eb79199a6d358e27289777fb95eb7401519f54057ebf8631ae4db48195a2ae7",
+      "bytes": 5066
+    },
+    {
+      "path": "paper/v2/README.md",
+      "sha256": "f1f6617b0f2b71d0215540ec5321c52d1c1b7971436f89a5bc2a18da4565f0cc",
+      "bytes": 1165
+    },
+    {
+      "path": "README.md",
+      "sha256": "2b36b31e7fc9d71bc2e39fcc73a1964dd9a566bb73d2841a1891c9ae414b7f68",
+      "bytes": 12666
+    },
+    {
+      "path": "docs/generalizaciones.md",
+      "sha256": "113853b42b5f1a80f842d6648ca8fc3e38d26dded1394ebc16d2349d5234f540",
+      "bytes": 11242
+    },
+    {
+      "path": "docs/plans/2026-09-15-v2-integrada.md",
+      "sha256": "53fb8c5a9b7ebcf14ca46dc255ec4ddaf8ecceb4475c1db0c357b0b406566542",
+      "bytes": 2389
+    },
+    {
+      "path": "docs/reviews/2026-09-15-v2-integrada-build.json",
+      "sha256": "8f4d572b5e8c7ff59f747538990a93632da0d1e8b505bbe25539832a0ed39b87",
+      "bytes": 763
+    },
+    {
+      "path": "docs/reviews/2026-09-15-v2-integrada-controls.json",
+      "sha256": "94f8bed287085e68ac39a1bba4027c29a7c7185ecec4a057e5d50c54eb96c9f5",
+      "bytes": 1775
+    },
+    {
+      "path": "docs/reviews/2026-09-15-v2-integrada-lean.log",
+      "sha256": "193e708cebb69abe3150d881c6664173ef3033ec1888970d17050d3d66c2d395",
+      "bytes": 8920
+    },
+    {
+      "path": "docs/reviews/2026-09-15-v2-integrada-validation.md",
+      "sha256": "d56fdca48e91b5909dd0ff5868fe20877e5725b7180d1fd393a51e9f188ddea5",
+      "bytes": 4758
+    },
+    {
+      "path": "docs/reviews/2026-09-15-v2-integrada-visual.json",
+      "sha256": "820c9a64dc0257256cb030a13e29f60f167d292c7f74511674724dd05781b7ba",
+      "bytes": 6727
+    }
+  ]
+}

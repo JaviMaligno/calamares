@@ -15,6 +15,7 @@ import os
 import re
 import sys
 import tarfile
+from pathlib import Path
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 PRINCIPAL = "main.tex"
@@ -24,23 +25,39 @@ SALIDA = os.path.join(AQUI, "arxiv-bundle.tar.gz")
 EXCLUIR = re.compile(r"\.(aux|log|out|toc|synctex\.gz|fls|fdb_latexmk|blg|pdf)$")
 
 
-def graficos_referenciados(ruta_tex):
-    """Rutas de \\includegraphics tal y como las escribe el .tex."""
-    with open(ruta_tex, encoding="utf-8") as fh:
-        texto = fh.read()
-    # \includegraphics[...]{ruta}  -- las opciones son opcionales
-    return re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", texto)
+def collect_sources(root, principal=PRINCIPAL):
+    """Collect static TeX inputs and graphics, once each, inside the paper root.
 
+    Relative paths follow the compilation working directory, as in the
+    manuscript. Cycles are visited once; missing files fail before archiving.
+    """
+    root = Path(root).resolve()
+    members = {}
 
-def resuelve(rel):
-    """Encuentra el fichero en disco; anade extension si el .tex la omite."""
-    cand = os.path.join(AQUI, rel)
-    if os.path.isfile(cand):
-        return cand
-    for ext in (".png", ".pdf", ".jpg", ".jpeg", ".eps"):
-        if os.path.isfile(cand + ext):
-            return cand + ext
-    return None
+    def resolve(rel, extensions):
+        candidate = (root / rel).resolve()
+        candidate.relative_to(root)
+        for path in [candidate] + [Path(str(candidate) + ext) for ext in extensions]:
+            if path.is_file():
+                path.resolve().relative_to(root)
+                return path
+        raise FileNotFoundError(f'Referenced file does not exist: {rel}')
+
+    def visit(path, is_tex):
+        arc = path.relative_to(root).as_posix()
+        if arc in members:
+            return
+        members[arc] = path
+        if not is_tex:
+            return
+        text = re.sub(r'(?<!\\)%.*', '', path.read_text(encoding='utf-8'))
+        for rel in re.findall(r'\\(?:input|include)\s*\{([^}]+)\}', text):
+            visit(resolve(rel, ('.tex',)), True)
+        for rel in re.findall(r'\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}', text):
+            visit(resolve(rel, ('.png', '.pdf', '.jpg', '.jpeg', '.eps')), False)
+
+    visit(resolve(principal, ('.tex',)), True)
+    return [(str(path), arc) for arc, path in sorted(members.items())]
 
 
 def main():
@@ -48,21 +65,10 @@ def main():
     if not os.path.isfile(ruta_principal):
         sys.exit("[FALLO] no encuentro %s" % PRINCIPAL)
 
-    miembros = [(ruta_principal, PRINCIPAL)]
-    faltan = []
-    for rel in graficos_referenciados(ruta_principal):
-        disco = resuelve(rel)
-        if disco is None:
-            faltan.append(rel)
-            continue
-        # El nombre dentro del tar conserva la ruta relativa del \includegraphics,
-        # con la extension real del fichero en disco.
-        arc = rel if os.path.basename(disco) == os.path.basename(rel) \
-            else rel + os.path.splitext(disco)[1]
-        miembros.append((disco, arc.replace(os.sep, "/")))
-
-    if faltan:
-        sys.exit("[FALLO] figuras referenciadas que no existen: %s" % faltan)
+    try:
+        miembros = collect_sources(AQUI)
+    except (FileNotFoundError, ValueError) as error:
+        sys.exit(f"[FALLO] {error}")
 
     for disco, arc in miembros:
         if EXCLUIR.search(arc):
@@ -70,7 +76,7 @@ def main():
 
     if os.path.exists(SALIDA):
         os.remove(SALIDA)
-    # mtime fijo y orden estable => bundle reproducible byte a byte.
+    # Metadatos de miembros y orden estables; gzip conserva su propia fecha.
     with tarfile.open(SALIDA, "w:gz") as tar:
         for disco, arc in sorted(miembros, key=lambda m: m[1]):
             info = tar.gettarinfo(disco, arcname=arc)

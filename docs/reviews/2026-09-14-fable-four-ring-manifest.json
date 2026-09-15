@@ -1,0 +1,9 @@
+{
+  "prefix": "2026-09-14-fable-four-ring",
+  "title": "Revisión independiente del umbral exacto para cuatro aros",
+  "authorization": "El usuario autorizó expresamente enviar paper/main.tex a Claude Code/Fable y pidió seguir solicitando verificaciones del avance hacia tau=phi. Este envío contiene solo extractos de ese archivo; no incluye el nuevo archivo Lean.",
+  "instructions": "Revisa adversariamente SOLO el nuevo teorema thm:fourfloor y sus dependencias necesarias. La afirmación es tau_4=phi, no tau universal. Se incluye el modelo de bosques, lema de fila, intercambio, n<=3, suelo rígido con slack, familia áurea y apéndice del bolsillo. Busca un contraejemplo a la reducción: primer desacuerdo con lex-max, aros omitidos, adaptación del tercer aro cuando el segundo coincide, subárboles transportados y hermanos inmediatos desplazados, suficiencia de los dos casos, todas las posibilidades de padre para p, uso del bolsillo para R con slack, desigualdades estrictas y no consecución. Comprueba las dos identidades algebraicas; localmente Lean ya las comprobó y comprobó golden_balance, pero NO se afirma que Lean formalice bosques o geometría. No puedes ejecutar herramientas: es revisión estática; no afirmes haber compilado ni probado código. No asumas el resultado correcto. Devuelve un veredicto aceptar/revisión menor/revisión mayor/refutado, cada hallazgo real con línea, reparación mínima y razonamiento de cobertura. Si aceptas, explica por qué no falta un caso de bosque. No audites las otras miles de afirmaciones históricas. Mantén el informe preciso y enfocado.",
+  "sources": [
+    {"path": "paper/main.tex", "ranges": [[236, 292], [364, 411], [423, 449], [573, 628], [630, 822], [1651, 1805]]}
+  ]
+}

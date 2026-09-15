@@ -1,0 +1,288 @@
+{
+  "date": "2026-09-15",
+  "result": "tau_equals_phi_infimum_unattained",
+  "scope": "all_finite_strictly_decreasing_positive_radii_in_a_disk_independent_holes_allowed",
+  "proof_status": "complete_written_proof_independently_reviewed_clarifications_incorporated",
+  "full_lean_formalization": false,
+  "new_lean_theorems": 7,
+  "library_theorems": 122,
+  "lean_build_exit_code": 0,
+  "pdf_pages": 6,
+  "pdf_build_passes": 2,
+  "pdf_visual_pages_checked": 6,
+  "english_supplement_separately_reviewed_by_fable": false,
+  "floating_point_controls": {
+    "scope": "floating_point_witness_controls_not_universal_proof",
+    "seed": 20260915,
+    "random_trials": 10000,
+    "boundary_trials": 6,
+    "cases": {
+      "diametral_pair": 9617,
+      "tangent_triple": 389
+    },
+    "largest_relative_violation": 2.073254767779225e-15,
+    "negative_controls": 2
+  },
+  "external_reviews": [
+    {
+      "prefix": "2026-09-15-fable-three-core",
+      "returncode": 0,
+      "static_review": true,
+      "verdict_preserved_verbatim": true
+    },
+    {
+      "prefix": "2026-09-15-fable-three-core-final",
+      "returncode": 0,
+      "static_review": true,
+      "verdict_preserved_verbatim": true
+    }
+  ],
+  "broad_uniform_review": "stopped_without_verdict_superseded_by_focused_global_proof_review",
+  "reviewed_sources": [
+    {
+      "path": "docs/drafts/tres_mayores.md",
+      "submitted_sha256": "2a7015fc45e64e0b517946a708b4a632a1dc6abf150ae56aa5ae413ec68fa09a",
+      "final_sha256": "918a4273d87428f26f4255e90375f5363f31c19c9fc71062ecd9df1b12a285ff",
+      "post_review_change": "requested_clarifications_and_status_updates_only; Lean theorem statements and proofs unchanged"
+    },
+    {
+      "path": "lean/Calamares/ThreeCore.lean",
+      "submitted_sha256": "81b1a65fa1148abcb4496ae08c508ada498eb595df6a687949a41be6ce646ffc",
+      "final_sha256": "499aa655dd9267fdfbe7b79ad38ecf2d779a04066ebb29c991b9aa13617b9ec3",
+      "post_review_change": "requested_clarifications_and_status_updates_only; Lean theorem statements and proofs unchanged"
+    },
+    {
+      "path": "docs/drafts/intercambio_uniforme.md",
+      "submitted_sha256": "a3ba4e5a1a4b7928da54a7f40567a2394c442ecb6e868f99ccb1ac85165ffd47",
+      "final_sha256": "54d035accf31a0056be3d5c031878bbb2be70545cc7a35e875bce6c4f436798e",
+      "post_review_change": "requested_clarifications_and_status_updates_only; Lean theorem statements and proofs unchanged"
+    },
+    {
+      "path": "docs/drafts/particion_bolsillos.md",
+      "submitted_sha256": "dfbcd3bbce6513b236466aee01269c0b4f71100e89bc860f495cd60b30f63645",
+      "final_sha256": "dc84ed24135701f3d2381e90674bcbf6775671a7865fd04362c671c2045c776c",
+      "post_review_change": "requested_clarifications_and_status_updates_only; Lean theorem statements and proofs unchanged"
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "submitted_sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "final_sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "post_review_change": null
+    },
+    {
+      "path": "lean/Calamares/PocketSplit.lean",
+      "submitted_sha256": "824fda0fd778ef0f80f3c3414c354da3b22db4680156eac1f85e9dc9f97580d0",
+      "final_sha256": "824fda0fd778ef0f80f3c3414c354da3b22db4680156eac1f85e9dc9f97580d0",
+      "post_review_change": null
+    }
+  ],
+  "v2_reference_checks": [
+    {
+      "path": "output/pdf/calamares_v2.pdf",
+      "sha256": "b7fc39cf16f0128dffb5837f296d2fa4b4ccf5745b36c4d823d959cddb859f07",
+      "unchanged": true
+    },
+    {
+      "path": "paper/arxiv-bundle.tar.gz",
+      "sha256": "67293a06c7a4bc5973958f9308ca62fa1e92b0bcb0757c8b6d1b572b53e33720",
+      "unchanged": true
+    },
+    {
+      "path": "paper/main.tex",
+      "sha256": "515b2aa14c03e51cd3237334d226645a8ec9ea06db633753946ca3b8c5d04fa9",
+      "unchanged": true
+    },
+    {
+      "path": "paper/generalizations_v2.tex",
+      "sha256": "b91d33b13f7789c0aa7ac8c26c95a6e5423a9b44188f99e64639d6ac954f242d",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/FourRing.lean",
+      "sha256": "195e8bcd15c8d39f66fd50b399f38cb4de186a5f341c8efdd49db8f0a349784b",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/Square.lean",
+      "sha256": "72ee948bb0c54a142c04ba62471cf2cbba7a340a79f2d835cc161d0f33153cf0",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareTwins.lean",
+      "sha256": "b5cea882c2e7f0f85763ee615d86f42013fdc05f2d655218e4e6b73a3bc5a5d4",
+      "unchanged": true
+    },
+    {
+      "path": "lean/Calamares/SquareLimit.lean",
+      "sha256": "46415b62674743e12f61e7343bf4380dd4bd3d69d52192e7ccdaa0f844d874c1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-v2-review.md",
+      "sha256": "412d22ed983c1a8c58957ffa955d2c8c279cff21b28fe347b3ba0e02c2611630",
+      "unchanged": true
+    },
+    {
+      "path": "docs/reviews/2026-09-14-fable-four-ring-review.md",
+      "sha256": "7116cbd00a5572ccbee2e96dfc2726fb5aa3885d51e4d3683628a929a99a93e1",
+      "unchanged": true
+    }
+  ],
+  "files": [
+    {
+      "path": "docs/drafts/tres_mayores.md",
+      "sha256": "918a4273d87428f26f4255e90375f5363f31c19c9fc71062ecd9df1b12a285ff",
+      "bytes": 13392
+    },
+    {
+      "path": "lean/Calamares/ThreeCore.lean",
+      "sha256": "499aa655dd9267fdfbe7b79ad38ecf2d779a04066ebb29c991b9aa13617b9ec3",
+      "bytes": 4291
+    },
+    {
+      "path": "lean/Calamares.lean",
+      "sha256": "121c466f81227a367d73cf8fa5d7d1e7f689d61bf4365a4c0ab79bf1b6971cbb",
+      "bytes": 332
+    },
+    {
+      "path": "code/tres_mayores.py",
+      "sha256": "6c4d9bc448aef154e4778d3a3bec3883a6e80fe6e14594159e0c446a2538740d",
+      "bytes": 5653
+    },
+    {
+      "path": "paper/golden_threshold.tex",
+      "sha256": "19ae008d6b776bd5adc6468d2cf6be1f01e412460847926b9ec9db5395d56bab",
+      "bytes": 18371
+    },
+    {
+      "path": "output/pdf/golden_threshold.pdf",
+      "sha256": "20384c5ddd794af31ad01f0a08ca966aede5583cf883a7aeb55477e8c386212f",
+      "bytes": 220996
+    },
+    {
+      "path": "output/figures/tres_mayores_candidato.svg",
+      "sha256": "1f7d3cb849d65f31812e22a87bb5490ced64e3a315c892be396a82fe9d75facc",
+      "bytes": 47541
+    },
+    {
+      "path": "output/figures/tres_mayores_candidato.png",
+      "sha256": "7844385dff19e1f57970fe15beb8b338e146a162c0501d9e57cd33245ec8acf1",
+      "bytes": 167744
+    },
+    {
+      "path": "docs/plans/2026-09-15-intercambio-residual.md",
+      "sha256": "155cb773ce70587dbd7196e5982b7b35b153e815e5a164c9049289a931d06793",
+      "bytes": 2671
+    },
+    {
+      "path": "docs/reviews/2026-09-15-three-core-validation.md",
+      "sha256": "fc8f00c8b5d904dcea28fbe39bfbfc68d75e259b00d69a4d37215d28655dd3d6",
+      "bytes": 5859
+    },
+    {
+      "path": "docs/reviews/2026-09-15-three-core-lean-build.log",
+      "sha256": "4a19b50f64f98ecf72b59c83fd813e174ceefbf789f61a7588d749f4051ed825",
+      "bytes": 8888
+    },
+    {
+      "path": "docs/reviews/2026-09-15-three-core-pdf-build.log",
+      "sha256": "029ded898e7a52d009c6ee8e88353bf75a4fece86f9587c56db7fcf2d22f120f",
+      "bytes": 10740
+    },
+    {
+      "path": "docs/reviews/2026-09-15-three-core-controls.json",
+      "sha256": "115ff770e24f9344b20bca18e5139716066d6a9f93b8d08b4569130fdc90c4ef",
+      "bytes": 304
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-uniforme-manifest.json",
+      "sha256": "1001cfaa5f84404a39fdc77a4e50eeaf9b3107170d17ea1538a2885c8c47aeaf",
+      "bytes": 2959
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-uniforme-metadata.json",
+      "sha256": "87300faeb466733c473f8cddd376772be6cc0a380755486b2135dc59005dd5b5",
+      "bytes": 3082
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-uniforme-status.md",
+      "sha256": "88e0bea7dee54be1372a7ada503432a51d5c3d201b39080d0232da9e9ea2faec",
+      "bytes": 1367
+    },
+    {
+      "path": "docs/drafts/intercambio_uniforme.md",
+      "sha256": "54d035accf31a0056be3d5c031878bbb2be70545cc7a35e875bce6c4f436798e",
+      "bytes": 8681
+    },
+    {
+      "path": "docs/drafts/particion_bolsillos.md",
+      "sha256": "dc84ed24135701f3d2381e90674bcbf6775671a7865fd04362c671c2045c776c",
+      "bytes": 7871
+    },
+    {
+      "path": "docs/drafts/nucleo_uniforme.md",
+      "sha256": "1b2d4e750308ae4eaaaa6c7199fddcfef31e8e67add515c0411f0c57ba74f87a",
+      "bytes": 13312
+    },
+    {
+      "path": "README.md",
+      "sha256": "409a3a22edb615c03607f7ee2af70b91cc02a1a09bf1ed0e1b29830625ea9db3",
+      "bytes": 11683
+    },
+    {
+      "path": "lean/README.md",
+      "sha256": "eb6105b4f578fe3a685c5304537436661dc8f938f9b732617eac137bcbdec54a",
+      "bytes": 15037
+    },
+    {
+      "path": "docs/generalizaciones.md",
+      "sha256": "531538f7e307bfb352eb029153421913bc55059041e9a913b8d86eeb5a9958bd",
+      "bytes": 10996
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "d4147d5b2b9a450163d5cfc363feedb850e06bc71c70a08bdd3bdcb17cdeecce",
+      "bytes": 1709
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-manifest.json",
+      "sha256": "d2e6f200f626ee300ca6e6b363aa52b792d507282e3b4946a7222b2dfd4c4a90",
+      "bytes": 2477
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-metadata.json",
+      "sha256": "db4533205c82a6a35868a28554d66ca0c722e594ae32c1d6cec77e7570dfef1e",
+      "bytes": 1997
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-review.md",
+      "sha256": "8683ace0b54b0ae4b88c9dc63d52c4b00476ccfcd30941f68fba9905a3f313b9",
+      "bytes": 6595
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-response.md",
+      "sha256": "1ac16880f264f751a63af85552593217b1c871bc00dde8dc2f7f15aa42cfddbf",
+      "bytes": 2182
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-final-manifest.json",
+      "sha256": "cd1caf061c59c000a917cc31d5e987a4bae4c87c75c7006c37c22dfbbbb465c7",
+      "bytes": 2749
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-final-metadata.json",
+      "sha256": "61177c05797c6d254b4ecc81a503a6ac66e7d9b65c2d465e6da403d0f2806771",
+      "bytes": 2019
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-final-review.md",
+      "sha256": "9906b5c3812e09f1f260ea31aedeb511d28818a45017e7ef90b9d6dfaea03353",
+      "bytes": 4457
+    },
+    {
+      "path": "docs/reviews/2026-09-15-fable-three-core-final-response.md",
+      "sha256": "75cc935f869d347aff0a2b0891fd064984b08f86d562af78f6c413d534e2fa69",
+      "bytes": 2197
+    }
+  ]
+}
